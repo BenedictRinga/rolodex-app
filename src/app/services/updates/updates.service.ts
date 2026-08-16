@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment';
 export class UpdatesService {
   appVersion: string = environment.version || '0.0.0';
   serverVersion = '';
+  lastResult: { available: boolean; current: string; server: string } | null = null;
   lastCheckAt: number | null = null;
   private checked = false;
 
@@ -25,7 +26,8 @@ export class UpdatesService {
       this.lastCheckAt = Date.now();
       this.checked = true;
       const available = this.serverVersion !== '' && this.serverVersion !== this.appVersion;
-      return { available, current: this.appVersion, server: this.serverVersion };
+      this.lastResult = { available, current: this.appVersion, server: this.serverVersion };
+      return this.lastResult;
     } catch {
       return { available: false, current: this.appVersion, server: '' };
     }

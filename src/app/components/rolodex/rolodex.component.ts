@@ -140,28 +140,25 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-16 UPDATES: polite automatic check + critical notice. */
   updateCurrent: string = this.updatesService.appVersion;
+  updateServer = '';
   updateAvailable = false;
+  updateChecked = false;
 
   async checkForUpdates(): Promise<void> {
     const result = await this.updatesService.check();
     this.updateCurrent = result.current;
+    this.updateServer = result.server || '';
     this.updateAvailable = result.available;
+    this.updateChecked = true;
     if (result.available) {
       await this.alertService.alertPrompt({
         header: 'A critical update is available',
         message: `RolodexAI v${result.server} is live (you're on v${result.current}). Refresh the app to apply it — your contacts are safe.`,
       });
-      if (this.updateAvailable) {
-        try {
-          window.location.reload();
-        } catch {
-          /* reload best-effort */
-        }
-      }
     } else {
       await this.alertService.alertPrompt({
         header: 'Up to date',
-        message: `You're on v${result.current} — the latest.`,
+        message: `You're on v${result.current} — the latest${result.server ? ` (server v${result.server})` : ''}.`,
       });
     }
   }
@@ -181,12 +178,18 @@ export class RolodexComponent implements OnInit {
 
   ngOnInit() {
     this.loadViewMode();
-    // 2026-08-16 UPDATES: polite boot check — one notice per session if live.
+    // 2026-08-16 UPDATES: boot check — a visible toast when an update is live.
     void (async () => {
       try {
         if (await this.updatesService.noticeIfCritical()) {
           this.updateAvailable = true;
+          this.updateChecked = true;
           this.updateCurrent = this.updatesService.appVersion;
+          this.updateServer = this.updatesService.serverVersion;
+          await this.alertService.showToast('An update is available — open Settings to apply it', 5000);
+        } else {
+          this.updateServer = this.updatesService.serverVersion;
+          this.updateChecked = true;
         }
       } catch {
         /* quiet */

@@ -74,7 +74,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     let h = 0;
     for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
     const color = palette[h % palette.length];
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" rx="48" fill="${color}"/><text x="48" y="60" font-family="system-ui,sans-serif" font-size="34" font-weight="600" fill="#ffffff" text-anchor="middle">${initials}</text></svg>`;
+    // 2026-08-16: rx=18 (not 48) — the SVG must be square-with-rounded-corners
+    // like the holder, or the generated DP looks round inside the square frame.
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" rx="18" fill="${color}"/><text x="48" y="60" font-family="system-ui,sans-serif" font-size="34" font-weight="600" fill="#ffffff" text-anchor="middle">${initials}</text></svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
   editedContact: ContactInfo = {} as ContactInfo;
