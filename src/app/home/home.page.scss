@@ -1,27 +1,73 @@
+/* ═══════════════════════════════════════════════════════
+   HOME PAGE — Rolodex main shell
+   Full-bleed layout hosting the rolodex component.
+   ═══════════════════════════════════════════════════════ */
+
 #container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loading / splash state */
+.rolodex-loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: var(--rolodex-space-6);
+  color: var(--rolodex-text-secondary);
+
+  .rolodex-loading-icon {
+    font-size: 48px;
+    color: var(--rolodex-primary);
+    animation: rolodex-pulse-glow 2s ease-in-out infinite;
+  }
+
+  .rolodex-loading-text {
+    font-size: var(--rolodex-text-md);
+    font-weight: var(--rolodex-font-medium);
+  }
+}
+
+/* Welcome state (first launch, no contacts) */
+.rolodex-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   text-align: center;
+  padding: var(--rolodex-space-8);
+  gap: var(--rolodex-space-6);
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  .rolodex-welcome-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--rolodex-gradient-warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--rolodex-shadow-glow);
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+    ion-icon {
+      font-size: 40px;
+      color: white;
+    }
+  }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+  h2 {
+    font-size: var(--rolodex-text-2xl);
+    color: var(--rolodex-text);
+  }
 
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  p {
+    font-size: var(--rolodex-text-base);
+    color: var(--rolodex-text-secondary);
+    max-width: 320px;
+    line-height: var(--rolodex-leading-relaxed);
+  }
 }

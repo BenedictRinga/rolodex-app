@@ -1,20 +1,75 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content>
+  <!-- 2026-08-16 STORAGE LOCATION (B2B-style) + demo room — where contacts live -->
+  <div style="padding: 8px 12px 4px; border-bottom: 1px solid #333;">
+    <ion-label style="font-size: 12px; color: #8b93b0;">Where your contacts live</ion-label>
+    <ion-segment [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px;">
+      <ion-segment-button value="device">Device</ion-segment-button>
+      <ion-segment-button value="cloud">Cloud</ion-segment-button>
+      <ion-segment-button value="rolodex-server">Rolodex Server</ion-segment-button>
+    </ion-segment>
+    <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
+      <ion-input placeholder="Demo room code — share it to link devices live" [ngModel]="demoRoom" (ionChange)="onRoomInput($event)"></ion-input>
+    </ion-item>
   </div>
+
+  <app-rolodex
+    [contacts]="contacts"
+    [displayedContacts]="displayedContacts"
+    [sortedcontacts]="sortedContacts"
+    [searchQuery]="searchQuery"
+    [autoSortStarted]="autoSortStarted"
+    [selectedFilter]="selectedFilter"
+    [selectedGroup]="selectedGroup"
+    [mockEnabled]="mockEnabled"
+    [loading]="loading"
+    [groups]="groups"
+    [selectedLanguage]="selectedLanguage"
+    [selectedFontSize]="selectedFontSize"
+    [dormantCount]="getDormantCount()"
+    [overdueCount]="followUpOverdue.length"
+    [upcomingBirthdayCount]="upcomingBirthdays.length"
+    [syncProviderName]="syncProviderName"
+    [syncConnected]="syncConnected"
+    [syncHasPassphrase]="syncHasPassphrase"
+    [syncLastPushed]="syncLastPushed"
+    [syncLastPulled]="syncLastPulled"
+    [syncBusy]="syncBusy"
+    [syncProviders]="syncProviders"
+    (chatContact)="onChatContact($event)"
+    (audioCallContact)="onAudioCallContact($event)"
+    (videoCallContact)="onVideoCallContact($event)"
+    (scheduleEvent)="onScheduleEvent($event)"
+    (toggleDetails)="onToggleDetails($event)"
+    (editContact)="onEditContact($event)"
+    (removeContact)="onRemoveContact($event)"
+    (contactTap)="onContactTap($event)"
+    (contactsChange)="onContactsChange($event)"
+    (autoSort)="onAutoSort()"
+    (loadMoreAutoSort)="onLoadMoreAutoSort()"
+    (applyFilter)="onApplyFilter()"
+    (applyGroupFilter)="onApplyGroupFilter($event)"
+    (toggleWelcome)="onToggleWelcome()"
+    (mockDataRepeat)="onMockDataRepeat()"
+    (initMap)="onInitMap($event)"
+    (createContact)="onCreateContact()"
+    (acceptAutoSort)="onAcceptAutoSort()"
+    (restartAutoSort)="onRestartAutoSort()"
+    (cancelAutoSort)="onCancelAutoSort()"
+    (resetFilters)="onResetFilters()"
+    (toggleTheme)="onToggleTheme($event)"
+    (toggleNotifications)="onToggleNotifications($event)"
+    (changeLanguage)="onChangeLanguage($event)"
+    (changeFontSize)="onChangeFontSize($event)"
+    (goToPrivacySettings)="onGoToPrivacySettings()"
+    (showAbout)="onShowAbout()"
+    (runAutomation)="runAutomation()"
+    (syncConnect)="onSyncConnect($event)"
+    (syncDisconnect)="onSyncDisconnect()"
+    (syncSetPassphrase)="onSyncSetPassphrase()"
+    (syncPush)="onSyncPush()"
+    (syncPull)="onSyncPull()"
+    (syncExportLocal)="onSyncExportLocal()"
+    (syncImportLocal)="onSyncImportLocal()"
+  >
+  </app-rolodex>
 </ion-content>

@@ -47,6 +47,11 @@ export class HomePage implements OnInit {
   syncProviders: CloudProvider[] = [];
   syncProviderName: string | null = null;
   syncConnected: boolean = false;
+
+  // 2026-08-16 STORAGE LOCATION (B2B-style three-way choice) + demo room:
+  // 'device' | 'cloud' | 'rolodex-server' — where the user keeps contacts.
+  storageLocation: 'device' | 'cloud' | 'rolodex-server' = 'device';
+  demoRoom: string = '';
   syncHasPassphrase: boolean = false;
   syncLastPushed: string | null = null;
   syncLastPulled: string | null = null;
@@ -69,8 +74,48 @@ export class HomePage implements OnInit {
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();
 
+    // 2026-08-16 STORAGE LOCATION + demo room (persisted).
+    try {
+      const loc = localStorage.getItem('rolodex_storage');
+      if (loc === 'cloud' || loc === 'rolodex-server' || loc === 'device') this.storageLocation = loc;
+      this.demoRoom = this.rolodexSync.room;
+    } catch { /* ignore */ }
+
     await this.loadContacts();
     await this.runAutomation();
+
+    // 2026-08-16: when the server is the chosen home, restore the full list
+    // from it (fall back to the local list when the server has nothing).
+    if (this.storageLocation === 'rolodex-server') {
+      const restored = await this.rolodexSync.restore();
+      if (restored && restored.length) {
+        this.contacts = restored;
+        this.loading = false;
+        this.rolodexSync.push(this.contacts);
+      }
+    }
+  }
+
+  /** B2B-style storage picker — where the user keeps their contacts. */
+  async onStorageChange(event: any): Promise<void> {
+    const loc = event?.detail?.value as 'device' | 'cloud' | 'rolodex-server';
+    if (!loc) return;
+    this.storageLocation = loc;
+    try { localStorage.setItem('rolodex_storage', loc); } catch { /* ignore */ }
+    if (loc === 'rolodex-server') {
+      const restored = await this.rolodexSync.restore();
+      if (restored && restored.length) {
+        this.contacts = restored;
+        this.loading = false;
+        this.rolodexSync.push(this.contacts);
+      }
+    }
+  }
+
+  onRoomInput(event: any): void {
+    const code = String(event?.detail?.value || '').trim();
+    this.rolodexSync.setRoom(code);
+    this.rolodexSync.push(this.contacts);
   }
 
   async loadContacts() {
@@ -344,6 +389,7 @@ export class HomePage implements OnInit {
 
   onRemoveContact(contact: ContactInfo) {
     this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
+    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
   }
 
   onContactTap(contact: ContactInfo) {
@@ -352,6 +398,7 @@ export class HomePage implements OnInit {
 
   onContactsChange(contacts: ContactInfo[]) {
     this.contacts = contacts;
+    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
   }
 
   onAutoSort() {
