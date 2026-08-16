@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { RolodexModule } from '../components/rolodex.module';
+import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { RolodexModule } from '../components/rolodex.module';
     HomePageRoutingModule,
     RolodexModule,
   ],
-  declarations: [HomePage],
+  declarations: [HomePage, HelpModalComponent],
 })
 export class HomePageModule {}

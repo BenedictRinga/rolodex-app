@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ContactInfo } from '../models/contacts';
 import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
 import { FollowUpEngine } from '../services/followup-engine/followup-engine.service';
@@ -9,6 +9,7 @@ import { CloudSyncService } from '../services/cloud-sync/cloud-sync.service';
 import { EventService, CalendarEvent } from '../services/event/event.service';
 import { AlertsService } from '../services/alerts/alerts.service';
 import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
+import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
 
@@ -66,6 +67,7 @@ export class HomePage implements OnInit {
     private eventService: EventService,
     private alertsService: AlertsService,
     private rolodexSync: RolodexSyncService,
+    private modalController: ModalController,
     private alertController: AlertController,
   ) {}
 
@@ -116,6 +118,70 @@ export class HomePage implements OnInit {
     const code = String(event?.detail?.value || '').trim();
     this.rolodexSync.setRoom(code);
     this.rolodexSync.push(this.contacts);
+  }
+
+  // ================================================================
+  // 2026-08-16 THE DEMO — help modal: the product explains itself.
+  // ================================================================
+  async openHelp(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: HelpModalComponent,
+      cssClass: 'help-modal',
+    });
+    const inst = modal.componentRef?.instance as HelpModalComponent | null;
+    inst?.navigate?.subscribe?.((featureId: string) => this.onHelpNavigate(featureId));
+    await modal.present();
+  }
+
+  /** A help "Go" tap — transport the user to the feature's section. */
+  onHelpNavigate(featureId: string): void {
+    switch (featureId) {
+      case 'cards':
+        // Flip the first contact's card open so the demo lands on a card.
+        if (this.contacts.length) {
+          const first = this.contacts[0];
+          first.showDetails = !first.showDetails;
+        }
+        break;
+      case 'search':
+        this.alertsService.showToast('Use the search bar above the cards', 2500);
+        break;
+      case 'merge':
+        this.alertsService.showToast('Duplicates merge automatically as you add contacts', 2500);
+        break;
+      case 'overdue':
+        this.applyHelpFilter('overdue');
+        break;
+      case 'birthdays':
+        this.applyHelpFilter('birthdays');
+        break;
+      case 'health':
+        this.applyHelpFilter('dormant');
+        break;
+      case 'reminders':
+        this.alertsService.showToast('Flip a card → add a reminder right there', 2500);
+        break;
+      case 'storage':
+        this.storageLocation = 'rolodex-server';
+        try { localStorage.setItem('rolodex_storage', 'rolodex-server'); } catch { /* ignore */ }
+        this.onStorageChange({ detail: { value: 'rolodex-server' } });
+        break;
+      case 'sync':
+        this.refreshSyncState();
+        this.alertsService.showToast('Cloud sync — push/pull with a passphrase', 2500);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private applyHelpFilter(filter: string): void {
+    this.selectedFilter = filter as any;
+    try {
+      const el = document.querySelector('app-rolodex');
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch { /* ignore */ }
+    this.alertsService.showToast(`Showing ${filter} — tap any card for details`, 2500);
   }
 
   async loadContacts() {

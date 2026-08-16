@@ -1,15 +1,22 @@
 <ion-content>
-  <!-- 2026-08-16 STORAGE LOCATION (B2B-style) + demo room — where contacts live -->
-  <div style="padding: 8px 12px 4px; border-bottom: 1px solid #333;">
-    <ion-label style="font-size: 12px; color: #8b93b0;">Where your contacts live</ion-label>
-    <ion-segment [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px;">
-      <ion-segment-button value="device">Device</ion-segment-button>
-      <ion-segment-button value="cloud">Cloud</ion-segment-button>
-      <ion-segment-button value="rolodex-server">Rolodex Server</ion-segment-button>
-    </ion-segment>
-    <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
-      <ion-input placeholder="Demo room code — share it to link devices live" [ngModel]="demoRoom" (ionChange)="onRoomInput($event)"></ion-input>
-    </ion-item>
+  <!-- 2026-08-16 THE DEMO: a help button that opens the features tour — every
+       feature, a guide, one tap transports the user to that section. -->
+  <div style="padding: 8px 12px 4px; border-bottom: 1px solid #333; display:flex; align-items:center; justify-content:space-between;">
+    <div style="flex:1;">
+      <ion-label style="font-size: 12px; color: #8b93b0;">Where your contacts live</ion-label>
+      <ion-segment [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
+        <ion-segment-button value="device">Device</ion-segment-button>
+        <ion-segment-button value="cloud">Cloud</ion-segment-button>
+        <ion-segment-button value="rolodex-server">Rolodex Server</ion-segment-button>
+      </ion-segment>
+      <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
+        <ion-input placeholder="Demo room code — share it to link devices live" [ngModel]="demoRoom" (ionChange)="onRoomInput($event)"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button fill="clear" (click)="openHelp()" style="font-size: 12px;">
+      <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+      Features
+    </ion-button>
   </div>
 
   <app-rolodex

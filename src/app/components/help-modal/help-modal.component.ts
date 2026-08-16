@@ -1,0 +1,98 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+
+export interface HelpFeature {
+  id: string;
+  title: string;
+  guide: string;
+  goLabel?: string;
+}
+
+/**
+ * 2026-08-16 THE DEMO — a help modal that IS the tour: every feature, a
+ * succinct guide, and one tap transports the user to that section. No staged
+ * narration needed; the product explains itself.
+ */
+@Component({
+  selector: 'app-help-modal',
+  template: `
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Rolodex — features</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="close()"><ion-icon name="close" slot="icon-only"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <h2 style="margin:0 0 4px; font-size:18px;">Your people, kept right.</h2>
+    <p style="margin:0 0 14px; color:#8b93b0; font-size:13px;">
+      Everything below is live in this app — tap <b>Go</b> on any feature to jump to it.
+    </p>
+
+    <ng-container *ngFor="let group of groups">
+      <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#58a6ff; margin:16px 0 6px;">{{ group.label }}</h3>
+      <ion-item *ngFor="let f of group.features" style="--padding-start:0;">
+        <ion-label>
+          <b>{{ f.title }}</b>
+          <p style="font-size:12px; white-space:normal; color:#8b93b0; margin:2px 0 0;">{{ f.guide }}</p>
+        </ion-label>
+        <ion-button slot="end" size="small" fill="outline" *ngIf="f.goLabel" (click)="go(f)">{{ f.goLabel }}</ion-button>
+      </ion-item>
+    </ng-container>
+
+    <p style="margin-top:18px; color:#8b93b0; font-size:12px;">
+      Built on your device first — then Cloud or the Rolodex Server, your choice.
+    </p>
+  </ion-content>
+  `,
+})
+export class HelpModalComponent {
+  @Output() navigate = new EventEmitter<string>();
+
+  groups: { label: string; features: HelpFeature[] }[] = [
+    {
+      label: 'Contact management',
+      features: [
+        { id: 'cards', title: 'The Rolodex cards', guide: 'Flip a card to see every detail — phones, emails, addresses, socials, notes, tags and groups. Tap Call, Email or Map to act on the spot.', goLabel: 'Flip a card' },
+        { id: 'search', title: 'Find anyone instantly', guide: 'Search any contact, or browse by alphabetical groups — Family, Business, Friends.', goLabel: 'Search' },
+        { id: 'merge', title: 'One person, one card', guide: 'Duplicates merge automatically — no more scattered entries for the same person.', goLabel: 'Merge' },
+      ],
+    },
+    {
+      label: 'Keeping in touch (the tiny loops)',
+      features: [
+        { id: 'overdue', title: 'Follow-up engine', guide: 'Each contact carries a frequency and priority. The engine schedules check-ins and surfaces who you owe a reply — the small loops everyone avoids, caught before they go cold.', goLabel: 'See overdue' },
+        { id: 'birthdays', title: 'Birthday reminders', guide: 'Upcoming birthdays are flagged and one tap drops them into your calendar.', goLabel: 'Birthdays' },
+        { id: 'health', title: 'Relationship health', guide: 'Every contact gets a health score from how often you keep in touch — the dormant ones are called out so no one falls off.', goLabel: 'Scores' },
+        { id: 'reminders', title: 'Card reminders', guide: 'Set a reminder right on a card — a note and a date — and it lives with the person.', goLabel: 'Set one' },
+      ],
+    },
+    {
+      label: 'Your data, your choice',
+      features: [
+        { id: 'storage', title: 'Where contacts live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — pick per your trust level. The demo room code links devices into one live space.', goLabel: 'Choose' },
+        { id: 'sync', title: 'Cloud sync', guide: 'Encrypted push/pull to the cloud provider of your choice, with a passphrase.', goLabel: 'Sync' },
+      ],
+    },
+    {
+      label: 'Coming next',
+      features: [
+        { id: 'chat', title: 'Chat off the card', guide: 'Flip to a card and message right there — no separate chatroom list. The thread lives with the person.' },
+        { id: 'video', title: 'Video off the card', guide: 'A call, straight from the card, when you need the face — not a ringtone menu.' },
+        { id: 'ai', title: 'AI drafts (the hard 90%)', guide: 'The agent digs your context, makes the call, and drafts the reply — you just hit send. Coming to the follow-up engine first.' },
+      ],
+    },
+  ];
+
+  constructor(private modalCtrl: ModalController) {}
+
+  go(f: HelpFeature): void {
+    this.navigate.emit(f.id);
+    void this.modalCtrl.dismiss();
+  }
+
+  close(): void {
+    void this.modalCtrl.dismiss();
+  }
+}
