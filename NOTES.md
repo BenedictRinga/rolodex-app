@@ -1,5 +1,21 @@
 # Rolodex — Design Notes (2026-08-16)
 
+## THE CONFIDANTE (original concept, restored 2026-08-16)
+The AI is not just a reminder engine — it is the user's **confidante / confidential
+secretary**: it PROFfers the message, so the user only hits Send. That includes
+birthdays, anniversaries, milestones, congratulations, and overdue follow-ups.
+- **Per-contact / per-group preset guides** (the bot-directive pattern): the user
+  writes their own voice once, the agent follows it.
+- **STRICT mode**: "deliver this as-is for me" — the preset goes out untouched.
+- **Guided mode**: the preset is the agent's directive; the draft interpolates
+  `{name}` / `{occasion}`.
+- **No preset**: the confidante composes from the contact's own context (name,
+  birthday proximity, role, notes).
+- **Network layer (future)**: the Rolodex AI agent of one user's comms to that of
+  another or a group — grows from this per-card engine.
+- **v0 (built 2026-08-16)**: deterministic template engine — the same surface
+  later calls a real model for open-ended composition. Incomplete-but-real.
+
 ## The question: is the design away from traditional user-user chatrooms, replaced by in-contact-card chat?
 
 **NO — not yet.** Audit result below.

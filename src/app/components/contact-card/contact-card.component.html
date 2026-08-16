@@ -1,0 +1,1462 @@
+<ng-container *ngIf="!selectedMode || selectedMode === ''">
+  <ng-container [ngSwitch]="viewMode">
+      <ng-container *ngSwitchCase="'default'">
+        <ng-container *ngFor="let contact of contacts; trackBy: trackById">
+          <ion-item>
+            <!-- Main card area triggers onContactTap -->
+            <div class="contact-card-content" (click)="onContactTap(contact, $event)">
+              <ion-avatar slot="start">
+                <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                  (error)="handleImageError($event)">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+              </ion-label>
+            </div>
+            <!-- Chevron icon triggers onToggleDetails -->
+            <ion-icon [name]="contact.showDetails ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
+              (click)="onToggleDetails(contact, $event); $event.stopPropagation()"></ion-icon>
+          </ion-item>
+      
+          <ion-item *ngIf="contact.showDetails" class="contact-details-item">
+            <ion-card>
+              <ion-card-content>
+                <p><strong>Phone:</strong> {{ contact.phones?.[0]?.number || 'No Phone Info' }}</p>
+                <p><strong>Email:</strong> {{ contact.emails?.[0]?.address || 'No Email Info' }}</p>
+                <p><strong>Address:</strong>
+                  {{ contact.postalAddresses?.[0]?.street }},
+                  {{ contact.postalAddresses?.[0]?.city }},
+                  {{ contact.postalAddresses?.[0]?.country }}
+                </p>
+                <p><strong>Job Title:</strong> {{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+                <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
+                <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+                <ion-button color="primary" (click)="callContact(contact)" expand="block">Call</ion-button>
+                <ion-button color="secondary" (click)="emailContact(contact)" expand="block">Email</ion-button>
+                <ion-button color="tertiary" (click)="openAddress(contact)" expand="block">Map</ion-button>
+                <ion-button color="warning" (click)="onEditContact(contact)" expand="block">Edit</ion-button>
+                <ion-button color="danger" (click)="onRemoveContact(contact)" expand="block">Remove</ion-button>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'rolodex'">
+        <div class="rolodex-container" #gridView (scroll)="checkRolodexScroll($event)">
+          <div *ngFor="let contact of contacts; trackBy: trackById" class="rolodex-card" [class.flipped]="contact.isFlipped">
+            <!-- Main card area triggers flipRolodexcard -->
+            <div class="card-inner" (click)="flipRolodexcard(contact)">
+              <!-- Front Side -->
+              <div class="card-front">
+                <ion-avatar class="rolodex-avatar">
+                  <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                    (error)="handleImageError($event)" />
+                </ion-avatar>
+                <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
+                <p class="card-subtitle">{{ contact.organization?.company || 'No Company Info' }}</p>
+                <p class="card-job">{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+                <ion-icon *ngIf="contact.rolodex?.who" name="people-outline" title="Last Interaction With"></ion-icon>
+                <span *ngIf="contact.rolodex?.who" class="card-extra">{{ contact.rolodex?.who }}</span>
+              </div>
+      
+              <!-- Back Side -->
+              <div class="card-back">
+                <div class="card-details">
+                  <p (click)="$event.stopPropagation(); callContact(contact)">
+                    <ion-icon name="call-outline" class="detail-icon"></ion-icon>
+                    <span *ngIf="contact.phones && contact.phones.length > 0; else noPhone">
+                      {{ contact.phones[0].number }}
+                    </span>
+                    <ng-template #noPhone>No Phone</ng-template>
+                  </p>
+                  <p (click)="$event.stopPropagation(); emailContact(contact)">
+                    <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
+                    <span *ngIf="contact.emails && contact.emails.length > 0; else noEmail">
+                      {{ contact.emails[0].address }}
+                    </span>
+                    <ng-template #noEmail>No Email</ng-template>
+                  </p>
+                  <p *ngIf="contact.postalAddresses && contact.postalAddresses.length > 0"
+                    (click)="$event.stopPropagation(); openAddress(contact)">
+                    <ion-icon name="location-outline" class="detail-icon"></ion-icon>
+                    {{ contact.postalAddresses[0].street || '' }},
+                    {{ contact.postalAddresses[0].city || '' }},
+                    {{ contact.postalAddresses[0].country || '' }}
+                  </p>
+                  <p *ngIf="contact.rolodex?.followUp">
+                    <ion-icon name="time-outline" class="detail-icon"></ion-icon>
+                    <strong>Follow-Up:</strong> {{ contact.rolodex?.followUp }}
+                  </p>
+                  <p *ngIf="contact.rolodex?.topic">
+                    <ion-icon name="chatbubble-outline" class="detail-icon"></ion-icon>
+                    <strong>Topic:</strong> {{ contact.rolodex?.topic }}
+                  </p>
+                  <p *ngIf="contact.note">
+                    <ion-icon name="document-text-outline" class="detail-icon"></ion-icon>
+                    <strong>Note:</strong> {{ contact.note }}
+                  </p>
+                </div>
+                <div class="card-actions" (click)="$event.stopPropagation()">
+                  <ion-button fill="outline" size="small" (click)="onEditContact(contact)">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="outline" size="small" (click)="onRemoveContact(contact)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="outline" size="small" (click)="flipRolodexcard(contact)">
+                    <ion-icon name="arrow-undo-outline"></ion-icon>
+                  </ion-button>
+                  <!-- 2026-08-16 THE CONFIDANTE: proffer the message — the user hits Send. -->
+                  <ion-button fill="outline" size="small" color="success" (click)="draftMessage(contact)">
+                    <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                  </ion-button>
+                  <!-- Add a button to trigger onContactTap -->
+                  <ion-button fill="outline" size="small" (click)="onContactTap(contact, $event)">
+                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'grid'">
+        <div #gridView class="grid-view" (scroll)="checkGridScroll($event)">
+          <ion-grid class="grid-container">
+            <ion-row>
+              <ion-col size="6" size-md="4" *ngFor="let contact of contacts; trackBy: trackById">
+                <ion-item class="grid-item" [class.active]="contact === activeContact">
+                  <!-- Main card area triggers onContactTap -->
+                  <div class="contact-card-content" (click)="onContactTap(contact, $event)">
+                    <ion-label>
+                      <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+                      <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                      <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+                    </ion-label>
+                  </div>
+                  <!-- Chevron icon triggers onToggleDetails -->
+                  <ion-icon [name]="contact === activeContact ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
+                    (click)="onToggleDetails(contact, $event); $event.stopPropagation()"></ion-icon>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+      
+          <div *ngIf="isFetching" class="loading-spinner">
+            <ion-spinner name="bubbles"></ion-spinner>
+          </div>
+        </div>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'businesscard'">
+        <ion-card class="professional-card" *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <!-- Header Section -->
+          <ion-card-header class="card-header">
+            <ion-avatar class="professional-avatar">
+              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+            </ion-avatar>
+            <ion-card-title class="card-title">
+              {{ contact.name?.display || 'Unknown Contact' }}
+            </ion-card-title>
+            <ion-card-subtitle class="card-subtitle">
+              {{ contact.organization?.company || 'No Company Info' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+      
+          <!-- Content Section -->
+          <ion-card-content class="card-content">
+            <div class="info">
+              <!-- Job Title -->
+              <div class="info-row" *ngIf="contact.organization?.jobTitle">
+                <ion-icon name="briefcase-outline" class="info-icon"></ion-icon>
+                <span>{{ contact.organization?.jobTitle }}</span>
+              </div>
+      
+              <!-- Primary Phone -->
+              <div class="info-row" *ngIf="contact.phones && contact.phones.length">
+                <ion-icon name="call-outline" class="info-icon"></ion-icon>
+                <span>{{ contact.phones[0].number }}</span>
+              </div>
+      
+              <!-- Primary Email -->
+              <div class="info-row" *ngIf="contact.emails && contact.emails.length">
+                <ion-icon name="mail-outline" class="info-icon"></ion-icon>
+                <span>{{ contact.emails[0].address }}</span>
+              </div>
+      
+              <!-- Social Profiles -->
+              <!-- LinkedIn -->
+              <div class="info-row" *ngIf="contact.socialProfiles?.linkedin">
+                <ion-icon name="logo-linkedin" class="info-icon"></ion-icon>
+                <span>{{ contact.socialProfiles?.linkedin }}</span>
+              </div>
+              <!-- Twitter -->
+              <div class="info-row" *ngIf="contact.socialProfiles?.twitter">
+                <ion-icon name="logo-twitter" class="info-icon"></ion-icon>
+                <span>{{ contact.socialProfiles?.twitter }}</span>
+              </div>
+              <!-- Facebook -->
+              <div class="info-row" *ngIf="contact.socialProfiles?.facebook">
+                <ion-icon name="logo-facebook" class="info-icon"></ion-icon>
+                <span>{{ contact.socialProfiles?.facebook }}</span>
+              </div>
+              <!-- Instagram -->
+              <div class="info-row" *ngIf="contact.socialProfiles?.instagram">
+                <ion-icon name="logo-instagram" class="info-icon"></ion-icon>
+                <span>{{ contact.socialProfiles?.instagram }}</span>
+              </div>
+            </div>
+      
+            <!-- Footer Section with Interaction Info -->
+            <div class="card-footer">
+              <p class="interaction" *ngIf="contact.lastInteraction">
+                Last Interaction: {{ contact.lastInteraction | date:'mediumDate' }}
+              </p>
+              <p class="interaction" *ngIf="contact.nextInteraction">
+                Next Interaction: {{ contact.nextInteraction | date:'mediumDate' }}
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'family'">
+        <ion-card class="family-card" *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <!-- Header: Image and Name -->
+          <ion-card-header class="family-header">
+            <ion-avatar class="family-avatar">
+              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                (error)="handleImageError($event)" />
+            </ion-avatar>
+            <ion-card-title class="family-title">
+              {{ contact.name?.display || 'Unknown Family Member' }}
+            </ion-card-title>
+          </ion-card-header>
+      
+          <!-- Content: Birthday, Notes, Reminders, and Social Profiles -->
+          <ion-card-content class="family-content">
+            <!-- Birthday -->
+            <div class="info-row" *ngIf="contact.birthday">
+              <ion-icon name="balloon-outline" class="info-icon"></ion-icon>
+              <span class="info-text">
+                Birthday:
+                {{ contact.birthday.month }}/{{ contact.birthday.day }}/{{ contact.birthday.year }}
+              </span>
+              <!-- Button to schedule birthday reminder -->
+              <ion-button fill="outline" size="small" (click)="scheduleBirthdayReminder(contact); $event.stopPropagation()"
+                class="reminder-btn">
+                <ion-icon name="calendar-outline"></ion-icon>
+                Remind Me
+              </ion-button>
+            </div>
+      
+            <!-- Personal Note -->
+            <div class="info-row" *ngIf="contact.note">
+              <ion-icon name="document-text-outline" class="info-icon"></ion-icon>
+              <span class="info-text">
+                Note: {{ contact.note }}
+              </span>
+            </div>
+      
+            <!-- Reminders -->
+            <div class="info-row" *ngIf="contact.reminders && contact.reminders.length">
+              <ion-icon name="alarm-outline" class="info-icon"></ion-icon>
+              <div class="reminders">
+                <div class="reminder" *ngFor="let reminder of contact.reminders">
+                  <span class="reminder-text">
+                    • {{ reminder.note }} on {{ reminder.date | date:'shortDate' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Optional Phone Activation -->
+            <div class="info-row" *ngIf="contact.phones && contact.phones.length">
+              <ion-icon name="call-outline" class="info-icon"></ion-icon>
+              <span (click)="callContact(contact); $event.stopPropagation()" style="cursor:pointer;">
+                {{ contact.phones[0].number }}
+              </span>
+            </div>
+      
+            <!-- Optional Email Activation -->
+            <div class="info-row" *ngIf="contact.emails && contact.emails.length">
+              <ion-icon name="mail-outline" class="info-icon"></ion-icon>
+              <span (click)="emailContact(contact); $event.stopPropagation()" style="cursor:pointer;">
+                {{ contact.emails[0].address }}
+              </span>
+            </div>
+      
+            <!-- Social Profiles Activation -->
+            <div class="info-row" *ngIf="contact.socialProfiles">
+              <ion-icon name="people-outline" class="info-icon"></ion-icon>
+              <div class="social-profiles">
+                <div class="social-profile" *ngIf="contact.socialProfiles.x"
+                  (click)="$event.stopPropagation(); openSocial('x', contact.socialProfiles.x)" style="cursor:pointer;">
+                  <span>X: {{ contact.socialProfiles.x }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.twitter"
+                  (click)="$event.stopPropagation(); openSocial('twitter', contact.socialProfiles.twitter)"
+                  style="cursor:pointer;">
+                  <span>Twitter: {{ contact.socialProfiles.twitter }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.telegram"
+                  (click)="$event.stopPropagation(); openSocial('telegram', contact.socialProfiles.telegram)"
+                  style="cursor:pointer;">
+                  <span>Telegram: {{ contact.socialProfiles.telegram }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.snapchat"
+                  (click)="$event.stopPropagation(); openSocial('snapchat', contact.socialProfiles.snapchat)"
+                  style="cursor:pointer;">
+                  <span>Snapchat: {{ contact.socialProfiles.snapchat }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.tiktok"
+                  (click)="$event.stopPropagation(); openSocial('tiktok', contact.socialProfiles.tiktok)"
+                  style="cursor:pointer;">
+                  <span>TikTok: {{ contact.socialProfiles.tiktok }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.linkedin"
+                  (click)="$event.stopPropagation(); openSocial('linkedin', contact.socialProfiles.linkedin)"
+                  style="cursor:pointer;">
+                  <span>LinkedIn: {{ contact.socialProfiles.linkedin }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.facebook"
+                  (click)="$event.stopPropagation(); openSocial('facebook', contact.socialProfiles.facebook)"
+                  style="cursor:pointer;">
+                  <span>Facebook: {{ contact.socialProfiles.facebook }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles.instagram"
+                  (click)="$event.stopPropagation(); openSocial('instagram', contact.socialProfiles.instagram)"
+                  style="cursor:pointer;">
+                  <span>Instagram: {{ contact.socialProfiles.instagram }}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'compact'">
+        <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <div class="grid-container">
+            <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)" />
+            <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+            <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+            <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+          </div>
+        </ion-item>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'list'">
+        <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <div class="grid-container">
+            <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)" />
+            <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+            <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+            <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+          </div>
+        </ion-item>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'social'">
+        <div class="social-container">
+          <div class="social-card" *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+            <!-- Social Header -->
+            <div class="social-header">
+              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <div class="social-info">
+                <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+              </div>
+            </div>
+      
+            <!-- Social Content -->
+            <div class="social-content">
+              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
+              <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+              <!-- Social Profiles -->
+              <div class="social-profiles">
+                <div class="social-profile" *ngIf="contact.socialProfiles?.x"
+                  (click)="$event.stopPropagation(); openSocial('x', contact.socialProfiles?.x)">
+                  <ion-icon name="logo-x" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.x }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.twitter"
+                  (click)="$event.stopPropagation(); openSocial('twitter', contact.socialProfiles?.twitter)">
+                  <ion-icon name="logo-twitter" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.twitter }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.telegram"
+                  (click)="$event.stopPropagation(); openSocial('telegram', contact.socialProfiles?.telegram)">
+                  <ion-icon name="paper-plane-outline" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.telegram }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.snapchat"
+                  (click)="$event.stopPropagation(); openSocial('snapchat', contact.socialProfiles?.snapchat)">
+                  <ion-icon name="chatbubble-ellipses-outline" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.snapchat }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.tiktok"
+                  (click)="$event.stopPropagation(); openSocial('tiktok', contact.socialProfiles?.tiktok)">
+                  <ion-icon name="logo-tiktok" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.tiktok }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.linkedin"
+                  (click)="$event.stopPropagation(); openSocial('linkedin', contact.socialProfiles?.linkedin)">
+                  <ion-icon name="logo-linkedin" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.linkedin }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.facebook"
+                  (click)="$event.stopPropagation(); openSocial('facebook', contact.socialProfiles?.facebook)">
+                  <ion-icon name="logo-facebook" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.facebook }}</span>
+                </div>
+                <div class="social-profile" *ngIf="contact.socialProfiles?.instagram"
+                  (click)="$event.stopPropagation(); openSocial('instagram', contact.socialProfiles?.instagram)">
+                  <ion-icon name="logo-instagram" class="info-icon"></ion-icon>
+                  <span>{{ contact.socialProfiles?.instagram }}</span>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Social Actions -->
+            <div class="social-actions">
+              <ion-button fill="clear" (click)="onEditContact(contact)">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" (click)="onRemoveContact(contact)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+
+      
+      <ng-container *ngSwitchCase="'detailed'">
+        <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <div class="timeline-container">
+            <div class="timeline-date">
+              {{ contact.rolodex?.when || 'No Date' }}
+            </div>
+            <div class="timeline-content">
+              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+              <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+            </div>
+          </div>
+        </ion-item>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'timeline'">
+        <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <div class="timeline-container">
+            <div class="timeline-date">
+              {{ contact.rolodex?.when || 'No Date' }}
+            </div>
+            <div class="timeline-content">
+              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+              <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+            </div>
+          </div>
+        </ion-item>
+      </ng-container>
+      
+      <ng-container *ngSwitchCase="'alphabetical'">
+        <ion-list>
+          <ng-container *ngFor="let group of groupedContacts | keyvalue">
+            <ion-list-header>
+              <ion-label>{{ group.key }}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let contact of group.value; trackBy: trackById">
+              <!-- Main card area triggers onContactTap -->
+              <div class="contact-card-content" (click)="onContactTap(contact, $event)">
+                <ion-avatar slot="start">
+                  <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                    (error)="handleImageError($event)">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
+                  <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                </ion-label>
+              </div>
+              <!-- Optionally add a toggle icon if details are needed -->
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ng-container>
+      
+      <!-- Details Card for the Selected Contact -->
+      <div *ngIf="activeContact" class="details-card">
+        <ion-card>
+          <ion-card-header>
+            <ion-avatar slot="start">
+              <img [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
+                (error)="handleImageError($event)">
+            </ion-avatar>
+            <ion-card-title>
+              {{ activeContact.name?.display || 'Unknown Contact' }}
+            </ion-card-title>
+            <ion-card-subtitle>
+              {{ activeContact.organization?.company || 'No Company Info' }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Phone:</strong> {{ activeContact.phones?.[0]?.number || 'No Phone Info' }}</p>
+            <p><strong>Email:</strong> {{ activeContact.emails?.[0]?.address || 'No Email Info' }}</p>
+            <p><strong>Address:</strong>
+              {{ activeContact.postalAddresses?.[0]?.street || '' }},
+              {{ activeContact.postalAddresses?.[0]?.city || '' }},
+              {{ activeContact.postalAddresses?.[0]?.country || '' }}
+            </p>
+            <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
+            <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'No Follow-Up' }}</p>
+      
+            <!-- Social Activation (if needed, you can add further social details here) -->
+            <div class="social-activation" *ngIf="activeContact.socialProfiles">
+              <p><strong>Social Profiles:</strong></p>
+              <div class="social-profiles">
+                <span *ngIf="activeContact.socialProfiles.x"
+                  (click)="openSocial('x', activeContact.socialProfiles.x); $event.stopPropagation()"
+                  style="cursor:pointer;">X: {{ activeContact.socialProfiles.x }}</span>
+                <span *ngIf="activeContact.socialProfiles.twitter"
+                  (click)="openSocial('twitter', activeContact.socialProfiles.twitter); $event.stopPropagation()"
+                  style="cursor:pointer;">Twitter: {{ activeContact.socialProfiles.twitter }}</span>
+                <span *ngIf="activeContact.socialProfiles.telegram"
+                  (click)="openSocial('telegram', activeContact.socialProfiles.telegram); $event.stopPropagation()"
+                  style="cursor:pointer;">Telegram: {{ activeContact.socialProfiles.telegram }}</span>
+                <span *ngIf="activeContact.socialProfiles.snapchat"
+                  (click)="openSocial('snapchat', activeContact.socialProfiles.snapchat); $event.stopPropagation()"
+                  style="cursor:pointer;">Snapchat: {{ activeContact.socialProfiles.snapchat }}</span>
+                <span *ngIf="activeContact.socialProfiles.tiktok"
+                  (click)="openSocial('tiktok', activeContact.socialProfiles.tiktok); $event.stopPropagation()"
+                  style="cursor:pointer;">TikTok: {{ activeContact.socialProfiles.tiktok }}</span>
+                <span *ngIf="activeContact.socialProfiles.linkedin"
+                  (click)="openSocial('linkedin', activeContact.socialProfiles.linkedin); $event.stopPropagation()"
+                  style="cursor:pointer;">LinkedIn: {{ activeContact.socialProfiles.linkedin }}</span>
+                <span *ngIf="activeContact.socialProfiles.facebook"
+                  (click)="openSocial('facebook', activeContact.socialProfiles.facebook); $event.stopPropagation()"
+                  style="cursor:pointer;">Facebook: {{ activeContact.socialProfiles.facebook }}</span>
+                <span *ngIf="activeContact.socialProfiles.instagram"
+                  (click)="openSocial('instagram', activeContact.socialProfiles.instagram); $event.stopPropagation()"
+                  style="cursor:pointer;">Instagram: {{ activeContact.socialProfiles.instagram }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+          <div class="ion-card-footer">
+            <ion-button color="primary" (click)="callContact(activeContact)">Call</ion-button>
+            <ion-button color="secondary" (click)="emailContact(activeContact)">Email</ion-button>
+            <ion-button color="tertiary" (click)="openAddress(activeContact)">Map</ion-button>
+            <ion-button color="warning" (click)="onEditContact(activeContact)">Edit</ion-button>
+            <ion-button color="danger" (click)="onRemoveContact(activeContact)">Remove</ion-button>
+          </div>
+        </ion-card>
+      </div>
+
+
+      <ng-container *ngSwitchCase="'AutoSort'">
+        <ion-item *ngFor="let contact of sortedcontacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <ion-avatar slot="start"><img [src]="contact.image" alt="Contact Image"></ion-avatar>
+          <ion-label>
+            <h2>{{ contact.organization?.jobTitle }}</h2>
+            <p>{{ contact.organization?.company }}</p>
+          </ion-label>
+          <ion-button fill="outline" slot="end" (click)="onEditContact()">View & Edit</ion-button>
+        </ion-item>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Search'">
+        <ion-item *ngFor="let contact of displayedContacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
+          <ion-avatar slot="start"><img [src]="contact.image" alt="Contact Image"></ion-avatar>
+          <ion-label>
+            <h2>{{ contact.organization?.jobTitle }}</h2>
+            <p>{{ contact.organization?.company }}</p>
+          </ion-label>
+          <ion-button fill="outline" slot="end" (click)="onEditContact()">View & Edit</ion-button>
+        </ion-item>
+      </ng-container>
+      
+      </ng-container>
+  </ng-container>
+
+<ion-content *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
+  <div class="no-scrollbar">
+
+    <ng-container *ngIf="selectedMode === 'createContact'">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Create Contact
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+
+            <!-- Accordion group for additional sections -->
+            <ion-accordion-group expand="inset">
+
+              <!-- Name Section Accordion -->
+              <ion-accordion value="nameSection">
+                <!-- This is the visible header of the accordion -->
+                <ion-item slot="header" color="light">
+                  <ion-label>Name</ion-label>
+                  <!-- Optionally add an icon to indicate expand/collapse -->
+                  <!-- <ion-icon name="chevron-down" slot="end"></ion-icon> -->
+                </ion-item>
+
+                <!-- Accordion content for the Name form group -->
+                <div slot="content" formGroupName="name">
+                  <ion-item>
+                    <ion-label position="stacked">Display Name</ion-label>
+                    <ion-input formControlName="display" placeholder="Enter Display Name"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked">First Name</ion-label>
+                    <ion-input formControlName="given" placeholder="Enter First Name"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked">Middle Name</ion-label>
+                    <ion-input formControlName="middle" placeholder="Enter Middle Name"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked">Last Name</ion-label>
+                    <ion-input formControlName="family" placeholder="Enter Last Name"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked">Prefix (e.g., Mr., Mrs.)</ion-label>
+                    <ion-input formControlName="prefix" placeholder="Enter Prefix"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="stacked">Suffix (e.g., Jr., Sr.)</ion-label>
+                    <ion-input formControlName="suffix" placeholder="Enter Suffix"></ion-input>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <!-- Phones Section -->
+              <ion-accordion value="phonesSection">
+                <ion-item slot="header" color="light">
+                  <ion-label>Phone</ion-label>
+                </ion-item>
+                <div slot="content" formArrayName="phones">
+                  <div *ngFor="let phoneCtrl of phones.controls; let i = index" [formGroupName]="i">
+                    <ion-item>
+                      <ion-label>Phone {{ i + 1 }}</ion-label>
+                      <ion-input formControlName="number" placeholder="Enter Phone Number"></ion-input>
+                      <ion-select formControlName="type">
+                        <ion-select-option value="home">Home</ion-select-option>
+                        <ion-select-option value="work">Work</ion-select-option>
+                        <ion-select-option value="mobile">Mobile</ion-select-option>
+                        <ion-select-option value="other">Other</ion-select-option>
+                      </ion-select>
+                      <ion-button fill="clear" (click)="removePhone(i)" *ngIf="phones.length > 1">Remove</ion-button>
+                    </ion-item>
+                  </div>
+                  <ion-button fill="outline" (click)="addPhone()">Add Phone</ion-button>
+                </div>
+              </ion-accordion>
+
+              <!-- Emails Section -->
+              <ion-accordion value="emailsSection">
+                <ion-item slot="header" color="light">
+                  <ion-label>Emails</ion-label>
+                </ion-item>
+                <div slot="content" formArrayName="emails">
+                  <div *ngFor="let emailCtrl of emails.controls; let i = index" [formGroupName]="i">
+                    <ion-item>
+                      <ion-label>Email {{ i + 1 }}</ion-label>
+                      <ion-input formControlName="address"></ion-input>
+                      <ion-select formControlName="type">
+                        <ion-select-option value="personal">Personal</ion-select-option>
+                        <ion-select-option value="work">Work</ion-select-option>
+                      </ion-select>
+                      <ion-button fill="clear" (click)="removeEmail(i)" *ngIf="emails.length > 1">Remove</ion-button>
+                    </ion-item>
+                  </div>
+                  <ion-button fill="outline" (click)="addEmail()">Add Email</ion-button>
+                </div>
+              </ion-accordion>
+
+              <!-- Rolodex Accordion -->
+              <ion-accordion value="rolodexSection">
+                <ion-item slot="header" color="light">
+                  <ion-label>Memory-Joggers</ion-label>
+                </ion-item>
+                <div slot="content" formGroupName="rolodex">
+
+                  <!-- 'when' -->
+                  <ion-item>
+                    <ion-label position="stacked">When</ion-label>
+                    <ion-datetime formControlName="when" displayFormat="DD MMM YYYY"
+                      placeholder="When did you connect?"></ion-datetime>
+                  </ion-item>
+
+                  <!-- 'where' -->
+                  <ion-item>
+                    <ion-label position="stacked">Where</ion-label>
+                    <ion-input formControlName="where" placeholder="Where did you meet or take note?"></ion-input>
+                  </ion-item>
+
+                  <!-- 'who' -->
+                  <ion-item>
+                    <ion-label position="stacked">Who</ion-label>
+                    <ion-input formControlName="who"
+                      placeholder="Who introduced you or who else was involved?"></ion-input>
+                  </ion-item>
+
+                  <!-- 'why' -->
+                  <ion-item>
+                    <ion-label position="stacked">Why</ion-label>
+                    <ion-textarea formControlName="why" placeholder="Why is this contact important?"></ion-textarea>
+                  </ion-item>
+
+                  <!-- 'how' -->
+                  <ion-item>
+                    <ion-label position="stacked">How</ion-label>
+                    <ion-input formControlName="how" placeholder="Conference, referral, email, etc."></ion-input>
+                  </ion-item>
+
+                  <!-- 'topic' -->
+                  <ion-item>
+                    <ion-label position="stacked">Topic</ion-label>
+                    <ion-input formControlName="topic" placeholder="Topic(s) of conversation"></ion-input>
+                  </ion-item>
+
+                  <!-- 'followUp' -->
+                  <ion-item>
+                    <ion-label position="stacked">Follow-Up</ion-label>
+                    <ion-textarea formControlName="followUp" placeholder="Next steps or tasks"></ion-textarea>
+                  </ion-item>
+
+                  <!-- 'personalTidbits' -->
+                  <ion-item>
+                    <ion-label position="stacked">Personal Tidbits</ion-label>
+                    <ion-textarea formControlName="personalTidbits"
+                      placeholder="Personal facts to build rapport"></ion-textarea>
+                  </ion-item>
+
+                  <!-- 'outcome' -->
+                  <ion-item>
+                    <ion-label position="stacked">Outcome</ion-label>
+                    <ion-textarea formControlName="outcome"
+                      placeholder="Result or conclusion of the meeting"></ion-textarea>
+                  </ion-item>
+
+                  <!-- 'priority' -->
+                  <ion-item>
+                    <ion-label position="stacked">Priority</ion-label>
+                    <ion-select formControlName="priority" interface="popover">
+                      <ion-select-option value="high">High</ion-select-option>
+                      <ion-select-option value="medium">Medium</ion-select-option>
+                      <ion-select-option value="low">Low</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <!-- 'contactFrequency' -->
+                  <ion-item>
+                    <ion-label position="stacked">Contact Frequency</ion-label>
+                    <ion-select formControlName="contactFrequency" interface="popover">
+                      <ion-select-option value="monthly">Monthly</ion-select-option>
+                      <ion-select-option value="quarterly">Quarterly</ion-select-option>
+                      <ion-select-option value="yearly">Yearly</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <!-- 'references' array -->
+                  <div formArrayName="references">
+                    <div *ngFor="let refCtrl of references.controls; let i = index">
+                      <ion-item>
+                        <ion-label position="stacked">Reference {{ i + 1 }}</ion-label>
+                        <ion-input [formControlName]="i" placeholder="Add a link or note"></ion-input>
+                        <ion-button fill="clear" color="danger" (click)="removeReference(i)"
+                          *ngIf="references.length > 1">
+                          Remove
+                        </ion-button>
+                      </ion-item>
+                    </div>
+                    <ion-button expand="block" fill="outline" (click)="addReference()">
+                      Add Reference
+                    </ion-button>
+                  </div>
+                </div>
+              </ion-accordion>
+
+              <!-- Repeat similar accordion items for Company, Social Profiles, URLs, etc. -->
+
+            </ion-accordion-group>
+
+            <ion-button expand="block" fill="outline" (click)="additional()">
+              + Additional Information +
+            </ion-button>
+
+            <ng-container *ngIf="additionalInfo">
+              <!-- Additional Information -->
+              <ion-accordion-group expand="inset">
+
+                <!-- Addresses Section -->
+                <ion-accordion value="addressesSection">
+                  <ion-item slot="header" color="light">
+                    <ion-label>Addresses</ion-label>
+                  </ion-item>
+                  <div slot="content" formArrayName="postalAddresses">
+                    <div *ngFor="let addrCtrl of postalAddresses.controls; let i = index" [formGroupName]="i">
+                      <ion-item>
+                        <ion-label>Address {{ i + 1 }}</ion-label>
+                        <ion-input formControlName="street" placeholder="Street"></ion-input>
+                        <ion-input formControlName="neighborhood" placeholder="Neighborhood"></ion-input>
+                        <ion-input formControlName="city" placeholder="City"></ion-input>
+                        <ion-input formControlName="region" placeholder="Region"></ion-input>
+                        <ion-input formControlName="country" placeholder="Country"></ion-input>
+                        <ion-input formControlName="postcode" placeholder="Postcode"></ion-input>
+                        <ion-select formControlName="type">
+                          <ion-select-option value="home">Home</ion-select-option>
+                          <ion-select-option value="work">Work</ion-select-option>
+                          <ion-select-option value="work">Other</ion-select-option>
+                          <!-- <ion-select-option value="work">Custom</ion-select-option> -->
+                          <!-- develop LATER -->
+                        </ion-select>
+                        <ion-button fill="clear" (click)="removePostalAddress(i)" *ngIf="postalAddresses.length > 1">Remove</ion-button>
+                      </ion-item>
+                    </div>
+                    <ion-button fill="outline" (click)="addPostalAddress()">Add Address</ion-button>
+                  </div>
+                </ion-accordion>
+
+                <!-- Company Section Accordion -->
+                <ion-accordion value="companySection">
+                  <!-- This is the visible header of the accordion -->
+                  <ion-item slot="header" color="light">
+                    <ion-label>Company Information</ion-label>
+                    <!-- Optionally add an icon to indicate expand/collapse -->
+                    <!-- <ion-icon name="chevron-down" slot="end"></ion-icon> -->
+                  </ion-item>
+
+                  <!-- Accordion content for the Company Information form group -->
+                  <div slot="content" formGroupName="organization">
+                    <ion-item>
+                      <ion-label position="stacked">Company</ion-label>
+                      <ion-input formControlName="company" placeholder="Enter Company Name"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Job Title</ion-label>
+                      <ion-input formControlName="jobTitle" placeholder="Enter Job Title"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Department</ion-label>
+                      <ion-input formControlName="department" placeholder="Enter Department"></ion-input>
+                    </ion-item>
+                  </div>
+                </ion-accordion>
+
+                <!-- Social Profile Section Accordion -->
+                <ion-accordion value="socialprofilesSection">
+                  <!-- This is the visible header of the accordion -->
+                  <ion-item slot="header" color="light">
+                    <ion-label>Social Profile</ion-label>
+                    <!-- Optionally add an icon to indicate expand/collapse -->
+                    <!-- <ion-icon name="chevron-down" slot="end"></ion-icon> -->
+                  </ion-item>
+
+                  <!-- Accordion content for the Social Profiles form group -->
+                  <div slot="content" formGroupName="socialProfiles">
+                    <!-- Social Profiles -->
+                    <ion-item>
+                      <ion-label position="stacked">Twitter</ion-label>
+                      <ion-input formControlName="twitter" placeholder="Enter Twitter Handle"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">LinkedIn</ion-label>
+                      <ion-input formControlName="linkedin" placeholder="Enter LinkedIn URL"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Facebook</ion-label>
+                      <ion-input formControlName="facebook" placeholder="Enter Facebook URL"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Instagram</ion-label>
+                      <ion-input formControlName="instagram" placeholder="Enter Instagram Handle"></ion-input>
+                    </ion-item>
+                  </div>
+
+                </ion-accordion>
+
+                <ion-item>
+                  <ion-label position="stacked">Birthday</ion-label>
+                  <ion-datetime formControlName="birthday" displayFormat="DD MMM YYYY" placeholder="Select Birthday"></ion-datetime>
+                </ion-item>
+
+                <!-- Notes -->
+                <ion-item>
+                  <ion-label position="stacked">Notes</ion-label>
+                  <ion-textarea formControlName="note" placeholder="Enter Notes"></ion-textarea>
+                </ion-item>
+
+                <!-- Tags -->
+                <ion-item>
+                  <ion-label position="stacked">Tags</ion-label>
+                  <ion-input formControlName="tags" placeholder="Enter Tags (comma separated)"></ion-input>
+                </ion-item>
+
+                <!-- Reminders Section -->
+                <ion-accordion value="remindersSection">
+                  <ion-item slot="header" color="light">
+                    <ion-label>Reminders</ion-label>
+                  </ion-item>
+                  <div slot="content" formArrayName="reminders">
+                    <div *ngFor="let reminderCtrl of reminders.controls; let i = index" [formGroupName]="i">
+                      <ion-item>
+                        <ion-label position="stacked">Reminder {{ i + 1 }}</ion-label>
+                        <ion-input formControlName="note" placeholder="Enter reminder note"></ion-input>
+                        <ion-datetime formControlName="date" displayFormat="DD MMM YYYY" placeholder="Select date"></ion-datetime>
+                        <ion-button fill="clear" (click)="removeReminder(i)" *ngIf="reminders.length > 1">Remove</ion-button>
+                      </ion-item>
+                    </div>
+                    <ion-button expand="block" fill="outline" (click)="addReminder()">Add Reminder</ion-button>
+                  </div>
+                </ion-accordion>
+
+                <!-- Groups -->
+                <ion-item>
+                  <ion-label position="stacked">Groups</ion-label>
+                  <ion-input formControlName="groups" placeholder="Enter Groups (comma separated)"></ion-input>
+                </ion-item>
+
+                <!-- URLs Accordion -->
+                <ion-accordion value="urlsSection">
+                  <!-- Accordion Header -->
+                  <ion-item slot="header" color="light">
+                    <ion-label>URLs</ion-label>
+                  </ion-item>
+
+                  <!-- Accordion Content -->
+                  <div slot="content">
+                    <!-- FormArray for URLs -->
+                    <div formArrayName="urls">
+                      <!-- Repeat through each URL control -->
+                      <div *ngFor="let urlCtrl of urls.controls; let i = index">
+                        <ion-item>
+                          <ion-label position="stacked">URL {{ i + 1 }}</ion-label>
+                          <ion-input [formControlName]="i" placeholder="Enter URL">
+                          </ion-input>
+                          <ion-button fill="clear" (click)="removeUrl(i)" *ngIf="urls.length > 1">
+                            Remove
+                          </ion-button>
+                        </ion-item>
+                      </div>
+                    </div>
+                    <!-- Button to add a new URL control -->
+                    <ion-button expand="block" fill="outline" (click)="addUrl()">
+                      Add URL
+                    </ion-button>
+                  </div>
+                </ion-accordion>
+
+                <!-- Preferences Section Accordion -->
+                <ion-accordion value="preferencesSection">
+                  <!-- This is the visible header of the accordion -->
+                  <ion-item slot="header" color="light">
+                    <ion-label>Preferences</ion-label>
+                    <!-- Optionally add an icon to indicate expand/collapse -->
+                    <!-- <ion-icon name="chevron-down" slot="end"></ion-icon> -->
+                  </ion-item>
+
+                  <!-- Accordion content for the Company Information form group -->
+                  <div slot="content" formGroupName="preferences">
+                    <ion-item>
+                      <ion-label>Refresh Contacts</ion-label>
+                      <ion-checkbox formControlName="refreshContacts"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Notification Preference</ion-label>
+                      <ion-input formControlName="notificationPreference"
+                        placeholder="Enter Notification Preference"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>Theme</ion-label>
+                      <ion-select formControlName="theme" interface="popover" placeholder="Select Theme">
+                        <ion-select-option value="light">Light</ion-select-option>
+                        <ion-select-option value="dark">Dark</ion-select-option>
+                        <ion-select-option value="auto">Auto</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </div>
+                </ion-accordion>
+
+              </ion-accordion-group>
+
+              <!-- Image Upload -->
+              <ion-item>
+                <ion-label>Upload Image</ion-label>
+                <ion-input type="file" (change)="onFileSelected($event)" accept="image/*"></ion-input>
+              </ion-item>
+              
+              <!-- Display Image (if available) -->
+              <ion-item *ngIf="contactForm.get('image.base64String')?.value">
+                <ion-thumbnail slot="start">
+                  <img [src]="contactForm.get('image.base64String')?.value" alt="Contact Image">
+                </ion-thumbnail>
+                <ion-label>Profile Picture</ion-label>
+              </ion-item>
+
+            </ng-container>
+
+            <!-- Allow sharing privacy control-->
+            <!-- Privacy Block -->
+            <ng-container formGroupName="privacy">
+              <!-- Allow sharing privacy control -->
+              <ion-item>
+                <ion-label>Privacy</ion-label>
+                <ion-select formControlName="level" (ionChange)="onPrivacyChange($event)">
+                  <ion-select-option value="public">Public</ion-select-option>
+                  <ion-select-option value="private">Private</ion-select-option>
+                  <ion-select-option value="friends">Friends/Colleagues</ion-select-option>
+                  <!-- <ion-select-option value="custom">Custom</ion-select-option> -->
+                </ion-select>
+              </ion-item>
+            </ng-container>
+
+
+            <!-- Conditionally show 'sharedWith' if level === 'custom' -->
+            <!-- <ion-item *ngIf="contactForm.get('privacy.level')?.value === 'custom'">
+            <ion-label>Share With</ion-label>
+            <ion-input formControlName="sharedWith" placeholder="Enter User IDs, comma-separated">
+            </ion-input>
+          </ion-item> -->
+
+
+
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="selectedMode === 'editContact'">
+      <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Edit Contact</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Name Section -->
+            <ng-container formGroupName="name">
+              <ion-item>
+                <ion-label position="stacked">Display Name</ion-label>
+                <ion-input formControlName="display" placeholder="Enter Display Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">First Name</ion-label>
+                <ion-input formControlName="given" placeholder="Enter First Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Middle Name</ion-label>
+                <ion-input formControlName="middle" placeholder="Enter Middle Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Last Name</ion-label>
+                <ion-input formControlName="family" placeholder="Enter Last Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Prefix (e.g., Mr., Mrs.)</ion-label>
+                <ion-input formControlName="prefix" placeholder="Enter Prefix"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Suffix (e.g., Jr., Sr.)</ion-label>
+                <ion-input formControlName="suffix" placeholder="Enter Suffix"></ion-input>
+              </ion-item>
+            </ng-container>
+
+            <!-- Phone Numbers -->
+            <ng-container formArrayName="phones">
+              <div *ngFor="let phone of phones.controls; let i = index" [formGroupName]="i">
+                <ion-item>
+                  <ion-label position="stacked">Phone {{ i + 1 }}</ion-label>
+                  <ion-input formControlName="number" placeholder="Enter Phone Number"></ion-input>
+                  <ion-select formControlName="type" interface="popover" placeholder="Select Type">
+                    <ion-select-option value="home">Home</ion-select-option>
+                    <ion-select-option value="work">Work</ion-select-option>
+                    <ion-select-option value="mobile">Mobile</ion-select-option>
+                    <ion-select-option value="other">Other</ion-select-option>
+                  </ion-select>
+                  <ion-button fill="clear" (click)="removePhone(i)" *ngIf="phones.length > 1">Remove</ion-button>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ion-button expand="block" fill="outline" (click)="addPhone()">Add Phone</ion-button>
+
+
+            <!-- Emails -->
+            <ng-container formArrayName="emails">
+              <div *ngFor="let email of emails.controls; let i = index" [formGroupName]="i">
+                <ion-item>
+                  <ion-label position="stacked">Email {{ i + 1 }}</ion-label>
+                  <ion-input formControlName="address" placeholder="Enter Email Address"></ion-input>
+                  <ion-select formControlName="type" interface="popover" placeholder="Select Type">
+                    <ion-select-option value="personal">Personal</ion-select-option>
+                    <ion-select-option value="work">Work</ion-select-option>
+                  </ion-select>
+                  <ion-button fill="clear" (click)="removeEmail(i)" *ngIf="emails.length > 1">Remove</ion-button>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ion-button expand="block" fill="outline" (click)="addEmail()">Add Email</ion-button>
+
+            <!-- Rolodex Section -->
+            <ng-container formGroupName="rolodex">
+              <!-- 'when' -->
+              <ion-item>
+                <ion-label position="stacked">When</ion-label>
+                <ion-datetime formControlName="when" displayFormat="DD MMM YYYY" placeholder="When did you connect?"></ion-datetime>
+              </ion-item>
+            
+              <!-- 'where' -->
+              <ion-item>
+                <ion-label position="stacked">Where</ion-label>
+                <ion-input formControlName="where" placeholder="Where did you meet or take note?"></ion-input>
+              </ion-item>
+            
+              <!-- 'who' -->
+              <ion-item>
+                <ion-label position="stacked">Who</ion-label>
+                <ion-input formControlName="who" placeholder="Who introduced you or who else was involved?"></ion-input>
+              </ion-item>
+            
+              <!-- 'why' -->
+              <ion-item>
+                <ion-label position="stacked">Why</ion-label>
+                <ion-textarea formControlName="why" placeholder="Why is this contact important?"></ion-textarea>
+              </ion-item>
+            
+              <!-- 'how' -->
+              <ion-item>
+                <ion-label position="stacked">How</ion-label>
+                <ion-input formControlName="how" placeholder="Conference, referral, email, etc."></ion-input>
+              </ion-item>
+            
+              <!-- 'topic' -->
+              <ion-item>
+                <ion-label position="stacked">Topic</ion-label>
+                <ion-input formControlName="topic" placeholder="Topic(s) of conversation"></ion-input>
+              </ion-item>
+            
+              <!-- 'followUp' -->
+              <ion-item>
+                <ion-label position="stacked">Follow-Up</ion-label>
+                <ion-textarea formControlName="followUp" placeholder="Next steps or tasks"></ion-textarea>
+              </ion-item>
+            
+              <!-- 'personalTidbits' -->
+              <ion-item>
+                <ion-label position="stacked">Personal Tidbits</ion-label>
+                <ion-textarea formControlName="personalTidbits" placeholder="Personal facts to build rapport"></ion-textarea>
+              </ion-item>
+            
+              <!-- 'outcome' -->
+              <ion-item>
+                <ion-label position="stacked">Outcome</ion-label>
+                <ion-textarea formControlName="outcome" placeholder="Result or conclusion of the meeting"></ion-textarea>
+              </ion-item>
+            
+              <!-- 'priority' -->
+              <ion-item>
+                <ion-label position="stacked">Priority</ion-label>
+                <ion-select formControlName="priority" interface="popover">
+                  <ion-select-option value="high">High</ion-select-option>
+                  <ion-select-option value="medium">Medium</ion-select-option>
+                  <ion-select-option value="low">Low</ion-select-option>
+                </ion-select>
+              </ion-item>
+            
+              <!-- 'contactFrequency' -->
+              <ion-item>
+                <ion-label position="stacked">Contact Frequency</ion-label>
+                <ion-select formControlName="contactFrequency" interface="popover">
+                  <ion-select-option value="monthly">Monthly</ion-select-option>
+                  <ion-select-option value="quarterly">Quarterly</ion-select-option>
+                  <ion-select-option value="yearly">Yearly</ion-select-option>
+                </ion-select>
+              </ion-item>
+            
+              <!-- 'references' array -->
+              <div formArrayName="references">
+                <div *ngFor="let refCtrl of references.controls; let i = index">
+                  <ion-item>
+                    <ion-label position="stacked">Reference {{ i + 1 }}</ion-label>
+                    <ion-input [formControlName]="i" placeholder="Add a link or note"></ion-input>
+                    <ion-button fill="clear" color="danger" (click)="removeReference(i)" *ngIf="references.length > 1">
+                      Remove
+                    </ion-button>
+                  </ion-item>
+                </div>
+                <ion-button expand="block" fill="outline" (click)="addReference()">
+                  Add Reference
+                </ion-button>
+              </div>
+            </ng-container>
+
+            <!-- Address -->
+            <ng-container formArrayName="postalAddresses">
+              <div *ngFor="let addr of postalAddresses.controls; let i = index" [formGroupName]="i">
+                <ion-item>
+                  <ion-label position="stacked">Address {{ i + 1 }}</ion-label>
+                  <ion-input formControlName="street" placeholder="Street"></ion-input>
+                  <ion-input formControlName="neighborhood" placeholder="Neighborhood"></ion-input>
+                  <ion-input formControlName="city" placeholder="City"></ion-input>
+                  <ion-input formControlName="region" placeholder="Region"></ion-input>
+                  <ion-input formControlName="country" placeholder="Country"></ion-input>
+                  <ion-input formControlName="postcode" placeholder="Postcode"></ion-input>
+                  <ion-select formControlName="type" interface="popover" placeholder="Select Type">
+                    <ion-select-option value="home">Home</ion-select-option>
+                    <ion-select-option value="work">Work</ion-select-option>
+                    <ion-select-option value="work">Other</ion-select-option>
+                    <!-- <ion-select-option value="work">Custom</ion-select-option> --> 
+                    <!-- develop LATER -->
+                  </ion-select>
+                  <ion-button fill="clear" (click)="removePostalAddress(i)" *ngIf="postalAddresses.length > 1">Remove</ion-button>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ion-button expand="block" fill="outline" (click)="addPostalAddress()">Add Address</ion-button>
+
+
+            <!-- Company Information -->
+            <ng-container formGroupName="organization">
+              <ion-item>
+                <ion-label position="stacked">Company</ion-label>
+                <ion-input formControlName="company" placeholder="Enter Company Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Job Title</ion-label>
+                <ion-input formControlName="jobTitle" placeholder="Enter Job Title"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Department</ion-label>
+                <ion-input formControlName="department" placeholder="Enter Department"></ion-input>
+              </ion-item>
+            </ng-container>
+
+            <!-- Birthday -->
+            <ng-container *ngIf="hasControl('birthday')">
+              <ion-label position="stacked">Birthday</ion-label>
+              <!-- <ion-datetime formControlName="birthday" displayFormat="DD MMM YYYY" placeholder="Select Birthday"></ion-datetime> -->
+              <ion-datetime formControlName="birthday" displayFormat="DD MMM YYYY"
+                pickerFormat="YYYY-MM-DD" placeholder="Select Birthday"></ion-datetime>
+            
+              <ion-note color="danger" *ngIf="contactForm.get('birthday')?.hasError('invalidDate')">
+                Invalid date format
+              </ion-note>
+            
+              <ion-note color="danger" *ngIf="contactForm.get('birthday')?.hasError('invalidBirthdayRange')">
+                {{ getRangeErrorMessage('birthday') }}
+              </ion-note>
+            </ng-container>
+
+            <!-- Notes -->
+            <ion-item>
+              <ion-label position="stacked">Notes</ion-label>
+              <ion-textarea formControlName="note" placeholder="Enter Notes"></ion-textarea>
+            </ion-item>
+
+            <!-- Tags -->
+            <ion-item>
+              <ion-label position="stacked">Tags</ion-label>
+              <ion-input formControlName="tags" placeholder="Enter Tags (comma separated)"></ion-input>
+            </ion-item>
+
+            <!-- Groups -->
+            <ion-item>
+              <ion-label position="stacked">Groups</ion-label>
+              <ion-input formControlName="groups" placeholder="Enter Groups (comma separated)"></ion-input>
+            </ion-item>
+
+            <!-- Social Profiles -->
+            <ng-container formGroupName="socialProfiles">
+              <ion-item>
+                <ion-label position="stacked">Twitter</ion-label>
+                <ion-input formControlName="twitter" placeholder="Enter Twitter Handle"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">LinkedIn</ion-label>
+                <ion-input formControlName="linkedin" placeholder="Enter LinkedIn URL"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Facebook</ion-label>
+                <ion-input formControlName="facebook" placeholder="Enter Facebook URL"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Instagram</ion-label>
+                <ion-input formControlName="instagram" placeholder="Enter Instagram Handle"></ion-input>
+              </ion-item>
+            </ng-container>
+
+            <!-- URLs -->
+            <ng-container formArrayName="urls">
+              <div *ngFor="let urlCtrl of urls.controls; let i = index">
+                <ion-item>
+                  <ion-label position="stacked">URL {{ i + 1 }}</ion-label>
+                  <ion-input [formControlName]="i" placeholder="Enter URL"></ion-input>
+                  <ion-button fill="clear" (click)="removeUrl(i)" *ngIf="urls.length > 1">Remove</ion-button>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ion-button expand="block" fill="outline" (click)="addUrl()">Add URL</ion-button>
+
+            <!-- Preferences -->
+            <ng-container formGroupName="preferences">
+              <ion-item>
+                <ion-label>Refresh Contacts</ion-label>
+                <ion-checkbox formControlName="refreshContacts"></ion-checkbox>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Notification Preference</ion-label>
+                <ion-input formControlName="notificationPreference"
+                  placeholder="Enter Notification Preference"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Theme</ion-label>
+                <ion-select formControlName="theme" interface="popover" placeholder="Select Theme">
+                  <ion-select-option value="light">Light</ion-select-option>
+                  <ion-select-option value="dark">Dark</ion-select-option>
+                  <ion-select-option value="auto">Auto</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ng-container>
+
+            <!-- Allow sharing privacy control-->
+            <ng-container formGroupName="privacy">
+              <!-- Allow sharing privacy control -->
+              <ion-item>
+                <ion-label>Privacy</ion-label>
+                <ion-select formControlName="level" (ionChange)="onPrivacyChange($event)">
+                  <ion-select-option value="public">Public</ion-select-option>
+                  <ion-select-option value="private">Private</ion-select-option>
+                  <ion-select-option value="friends">Friends/Colleagues</ion-select-option>
+                  <!-- <ion-select-option value="custom">Custom</ion-select-option> -->
+                </ion-select>
+              </ion-item>
+            </ng-container>
+
+            <!-- Conditionally show 'sharedWith' if level === 'custom' -->
+            <!-- <ion-item *ngIf="contactForm.get('privacy.level')?.value === 'custom'">
+            <ion-label>Share With</ion-label>
+            <ion-input formControlName="sharedWith" placeholder="Enter User IDs, comma-separated">
+            </ion-input>
+          </ion-item> -->
+
+            <!-- Image Upload -->
+            <ion-item>
+              <ion-label>Upload Image</ion-label>
+              <ion-input type="file" (change)="onFileSelected($event)" accept="image/*"></ion-input>
+            </ion-item>
+            
+            <!-- Display Image (if available) -->
+            <ion-item *ngIf="contactForm.get('image.base64String')?.value">
+              <ion-thumbnail slot="start">
+                <img [src]="contactForm.get('image.base64String')?.value" alt="Contact Image">
+              </ion-thumbnail>
+              <ion-label>Profile Picture</ion-label>
+            </ion-item>
+
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ng-container>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
+  <ion-toolbar>
+    <!-- Cancel Button -->
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="closeModal()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Submit Button -->
+    <ion-buttons slot="end"><ion-button [disabled]="!saveEnabled" (click)="onSubmit()">
+        {{ selectedMode === 'editContact' ? 'Save Changes' : 'Create Contact' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+ <!-- continue with device connect options, and
+ card location smart and drag -->
+
+<!-- Floating Grid Card -->
+<!-- <div *ngIf="activeContact" class="overlay" (click)="closeGridCardView()"> -->
+  
+  <div *ngIf="activeContact" #gridcard class="gridcard"
+    [style.transform]="'translate(' + cardPosition.x + 'px, ' + cardPosition.y + 'px)'">
+    <ion-card class="business-card">
+      <div class="card-container">
+        <!-- Card Front -->
+        <div class="card-front" [class.flipped]="isFlipped">
+          <ion-avatar class="modal-avatar">
+            <img [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
+              (error)="handleImageError($event)" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ activeContact.name?.display || 'Unknown Contact' }}</h2>
+            <p>{{ activeContact.organization?.company || 'No Company Info' }}</p>
+            <p>{{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
+          </ion-label>
+          <ion-button fill="outline" (click)="flipCard()">
+            <ion-icon name="arrow-redo-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="outline" (click)="closeFlipModal()" expand="block">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+  
+        <!-- Card Back with Device Activations -->
+        <div class="card-back" [class.flipped]="isFlipped">
+          <ion-card-content>
+            <!-- Clickable Phone -->
+            <p (click)="$event.stopPropagation(); callContact(activeContact)">
+              <ion-icon name="call-outline" class="detail-icon"></ion-icon>
+              {{ activeContact.phones?.[0]?.number || 'No Phone' }}
+            </p>
+            <!-- Clickable Email -->
+            <p (click)="$event.stopPropagation(); emailContact(activeContact)">
+              <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
+              {{ activeContact.emails?.[0]?.address || 'No Email' }}
+            </p>
+            <!-- Clickable Address -->
+            <p (click)="$event.stopPropagation(); openAddress(activeContact)">
+              <ion-icon name="location-outline" class="detail-icon"></ion-icon>
+              {{ activeContact.postalAddresses?.[0]?.street || '' }},
+              {{ activeContact.postalAddresses?.[0]?.city || '' }},
+              {{ activeContact.postalAddresses?.[0]?.country || '' }}
+            </p>
+            <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'No Follow-Up' }}</p>
+            <div class="modal-buttons">
+              <ion-button fill="outline" (click)="onEditContact(activeContact)" expand="block">
+                <ion-icon name="card-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" (click)="onRemoveContact(activeContact)" expand="block">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-card-content>
+          <ion-button fill="outline" (click)="flipCard()" expand="block">
+            <ion-icon name="arrow-undo-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="outline" (click)="closeFlipModal()" expand="block">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+<!-- </div> -->
+
