@@ -7,6 +7,11 @@
     </ion-buttons>
     <ion-title style="font-size: 15px;">Reminders & follow-ups</ion-title>
     <ion-buttons slot="end">
+      <!-- 2026-08-16: the doorway to SET a reminder. -->
+      <ion-button (click)="addReminder()" style="font-size: 12px; --padding-start: 8px; --padding-end: 8px;">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Add
+      </ion-button>
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
       </ion-button>

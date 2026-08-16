@@ -5,13 +5,16 @@
           <ion-item>
             <!-- Main card area triggers onContactTap -->
             <div class="contact-card-content" (click)="onContactTap(contact, $event)">
-              <ion-avatar slot="start">
+              <!-- 2026-08-16: the DEFAULT view avatar is iPad-shaped (square,
+                   rounded corners) — the one card type the user chose. -->
+              <ion-avatar class="default-view-avatar" slot="start">
                 <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                   (error)="handleImageError($event)">
               </ion-avatar>
-              <ion-label>
+              <ion-label class="default-view-label">
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || '' }}</p>
               </ion-label>
             </div>
             <!-- Chevron icon triggers onToggleDetails -->

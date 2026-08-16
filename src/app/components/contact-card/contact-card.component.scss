@@ -123,16 +123,43 @@ ion-content {
   height: 72px;
   margin-bottom: var(--rolodex-space-3);
   border: 2px solid var(--rolodex-border-light);
-  /* 2026-08-16: iPad/tablet shape — square with rounded corners, not round. */
-  border-radius: 16px;
+  border-radius: 50%;
   box-shadow: var(--rolodex-shadow-xs);
 }
 
-/* 2026-08-16: the DEFAULT view avatars are plain <ion-avatar> (round by
-   default) - override to the iPad/tablet shape everywhere in the card. */
-ion-avatar,
-ion-avatar img {
+/* 2026-08-16: ONLY the DEFAULT view avatar is iPad-shaped (square, rounded
+   corners) — the user's explicit choice for that one card type. The other six
+   card views keep the familiar round DP. Scoped by the class on that avatar. */
+.contact-card-content .default-view-avatar {
   border-radius: 16px !important;
+}
+
+/* 2026-08-16: the DEFAULT view label — name, company, one extra line stacked
+   vertically in the open space to the right of the avatar. */
+.default-view-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 0;
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e6e8f0;
+    margin: 0;
+  }
+  p {
+    font-size: 12px;
+    color: #8b93b0;
+    margin: 0;
+  }
+  .default-view-extra {
+    font-size: 11px;
+    color: #6fb3ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
 }
 
 .rolodex-container .card-title {
@@ -627,8 +654,7 @@ ion-avatar img {
   height: 70px;
   margin-bottom: var(--rolodex-space-3);
   border: 2px solid rgba(255, 255, 255, 0.8);
-  /* 2026-08-16: iPad/tablet shape — square with rounded corners, not round. */
-  border-radius: 16px;
+  border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
