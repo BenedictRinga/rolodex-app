@@ -1,4 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { ContactInfo } from '../models/contacts';
+import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
+import { FollowUpEngine } from '../services/followup-engine/followup-engine.service';
+import { RelationshipMonitorService, RelationshipScore } from '../services/relationship-monitor/relationship-monitor.service';
+import { BirthdayReminderService } from '../services/birthday-reminder/birthday-reminder.service';
+import { CloudSyncService } from '../services/cloud-sync/cloud-sync.service';
+import { EventService, CalendarEvent } from '../services/event/event.service';
+import { AlertsService } from '../services/alerts/alerts.service';
+import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
+import type { CloudProvider } from '../services/cloud-sync/sync.types';
+import { mockContacts } from '../data/mock-contacts';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +18,417 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  contacts: ContactInfo[] = [];
+  displayedContacts: ContactInfo[] = [];
+  sortedContacts: ContactInfo[] = [];
+  searchQuery: string = '';
+  autoSortStarted: boolean = false;
+  selectedFilter: string = 'all';
+  selectedGroup: string = 'all';
+  mockEnabled: boolean = true;
+  loading: boolean = false;
+  groups: { id: string; name: string }[] = [
+    { id: 'all', name: 'All Contacts' },
+    { id: 'family', name: 'Family' },
+    { id: 'business', name: 'Business' },
+    { id: 'friends', name: 'Friends' },
+  ];
+  selectedLanguage: string = 'en';
+  selectedFontSize: string = 'medium';
 
-  constructor() {}
+  // Automation state
+  relationshipScores: RelationshipScore[] = [];
+  followUpOverdue: ContactInfo[] = [];
+  followUpReport: { scheduled: number; skipped: number; overdue: ContactInfo[] } | null = null;
+  upcomingBirthdays: Array<{ name: string; date: Date; daysAway: number }> = [];
 
+  // Cloud sync state
+  syncProviders: CloudProvider[] = [];
+  syncProviderName: string | null = null;
+  syncConnected: boolean = false;
+  syncHasPassphrase: boolean = false;
+  syncLastPushed: string | null = null;
+  syncLastPulled: string | null = null;
+  syncBusy: boolean = false;
+
+  constructor(
+    private contactsSyncService: ContactsSyncService,
+    private followUpEngine: FollowUpEngine,
+    private relationshipMonitor: RelationshipMonitorService,
+    private birthdayReminder: BirthdayReminderService,
+    private cloudSync: CloudSyncService,
+    private eventService: EventService,
+    private alertsService: AlertsService,
+    private rolodexSync: RolodexSyncService,
+    private alertController: AlertController,
+  ) {}
+
+  async ngOnInit() {
+    // Wire passphrase prompt callback for CloudSyncService
+    this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
+    this.refreshSyncState();
+
+    await this.loadContacts();
+    await this.runAutomation();
+  }
+
+  async loadContacts() {
+    this.loading = true;
+    try {
+      this.contacts = await this.contactsSyncService.syncAllContacts();
+      if (this.contacts.length === 0) {
+        this.contacts = mockContacts;
+        // Also run automation on mock data for demo purposes
+        await this.contactsSyncService.automateContactSetup(this.contacts);
+      }
+    } catch {
+      this.contacts = mockContacts;
+      await this.contactsSyncService.automateContactSetup(this.contacts);
+    }
+    this.loading = false;
+    // 2026-08-16 DEMO SYNC: the moment contacts are ready, talk to the fresh
+    // rolodex database — the investor peek view shows this device LIVE.
+    this.rolodexSync.push(this.contacts);
+  }
+
+  /** Run the full automation pipeline — follow-ups, birthdays, health scoring. */
+  async runAutomation() {
+    if (this.contacts.length === 0) return;
+
+    // Follow-up engine: schedule recurring check-ins
+    this.followUpReport = await this.followUpEngine.run(this.contacts);
+    this.followUpOverdue = this.followUpReport.overdue;
+
+    // Relationship health scoring
+    this.relationshipScores = this.relationshipMonitor.suggestReachOut(this.contacts, 5);
+    await this.relationshipMonitor.scheduleHealthCheck();
+
+    // Birthday reminders
+    const bdayReport = await this.birthdayReminder.processUpcomingBirthdays(this.contacts);
+    this.upcomingBirthdays = bdayReport.upcoming;
+    await this.birthdayReminder.cleanupOldEntries();
+
+    console.log('[HomePage] Automation complete:', {
+      followUp: this.followUpReport,
+      topScores: this.relationshipScores.slice(0, 3),
+      birthdays: bdayReport.scheduled,
+    });
+  }
+
+  /** Manual trigger: re-run relationship scoring on current contacts. */
+  refreshRelationshipScores() {
+    this.relationshipScores = this.relationshipMonitor.suggestReachOut(this.contacts, 5);
+  }
+
+  getDormantCount(): number {
+    return this.relationshipMonitor.findDormant(this.contacts).length;
+  }
+
+  // ===== Cloud Sync ========================================================
+
+  /** Refresh local sync state display from CloudSyncService. */
+  refreshSyncState() {
+    const state = this.cloudSync.getSyncState();
+    const provider = this.cloudSync.getActiveProvider();
+    this.syncProviders = this.cloudSync.getProviders();
+    this.syncProviderName = state.provider;
+    this.syncConnected = provider?.isAuthenticated() ?? false;
+    this.syncHasPassphrase = this.cloudSync.isPassphraseSet();
+    this.syncLastPushed = state.lastPushedAt;
+    this.syncLastPulled = state.lastPulledAt;
+  }
+
+  /** Connect to a cloud provider by name (e.g. 'google-drive', 'dropbox'). */
+  async onSyncConnect(providerName: string) {
+    this.syncBusy = true;
+    try {
+      await this.cloudSync.selectProvider(providerName);
+      this.refreshSyncState();
+      this.alertsService.showToast('Connected to cloud');
+    } catch (err: any) {
+      console.error('[HomePage] Sync connect failed:', err);
+      this.alertsService.showToast(err.message ?? 'Failed to connect');
+    } finally {
+      this.syncBusy = false;
+    }
+  }
+
+  /** Disconnect current provider. */
+  async onSyncDisconnect() {
+    this.syncBusy = true;
+    try {
+      await this.cloudSync.disconnectProvider();
+      this.refreshSyncState();
+      this.alertsService.showToast('Disconnected from cloud');
+    } catch (err: any) {
+      console.error('[HomePage] Sync disconnect failed:', err);
+    } finally {
+      this.syncBusy = false;
+    }
+  }
+
+  /** Prompt user to set (or change) their encryption passphrase. */
+  async onSyncSetPassphrase() {
+    const alert = await this.alertController.create({
+      header: 'Sync Passphrase',
+      message: 'Enter a strong passphrase to encrypt your Rolodex data in the cloud. You\'ll need this on every device.',
+      inputs: [
+        {
+          name: 'passphrase',
+          type: 'password',
+          placeholder: 'Your passphrase',
+        },
+        {
+          name: 'confirm',
+          type: 'password',
+          placeholder: 'Confirm passphrase',
+        },
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Save',
+          handler: async (data: any) => {
+            if (!data.passphrase || data.passphrase.length < 4) {
+              this.alertsService.showToast('Passphrase must be at least 4 characters');
+              return false; // keep alert open
+            }
+            if (data.passphrase !== data.confirm) {
+              this.alertsService.showToast('Passphrases do not match');
+              return false;
+            }
+            this.cloudSync.setPassphrase(data.passphrase);
+            this.refreshSyncState();
+            this.alertsService.showToast('Passphrase saved');
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** Push current contacts + events to the cloud. */
+  async onSyncPush() {
+    if (!this.syncHasPassphrase) {
+      this.alertsService.showToast('Set a passphrase first');
+      return;
+    }
+    this.syncBusy = true;
+    try {
+      const events = await this.eventService.getEvents();
+      await this.cloudSync.push(this.contacts, events);
+      this.refreshSyncState();
+      this.alertsService.showToast('Pushed to cloud');
+    } catch (err: any) {
+      console.error('[HomePage] Push failed:', err);
+      this.alertsService.showToast('Push failed: ' + (err.message ?? 'Unknown error'));
+    } finally {
+      this.syncBusy = false;
+    }
+  }
+
+  /** Pull contacts + events from the cloud and merge locally. */
+  async onSyncPull() {
+    if (!this.syncHasPassphrase) {
+      this.alertsService.showToast('Set a passphrase first');
+      return;
+    }
+    this.syncBusy = true;
+    try {
+      const events = await this.eventService.getEvents();
+      const result = await this.cloudSync.sync(this.contacts, events);
+      this.contacts = result.contacts;
+      this.refreshSyncState();
+
+      // Persist pulled events
+      for (const ev of result.events) {
+        await this.eventService.saveEvent(ev, true);
+      }
+
+      const msg = result.pulled ? 'Synced — remote data merged' : 'Pushed to cloud (no remote data)';
+      this.alertsService.showToast(msg);
+
+      // Re-run automation on merged contacts
+      await this.runAutomation();
+    } catch (err: any) {
+      console.error('[HomePage] Pull failed:', err);
+      this.alertsService.showToast('Pull failed: ' + (err.message ?? 'Unknown error'));
+    } finally {
+      this.syncBusy = false;
+    }
+  }
+
+  /** Export contacts as a .rolodex file. */
+  async onSyncExportLocal() {
+    try {
+      const events = await this.eventService.getEvents();
+      this.cloudSync.exportLocal(this.contacts, events);
+      this.alertsService.showToast('Exported .rolodex file');
+    } catch (err: any) {
+      console.error('[HomePage] Export failed:', err);
+    }
+  }
+
+  /** Import contacts from a .rolodex file. */
+  async onSyncImportLocal() {
+    try {
+      const bundle = await this.cloudSync.importLocal();
+      if (!bundle) return; // user cancelled or invalid file
+
+      // Merge imported contacts with local (newest wins)
+      const mergedMap = new Map<string, ContactInfo>();
+      for (const c of this.contacts) mergedMap.set(c.contactId, c);
+      for (const c of bundle.contacts) {
+        const existing = mergedMap.get(c.contactId);
+        if (!existing || (c.updatedAt && (!existing.updatedAt || c.updatedAt > existing.updatedAt))) {
+          mergedMap.set(c.contactId, c);
+        }
+      }
+      this.contacts = Array.from(mergedMap.values());
+
+      // Import events
+      for (const ev of bundle.events ?? []) {
+        await this.eventService.saveEvent(ev, true);
+      }
+
+      this.alertsService.showToast(`Imported ${bundle.contacts.length} contacts`);
+      await this.runAutomation();
+    } catch (err: any) {
+      console.error('[HomePage] Import failed:', err);
+      this.alertsService.showToast('Import failed');
+    }
+  }
+
+  /** Callback used by CloudSyncService to request the passphrase at sync time. */
+  private async promptForPassphrase(): Promise<string | null> {
+    return new Promise((resolve) => {
+      this.alertController.create({
+        header: 'Enter Passphrase',
+        message: 'Enter your sync passphrase to encrypt/decrypt your data.',
+        inputs: [{ name: 'passphrase', type: 'password', placeholder: 'Passphrase' }],
+        buttons: [
+          { text: 'Cancel', role: 'cancel', handler: () => resolve(null) },
+          { text: 'OK', handler: (data: any) => resolve(data.passphrase ?? null) },
+        ],
+      }).then(alert => alert.present());
+    });
+  }
+
+  // ===== Event handlers ====================================================
+
+  onChatContact(contact: ContactInfo) {
+    console.log('Chat with:', contact.name?.display);
+  }
+
+  onAudioCallContact(contact: ContactInfo) {
+    console.log('Audio call:', contact.name?.display);
+  }
+
+  onVideoCallContact(contact: ContactInfo) {
+    console.log('Video call:', contact.name?.display);
+  }
+
+  onScheduleEvent(event: { contact: ContactInfo; event: any }) {
+    console.log('Schedule event:', event);
+  }
+
+  onToggleDetails(contact: ContactInfo) {
+    contact.showDetails = !contact.showDetails;
+  }
+
+  onEditContact(contact: ContactInfo) {
+    console.log('Edit contact:', contact.name?.display);
+  }
+
+  onRemoveContact(contact: ContactInfo) {
+    this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
+  }
+
+  onContactTap(contact: ContactInfo) {
+    console.log('Contact tapped:', contact.name?.display);
+  }
+
+  onContactsChange(contacts: ContactInfo[]) {
+    this.contacts = contacts;
+  }
+
+  onAutoSort() {
+    console.log('Auto sort triggered');
+  }
+
+  onLoadMoreAutoSort() {
+    console.log('Load more auto sort');
+  }
+
+  onApplyFilter() {
+    console.log('Apply filter:', this.selectedFilter);
+  }
+
+  onApplyGroupFilter(event: any) {
+    console.log('Apply group filter:', event);
+  }
+
+  onToggleWelcome() {
+    this.mockEnabled = !this.mockEnabled;
+    if (!this.mockEnabled) {
+      this.contacts = [];
+    } else {
+      this.contacts = mockContacts;
+    }
+  }
+
+  onMockDataRepeat() {
+    this.contacts = this.contacts.length ? [] : mockContacts;
+  }
+
+  onInitMap(mapElement: HTMLElement) {
+    console.log('Map initialized');
+  }
+
+  onCreateContact() {
+    console.log('Create new contact');
+  }
+
+  onAcceptAutoSort() {
+    this.autoSortStarted = false;
+  }
+
+  onRestartAutoSort() {
+    this.autoSortStarted = true;
+  }
+
+  onCancelAutoSort() {
+    this.autoSortStarted = false;
+  }
+
+  onResetFilters() {
+    this.selectedFilter = 'all';
+    this.selectedGroup = 'all';
+  }
+
+  onToggleTheme(dark: boolean) {
+    document.body.classList.toggle('dark', dark);
+  }
+
+  onToggleNotifications(enabled: boolean) {
+    console.log('Notifications:', enabled ? 'on' : 'off');
+  }
+
+  onChangeLanguage(lang: string) {
+    this.selectedLanguage = lang;
+  }
+
+  onChangeFontSize(size: string) {
+    this.selectedFontSize = size;
+  }
+
+  onGoToPrivacySettings() {
+    console.log('Privacy settings');
+  }
+
+  onShowAbout() {
+    console.log('About Rolodex');
+  }
 }
