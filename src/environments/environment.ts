@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  rolodexApiBase: 'https://zyppar.com/api/rolodex' // 2026-08-16: dev builds must type-check too (IDE-caught TS2339)
 };
 
 /*
