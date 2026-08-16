@@ -7,11 +7,6 @@
     </ion-buttons>
     <ion-title style="font-size: 15px;">Reminders & follow-ups</ion-title>
     <ion-buttons slot="end">
-      <!-- 2026-08-16: the doorway to SET a reminder. -->
-      <ion-button (click)="addReminder()" style="font-size: 12px; --padding-start: 8px; --padding-end: 8px;">
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-        Add
-      </ion-button>
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
       </ion-button>
@@ -20,6 +15,21 @@
 </ion-header>
 
 <ion-content>
+  <!-- 2026-08-16 THE SET-FORM: always visible, no alert quirks — pick the
+       contact, write the note, choose the date, tap Set. -->
+  <div class="add-reminder-form">
+    <ion-select class="arm-select" placeholder="Contact" [(ngModel)]="formContactId">
+      <ion-select-option *ngFor="let c of contacts" [value]="c?.contactId">{{ c?.name?.display }}</ion-select-option>
+    </ion-select>
+    <ion-input class="arm-note" placeholder="Remind me to…" [(ngModel)]="formNote"></ion-input>
+    <div class="arm-row">
+      <ion-input class="arm-date" type="date" [(ngModel)]="formDate"></ion-input>
+      <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote?.trim() || !formContactId">
+        Set
+      </ion-button>
+    </div>
+  </div>
+
   <ion-list lines="full">
     <ion-item *ngFor="let r of reminders">
       <ion-icon name="alarm-outline" slot="start" style="color:#f5a524;"></ion-icon>
@@ -45,6 +55,6 @@
   </ion-list>
   <div *ngIf="!reminders.length && !followUps.length && !birthdays.length"
     style="padding: 40px 20px; text-align: center; color:#8b93b0; font-size: 13px;">
-    Nothing scheduled yet — tap the alarm on any card to set a reminder.
+    Nothing scheduled yet — use the form above to set your first reminder.
   </div>
 </ion-content>

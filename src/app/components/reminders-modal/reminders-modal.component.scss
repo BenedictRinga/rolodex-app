@@ -1,3 +1,44 @@
 ion-content {
   --background: var(--rolodex-bg, #12141c);
 }
+
+/* 2026-08-16 THE SET-FORM — always visible at the top of the reminders list. */
+.add-reminder-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #1a1e2b;
+  border-bottom: 1px solid #2a2e40;
+}
+
+.arm-select,
+.arm-note {
+  --background: #232738;
+  --color: #e6e8f0;
+  border-radius: 10px;
+  --padding-start: 12px;
+  font-size: 13px;
+}
+
+.arm-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arm-date {
+  flex: 1;
+  --background: #232738;
+  --color: #e6e8f0;
+  border-radius: 10px;
+  --padding-start: 12px;
+  font-size: 13px;
+}
+
+.arm-set {
+  --padding-start: 14px;
+  --padding-end: 14px;
+  min-height: 34px;
+  font-size: 13px;
+}

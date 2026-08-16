@@ -9,11 +9,12 @@ interface ReminderRow {
 
 /**
  * 2026-08-16 REMINDERS SECTION: every reminder across contacts + upcoming
- * follow-ups + birthdays in one place — the "button to open that section" the
- * app was missing. Card-level alarms feed the reminders; follow-ups come from
- * rolodex.nextInteraction; birthdays from the contact birthday fields.
- * The header "Add" button is the doorway to ENTER a new reminder: pick the
- * contact, write the note, choose the date — it lands on the card immediately.
+ * follow-ups + birthdays in one place. The inline set-form at the top is the
+ * doorway to ENTER a reminder: pick the contact, write the note, choose the
+ * date, tap Set — it lands on the card and in the list immediately.
+ * (The earlier Ionic alert mixed radio + text inputs in one dialog — Ionic
+ * radio alerts don't render non-radio inputs, so that form was dead. The
+ * inline form avoids the alert entirely.)
  */
 @Component({
   selector: 'app-reminders-modal',
@@ -27,6 +28,11 @@ export class RemindersModalComponent {
   reminders: ReminderRow[] = [];
   followUps: ReminderRow[] = [];
   birthdays: ReminderRow[] = [];
+
+  // 2026-08-16 THE SET-FORM state (always visible in the modal).
+  formContactId = '';
+  formNote = '';
+  formDate: string = new Date().toISOString().slice(0, 10);
 
   ngOnInit() {
     this.buildRows();
@@ -52,55 +58,28 @@ export class RemindersModalComponent {
     this.followUps.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
-  /** The doorway to SET a reminder — contact, note, date. */
-  async addReminder(): Promise<void> {
-    const contactOptions = (this.contacts || []).map((c: any) => ({
-      type: 'radio' as const,
-      label: c?.name?.display || 'Contact',
-      value: c?.contactId || '',
-      checked: false,
-    }));
-    if (!contactOptions.length) {
-      const a = await this.alertCtrl.create({
-        header: 'No contacts yet',
-        message: 'Add contacts first, then set reminders for them.',
-        buttons: ['OK'],
-      });
-      await a.present();
+  /** Submit the inline form — contact, note, date -> lands on the card. */
+  submitReminder(): void {
+    const contact = (this.contacts || []).find((c: any) => String(c?.contactId) === String(this.formContactId));
+    const note = String(this.formNote || '').trim();
+    if (!contact) {
+      void this.alertCtrl.create({ header: 'Choose a contact', message: 'Pick who this reminder is for.', buttons: ['OK'] }).then((a) => a.present());
       return;
     }
-    const alert = await this.alertCtrl.create({
-      header: 'Set a reminder',
-      inputs: [
-        ...contactOptions,
-        { name: 'note', type: 'text', placeholder: 'Remind me to…' },
-        { name: 'date', type: 'date', value: new Date().toISOString().slice(0, 10) },
-      ],
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Set reminder',
-          handler: (data: any) => {
-            const contact = (this.contacts || []).find((c: any) => String(c?.contactId) === String(data?.contactId));
-            const note = String(data?.note || '').trim();
-            if (!contact) {
-              void this.alertCtrl.create({ header: 'Choose a contact', message: 'Pick who this reminder is for.', buttons: ['OK'] }).then((a) => a.present());
-              return false;
-            }
-            if (!note) {
-              void this.alertCtrl.create({ header: 'Write the note', message: 'What should the reminder say?', buttons: ['OK'] }).then((a) => a.present());
-              return false;
-            }
-            const when = data?.date ? new Date(String(data.date) + 'T09:00:00') : new Date();
-            contact.reminders = [...(contact.reminders || []), { note, date: when }];
-            contact.updatedAt = new Date();
-            this.buildRows();
-            return true;
-          },
-        },
-      ],
-    });
-    await alert.present();
+    if (!note) {
+      void this.alertCtrl.create({ header: 'Write the note', message: 'What should the reminder say?', buttons: ['OK'] }).then((a) => a.present());
+      return;
+    }
+    const when = this.formDate ? new Date(this.formDate + 'T09:00:00') : new Date();
+    contact.reminders = [...(contact.reminders || []), { note, date: when }];
+    contact.updatedAt = new Date();
+    this.buildRows();
+    this.formContactId = '';
+    this.formNote = '';
+    this.formDate = new Date().toISOString().slice(0, 10);
+    void this.alertCtrl
+      .create({ header: 'Reminder set', message: `"${note}" for ${contact?.name?.display || 'this contact'}.`, buttons: ['OK'] })
+      .then((a) => a.present());
   }
 
   close(): void {
