@@ -59,6 +59,22 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   public RolodexView = RolodexView;
   showDetails: boolean = false;
   avatarImage: string = 'assets/icons/zypparClear.png';
+
+  /** 2026-08-16 DE-STUB: when a contact has no photo, render a deterministic
+   *  colored-initial avatar (offline SVG data-URI) instead of the Zyppar logo —
+   *  the demo list must look like real people, not a placeholder brand. */
+  avatarFor(contact: any): string {
+    if (contact?.image?.base64String) return contact.image.base64String;
+    const raw = contact?.name?.display || contact?.nickname || (contact as any)?.firstName || '';
+    const name = String(raw || '?');
+    const initials = name.split(/\s+/).filter(Boolean).map((p: string) => p[0]).slice(0, 2).join('').toUpperCase() || '?';
+    const palette = ['#4f6df5', '#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#84cc16', '#f97316'];
+    let h = 0;
+    for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    const color = palette[h % palette.length];
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" rx="48" fill="${color}"/><text x="48" y="60" font-family="system-ui,sans-serif" font-size="34" font-weight="600" fill="#ffffff" text-anchor="middle">${initials}</text></svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
   editedContact: ContactInfo = {} as ContactInfo;
   contactForm!: FormGroup;
   showNameDetails = false;

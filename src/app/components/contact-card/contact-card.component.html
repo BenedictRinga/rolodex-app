@@ -6,7 +6,7 @@
             <!-- Main card area triggers onContactTap -->
             <div class="contact-card-content" (click)="onContactTap(contact, $event)">
               <ion-avatar slot="start">
-                <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                   (error)="handleImageError($event)">
               </ion-avatar>
               <ion-label>
@@ -51,7 +51,7 @@
               <!-- Front Side -->
               <div class="card-front">
                 <ion-avatar class="rolodex-avatar">
-                  <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)" />
                 </ion-avatar>
                 <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
@@ -156,7 +156,7 @@
           <!-- Header Section -->
           <ion-card-header class="card-header">
             <ion-avatar class="professional-avatar">
-              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
             </ion-avatar>
             <ion-card-title class="card-title">
               {{ contact.name?.display || 'Unknown Contact' }}
@@ -228,7 +228,7 @@
           <!-- Header: Image and Name -->
           <ion-card-header class="family-header">
             <ion-avatar class="family-avatar">
-              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                 (error)="handleImageError($event)" />
             </ion-avatar>
             <ion-card-title class="family-title">
@@ -341,7 +341,7 @@
       <ng-container *ngSwitchCase="'compact'">
         <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
           <div class="grid-container">
-            <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)" />
+            <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
             <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
@@ -352,7 +352,7 @@
       <ng-container *ngSwitchCase="'list'">
         <ion-item *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
           <div class="grid-container">
-            <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)" />
+            <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
             <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
@@ -365,7 +365,7 @@
           <div class="social-card" *ngFor="let contact of contacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
             <!-- Social Header -->
             <div class="social-header">
-              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
               <div class="social-info">
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ contact.organization?.company || 'No Company Info' }}</p>
@@ -443,7 +443,7 @@
               {{ contact.rolodex?.when || 'No Date' }}
             </div>
             <div class="timeline-content">
-              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
               <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
               <p>{{ contact.organization?.company || 'No Company Info' }}</p>
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
@@ -459,7 +459,7 @@
               {{ contact.rolodex?.when || 'No Date' }}
             </div>
             <div class="timeline-content">
-              <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image" (error)="handleImageError($event)">
+              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
               <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
               <p>{{ contact.organization?.company || 'No Company Info' }}</p>
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
@@ -478,7 +478,7 @@
               <!-- Main card area triggers onContactTap -->
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
                 <ion-avatar slot="start">
-                  <img [src]="contact.image?.base64String || avatarImage" alt="Contact Image"
+                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)">
                 </ion-avatar>
                 <ion-label>
