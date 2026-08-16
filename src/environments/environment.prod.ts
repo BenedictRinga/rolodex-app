@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  rolodexApiBase: 'https://zyppar.com/api/rolodex' // 2026-08-16: the fresh rolodex sync backend (same droplet)
+  rolodexApiBase: 'https://zyppar.com/api/rolodex', // the fresh rolodex sync backend (same droplet)
+  version: '0.1.0', // RolodexAI app version — compared against /api/rolodex/version
 };

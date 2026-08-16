@@ -3,6 +3,19 @@
    Full-bleed layout hosting the rolodex component.
    ═══════════════════════════════════════════════════════ */
 
+/* 2026-08-16: flex column — the rolodex host scrolls inside, no bottom cut-off. */
+.home-flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+app-rolodex {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
 /* 2026-08-16: compact storage header for mobile — smaller segment + button fonts. */
 .storage-segment {
   --height: 24px;

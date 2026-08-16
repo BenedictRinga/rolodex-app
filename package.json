@@ -40,7 +40,8 @@
     "ionicons": "^7.0.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.0"
+    "zone.js": "~0.14.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.0",

@@ -9,6 +9,7 @@ import { CloudSyncService } from '../services/cloud-sync/cloud-sync.service';
 import { EventService, CalendarEvent } from '../services/event/event.service';
 import { AlertsService } from '../services/alerts/alerts.service';
 import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
+import { SocketChatService } from '../services/socket-chat/socket-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
@@ -69,6 +70,7 @@ export class HomePage implements OnInit {
     private rolodexSync: RolodexSyncService,
     private modalController: ModalController,
     private alertController: AlertController,
+    private socketChat: SocketChatService,
   ) {}
 
   async ngOnInit() {
@@ -118,6 +120,14 @@ export class HomePage implements OnInit {
     const code = String(event?.detail?.value || '').trim();
     this.rolodexSync.setRoom(code);
     this.rolodexSync.push(this.contacts);
+    // 2026-08-16 SOCKET CHAT: joining the room joins the live chat too.
+    if (code) {
+      try {
+        this.socketChat.connect(code, 'Rolodex demo');
+      } catch {
+        /* live chat is best-effort; the local demo still works */
+      }
+    }
   }
 
   // ================================================================

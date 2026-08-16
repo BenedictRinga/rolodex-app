@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
+import { SocketChatService } from '../socket-chat/socket-chat.service';
 
 export interface ChatMessage {
   id: string;
@@ -29,7 +30,29 @@ const PREFIX = 'rolodex-chat-v1:';
   providedIn: 'root',
 })
 export class CardChatService {
-  constructor(private readonly storage: StorageService) {}
+  constructor(
+    private readonly storage: StorageService,
+    private readonly socketChat: SocketChatService,
+  ) {
+    // 2026-08-16 SOCKET: incoming cross-device messages land in their thread
+    // (contactId or pod:<group> via the `key` the sender attached).
+    this.socketChat.onMessage((msg) => {
+      const key = (msg as any).key || '';
+      if (!key) return;
+      void this.appendRemote(key, msg.name || 'Them', msg.text, new Date(msg.ts || Date.now()).toISOString());
+    });
+  }
+
+  private async appendRemote(key: string, name: string, text: string, at: string): Promise<void> {
+    try {
+      const thread = await this.loadThread(key);
+      if (!thread) return;
+      thread.messages = [...thread.messages, { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6), from: 'them', text, at }];
+      await this.saveThread(thread);
+    } catch {
+      /* local-only best effort */
+    }
+  }
 
   async loadThread(key: string): Promise<ChatThread | null> {
     try {
@@ -135,6 +158,8 @@ export class CardChatService {
     };
     thread.messages = [...thread.messages, me, them];
     await this.saveThread(thread);
+    // 2026-08-16 SOCKET: push to the demo room so the peer device sees it live.
+    try { this.socketChat.send(clean, thread.key); } catch { /* offline demo still works */ }
     return thread;
   }
 

@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">Reminders & follow-ups</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item *ngFor="let r of reminders">
+      <ion-icon name="alarm-outline" slot="start" style="color:#f5a524;"></ion-icon>
+      <ion-label>
+        <h2 style="font-size: 14px; color:#e6e8f0;">{{ r.note }}</h2>
+        <p style="font-size: 11px; color:#8b93b0;">{{ r.contact }} · {{ r.date | date: 'MMM d, yyyy' }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let f of followUps">
+      <ion-icon name="time-outline" slot="start" style="color:#2f6bff;"></ion-icon>
+      <ion-label>
+        <h2 style="font-size: 14px; color:#e6e8f0;">{{ f.note }}</h2>
+        <p style="font-size: 11px; color:#8b93b0;">{{ f.contact }} · follow-up {{ f.date | date: 'MMM d, yyyy' }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngFor="let b of birthdays">
+      <ion-icon name="gift-outline" slot="start" style="color:#ec4899;"></ion-icon>
+      <ion-label>
+        <h2 style="font-size: 14px; color:#e6e8f0;">{{ b.contact }}</h2>
+        <p style="font-size: 11px; color:#8b93b0;">Birthday {{ b.date | date: 'MMM d' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="!reminders.length && !followUps.length && !birthdays.length"
+    style="padding: 40px 20px; text-align: center; color:#8b93b0; font-size: 13px;">
+    Nothing scheduled yet — tap the alarm on any card to set a reminder.
+  </div>
+</ion-content>

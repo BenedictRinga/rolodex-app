@@ -1,2 +1,249 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+/* ═══════════════════════════════════════════════════════
+   ROLODEX DESIGN SYSTEM — "Warm Modern"
+   Purpose-built for relationship nurturing. Every color,
+   spacing, and shadow choice is intentional: warm enough
+   to feel human, crisp enough to feel premium.
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand ────────────────────────────────────────── */
+  --rolodex-primary: #FF6B35;
+  --rolodex-primary-rgb: 255, 107, 53;
+  --rolodex-primary-light: #FF8C5A;
+  --rolodex-primary-dark: #E55A2B;
+  --rolodex-primary-contrast: #FFFFFF;
+
+  --rolodex-accent: #FFD93D;
+  --rolodex-accent-rgb: 255, 217, 61;
+  --rolodex-accent-light: #FFE670;
+  --rolodex-accent-dark: #E6C235;
+
+  /* ── Neutrals ────────────────────────────────────── */
+  --rolodex-bg: #FAF8F5;
+  --rolodex-bg-rgb: 250, 248, 245;
+  --rolodex-surface: #FFFFFF;
+  --rolodex-surface-alt: #F5F1EC;
+  --rolodex-surface-alt-rgb: 245, 241, 236;
+
+  --rolodex-text: #1E2328;
+  --rolodex-text-rgb: 30, 35, 40;
+  --rolodex-text-secondary: #70757A;
+  --rolodex-text-tertiary: #9BA1A6;
+
+  --rolodex-border: #E8E3DE;
+  --rolodex-border-light: #F2EFEB;
+
+  /* ── Semantic ────────────────────────────────────── */
+  --rolodex-success: #00C853;
+  --rolodex-success-rgb: 0, 200, 83;
+  --rolodex-warning: #FFB300;
+  --rolodex-warning-rgb: 255, 179, 0;
+  --rolodex-danger: #EF476F;
+  --rolodex-danger-rgb: 239, 71, 111;
+  --rolodex-info: #5BA4FC;
+  --rolodex-info-rgb: 91, 164, 252;
+
+  /* ── Gradients ───────────────────────────────────── */
+  --rolodex-gradient-brand: linear-gradient(135deg, #FF6B35, #FF8C5A);
+  --rolodex-gradient-warm: linear-gradient(135deg, #FF6B35, #FFD93D);
+  --rolodex-gradient-cool: linear-gradient(135deg, #5BA4FC, #7C5CFC);
+  --rolodex-gradient-success: linear-gradient(135deg, #00C853, #64DD17);
+
+  /* ── Typography ──────────────────────────────────── */
+  --rolodex-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --rolodex-font-display: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --rolodex-font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+
+  --rolodex-text-xs: 0.70rem;    /* 11px */
+  --rolodex-text-sm: 0.8125rem;  /* 13px */
+  --rolodex-text-base: 0.9375rem;/* 15px */
+  --rolodex-text-md: 1.0625rem;  /* 17px */
+  --rolodex-text-lg: 1.25rem;    /* 20px */
+  --rolodex-text-xl: 1.5rem;     /* 24px */
+  --rolodex-text-2xl: 1.875rem;  /* 30px */
+  --rolodex-text-3xl: 2.25rem;   /* 36px */
+
+  --rolodex-font-normal: 400;
+  --rolodex-font-medium: 500;
+  --rolodex-font-semibold: 600;
+  --rolodex-font-bold: 700;
+
+  --rolodex-leading-tight: 1.15;
+  --rolodex-leading-normal: 1.5;
+  --rolodex-leading-relaxed: 1.65;
+
+  /* ── Spacing ─────────────────────────────────────── */
+  --rolodex-space-1: 4px;
+  --rolodex-space-2: 8px;
+  --rolodex-space-3: 12px;
+  --rolodex-space-4: 16px;
+  --rolodex-space-5: 20px;
+  --rolodex-space-6: 24px;
+  --rolodex-space-8: 32px;
+  --rolodex-space-10: 40px;
+  --rolodex-space-12: 48px;
+
+  /* ── Radii ───────────────────────────────────────── */
+  --rolodex-radius-sm: 8px;
+  --rolodex-radius-md: 12px;
+  --rolodex-radius-lg: 16px;
+  --rolodex-radius-xl: 24px;
+  --rolodex-radius-pill: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────── */
+  --rolodex-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --rolodex-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --rolodex-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --rolodex-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
+  --rolodex-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --rolodex-shadow-glow: 0 0 24px rgba(255, 107, 53, 0.15);
+
+  /* ── Transitions ─────────────────────────────────── */
+  --rolodex-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --rolodex-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --rolodex-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --rolodex-duration-fast: 150ms;
+  --rolodex-duration-normal: 250ms;
+  --rolodex-duration-slow: 400ms;
+
+  /* ── Ionic overrides (light) ────────────────────── */
+  --ion-color-primary: var(--rolodex-primary);
+  --ion-color-primary-rgb: var(--rolodex-primary-rgb);
+  --ion-color-primary-contrast: var(--rolodex-primary-contrast);
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: var(--rolodex-primary-dark);
+  --ion-color-primary-tint: var(--rolodex-primary-light);
+
+  --ion-color-secondary: #5BA4FC;
+  --ion-color-secondary-rgb: 91, 164, 252;
+  --ion-color-secondary-contrast: #FFFFFF;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #5090DE;
+  --ion-color-secondary-tint: #6BB0FD;
+
+  --ion-color-tertiary: #7C5CFC;
+  --ion-color-tertiary-rgb: 124, 92, 252;
+  --ion-color-tertiary-contrast: #FFFFFF;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #6D51DE;
+  --ion-color-tertiary-tint: #896DFD;
+
+  --ion-color-success: var(--rolodex-success);
+  --ion-color-success-rgb: var(--rolodex-success-rgb);
+  --ion-color-success-contrast: #FFFFFF;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #00B049;
+  --ion-color-success-tint: #1AD264;
+
+  --ion-color-warning: var(--rolodex-warning);
+  --ion-color-warning-rgb: var(--rolodex-warning-rgb);
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #E09D00;
+  --ion-color-warning-tint: #FFBB1A;
+
+  --ion-color-danger: var(--rolodex-danger);
+  --ion-color-danger-rgb: var(--rolodex-danger-rgb);
+  --ion-color-danger-contrast: #FFFFFF;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #D23E62;
+  --ion-color-danger-tint: #F16283;
+
+  --ion-color-dark: #1E2328;
+  --ion-color-dark-rgb: 30, 35, 40;
+  --ion-color-dark-contrast: #FFFFFF;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1A1F23;
+  --ion-color-dark-tint: #34393E;
+
+  --ion-color-medium: #9BA1A6;
+  --ion-color-medium-rgb: 155, 161, 166;
+  --ion-color-medium-contrast: #FFFFFF;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #888E92;
+  --ion-color-medium-tint: #A5AAB0;
+
+  --ion-color-light: #F5F1EC;
+  --ion-color-light-rgb: 245, 241, 236;
+  --ion-color-light-contrast: #1E2328;
+  --ion-color-light-contrast-rgb: 30, 35, 40;
+  --ion-color-light-shade: #D8D4D0;
+  --ion-color-light-tint: #F6F3EE;
+
+  /* ── Background & surface (light) ────────────────── */
+  --ion-background-color: var(--rolodex-bg);
+  --ion-background-color-rgb: var(--rolodex-bg-rgb);
+  --ion-text-color: var(--rolodex-text);
+  --ion-text-color-rgb: var(--rolodex-text-rgb);
+  --ion-item-background: var(--rolodex-surface);
+  --ion-border-color: var(--rolodex-border);
+  --ion-toolbar-background: var(--rolodex-surface);
+  --ion-tab-bar-background: var(--rolodex-surface);
+
+  /* ── Inputs ──────────────────────────────────────── */
+  --ion-input-custom-color: var(--rolodex-text);
+}
+
+/* ═══════════════════════════════════════════════════════
+   DARK MODE
+   User-triggered via body.dark class. System-level dark mode
+   is handled by Ionic's dark.system.css import in global.scss.
+   ═══════════════════════════════════════════════════════ */
+body.dark {
+  :root {
+    --rolodex-bg: #0F1115;
+    --rolodex-bg-rgb: 15, 17, 21;
+    --rolodex-surface: #1A1D23;
+    --rolodex-surface-alt: #1F2228;
+    --rolodex-surface-alt-rgb: 31, 34, 40;
+
+    --rolodex-text: #EAECF0;
+    --rolodex-text-rgb: 234, 236, 240;
+    --rolodex-text-secondary: #9BA1A6;
+    --rolodex-text-tertiary: #6B7280;
+
+    --rolodex-border: #2D3138;
+    --rolodex-border-light: #252830;
+
+    --rolodex-primary: #FF7B4D;
+    --rolodex-primary-rgb: 255, 123, 77;
+    --rolodex-primary-dark: #E56A40;
+    --rolodex-primary-light: #FF9466;
+
+    --ion-color-primary: var(--rolodex-primary);
+    --ion-color-primary-rgb: var(--rolodex-primary-rgb);
+    --ion-color-primary-shade: var(--rolodex-primary-dark);
+    --ion-color-primary-tint: var(--rolodex-primary-light);
+
+    --ion-color-dark: #EAECF0;
+    --ion-color-dark-rgb: 234, 236, 240;
+    --ion-color-dark-contrast: #0F1115;
+    --ion-color-dark-contrast-rgb: 15, 17, 21;
+    --ion-color-dark-shade: #CED0D4;
+    --ion-color-dark-tint: #ECEEF2;
+
+    --ion-color-light: #1F2228;
+    --ion-color-light-rgb: 31, 34, 40;
+    --ion-color-light-contrast: #EAECF0;
+    --ion-color-light-contrast-rgb: 234, 236, 240;
+    --ion-color-light-shade: #1B1E23;
+    --ion-color-light-tint: #35383E;
+
+    --ion-background-color: var(--rolodex-bg);
+    --ion-background-color-rgb: var(--rolodex-bg-rgb);
+    --ion-text-color: var(--rolodex-text);
+    --ion-text-color-rgb: var(--rolodex-text-rgb);
+    --ion-item-background: var(--rolodex-surface);
+    --ion-border-color: var(--rolodex-border);
+    --ion-toolbar-background: var(--rolodex-surface);
+    --ion-tab-bar-background: var(--rolodex-surface);
+
+    /* Dark-adapted shadows */
+    --rolodex-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --rolodex-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --rolodex-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --rolodex-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --rolodex-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4);
+    --rolodex-shadow-glow: 0 0 24px rgba(255, 123, 77, 0.2);
+  }
+}

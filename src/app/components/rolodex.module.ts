@@ -8,6 +8,7 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { TooltipDirective } from '../directives/tooltip/tooltip.directive';
 import { CardChatModalComponent } from './card-chat-modal/card-chat-modal.component';
 import { PodsModalComponent } from './pods-modal/pods-modal.component';
+import { RemindersModalComponent } from './reminders-modal/reminders-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PodsModalComponent } from './pods-modal/pods-modal.component';
     TooltipDirective,
     CardChatModalComponent,
     PodsModalComponent,
+    RemindersModalComponent,
   ],
   imports: [
     CommonModule,

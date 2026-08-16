@@ -11,6 +11,8 @@ import type { CloudProvider } from '../../services/cloud-sync/sync.types';
 import { ModalController } from '@ionic/angular';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
+import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
+import { UpdatesService } from '../../services/updates/updates.service';
 
 @Component({
   selector: 'app-rolodex',
@@ -120,8 +122,49 @@ export class RolodexComponent implements OnInit {
     private alertService: AlertsService,
     private eventService: EventService,
     private modalController: ModalController,
-    private cardChat: CardChatService
+    private cardChat: CardChatService,
+    private updatesService: UpdatesService,
   ) { }
+
+  /** 2026-08-16 REMINDERS: the section — alarms, follow-ups, birthdays. */
+  async openReminders(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: RemindersModalComponent,
+      componentProps: { contacts: this.contacts },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.8, 0.9],
+      initialBreakpoint: 0.8,
+    });
+    await modal.present();
+  }
+
+  /** 2026-08-16 UPDATES: polite automatic check + critical notice. */
+  updateCurrent: string = this.updatesService.appVersion;
+  updateAvailable = false;
+
+  async checkForUpdates(): Promise<void> {
+    const result = await this.updatesService.check();
+    this.updateCurrent = result.current;
+    this.updateAvailable = result.available;
+    if (result.available) {
+      await this.alertService.alertPrompt({
+        header: 'A critical update is available',
+        message: `RolodexAI v${result.server} is live (you're on v${result.current}). Refresh the app to apply it — your contacts are safe.`,
+      });
+      if (this.updateAvailable) {
+        try {
+          window.location.reload();
+        } catch {
+          /* reload best-effort */
+        }
+      }
+    } else {
+      await this.alertService.alertPrompt({
+        header: 'Up to date',
+        message: `You're on v${result.current} — the latest.`,
+      });
+    }
+  }
 
   /** 2026-08-16 PODS: group threads derived from the contacts' groups. */
   async openPods(): Promise<void> {
@@ -138,6 +181,17 @@ export class RolodexComponent implements OnInit {
 
   ngOnInit() {
     this.loadViewMode();
+    // 2026-08-16 UPDATES: polite boot check — one notice per session if live.
+    void (async () => {
+      try {
+        if (await this.updatesService.noticeIfCritical()) {
+          this.updateAvailable = true;
+          this.updateCurrent = this.updatesService.appVersion;
+        }
+      } catch {
+        /* quiet */
+      }
+    })();
     // 2026-08-16: capture the PWA install prompt (Chrome) so the web install
     // path can offer it later (mirrors Zyppar's appInstaller pattern).
     if (typeof window !== 'undefined') {
