@@ -4,7 +4,7 @@
   <div style="padding: 8px 12px 4px; border-bottom: 1px solid #333; display:flex; align-items:center; justify-content:space-between;">
     <div style="flex:1;">
       <ion-label style="font-size: 12px; color: #8b93b0;">Where your contacts live</ion-label>
-      <ion-segment [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
+      <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
         <ion-segment-button value="device">Device</ion-segment-button>
         <ion-segment-button value="cloud">Cloud</ion-segment-button>
         <ion-segment-button value="rolodex-server">Rolodex Server</ion-segment-button>

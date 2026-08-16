@@ -8,7 +8,7 @@
     "start": "node node_modules/@angular/cli/bin/ng.js serve --port 4400 --open",
     "start:prod": "node node_modules/@angular/cli/bin/ng.js serve --port 4400 --configuration production",
     "build": "node node_modules/@angular/cli/bin/ng.js build --configuration development",
-    "build:prod": "MSYS_NO_PATHCONV=1 node node_modules/@angular/cli/bin/ng.js build --configuration production --base-href /rolodex/ && node scripts/fix-static-blocks.cjs",
+    "build:prod": "node node_modules/@angular/cli/bin/ng.js build --configuration production --base-href /rolodex/ && node scripts/fix-static-blocks.cjs",
     "watch": "node node_modules/@angular/cli/bin/ng.js build --watch --configuration development",
     "test": "node node_modules/@angular/cli/bin/ng.js test",
     "lint": "node node_modules/@angular/cli/bin/ng.js lint"
