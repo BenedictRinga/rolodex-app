@@ -26,7 +26,7 @@ export interface HelpFeature {
   </ion-header>
   <ion-content class="ion-padding">
     <h2 style="margin:0 0 4px; font-size:18px;">Your people, kept right.</h2>
-    <p style="margin:0 0 14px; color:#8b93b0; font-size:13px;">
+    <p style="margin:0 0 14px; color:var(--rolodex-text-secondary); font-size:13px;">
       Everything below is live in this app — tap <b>Go</b> on any feature to jump to it.
     </p>
 
@@ -35,13 +35,13 @@ export interface HelpFeature {
       <ion-item *ngFor="let f of group.features" style="--padding-start:0;">
         <ion-label>
           <b>{{ f.title }}</b>
-          <p style="font-size:12px; white-space:normal; color:#8b93b0; margin:2px 0 0;">{{ f.guide }}</p>
+          <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">{{ f.guide }}</p>
         </ion-label>
         <ion-button slot="end" size="small" fill="outline" *ngIf="f.goLabel" (click)="go(f)">{{ f.goLabel }}</ion-button>
       </ion-item>
     </ng-container>
 
-    <p style="margin-top:18px; color:#8b93b0; font-size:12px;">
+    <p style="margin-top:18px; color:var(--rolodex-text-secondary); font-size:12px;">
       Built on your device first — then Cloud or the Rolodex Server, your choice.
     </p>
   </ion-content>

@@ -17,14 +17,14 @@
 <ion-content>
   <ion-list lines="full">
     <ion-item button *ngFor="let pod of pods" (click)="openPod(pod.name)">
-      <ion-icon name="people-outline" slot="start" style="color:#8b93b0;"></ion-icon>
+      <ion-icon name="people-outline" slot="start" style="color: var(--rolodex-text-secondary);"></ion-icon>
       <ion-label>
-        <h2 style="font-size: 14px; color:#e6e8f0;">{{ pod.name }}</h2>
-        <p style="font-size: 11px; color:#8b93b0;">{{ pod.members }} contact{{ pod.members === 1 ? '' : 's' }} · group thread + shared schedule</p>
+        <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ pod.name }}</h2>
+        <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ pod.members }} contact{{ pod.members === 1 ? '' : 's' }} · group thread + shared schedule</p>
       </ion-label>
     </ion-item>
   </ion-list>
-  <div *ngIf="!pods.length" style="padding:40px 20px; text-align:center; color:#8b93b0; font-size:13px;">
+  <div *ngIf="!pods.length" style="padding:40px 20px; text-align:center; color: var(--rolodex-text-secondary); font-size:13px;">
     No pods yet — group your contacts (e.g. "Family", "Business Partners") and their group threads appear here.
   </div>
 </ion-content>

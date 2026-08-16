@@ -1,21 +1,22 @@
 ion-content {
-  --background: var(--rolodex-bg, #12141c);
+  --background: var(--rolodex-bg);
 }
 
-/* 2026-08-16 THE SET-FORM — always visible at the top of the reminders list. */
+/* 2026-08-16 THE SET-FORM — always visible at the top of the reminders list.
+   All colors use the app's theme tokens (--rolodex-*). */
 .add-reminder-form {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 10px 12px;
-  background: #1a1e2b;
-  border-bottom: 1px solid #2a2e40;
+  background: var(--rolodex-surface);
+  border-bottom: 1px solid var(--rolodex-border-light);
 }
 
 .arm-select,
 .arm-note {
-  --background: #232738;
-  --color: #e6e8f0;
+  --background: var(--rolodex-surface-alt);
+  --color: var(--rolodex-text);
   border-radius: 10px;
   --padding-start: 12px;
   font-size: 13px;
@@ -29,8 +30,8 @@ ion-content {
 
 .arm-date {
   flex: 1;
-  --background: #232738;
-  --color: #e6e8f0;
+  --background: var(--rolodex-surface-alt);
+  --color: var(--rolodex-text);
   border-radius: 10px;
   --padding-start: 12px;
   font-size: 13px;
