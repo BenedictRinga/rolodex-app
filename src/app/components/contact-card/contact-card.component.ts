@@ -9,6 +9,8 @@ import { DraftEngineService, Occasion } from '../../services/draft-engine/draft-
 import { PagemanagerService, RolodexView } from '../../services/pagemanager/pagemanager.service';
 import { FormvalidationService, atLeastOneContactMethod, atLeastOnePhoneOrEmail, birthdayRangeValidator, convertBirthdayToDate, emailDomainValidator, safeCompose, uniqueTags, validPhoneNumberFormat } from '../../services/formvalidation/formvalidation.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { CardChatService } from '../../services/card-chat/card-chat.service';
+import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
@@ -108,7 +110,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     private storageService: StorageService,
     private deviceConnector: DeviceconnectorService,
     private draftEngine: DraftEngineService,
-    private gestureCtrl: GestureController
+    private gestureCtrl: GestureController,
+    private cardChat: CardChatService
   ) { 
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -476,6 +479,49 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
         ],
       })
       .then((a) => a.present());
+  }
+
+  /** 2026-08-16 CHAT OFF THE CARD: comms becomes SMS, email AND in-app chat. */
+  async openCardChat(contact: any): Promise<void> {
+    const thread = await this.cardChat.seedThread(contact);
+    const modal = await this.modalController.create({
+      component: CardChatModalComponent,
+      componentProps: { thread },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.75, 0.9],
+      initialBreakpoint: 0.75,
+    });
+    await modal.present();
+  }
+
+  /** 2026-08-16 REMINDERS: set a reminder right off the card — note + date,
+   *  saved into the contact's reminders list (persisted via editContact). */
+  async setReminder(contact: any): Promise<void> {
+    const name = this.draftEngine.contactName(contact) || 'this contact';
+    const alert = await this.alertCtrl.create({
+      header: `Reminder for ${name}`,
+      inputs: [
+        { name: 'note', type: 'text', placeholder: 'Remind me to…', value: contact.rolodex?.followUp || '' },
+        { name: 'date', type: 'date', value: new Date().toISOString().slice(0, 10) },
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Set reminder',
+          handler: (data: any) => {
+            const note = String(data?.note || '').trim();
+            if (!note) { void this.alertService.showToast('A note is needed for the reminder'); return false; }
+            const when = data?.date ? new Date(data.date + 'T09:00:00') : new Date();
+            const clone = { ...contact, reminders: [...(contact.reminders || []), { note, date: when }] };
+            (clone as any).updatedAt = new Date();
+            this.editContact.emit(clone);
+            void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   /** The user's preset — a guide for the agent, or STRICT (deliver as-is). */

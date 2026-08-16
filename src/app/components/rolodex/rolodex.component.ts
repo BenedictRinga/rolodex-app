@@ -8,6 +8,9 @@ import { StorageService } from '../../services/storage/storage.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Capacitor } from '@capacitor/core';
 import type { CloudProvider } from '../../services/cloud-sync/sync.types';
+import { ModalController } from '@ionic/angular';
+import { CardChatService } from '../../services/card-chat/card-chat.service';
+import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 
 @Component({
   selector: 'app-rolodex',
@@ -115,8 +118,23 @@ export class RolodexComponent implements OnInit {
     public pageManager: PagemanagerService,
     private storageService: StorageService,
     private alertService: AlertsService,
-    private eventService: EventService
+    private eventService: EventService,
+    private modalController: ModalController,
+    private cardChat: CardChatService
   ) { }
+
+  /** 2026-08-16 PODS: group threads derived from the contacts' groups. */
+  async openPods(): Promise<void> {
+    const pods = this.cardChat.groupsFrom(this.contacts as any[]);
+    const modal = await this.modalController.create({
+      component: PodsModalComponent,
+      componentProps: { pods, contacts: this.contacts },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.7, 0.9],
+      initialBreakpoint: 0.7,
+    });
+    await modal.present();
+  }
 
   ngOnInit() {
     this.loadViewMode();

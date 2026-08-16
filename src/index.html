@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Ionic App</title>
+  <title>RolodexAI</title>
 
   <base href="/" />
 
@@ -17,9 +17,46 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="RolodexAI" />
 </head>
 
 <body>
+  <!-- 2026-08-16 SPLASH: branded overlay (Zyppar logo — Rolodex is from Zyppar)
+       fades out once the app has booted. -->
+  <div id="rolodex-splash">
+    <div class="splash-inner">
+      <img src="assets/icons/zypparClear.png" alt="RolodexAI" class="splash-logo" />
+      <div class="splash-name">RolodexAI</div>
+      <div class="splash-tag">Your contacts, alive</div>
+    </div>
+    <style>
+      #rolodex-splash {
+        position: fixed; inset: 0; z-index: 99999;
+        background: #12141c;
+        display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.45s ease;
+      }
+      .splash-inner { text-align: center; }
+      .splash-logo { width: 88px; height: 88px; border-radius: 22px; }
+      .splash-name { color: #e6e8f0; font-size: 20px; font-weight: 700; margin-top: 14px; letter-spacing: 0.04em; font-family: system-ui, sans-serif; }
+      .splash-tag { color: #8b93b0; font-size: 12px; margin-top: 6px; font-family: system-ui, sans-serif; }
+      #rolodex-splash.gone { opacity: 0; pointer-events: none; }
+    </style>
+    <script>
+      (function () {
+        function hide() {
+          var el = document.getElementById('rolodex-splash');
+          if (el) {
+            el.classList.add('gone');
+            setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
+          }
+        }
+        if (document.readyState === 'complete') { setTimeout(hide, 650); }
+        else { window.addEventListener('load', function () { setTimeout(hide, 650); }); }
+      })();
+    </script>
+  </div>
+
   <app-root></app-root>
 </body>
 

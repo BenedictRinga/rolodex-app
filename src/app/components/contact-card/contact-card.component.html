@@ -93,6 +93,10 @@
                     <ion-icon name="chatbubble-outline" class="detail-icon"></ion-icon>
                     <strong>Topic:</strong> {{ contact.rolodex?.topic }}
                   </p>
+                  <p (click)="$event.stopPropagation(); openCardChat(contact)" style="color:#6fb3ff;">
+                    <ion-icon name="chatbubbles-outline" class="detail-icon"></ion-icon>
+                    <strong>Chat:</strong> in-app thread
+                  </p>
                   <p *ngIf="contact.note">
                     <ion-icon name="document-text-outline" class="detail-icon"></ion-icon>
                     <strong>Note:</strong> {{ contact.note }}
@@ -111,6 +115,10 @@
                   <!-- 2026-08-16 THE CONFIDANTE: proffer the message — the user hits Send. -->
                   <ion-button fill="outline" size="small" color="success" (click)="draftMessage(contact)">
                     <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                  </ion-button>
+                  <!-- 2026-08-16 REMINDERS: set a reminder right off the card. -->
+                  <ion-button fill="outline" size="small" color="warning" (click)="setReminder(contact)">
+                    <ion-icon name="alarm-outline"></ion-icon>
                   </ion-button>
                   <!-- Add a button to trigger onContactTap -->
                   <ion-button fill="outline" size="small" (click)="onContactTap(contact, $event)">

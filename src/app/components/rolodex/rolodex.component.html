@@ -1,0 +1,352 @@
+<div class="rolodex-scroll">
+  <ng-container [ngSwitch]="currentView">
+    <!-- Regular Rolodex view -->
+    <ng-container *ngSwitchCase="RolodexView.Regular">
+      <ion-list class="seriescontact">
+        <ion-list-header>
+          <ion-label class="fabcolor" (click)="openCardSelect()">My Rolodex: {{ pageManager.upperCardMode }}
+            view</ion-label>
+          <ion-buttons>
+            <ion-button (click)="openPods()" appTooltip="Pods — group threads">
+              <ion-icon name="people-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showAutoSortView()" appTooltip="Rolodex your Contacts">
+              <ion-icon name="card-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="toggleFilters()" appTooltip="Toggle your Filters">
+              <ion-icon name="funnel-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="openCardSelect()" appTooltip="Card Display Options">
+              <ion-icon name="grid-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-select #select [(ngModel)]="pageManager.currentViewMode" (ngModelChange)="saveViewMode($event)"
+              [interfaceOptions]="{cssClass: 'autosort-custom-ion-select'}" hidden class="hidden-select">
+              <ion-select-option *ngFor="let mode of pageManager.contactCardModes | keyvalue" [value]="mode.key">
+                {{ mode.value }}
+              </ion-select-option>
+            </ion-select>
+            <ion-button (click)="onCreateContact()" appTooltip="Create Contacts">
+              <ion-icon name="add-circle-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showSettingsView()" appTooltip="Settings">
+              <ion-icon name="settings-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+
+        <app-contact-card 
+            [contacts]="contacts" 
+            [viewMode]="pageManager.currentViewMode" 
+            (toggleDetails)="onToggleDetails($event)"
+            (editContact)="onEditContact($event)" 
+            (removeContact)="onRemoveContact($event)"
+            (contactTap)="onContactTap($event)"
+          >
+        </app-contact-card>
+      </ion-list>
+    </ng-container>
+
+    <!-- Auto-sort view -->
+    <ng-container *ngSwitchCase="RolodexView.AutoSort">
+      <ion-spinner *ngIf="loading" name="crescent" color="primary"></ion-spinner>
+
+      <ion-list class="seriescontact">
+        <ion-list-header>
+          <ion-label class="fabcolor">Review your Rolodex</ion-label>
+          <ion-buttons class="autosort-custom-buttons">
+            <ion-button (click)="onAcceptAutoSort()" appTooltip="Accept">
+              <ion-icon name="checkmark-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="onRestartAutoSort()" appTooltip="Restart">
+              <ion-icon name="refresh-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showSettingsView()" appTooltip="Settings">
+              <ion-icon name="settings-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="onCancelAutoSort()" appTooltip="Cancel">
+              <ion-icon name="home-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+
+        <app-contact-card 
+            [contacts]="contacts" 
+            [sortedcontacts]="sortedcontacts" 
+            [viewMode]="RolodexView.AutoSort"
+            (toggleDetails)="onToggleDetails($event)" 
+            (editContact)="onEditContact($event)"
+            (removeContact)="onRemoveContact($event)" 
+            (contactTap)="onContactTap($event)"
+          >
+        </app-contact-card>
+      </ion-list>
+    </ng-container>
+
+    <!-- Search view -->
+    <ng-container *ngSwitchCase="RolodexView.Search">
+      <ion-list class="seriescontact">
+        <ion-list-header>
+          <ion-label class="fabcolor">Contacts to be Rolodexed</ion-label>
+          <ion-buttons>
+            <ion-button (click)="closeSearchView()">
+              <ion-icon name="home-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showSettingsView()" appTooltip="Set Card View Options">
+              <ion-icon name="settings-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+
+        <div *ngIf="displayedContacts.length === 0" class="no-results">
+          <ion-label>No contacts found.</ion-label>
+        </div>
+
+        <app-contact-card 
+            *ngIf="displayedContacts.length > 0" 
+            [contacts]="contacts" 
+            [displayedContacts]="displayedContacts"
+            [viewMode]="RolodexView.Search" 
+            (toggleDetails)="onToggleDetails($event)"
+            (editContact)="onEditContact($event)" 
+            (removeContact)="onRemoveContact($event)"
+            (contactTap)="onContactTap($event)"
+          >
+        </app-contact-card>
+      </ion-list>
+    </ng-container>
+
+    <!-- Filters view -->
+    <ng-container *ngSwitchCase="RolodexView.Filters">
+      <ion-list class="seriescontact">
+        <ion-list-header>
+          <ion-label class="fabcolor">Filters</ion-label>
+          <ion-buttons>
+            <ion-button (click)="showSettingsView()" appTooltip="Settings & Options">
+              <ion-icon name="settings-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="onResetFilters()" appTooltip="Home">
+              <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+      </ion-list>
+
+      <div [@openClose]="filterState" class="filters">
+        <ion-item>
+          <ion-label>Filter by:</ion-label>
+          <ion-select [(ngModel)]="selectedFilter" (ionChange)="onApplyFilter()">
+            <ion-select-option value="all">All</ion-select-option>
+            <ion-select-option value="business">Business</ion-select-option>
+            <ion-select-option value="location">Location</ion-select-option>
+            <ion-select-option value="email">Email</ion-select-option>
+            <ion-select-option value="name">Name</ion-select-option>
+            <ion-select-option value="phone">Phone</ion-select-option>
+            <ion-select-option value="lastInteraction">Last Contact</ion-select-option>
+            <ion-select-option value="when">When</ion-select-option>
+            <ion-select-option value="who">Who</ion-select-option>
+            <ion-select-option value="where">Where</ion-select-option>
+            <ion-select-option value="why">Why</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Groups:</ion-label>
+          <ion-select [(ngModel)]="selectedGroup" (ionChange)="onApplyGroupFilter($event)">
+            <ion-select-option value="all">All Contacts</ion-select-option>
+            <ion-select-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ng-container>
+
+    <!-- Locations view -->
+    <ng-container *ngSwitchCase="RolodexView.Locations">
+      <ion-list class="seriescontact">
+        <ion-list-header>
+          <ion-label class="fabcolor">Locations</ion-label>
+          <ion-buttons>
+            <ion-button (click)="showSettingsView()" appTooltip="Set Card View Options">
+              <ion-icon name="settings-outline" class="fabcolor"></ion-icon>
+            </ion-button>
+            <ion-button (click)="showRegularView()" appTooltip="Cancel">
+              <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+      </ion-list>
+
+      <ng-container *ngIf="pageManager.currentViewMode === 'map'">
+        <div #map id="map">
+          <ion-spinner></ion-spinner>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <!-- Settings view -->
+    <ng-container *ngSwitchCase="RolodexView.Settings">
+      <ion-list class="settings-list">
+        <ion-list-header>
+          <ion-label class="fabcolor">Settings</ion-label>
+          <ion-buttons>
+            <ion-button (click)="showRegularView()" fill="clear">
+              <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Card View</ion-label>
+          <ion-select slot="end" [(ngModel)]="pageManager.currentViewMode" (ngModelChange)="saveViewMode($event)">
+            <ion-select-option *ngFor="let mode of pageManager.contactCardModes | keyvalue" [value]="mode.key">{{
+              mode.value }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Demo Contacts</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">Show/Stop</ion-button>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Welcome Again</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Show/Stop</ion-button>
+        </ion-item>
+
+        <!-- <ion-item lines="none" class="elegant-item">
+          <ion-icon name="moon-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Theme</ion-label>
+          <ion-toggle slot="end" (ionChange)="onToggleTheme($event)"></ion-toggle>
+        </ion-item> -->
+
+        <!-- <ion-item lines="none" class="elegant-item">
+          <ion-icon name="notifications-outline" slot="start" color="secondary"></ion-icon>
+          <ion-label>Notifications</ion-label>
+          <ion-toggle slot="end" (ionChange)="onToggleNotifications($event)"></ion-toggle>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="language-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>Language</ion-label>
+          <ion-select slot="end" interface="action-sheet" [(ngModel)]="selectedLanguage"
+            (ionChange)="onChangeLanguage($event)">
+            <ion-select-option value="en">English</ion-select-option>
+            <ion-select-option value="fr">French</ion-select-option>
+            <ion-select-option value="es">Spanish</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="contrast-outline" slot="start" color="success"></ion-icon>
+          <ion-label>Font Size</ion-label>
+          <ion-select slot="end" interface="action-sheet" [(ngModel)]="selectedFontSize"
+            (ionChange)="onChangeFontSize($event)">
+            <ion-select-option value="small">Small</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="large">Large</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
+          <ion-label>Privacy</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onGoToPrivacySettings()">Manage</ion-button>
+        </ion-item>
+
+        <ion-item-divider>
+          <ion-label color="medium">Cloud Sync</ion-label>
+        </ion-item-divider>
+
+        <!-- Passphrase -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="lock-closed-outline" slot="start" [color]="syncHasPassphrase ? 'success' : 'danger'"></ion-icon>
+          <ion-label>{{ syncHasPassphrase ? 'Passphrase set' : 'Set encryption passphrase' }}</ion-label>
+          <ion-button slot="end" fill="clear" (click)="syncSetPassphrase.emit()">
+            {{ syncHasPassphrase ? 'Change' : 'Set' }}
+          </ion-button>
+        </ion-item>
+
+        <!-- Provider selection -->
+        <ng-container *ngFor="let provider of syncProviders">
+          <ion-item lines="none" class="elegant-item">
+            <ion-icon
+              slot="start"
+              [name]="provider.name === 'google-drive' ? 'logo-google' : provider.name === 'dropbox' ? 'logo-dropbox' : provider.name === 'onedrive' ? 'logo-windows' : 'cloud-outline'"
+              [color]="syncProviderName === provider.name ? 'success' : 'medium'">
+            </ion-icon>
+            <ion-label>
+              <ion-text>{{ provider.displayName }}</ion-text>
+              <br/>
+              <ion-text color="medium" *ngIf="syncProviderName === provider.name && syncConnected">
+                <small>Connected</small>
+              </ion-text>
+            </ion-label>
+            <ion-button
+              slot="end"
+              fill="clear"
+              [color]="syncProviderName === provider.name && syncConnected ? 'danger' : 'primary'"
+              (click)="syncProviderName === provider.name && syncConnected ? syncDisconnect.emit() : syncConnect.emit(provider.name)"
+              [disabled]="!syncHasPassphrase || syncBusy">
+              {{ syncProviderName === provider.name && syncConnected ? 'Disconnect' : 'Connect' }}
+            </ion-button>
+          </ion-item>
+        </ng-container>
+
+        <!-- Sync controls (only when connected) -->
+        <ng-container *ngIf="syncConnected">
+          <ion-item lines="none" class="elegant-item">
+            <ion-icon name="cloud-upload-outline" slot="start" color="tertiary"></ion-icon>
+            <ion-label>
+              <ion-text>Push to cloud</ion-text>
+              <br/>
+              <ion-text color="medium" *ngIf="syncLastPushed" class="sync-timestamp">
+                <small>Last: {{ syncLastPushed | date:'short' }}</small>
+              </ion-text>
+            </ion-label>
+            <ion-button slot="end" fill="clear" (click)="syncPush.emit()" [disabled]="syncBusy">
+              <ion-spinner *ngIf="syncBusy" name="dots"></ion-spinner>
+              <span *ngIf="!syncBusy">Push</span>
+            </ion-button>
+          </ion-item>
+
+          <ion-item lines="none" class="elegant-item">
+            <ion-icon name="cloud-download-outline" slot="start" color="tertiary"></ion-icon>
+            <ion-label>
+              <ion-text>Pull from cloud</ion-text>
+              <br/>
+              <ion-text color="medium" *ngIf="syncLastPulled" class="sync-timestamp">
+                <small>Last: {{ syncLastPulled | date:'short' }}</small>
+              </ion-text>
+            </ion-label>
+            <ion-button slot="end" fill="clear" (click)="syncPull.emit()" [disabled]="syncBusy">
+              Pull
+            </ion-button>
+          </ion-item>
+        </ng-container>
+
+        <ion-item-divider>
+          <ion-label color="medium">Local Backup</ion-label>
+        </ion-item-divider>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="download-outline" slot="start" color="secondary"></ion-icon>
+          <ion-label>Export .rolodex file</ion-label>
+          <ion-button slot="end" fill="clear" (click)="syncExportLocal.emit()">Export</ion-button>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="folder-open-outline" slot="start" color="secondary"></ion-icon>
+          <ion-label>Import .rolodex file</ion-label>
+          <ion-button slot="end" fill="clear" (click)="syncImportLocal.emit()">Import</ion-button>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="information-circle-outline" slot="start" color="medium"></ion-icon>
+          <ion-label>About</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onShowAbout()">Details</ion-button>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </ng-container>
+</div>

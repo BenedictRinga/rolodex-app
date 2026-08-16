@@ -1,0 +1,457 @@
+/* ═══════════════════════════════════════════════════════
+   ROLODEX COMPONENT — Main Chrome
+   Premium relationship manager interface with warm,
+   modern styling. Contact list, search, settings,
+   and view controls.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Content Shell ───────────────────────────────── */
+/* 2026-08-16: the root is a plain scroll div (the nested ion-content cut the
+   bottom of the list). Height 100% of the flex host; scrolls internally. */
+.rolodex-scroll {
+  height: 100%;
+  overflow-y: auto;
+  --background: var(--rolodex-bg);
+  background: var(--rolodex-bg);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+ion-content {
+  --background: var(--rolodex-bg);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ── Toolbar / Header ────────────────────────────── */
+ion-toolbar {
+  --background: var(--rolodex-surface);
+  --border-width: 0;
+  box-shadow: 0 1px 0 var(--rolodex-border-light);
+
+  ion-title {
+    font-size: var(--rolodex-text-lg);
+    font-weight: var(--rolodex-font-bold);
+    letter-spacing: -0.02em;
+    color: var(--rolodex-text);
+    padding: 0;
+  }
+
+  ion-buttons ion-button {
+    --color: var(--rolodex-text-secondary);
+    --color-hover: var(--rolodex-primary);
+    --color-activated: var(--rolodex-primary);
+  }
+}
+
+/* ── Filter-Search Bar ───────────────────────────── */
+app-filter-search {
+  display: block;
+  padding: var(--rolodex-space-3) var(--rolodex-space-4);
+  background: var(--rolodex-surface);
+  border-bottom: 1px solid var(--rolodex-border-light);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ── Contact List Container ──────────────────────── */
+.seriescontact {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: var(--rolodex-bg);
+  padding: var(--rolodex-space-2) 0 var(--rolodex-space-8);
+
+  &::-webkit-scrollbar { display: none; }
+
+  ion-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--rolodex-space-3) var(--rolodex-space-4);
+    font-size: var(--rolodex-text-xs);
+    font-weight: var(--rolodex-font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--rolodex-text-tertiary);
+    --background: transparent;
+  }
+}
+
+/* ── Contact Card Item ───────────────────────────── */
+ion-item {
+  --background: var(--rolodex-surface);
+  --border-color: transparent;
+  border-radius: var(--rolodex-radius-md);
+  margin: var(--rolodex-space-1) var(--rolodex-space-4);
+  padding: var(--rolodex-space-2) var(--rolodex-space-3);
+  box-shadow: var(--rolodex-shadow-xs);
+  transition:
+    transform var(--rolodex-duration-normal) var(--rolodex-spring),
+    box-shadow var(--rolodex-duration-normal) var(--rolodex-ease-out),
+    background var(--rolodex-duration-fast) var(--rolodex-ease-out);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--rolodex-shadow-md);
+  }
+
+  &:active {
+    transform: scale(0.985);
+    box-shadow: var(--rolodex-shadow-xs);
+  }
+
+  ion-label {
+    padding: 0;
+    margin: 0;
+
+    h2 {
+      font-size: var(--rolodex-text-base);
+      font-weight: var(--rolodex-font-semibold);
+      color: var(--rolodex-text);
+      margin: 0 0 2px;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      font-size: var(--rolodex-text-sm);
+      color: var(--rolodex-text-secondary);
+      margin: 0;
+    }
+  }
+
+  ion-input {
+    --background: var(--rolodex-surface-alt);
+    --padding-start: var(--rolodex-space-3);
+    --padding-end: var(--rolodex-space-3);
+    border-radius: var(--rolodex-radius-sm);
+    font-size: var(--rolodex-text-sm);
+    margin: var(--rolodex-space-2) 0;
+    --placeholder-color: var(--rolodex-text-tertiary);
+  }
+}
+
+/* ── Gesture-enabled card wrapper ────────────────── */
+app-contact-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+
+  &:hover {
+    transform: none; /* parent handles hover */
+  }
+}
+
+/* ── Map Container ───────────────────────────────── */
+#map {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--rolodex-radius-lg);
+}
+
+/* ── Filter Panel ────────────────────────────────── */
+.filters {
+  background: var(--rolodex-surface);
+  border-radius: var(--rolodex-radius-lg);
+  border: 1px solid var(--rolodex-border-light);
+  box-shadow: var(--rolodex-shadow-lg);
+  padding: var(--rolodex-space-4);
+  margin: var(--rolodex-space-2) var(--rolodex-space-4);
+  position: absolute;
+  top: 60px;
+  z-index: 9;
+  overflow: hidden;
+
+  &.closed { height: 0; padding: 0; margin: 0; border: none; }
+}
+
+/* ── Rolodex Brand Color ─────────────────────────── */
+.rolodex {
+  color: var(--rolodex-primary);
+}
+
+/* ── FAB Styling ─────────────────────────────────── */
+.customfab-radius {
+  --border-radius: var(--rolodex-radius-md);
+}
+
+.fabcolor {
+  color: var(--rolodex-primary);
+}
+
+/* ── Autosort Buttons ────────────────────────────── */
+.autosort-custom-buttons {
+  display: flex;
+  gap: var(--rolodex-space-1);
+}
+
+.hidden-select {
+  display: none;
+}
+
+.header-select {
+  margin: 0;
+  padding: 0;
+
+  ion-select {
+    width: auto;
+    margin: 0 var(--rolodex-space-2);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SETTINGS VIEW — redesigned for premium feel
+   ═══════════════════════════════════════════════════════ */
+
+.settings-list {
+  height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: var(--rolodex-bg);
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.elegant-item {
+  --ion-item-border-color: transparent;
+  --ion-item-background: var(--rolodex-surface);
+  --padding-start: var(--rolodex-space-4);
+  --padding-end: var(--rolodex-space-4);
+  border-radius: var(--rolodex-radius-md);
+  margin: var(--rolodex-space-1) var(--rolodex-space-4);
+  box-shadow: var(--rolodex-shadow-xs);
+  transition:
+    transform var(--rolodex-duration-fast) var(--rolodex-ease-out);
+
+  &:hover {
+    transform: translateX(4px);
+  }
+
+  ion-icon {
+    font-size: 22px;
+    margin-right: var(--rolodex-space-3);
+    color: var(--rolodex-primary);
+  }
+
+  ion-label {
+    font-weight: var(--rolodex-font-medium);
+    font-size: var(--rolodex-text-base);
+    color: var(--rolodex-text);
+  }
+
+  ion-toggle,
+  ion-select,
+  ion-button {
+    --color: var(--rolodex-primary);
+  }
+}
+
+/* ── Cloud Sync Section ──────────────────────────── */
+.sync-provider-card {
+  background: var(--rolodex-surface);
+  border-radius: var(--rolodex-radius-lg);
+  border: 1px solid var(--rolodex-border-light);
+  padding: var(--rolodex-space-4);
+  margin: var(--rolodex-space-3) var(--rolodex-space-4);
+  box-shadow: var(--rolodex-shadow-sm);
+  transition:
+    box-shadow var(--rolodex-duration-normal) var(--rolodex-ease-out);
+
+  &:hover { box-shadow: var(--rolodex-shadow-md); }
+
+  .provider-header {
+    display: flex;
+    align-items: center;
+    gap: var(--rolodex-space-3);
+    margin-bottom: var(--rolodex-space-3);
+
+    ion-icon {
+      font-size: 28px;
+      color: var(--rolodex-primary);
+    }
+
+    .provider-name {
+      font-size: var(--rolodex-text-base);
+      font-weight: var(--rolodex-font-semibold);
+      color: var(--rolodex-text);
+    }
+
+    .provider-status {
+      font-size: var(--rolodex-text-xs);
+      font-weight: var(--rolodex-font-medium);
+      padding: 2px 8px;
+      border-radius: var(--rolodex-radius-pill);
+
+      &-connected {
+        background: rgba(0, 200, 83, 0.12);
+        color: var(--rolodex-success);
+      }
+
+      &-disconnected {
+        background: var(--rolodex-surface-alt);
+        color: var(--rolodex-text-tertiary);
+      }
+    }
+  }
+
+  .provider-actions {
+    display: flex;
+    gap: var(--rolodex-space-2);
+    flex-wrap: wrap;
+  }
+
+  .sync-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--rolodex-space-3);
+    padding-top: var(--rolodex-space-3);
+    border-top: 1px solid var(--rolodex-border-light);
+
+    .sync-timestamp {
+      font-size: var(--rolodex-text-xs);
+      color: var(--rolodex-text-tertiary);
+
+      span {
+        color: var(--rolodex-text-secondary);
+        font-weight: var(--rolodex-font-medium);
+      }
+    }
+  }
+
+  ion-button {
+    --border-radius: var(--rolodex-radius-sm);
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-size: var(--rolodex-text-sm);
+    font-weight: var(--rolodex-font-medium);
+    height: 34px;
+    margin: 0;
+  }
+}
+
+/* ── Local Backup Section ────────────────────────── */
+.local-backup-section {
+  margin: var(--rolodex-space-3) var(--rolodex-space-4);
+
+  .section-label {
+    font-size: var(--rolodex-text-xs);
+    font-weight: var(--rolodex-font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--rolodex-text-tertiary);
+    margin-bottom: var(--rolodex-space-2);
+    padding-left: var(--rolodex-space-1);
+  }
+
+  .backup-actions {
+    display: flex;
+    gap: var(--rolodex-space-2);
+
+    ion-button {
+      --border-radius: var(--rolodex-radius-sm);
+      font-size: var(--rolodex-text-sm);
+      font-weight: var(--rolodex-font-medium);
+      height: 34px;
+      margin: 0;
+      flex: 1;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODALS & OVERLAYS
+   ═══════════════════════════════════════════════════════ */
+
+.search-results-modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--rolodex-surface);
+  border-radius: var(--rolodex-radius-lg);
+  border: 1px solid var(--rolodex-border-light);
+  box-shadow: var(--rolodex-shadow-xl);
+  padding: var(--rolodex-space-5);
+  max-width: 90%;
+  max-height: 70%;
+  overflow: auto;
+  z-index: 11;
+}
+
+.close-icon {
+  position: absolute;
+  top: var(--rolodex-space-3);
+  right: var(--rolodex-space-3);
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--rolodex-text-tertiary);
+  transition: color var(--rolodex-duration-fast);
+
+  &:hover { color: var(--rolodex-danger); }
+}
+
+.viewport-list {
+  margin: 0;
+  padding: 0;
+  max-height: 100%;
+}
+
+.viewport {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ── Reassurance Popups ──────────────────────────── */
+.reassurance-action-sheet {
+  --background: var(--rolodex-surface);
+  --backdrop-opacity: 0.4;
+  --border-radius: var(--rolodex-radius-lg);
+  --header-color: var(--rolodex-primary);
+  --color: var(--rolodex-text);
+  --sub-header-color: var(--rolodex-text-secondary);
+  --button-color: var(--rolodex-primary);
+
+  .action-sheet-sub-header {
+    font-size: var(--rolodex-text-sm);
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .action-sheet-button {
+    font-weight: var(--rolodex-font-semibold);
+  }
+}
+
+.reassurance-popup {
+  --background: var(--rolodex-surface);
+  --header-color: var(--rolodex-text);
+  --message-color: var(--rolodex-text-secondary);
+  --button-color: var(--rolodex-primary);
+
+  .alert-wrapper {
+    border-radius: var(--rolodex-radius-lg);
+    box-shadow: var(--rolodex-shadow-lg);
+  }
+
+  .alert-message {
+    font-size: var(--rolodex-text-base);
+    line-height: 1.5;
+  }
+
+  .alert-button {
+    font-weight: var(--rolodex-font-semibold);
+  }
+}

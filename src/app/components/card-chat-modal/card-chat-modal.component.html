@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">{{ thread?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-body">
+  <div class="chat-thread">
+    <div
+      *ngFor="let m of (thread?.messages || [])"
+      class="chat-bubble"
+      [class.from-me]="m.from === 'me'"
+      [class.from-system]="m.from === 'system'"
+    >
+      <span class="chat-text">{{ m.text }}</span>
+      <span class="chat-time">{{ m.at | date: 'MMM d, HH:mm' }}</span>
+    </div>
+    <div *ngIf="!thread?.messages?.length" class="chat-empty">
+      Start the conversation — SMS, email and in-app chat all live off the card.
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="chat-input-bar">
+    <ion-input
+      placeholder="Message…"
+      [(ngModel)]="draft"
+      (keyup.enter)="send()"
+      class="chat-input"
+    ></ion-input>
+    <ion-button (click)="send()" [disabled]="!draft?.trim()" size="default">
+      <ion-icon name="send-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-footer>
