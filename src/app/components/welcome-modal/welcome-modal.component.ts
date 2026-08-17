@@ -49,28 +49,28 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the confidante live right there on the person.',
     },
     {
+      id: 'fourws',
+      kicker: '02 · The 4 W\u2019s',
+      title: 'The deep context',
+      copy: 'Who, What, Where, When — the story behind every card, the briefing that powers everything after this: the follow-ups, the signals, the drafts.',
+    },
+    {
       id: 'followup',
-      kicker: '02 · The loop',
+      kicker: '03 · The loop',
       title: 'The follow-up engine',
-      copy: 'It schedules the check-ins you keep meaning to make, and surfaces who you owe a reply — the small loops caught before they go cold.',
+      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold.',
     },
     {
       id: 'signal',
-      kicker: '03 · The signal',
+      kicker: '04 · The signal',
       title: 'They always know',
       copy: 'Send a message and the other card badges it. Fix an appointment and the other card catches it — with a toast and receipts: sent → delivered → read, live across devices.',
     },
     {
       id: 'confidante',
-      kicker: '04 · The confidante',
+      kicker: '05 · The confidante',
       title: 'The AI drafts — you hit Send',
       copy: 'The confidential secretary digs up your context and writes the message in your own voice. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
-    },
-    {
-      id: 'fourws',
-      kicker: '05 · The 4 W\u2019s',
-      title: 'The deep context',
-      copy: 'Who, What, Where, When — the story behind every card, the same briefing the Confidante reads before it drafts. Pick \u201c4 W\u2019s\u201d in the filter.',
     },
     {
       id: 'pods',
@@ -92,8 +92,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     },
     {
       id: 'outro',
-      kicker: 'You’re set',
-      title: 'That’s the tour — it’s all live',
+      kicker: 'You\u2019re set',
+      title: 'That\u2019s the tour — it\u2019s all live',
       copy: 'Tap through the app, or replay this demo any time from Settings → Welcome Again.',
     },
   ];
