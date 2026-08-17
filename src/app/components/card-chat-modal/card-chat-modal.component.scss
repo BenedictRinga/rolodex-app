@@ -105,6 +105,32 @@
   padding: 40px 20px;
 }
 
+.chat-presence {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--rolodex-text-tertiary);
+  margin-left: 8px;
+  vertical-align: 2px;
+}
+
+.presence-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rolodex-text-tertiary);
+}
+
+.chat-presence.online {
+  color: var(--rolodex-success);
+}
+
+.chat-presence.online .presence-dot {
+  background: var(--rolodex-success);
+}
+
 .chat-typing {
   font-size: 11px;
   color: var(--rolodex-text-secondary);

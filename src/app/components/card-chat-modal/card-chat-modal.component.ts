@@ -16,6 +16,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   draft = '';
   typingName = '';
   pickingId = '';
+  peersOnline = this.socketChat?.peerCount || 0;
   readonly EMOJIS = ['\u{1F44D}', '\u{2764}\u{FE0F}', '\u{1F602}', '\u{1F389}', '\u{1F91D}'];
   private destroy$ = new Subject<void>();
   private typingTimer: ReturnType<typeof setTimeout> | null = null;
@@ -37,6 +38,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
         void this.chatService.loadThread(this.thread.key).then((t2) => { if (t2) this.thread = t2; });
       });
     // 2026-08-17: typing indicators - the Teams/Zoom touch, live via the socket.
+    this.socketChat.presence$.pipe(takeUntil(this.destroy$)).subscribe((n) => (this.peersOnline = n));
     this.socketChat.typing$
       .pipe(takeUntil(this.destroy$))
       .subscribe((ev) => {

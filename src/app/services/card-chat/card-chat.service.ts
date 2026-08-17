@@ -169,6 +169,11 @@ export class CardChatService {
     return this.unread[key] || 0;
   }
 
+  /** 2026-08-17 PRESENCE: how many other devices are in the room. */
+  get peersOnline(): number {
+    return (this.socketChat as any)?.peerCount || 0;
+  }
+
   /** 2026-08-17 THE DROPBOX MOMENT: the demo room, for invite links. */
   get room(): string {
     return (this.socketChat as any)?.room || '';

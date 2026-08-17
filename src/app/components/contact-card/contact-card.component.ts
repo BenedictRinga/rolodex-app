@@ -507,6 +507,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     await modal.present();
   }
 
+  /** 2026-08-17 PRESENCE: another device is in the demo room. */
+  get peersOnline(): number {
+    try { return this.cardChat.peersOnline; } catch { return 0; }
+  }
+
   /** 2026-08-17 AWARENESS: the unread badge on the chat row. */
   unreadFor(key: string): number {
     try { return this.cardChat.unreadFor(key); } catch { return 0; }

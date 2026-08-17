@@ -98,7 +98,7 @@
                   </p>
                   <p (click)="$event.stopPropagation(); openCardChat(contact)" style="color: var(--rolodex-info);">
                     <ion-icon name="chatbubbles-outline" class="detail-icon"></ion-icon>
-                    <strong>Chat:</strong> in-app thread <span *ngIf="unreadFor(contact?.contactId || '')" class="chat-unread-badge">{{ unreadFor(contact?.contactId || '') }}</span>
+                    <strong>Chat:</strong> in-app thread <span class="chat-row-presence" [class.online]="(peersOnline) > 0"></span> <span *ngIf="unreadFor(contact?.contactId || '')" class="chat-unread-badge">{{ unreadFor(contact?.contactId || '') }}</span>
                   </p>
                   <p *ngIf="contact.note">
                     <ion-icon name="document-text-outline" class="detail-icon"></ion-icon>

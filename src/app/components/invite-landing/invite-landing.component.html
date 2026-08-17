@@ -1,36 +1,36 @@
 <div class="invite-shell">
-  <div class="invite-card" [class.appointment]="invite?.kind === 'appointment'">
-    <div class="invite-kicker">{{ invite?.kind === 'appointment' ? 'Appointment from' : 'Message from' }}</div>
-    <h2 class="invite-from">{{ invite?.from }}</h2>
+  <div class="invite-card" [class.appointment]="invite.kind === 'appointment'">
+    <div class="invite-kicker">{{ invite.kind === 'appointment' ? 'Appointment from' : 'Message from' }}</div>
+    <h2 class="invite-from">{{ invite.from }}</h2>
 
     <div class="invite-body">
-      <ng-container *ngIf="invite?.kind === 'appointment'">
+      <ng-container *ngIf="invite.kind === 'appointment'">
         <div class="invite-row">
           <ion-icon name="calendar-outline"></ion-icon>
-          <span>{{ invite?.title }}</span>
+          <span>{{ invite.title }}</span>
         </div>
         <div class="invite-row" *ngIf="whenLabel">
           <ion-icon name="time-outline"></ion-icon>
           <span>{{ whenLabel }}</span>
         </div>
       </ng-container>
-      <ng-container *ngIf="invite?.kind === 'message'">
+      <ng-container *ngIf="invite.kind === 'message'">
         <div class="invite-row invite-text">
           <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-          <span>&ldquo;{{ invite?.text }}&rdquo;</span>
+          <span>&ldquo;{{ invite.text }}&rdquo;</span>
         </div>
       </ng-container>
     </div>
 
     <div class="invite-hook">
       <div class="hook-title">It came from a Rolodex card.</div>
-      <div class="hook-copy">Find {{ invite?.from }} in your phone contacts and the appointment lands on their card — or get the app for the full experience (7 days free).</div>
+      <div class="hook-copy">Find {{ invite.from }} in your phone contacts and the appointment lands on their card — or get the app for the full experience (7 days free).</div>
     </div>
 
     <div class="invite-actions">
       <ion-button expand="block" color="primary" (click)="findInContacts()">
         <ion-icon name="person-add-outline" slot="start"></ion-icon>
-        Find {{ invite?.from }} in my contacts
+        Find {{ invite.from }} in my contacts
       </ion-button>
       <ion-button expand="block" fill="outline" (click)="getApp()">
         <ion-icon name="logo-google-playstore" slot="start"></ion-icon>

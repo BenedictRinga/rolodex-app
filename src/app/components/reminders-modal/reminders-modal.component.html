@@ -24,7 +24,7 @@
     <ion-input class="arm-note" placeholder="Remind me to…" [(ngModel)]="formNote"></ion-input>
     <div class="arm-row">
       <ion-input class="arm-date" type="date" [(ngModel)]="formDate"></ion-input>
-      <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote?.trim() || !formContactId">
+      <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim() || !formContactId">
         Set
       </ion-button>
     </div>

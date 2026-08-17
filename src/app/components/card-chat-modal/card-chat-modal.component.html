@@ -5,7 +5,8 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">{{ thread?.title }}</ion-title>
+    <ion-title style="font-size: 15px;">{{ thread.title }}
+      <span class="chat-presence" [class.online]="peersOnline > 0"><span class="presence-dot"></span>{{ peersOnline > 0 ? 'online' : 'offline' }}</span></ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -17,7 +18,7 @@
 <ion-content class="chat-body">
   <div class="chat-thread">
     <div
-      *ngFor="let m of (thread?.messages || [])"
+      *ngFor="let m of (thread.messages || [])"
       class="chat-bubble"
       [class.from-me]="m.from === 'me'"
       [class.from-system]="m.from === 'system'"
@@ -36,7 +37,7 @@
         </span>
       </span>
     </div>
-    <div *ngIf="!thread?.messages?.length" class="chat-empty">
+    <div *ngIf="!thread.messages?.length" class="chat-empty">
       Start the conversation — SMS, email and in-app chat all live off the card.
     </div>
   </div>
@@ -52,7 +53,7 @@
       (ionInput)="onTyping()"
       class="chat-input"
     ></ion-input>
-    <ion-button (click)="send()" [disabled]="!draft?.trim()" size="default">
+    <ion-button (click)="send()" [disabled]="!draft.trim()" size="default">
       <ion-icon name="send-outline"></ion-icon>
     </ion-button>
   </div>

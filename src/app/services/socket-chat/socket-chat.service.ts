@@ -56,6 +56,18 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('connect', () => {
       this.socket?.emit('chat:join', { room: this.room, name: this.name });
     });
+    this.socket.on('chat:joined', () => {
+      this.peerCount = Math.max(1, this.peerCount + 1);
+      this.presence$.next(this.peerCount);
+    });
+    this.socket.on('chat:left', () => {
+      this.peerCount = Math.max(0, this.peerCount - 1);
+      this.presence$.next(this.peerCount);
+    });
+    this.socket.on('chat:present', (payload: { count?: number }) => {
+      this.peerCount = Math.max(0, Number(payload?.count) || 0);
+      this.presence$.next(this.peerCount);
+    });
     this.socket.on('chat:ack', (payload: { ts?: number }) => {
       for (const cb of this.ackListeners) { try { cb(Number(payload?.ts) || Date.now()); } catch {} }
     });
@@ -88,6 +100,9 @@ export class SocketChatService implements OnDestroy {
 
   /** 2026-08-17: typing indicators - the Teams/Zoom touch. */
   typing$ = new Subject<{ room: string; name: string }>();
+  /** 2026-08-17 PRESENCE: how many OTHER devices are in the room right now. */
+  peerCount = 0;
+  presence$ = new Subject<number>();
   private ackListeners: Array<(ts: number) => void> = [];
   private readListeners: Array<(key: string) => void> = [];
   private reactListeners: Array<(payload: { key: string; messageId: string; emoji: string; name?: string }) => void> = [];

@@ -74,8 +74,13 @@ app-filter-search {
 
 /* ── Contact List Container ──────────────────────── */
 .seriescontact {
-  height: calc(100vh - 200px);
-  overflow-y: auto;
+  /* 2026-08-17: the rolodex-scroll is THE scroller. The old
+     calc(100vh - 200px) + overflow-y made a nested scroller whose bottom was
+     clipped by the outer viewport — the ~20% cut at the base of most views.
+     Full height, no internal scroll. */
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
   scrollbar-width: none;
   -ms-overflow-style: none;
   background: var(--rolodex-bg);
