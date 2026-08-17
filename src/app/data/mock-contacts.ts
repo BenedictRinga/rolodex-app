@@ -23,7 +23,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [{ note: 'Follow up on project', date: new Date('2025-01-20') }],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp1.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date('2024-12-01'),
     updatedAt: new Date('2025-01-15'),
     preferences: { refreshContacts: true, notificationPreference: 'email', theme: 'dark' },
@@ -49,7 +49,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp4.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date(),
     updatedAt: new Date(),
     preferences: { refreshContacts: false },
@@ -101,7 +101,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [{ note: 'Schedule annual physical', date: new Date('2025-04-01') }],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp2.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date('2023-06-01'),
     updatedAt: new Date('2024-10-05'),
     preferences: { refreshContacts: false, notificationPreference: 'sms' },
@@ -127,7 +127,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [{ note: 'Follow up on MOU feedback', date: new Date('2025-01-18') }],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp6.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date('2024-02-20'),
     updatedAt: new Date('2025-01-05'),
     preferences: { refreshContacts: true, notificationPreference: 'push', theme: 'light' },
@@ -153,7 +153,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [{ note: 'Book the lunch table', date: new Date('2025-02-01') }],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp3.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date('2023-11-01'),
     updatedAt: new Date('2025-01-02'),
     preferences: { refreshContacts: false, notificationPreference: 'email' },
@@ -283,7 +283,7 @@ export const mockContacts: ContactInfo[] = [
     reminders: [{ note: 'Reunion planning call', date: new Date('2025-01-30') }],
     isMockData: true,
     isContactInfo: true,
-    image: { base64String: null },
+    image: { base64String: 'assets/avatars/dp5.jpg' }, // 2026-08-17 real DP (mock contacts)
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2024-12-24'),
     preferences: { refreshContacts: false, notificationPreference: 'sms' },
