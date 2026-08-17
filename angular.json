@@ -56,6 +56,9 @@
               ],
               "outputHashing": "all"
             },
+            "native": {
+              "outputPath": "www-native"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,

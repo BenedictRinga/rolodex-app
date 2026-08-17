@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.zyppar.rolodexai',
   appName: 'RolodexAI',
-  webDir: 'www',
+  webDir: 'www-native', // 2026-08-17: native builds live here; www/ stays the PWA
   android: {
     allowMixedContent: false,
   },

@@ -12,7 +12,7 @@
     "watch": "node node_modules/@angular/cli/bin/ng.js build --watch --configuration development",
     "test": "node node_modules/@angular/cli/bin/ng.js test",
     "lint": "node node_modules/@angular/cli/bin/ng.js lint",
-    "build:native": "node node_modules/@angular/cli/bin/ng.js build --configuration production --base-href / && node scripts/fix-static-blocks.cjs && npx cap sync android",
+    "build:native": "node node_modules/@angular/cli/bin/ng.js build --configuration production,native --base-href / && node scripts/fix-static-blocks.cjs && npx cap sync android",
     "android:run": "npx cap run android"
   },
   "private": true,
