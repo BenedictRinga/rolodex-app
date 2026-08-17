@@ -12,6 +12,7 @@ import { RemindersModalComponent } from './reminders-modal/reminders-modal.compo
 import { AboutRolodexComponent } from './about-rolodex/about-rolodex.component';
 import { BillingModalComponent } from './billing-modal/billing-modal.component';
 import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.component';
+import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-surface-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.
     AboutRolodexComponent,
     BillingModalComponent,
     AiSettingsModalComponent,
+    ContactSurfaceModalComponent,
   ],
   imports: [
     CommonModule,

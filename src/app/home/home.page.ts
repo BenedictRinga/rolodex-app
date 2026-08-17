@@ -11,6 +11,8 @@ import { AlertsService } from '../services/alerts/alerts.service';
 import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
 import { SocketChatService } from '../services/socket-chat/socket-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
+import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
+import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
 
@@ -71,7 +73,17 @@ export class HomePage implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController,
     private socketChat: SocketChatService,
-  ) {}
+    private draftEngine: DraftEngineService,
+  ) {
+    // 2026-08-16: after a Stripe checkout return, grant the plan.
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('checkout') === 'success') {
+        const plan = url.searchParams.get('plan');
+        if (plan === 'basic' || plan === 'confidante') this.draftEngine.setPlan(plan);
+      }
+    } catch { /* ignore */ }
+  }
 
   async ngOnInit() {
     // Wire passphrase prompt callback for CloudSyncService
@@ -469,7 +481,15 @@ export class HomePage implements OnInit {
   }
 
   onContactTap(contact: ContactInfo) {
-    console.log('Contact tapped:', contact.name?.display);
+    // 2026-08-16: the card tap opens the FULL feature surface - flip it for
+    // chat, reminders, the confidante, edit, call, email, map, remove.
+    void this.modalController.create({
+      component: ContactSurfaceModalComponent,
+      componentProps: { contact },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95],
+      initialBreakpoint: 0.92,
+    }).then((m) => m.present());
   }
 
   onContactsChange(contacts: ContactInfo[]) {

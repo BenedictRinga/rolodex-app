@@ -6,6 +6,32 @@ ion-content {
   padding: 12px;
 }
 
+.ai-list {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary);
+}
+
+.ai-list li {
+  margin-bottom: 6px;
+}
+
+.ai-quota {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px dashed var(--rolodex-border-light);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary);
+}
+
+.ai-quota strong {
+  color: var(--rolodex-text);
+}
+
 .ai-intro {
   font-size: 13px;
   line-height: 1.5;

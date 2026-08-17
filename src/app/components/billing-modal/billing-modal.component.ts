@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BillingService, PlanId } from '../../services/billing/billing.service';
+import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 
 @Component({
   selector: 'app-billing-modal',
@@ -18,9 +19,17 @@ export class BillingModalComponent {
   constructor(
     private readonly modalController: ModalController,
     private readonly billing: BillingService,
+    private readonly draftEngine: DraftEngineService,
   ) {}
 
+  get currentPlan(): string {
+    return this.draftEngine.plan || 'free trial';
+  }
+
   async subscribe(plan: PlanId): Promise<void> {
+    // 2026-08-16: the plan applies immediately (the quota unlocks); Stripe
+    // confirms payment in the hosted checkout.
+    this.draftEngine.setPlan(plan);
     this.busy = true;
     this.busyPlan = plan;
     this.error = '';

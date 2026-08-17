@@ -186,6 +186,20 @@ export class RolodexComponent implements OnInit {
   updateServer = '';
   updateAvailable = false;
   updateChecked = false;
+  lastCheckedLabel = '';
+  private updateTimer: any = null;
+
+  /** 2026-08-16: quiet re-check - updates the counter, no alert. */
+  async refreshUpdatesQuietly(): Promise<void> {
+    try {
+      const result = await this.updatesService.check();
+      this.updateCurrent = result.current;
+      this.updateServer = result.server || '';
+      this.updateAvailable = result.available;
+      this.updateChecked = true;
+      this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
+    } catch { /* quiet */ }
+  }
 
   async checkForUpdates(): Promise<void> {
     const result = await this.updatesService.check();
@@ -193,6 +207,7 @@ export class RolodexComponent implements OnInit {
     this.updateServer = result.server || '';
     this.updateAvailable = result.available;
     this.updateChecked = true;
+    this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
     if (result.available) {
       await this.alertService.alertPrompt({
         header: 'A critical update is available',
@@ -221,6 +236,8 @@ export class RolodexComponent implements OnInit {
 
   ngOnInit() {
     this.loadViewMode();
+    // 2026-08-16: the Updates counter re-checks every 5 minutes.
+    this.updateTimer = setInterval(() => { void this.refreshUpdatesQuietly(); }, 300000);
     // 2026-08-16 UPDATES: boot check — a visible toast when an update is live.
     void (async () => {
       try {
@@ -233,6 +250,7 @@ export class RolodexComponent implements OnInit {
         } else {
           this.updateServer = this.updatesService.serverVersion;
           this.updateChecked = true;
+          this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
         }
       } catch {
         /* quiet */

@@ -464,8 +464,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   }
 
   /** Proffer the message — the user reviews and hits Send. */
-  draftMessage(contact: any): void {
-    const draft = this.draftEngine.compose(contact, this.occasionFor(contact), contact.contactId);
+  async draftMessage(contact: any): Promise<void> {
+    const draft = await this.draftEngine.composeAi(contact, this.occasionFor(contact), contact.contactId);
     const phone = contact.phones?.[0]?.number;
     const email = contact.emails?.[0]?.address;
     this.alertService.showToast('Confidante: message drafted for ' + this.draftEngine.contactName(contact), 2000);
@@ -474,8 +474,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
         header: 'Message proffered by your confidante',
         message: draft,
         buttons: [
-          ...(phone ? [{ text: 'Send via SMS', handler: () => { window.location.href = `sms:${phone}?body=${encodeURIComponent(draft)}`; } }] : []),
-          ...(email ? [{ text: 'Send via Email', handler: () => { window.location.href = `mailto:${email}?subject=${encodeURIComponent('Reaching out')}&body=${encodeURIComponent(draft)}`; } }] : []),
+          ...(phone ? [{ text: 'Send via SMS', handler: () => { this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')'); window.location.href = `sms:${phone}?body=${encodeURIComponent(draft)}`; } }] : []),
+          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); window.location.href = `mailto:${email}?subject=${encodeURIComponent('Reaching out')}&body=${encodeURIComponent(draft)}`; } }] : []),
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },
         ],

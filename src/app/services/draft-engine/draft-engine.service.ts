@@ -11,6 +11,9 @@ export interface MessageGuide {
 
 const AI_PROVIDER_KEY = 'rolodex_ai_provider';
 const AI_KEY_KEY = 'rolodex_ai_api_key';
+const PLAN_KEY = 'rolodex_plan';
+const INTERVENTIONS_KEY = 'rolodex_interventions';
+const MONTHLY_QUOTA = 5;
 const CONTEXT_CAP = 8;
 
 /**
@@ -52,6 +55,7 @@ export class DraftEngineService {
     try {
       this.provider = (localStorage.getItem(AI_PROVIDER_KEY) as AiProvider) || 'template';
       this.providerKey = localStorage.getItem(AI_KEY_KEY) || '';
+      this.plan = (localStorage.getItem(PLAN_KEY) as any) || '';
     } catch { /* defaults */ }
   }
 
@@ -67,6 +71,42 @@ export class DraftEngineService {
   get hasProviderKey(): boolean {
     return !!this.providerKey;
   }
+
+  // 2026-08-16 ENTITLEMENT: Basic (or no plan) = 5 AI interventions a month -
+  // the taste. Confidante = the AI works all month. The quota rolls monthly.
+  plan: 'basic' | 'confidante' | '' = '';
+
+  private monthKey(): string {
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1);
+  }
+
+  setPlan(p: 'basic' | 'confidante' | ''): void {
+    this.plan = p;
+    try { localStorage.setItem(PLAN_KEY, p); } catch {}
+  }
+
+  interventionsLeft(): number {
+    try {
+      const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
+      const rec = JSON.parse(raw);
+      const key = this.monthKey();
+      const used = rec[key] || 0;
+      if (this.plan === 'confidante') return Number.MAX_SAFE_INTEGER;
+      return Math.max(0, MONTHLY_QUOTA - used);
+    } catch { return MONTHLY_QUOTA; }
+  }
+
+  private consumeIntervention(): void {
+    try {
+      const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
+      const rec = JSON.parse(raw);
+      const key = this.monthKey();
+      rec[key] = (rec[key] || 0) + 1;
+      localStorage.setItem(INTERVENTIONS_KEY, JSON.stringify(rec));
+    } catch {}
+  }
+
 
   /** Rotating context: append a line to the relationship's rolling story. */
   pushContext(c: any, line: string): void {
@@ -143,6 +183,11 @@ export class DraftEngineService {
   async composeAi(c: ContactInfo, occasion: Occasion, guideKey?: string): Promise<string> {
     const guide = guideKey ? this.getGuide(guideKey) : null;
     if (guide?.strict) return guide.guide;
+
+    if (this.interventionsLeft() <= 0) {
+      return 'Your Assistant taste is used up for this month - upgrade to the Confidante ($5/month) for unlimited AI interventions.';
+    }
+    this.consumeIntervention();
 
     if (this.provider !== 'template' && this.providerKey) {
       try {

@@ -39,8 +39,11 @@ ion-content {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--rolodex-space-3);
   padding: var(--rolodex-space-3);
-  height: calc(100vh - 200px);
-  overflow-y: auto;
+  /* 2026-08-16: the app-level rolodex-scroll is the scroller - this container
+     must NOT own a scroll + fixed height or the bottom 10-20% gets cut. */
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
   scrollbar-width: none;
   -ms-overflow-style: none;
 
@@ -140,6 +143,28 @@ ion-content {
 
 /* 2026-08-16: the DEFAULT view label — name, company, one extra line stacked
    vertically in the open space to the right of the avatar. Theme tokens only. */
+/* 2026-08-16: the default view row - avatar takes the first ~25%,
+   the contact details fill the middle, the toggle sits at the extreme right
+   (slot=end already puts it there). No visual unbalance. */
+.contact-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.contact-card-content .default-view-avatar {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+}
+
+.contact-card-content .default-view-label {
+  flex: 1;
+  min-width: 0;
+}
+
 .default-view-label {
   display: flex;
   flex-direction: column;
@@ -234,8 +259,10 @@ ion-content {
    ═══════════════════════════════════════════════════════ */
 
 .grid-view {
-  height: calc(100vh - 200px);
-  overflow-y: auto;
+  /* 2026-08-16: the rolodex-scroll is the scroller - no double scroll, no cut */
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
   scrollbar-width: none;
   -ms-overflow-style: none;
 

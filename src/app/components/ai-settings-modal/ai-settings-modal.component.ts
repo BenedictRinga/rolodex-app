@@ -26,7 +26,19 @@ export class AiSettingsModalComponent {
   }
 
   providerLabel(): string {
-    return this.provider === 'template' ? 'the on-device template' : this.provider;
+    return this.provider === 'template' ? 'Rolodex AI (built-in)' : this.provider;
+  }
+
+  get plan(): string {
+    return this.draftEngine.plan;
+  }
+
+  planLabel(): string {
+    return this.draftEngine.plan === 'confidante' ? 'Confidante' : (this.draftEngine.plan === 'basic' ? 'Basic' : 'Free trial');
+  }
+
+  interventionsLeft(): number {
+    return this.draftEngine.interventionsLeft();
   }
 
   save(): void {

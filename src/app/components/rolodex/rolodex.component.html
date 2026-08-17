@@ -222,7 +222,7 @@
           <ion-label>
             Updates
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              Current: {{ updateCurrent }}{{ updateServer && updateChecked ? ' · Server: v' + updateServer : '' }}
+              Current: {{ updateCurrent }}{{ updateServer && updateChecked ? ' · Server: v' + updateServer : '' }}{{ lastCheckedLabel ? ' · ' + lastCheckedLabel : '' }}
             </p>
           </ion-label>
           <ion-button slot="end" fill="clear" (click)="checkForUpdates()">
