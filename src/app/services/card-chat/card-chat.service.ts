@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import { SocketChatService } from '../socket-chat/socket-chat.service';
+import { DraftEngineService } from '../draft-engine/draft-engine.service';
 
 export interface ChatMessage {
   id: string;
@@ -33,6 +34,7 @@ export class CardChatService {
   constructor(
     private readonly storage: StorageService,
     private readonly socketChat: SocketChatService,
+    private readonly draftEngine: DraftEngineService,
   ) {
     // 2026-08-16 SOCKET: incoming cross-device messages land in their thread
     // (contactId or pod:<group> via the `key` the sender attached).
@@ -157,6 +159,13 @@ export class CardChatService {
       at: new Date(Date.now() + 1500).toISOString(),
     };
     thread.messages = [...thread.messages, me, them];
+    // 2026-08-16 ROTATING CONTEXT: the chat exchange feeds the relationship story.
+    try {
+      const rot = Array.isArray((thread as any).contextRotation) ? (thread as any).contextRotation : [];
+      rot.push('Chat: "' + clean.slice(0, 60) + '" (' + new Date().toLocaleDateString() + ')');
+      if (rot.length > 8) rot.splice(0, rot.length - 8);
+      (thread as any).contextRotation = rot;
+    } catch {}
     await this.saveThread(thread);
     // 2026-08-16 SOCKET: push to the demo room so the peer device sees it live.
     try { this.socketChat.send(clean, thread.key); } catch { /* offline demo still works */ }

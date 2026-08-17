@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">AI Confidante</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ai-section">
+    <p class="ai-intro">
+      The confidante is AI-agnostic — bring your own provider and key. The
+      request goes <strong>directly from this device</strong> to the provider
+      you choose; only the context it needs for the message leaves, and
+      nothing is stored on the Rolodex server. Keep your contacts fully local
+      and the built-in template engine still confidantes for you.
+    </p>
+
+    <ion-item lines="none" class="ai-item">
+      <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>Provider</ion-label>
+      <ion-select [(ngModel)]="provider" (ionChange)="onProviderChange()">
+        <ion-select-option value="template">Template (on-device, free)</ion-select-option>
+        <ion-select-option value="deepseek">DeepSeek (your key)</ion-select-option>
+        <ion-select-option value="grok">Grok (your key)</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none" class="ai-item" *ngIf="provider !== 'template'">
+      <ion-icon name="key-outline" slot="start" color="warning"></ion-icon>
+      <ion-label position="stacked" style="font-size: 12px;">API key (stored on this device only)</ion-label>
+      <ion-input type="password" [(ngModel)]="apiKey" placeholder="sk-…"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" class="ai-save" (click)="save()">
+      {{ provider === 'template' ? 'Use the template engine' : 'Save provider + key' }}
+    </ion-button>
+    <div class="ai-note" *ngIf="saved">
+      Saved. The confidante now composes with {{ providerLabel() }}.
+    </div>
+  </div>
+</ion-content>

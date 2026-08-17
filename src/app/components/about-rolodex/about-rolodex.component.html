@@ -80,9 +80,44 @@
           keep meaning to write back. The most universal tiny loop there is.
           The confidante does the hard 90%: context, call, draft — you hit
           Send.</p>
-        <p><strong>Pricing:</strong> Basic $1/month (the habit) · RolodexAI
-          $5/month (the loop-closer). The $1 tier is the hook; the $5 tier is
-          the confidante.</p>
+
+        <!-- 2026-08-16 THE YARDSTICK: the retention curve, drawn + explained —
+             the chart an investor wakes up to. -->
+        <p class="investor-chart-title"><strong>The yardstick — the curve that decides everything</strong></p>
+        <svg class="investor-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Retention curve">
+          <line x1="24" y1="8" x2="24" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
+          <line x1="24" y1="104" x2="292" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
+          <text x="8" y="16" font-size="8" fill="#9BA1A6">100%</text>
+          <text x="8" y="104" font-size="8" fill="#9BA1A6">0%</text>
+          <text x="150" y="116" font-size="8" fill="#9BA1A6" text-anchor="middle">days from acquisition</text>
+          <!-- the painful decay -->
+          <polyline points="24,12 60,30 96,58 132,80 168,92" fill="none" stroke="#EF476F" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <text x="120" y="36" font-size="8" fill="#EF476F">everyone else</text>
+          <!-- the flattening that means PMF -->
+          <polyline points="24,12 60,30 96,58 132,80 168,92 204,98 240,99 276,100 292,100" fill="none" stroke="#00C853" stroke-width="3"/>
+          <line x1="150" y1="95" x2="292" y2="95" stroke="#FFD93D" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="216" y="90" font-size="8" fill="#00C853">Rolodex: the loop-closer</text>
+        </svg>
+        <p class="investor-chart-note">
+          % of users still active on day N. Every consumer app decays — the
+          green line bends, the red one falls off a cliff. The moment the
+          green line runs parallel to the gold asymptote, the business is
+          real: people come back because each day has a tiny loop waiting to
+          be closed. Every feature we ship is judged against this chart —
+          does it flatten it? That is the whole job.
+        </p>
+
+        <p><strong>Pricing — Basic ($1) = "Assistant", Confidante ($5) = the full agent:</strong></p>
+        <p>· <strong>Basic — $1/month.</strong> Rolodex the contact manager —
+          cards, groups, reminders, follow-ups, birthdays, sync, pods, in-app
+          chat — plus the <strong>Assistant</strong>: <strong>5 AI
+          interventions a month</strong>, a taste of the confidante.</p>
+        <p>· <strong>Confidante — $5/month.</strong> Everything in Basic, and
+          the AI works all month: the confidante intervenes on every loop —
+          context, call, draft, send — across all your relationships. The
+          $1 tier is the hook and the taste; the $5 tier is the engine that
+          flattens the curve.</p>
+
         <p><strong>Roadmap (adjacent loops after the wedge):</strong> AI
           drafting on a real model (the v0 template engine today) · the
           reschedule-the-appointment loop · the "switch providers" loop · the

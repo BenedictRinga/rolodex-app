@@ -134,7 +134,7 @@
       <div [@openClose]="filterState" class="filters">
         <ion-item>
           <ion-label>Filter by:</ion-label>
-          <ion-select [(ngModel)]="selectedFilter" (ionChange)="onApplyFilter()">
+          <ion-select [(ngModel)]="selectedFilter" (ionChange)="onApplyFilter(); onApplyFilterContext()">
             <ion-select-option value="all">All</ion-select-option>
             <ion-select-option value="business">Business</ion-select-option>
             <ion-select-option value="location">Location</ion-select-option>
@@ -234,6 +234,20 @@
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Welcome Again</ion-label>
           <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Show/Stop</ion-button>
+        </ion-item>
+
+        <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
+        <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
+          <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>AI Confidante</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-16 BILLING: the two tiers + Stripe. -->
+        <ion-item lines="none" class="elegant-item" (click)="openBilling()">
+          <ion-icon name="card-outline" slot="start" color="success"></ion-icon>
+          <ion-label>Billing</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->

@@ -13,6 +13,9 @@ import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
 import { AboutRolodexComponent } from '../about-rolodex/about-rolodex.component';
+import { BillingModalComponent } from '../billing-modal/billing-modal.component';
+import { AiSettingsModalComponent } from '../ai-settings-modal/ai-settings-modal.component';
+import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { UpdatesService } from '../../services/updates/updates.service';
 
 @Component({
@@ -125,7 +128,35 @@ export class RolodexComponent implements OnInit {
     private modalController: ModalController,
     private cardChat: CardChatService,
     private updatesService: UpdatesService,
+    private draftEngine: DraftEngineService,
   ) { }
+
+  /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
+  async openAiSettings(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: AiSettingsModalComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.9],
+      initialBreakpoint: 0.7,
+    });
+    await modal.present();
+  }
+
+  /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the confidante. */
+  onApplyFilterContext(): void {
+    this.draftEngine.currentFilter = String(this.selectedFilter || 'all');
+  }
+
+  /** 2026-08-16 BILLING: the two tiers + Stripe checkout. */
+  async openBilling(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: BillingModalComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95],
+      initialBreakpoint: 0.9,
+    });
+    await modal.present();
+  }
 
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */
   async openAbout(): Promise<void> {

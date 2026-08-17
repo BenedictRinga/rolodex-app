@@ -10,6 +10,8 @@ import { CardChatModalComponent } from './card-chat-modal/card-chat-modal.compon
 import { PodsModalComponent } from './pods-modal/pods-modal.component';
 import { RemindersModalComponent } from './reminders-modal/reminders-modal.component';
 import { AboutRolodexComponent } from './about-rolodex/about-rolodex.component';
+import { BillingModalComponent } from './billing-modal/billing-modal.component';
+import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { AboutRolodexComponent } from './about-rolodex/about-rolodex.component';
     PodsModalComponent,
     RemindersModalComponent,
     AboutRolodexComponent,
+    BillingModalComponent,
+    AiSettingsModalComponent,
   ],
   imports: [
     CommonModule,

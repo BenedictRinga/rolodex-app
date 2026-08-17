@@ -67,3 +67,23 @@ ion-content {
 .investor-content p {
   margin: 6px 0;
 }
+
+/* 2026-08-16 THE YARDSTICK chart — the investor's morning ritual. */
+.investor-chart-title {
+  margin-top: 10px;
+}
+
+.investor-chart {
+  width: 100%;
+  height: 120px;
+  background: var(--rolodex-surface-alt);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  margin: 6px 0;
+}
+
+.investor-chart-note {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--rolodex-text-secondary);
+}

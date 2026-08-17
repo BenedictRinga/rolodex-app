@@ -1,0 +1,32 @@
+ion-content {
+  --background: var(--rolodex-bg);
+}
+
+.ai-section {
+  padding: 12px;
+}
+
+.ai-intro {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary);
+  margin: 0 0 12px;
+}
+
+.ai-item {
+  --background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.ai-save {
+  margin-top: 12px;
+}
+
+.ai-note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--rolodex-success);
+  text-align: center;
+}
