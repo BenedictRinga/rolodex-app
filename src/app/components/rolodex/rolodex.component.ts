@@ -11,6 +11,7 @@ import type { CloudProvider } from '../../services/cloud-sync/sync.types';
 import { ModalController } from '@ionic/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
+import { PhotoService } from '../../services/photo/photo.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
 import { AboutRolodexComponent } from '../about-rolodex/about-rolodex.component';
@@ -130,6 +131,7 @@ export class RolodexComponent implements OnInit {
     private modalController: ModalController,
     private cardChat: CardChatService,
     private destroyRef: DestroyRef,
+    private photoService: PhotoService,
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
   ) { }
@@ -249,7 +251,43 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-17 MY PROFILE: the user's own identity — name + photo. */
+  profile: { name: string; photo: string } = { name: '', photo: '' };
+  private readonly PROFILE_KEY = 'rolodex_profile';
+
+  private loadProfile(): void {
+    try {
+      const raw = localStorage.getItem(this.PROFILE_KEY);
+      if (raw) this.profile = { name: '', photo: '', ...JSON.parse(raw) };
+    } catch { /* fresh */ }
+  }
+
+  profileFallback(): string {
+    const ch = (this.profile.name || 'Me').trim().charAt(0).toUpperCase() || 'M';
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' rx='48' fill='#4f6df5'/><text x='48' y='61' font-size='42' text-anchor='middle' fill='#fff' font-family='sans-serif'>${ch}</text></svg>`);
+  }
+
+  async changeProfilePhoto(): Promise<void> {
+    const dataUrl = await this.photoService.pick();
+    if (!dataUrl) return;
+    this.profile.photo = dataUrl;
+    this.saveProfile();
+  }
+
+  changeProfileName(): void {
+    const name = window.prompt('Your name - how you appear to your contacts', this.profile.name || '');
+    if (name == null) return;
+    this.profile.name = name.trim().slice(0, 40) || this.profile.name;
+    this.saveProfile();
+  }
+
+  private saveProfile(): void {
+    try { localStorage.setItem(this.PROFILE_KEY, JSON.stringify(this.profile)); } catch { /* ignore */ }
+    try { const sc: any = this.cardChat as any; if (sc?.socketChat?.name) sc.socketChat.name = this.profile.name || sc.socketChat.name; } catch { /* ignore */ }
+  }
+
   ngOnInit() {
+    this.loadProfile();
     // 2026-08-17 AWARENESS: a new message / appointment invite toasts immediately.
     this.cardChat.arrival$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ev) => {
       void this.alertService.showToast((ev.label || "New message") + " (" + this.cardChat.threadTitle(ev.key) + ")", 4500);

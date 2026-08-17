@@ -193,6 +193,26 @@
           </ion-buttons>
         </ion-list-header>
 
+        <!-- 2026-08-17 MY PROFILE: the user's own identity - name + photo,
+             the 'me' behind the cards (feeds the chat sender name too). -->
+        <ion-item class="profile-card" lines="none">
+          <ion-avatar slot="start" class="profile-avatar">
+            <img [src]="profile.photo || profileFallback()" alt="My profile" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ profile.name || 'My profile' }}</h2>
+            <p>You are the confidante's principal.</p>
+          </ion-label>
+          <ion-buttons slot="end">
+            <ion-button fill="outline" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
+              <ion-icon name="image-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="outline" size="small" (click)="changeProfileName()" appTooltip="Change name">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+
         <!-- 2026-08-16 SETTINGS MAP: every section at a glance - nobody is
              left scrolling in ignorance. Tapping a chip jumps to the item
              (or opens the section's modal directly). -->

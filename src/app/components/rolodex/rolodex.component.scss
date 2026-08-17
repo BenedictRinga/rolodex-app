@@ -1,3 +1,15 @@
+.profile-card {
+  --background: var(--rolodex-surface-alt);
+  border-radius: 14px;
+  margin: 10px 4px 4px;
+}
+
+.profile-avatar {
+  --border-radius: 50%;
+  width: 52px;
+  height: 52px;
+}
+
 /* ═══════════════════════════════════════════════════════
    ROLODEX COMPONENT — Main Chrome
    Premium relationship manager interface with warm,

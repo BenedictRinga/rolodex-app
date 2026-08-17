@@ -12,6 +12,7 @@ import { StorageService } from '../../services/storage/storage.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { InviteService } from '../../services/invite/invite.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
+import { PhotoService } from '../../services/photo/photo.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -122,7 +123,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     private gestureCtrl: GestureController,
     private cardChat: CardChatService,
     private inviteService: InviteService,
-    private socketChat: SocketChatService
+    private socketChat: SocketChatService,
+    private photoService: PhotoService
   ) { 
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -538,6 +540,14 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       ],
     });
     await alert.present();
+  }
+
+  /** 2026-08-17 CONTACT PHOTO: pick from the device gallery/camera, persist. */
+  async setContactPhoto(contact: any): Promise<void> {
+    const dataUrl = await this.photoService.pick();
+    if (!dataUrl) return;
+    contact.image = { base64String: dataUrl };
+    this.editContact.emit(contact);
   }
 
   /** 2026-08-17 THE DROPBOX MOMENT: they don't have Rolodex yet - the
