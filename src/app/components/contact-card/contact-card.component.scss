@@ -86,32 +86,19 @@ ion-content {
 
 /* ── Front ───────────────────────────────────────── */
 .rolodex-container .card-front {
-  background: var(--rolodex-surface);
-  border: 1px solid var(--rolodex-border-light);
-  box-shadow: var(--rolodex-shadow-sm);
+  /* 2026-08-17: RESTORED to the Zyppar original - plain white, #ccc border,
+     no accent strip, no shadow. */
+  background-color: #fff;
+  border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--rolodex-space-3);
+  padding: 8px;
   transition:
     box-shadow var(--rolodex-duration-normal) var(--rolodex-ease-out),
     transform var(--rolodex-duration-normal) var(--rolodex-spring);
-
-  /* Accent strip */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--rolodex-gradient-warm);
-    border-radius: var(--rolodex-radius-lg) var(--rolodex-radius-lg) 0 0;
-    opacity: 0;
-    transition: opacity var(--rolodex-duration-normal);
-  }
 }
 
 .rolodex-container .rolodex-card:hover .card-front {
@@ -208,13 +195,14 @@ ion-content {
 
 /* ── Back ────────────────────────────────────────── */
 .rolodex-container .card-back {
-  background: var(--rolodex-surface-alt);
-  border: 1px solid var(--rolodex-border-light);
+  /* 2026-08-17: RESTORED - neutral #f9f9f9 + #ccc (Zyppar original). */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--rolodex-space-3);
+  padding: 8px;
 }
 
 .rolodex-container .card-details {
@@ -363,24 +351,15 @@ ion-content {
 }
 
 .gridcard .card-front {
-  background: var(--rolodex-surface);
+  /* 2026-08-17: RESTORED - plain #fff (Zyppar original), no accent strip. */
+  background: #fff;
   border-radius: var(--rolodex-radius-lg);
   transform: rotateY(0deg);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--rolodex-gradient-warm);
-    border-radius: var(--rolodex-radius-lg) var(--rolodex-radius-lg) 0 0;
-  }
 }
 
 .gridcard .card-back {
-  background: var(--rolodex-surface-alt);
+  /* 2026-08-17: RESTORED - #fff (Zyppar original). */
+  background: #fff;
   border-radius: var(--rolodex-radius-lg);
   transform: rotateY(180deg);
 }
@@ -844,30 +823,12 @@ ion-content {
 }
 
 .social-card {
-  background: var(--rolodex-surface);
-  border: 1px solid var(--rolodex-border-light);
-  border-radius: var(--rolodex-radius-lg);
-  padding: var(--rolodex-space-4);
-  box-shadow: var(--rolodex-shadow-sm);
-  transition:
-    box-shadow var(--rolodex-duration-normal) var(--rolodex-ease-out);
-
-  &:hover { box-shadow: var(--rolodex-shadow-md); }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--rolodex-gradient-warm);
-    border-radius: var(--rolodex-radius-lg) var(--rolodex-radius-lg) 0 0;
-    opacity: 0;
-    transition: opacity var(--rolodex-duration-normal);
-  }
-
-  &:hover::before { opacity: 1; }
+  /* 2026-08-17: RESTORED to the Zyppar original - transparent, #ccc border,
+     the classic 0 4px 8px shadow, no accent strip. */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .social-header {
