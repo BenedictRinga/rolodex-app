@@ -12,6 +12,7 @@ import { ModalController } from '@ionic/angular';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
+import { AboutRolodexComponent } from '../about-rolodex/about-rolodex.component';
 import { UpdatesService } from '../../services/updates/updates.service';
 
 @Component({
@@ -125,6 +126,17 @@ export class RolodexComponent implements OnInit {
     private cardChat: CardChatService,
     private updatesService: UpdatesService,
   ) { }
+
+  /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */
+  async openAbout(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: AboutRolodexComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95],
+      initialBreakpoint: 0.9,
+    });
+    await modal.present();
+  }
 
   /** 2026-08-16 REMINDERS: the section — alarms, follow-ups, birthdays. */
   async openReminders(): Promise<void> {

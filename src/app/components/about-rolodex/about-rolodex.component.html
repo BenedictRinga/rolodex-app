@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">About Rolodex</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="about-body">
+  <div class="about-hero">
+    <div class="about-logo">RolodexAI</div>
+    <div class="about-tagline">Your contacts, in motion.</div>
+  </div>
+
+  <div class="about-section">
+    <h3>What is Rolodex?</h3>
+    <p>
+      Rolodex is your <strong>confidential secretary</strong> — the contact
+      manager that remembers, prompts, and communicates for you. It keeps
+      every person you care about moving: birthdays, anniversaries,
+      milestones, follow-ups, and the message you were going to send anyway —
+      proffered, ready, one tap from Send.
+    </p>
+  </div>
+
+  <div class="about-section">
+    <h3>Why it exists</h3>
+    <p>
+      Contacts were never meant to sit still in a phonebook. Rolodex came out
+      of Zyppar (2026) with one idea: the relationship is the product. The
+      card is the surface — flip to a person and everything lives there:
+      chat, reminders, follow-ups, their story.
+    </p>
+  </div>
+
+  <div class="about-section">
+    <h3>Rolodex × RolodexAI</h3>
+    <p>
+      <strong>Rolodex (Basic · $1/month):</strong> cards, groups, reminders,
+      the follow-up engine, birthdays, sync, pods, in-app chat.
+    </p>
+    <p>
+      <strong>RolodexAI ($5/month):</strong> everything in Basic, plus the
+      confidante — messages composed in your own voice, AI drafting,
+      preset guides, suggested follow-ups and timing.
+    </p>
+  </div>
+
+  <div class="about-section">
+    <h3>Version</h3>
+    <p>RolodexAI v{{ version }} · running as a PWA on zyppar.com/rolodex/</p>
+  </div>
+
+  <!-- 2026-08-16 THE PADLOCK: investors only — exclusive, mysterious. -->
+  <div class="about-section investors-section">
+    <h3 (click)="promptPassword()" class="investors-title">
+      <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
+      Investors
+    </h3>
+    <p class="investors-hint" *ngIf="!unlocked">
+      Some doors are opened with a word. The roadmap lives behind it.
+    </p>
+    <ng-container *ngIf="unlocked">
+      <div class="investor-content">
+        <p><strong>NorthStar:</strong> a retention curve that flattens. % of
+          users active on day N that stops decaying — the only chart that
+          matters (Alex Schultz: an asymptote parallel to the x-axis is a
+          viable business).</p>
+        <p><strong>Pricing:</strong> Basic $1/month (the habit) · RolodexAI
+          $5/month (the confidante). The $1 tier is the hook; the $5 tier is
+          the relationship engine.</p>
+        <p><strong>Roadmap:</strong> AI drafting on a real model (the v0
+          template engine today) · in-card video chat · the network layer —
+          one user's confidante communicating with another's · native
+          Android/iOS (Play Store next) · licensing the contact-management
+          engine to OEMs and telcos.</p>
+        <p><strong>Live proof:</strong> the demo room — enter the same code on
+          two devices and chat appears on both, immediately. The product
+          communicates right now.</p>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

@@ -9,6 +9,7 @@ import { TooltipDirective } from '../directives/tooltip/tooltip.directive';
 import { CardChatModalComponent } from './card-chat-modal/card-chat-modal.component';
 import { PodsModalComponent } from './pods-modal/pods-modal.component';
 import { RemindersModalComponent } from './reminders-modal/reminders-modal.component';
+import { AboutRolodexComponent } from './about-rolodex/about-rolodex.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RemindersModalComponent } from './reminders-modal/reminders-modal.compo
     CardChatModalComponent,
     PodsModalComponent,
     RemindersModalComponent,
+    AboutRolodexComponent,
   ],
   imports: [
     CommonModule,

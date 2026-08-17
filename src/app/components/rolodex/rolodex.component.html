@@ -236,6 +236,13 @@
           <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Show/Stop</ion-button>
         </ion-item>
 
+        <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
+        <ion-item lines="none" class="elegant-item" (click)="openAbout()">
+          <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>About Rolodex</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
         <!-- <ion-item lines="none" class="elegant-item">
           <ion-icon name="moon-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Theme</ion-label>
