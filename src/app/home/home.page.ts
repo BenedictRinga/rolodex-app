@@ -87,7 +87,8 @@ export class HomePage implements OnInit {
   }
 
   /** 2026-08-16 WELCOME AGAIN: demos Rolodex on init unless turned off
-   *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside). */
+   *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside).
+   *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
   async presentWelcome() {
     try {
       if (localStorage.getItem(WELCOME_DISMISSED_KEY)) return;
@@ -98,6 +99,8 @@ export class HomePage implements OnInit {
         initialBreakpoint: 0.9,
       });
       await modal.present();
+      const res = await modal.onDidDismiss();
+      if (res?.role === 'start') void this.openHelp();
     } catch { /* quiet */ }
   }
 

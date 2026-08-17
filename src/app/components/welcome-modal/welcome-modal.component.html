@@ -1,10 +1,5 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     <ion-title style="font-size: 15px;">Welcome to Rolodex</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
@@ -15,21 +10,174 @@
 </ion-header>
 
 <ion-content class="welcome-body">
-  <div class="welcome-hero">
-    <div class="welcome-logo">RolodexAI</div>
-    <div class="welcome-tagline">Your contacts, in motion — the confidential secretary that closes the tiny loops.</div>
-  </div>
+  <!-- 2026-08-17 WELCOME AGAIN — the visual demo. Each step is its own
+       block (keyed by ngIf) so its CSS animations replay on arrival. -->
+  <ng-container *ngFor="let s of steps; let i = index">
+    <div class="demo-step" *ngIf="i === stepIndex">
+      <div class="demo-progress">
+        <div class="demo-progress-fill" [class.paused]="!autoPlay" [ngStyle]="{'animation-duration': STEP_MS + 'ms'}"></div>
+      </div>
 
-  <div class="welcome-card" *ngFor="let f of features">
-    <ion-icon [name]="f.icon" class="welcome-icon" [style.color]="f.color"></ion-icon>
-    <div class="welcome-copy">
-      <h3>{{ f.title }}</h3>
-      <p>{{ f.desc }}</p>
+      <!-- ── STAGE: the visual, drawn entirely in CSS ────────────────── -->
+      <div class="demo-stage">
+        <div class="stage-in">
+          <ng-container [ngSwitch]="s.id">
+
+            <!-- INTRO: the rolodex fan opens -->
+            <div class="fan" *ngSwitchCase="'intro'">
+              <div class="fan-card fc1">
+                <div class="fc-avatar grad-cool">AW</div>
+                <div class="fc-meta"><b>Amina</b><span>Confidante</span></div>
+              </div>
+              <div class="fan-card fc2 fan-mid">
+                <div class="fc-avatar grad-brand">DP</div>
+                <div class="fc-meta"><b>Daniel</b><span>Business</span></div>
+                <span class="tap-ring"></span>
+              </div>
+              <div class="fan-card fc3">
+                <div class="fc-avatar grad-warm">SO</div>
+                <div class="fc-meta"><b>Sofia</b><span>Family</span></div>
+              </div>
+            </div>
+
+            <!-- THE CARD: a 3D flip, front → back, on a loop -->
+            <div class="scene" *ngSwitchCase="'card'">
+              <div class="card3d">
+                <div class="face face-front">
+                  <div class="fc-avatar grad-brand big">AW</div>
+                  <div class="face-name">Amina Wanjiru</div>
+                  <div class="face-sub">Confidante · Nairobi</div>
+                  <div class="face-actions">
+                    <span class="mini-act"><ion-icon name="call-outline"></ion-icon></span>
+                    <span class="mini-act"><ion-icon name="mail-outline"></ion-icon></span>
+                    <span class="mini-act"><ion-icon name="location-outline"></ion-icon></span>
+                  </div>
+                </div>
+                <div class="face face-back">
+                  <div class="back-actions">
+                    <span class="back-act"><ion-icon name="chatbubble-outline"></ion-icon><em>Chat</em></span>
+                    <span class="back-act"><ion-icon name="alarm-outline"></ion-icon><em>Remind</em></span>
+                    <span class="back-act hot"><ion-icon name="sparkles-outline"></ion-icon><em>Confidante</em></span>
+                    <span class="back-act"><ion-icon name="call-outline"></ion-icon><em>Call</em></span>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-hint">tap to flip</div>
+            </div>
+
+            <!-- FOLLOW-UP ENGINE: the loop list -->
+            <div class="loop" *ngSwitchCase="'followup'">
+              <div class="loop-row row-overdue">
+                <div class="loop-avatar grad-brand">J</div>
+                <div class="loop-meta"><b>Juma — reply about the loan</b><span>owed since Tue</span></div>
+                <span class="loop-badge bad">OVERDUE</span>
+              </div>
+              <div class="loop-row row-today">
+                <div class="loop-avatar grad-cool">P</div>
+                <div class="loop-meta"><b>Priya — how did the interview go?</b><span>due today</span></div>
+                <span class="loop-badge ok">TODAY</span>
+              </div>
+              <div class="loop-row row-later">
+                <div class="loop-avatar grad-warm">S</div>
+                <div class="loop-meta"><b>Sam — thank-you note</b><span>scheduled · in 3 days</span></div>
+                <span class="loop-badge info">3d</span>
+              </div>
+              <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> caught before it goes cold</div>
+            </div>
+
+            <!-- CONFIDANTE: the AI drafts, you hit Send -->
+            <div class="chat" *ngSwitchCase="'confidante'">
+              <div class="msg msg-me">What do I say to Priya about the interview?</div>
+              <div class="msg typing">
+                <span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>
+              </div>
+              <div class="msg msg-ai">Hey Priya — huge congrats on getting to the interview. How did it go? Rooting for you. 💛</div>
+              <div class="send-pill"><ion-icon name="paper-plane-outline"></ion-icon> Hit Send</div>
+            </div>
+
+            <!-- PODS: groups grow into shared threads -->
+            <div class="pods" *ngSwitchCase="'pods'">
+              <div class="pod-circles">
+                <div class="pod-circle pc1 grad-brand">Fam</div>
+                <div class="pod-circle pc2 grad-cool">Biz</div>
+                <div class="pod-circle pc3 grad-warm">Fri</div>
+              </div>
+              <div class="pod-down"><ion-icon name="chevron-down-outline"></ion-icon></div>
+              <div class="pod-bubble">
+                <b>One pod per group</b>
+                <div class="pod-chips"><span>shared schedule</span><span>shared reminders</span></div>
+              </div>
+            </div>
+
+            <!-- STORAGE: device / cloud / server -->
+            <div class="storage" *ngSwitchCase="'storage'">
+              <div class="st-row">
+                <span class="st-focus"></span>
+                <span class="st-chip">Device</span>
+                <span class="st-chip">Cloud</span>
+                <span class="st-chip">Rolodex Server</span>
+              </div>
+              <div class="room-pill"><span class="live-dot"></span> demo room · zyppar-demo — devices link live</div>
+            </div>
+
+            <!-- PRICING: Basic vs Confidante -->
+            <div class="tiers" *ngSwitchCase="'pricing'">
+              <div class="tier tier-basic">
+                <div class="tier-name">Basic</div>
+                <div class="tier-price">$1<small>/mo</small></div>
+                <div class="tier-line">The Assistant · 5 AI interventions</div>
+              </div>
+              <div class="tier tier-conf">
+                <div class="tier-flag">The loop-closer</div>
+                <div class="tier-name">Confidante</div>
+                <div class="tier-price">$5<small>/mo</small></div>
+                <div class="tier-line">The AI works all month</div>
+              </div>
+            </div>
+
+            <!-- OUTRO: the recap -->
+            <div class="recap" *ngSwitchCase="'outro'">
+              <div class="recap-chip c1">The card <b>✓</b></div>
+              <div class="recap-chip c2">The loop <b>✓</b></div>
+              <div class="recap-chip c3">The confidante <b>✓</b></div>
+              <div class="recap-done">You’re set — everything above is live.</div>
+            </div>
+
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- ── COPY ───────────────────────────────────────────────────── -->
+      <div class="demo-copy">
+        <div class="demo-kicker">{{ s.kicker }}</div>
+        <h2 class="demo-title">{{ s.title }}</h2>
+        <p class="demo-text">{{ s.copy }}</p>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ── CONTROLS ───────────────────────────────────────────────────── -->
+  <div class="demo-controls">
+    <div class="demo-dots">
+      <button
+        *ngFor="let s of steps; let i = index"
+        class="demo-dot"
+        [class.on]="i === stepIndex"
+        [class.done]="i < stepIndex"
+        (click)="goTo(i)"
+        [attr.aria-label]="'Step ' + (i + 1) + ' of ' + steps.length"
+      ></button>
+    </div>
+    <div class="demo-nav">
+      <button class="nav-btn" [disabled]="isFirst" (click)="prev()" aria-label="Previous step">‹</button>
+      <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay ? 'Pause demo' : 'Play demo'">{{ autoPlay ? '❚❚' : '▶' }}</button>
+      <button class="nav-btn" [disabled]="isLast" (click)="next()" aria-label="Next step">›</button>
     </div>
   </div>
 
-  <div class="welcome-actions">
-    <ion-button expand="block" (click)="start()">Start exploring</ion-button>
-    <ion-button expand="block" fill="outline" (click)="dontShowAgain()">Don't show this again</ion-button>
+  <!-- ── ACTIONS ────────────────────────────────────────────────────── -->
+  <div class="demo-actions">
+    <ion-button fill="clear" size="small" (click)="dontShowAgain()">Don't show this again</ion-button>
+    <ion-button expand="block" class="demo-start" (click)="start()">Start exploring</ion-button>
   </div>
 </ion-content>
