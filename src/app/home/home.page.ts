@@ -10,9 +10,12 @@ import { EventService, CalendarEvent } from '../services/event/event.service';
 import { AlertsService } from '../services/alerts/alerts.service';
 import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
 import { SocketChatService } from '../services/socket-chat/socket-chat.service';
+import { CardChatService } from '../services/card-chat/card-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
+import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
+import { InviteService } from '../services/invite/invite.service';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
@@ -75,6 +78,8 @@ export class HomePage implements OnInit {
     private alertController: AlertController,
     private socketChat: SocketChatService,
     private draftEngine: DraftEngineService,
+    private inviteService: InviteService,
+    private cardChat: CardChatService,
   ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -111,7 +116,61 @@ export class HomePage implements OnInit {
     void this.presentWelcome(true);
   }
 
+  /** 2026-08-17 THE DROPBOX MOMENT: a shared invite link opened the app. */
+  async presentInviteLanding(): Promise<void> {
+    try {
+      const token = new URLSearchParams(location.search).get('invite');
+      if (!token) return;
+      const inv = await this.inviteService.fetch(token);
+      if (!inv) return;
+      // clear the param so a reload doesn't re-show it
+      history.replaceState(null, '', location.pathname + location.hash);
+      const modal = await this.modalController.create({
+        component: InviteLandingComponent,
+        componentProps: { invite: inv },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95],
+        initialBreakpoint: 0.9,
+      });
+      await modal.present();
+      const res = await modal.onDidDismiss();
+      const role = res?.role;
+      const picked = res?.data?.picked;
+      if (picked?.name) {
+        // the WOW: their card is born with the invite already on it
+        const appt = inv.kind === 'appointment' ? [{ title: inv.title, when: inv.when, from: inv.from }] : [];
+        const c = {
+          contactId: 'invite-' + Date.now(),
+          name: { display: picked.name, given: String(picked.name).split(' ')[0] || '', middle: '', family: String(picked.name).split(' ').slice(1).join(' ') || '', prefix: '', suffix: '' },
+          phoneNumbers: picked.tel ? [{ type: 'mobile' as any, number: picked.tel }] : [],
+          emailAddresses: [] as any[],
+          image: { base64String: null },
+          appointments: appt,
+          isMockData: false,
+          isContactInfo: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          preferences: { refreshContacts: false, notificationPreference: 'email' as any },
+        };
+        this.contacts = [...this.contacts, c as any];
+        this.onContactsChange(this.contacts);
+        if (inv.kind === 'message') {
+          const thread = await this.cardChat.seedThread(c as any);
+          thread.messages = [...thread.messages, { id: 'inv' + Date.now(), from: 'them', text: inv.text, at: new Date().toISOString(), status: 'read' as any }];
+          await this.cardChat.saveThread(thread);
+        }
+        void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
+      } else if (role === 'get-app') {
+        window.open('https://play.google.com/store/apps/details?id=com.zyppar.rolodexai', '_blank');
+      } else if (role === 'pick-unavailable') {
+        void this.alertsService.showToast('Contact picking needs Android Chrome — the app does the correlation everywhere.', 4500);
+      }
+    } catch { /* the invite link may be dead — the app still loads */ }
+  }
+
   async ngOnInit() {
+    // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
+    void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
     void this.presentWelcome();
     // Wire passphrase prompt callback for CloudSyncService

@@ -123,7 +123,11 @@
                   <ion-button fill="outline" size="small" color="warning" (click)="setReminder(contact)">
                     <ion-icon name="alarm-outline"></ion-icon>
                   </ion-button>
-                  <!-- 2026-08-17 THE INVITE: fix an appointment - the other card catches it. -->
+                  <!-- 2026-08-17 THE DROPBOX MOMENT: share the invite via WhatsApp / email / SMS / link. -->
+                  <ion-button fill="outline" size="small" color="medium" (click)="shareOut(contact)" appTooltip="Share via WhatsApp / email / SMS">
+                    <ion-icon name="share-social-outline"></ion-icon>
+                  </ion-button>
+<!-- 2026-08-17 THE INVITE: fix an appointment - the other card catches it. -->
                   <ion-button fill="outline" size="small" color="tertiary" (click)="setAppointment(contact)" appTooltip="Invite to appointment">
                     <ion-icon name="calendar-outline"></ion-icon>
                   </ion-button>

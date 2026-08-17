@@ -10,6 +10,8 @@ import { PagemanagerService, RolodexView } from '../../services/pagemanager/page
 import { FormvalidationService, atLeastOneContactMethod, atLeastOnePhoneOrEmail, birthdayRangeValidator, convertBirthdayToDate, emailDomainValidator, safeCompose, uniqueTags, validPhoneNumberFormat } from '../../services/formvalidation/formvalidation.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
+import { InviteService } from '../../services/invite/invite.service';
+import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -118,7 +120,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     private deviceConnector: DeviceconnectorService,
     private draftEngine: DraftEngineService,
     private gestureCtrl: GestureController,
-    private cardChat: CardChatService
+    private cardChat: CardChatService,
+    private inviteService: InviteService,
+    private socketChat: SocketChatService
   ) { 
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -528,6 +532,74 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
             try { this.cardChat.sendAppointment(String(contact.contactId || ''), title, when); } catch { /* offline */ }
             this.editContact.emit(contact);
             void this.alertCtrl.create({ header: 'Invite sent', message: name + "'s card will catch it when their device is online.", buttons: ['OK'] }).then((a) => a.present());
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** 2026-08-17 THE DROPBOX MOMENT: they don't have Rolodex yet - the
+   *  invite travels via WhatsApp / email / SMS / copy-link, and the click
+   *  opens the PWA on their device. */
+  async shareOut(contact: any): Promise<void> {
+    const name = this.draftEngine.contactName(contact) || 'this contact';
+    const from = (this.socketChat as any)?.name || 'Me';
+    const room = this.cardChat.room || '';
+    const sheet = await this.alertCtrl.create({
+      header: 'Share with ' + name,
+      message: "They don't need Rolodex to catch it — the link opens it on their device.",
+      buttons: [
+        { text: 'Share an appointment', handler: () => { void this.shareAppointment(contact, from, room, name); } },
+        { text: 'Share a message', handler: () => { void this.shareMessage(contact, from, room, name); } },
+        { text: 'Cancel', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
+
+  private async shareAppointment(contact: any, from: string, room: string, name: string): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Appointment with ' + name,
+      inputs: [
+        { name: 'title', type: 'text', placeholder: 'What for? (e.g. Lunch, Review)' },
+        { name: 'when', type: 'datetime-local', value: new Date(Date.now() + 86400_000).toISOString().slice(0, 16) },
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Share the link',
+          handler: async (v: any) => {
+            const title = String(v?.title || '').trim();
+            if (!title) return false;
+            const inv = await this.inviteService.create({ from, room, kind: 'appointment', title, when: String(v?.when || '') });
+            if (!inv) { void this.alertCtrl.create({ header: 'Offline', message: 'Could not create the invite link — check your connection.', buttons: ['OK'] }).then((a) => a.present()); return true; }
+            const res = await this.inviteService.share(inv);
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private async shareMessage(contact: any, from: string, room: string, name: string): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Message to ' + name,
+      inputs: [{ name: 'text', type: 'textarea', placeholder: 'Write the message…' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Share the link',
+          handler: async (v: any) => {
+            const text = String(v?.text || '').trim();
+            if (!text) return false;
+            const inv = await this.inviteService.create({ from, room, kind: 'message', text });
+            if (!inv) return true;
+            const res = await this.inviteService.share(inv);
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },

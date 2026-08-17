@@ -169,6 +169,11 @@ export class CardChatService {
     return this.unread[key] || 0;
   }
 
+  /** 2026-08-17 THE DROPBOX MOMENT: the demo room, for invite links. */
+  get room(): string {
+    return (this.socketChat as any)?.room || '';
+  }
+
   /** The thread title for arrival toasts. */
   threadTitle(key: string): string {
     return key.startsWith('pod:') ? key.slice(4) : key;

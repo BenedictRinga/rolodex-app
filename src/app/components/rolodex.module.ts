@@ -14,6 +14,7 @@ import { BillingModalComponent } from './billing-modal/billing-modal.component';
 import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.component';
 import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-surface-modal.component';
 import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
+import { InviteLandingComponent } from './invite-landing/invite-landing.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
     AiSettingsModalComponent,
     ContactSurfaceModalComponent,
     WelcomeModalComponent,
+    InviteLandingComponent,
   ],
   imports: [
     CommonModule,
