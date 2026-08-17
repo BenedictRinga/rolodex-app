@@ -26,6 +26,11 @@ export class BillingModalComponent {
     return this.draftEngine.plan === 'confidante' ? 'Confidante ($5/month)' : 'Assistant (Basic $1/month)';
   }
 
+  /** 2026-08-17 FREE TRIAL: the 7-day Confidante banner. */
+  get trialLabel(): string {
+    return this.draftEngine.trialLabel();
+  }
+
   async subscribe(plan: PlanId): Promise<void> {
     // 2026-08-16: the plan applies immediately (the quota unlocks); Stripe
     // confirms payment in the hosted checkout.

@@ -63,3 +63,14 @@ ion-content {
   color: var(--rolodex-text-secondary);
   margin: 10px 12px 20px;
 }
+
+.billing-trial-banner {
+  margin: 8px 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--rolodex-accent-light);
+  color: var(--rolodex-text);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}

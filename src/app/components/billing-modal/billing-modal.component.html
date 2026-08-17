@@ -15,6 +15,8 @@
 </ion-header>
 
 <ion-content class="billing-body">
+  <!-- 2026-08-17 FREE TRIAL: 7 days of the Confidante, counting down. -->
+  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — the Confidante, free.</div>
   <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Confidante ($5, the agent). -->
   <div class="plan-card" [class.plan-featured]="plan === 'confidante'">
     <div class="plan-name">Basic</div>

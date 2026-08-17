@@ -13,6 +13,10 @@ export interface MessageGuide {
 const AI_PROVIDER_KEY = 'rolodex_ai_provider';
 const PLAN_KEY = 'rolodex_plan';
 const INTERVENTIONS_KEY = 'rolodex_interventions';
+/** 2026-08-17 FREE TRIAL: 7 days of the Confidante, auto-granted on first AI use. */
+const TRIAL_KEY = 'rolodex_trial_until';
+const TRIAL_DAYS = 7;
+const DAY_MS = 86400_000;
 const MONTHLY_QUOTA = 5;
 const CONTEXT_CAP = 8;
 
@@ -79,19 +83,47 @@ export class DraftEngineService {
     try { localStorage.setItem(PLAN_KEY, p); } catch {}
   }
 
+  /** 2026-08-17 FREE TRIAL — epoch ms the trial runs until (0 = none). */
+  trialUntil(): number {
+    try { return Number(localStorage.getItem(TRIAL_KEY) || 0) || 0; } catch { return 0; }
+  }
+
+  trialDaysLeft(): number {
+    const until = this.trialUntil();
+    if (!until) return 0;
+    return Math.max(0, Math.ceil((until - Date.now()) / DAY_MS));
+  }
+
+  trialActive(): boolean {
+    return this.trialDaysLeft() > 0;
+  }
+
+  trialLabel(): string {
+    const d = this.trialDaysLeft();
+    return d > 0 ? 'Trial: ' + d + (d === 1 ? ' day' : ' days') + ' of the Confidante left' : '';
+  }
+
+  /** Auto-grant once: the first AI use starts the 7-day Confidante trial. */
+  ensureTrial(): void {
+    if (this.plan === 'confidante') return;
+    if (this.trialUntil() > Date.now()) return;
+    try { localStorage.setItem(TRIAL_KEY, String(Date.now() + TRIAL_DAYS * DAY_MS)); } catch {}
+  }
+
   interventionsLeft(): number {
     try {
       const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
       const rec = JSON.parse(raw);
       const key = this.monthKey();
       const used = rec[key] || 0;
-      if (this.plan === 'confidante') return Number.MAX_SAFE_INTEGER;
+      if (this.plan === 'confidante' || this.trialActive()) return Number.MAX_SAFE_INTEGER;
       return Math.max(0, MONTHLY_QUOTA - used);
     } catch { return MONTHLY_QUOTA; }
   }
 
   private consumeIntervention(): void {
     try {
+      if (this.plan === 'confidante' || this.trialActive()) return; // the trial/Confidante never burns the monthly count
       const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
       const rec = JSON.parse(raw);
       const key = this.monthKey();
@@ -176,6 +208,9 @@ export class DraftEngineService {
   async composeAi(c: ContactInfo, occasion: Occasion, guideKey?: string): Promise<string> {
     const guide = guideKey ? this.getGuide(guideKey) : null;
     if (guide?.strict) return guide.guide;
+
+    // 2026-08-17 FREE TRIAL: the first AI use auto-grants 7 days of the Confidante.
+    this.ensureTrial();
 
     if (this.interventionsLeft() <= 0) {
       return 'Your Assistant taste is used up for this month — upgrade to the Confidante ($5/month) for unlimited AI interventions.';
