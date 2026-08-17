@@ -501,6 +501,48 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     await modal.present();
   }
 
+  /** 2026-08-17 AWARENESS: the unread badge on the chat row. */
+  unreadFor(key: string): number {
+    try { return this.cardChat.unreadFor(key); } catch { return 0; }
+  }
+
+  /** 2026-08-17 THE INVITE: fix an appointment — the other party's card catches it. */
+  async setAppointment(contact: any): Promise<void> {
+    const name = this.draftEngine.contactName(contact) || 'this contact';
+    const alert = await this.alertCtrl.create({
+      header: 'Appointment with ' + name,
+      inputs: [
+        { name: 'title', type: 'text', placeholder: 'What for? (e.g. Lunch, Review)' },
+        { name: 'when', type: 'datetime-local', value: new Date(Date.now() + 86400_000).toISOString().slice(0, 16) },
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Invite',
+          handler: (v: any) => {
+            const title = String(v?.title || '').trim();
+            if (!title) return false;
+            const when = String(v?.when || '');
+            const appts = Array.isArray(contact.appointments) ? contact.appointments : [];
+            contact.appointments = [...appts, { title, when, from: 'Me' }];
+            try { this.cardChat.sendAppointment(String(contact.contactId || ''), title, when); } catch { /* offline */ }
+            this.editContact.emit(contact);
+            void this.alertCtrl.create({ header: 'Invite sent', message: name + "'s card will catch it when their device is online.", buttons: ['OK'] }).then((a) => a.present());
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** The next upcoming appointment on the card (from invites + my own). */
+  nextAppointment(contact: any): any | null {
+    const appts = Array.isArray(contact?.appointments) ? contact.appointments : [];
+    if (!appts.length) return null;
+    return [...appts].sort((a: any, b: any) => String(a.when || '').localeCompare(String(b.when || '')))[0];
+  }
+
   /** 2026-08-16 REMINDERS: set a reminder right off the card — note + date,
    *  saved into the contact's reminders list (persisted via editContact). */
   async setReminder(contact: any): Promise<void> {

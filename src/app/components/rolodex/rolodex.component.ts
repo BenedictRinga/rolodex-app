@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, DestroyRef, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
 import { CalendarEvent } from '../../services/event/event.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
@@ -9,6 +9,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Capacitor } from '@capacitor/core';
 import type { CloudProvider } from '../../services/cloud-sync/sync.types';
 import { ModalController } from '@ionic/angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
@@ -128,6 +129,7 @@ export class RolodexComponent implements OnInit {
     private eventService: EventService,
     private modalController: ModalController,
     private cardChat: CardChatService,
+    private destroyRef: DestroyRef,
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
   ) { }
@@ -248,6 +250,10 @@ export class RolodexComponent implements OnInit {
   }
 
   ngOnInit() {
+    // 2026-08-17 AWARENESS: a new message / appointment invite toasts immediately.
+    this.cardChat.arrival$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ev) => {
+      void this.alertService.showToast((ev.label || "New message") + " (" + this.cardChat.threadTitle(ev.key) + ")", 4500);
+    });
     this.loadViewMode();
     // 2026-08-16: the Updates counter re-checks every 5 minutes.
     this.updateTimer = setInterval(() => { void this.refreshUpdatesQuietly(); }, 300000);

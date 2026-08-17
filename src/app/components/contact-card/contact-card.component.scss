@@ -123,6 +123,21 @@ ion-content {
    property cascades into ion-avatar's shadow, so BOTH the holder and the
    photo become square-with-rounded-corners (the old host-only override left
    the image round inside the square holder). */
+.chat-unread-badge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 9px;
+  background: var(--rolodex-danger);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  padding: 0 5px;
+  margin-left: 6px;
+}
+
 .contact-card-content .default-view-avatar {
   --border-radius: 16px;
   border-radius: 16px;

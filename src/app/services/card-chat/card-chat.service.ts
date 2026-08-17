@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
+import { Subject } from 'rxjs';
 import { SocketChatService } from '../socket-chat/socket-chat.service';
 import { DraftEngineService } from '../draft-engine/draft-engine.service';
 
@@ -11,6 +12,7 @@ export interface ChatMessage {
   text: string;
   at: string; // ISO
   status?: ReceiptStatus; // 2026-08-17 READ RECEIPTS: my messages only
+  reactions?: string[]; // 2026-08-17 emoji reactions (👍 ❤️ 😂 🎉 🤝)
 }
 
 export interface ChatThread {
@@ -35,12 +37,21 @@ const PREFIX = 'rolodex-chat-v1:';
 })
 export class CardChatService {
   private lastSentKey = '';
+  private unread: Record<string, number> = {};
+  private readonly UNREAD_KEY = 'rolodex-chat-unread';
+  /** 2026-08-17: fires when a remote message/appointment arrives (badge + toast). */
+  arrival$ = new Subject<{ key: string; label: string }>();
+
 
   constructor(
     private readonly storage: StorageService,
     private readonly socketChat: SocketChatService,
     private readonly draftEngine: DraftEngineService,
   ) {
+    try {
+      const raw = localStorage.getItem(this.UNREAD_KEY);
+      if (raw) this.unread = JSON.parse(raw);
+    } catch { /* fresh */ }
     // 2026-08-16 SOCKET: incoming cross-device messages land in their thread
     // (contactId or pod:<group> via the `key` the sender attached).
     this.socketChat.onMessage((msg) => {
@@ -57,7 +68,61 @@ export class CardChatService {
       if (!key) return;
       void this.markThreadRead(key);
     });
+    // 2026-08-17 REACTIONS: the peer's emoji lands on the matching message.
+    this.socketChat.onReact((payload) => {
+      if (!payload?.key || !payload?.messageId) return;
+      void this.applyReaction(payload.key, payload.messageId, payload.emoji);
+    });
+    // 2026-08-17 THE INVITE: an appointment set on the other side arrives here.
+    this.socketChat.onAppointment((payload) => {
+      if (!payload?.key) return;
+      this.appointment$.next(payload);
+      this.arrival$.next({ key: payload.key, label: payload.from + ' invited you: ' + payload.title });
+    });
   }
+
+  /** 2026-08-17 REACTIONS: toggle the emoji on a thread's message + persist. */
+  async toggleReaction(key: string, messageId: string, emoji: string): Promise<void> {
+    try {
+      const t = await this.loadThread(key);
+      if (!t) return;
+      const m = t.messages.find((x) => x.id === messageId);
+      if (!m) return;
+      const list = Array.isArray(m.reactions) ? [...m.reactions] : [];
+      const at = list.indexOf(emoji);
+      if (at >= 0) list.splice(at, 1); else list.push(emoji);
+      m.reactions = list;
+      await this.saveThread(t);
+      this.messageChanged$.next(key);
+      try { this.socketChat.emitReact(key, messageId, emoji); } catch { /* offline */ }
+    } catch { /* best effort */ }
+  }
+
+  /** The peer's reaction applied to my copy of the message. */
+  private async applyReaction(key: string, messageId: string, emoji: string): Promise<void> {
+    try {
+      const t = await this.loadThread(key);
+      if (!t) return;
+      const m = t.messages.find((x) => x.id === messageId);
+      if (!m) return;
+      const list = Array.isArray(m.reactions) ? [...m.reactions] : [];
+      const at = list.indexOf(emoji);
+      if (at >= 0) list.splice(at, 1); else list.push(emoji);
+      m.reactions = list;
+      await this.saveThread(t);
+      this.messageChanged$.next(key);
+    } catch { /* best effort */ }
+  }
+
+  /** 2026-08-17 THE INVITE: fix an appointment on my side; the other card catches it. */
+  sendAppointment(key: string, title: string, when: string): void {
+    try { this.socketChat.sendAppointment(key, title, when); } catch { /* offline */ }
+  }
+
+  /** 2026-08-17 INVITES: fires when the other party sets an appointment with me. */
+  appointment$ = new Subject<{ key: string; title: string; when: string; from: string }>();
+  /** 2026-08-17 REACTIONS: fires whenever a reaction lands (mine or theirs). */
+  messageChanged$ = new Subject<string>();
 
   /** Mark the newest 'me' message 'delivered' when the server acks. */
   private async markLatestDelivered(): Promise<void> {
@@ -91,14 +156,34 @@ export class CardChatService {
   /** 2026-08-17 READ RECEIPTS: the chat opens -> tell the peer I read it. */
   markRead(key: string): void {
     try { this.socketChat.emitRead(key); } catch { /* offline */ }
+    try {
+      if (this.unread[key]) {
+        delete this.unread[key];
+        localStorage.setItem(this.UNREAD_KEY, JSON.stringify(this.unread));
+      }
+    } catch { /* ignore */ }
+  }
+
+  /** 2026-08-17 THE 'HOW DO THEY KNOW' LAYER: per-thread unread counts. */
+  unreadFor(key: string): number {
+    return this.unread[key] || 0;
+  }
+
+  /** The thread title for arrival toasts. */
+  threadTitle(key: string): string {
+    return key.startsWith('pod:') ? key.slice(4) : key;
   }
 
   private async appendRemote(key: string, name: string, text: string, at: string): Promise<void> {
     try {
       const thread = await this.loadThread(key);
       if (!thread) return;
-      thread.messages = [...thread.messages, { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6), from: 'them', text, at }];
+      thread.messages = [...thread.messages, { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6), from: 'them', text, at, status: 'read' as const }];
       await this.saveThread(thread);
+      // 2026-08-17 AWARENESS: bump the badge + announce the arrival.
+      this.unread[key] = (this.unread[key] || 0) + 1;
+      try { localStorage.setItem(this.UNREAD_KEY, JSON.stringify(this.unread)); } catch { /* ignore */ }
+      this.arrival$.next({ key, label: name || this.threadTitle(key) });
     } catch {
       /* local-only best effort */
     }

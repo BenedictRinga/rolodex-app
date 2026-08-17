@@ -15,6 +15,8 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   @Input() thread!: ChatThread;
   draft = '';
   typingName = '';
+  pickingId = '';
+  readonly EMOJIS = ['\u{1F44D}', '\u{2764}\u{FE0F}', '\u{1F602}', '\u{1F389}', '\u{1F91D}'];
   private destroy$ = new Subject<void>();
   private typingTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -27,6 +29,13 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // 2026-08-17 READ RECEIPTS: opening the thread tells the peer I read it.
     this.chatService.markRead(this.thread.key);
+    // 2026-08-17 REACTIONS: refresh the open thread when a reaction lands.
+    this.chatService.messageChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((key) => {
+        if (key !== this.thread.key) return;
+        void this.chatService.loadThread(this.thread.key).then((t2) => { if (t2) this.thread = t2; });
+      });
     // 2026-08-17: typing indicators - the Teams/Zoom touch, live via the socket.
     this.socketChat.typing$
       .pipe(takeUntil(this.destroy$))
@@ -46,6 +55,20 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
 
   onTyping(): void {
     if (this.draft?.trim()) this.socketChat.emitTyping();
+  }
+
+  /** 2026-08-17 REACTIONS: tap a bubble to open the emoji row. */
+  pickReaction(m: any): void {
+    this.pickingId = this.pickingId === m.id ? '' : m.id;
+  }
+
+  async react(m: any, emoji: string): Promise<void> {
+    this.pickingId = '';
+    const list = Array.isArray(m.reactions) ? [...m.reactions] : [];
+    const at = list.indexOf(emoji);
+    if (at >= 0) list.splice(at, 1); else list.push(emoji);
+    m.reactions = list;
+    await this.chatService.toggleReaction(this.thread.key, m.id, emoji);
   }
 
   async send(): Promise<void> {

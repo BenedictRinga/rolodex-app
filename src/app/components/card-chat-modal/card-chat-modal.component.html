@@ -22,7 +22,13 @@
       [class.from-me]="m.from === 'me'"
       [class.from-system]="m.from === 'system'"
     >
-      <span class="chat-text">{{ m.text }}</span>
+      <span class="chat-text" (click)="pickReaction(m)">{{ m.text }}</span>
+      <div *ngIf="pickingId === m.id" class="chat-emoji-row">
+        <span *ngFor="let e of EMOJIS" class="chat-emoji" (click)="react(m, e)">{{ e }}</span>
+      </div>
+      <div *ngIf="m.reactions?.length" class="chat-reactions">
+        <span *ngFor="let r of m.reactions" class="chat-reaction-chip">{{ r }}</span>
+      </div>
       <span class="chat-time">{{ m.at | date: 'MMM d, HH:mm' }}
         <span *ngIf="m.from === 'me'" class="chat-tick" [class.tick-read]="m.status === 'read'" [class.tick-delivered]="m.status === 'delivered'">
           <ion-icon *ngIf="m.status === 'sent'" name="checkmark-outline"></ion-icon>

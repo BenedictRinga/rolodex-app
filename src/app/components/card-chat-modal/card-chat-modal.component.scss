@@ -38,6 +38,38 @@
   max-width: 92%;
 }
 
+.chat-emoji-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.chat-emoji {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 10px;
+  background: var(--rolodex-surface-alt);
+}
+
+.chat-emoji:active {
+  transform: scale(1.25);
+}
+
+.chat-reactions {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.chat-reaction-chip {
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--rolodex-border-light);
+  background: var(--rolodex-surface-alt);
+}
+
 .chat-text {
   font-size: 14px;
   line-height: 1.4;

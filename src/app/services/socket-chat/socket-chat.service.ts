@@ -62,6 +62,12 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('chat:read', (payload: { key?: string }) => {
       for (const cb of this.readListeners) { try { cb(String(payload?.key || '')); } catch {} }
     });
+    this.socket.on('chat:react', (payload: { key?: string; messageId?: string; emoji?: string; name?: string }) => {
+      for (const cb of this.reactListeners) { try { cb({ key: String(payload?.key || ''), messageId: String(payload?.messageId || ''), emoji: String(payload?.emoji || ''), name: String(payload?.name || '') }); } catch {} }
+    });
+    this.socket.on('appointment:invite', (payload: { key?: string; title?: string; when?: string; from?: string }) => {
+      for (const cb of this.appointmentListeners) { try { cb({ key: String(payload?.key || ''), title: String(payload?.title || ''), when: String(payload?.when || ''), from: String(payload?.from || '') }); } catch {} }
+    });
     this.socket.on('chat:typing', (payload: { room?: string; name?: string }) => {
       this.typing$.next({ room: payload?.room || '', name: payload?.name || '' });
     });
@@ -84,6 +90,8 @@ export class SocketChatService implements OnDestroy {
   typing$ = new Subject<{ room: string; name: string }>();
   private ackListeners: Array<(ts: number) => void> = [];
   private readListeners: Array<(key: string) => void> = [];
+  private reactListeners: Array<(payload: { key: string; messageId: string; emoji: string; name?: string }) => void> = [];
+  private appointmentListeners: Array<(payload: { key: string; title: string; when: string; from: string }) => void> = [];
 
   emitTyping(): void {
     if (!this.room || !this.socket?.connected) return;
@@ -98,6 +106,25 @@ export class SocketChatService implements OnDestroy {
   emitRead(key: string): void {
     if (!this.room || !this.socket?.connected) return;
     this.socket.emit('chat:read', { room: this.room, key });
+  }
+
+  onReact(cb: (payload: { key: string; messageId: string; emoji: string; name?: string }) => void): void {
+    this.reactListeners.push(cb);
+  }
+
+  emitReact(key: string, messageId: string, emoji: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('chat:react', { room: this.room, key, messageId, emoji, name: this.name });
+  }
+
+  onAppointment(cb: (payload: { key: string; title: string; when: string; from: string }) => void): void {
+    this.appointmentListeners.push(cb);
+  }
+
+  /** 2026-08-17 THE INVITE: fix an appointment here, the other card catches it. */
+  sendAppointment(key: string, title: string, when: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('appointment:invite', { room: this.room, key, title, when, name: this.name });
   }
 
   send(text: string, key?: string): void {
