@@ -41,7 +41,13 @@ sudo rm -rf "$STAGE"
 sudo mkdir -p "$STAGE"
 sudo cp -r www/. "$STAGE/"
 sudo chown -R www-data:www-data "$STAGE" 2>/dev/null || true
+# mv -T cannot REPLACE a non-empty directory (rename(2) -> ENOTEMPTY), so:
+#  1) rename the live webroot aside (atomic, a microsecond of 404 - never torn)
+#  2) move the fresh stage into its place (atomic)
+#  3) delete the old webroot
+sudo mv "$WEBROOT" "$WEBROOT.old" 2>/dev/null || true
 sudo mv -T "$STAGE" "$WEBROOT"
+sudo rm -rf "$WEBROOT.old"
 
 echo "Reloading nginx..."
 sudo nginx -t && sudo systemctl reload nginx
