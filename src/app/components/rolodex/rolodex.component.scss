@@ -500,3 +500,63 @@ app-contact-card {
     font-weight: var(--rolodex-font-semibold);
   }
 }
+
+/* ── The 4 W's - the Confidante's deep-context lens ──────── */
+.fourws {
+  padding: 12px;
+}
+
+.fourws-head {
+  margin-bottom: 12px;
+}
+
+.fourws-head h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: var(--rolodex-text);
+}
+
+.fourws-head p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--rolodex-text-secondary);
+  line-height: 1.5;
+}
+
+.fourws-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.fourws-card {
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.w-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.w-row:last-child { margin-bottom: 0; }
+
+.w-key {
+  flex: 0 0 52px;
+  font-weight: 700;
+  color: var(--rolodex-info);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-top: 1px;
+}
+
+.w-val {
+  color: var(--rolodex-text);
+}

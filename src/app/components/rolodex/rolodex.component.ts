@@ -428,7 +428,39 @@ export class RolodexComponent implements OnInit {
   onRemoveContact(contact: ContactInfo) { this.removeContact.emit(contact); }
   onContactTap(contact: ContactInfo) { this.contactTap.emit(contact); }
   onAutoSortScroll() { this.loadMoreAutoSort.emit(); }
-  onApplyFilter() { this.applyFilter.emit(); }
+  /** 2026-08-17 THE 4 W'S: the Confidante's deep-context lens - Who, What,
+   *  Where, When - the whole deck through the relationship story. */
+  onApplyFilter() {
+    if (this.selectedFilter === 'fourws') {
+      this.currentView = RolodexView.FourWs;
+      this.autoSortStarted = false;
+      this.searchResultsVisible = false;
+      return;
+    }
+    if (this.selectedFilter === 'all' && this.currentView === RolodexView.FourWs) {
+      this.showRegularView();
+      return;
+    }
+    this.applyFilter.emit();
+  }
+
+  fourWsOf(contact: any): { who: string; what: string; where: string; when: string } {
+    const r = contact?.rolodex || {};
+    const when = r.when
+      ? new Date(r.when).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })
+      : (contact?.lastInteraction ? 'Last: ' + new Date(contact.lastInteraction).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—');
+    const next = contact?.nextInteraction
+      ? ' · next ' + new Date(contact.nextInteraction).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+      : '';
+    const what = [r.topic, r.why].filter(Boolean).join(' — ') || (contact?.organization?.company || '—');
+    return {
+      who: (contact?.name?.display || '—') + (contact?.organization?.jobTitle ? ', ' + contact.organization.jobTitle : ''),
+      what,
+      where: r.where || '—',
+      when: when + next,
+    };
+  }
+
   onApplyGroupFilter(event: any) { this.applyGroupFilter.emit(event); }
   onToggleWelcome() { this.toggleWelcome.emit(); }
 

@@ -146,6 +146,7 @@
             <ion-select-option value="who">Who</ion-select-option>
             <ion-select-option value="where">Where</ion-select-option>
             <ion-select-option value="why">Why</ion-select-option>
+            <ion-select-option value="fourws">4 W's</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
@@ -182,6 +183,24 @@
     </ng-container>
 
     <!-- Settings view -->
+    <!-- 2026-08-17 THE 4 W'S: the Confidante's deep-context lens. -->
+    <ng-container *ngSwitchCase="RolodexView.FourWs">
+      <div class="fourws">
+        <div class="fourws-head">
+          <h3>The 4 W's — deep context</h3>
+          <p>Who you know, what they are about, where the thread started, and when to act — the story the Confidante reads.</p>
+        </div>
+        <div class="fourws-grid">
+          <div class="fourws-card" *ngFor="let c of displayedContacts">
+            <div class="w-row"><span class="w-key">Who</span><span class="w-val">{{ fourWsOf(c).who }}</span></div>
+            <div class="w-row"><span class="w-key">What</span><span class="w-val">{{ fourWsOf(c).what }}</span></div>
+            <div class="w-row"><span class="w-key">Where</span><span class="w-val">{{ fourWsOf(c).where }}</span></div>
+            <div class="w-row"><span class="w-key">When</span><span class="w-val">{{ fourWsOf(c).when }}</span></div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
     <ng-container *ngSwitchCase="RolodexView.Settings">
       <ion-list class="settings-list">
         <ion-list-header>
