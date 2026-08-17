@@ -210,11 +210,37 @@ app-contact-card {
    SETTINGS VIEW — redesigned for premium feel
    ═══════════════════════════════════════════════════════ */
 
+
+/* 2026-08-16 SETTINGS MAP: the quick-nav chips - the full list at a glance. */
+.settings-quicknav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 4px;
+}
+
+.settings-quicknav ion-chip {
+  font-size: 11px;
+  height: 28px;
+  --background: var(--rolodex-surface);
+  --color: var(--rolodex-text);
+  border: 1px solid var(--rolodex-border-light);
+}
+
+.settings-map-hint {
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+  padding: 2px 12px 8px;
+}
+
 .settings-list {
-  height: 70vh;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  /* 2026-08-16: the rolodex-scroll is the scroller - a fixed 70vh here made
+     its own scroll + left the empty zone at the bottom. Full height, no
+     internal scroll; the chips jump with scrollIntoView against the app
+     scroller. */
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
   background: var(--rolodex-bg);
 
   &::-webkit-scrollbar { display: none; }

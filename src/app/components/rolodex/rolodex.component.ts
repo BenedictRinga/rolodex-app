@@ -159,6 +159,18 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-16 SETTINGS MAP: jump to any section - no scrolling in ignorance. */
+  scrollTo(id: string): void {
+    try {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch { /* ignore */ }
+  }
+
+  settingsMapHint(): string {
+    return 'Card View · Demo · Reminders · Updates · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
+  }
+
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */
   async openAbout(): Promise<void> {
     const modal = await this.modalController.create({

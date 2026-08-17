@@ -193,7 +193,25 @@
           </ion-buttons>
         </ion-list-header>
 
-        <ion-item lines="none" class="elegant-item">
+        <!-- 2026-08-16 SETTINGS MAP: every section at a glance - nobody is
+             left scrolling in ignorance. Tapping a chip jumps to the item
+             (or opens the section's modal directly). -->
+        <div class="settings-quicknav">
+          <ion-chip (click)="scrollTo('settings-cardview')">Card View</ion-chip>
+          <ion-chip (click)="scrollTo('settings-demo')">Demo</ion-chip>
+          <ion-chip (click)="openReminders()">Reminders</ion-chip>
+          <ion-chip (click)="scrollTo('settings-updates')">Updates</ion-chip>
+          <ion-chip (click)="scrollTo('settings-welcome')">Welcome</ion-chip>
+          <ion-chip (click)="openAiSettings()">AI</ion-chip>
+          <ion-chip (click)="openBilling()">Billing</ion-chip>
+          <ion-chip (click)="openAbout()">About</ion-chip>
+          <ion-chip (click)="scrollTo('settings-privacy')">Privacy</ion-chip>
+          <ion-chip (click)="scrollTo('settings-cloudsync')">Cloud Sync</ion-chip>
+          <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
+        </div>
+        <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
+
+        <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Card View</ion-label>
           <ion-select slot="end" [(ngModel)]="pageManager.currentViewMode" (ngModelChange)="saveViewMode($event)">
@@ -202,7 +220,7 @@
           </ion-select>
         </ion-item>
 
-        <ion-item lines="none" class="elegant-item">
+        <ion-item lines="none" class="elegant-item" id="settings-demo">
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Demo Contacts</ion-label>
           <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">Show/Stop</ion-button>
@@ -217,7 +235,7 @@
 
         <!-- 2026-08-16 UPDATES: the automatic update slot — shows both the app
              and the server version, so the check is never silent. -->
-        <ion-item lines="none" class="elegant-item">
+        <ion-item lines="none" class="elegant-item" id="settings-updates">
           <ion-icon name="cloud-download-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
             Updates
@@ -230,7 +248,7 @@
           </ion-button>
         </ion-item>
 
-        <ion-item lines="none" class="elegant-item">
+        <ion-item lines="none" class="elegant-item" id="settings-welcome">
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Welcome Again</ion-label>
           <ion-button slot="end" fill="clear" (click)="onShowWelcome()">Show</ion-button>
@@ -292,13 +310,13 @@
           </ion-select>
         </ion-item> -->
 
-        <ion-item lines="none" class="elegant-item">
+        <ion-item lines="none" class="elegant-item" id="settings-privacy">
           <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
           <ion-label>Privacy</ion-label>
           <ion-button slot="end" fill="clear" (click)="onGoToPrivacySettings()">Manage</ion-button>
         </ion-item>
 
-        <ion-item-divider>
+        <ion-item-divider id="settings-cloudsync">
           <ion-label color="medium">Cloud Sync</ion-label>
         </ion-item-divider>
 
@@ -369,7 +387,7 @@
           </ion-item>
         </ng-container>
 
-        <ion-item-divider>
+        <ion-item-divider id="settings-backup">
           <ion-label color="medium">Local Backup</ion-label>
         </ion-item-divider>
 
@@ -390,6 +408,10 @@
           <ion-label>About</ion-label>
           <ion-button slot="end" fill="clear" (click)="onShowAbout()">Details</ion-button>
         </ion-item>
+
+        <ion-item-divider>
+          <ion-label color="medium">— End of settings —</ion-label>
+        </ion-item-divider>
       </ion-list>
     </ng-container>
   </ng-container>
