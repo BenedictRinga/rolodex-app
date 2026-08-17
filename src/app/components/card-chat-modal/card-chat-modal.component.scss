@@ -57,6 +57,12 @@
   padding: 40px 20px;
 }
 
+.chat-typing {
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+  padding: 2px 12px 0;
+}
+
 .chat-input-bar {
   display: flex;
   align-items: center;

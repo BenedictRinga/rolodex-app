@@ -32,11 +32,13 @@
 </ion-content>
 
 <ion-footer class="ion-no-border">
+  <div class="chat-typing" *ngIf="typingName">&#160;{{ typingName }} is typing…</div>
   <div class="chat-input-bar">
     <ion-input
       placeholder="Message…"
       [(ngModel)]="draft"
       (keyup.enter)="send()"
+      (ionInput)="onTyping()"
       class="chat-input"
     ></ion-input>
     <ion-button (click)="send()" [disabled]="!draft?.trim()" size="default">

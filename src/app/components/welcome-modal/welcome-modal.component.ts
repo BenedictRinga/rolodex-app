@@ -55,7 +55,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '03 · The confidante',
       title: 'The AI drafts — you hit Send',
-      copy: 'The confidential secretary digs up your context and writes the message in your own voice. All you do is hit Send.',
+      copy: 'The confidential secretary digs up your context and writes the message in your own voice. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
@@ -73,7 +73,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'pricing',
       kicker: '06 · The tiers',
       title: 'Basic $1 · Confidante $5',
-      copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Confidante lets the AI work all month.',
+      copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Confidante lets the AI work all month. Billing lives in Settings.',
     },
     {
       id: 'outro',

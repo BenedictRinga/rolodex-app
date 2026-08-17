@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../environments/environment';
 
@@ -55,6 +56,9 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('connect', () => {
       this.socket?.emit('chat:join', { room: this.room, name: this.name });
     });
+    this.socket.on('chat:typing', (payload: { room?: string; name?: string }) => {
+      this.typing$.next({ room: payload?.room || '', name: payload?.name || '' });
+    });
     this.socket.on('chat:message', (payload: SocketChatMessage) => {
       for (const cb of this.listeners) {
         try {
@@ -68,6 +72,14 @@ export class SocketChatService implements OnDestroy {
 
   onMessage(cb: (msg: SocketChatMessage) => void): void {
     this.listeners.push(cb);
+  }
+
+  /** 2026-08-17: typing indicators - the Teams/Zoom touch. */
+  typing$ = new Subject<{ room: string; name: string }>();
+
+  emitTyping(): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('chat:typing', { room: this.room, name: this.name });
   }
 
   send(text: string, key?: string): void {

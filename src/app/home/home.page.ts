@@ -557,8 +557,57 @@ export class HomePage implements OnInit {
     console.log('Map initialized');
   }
 
-  onCreateContact() {
-    console.log('Create new contact');
+  /** 2026-08-17 ADD CONTACTS, like the big web apps: pick from the phone
+   *  (Contact Picker API - Android Chrome) or add the demo deck back. */
+  async onCreateContact() {
+    const sheet = await this.alertController.create({
+      header: 'Add contacts',
+      message: 'How do you want to bring people in?',
+      buttons: [
+        { text: 'Pick from my phone contacts', handler: () => { void this.addFromPhoneContacts(); } },
+        { text: 'Add the demo contacts', handler: () => { this.contacts = [...this.contacts, ...mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId))]; this.onContactsChange(this.contacts); } },
+        { text: 'Cancel', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
+
+  /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,
+   *  exactly how Teams/Zoom handle contacts on the web. One-by-one picking. */
+  async addFromPhoneContacts(): Promise<void> {
+    const picker = (navigator as any)?.contacts;
+    if (!picker?.select) {
+      void this.alertsService.showToast('Contact picking needs Android Chrome — the app (Play Store) has full contact sync.', 5000);
+      return;
+    }
+    try {
+      const props = ['name', 'email', 'tel'];
+      const picked = await picker.select(props, { multiple: true });
+      const mapped = (picked || []).map((raw: any, i: number) => {
+        const display = String(raw?.name || '').trim() || 'Picked contact ' + (i + 1);
+        const parts = display.split(/s+/);
+        const num = Array.isArray(raw?.tel) ? raw.tel[0] || '' : '';
+        const email = Array.isArray(raw?.email) ? raw.email[0] || '' : '';
+        return {
+          contactId: 'picked-' + Date.now() + '-' + i,
+          name: { display, given: parts[0] || '', middle: '', family: parts.slice(1).join(' ') || '', prefix: '', suffix: '' },
+          phoneNumbers: num ? [{ type: 'mobile' as any, number: num }] : [],
+          emailAddresses: email ? [{ type: 'email' as any, address: email }] : [],
+          image: { base64String: null },
+          isMockData: false,
+          isContactInfo: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          preferences: { refreshContacts: false, notificationPreference: 'email' as any },
+        };
+      });
+      if (!mapped.length) return; // user cancelled
+      this.contacts = [...this.contacts, ...mapped];
+      this.onContactsChange(this.contacts);
+      void this.alertsService.showToast(mapped.length + ' contact' + (mapped.length === 1 ? '' : 's') + ' added from your phone.', 4000);
+    } catch {
+      /* user cancelled the picker */
+    }
   }
 
   onAcceptAutoSort() {
