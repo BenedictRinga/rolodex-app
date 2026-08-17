@@ -72,7 +72,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     const initials = name.split(/\s+/).filter(Boolean).map((p: string) => p[0]).slice(0, 2).join('').toUpperCase() || '?';
     // 2026-08-17: the ORIGINAL avatar palette restored - the 'app's own hues'
     // swap was an unrequested color-scheme change and is reverted.
-    const palette = ['#4f6df5', '#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#84cc16', '#f97316'];
+    // 2026-08-17 THE UNION: a curated 8 that spans the app's plane - gold
+    // (the signature) joins indigo/sky/green/amber/violet/pink/orange;
+    // cyan(sky), lime(green) and red(danger) dropped as near-duplicates.
+    const palette = ['#FFD93D', '#4f6df5', '#0ea5e9', '#22c55e', '#f59e0b', '#8b5cf6', '#ec4899', '#f97316'];
     let h = 0;
     for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
     const color = palette[h % palette.length];

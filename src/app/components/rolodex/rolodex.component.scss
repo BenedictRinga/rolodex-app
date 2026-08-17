@@ -225,6 +225,8 @@ app-contact-card {
   --background: var(--rolodex-surface);
   --color: var(--rolodex-text);
   border: 1px solid var(--rolodex-border-light);
+
+  &:active { --background: rgba(79, 109, 245, 0.08); }
 }
 
 .settings-map-hint {
