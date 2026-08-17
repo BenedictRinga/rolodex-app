@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
@@ -29,13 +29,16 @@ export interface WelcomeDemoStep {
   standalone: false,
 })
 export class WelcomeModalComponent implements OnInit, OnDestroy {
+  /** 2026-08-17: first visit greets 'Karibu sana!' — the replay says 'Welcome Again'. */
+  @Input() isReplay = false;
+
   /** Seconds per step — the progress bar matches via STEP_MS. */
   readonly STEP_MS = 8000;
 
   steps: WelcomeDemoStep[] = [
     {
       id: 'intro',
-      kicker: 'Welcome',
+      kicker: 'Karibu sana!',
       title: 'RolodexAI — your contacts, in motion',
       copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%.',
     },
@@ -52,26 +55,32 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       copy: 'It schedules the check-ins you keep meaning to make, and surfaces who you owe a reply — the small loops caught before they go cold.',
     },
     {
+      id: 'signal',
+      kicker: '03 · The signal',
+      title: 'They always know',
+      copy: 'Send a message and the other card badges it. Fix an appointment and the other card catches it — with a toast and receipts: sent → delivered → read, live across devices.',
+    },
+    {
       id: 'confidante',
-      kicker: '03 · The confidante',
+      kicker: '04 · The confidante',
       title: 'The AI drafts — you hit Send',
       copy: 'The confidential secretary digs up your context and writes the message in your own voice. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
-      kicker: '04 · Pods',
+      kicker: '05 · Pods',
       title: 'Pods, not chatrooms',
       copy: 'Group threads grow straight from your groups — one pod for the people who share your life, with a shared schedule and reminders.',
     },
     {
       id: 'storage',
-      kicker: '05 · Your data',
+      kicker: '06 · Your data',
       title: 'Where your contacts live',
       copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — your trust level, your choice. Demo room codes link devices live.',
     },
     {
       id: 'pricing',
-      kicker: '06 · The tiers',
+      kicker: '07 · The tiers',
       title: 'Basic $1 · Confidante $5',
       copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Confidante lets the AI work all month. Billing lives in Settings.',
     },
@@ -98,6 +107,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // 2026-08-17: first visit greets Karibu sana!; the replay says Welcome Again.
+    if (this.isReplay) this.steps[0].kicker = 'Welcome Again';
     this.restartTimer();
   }
 

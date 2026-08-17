@@ -89,11 +89,12 @@ export class HomePage implements OnInit {
   /** 2026-08-16 WELCOME AGAIN: demos Rolodex on init unless turned off
    *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside).
    *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
-  async presentWelcome() {
+  async presentWelcome(isReplay = false) {
     try {
       if (localStorage.getItem(WELCOME_DISMISSED_KEY)) return;
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
+        componentProps: { isReplay },
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95],
         initialBreakpoint: 0.9,
@@ -107,7 +108,7 @@ export class HomePage implements OnInit {
   /** The Settings 'Show' side of Welcome Again: clear the dismissal + replay. */
   showWelcomeAgain() {
     try { localStorage.removeItem(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
-    void this.presentWelcome();
+    void this.presentWelcome(true);
   }
 
   async ngOnInit() {
