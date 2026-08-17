@@ -56,6 +56,12 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('connect', () => {
       this.socket?.emit('chat:join', { room: this.room, name: this.name });
     });
+    this.socket.on('chat:ack', (payload: { ts?: number }) => {
+      for (const cb of this.ackListeners) { try { cb(Number(payload?.ts) || Date.now()); } catch {} }
+    });
+    this.socket.on('chat:read', (payload: { key?: string }) => {
+      for (const cb of this.readListeners) { try { cb(String(payload?.key || '')); } catch {} }
+    });
     this.socket.on('chat:typing', (payload: { room?: string; name?: string }) => {
       this.typing$.next({ room: payload?.room || '', name: payload?.name || '' });
     });
@@ -76,10 +82,22 @@ export class SocketChatService implements OnDestroy {
 
   /** 2026-08-17: typing indicators - the Teams/Zoom touch. */
   typing$ = new Subject<{ room: string; name: string }>();
+  private ackListeners: Array<(ts: number) => void> = [];
+  private readListeners: Array<(key: string) => void> = [];
 
   emitTyping(): void {
     if (!this.room || !this.socket?.connected) return;
     this.socket.emit('chat:typing', { room: this.room, name: this.name });
+  }
+
+  /** 2026-08-17 READ RECEIPTS: delivered (the ack) + read (the peer opened the thread). */
+  onAck(cb: (ts: number) => void): void { this.ackListeners.push(cb); }
+
+  onRead(cb: (key: string) => void): void { this.readListeners.push(cb); }
+
+  emitRead(key: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('chat:read', { room: this.room, key });
   }
 
   send(text: string, key?: string): void {

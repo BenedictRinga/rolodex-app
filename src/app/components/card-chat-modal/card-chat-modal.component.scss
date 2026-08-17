@@ -44,6 +44,22 @@
   white-space: pre-wrap;
 }
 
+.chat-tick {
+  display: inline-flex;
+  vertical-align: -1px;
+  margin-left: 3px;
+  font-size: 11px;
+  color: var(--rolodex-text-tertiary);
+}
+
+.chat-tick.tick-delivered {
+  color: var(--rolodex-text-secondary);
+}
+
+.chat-tick.tick-read {
+  color: var(--rolodex-info);
+}
+
 .chat-time {
   font-size: 10px;
   opacity: 0.65;

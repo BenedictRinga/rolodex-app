@@ -25,6 +25,8 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // 2026-08-17 READ RECEIPTS: opening the thread tells the peer I read it.
+    this.chatService.markRead(this.thread.key);
     // 2026-08-17: typing indicators - the Teams/Zoom touch, live via the socket.
     this.socketChat.typing$
       .pipe(takeUntil(this.destroy$))

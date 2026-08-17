@@ -23,7 +23,12 @@
       [class.from-system]="m.from === 'system'"
     >
       <span class="chat-text">{{ m.text }}</span>
-      <span class="chat-time">{{ m.at | date: 'MMM d, HH:mm' }}</span>
+      <span class="chat-time">{{ m.at | date: 'MMM d, HH:mm' }}
+        <span *ngIf="m.from === 'me'" class="chat-tick" [class.tick-read]="m.status === 'read'" [class.tick-delivered]="m.status === 'delivered'">
+          <ion-icon *ngIf="m.status === 'sent'" name="checkmark-outline"></ion-icon>
+          <ion-icon *ngIf="m.status === 'delivered' || m.status === 'read'" name="checkmark-done-outline"></ion-icon>
+        </span>
+      </span>
     </div>
     <div *ngIf="!thread?.messages?.length" class="chat-empty">
       Start the conversation — SMS, email and in-app chat all live off the card.

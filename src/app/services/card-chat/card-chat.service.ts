@@ -3,11 +3,14 @@ import { StorageService } from '../storage/storage.service';
 import { SocketChatService } from '../socket-chat/socket-chat.service';
 import { DraftEngineService } from '../draft-engine/draft-engine.service';
 
+export type ReceiptStatus = 'sent' | 'delivered' | 'read';
+
 export interface ChatMessage {
   id: string;
   from: 'me' | 'them' | 'system';
   text: string;
   at: string; // ISO
+  status?: ReceiptStatus; // 2026-08-17 READ RECEIPTS: my messages only
 }
 
 export interface ChatThread {
@@ -31,6 +34,8 @@ const PREFIX = 'rolodex-chat-v1:';
   providedIn: 'root',
 })
 export class CardChatService {
+  private lastSentKey = '';
+
   constructor(
     private readonly storage: StorageService,
     private readonly socketChat: SocketChatService,
@@ -43,6 +48,49 @@ export class CardChatService {
       if (!key) return;
       void this.appendRemote(key, msg.name || 'Them', msg.text, new Date(msg.ts || Date.now()).toISOString());
     });
+    // 2026-08-17 READ RECEIPTS: the server ack flips my sent message to
+    // 'delivered'; the peer opening the thread flips my messages to 'read'.
+    this.socketChat.onAck(() => {
+      void this.markLatestDelivered();
+    });
+    this.socketChat.onRead((key) => {
+      if (!key) return;
+      void this.markThreadRead(key);
+    });
+  }
+
+  /** Mark the newest 'me' message 'delivered' when the server acks. */
+  private async markLatestDelivered(): Promise<void> {
+    try {
+      const t = await this.loadThread(this.lastSentKey);
+      if (!t) return;
+      const me = [...t.messages].reverse().find((m) => m.from === 'me' && (m.status || 'sent') === 'sent');
+      if (me) {
+        me.status = 'delivered';
+        await this.saveThread(t);
+      }
+    } catch { /* best effort */ }
+  }
+
+  /** The peer read the thread - flip my messages in it to 'read'. */
+  private async markThreadRead(key: string): Promise<void> {
+    try {
+      const t = await this.loadThread(key);
+      if (!t) return;
+      let changed = false;
+      for (const m of t.messages) {
+        if (m.from === 'me' && (m.status || 'sent') !== 'read') {
+          m.status = 'read';
+          changed = true;
+        }
+      }
+      if (changed) await this.saveThread(t);
+    } catch { /* best effort */ }
+  }
+
+  /** 2026-08-17 READ RECEIPTS: the chat opens -> tell the peer I read it. */
+  markRead(key: string): void {
+    try { this.socketChat.emitRead(key); } catch { /* offline */ }
   }
 
   private async appendRemote(key: string, name: string, text: string, at: string): Promise<void> {
@@ -105,6 +153,7 @@ export class CardChatService {
           from: 'me',
           text: `Good to hear from you! ${followUp ? `Next step: ${followUp}.` : 'Looking forward to our next step.'}`,
           at: new Date((r.when ? Date.parse(r.when) : Date.now()) + 7200_000).toISOString(),
+          status: 'read',
         },
       ],
       updatedAt: new Date().toISOString(),
@@ -151,6 +200,7 @@ export class CardChatService {
       from: 'me',
       text: clean,
       at: new Date().toISOString(),
+      status: 'sent',
     };
     const them: ChatMessage = {
       id: 't' + Date.now(),
@@ -167,6 +217,7 @@ export class CardChatService {
       (thread as any).contextRotation = rot;
     } catch {}
     await this.saveThread(thread);
+    this.lastSentKey = thread.key;
     // 2026-08-16 SOCKET: push to the demo room so the peer device sees it live.
     try { this.socketChat.send(clean, thread.key); } catch { /* offline demo still works */ }
     return thread;
