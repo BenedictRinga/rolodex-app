@@ -85,6 +85,39 @@
               <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> caught before it goes cold</div>
             </div>
 
+            <!-- SIGNAL: they always know - the badge, the toast, the receipts -->
+            <div class="signal" *ngSwitchCase="'signal'">
+              <div class="sig-row">
+                <div class="sig-card">
+                  <div class="sig-avatar grad-warm">E</div>
+                  <div class="sig-name">Emeka</div>
+                  <span class="sig-badge">1</span>
+                </div>
+                <div class="sig-arrow"><ion-icon name="arrow-forward"></ion-icon></div>
+                <div class="sig-card">
+                  <div class="sig-avatar grad-cool">A</div>
+                  <div class="sig-name">Amina</div>
+                  <span class="sig-dot"></span>
+                </div>
+              </div>
+              <div class="sig-toast"><ion-icon name="notifications-outline"></ion-icon> New message from Emeka (card)</div>
+              <div class="sig-receipts">
+                <span class="rcpt sent"><ion-icon name="checkmark-outline"></ion-icon></span>
+                <span class="rcpt deliv"><ion-icon name="checkmark-done-outline"></ion-icon></span>
+                <span class="rcpt read"><ion-icon name="checkmark-done-outline"></ion-icon></span>
+                <span class="rcpt-label">sent · delivered · read</span>
+              </div>
+            </div>
+
+            <!-- THE 4 W'S: the Confidante's deep context -->
+            <div class="fourws-demo" *ngSwitchCase="'fourws'">
+              <div class="w-line"><span class="w-tag who">Who</span><span class="w-txt">Amina, Creative Director</span></div>
+              <div class="w-line"><span class="w-tag what">What</span><span class="w-txt">Fashion line — collab opportunity</span></div>
+              <div class="w-line"><span class="w-tag where">Where</span><span class="w-txt">Met at the Lagos showroom</span></div>
+              <div class="w-line"><span class="w-tag when">When</span><span class="w-txt">Mar 2024 · next Fri</span></div>
+              <div class="w-foot">the Confidante reads the story</div>
+            </div>
+
             <!-- CONFIDANTE: the AI drafts, you hit Send -->
             <div class="chat" *ngSwitchCase="'confidante'">
               <div class="msg msg-me">What do I say to Priya about the interview?</div>

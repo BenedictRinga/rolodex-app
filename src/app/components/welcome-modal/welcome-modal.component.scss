@@ -910,3 +910,164 @@ ion-content {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-4px); }
 }
+
+/* ── SIGNAL: they always know ──────────────────── */
+.signal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.sig-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sig-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.sig-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.grad-warm { background: linear-gradient(135deg, #ff6b35, #ffd93d); }
+.grad-cool { background: linear-gradient(135deg, #4f6df5, #8b5cf6); }
+
+.sig-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rolodex-text);
+}
+
+.sig-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: var(--rolodex-danger);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 16px;
+  padding: 0 4px;
+}
+
+.sig-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--rolodex-success);
+  border: 2px solid var(--rolodex-surface);
+}
+
+.sig-arrow {
+  color: var(--rolodex-text-tertiary);
+  font-size: 16px;
+}
+
+.sig-toast {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+  background: var(--rolodex-surface-alt);
+  border-radius: 8px;
+  padding: 5px 8px;
+  align-self: center;
+}
+
+.sig-toast ion-icon {
+  color: var(--rolodex-info);
+}
+
+.sig-receipts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rcpt { display: inline-flex; }
+.rcpt.sent { color: var(--rolodex-text-tertiary); }
+.rcpt.deliv { color: var(--rolodex-text-secondary); }
+.rcpt.read { color: var(--rolodex-info); }
+
+.rcpt-label {
+  font-size: 10px;
+  color: var(--rolodex-text-tertiary);
+  margin-left: 6px;
+}
+
+/* ── THE 4 W'S: deep context ──────────────────── */
+.fourws-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.w-line {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.w-tag {
+  flex: 0 0 44px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #fff;
+  border-radius: 6px;
+  text-align: center;
+  padding: 2px 0;
+}
+
+.w-tag.who { background: var(--rolodex-info); }
+.w-tag.what { background: #22c55e; }
+.w-tag.where { background: #f59e0b; }
+.w-tag.when { background: #ec4899; }
+
+.w-txt {
+  color: var(--rolodex-text);
+}
+
+.w-foot {
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--rolodex-text-tertiary);
+  text-align: center;
+}
