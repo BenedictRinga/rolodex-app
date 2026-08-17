@@ -13,6 +13,7 @@ import { AboutRolodexComponent } from './about-rolodex/about-rolodex.component';
 import { BillingModalComponent } from './billing-modal/billing-modal.component';
 import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.component';
 import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-surface-modal.component';
+import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-su
     BillingModalComponent,
     AiSettingsModalComponent,
     ContactSurfaceModalComponent,
+    WelcomeModalComponent,
   ],
   imports: [
     CommonModule,

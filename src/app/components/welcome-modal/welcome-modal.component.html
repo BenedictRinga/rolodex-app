@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">Welcome to Rolodex</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="welcome-body">
+  <div class="welcome-hero">
+    <div class="welcome-logo">RolodexAI</div>
+    <div class="welcome-tagline">Your contacts, in motion — the confidential secretary that closes the tiny loops.</div>
+  </div>
+
+  <div class="welcome-card" *ngFor="let f of features">
+    <ion-icon [name]="f.icon" class="welcome-icon" [style.color]="f.color"></ion-icon>
+    <div class="welcome-copy">
+      <h3>{{ f.title }}</h3>
+      <p>{{ f.desc }}</p>
+    </div>
+  </div>
+
+  <div class="welcome-actions">
+    <ion-button expand="block" (click)="start()">Start exploring</ion-button>
+    <ion-button expand="block" fill="outline" (click)="dontShowAgain()">Don't show this again</ion-button>
+  </div>
+</ion-content>

@@ -9,8 +9,7 @@ import { AiProvider, DraftEngineService } from '../../services/draft-engine/draf
   standalone: false,
 })
 export class AiSettingsModalComponent {
-  provider: AiProvider = 'template';
-  apiKey = '';
+  provider: AiProvider = 'rolodex';
   saved = false;
 
   constructor(
@@ -18,15 +17,19 @@ export class AiSettingsModalComponent {
     private readonly draftEngine: DraftEngineService,
   ) {
     this.provider = this.draftEngine.provider;
-    this.apiKey = this.draftEngine.hasProviderKey ? 'saved' : '';
   }
 
   onProviderChange(): void {
-    if (this.provider === 'template') this.apiKey = '';
+    /* no keys to clear — the user just picks the engine */
   }
 
   providerLabel(): string {
-    return this.provider === 'template' ? 'Rolodex AI (built-in)' : this.provider;
+    return this.provider === 'rolodex' ? "Rolodex's engine" : this.provider;
+  }
+
+  save(): void {
+    this.draftEngine.setProvider(this.provider);
+    this.saved = true;
   }
 
   get plan(): string {
@@ -34,17 +37,11 @@ export class AiSettingsModalComponent {
   }
 
   planLabel(): string {
-    return this.draftEngine.plan === 'confidante' ? 'Confidante' : (this.draftEngine.plan === 'basic' ? 'Basic' : 'Free trial');
+    return this.draftEngine.plan === 'confidante' ? 'Confidante' : 'Basic ($1)';
   }
 
   interventionsLeft(): number {
     return this.draftEngine.interventionsLeft();
-  }
-
-  save(): void {
-    const key = this.provider === 'template' ? '' : this.apiKey;
-    this.draftEngine.setProvider(this.provider, key);
-    this.saved = true;
   }
 
   close(): void {

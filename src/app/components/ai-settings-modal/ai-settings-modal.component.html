@@ -17,46 +17,32 @@
 <ion-content>
   <div class="ai-section">
     <p class="ai-intro">
-      Two ways to get the confidante — <strong>yours, or ours</strong>:
+      <strong>Choose which AI engine Rolodex uses</strong> to deliver the
+      confidante. The service is Rolodex's — you pick the engine, we hold the
+      keys. Your contacts' storage (Device / Cloud / Rolodex server, under
+      Storage) is separate and stays exactly where you set it.
     </p>
-    <ul class="ai-list">
-      <li><strong>Rolodex AI (built-in, free)</strong> — the on-device
-        confidante that ships with the app. Works fully offline, your
-        contacts never leave the device. This is our own engine; it drafts in
-        your voice from the contact's story.</li>
-      <li><strong>DeepSeek or Grok (your key)</strong> — AI-agnostic, like
-        Zyppar's Settings. Bring your own provider key; the request goes
-        <strong>directly from this device</strong> to that provider, so
-        nothing is stored on the Rolodex server. Users who keep their
-        contacts fully local still confidante through Rolodex AI.</li>
-    </ul>
 
     <ion-item lines="none" class="ai-item">
       <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
-      <ion-label>Provider</ion-label>
+      <ion-label>Engine</ion-label>
       <ion-select [(ngModel)]="provider" (ionChange)="onProviderChange()">
-        <ion-select-option value="template">Rolodex AI (built-in, free)</ion-select-option>
-        <ion-select-option value="deepseek">DeepSeek (your key)</ion-select-option>
-        <ion-select-option value="grok">Grok (your key)</ion-select-option>
+        <ion-select-option value="rolodex">Rolodex's engine (on-device)</ion-select-option>
+        <ion-select-option value="deepseek">DeepSeek</ion-select-option>
+        <ion-select-option value="grok">Grok</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-item lines="none" class="ai-item" *ngIf="provider !== 'template'">
-      <ion-icon name="key-outline" slot="start" color="warning"></ion-icon>
-      <ion-label position="stacked" style="font-size: 12px;">API key (stored on this device only)</ion-label>
-      <ion-input type="password" [(ngModel)]="apiKey" placeholder="sk-…"></ion-input>
-    </ion-item>
-
     <ion-button expand="block" class="ai-save" (click)="save()">
-      {{ provider === 'template' ? 'Use Rolodex AI' : 'Save provider + key' }}
+      Use {{ providerLabel() }}
     </ion-button>
     <div class="ai-note" *ngIf="saved">
-      Saved. The confidante now composes with {{ providerLabel() }}.
+      Saved. The confidante now delivers through {{ providerLabel() }}.
     </div>
 
     <!-- 2026-08-16 THE TASTE: the Assistant quota. -->
     <div class="ai-quota">
-      <strong>Your Assistant taste</strong> — {{ planLabel() }}:
+      <strong>Your Assistant tier</strong> — {{ planLabel() }}:
       {{ plan === 'confidante' ? 'unlimited AI interventions' : interventionsLeft() + ' of 5 AI interventions left this month' }}.
       <span *ngIf="plan !== 'confidante'">Upgrade to the Confidante ($5/month) in Billing for the AI to work all month.</span>
     </div>

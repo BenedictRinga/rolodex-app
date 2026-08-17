@@ -69,6 +69,7 @@ export class RolodexComponent implements OnInit {
   @Output() applyFilter = new EventEmitter<void>();
   @Output() applyGroupFilter = new EventEmitter<any>();
   @Output() toggleWelcome = new EventEmitter<void>();
+  @Output() showWelcome = new EventEmitter<void>();
   @Output() mockDataRepeat = new EventEmitter<void>();
   @Output() initMap = new EventEmitter<HTMLElement>();
   @Output() createContact = new EventEmitter<void>();
@@ -374,6 +375,9 @@ export class RolodexComponent implements OnInit {
   onApplyFilter() { this.applyFilter.emit(); }
   onApplyGroupFilter(event: any) { this.applyGroupFilter.emit(event); }
   onToggleWelcome() { this.toggleWelcome.emit(); }
+
+  /** 2026-08-16: the Show side of Welcome Again re-runs the demo tour. */
+  onShowWelcome() { this.showWelcome.emit(); }
   onMockDataRepeat() { this.mockDataRepeat.emit(); this.showRegularView(); }
   onCreateContact() { this.createContact.emit(); }
   onToggleTheme(event: any) { this.toggleTheme.emit(event.detail.checked); }

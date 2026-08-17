@@ -23,7 +23,7 @@ export class BillingModalComponent {
   ) {}
 
   get currentPlan(): string {
-    return this.draftEngine.plan || 'free trial';
+    return this.draftEngine.plan === 'confidante' ? 'Confidante ($5/month)' : 'Assistant (Basic $1/month)';
   }
 
   async subscribe(plan: PlanId): Promise<void> {

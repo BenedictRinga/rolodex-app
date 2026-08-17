@@ -12,6 +12,7 @@ import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.servic
 import { SocketChatService } from '../services/socket-chat/socket-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
+import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
@@ -85,7 +86,30 @@ export class HomePage implements OnInit {
     } catch { /* ignore */ }
   }
 
+  /** 2026-08-16 WELCOME AGAIN: demos Rolodex on init unless turned off
+   *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside). */
+  async presentWelcome() {
+    try {
+      if (localStorage.getItem(WELCOME_DISMISSED_KEY)) return;
+      const modal = await this.modalController.create({
+        component: WelcomeModalComponent,
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95],
+        initialBreakpoint: 0.9,
+      });
+      await modal.present();
+    } catch { /* quiet */ }
+  }
+
+  /** The Settings 'Show' side of Welcome Again: clear the dismissal + replay. */
+  showWelcomeAgain() {
+    try { localStorage.removeItem(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
+    void this.presentWelcome();
+  }
+
   async ngOnInit() {
+    // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
+    void this.presentWelcome();
     // Wire passphrase prompt callback for CloudSyncService
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();

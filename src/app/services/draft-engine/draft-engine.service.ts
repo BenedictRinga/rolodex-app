@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
+import { environment } from '../../../environments/environment';
 
 export type Occasion = 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
-export type AiProvider = 'template' | 'deepseek' | 'grok';
+export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
 
 export interface MessageGuide {
   guide: string;   // the user's directive (like bot directives) — may contain {name}/{occasion}
@@ -10,30 +11,30 @@ export interface MessageGuide {
 }
 
 const AI_PROVIDER_KEY = 'rolodex_ai_provider';
-const AI_KEY_KEY = 'rolodex_ai_api_key';
 const PLAN_KEY = 'rolodex_plan';
 const INTERVENTIONS_KEY = 'rolodex_interventions';
 const MONTHLY_QUOTA = 5;
 const CONTEXT_CAP = 8;
 
 /**
- * 2026-08-16 THE CONFIDANTE v1 — the confidential secretary that PROFfers
+ * 2026-08-16 THE CONFIDANTE v2 — the confidential secretary that PROFfers
  * the message; the user only hits Send.
  *
  * CONTEXT BANGER: the confidante opens every composition with the user's
- * current view context (the filter select — All/Business/Location/Email/
- * Name/Phone/LastContact/When/Who/Where/Why) PLUS the contact's rotating
- * context: a rolling, cycle-augmented property appended over the life of the
- * relationship (reminders set, chats sent, follow-ups, interactions), capped
- * at the most recent lines. The agent reads where the user's head is + the
- * relationship's own story.
+ * current view context (the filter select) PLUS the contact's rotating
+ * context (a rolling, cycle-augmented property capped at the most recent
+ * lines). The agent reads where the user's head is + the relationship's
+ * story.
  *
- * AI-AGNOSTIC + PRIVACY: the provider is chosen in Settings (Template /
- * DeepSeek / Grok) with the user's OWN API key stored on the device. The
- * composition request goes DIRECTLY from the device to the chosen provider —
- * only the needed context leaves the device, and nothing is stored on the
- * Rolodex backend. Users who keep contacts fully local still get the
- * template confidante.
+ * AI-AGNOSTIC, SERVICE-DELIVERED: the user picks WHICH AI engine Rolodex
+ * uses to deliver the service — Rolodex's own on-device engine, DeepSeek, or
+ * Grok. ROLODEX holds the keys (server-side env); the user never brings a
+ * key. The briefing passes through the rolodex-server proxy transiently and
+ * is never stored. The storage choice (Device / Cloud / Rolodex server) is
+ * SEPARATE from the engine in use.
+ *
+ * ENTITLEMENT: Basic (or no plan) = 5 AI interventions a month (the
+ * Assistant taste). Confidante = unlimited. The quota rolls monthly.
  */
 @Injectable({ providedIn: 'root' })
 export class DraftEngineService {
@@ -48,32 +49,24 @@ export class DraftEngineService {
     return this._currentFilter;
   }
 
-  provider: AiProvider = 'template';
-  private providerKey = '';
+  provider: AiProvider = 'rolodex';
 
   constructor() {
     try {
-      this.provider = (localStorage.getItem(AI_PROVIDER_KEY) as AiProvider) || 'template';
-      this.providerKey = localStorage.getItem(AI_KEY_KEY) || '';
+      const stored = localStorage.getItem(AI_PROVIDER_KEY) as AiProvider | null;
+      this.provider = stored === 'deepseek' || stored === 'grok' || stored === 'rolodex' ? stored : 'rolodex';
       this.plan = (localStorage.getItem(PLAN_KEY) as any) || '';
     } catch { /* defaults */ }
   }
 
-  setProvider(p: AiProvider, key: string): void {
+  /** 2026-08-16: the user picks the engine; ROLODEX holds the keys. */
+  setProvider(p: AiProvider): void {
     this.provider = p;
-    this.providerKey = key || '';
-    try {
-      localStorage.setItem(AI_PROVIDER_KEY, p);
-      if (key) localStorage.setItem(AI_KEY_KEY, key);
-    } catch { /* ignore */ }
+    try { localStorage.setItem(AI_PROVIDER_KEY, p); } catch { /* ignore */ }
   }
 
-  get hasProviderKey(): boolean {
-    return !!this.providerKey;
-  }
-
-  // 2026-08-16 ENTITLEMENT: Basic (or no plan) = 5 AI interventions a month -
-  // the taste. Confidante = the AI works all month. The quota rolls monthly.
+  // ═══ ENTITLEMENT: Basic = the Assistant (5 AI interventions a month).
+  // Confidante = the AI works all month. Rolls monthly. ═══
   plan: 'basic' | 'confidante' | '' = '';
 
   private monthKey(): string {
@@ -106,7 +99,6 @@ export class DraftEngineService {
       localStorage.setItem(INTERVENTIONS_KEY, JSON.stringify(rec));
     } catch {}
   }
-
 
   /** Rotating context: append a line to the relationship's rolling story. */
   pushContext(c: any, line: string): void {
@@ -175,68 +167,50 @@ export class DraftEngineService {
   }
 
   /**
-   * Compose the proffered message — AI-agnostic.
-   * Strict guide → returned verbatim. Template → deterministic drafts.
-   * DeepSeek/Grok → the briefing goes DIRECTLY to the provider (the user's
-   * own key, device-side), so contacts never touch the Rolodex backend.
+   * Compose the proffered message — service-delivered and AI-agnostic.
+   * Rolodex's engine = the on-device engine. DeepSeek/Grok = the briefing
+   * goes through the rolodex-server proxy (ROLODEX's keys, transiently, never
+   * stored). Strict guides are returned verbatim. The Assistant quota is
+   * gated + consumed on every AI-assisted draft.
    */
   async composeAi(c: ContactInfo, occasion: Occasion, guideKey?: string): Promise<string> {
     const guide = guideKey ? this.getGuide(guideKey) : null;
     if (guide?.strict) return guide.guide;
 
     if (this.interventionsLeft() <= 0) {
-      return 'Your Assistant taste is used up for this month - upgrade to the Confidante ($5/month) for unlimited AI interventions.';
+      return 'Your Assistant taste is used up for this month — upgrade to the Confidante ($5/month) for unlimited AI interventions.';
     }
     this.consumeIntervention();
 
-    if (this.provider !== 'template' && this.providerKey) {
+    if (this.provider === 'deepseek' || this.provider === 'grok') {
       try {
         const draft = await this.callProvider(c, occasion, guide);
         if (draft) return draft;
       } catch {
-        /* fall back to the template engine */
+        /* fall back to the on-device Rolodex engine */
       }
     }
     return this.compose(c, occasion, guideKey);
   }
 
+  /** The Rolodex server proxy — ROLODEX's keys, briefing passes through. */
   private async callProvider(c: ContactInfo, occasion: Occasion, guide: MessageGuide | null): Promise<string | null> {
     const briefing = this.briefing(c, occasion, guide);
-    const system = 'You are RolodexAI, a confidential secretary. You proffer messages; the user hits Send.';
-    if (this.provider === 'deepseek') {
-      const res = await fetch('https://api.deepseek.com/chat/completions', {
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/ai/compose`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.providerKey}` },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: [{ role: 'system', content: system }, { role: 'user', content: briefing }],
-          max_tokens: 220,
-          temperature: 0.7,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ engine: this.provider, briefing }),
       });
       if (!res.ok) return null;
       const data = await res.json();
-      return data?.choices?.[0]?.message?.content?.trim() || null;
+      return data?.draft || null;
+    } catch {
+      return null;
     }
-    if (this.provider === 'grok') {
-      const res = await fetch('https://api.x.ai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.providerKey}` },
-        body: JSON.stringify({
-          model: 'grok-2-latest',
-          messages: [{ role: 'system', content: system }, { role: 'user', content: briefing }],
-          max_tokens: 220,
-          temperature: 0.7,
-        }),
-      });
-      if (!res.ok) return null;
-      const data = await res.json();
-      return data?.choices?.[0]?.message?.content?.trim() || null;
-    }
-    return null;
   }
 
-  /** The deterministic template engine (works fully offline, no key needed). */
+  /** The on-device Rolodex engine (works offline, no server, no key). */
   compose(c: ContactInfo, occasion: Occasion, guideKey?: string): string {
     const name = this.contactName(c);
     const guide = guideKey ? this.getGuide(guideKey) : null;
