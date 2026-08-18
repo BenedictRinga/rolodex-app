@@ -558,6 +558,41 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /** 2026-08-18 THE CONFIDANTE INTERVIEW: a top-notch secretary asks, the
+   *  user answers, the card gets its story. Starts with the question every
+   *  relationship hinges on: when did you last contact this person? */
+  private askConfidanteQuestion(header: string, placeholder: string, value = ''): Promise<string> {
+    return new Promise(async (resolve) => {
+      const a = await this.alertCtrl.create({
+        header,
+        inputs: [{ name: 'q', type: 'text', placeholder, value }],
+        buttons: [
+          { text: 'Skip', role: 'cancel', handler: () => { resolve(''); return true; } },
+          { text: 'Next', handler: (data: any) => { resolve(String(data?.q || '').trim()); return true; } },
+        ],
+      });
+      await a.present();
+    });
+  }
+
+  async startConfidanteInterview(): Promise<void> {
+    const f = this.contactForm;
+    if (!f) return;
+    const when = await this.askConfidanteQuestion('When did you last contact this person?', 'e.g. last month, 3 weeks ago');
+    const where = await this.askConfidanteQuestion('Where did you meet?', 'e.g. Nairobi Innovation Week, clinic, a friend\'s party');
+    const who = await this.askConfidanteQuestion('Who introduced you, or who else was involved?', 'e.g. Jane, the accelerator lead');
+    const why = await this.askConfidanteQuestion('Why do they matter to you?', 'e.g. key business partner, family, old friend');
+    const how = await this.askConfidanteQuestion('How did you connect?', 'e.g. conference, referral, school');
+    const topic = await this.askConfidanteQuestion('What do you usually talk about?', 'e.g. agri-tech, kids, football');
+    const followUp = await this.askConfidanteQuestion('What is the follow-up you keep meaning to do?', 'e.g. send the deck, book lunch');
+    const tidbits = await this.askConfidanteQuestion('Any personal tidbit worth remembering?', 'e.g. loves jazz, runs a shamba');
+    f.patchValue({
+      rolodex: { when, where, who, why, how, topic, followUp, personalTidbits: tidbits },
+    });
+    this.updateSaveEnabled();
+    void this.alertService.showToast('Confidante: context captured — this card now has a story', 2500);
+  }
+
   async draftMessage(contact: any): Promise<void> {
     const draft = await this.draftEngine.composeAi(contact, this.occasionFor(contact), contact.contactId);
     const name = this.draftEngine.contactName(contact) || 'this contact';
