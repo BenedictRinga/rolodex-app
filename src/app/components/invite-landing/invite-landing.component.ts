@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RolodexInvite } from '../../services/invite/invite.service';
+import { StorageService } from '../../services/storage/storage.service';
+import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../welcome-modal/welcome-modal.component';
 
 /**
  * 2026-08-17 THE DROPBOX MOMENT — the invite landing.
@@ -19,7 +21,10 @@ import { RolodexInvite } from '../../services/invite/invite.service';
 export class InviteLandingComponent {
   @Input() invite!: RolodexInvite;
 
-  constructor(private readonly modalController: ModalController) {}
+  constructor(
+    private readonly modalController: ModalController,
+    private readonly storageService: StorageService,
+  ) {}
 
   get whenLabel(): string {
     if (!this.invite?.when) return '';
@@ -65,6 +70,24 @@ export class InviteLandingComponent {
   /** Hook 2 — the Play Store nudge (the 7-day trial begins there). */
   getApp(): void {
     void this.modalController.dismiss('get-app', 'close');
+  }
+
+  /** 2026-08-18 WHAT IS ROLODEXAI ABOUT?: opens the Welcome demo. A first-time
+   *  guest (no dismissal stored) sees 'Karibu sana!'; a returning guest sees
+   *  'Welcome Again'. */
+  async whatIsRolodex(): Promise<void> {
+    try {
+      const dismissed = await this.storageService.get<string>(WELCOME_DISMISSED_KEY);
+      const modal = await this.modalController.create({
+        component: WelcomeModalComponent,
+        componentProps: { isReplay: !!dismissed },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95],
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
+      });
+      await modal.present();
+    } catch { /* demo is best-effort */ }
   }
 
   close(): void {

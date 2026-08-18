@@ -48,10 +48,12 @@ export class InviteService {
       .catch(() => null);
   }
 
-  /** 2026-08-18 SHAREAPP: the share text carries the OG landing URL so the
-   *  link preview itself is the branded card; it redirects into the PWA. */
+  /** 2026-08-18 SHAREAPP: the share text carries the PWA URL
+   *  (zyppar.com/rolodex/?invite=TOKEN) so the link's own header/domain reads
+   *  as the app - not the API preview host. The static OG tags on the PWA
+   *  index.html still make the preview a branded card. */
   shareUrl(inv: RolodexInvite): string {
-    return inv?.ogUrl || inv?.url || `https://zyppar.com/rolodex/?invite=${inv.token}`;
+    return inv?.url || inv?.ogUrl || `https://zyppar.com/rolodex/?invite=${inv.token}`;
   }
 
   /** The native share sheet (WhatsApp, email, SMS, X, copy…) with a link fallback.

@@ -28,10 +28,26 @@ export class RolodexSyncService {
     this.ownerName = String(name || '').trim();
   }
 
+  /** 2026-08-18: the sender's display name for invites/shares - from the My
+   *  Profile settings, never the socket's 'Guest' default. */
+  get senderName(): string {
+    return this.ownerName || 'Me';
+  }
+
   constructor(
     private readonly storage: StorageService,
     ) {
     this.deviceId = this.loadDeviceId();
+    // 2026-08-18 PROFILE HYDRATION: the profile lives in IndexedDB (set from
+    // Settings > My Profile); reading it here means invites say the real name
+    // even before the user opens Settings in this session.
+    try {
+      const p = this.storage.getSync<any>('rolodex_profile');
+      if (p && typeof p === 'object') {
+        this.ownerName = String(p?.name || '').trim();
+        this.ownerPhone = String(p?.phone || '').trim();
+      }
+    } catch { /* fresh profile */ }
   }
 
   private loadDeviceId(): string {

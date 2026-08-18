@@ -103,7 +103,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     const phone = this.sendeePhone || '';
     const draft = this.thread?.messages?.slice(-1)?.[0]?.text || '';
     // The invite's FROM is the SENDER (the user), never the sendee's card title.
-    const sender = (this.socketChat as any)?.name || 'Me';
+    const sender = this.chatService.senderName;
     const ctx = { from: sender, to: name, text: draft, room: 'rolodex' };
     const sheet = await this.alertController.create({
       header: name + ' isn\'t on Rolodex yet',

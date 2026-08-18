@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { SocketChatService } from '../socket-chat/socket-chat.service';
 import { DraftEngineService } from '../draft-engine/draft-engine.service';
 import { UsersApiService } from '../users-api/users-api.service';
+import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 
 export type ReceiptStatus = 'sent' | 'delivered' | 'read';
 
@@ -49,10 +50,12 @@ export class CardChatService {
     private readonly socketChat: SocketChatService,
     private readonly draftEngine: DraftEngineService,
     private readonly usersApi: UsersApiService,
+    private readonly rolodexSync: RolodexSyncService,
   ) {
     try {
-      const raw = this.storage.getSync<string>(this.UNREAD_KEY); // 2026-08-18 IndexedDB memory cache
-      if (raw) this.unread = JSON.parse(raw);
+      // 2026-08-18 FIX: StorageService already JSON-parses - never parse twice.
+      const stored = this.storage.getSync<Record<string, number>>(this.UNREAD_KEY);
+      if (stored) this.unread = stored;
     } catch { /* fresh */ }
     // 2026-08-16 SOCKET: incoming cross-device messages land in their thread
     // (contactId or pod:<group> via the `key` the sender attached).
@@ -179,6 +182,12 @@ export class CardChatService {
   /** 2026-08-17 THE DROPBOX MOMENT: the demo room, for invite links. */
   get room(): string {
     return (this.socketChat as any)?.room || '';
+  }
+
+  /** 2026-08-18 THE SENDER: the user's real profile name for invites/shares -
+   *  never the socket's 'Guest' default. */
+  get senderName(): string {
+    return this.rolodexSync.senderName;
   }
 
   /** The thread title for arrival toasts. */

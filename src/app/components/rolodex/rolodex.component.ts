@@ -286,8 +286,9 @@ export class RolodexComponent implements OnInit {
   private loadProfile(): void {
     void (async () => {
       try {
-        const raw = await this.storageService.get<string>(this.PROFILE_KEY);
-        if (raw) this.profile = { name: '', photo: '', phone: '', ...JSON.parse(raw) };
+        // 2026-08-18 FIX: StorageService already JSON-parses - never parse twice.
+        const p = await this.storageService.get<any>(this.PROFILE_KEY);
+        if (p && typeof p === 'object') this.profile = { name: '', photo: '', phone: '', ...p };
       } catch { /* fresh */ }
     })();
   }
