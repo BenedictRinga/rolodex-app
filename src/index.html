@@ -12,7 +12,9 @@
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="icon" type="image/png" href="assets/rolodex/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/rolodex/favicon-16.png" />
+  <link rel="apple-touch-icon" href="assets/rolodex/apple-touch-icon.png" />
 
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -21,13 +23,13 @@
 </head>
 
 <body>
-  <!-- 2026-08-16 SPLASH: branded overlay (Zyppar logo — Rolodex is from Zyppar)
-       fades out once the app has booted. -->
+  <!-- 2026-08-18 SPLASH: branded overlay (the RolodexAI mark + wordmark,
+       the union palette) fades out once the app has booted. -->
   <div id="rolodex-splash">
     <div class="splash-inner">
-      <img src="assets/icons/zypparClear.png" alt="RolodexAI" class="splash-logo" />
-      <div class="splash-name">RolodexAI</div>
-      <div class="splash-tag">Your contacts, in motion…</div>
+      <img src="assets/rolodex/mark.svg" alt="RolodexAI" class="splash-logo" />
+      <img src="assets/rolodex/wordmark-512.png" alt="RolodexAI" class="splash-wordmark" />
+      <div class="splash-tag">You never forget to stay in touch… again</div>
     </div>
     <style>
       #rolodex-splash {
@@ -38,8 +40,8 @@
       }
       .splash-inner { text-align: center; }
       .splash-logo { width: 88px; height: 88px; border-radius: 22px; }
-      .splash-name { color: #e6e8f0; font-size: 20px; font-weight: 700; margin-top: 14px; letter-spacing: 0.04em; font-family: system-ui, sans-serif; }
-      .splash-tag { color: #8b93b0; font-size: 12px; margin-top: 6px; font-family: system-ui, sans-serif; }
+      .splash-wordmark { width: 200px; margin-top: 16px; }
+      .splash-tag { color: #8b93b0; font-size: 12px; margin-top: 8px; font-family: system-ui, sans-serif; }
       #rolodex-splash.gone { opacity: 0; pointer-events: none; }
     </style>
     <script>
