@@ -239,10 +239,10 @@
              left scrolling in ignorance. Tapping a chip jumps to the item
              (or opens the section's modal directly). -->
         <div class="settings-quicknav">
+          <ion-chip (click)="scrollTo('settings-updates')">Updates</ion-chip>
           <ion-chip (click)="scrollTo('settings-cardview')">Card View</ion-chip>
           <ion-chip (click)="scrollTo('settings-demo')">Demo</ion-chip>
           <ion-chip (click)="openReminders()">Reminders</ion-chip>
-          <ion-chip (click)="scrollTo('settings-updates')">Updates</ion-chip>
           <ion-chip (click)="scrollTo('settings-welcome')">Welcome</ion-chip>
           <ion-chip (click)="openAiSettings()">AI</ion-chip>
           <ion-chip (click)="openBilling()">Billing</ion-chip>
@@ -252,6 +252,29 @@
           <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
+
+        <!-- 2026-08-18 UPDATES AT THE TOP: the lightning indicator + contrasting
+             numbers make an available update impossible to miss. -->
+        <ion-item lines="none" class="elegant-item" id="settings-updates">
+          <ion-icon name="cloud-download-outline" slot="start" [color]="updateAvailable ? 'warning' : 'tertiary'"></ion-icon>
+          <ion-label>
+            <span class="update-title">
+              Updates
+              <span class="update-dot" [class.live]="updateAvailable" *ngIf="updateChecked"></span>
+            </span>
+            <p class="update-versions">
+              <span class="ver-current">You: v{{ updateCurrent }}</span>
+              <ng-container *ngIf="updateServer && updateChecked">
+                <span class="ver-arrow">→</span>
+                <span class="ver-server" [class.newer]="updateAvailable">Server: v{{ updateServer }}</span>
+              </ng-container>
+              <span class="update-checked" *ngIf="lastCheckedLabel"> · {{ lastCheckedLabel }}</span>
+            </p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : 'medium'" (click)="checkForUpdates()">
+            {{ updateAvailable ? 'Update v' + updateServer : (updateChecked ? 'Up to date' : 'Check') }}
+          </ion-button>
+        </ion-item>
 
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
@@ -285,21 +308,6 @@
             </p>
           </ion-label>
           <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>
-        </ion-item>
-
-        <!-- 2026-08-16 UPDATES: the automatic update slot — shows both the app
-             and the server version, so the check is never silent. -->
-        <ion-item lines="none" class="elegant-item" id="settings-updates">
-          <ion-icon name="cloud-download-outline" slot="start" color="tertiary"></ion-icon>
-          <ion-label>
-            Updates
-            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              Current: {{ updateCurrent }}{{ updateServer && updateChecked ? ' · Server: v' + updateServer : '' }}{{ lastCheckedLabel ? ' · ' + lastCheckedLabel : '' }}
-            </p>
-          </ion-label>
-          <ion-button slot="end" fill="clear" (click)="checkForUpdates()">
-            {{ updateAvailable ? 'Update v' + updateServer : (updateChecked ? 'Up to date' : 'Check') }}
-          </ion-button>
         </ion-item>
 
         <ion-item lines="none" class="elegant-item" id="settings-welcome">

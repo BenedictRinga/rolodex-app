@@ -757,6 +757,15 @@
                 </ion-item>
                 <div slot="content" formGroupName="rolodex">
 
+                  <div class="confidante-note">
+                    <ion-icon name="sparkles-outline"></ion-icon>
+                    <div>
+                      <strong>The Confidante reads this context</strong>
+                      <p>The 4 W's (and the lines right below) are what the AI uses to draft in your voice and catch the loop before it goes cold. Fill only what you're comfortable sharing — it's voluntary and stays exactly where you keep your contacts.</p>
+                    </div>
+                  </div>
+                  <div class="confidante-context">
+
                   <!-- 'when' -->
                   <ion-item>
                     <ion-label position="stacked">When</ion-label>
@@ -851,6 +860,7 @@
                       Add Reference
                     </ion-button>
                   </div>
+                </div>
                 </div>
               </ion-accordion>
 
@@ -1175,6 +1185,14 @@
 
             <!-- Rolodex Section -->
             <ng-container formGroupName="rolodex">
+              <div class="confidante-note">
+                <ion-icon name="sparkles-outline"></ion-icon>
+                <div>
+                  <strong>The Confidante reads this context</strong>
+                  <p>The 4 W's (and the lines right below) are what the AI uses to draft in your voice and catch the loop before it goes cold. Fill only what you're comfortable sharing — it's voluntary and stays exactly where you keep your contacts.</p>
+                </div>
+              </div>
+              <div class="confidante-context">
               <!-- 'when' -->
               <ion-item>
                 <ion-label position="stacked">When</ion-label>
@@ -1263,6 +1281,7 @@
                 <ion-button expand="block" fill="outline" (click)="addReference()">
                   Add Reference
                 </ion-button>
+              </div>
               </div>
             </ng-container>
 

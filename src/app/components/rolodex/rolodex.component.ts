@@ -177,7 +177,7 @@ export class RolodexComponent implements OnInit {
   }
 
   settingsMapHint(): string {
-    return 'Card View · Demo · Reminders · Updates · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
+    return 'Updates · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }
 
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */
@@ -340,7 +340,8 @@ export class RolodexComponent implements OnInit {
     this.loadViewMode();
     // 2026-08-16: the Updates counter re-checks every 5 minutes.
     this.updateTimer = setInterval(() => { void this.refreshUpdatesQuietly(); }, 300000);
-    // 2026-08-16 UPDATES: boot check — a visible toast when an update is live.
+    // 2026-08-16 UPDATES: boot check — an update is a POP-UP now, not a toast
+    // that can be missed during rapid dev iteration.
     void (async () => {
       try {
         if (await this.updatesService.noticeIfCritical()) {
@@ -348,7 +349,12 @@ export class RolodexComponent implements OnInit {
           this.updateChecked = true;
           this.updateCurrent = this.updatesService.appVersion;
           this.updateServer = this.updatesService.serverVersion;
-          await this.alertService.showToast('An update is available — open Settings to apply it', 5000);
+          this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
+          const refresh = await this.alertService.alertPrompt({
+            header: 'Update available',
+            message: `RolodexAI v${this.updateServer} is live — you're on v${this.updateCurrent}. Refresh to apply it (your contacts are safe).`,
+          });
+          if (refresh) window.location.reload();
         } else {
           this.updateServer = this.updatesService.serverVersion;
           this.updateChecked = true;

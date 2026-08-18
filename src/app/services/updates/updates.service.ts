@@ -25,12 +25,28 @@ export class UpdatesService {
       this.serverVersion = String(data?.version || '').trim();
       this.lastCheckAt = Date.now();
       this.checked = true;
-      const available = this.serverVersion !== '' && this.serverVersion !== this.appVersion;
+      // 2026-08-18 REAL SEMVER: an update exists only when the SERVER is NEWER,
+      // not merely different (a stale server must never claim an update).
+      const available = this.serverVersion !== '' && this.compareVersions(this.serverVersion, this.appVersion) > 0;
       this.lastResult = { available, current: this.appVersion, server: this.serverVersion };
       return this.lastResult;
     } catch {
       return { available: false, current: this.appVersion, server: '' };
     }
+  }
+
+  /** Simple semver compare: 0.3.0 > 0.2.10 > 0.2.0. */
+  private compareVersions(a: string, b: string): number {
+    const pa = String(a).replace(/^v/i, '').split('.').map((n) => parseInt(n, 10) || 0);
+    const pb = String(b).replace(/^v/i, '').split('.').map((n) => parseInt(n, 10) || 0);
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i++) {
+      const da = pa[i] || 0;
+      const db = pb[i] || 0;
+      if (da > db) return 1;
+      if (da < db) return -1;
+    }
+    return 0;
   }
 
   /** Polite boot check — one notice per session, only when an update exists. */

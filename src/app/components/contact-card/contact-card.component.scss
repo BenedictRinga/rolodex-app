@@ -950,3 +950,45 @@ ion-content {
   background: var(--rolodex-surface);
   border-top: 1px solid var(--rolodex-border-light);
 }
+
+/* 2026-08-18 THE CONFIDANTE CONTEXT BLOCK: the 4 W's + contiguous properties
+   the AI reads for drafting - highlighted so the user knows what powers it. */
+.confidante-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: rgba(79, 109, 245, 0.08);
+  border: 1px solid rgba(79, 109, 245, 0.35);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 4px 8px 10px;
+  color: var(--rolodex-text);
+}
+
+.confidante-note ion-icon {
+  color: #4f6df5;
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.confidante-note strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.confidante-note p {
+  font-size: 11.5px;
+  line-height: 1.45;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.confidante-context {
+  border: 1px solid rgba(79, 109, 245, 0.28);
+  border-radius: 14px;
+  padding: 6px 0;
+  margin: 0 4px 10px;
+  background: rgba(79, 109, 245, 0.035);
+}
