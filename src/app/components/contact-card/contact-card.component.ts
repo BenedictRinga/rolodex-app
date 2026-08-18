@@ -512,6 +512,30 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     try { return this.cardChat.peersOnline; } catch { return 0; }
   }
 
+  /**
+   * 2026-08-18 THE DEMO SEPARATOR: when BOTH real contacts and the demo deck
+   * are present, render [real..., separator, mock...] so the user always
+   * knows which cards are theirs and which are the filler. The separator
+   * (and its 'Demo Contacts' label) appears only once real contacts arrive.
+   */
+  get displaySegments(): Array<{ type: 'contact'; contact: any } | { type: 'separator' }> {
+    const all = this.contacts || [];
+    const real = all.filter((c: any) => !(c as any)?.isMockData);
+    const mock = all.filter((c: any) => (c as any)?.isMockData);
+    if (!real.length || !mock.length) {
+      return all.map((c) => ({ type: 'contact' as const, contact: c }));
+    }
+    return [
+      ...real.map((c) => ({ type: 'contact' as const, contact: c })),
+      { type: 'separator' as const },
+      ...mock.map((c) => ({ type: 'contact' as const, contact: c })),
+    ];
+  }
+
+  trackSegment(_index: number, seg: any): string {
+    return seg?.type === 'separator' ? '__rolodex_demo_sep__' : (seg?.contact?.contactId || '');
+  }
+
   /** 2026-08-17 AWARENESS: the unread badge on the chat row. */
   unreadFor(key: string): number {
     try { return this.cardChat.unreadFor(key); } catch { return 0; }

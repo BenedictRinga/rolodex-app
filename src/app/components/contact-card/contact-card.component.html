@@ -1,48 +1,53 @@
 <ng-container *ngIf="!selectedMode || selectedMode === ''">
   <ng-container [ngSwitch]="viewMode">
       <ng-container *ngSwitchCase="'default'">
-        <ng-container *ngFor="let contact of contacts; trackBy: trackById">
-          <ion-item>
+        <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
+          <ng-container *ngIf="seg.type === 'separator'">
+            <div class="demo-separator"><span>Demo Contacts</span></div>
+          </ng-container>
+          <ng-container *ngIf="seg.type === 'contact'">
+            <ion-item>
             <!-- Main card area triggers onContactTap -->
-            <div class="contact-card-content" (click)="onContactTap(contact, $event)">
+            <div class="contact-card-content" (click)="onContactTap(seg.contact, $event)">
               <!-- 2026-08-16: the DEFAULT view avatar is iPad-shaped (square,
                    rounded corners) — the one card type the user chose. -->
               <ion-avatar class="default-view-avatar" slot="start">
-                <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                <img [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
                   (error)="handleImageError($event)">
               </ion-avatar>
               <ion-label class="default-view-label">
-                <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || '' }}</p>
+                <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
+                <p>{{ seg.contact.organization?.company || 'No Company Info' }}</p>
+                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || '' }}</p>
               </ion-label>
             </div>
             <!-- Chevron icon triggers onToggleDetails -->
-            <ion-icon [name]="contact.showDetails ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
-              (click)="onToggleDetails(contact, $event); $event.stopPropagation()"></ion-icon>
+            <ion-icon [name]="seg.contact.showDetails ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
+              (click)="onToggleDetails(seg.contact, $event); $event.stopPropagation()"></ion-icon>
           </ion-item>
       
-          <ion-item *ngIf="contact.showDetails" class="contact-details-item">
+          <ion-item *ngIf="seg.contact.showDetails" class="contact-details-item">
             <ion-card>
               <ion-card-content>
-                <p><strong>Phone:</strong> {{ contact.phones?.[0]?.number || 'No Phone Info' }}</p>
-                <p><strong>Email:</strong> {{ contact.emails?.[0]?.address || 'No Email Info' }}</p>
+                <p><strong>Phone:</strong> {{ seg.contact.phones?.[0]?.number || 'No Phone Info' }}</p>
+                <p><strong>Email:</strong> {{ seg.contact.emails?.[0]?.address || 'No Email Info' }}</p>
                 <p><strong>Address:</strong>
-                  {{ contact.postalAddresses?.[0]?.street }},
-                  {{ contact.postalAddresses?.[0]?.city }},
-                  {{ contact.postalAddresses?.[0]?.country }}
+                  {{ seg.contact.postalAddresses?.[0]?.street }},
+                  {{ seg.contact.postalAddresses?.[0]?.city }},
+                  {{ seg.contact.postalAddresses?.[0]?.country }}
                 </p>
-                <p><strong>Job Title:</strong> {{ contact.organization?.jobTitle || 'No Job Title' }}</p>
-                <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
-                <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
-                <ion-button color="primary" (click)="callContact(contact)" expand="block">Call</ion-button>
-                <ion-button color="secondary" (click)="emailContact(contact)" expand="block">Email</ion-button>
-                <ion-button color="tertiary" (click)="openAddress(contact)" expand="block">Map</ion-button>
-                <ion-button color="warning" (click)="onEditContact(contact)" expand="block">Edit</ion-button>
-                <ion-button color="danger" (click)="onRemoveContact(contact)" expand="block">Remove</ion-button>
+                <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
+                <p><strong>Last Interaction:</strong> {{ seg.contact.rolodex?.when || 'No Interaction' }}</p>
+                <p><strong>Follow-Up:</strong> {{ seg.contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+                <ion-button color="primary" (click)="callContact(seg.contact)" expand="block">Call</ion-button>
+                <ion-button color="secondary" (click)="emailContact(seg.contact)" expand="block">Email</ion-button>
+                <ion-button color="tertiary" (click)="openAddress(seg.contact)" expand="block">Map</ion-button>
+                <ion-button color="warning" (click)="onEditContact(seg.contact)" expand="block">Edit</ion-button>
+                <ion-button color="danger" (click)="onRemoveContact(seg.contact)" expand="block">Remove</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-item>
+            </ng-container>
         </ng-container>
       </ng-container>
 
