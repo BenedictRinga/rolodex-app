@@ -147,7 +147,7 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
-  /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the confidante. */
+  /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the Confidante. */
   onApplyFilterContext(): void {
     this.draftEngine.currentFilter = String(this.selectedFilter || 'all');
   }

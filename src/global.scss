@@ -375,3 +375,16 @@ ion-modal {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 2026-08-18 the chat sheet rises to 95% - the composer is always usable. */
+.card-chat-modal-sheet {
+  --height: 100%;
+}
+
+.card-chat-modal-sheet .chat-body {
+  --padding-bottom: 8px;
+}
+
+.card-chat-modal-sheet ion-footer {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

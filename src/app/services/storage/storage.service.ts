@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 
 // ---------------------------------------------------------------------------
-// 2026-08-18 THE ROLODEX STORAGE - NO localStorage.
-// IndexedDB is the robust foundation (quotas in the hundreds of MB, async,
-// survives app updates and browser churn), wrapped in a tiny key-value API:
-// a 'rolodex' database with a single 'kv' object store. A synchronous
-// in-memory cache serves hot reads; the cache is hydrated from IndexedDB on
-// first use and every write goes straight through to the database. If
-// IndexedDB is somehow unavailable, the in-memory cache still keeps the app
-// functional for the session (memory-only mode) - nothing depends on
-// localStorage anymore.
+// 2026-08-18 THE ROLODEX STORAGE - a SEQUENCED ARRAY of media, no single
+// point of loss (and no direct localStorage):
+//
+//   1. MEMORY CACHE   - the hot sync layer (fastest reads, served first).
+//   2. INDEXEDDB      - the PRIMARY persistent medium (hundreds of MB,
+//                       async, survives app updates and browser churn).
+//   3. CAPACITOR
+//      PREFERENCES    - the native backup tier (Android/iOS only - the
+//                       native Key-Value store; the web tier is skipped so
+//                       localStorage never leaks in through a side door).
+//
+// Every write cascades memory -> IndexedDB -> (native) Preferences; every
+// read walks memory -> IndexedDB -> (native) Preferences -> null. If a
+// medium fails, the next one in the sequence still holds the data - the
+// classic priority/backup cascade, sequenced as an array.
 // ---------------------------------------------------------------------------
 @Injectable({
   providedIn: 'root',
@@ -21,10 +28,39 @@ export class StorageService {
   private dbPromise: Promise<IDBDatabase> | null = null;
   private memory = new Map<string, string>();
   private hydrated = false;
+  private nativePrefs = false;
 
   constructor() {
+    try {
+      this.nativePrefs = !!Preferences?.set && typeof (window as any)?.Capacitor?.isNativePlatform === 'function'
+        ? (window as any).Capacitor.isNativePlatform()
+        : false;
+    } catch {
+      this.nativePrefs = false;
+    }
     void this.hydrate();
   }
+
+  /** The native backup tier (Capacitor Preferences, Android/iOS only). */
+  private async prefsGet(key: string): Promise<string | null> {
+    if (!this.nativePrefs) return null;
+    try {
+      const { value } = await Preferences.get({ key });
+      return value ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  private async prefsSet(key: string, value: string): Promise<void> {
+    if (!this.nativePrefs) return;
+    try {
+      await Preferences.set({ key, value });
+    } catch {
+      /* the primary tiers still hold the data */
+    }
+  }
+
 
   // ===== IndexedDB plumbing =================================================
 
@@ -140,6 +176,7 @@ export class StorageService {
     const serialized = JSON.stringify(value);
     this.memory.set(key, serialized);
     await this.idbPut(key, serialized);
+    await this.prefsSet(key, serialized); // the native backup tier (Android/iOS)
   }
 
   async get<T>(key: string): Promise<T | null> {
@@ -168,7 +205,17 @@ export class StorageService {
         }
       }
     } catch {
-      /* memory-only */
+      /* fall through to the backup tier */
+    }
+    // the native Preferences backup (Android/iOS) - the sequence holds
+    const backup = await this.prefsGet(key);
+    if (backup !== null) {
+      this.memory.set(key, backup);
+      try {
+        return JSON.parse(backup) as T;
+      } catch {
+        return null;
+      }
     }
     return null;
   }

@@ -48,7 +48,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'card',
       kicker: '01 · The card',
       title: 'The card is everything',
-      copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the confidante live right there on the person.',
+      copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the Confidante live right there on the person.',
     },
     {
       id: 'fourws',

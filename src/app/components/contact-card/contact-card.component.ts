@@ -501,8 +501,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       component: CardChatModalComponent,
       componentProps: { thread },
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.6, 0.75, 0.9],
-      initialBreakpoint: 0.75,
+      breakpoints: [0, 0.7, 0.95],
+      initialBreakpoint: 0.95, // 2026-08-18: rise so the composer is usable
+      keyboardClose: false,
     });
     await modal.present();
   }
@@ -700,7 +701,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
           { text: 'Cancel', role: 'cancel' },
           { text: 'Save', handler: (v: any) => {
             this.draftEngine.setGuide(key, { guide: String(v?.guide || '').trim(), strict: !!(v?.strict) });
-            this.alertService.showToast('Guide saved — the confidante will follow it', 2000);
+            this.alertService.showToast('Guide saved — the Confidante will follow it', 2000);
           } },
         ],
       })

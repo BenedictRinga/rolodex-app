@@ -216,41 +216,20 @@ export class CardChatService {
     }
   }
 
-  /** Seed a contextual thread from the contact's rolodex history. */
+  /**
+   * 2026-08-18 NO DUMMY CONVERSATIONS: a thread opens EMPTY - the user
+   * writes the first message. The old seed planted placeholder exchanges
+   * ("You met at...", "Hi! Great connecting...") which read as fake history.
+   */
   async seedThread(contact: any): Promise<ChatThread> {
     const key = String(contact?.contactId || 'anon');
     const existing = await this.loadThread(key);
-    if (existing?.messages?.length) return existing;
+    if (existing) return existing;
     const name = contact?.name?.display || 'Contact';
-    const r = contact?.rolodex || {};
-    const when = r.when ? new Date(r.when).toLocaleDateString() : 'recently';
-    const where = r.where || 'Rolodex';
-    const topic = r.topic || 'general';
-    const followUp = r.followUp;
     const thread: ChatThread = {
       key,
       title: name,
-      messages: [
-        {
-          id: 's1',
-          from: 'system',
-          text: `You met at ${where} (${when}). ${r.how || 'In-person meeting'}.`,
-          at: new Date(r.when || Date.now()).toISOString(),
-        },
-        {
-          id: 's2',
-          from: 'them',
-          text: `Hi! Great connecting about ${topic}. ${r.personalTidbits ? `By the way — ${r.personalTidbits}.` : ''}`,
-          at: new Date((r.when ? Date.parse(r.when) : Date.now()) + 3600_000).toISOString(),
-        },
-        {
-          id: 's3',
-          from: 'me',
-          text: `Good to hear from you! ${followUp ? `Next step: ${followUp}.` : 'Looking forward to our next step.'}`,
-          at: new Date((r.when ? Date.parse(r.when) : Date.now()) + 7200_000).toISOString(),
-          status: 'read',
-        },
-      ],
+      messages: [],
       updatedAt: new Date().toISOString(),
     };
     await this.saveThread(thread);
@@ -261,25 +240,11 @@ export class CardChatService {
   async podThread(group: string, memberNames: string[]): Promise<ChatThread> {
     const key = 'pod:' + group;
     const existing = await this.loadThread(key);
-    if (existing?.messages?.length) return existing;
-    const names = memberNames.length ? memberNames.join(', ') : group + ' members';
+    if (existing) return existing;
     const thread: ChatThread = {
       key,
       title: group,
-      messages: [
-        {
-          id: 'p1',
-          from: 'system',
-          text: `Pod "${group}" — ${names}. Group threads carry the schedule, reminders and shared notes for everyone in the pod.`,
-          at: new Date().toISOString(),
-        },
-        {
-          id: 'p2',
-          from: 'them',
-          text: 'Anyone free this week? Let’s sync on the next steps.',
-          at: new Date(Date.now() - 86_400_000).toISOString(),
-        },
-      ],
+      messages: [], // 2026-08-18: no dummy seed - the pod starts empty too
       updatedAt: new Date().toISOString(),
     };
     await this.saveThread(thread);

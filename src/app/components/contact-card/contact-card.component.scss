@@ -78,34 +78,23 @@ ion-content {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: var(--rolodex-radius-lg);
   backface-visibility: hidden;
   overflow: hidden;
   box-sizing: border-box;
+  background-color: #f9f9f9; /* 2026-08-18: the 2024 Zyppar source */
 }
 
 /* ── Front ───────────────────────────────────────── */
 .rolodex-container .card-front {
-  /* 2026-08-17: RESTORED to the Zyppar original - plain white, #ccc border,
-     no accent strip, no shadow. */
+  /* 2026-08-18: the 2024 Zyppar source is PLAIN - #fff, no border, no
+     radius, no shadow, no hover lift. Nothing bleached in. */
   background-color: #fff;
-  border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 8px;
-  transition:
-    box-shadow var(--rolodex-duration-normal) var(--rolodex-ease-out),
-    transform var(--rolodex-duration-normal) var(--rolodex-spring);
-}
-
-.rolodex-container .rolodex-card:hover .card-front {
-  box-shadow: var(--rolodex-shadow-md);
-  transform: translateY(-3px);
-
-  &::before { opacity: 1; }
 }
 
 .rolodex-container .rolodex-avatar {
@@ -224,9 +213,8 @@ ion-content {
 
 /* ── Back ────────────────────────────────────────── */
 .rolodex-container .card-back {
-  /* 2026-08-17: RESTORED - neutral #f9f9f9 + #ccc (Zyppar original). */
+  /* 2026-08-18: the 2024 Zyppar source - plain #f9f9f9, no border. */
   background-color: #f9f9f9;
-  border: 1px solid #ccc;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -380,16 +368,14 @@ ion-content {
 }
 
 .gridcard .card-front {
-  /* 2026-08-17: RESTORED - plain #fff (Zyppar original), no accent strip. */
+  /* 2026-08-18: the 2024 Zyppar source - plain #fff. */
   background: #fff;
-  border-radius: var(--rolodex-radius-lg);
   transform: rotateY(0deg);
 }
 
 .gridcard .card-back {
-  /* 2026-08-17: RESTORED - #fff (Zyppar original). */
+  /* 2026-08-18: the 2024 Zyppar source - plain #fff. */
   background: #fff;
-  border-radius: var(--rolodex-radius-lg);
   transform: rotateY(180deg);
 }
 

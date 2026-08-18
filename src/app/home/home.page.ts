@@ -105,7 +105,8 @@ export class HomePage implements OnInit {
         componentProps: { isReplay },
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95],
-        initialBreakpoint: 0.9,
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
       });
       await modal.present();
       const res = await modal.onDidDismiss();
@@ -133,7 +134,8 @@ export class HomePage implements OnInit {
         componentProps: { invite: inv },
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95],
-        initialBreakpoint: 0.9,
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
       });
       await modal.present();
       const res = await modal.onDidDismiss();
@@ -683,10 +685,17 @@ export class HomePage implements OnInit {
    * Rolodex counterpart, including the picker's address + photo icon).
    */
   private mapPickedContact(raw: any, index: number, when: number): any {
-    const display = String(raw?.name || '').trim() || 'Picked contact ' + (index + 1);
+    const rawName = raw?.name?.display || raw?.name || '';
+    const display = String(typeof rawName === 'string' ? rawName : (rawName?.display || '')).trim() || 'Picked contact ' + (index + 1);
     const parts = display.trim().split(/\s+/);
-    const tel = Array.isArray(raw?.tel) ? raw.tel.filter(Boolean) : [];
-    const emails = Array.isArray(raw?.email) ? raw.email.filter(Boolean) : [];
+    // 2026-08-18: the picker can return tel/email entries as STRINGS or as
+    // OBJECTS ({number}/{address}) - normalize both, never leak [object X].
+    const tel = Array.isArray(raw?.tel)
+      ? raw.tel.filter(Boolean).map((n: any) => (typeof n === 'object' && n !== null ? String(n?.number || n?.value || '') : String(n))).filter(Boolean)
+      : [];
+    const emails = Array.isArray(raw?.email)
+      ? raw.email.filter(Boolean).map((a: any) => (typeof a === 'object' && a !== null ? String(a?.address || a?.value || '') : String(a))).filter(Boolean)
+      : [];
     const addr = String(raw?.address || '').trim();
     return {
       contactId: 'picked-' + when + '-' + index,
