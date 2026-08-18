@@ -296,6 +296,10 @@ export class HomePage implements OnInit {
   async loadContacts() {
     this.loading = true;
     try {
+      // 2026-08-18: real data is always preferred; the demo deck is ONLY the
+      // filler when there is nothing real yet, and it never blocks actual
+      // contacts when syncAllContacts returns them (or when a later sync/
+      // restore delivers them - those replace this array wholesale).
       this.contacts = await this.contactsSyncService.syncAllContacts();
       if (this.contacts.length === 0) {
         this.contacts = mockContacts;
@@ -607,10 +611,12 @@ export class HomePage implements OnInit {
     } else {
       this.contacts = mockContacts;
     }
+    this.onContactsChange(this.contacts); // 2026-08-18: propagate so the deck + sync change state
   }
 
   onMockDataRepeat() {
     this.contacts = this.contacts.length ? [] : mockContacts;
+    this.onContactsChange(this.contacts); // 2026-08-18: propagate so the deck + sync change state
   }
 
   onInitMap(mapElement: HTMLElement) {
