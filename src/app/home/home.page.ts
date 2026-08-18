@@ -685,8 +685,21 @@ export class HomePage implements OnInit {
    * Rolodex counterpart, including the picker's address + photo icon).
    */
   private mapPickedContact(raw: any, index: number, when: number): any {
-    const rawName = raw?.name?.display || raw?.name || '';
-    const display = String(typeof rawName === 'string' ? rawName : (rawName?.display || '')).trim() || 'Picked contact ' + (index + 1);
+    // 2026-08-18: the picker's canonical ContactName shape is
+    // { formatted, givenName, familyName, middleName, honorificPrefix,
+    //   honorificSuffix } - map through the EXISTING NamePayload fields
+    // (display/given/middle/family/prefix/suffix), never invent new keys.
+    const rawName = raw?.name;
+    const nameObj = typeof rawName === 'object' && rawName !== null ? rawName : null;
+    const namePrefix = nameObj ? String(nameObj.honorificPrefix || nameObj.prefix || '').trim() : '';
+    const nameGiven = nameObj ? String(nameObj.givenName || nameObj.given || '').trim() : '';
+    const nameMiddle = nameObj ? String(nameObj.middleName || nameObj.middle || '').trim() : '';
+    const nameFamily = nameObj ? String(nameObj.familyName || nameObj.family || '').trim() : '';
+    const nameSuffix = nameObj ? String(nameObj.honorificSuffix || nameObj.suffix || '').trim() : '';
+    const nameFormatted = nameObj ? String(nameObj.formatted || nameObj.displayName || nameObj.display || '').trim() : '';
+    const joined = [namePrefix, nameGiven, nameMiddle, nameFamily, nameSuffix].filter(Boolean).join(' ');
+    const display = (nameFormatted || joined || String(typeof rawName === 'string' ? rawName : '')).trim()
+      || 'Picked contact ' + (index + 1);
     const parts = display.trim().split(/\s+/);
     // 2026-08-18: the picker can return tel/email entries as STRINGS or as
     // OBJECTS ({number}/{address}) - normalize both, never leak [object X].
@@ -718,11 +731,13 @@ export class HomePage implements OnInit {
       contactId: 'picked-' + when + '-' + index,
       name: {
         display,
-        given: parts[0] || '',
-        middle: '',
-        family: parts.slice(1).join(' ') || '',
-        prefix: '',
-        suffix: '',
+        // the picker's structured names fill the model fields directly;
+        // the split-of-display remains only as the string-name fallback
+        given: nameGiven || parts[0] || '',
+        middle: nameMiddle,
+        family: nameFamily || parts.slice(1).join(' ') || '',
+        prefix: namePrefix,
+        suffix: nameSuffix,
       },
       // 2026-08-18 the legacy Zyppar deviceToContactInfo used phones/emails
       // (the Capacitor payload names the model + card render) - NOT
