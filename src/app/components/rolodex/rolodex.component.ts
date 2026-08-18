@@ -118,6 +118,7 @@ export class RolodexComponent implements OnInit {
   @Output() changeLanguage = new EventEmitter<string>();
   @Output() changeFontSize = new EventEmitter<string>();
   @Output() goToPrivacySettings = new EventEmitter<void>();
+  @Output() openFaq = new EventEmitter<void>();
   @Output() showAbout = new EventEmitter<void>();
 
   public RolodexView = RolodexView;
@@ -178,7 +179,7 @@ export class RolodexComponent implements OnInit {
   }
 
   settingsMapHint(): string {
-    return 'Updates · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
+    return 'Updates · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }
 
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */

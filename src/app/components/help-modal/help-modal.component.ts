@@ -76,6 +76,14 @@ export class HelpModalComponent {
       ],
     },
     {
+      label: 'FAQ',
+      features: [
+        { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. The clean reset is to clear Rolodex\'s app data (Settings → Apps → Rolodex → Clear storage) or reinstall. Contacts already synced to the Rolodex Server / cloud come back after you sign in again.' },
+        { id: 'faq-passphrase', title: 'I forgot my sync passphrase', guide: 'The passphrase is never stored anywhere, so the old cloud bundle cannot be decrypted without it. Set a new passphrase to start a fresh encrypted bundle; the previous bundle stays unrecoverable by design.' },
+        { id: 'faq-url', title: 'Where does Rolodex live?', guide: 'The PWA lives at zyppar.com/rolodex/ — bookmark that exact URL, not the bare zyppar.com home.' },
+      ],
+    },
+    {
       label: 'Coming next',
       features: [
         { id: 'chat', title: 'Chat off the card', guide: 'Flip to a card and message right there — no separate chatroom list. The thread lives with the person.' },

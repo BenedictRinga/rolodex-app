@@ -87,3 +87,17 @@ ion-content {
   font-style: italic;
   color: var(--rolodex-text-secondary);
 }
+
+.investor-live-note {
+  font-size: 12px;
+  color: var(--rolodex-text-secondary);
+  margin: 6px 2px 14px;
+}
+
+.investor-live-note code {
+  background: var(--rolodex-surface-alt);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 6px;
+  padding: 1px 5px;
+  font-size: 11px;
+}

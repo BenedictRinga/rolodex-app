@@ -13,6 +13,7 @@ import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.servic
 import { SocketChatService } from '../services/socket-chat/socket-chat.service';
 import { CardChatService } from '../services/card-chat/card-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
+import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
 import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
@@ -635,6 +636,14 @@ export class HomePage implements OnInit {
         buttons: [
           { text: 'Cancel', role: 'cancel' },
           {
+            text: 'Forgot PIN?',
+            handler: () => {
+              void alert.dismiss();
+              setTimeout(() => { void this.showLockRecovery(); }, 150);
+              return false;
+            },
+          },
+          {
             text: 'Unlock',
             handler: async (data: any) => {
               const ok = await this.security.verifyPin(String(data?.pin || ''));
@@ -648,6 +657,17 @@ export class HomePage implements OnInit {
       });
       await alert.present();
     } catch { /* lock is best-effort */ }
+  }
+
+  /** 2026-08-18 FAQ: the inevitable "what if I forget my PIN?" answer, also on
+   *  the lock screen itself - not only buried in Settings. */
+  private async showLockRecovery(): Promise<void> {
+    const a = await this.alertController.create({
+      header: 'Forgot your PIN?',
+      message: 'Your PIN is hashed on this device and cannot be recovered — by us or anyone. The clean reset is to clear Rolodex app data (Settings → Apps → Rolodex → Clear storage) or reinstall. If your contacts are synced to the Rolodex Server / cloud, they come back after you sign in again. Full Q&A lives in Settings → FAQ & Help.',
+      buttons: ['OK'],
+    });
+    await a.present();
   }
 
   onContactTap(contact: ContactInfo) {
@@ -936,8 +956,16 @@ export class HomePage implements OnInit {
     this.selectedFontSize = size;
   }
 
-  onGoToPrivacySettings() {
-    !environment.production && console.log('Privacy settings');
+  async onGoToPrivacySettings() {
+    // 2026-08-18 REAL PRIVACY CENTER (was a console.log dummy).
+    const modal = await this.modalController.create({
+      component: PrivacySettingsModalComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
   }
 
   onShowAbout() {

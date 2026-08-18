@@ -95,6 +95,11 @@ export class AboutRolodexComponent {
     await alert.present();
   }
 
+  /** 2026-08-18 THE INVESTOR GATEWAY: one tap opens the read-only live peek. */
+  openLive(): void {
+    window.open(`${environment.rolodexApiBase}/live`, '_blank', 'noopener');
+  }
+
   close(): void {
     void this.modalController.dismiss(null, 'close');
   }
