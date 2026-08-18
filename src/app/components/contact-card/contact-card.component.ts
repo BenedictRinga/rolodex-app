@@ -1406,11 +1406,45 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   }
 
   onEditContact(contact?: ContactInfo) {
-    this.editContact.emit(this.contact);
+    const target = contact || this.contact;
+    if (!target) return;
+    // 2026-08-18 CRUD: open the built-in edit form pre-filled with the TAPPED
+    // contact (the old code emitted this.contact - wrong in a multi-contact deck).
+    this.selectedMode = 'editContact';
+    this.editedContact = { ...target };
+    this.initializeForm();
+    const f = this.contactForm;
+    if (f) {
+      f.patchValue({
+        contactId: target.contactId || '',
+        name: {
+          display: target.name?.display || '',
+          given: target.name?.given || '',
+          middle: target.name?.middle || '',
+          family: target.name?.family || '',
+          prefix: target.name?.prefix || '',
+          suffix: target.name?.suffix || '',
+        },
+        organization: {
+          company: target.organization?.company || '',
+          jobTitle: target.organization?.jobTitle || '',
+          department: target.organization?.department || '',
+        },
+        note: target.note || '',
+        image: { base64String: target.image?.base64String || target.imageData || '' },
+      });
+      const phonesArr = f.get('phones') as FormArray;
+      if (phonesArr) { phonesArr.clear(); (target.phones || []).forEach((ph: any) => this.addPhone(ph)); }
+      const emailsArr = f.get('emails') as FormArray;
+      if (emailsArr) { emailsArr.clear(); (target.emails || []).forEach((em: any) => this.addEmail(em)); }
+      const addrArr = f.get('postalAddresses') as FormArray;
+      if (addrArr) { addrArr.clear(); (target.postalAddresses || []).forEach((ad: any) => this.addPostalAddress(ad)); }
+      this.updateSaveEnabled();
+    }
   }
 
   onRemoveContact(contact?: ContactInfo) {
-    this.removeContact.emit(this.contact);
+    this.removeContact.emit(contact || this.contact); // 2026-08-18: the TAPPED contact
   }
 
   handleImageError(event: Event) {
@@ -1452,6 +1486,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   }
 
   closeModal() {
+    // 2026-08-18 INLINE: the deck card is a component, not a modal - the
+    // dismiss() alone leaves selectedMode stuck in edit/create. Reset first.
+    this.selectedMode = '';
     this.modalController.dismiss();
   }
   

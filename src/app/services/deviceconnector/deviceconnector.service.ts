@@ -20,8 +20,19 @@ export class DeviceconnectorService {
   // ---- Phone -------------------------------------------------------------
 
   /** Open the system dialler pre-filled with the given phone number. */
+  /** True on the native app (Capacitor); false on the web PWA. */
+  private isNative(): boolean {
+    try { return !!(window as any)?.Capacitor?.isNativePlatform?.(); } catch { return false; }
+  }
+
+  /** Open the system dialler pre-filled with the given phone number. */
   async makeCall(phoneNumber: string): Promise<void> {
-    await AppLauncher.openUrl({ url: `tel:${phoneNumber}` });
+    if (this.isNative()) {
+      await AppLauncher.openUrl({ url: `tel:${phoneNumber}` });
+    } else {
+      // 2026-08-18 WEB: AppLauncher is native-only - use the plain tel: link
+      window.location.href = `tel:${phoneNumber}`;
+    }
   }
 
   // ---- Email -------------------------------------------------------------
@@ -38,7 +49,11 @@ export class DeviceconnectorService {
 
     const query = params.toString();
     const url = query ? `mailto:${emailAddress}?${query}` : `mailto:${emailAddress}`;
-    await AppLauncher.openUrl({ url });
+    if (this.isNative()) {
+      await AppLauncher.openUrl({ url });
+    } else {
+      window.location.href = url; // 2026-08-18 WEB fallback
+    }
   }
 
   // ---- Maps --------------------------------------------------------------
@@ -46,9 +61,13 @@ export class DeviceconnectorService {
   /** Open Google Maps (or the default map app) searching for the address. */
   async openMaps(address: string): Promise<void> {
     const encoded = encodeURIComponent(address);
-    await AppLauncher.openUrl({
-      url: `https://www.google.com/maps/search/${encoded}`,
-    });
+    if (this.isNative()) {
+      await AppLauncher.openUrl({
+        url: `https://www.google.com/maps/search/${encoded}`,
+      });
+    } else {
+      window.open(`https://www.google.com/maps/search/${encoded}`, '_blank'); // 2026-08-18 WEB fallback
+    }
   }
 
   // ---- Social / web links ------------------------------------------------

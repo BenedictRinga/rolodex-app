@@ -597,7 +597,14 @@ export class HomePage implements OnInit {
   }
 
   onEditContact(contact: ContactInfo) {
-    console.log('Edit contact:', contact.name?.display);
+    // 2026-08-18 CRUD: persist the edited contact back into the deck + the server
+    if (!contact?.contactId) return;
+    const i = this.contacts.findIndex((c: any) => c.contactId === contact.contactId);
+    if (i >= 0) this.contacts[i] = contact;
+    else this.contacts = [contact, ...this.contacts];
+    void this.persistContacts(this.contacts);
+    this.rolodexSync.push(this.contacts);
+    void this.alertsService.showToast('Contact updated', 1800);
   }
 
   onRemoveContact(contact: ContactInfo) {
@@ -720,8 +727,10 @@ export class HomePage implements OnInit {
         const isObj = typeof a === 'object' && a !== null;
         return {
           type: 'home' as any,
-          street: isObj ? String(a?.street || a?.formattedAddress || a?.address || '') : String(a),
+          street: isObj ? String(a?.street || a?.streetAddress || a?.formattedAddress || a?.address || '') : String(a),
+          neighborhood: isObj ? String(a?.neighborhood || '') : '',
           city: isObj ? String(a?.city || '') : '',
+          region: isObj ? String(a?.region || a?.state || '') : '',
           country: isObj ? String(a?.country || '') : '',
           postcode: isObj ? String(a?.postalCode || a?.postcode || '') : '',
         };
