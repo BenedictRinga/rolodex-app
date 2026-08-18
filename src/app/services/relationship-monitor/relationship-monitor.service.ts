@@ -52,7 +52,7 @@ export class RelationshipMonitorService {
       ? Math.floor((now - lastInteraction) / (24 * 60 * 60 * 1000))
       : 999;
 
-    const expectedDays = this.FREQUENCY_DAYS[contact.rolodex.contactFrequency] ?? 365;
+    const expectedDays = this.FREQUENCY_DAYS[contact.rolodex?.contactFrequency] ?? 365;
 
     // Proximity score: how close to / past the expected window
     let score = 100;
@@ -71,14 +71,14 @@ export class RelationshipMonitorService {
       medium: 0,
       low: -5,
     };
-    score += priorityMod[contact.rolodex.priority] ?? 0;
+    score += priorityMod[contact.rolodex?.priority] ?? 0;
 
     // Richness bonus — more Rolodex data = more investment
-    if (contact.rolodex.personalTidbits) score += 3;
-    if (contact.rolodex.followUp) score += 2;
+    if (contact.rolodex?.personalTidbits) score += 3;
+    if (contact.rolodex?.followUp) score += 2;
     if (contact.reminders?.length) score += 3;
     if (contact.tags?.length) score += 2;
-    if (contact.rolodex.references?.length) score += 2;
+    if (contact.rolodex?.references?.length) score += 2;
 
     score = Math.max(0, Math.min(100, score));
 
@@ -103,7 +103,7 @@ export class RelationshipMonitorService {
   /** Score all contacts, sorted worst-first. */
   scoreAll(contacts: ContactInfo[]): RelationshipScore[] {
     return contacts
-      .filter((c) => c.rolodex.contactFrequency !== 'never')
+      .filter((c) => c.rolodex?.contactFrequency !== 'never')
       .map((c) => this.scoreContact(c))
       .sort((a, b) => a.score - b.score);
   }
@@ -114,7 +114,7 @@ export class RelationshipMonitorService {
   findDormant(contacts: ContactInfo[]): ContactInfo[] {
     const now = Date.now();
     return contacts.filter((c) => {
-      const freqDays = this.FREQUENCY_DAYS[c.rolodex.contactFrequency];
+      const freqDays = this.FREQUENCY_DAYS[c.rolodex?.contactFrequency];
       if (freqDays === Infinity) return false;
       const last = c.lastInteraction ? new Date(c.lastInteraction).getTime() : 0;
       const daysSince = Math.floor((now - last) / (24 * 60 * 60 * 1000));

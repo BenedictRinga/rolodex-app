@@ -62,7 +62,15 @@ export class FollowUpEngine {
     // Clean up previous auto-events
     await this.clearManagedEvents(state);
 
-    const active = contacts.filter(
+    // 2026-08-18 FIX: contacts picked from the device (or invites) have NO
+    // rolodex context - every non-optional c.rolodex.X below would throw and
+    // freeze the whole deck (the Settings/Home dead-state). Normalize once.
+    const safeContacts = (contacts || []).map((c) => ({
+      ...c,
+      rolodex: c?.rolodex || {},
+    }));
+
+    const active = safeContacts.filter(
       (c) => c.rolodex.contactFrequency !== 'never',
     );
 
@@ -123,11 +131,12 @@ export class FollowUpEngine {
   /** Convenience: get contacts that are past their check-in window. */
   findOverdue(contacts: ContactInfo[]): ContactInfo[] {
     const now = new Date();
-    return contacts.filter((c) => {
-      const freqDays = this.FREQUENCY_DAYS[c.rolodex.contactFrequency];
+    return (contacts || []).filter((c) => {
+      const r = c?.rolodex || {};
+      const freqDays = this.FREQUENCY_DAYS[r.contactFrequency];
       if (!freqDays) return false;
       const priorityMult =
-        this.PRIORITY_MULTIPLIER[c.rolodex.priority] ?? 1.0;
+        this.PRIORITY_MULTIPLIER[r.priority] ?? 1.0;
       const interval = Math.round(freqDays * priorityMult);
       const last = c.lastInteraction
         ? new Date(c.lastInteraction)
