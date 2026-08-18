@@ -8,7 +8,7 @@ import { StorageService } from '../../services/storage/storage.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Capacitor } from '@capacitor/core';
 import type { CloudProvider } from '../../services/cloud-sync/sync.types';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
@@ -132,6 +132,7 @@ export class RolodexComponent implements OnInit {
     private alertService: AlertsService,
     private eventService: EventService,
     private modalController: ModalController,
+    private alertController: AlertController,
     private cardChat: CardChatService,
     private destroyRef: DestroyRef,
     private photoService: PhotoService,
@@ -231,16 +232,32 @@ export class RolodexComponent implements OnInit {
     this.updateChecked = true;
     this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
     if (result.available) {
-      await this.alertService.alertPrompt({
-        header: 'A critical update is available',
-        message: `RolodexAI v${result.server} is live (you're on v${result.current}). Refresh the app to apply it — your contacts are safe.`,
-      });
+      await this.presentUpdatePrompt();
     } else {
       await this.alertService.alertPrompt({
         header: 'Up to date',
         message: `You're on v${result.current} — the latest${result.server ? ` (server v${result.server})` : ''}.`,
       });
     }
+  }
+
+  /** 2026-08-18: the update notification says TAP, and the tap does the work —
+   *  the app reloads itself; the user never has to know about refresh mechanics. */
+  async presentUpdatePrompt(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Update available',
+      message: `RolodexAI v${this.updateServer} is live — you're on v${this.updateCurrent}. Tap Update now and the app will apply it. Your contacts are safe.`,
+      buttons: [
+        { text: 'Later', role: 'cancel' },
+        { text: 'Update now', handler: () => { window.location.reload(); } },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** Direct tap on the Settings "Update vX" button: apply immediately. */
+  applyUpdate(): void {
+    window.location.reload();
   }
 
   /** 2026-08-16 PODS: group threads derived from the contacts' groups. */
@@ -350,11 +367,7 @@ export class RolodexComponent implements OnInit {
           this.updateCurrent = this.updatesService.appVersion;
           this.updateServer = this.updatesService.serverVersion;
           this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
-          const refresh = await this.alertService.alertPrompt({
-            header: 'Update available',
-            message: `RolodexAI v${this.updateServer} is live — you're on v${this.updateCurrent}. Refresh to apply it (your contacts are safe).`,
-          });
-          if (refresh) window.location.reload();
+          await this.presentUpdatePrompt();
         } else {
           this.updateServer = this.updatesService.serverVersion;
           this.updateChecked = true;

@@ -271,8 +271,8 @@
               <span class="update-checked" *ngIf="lastCheckedLabel"> · {{ lastCheckedLabel }}</span>
             </p>
           </ion-label>
-          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : 'medium'" (click)="checkForUpdates()">
-            {{ updateAvailable ? 'Update v' + updateServer : (updateChecked ? 'Up to date' : 'Check') }}
+          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : 'medium'" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
+            {{ updateAvailable ? 'Update now' : (updateChecked ? 'Up to date' : 'Check') }}
           </ion-button>
         </ion-item>
 

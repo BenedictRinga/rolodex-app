@@ -941,14 +941,22 @@ ion-content {
 .contact-edit-body {
   --overflow: hidden;
   height: auto;
+  /* 2026-08-18 FIXED FOOTER SPACE: keep the last fields above the pinned bar. */
+  padding-bottom: 76px;
 }
 
 .contact-edit-footer {
-  position: sticky;
+  /* 2026-08-18 FIXED: sticky scrolled away and hid under the keyboard; the
+     footer now pins to the viewport and lifts above the keyboard via
+     [style.bottom.px] from the component. */
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
-  z-index: 6;
+  z-index: 9999;
   background: var(--rolodex-surface);
   border-top: 1px solid var(--rolodex-border-light);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* 2026-08-18 THE CONFIDANTE CONTEXT BLOCK: the 4 W's + contiguous properties

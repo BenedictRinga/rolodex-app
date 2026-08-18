@@ -1455,7 +1455,7 @@
   </div>
 </ion-content>
 
-<ion-footer class="contact-edit-footer" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
+<ion-footer class="contact-edit-footer" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'" [style.bottom.px]="footerBottom">
   <ion-toolbar>
     <!-- Cancel Button -->
     <ion-buttons slot="start">

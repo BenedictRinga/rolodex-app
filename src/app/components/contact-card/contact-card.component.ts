@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, SecurityContext, OnInit, ChangeDetectorRef, ElementRef, HostListener, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SecurityContext, OnInit, OnDestroy, ChangeDetectorRef, ElementRef, HostListener, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 import { ActionSheetController, AlertController, GestureController, ModalController, SelectCustomEvent } from '@ionic/angular';
+import { Keyboard } from '@capacitor/keyboard';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { DeviceconnectorService } from '../../services/deviceconnector/deviceconnector.service';
@@ -24,7 +25,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./contact-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactCardComponent implements OnInit, AfterViewInit {
+export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridcard', { read: ElementRef }) gridcardEl!: ElementRef;
   @Input() contacts: ContactInfo[] = [];
   @Input() sortedcontacts: ContactInfo[] = [];
@@ -51,6 +52,21 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   /** 2026-08-18: true when this card is rendered INSIDE the full surface modal
    *  (edit then opens the inline form; outside it opens the full surface). */
   @Input() embedded = false;
+
+  /** 2026-08-18 FOOTER KEYBOARD AWARENESS: lifts the Save/Cancel footer above
+   *  the on-screen keyboard so it is ALWAYS tappable. */
+  footerBottom = 0;
+  private keyboardListeners: Array<{ remove: () => void }> = [];
+  private readonly visualViewportHandler = (): void => {
+    try {
+      const vv: any = (window as any).visualViewport;
+      if (vv) {
+        const diff = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0));
+        this.footerBottom = diff;
+        this.cdr.detectChanges();
+      }
+    } catch { /* ignore */ }
+  };
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -237,6 +253,34 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     } else {
       this.showDetails = false; // Default view mode
       
+    }
+    // 2026-08-18 FOOTER KEYBOARD AWARENESS: always keep Save/Cancel reachable.
+    try {
+      const vv: any = (window as any).visualViewport;
+      if (vv) {
+        this.visualViewportHandler();
+        vv.addEventListener('resize', this.visualViewportHandler);
+      }
+    } catch { /* ignore */ }
+    try {
+      Keyboard.addListener('keyboardWillShow', (info: any) => {
+        this.footerBottom = Number(info?.keyboardHeight) || 0;
+        this.cdr.detectChanges();
+      }).then((h) => this.keyboardListeners.push(h)).catch(() => undefined);
+      Keyboard.addListener('keyboardWillHide', () => {
+        this.footerBottom = 0;
+        this.cdr.detectChanges();
+      }).then((h) => this.keyboardListeners.push(h)).catch(() => undefined);
+    } catch { /* web has no keyboard plugin - visualViewport covers it */ }
+  }
+
+  ngOnDestroy(): void {
+    try {
+      const vv: any = (window as any).visualViewport;
+      vv?.removeEventListener?.('resize', this.visualViewportHandler);
+    } catch { /* ignore */ }
+    for (const l of this.keyboardListeners) {
+      try { l.remove(); } catch { /* ignore */ }
     }
   }
 
@@ -898,10 +942,20 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
 
       // Update editedContact with the form value
       // Ensure privacy settings are part of the submission
-      this.editedContact = {
-        ...this.contactForm.value,
-        privacy: this.contactForm.get('privacy')?.value
+      const formValue = this.contactForm.value;
+      // 2026-08-18 FIX: on EDIT, merge over the ORIGINAL contact so fields the
+      // form does not carry (appointments, sharedBy extras, createdAt, etc.)
+      // survive the save instead of being silently wiped.
+      const toList = (v: any): string[] =>
+        typeof v === 'string' ? v.split(',').map((s) => s.trim()).filter(Boolean) : (Array.isArray(v) ? v : []);
+      const payload = {
+        ...(this.selectedMode === 'editContact' ? this.editedContact : {}),
+        ...formValue,
+        tags: toList(formValue.tags),
+        groups: toList(formValue.groups),
+        privacy: this.contactForm.get('privacy')?.value,
       };
+      this.editedContact = payload;
 
       if (this.selectedMode === 'createContact') {
         this.createContact.emit(this.editedContact);
@@ -1544,6 +1598,39 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       if (emailsArr) { emailsArr.clear(); (target.emails || []).forEach((em: any) => this.addEmail(em)); }
       const addrArr = f.get('postalAddresses') as FormArray;
       if (addrArr) { addrArr.clear(); (target.postalAddresses || []).forEach((ad: any) => this.addPostalAddress(ad)); }
+      // 2026-08-18 FIX: EVERY editable collection is populated - previously
+      // reminders/urls/references/sharedBy/social/tags/groups were left empty,
+      // so a save silently wiped them and the next edit opened a ghost.
+      const urlsArr = f.get('urls') as FormArray;
+      if (urlsArr) { urlsArr.clear(); (target.urls || []).forEach((u: any) => urlsArr.push(this.fb.control(String(u || '')))); }
+      const remindersArr = f.get('reminders') as FormArray;
+      if (remindersArr) { remindersArr.clear(); (target.reminders || []).forEach((r: any) => this.addReminder(r)); }
+      const sharedByArr = f.get('sharedBy') as FormArray;
+      if (sharedByArr) { sharedByArr.clear(); (target.sharedBy || []).forEach((s: any) => this.addSharedByEntry(s)); }
+      const refArr = f.get('rolodex.references') as FormArray;
+      if (refArr) { refArr.clear(); ((target.rolodex as any)?.references || []).forEach((r: any) => refArr.push(this.fb.control(String(r || '')))); }
+      f.patchValue({
+        socialProfiles: target.socialProfiles || {},
+        tags: Array.isArray(target.tags) ? target.tags.join(', ') : (target.tags || ''),
+        groups: Array.isArray(target.groups) ? target.groups.join(', ') : (target.groups || ''),
+        privacy: target.privacy || { level: 'private', sharedWith: [] },
+        preferences: target.preferences || {},
+        lastInteraction: target.lastInteraction || null,
+        nextInteraction: target.nextInteraction || null,
+        rolodex: {
+          when: target.rolodex?.when || '',
+          where: target.rolodex?.where || '',
+          who: target.rolodex?.who || '',
+          why: target.rolodex?.why || '',
+          how: target.rolodex?.how || '',
+          topic: target.rolodex?.topic || '',
+          followUp: target.rolodex?.followUp || '',
+          personalTidbits: target.rolodex?.personalTidbits || '',
+          outcome: target.rolodex?.outcome || '',
+          priority: target.rolodex?.priority || 'medium',
+          contactFrequency: target.rolodex?.contactFrequency || 'monthly',
+        },
+      });
       this.updateSaveEnabled();
     }
   }

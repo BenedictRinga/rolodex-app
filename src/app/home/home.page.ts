@@ -604,9 +604,12 @@ export class HomePage implements OnInit {
   onEditContact(contact: ContactInfo) {
     // 2026-08-18 CRUD: persist the edited contact back into the deck + the server
     if (!contact?.contactId) return;
-    const i = this.contacts.findIndex((c: any) => c.contactId === contact.contactId);
-    if (i >= 0) this.contacts[i] = contact;
-    else this.contacts = [contact, ...this.contacts];
+    // 2026-08-18 FIX: replace IMMUTABLY - mutating this.contacts[i] kept the
+    // same array reference, so the OnPush card never re-rendered after save.
+    const exists = this.contacts.some((c: any) => c.contactId === contact.contactId);
+    this.contacts = exists
+      ? this.contacts.map((c: any) => (c.contactId === contact.contactId ? contact : c))
+      : [contact, ...this.contacts];
     void this.persistContacts(this.contacts);
     this.rolodexSync.push(this.contacts);
     void this.alertsService.showToast('Contact updated', 1800);
