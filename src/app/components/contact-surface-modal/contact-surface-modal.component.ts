@@ -15,4 +15,13 @@ export class ContactSurfaceModalComponent {
   close(): void {
     void this.modalController.dismiss(null, 'close');
   }
+
+  // 2026-08-18: the card's edit/remove/photo emits travel through the modal
+  onEdited(c: any): void {
+    void this.modalController.dismiss({ action: 'edit', contact: c }, 'edit');
+  }
+
+  onRemoved(c: any): void {
+    void this.modalController.dismiss({ action: 'remove', contact: c }, 'remove');
+  }
 }

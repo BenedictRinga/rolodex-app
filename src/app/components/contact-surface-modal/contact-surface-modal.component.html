@@ -22,5 +22,7 @@
     [contacts]="[contact]"
     [viewMode]="'rolodex'"
     [displayedContacts]="[contact]"
+    (editContact)="onEdited($event)"
+    (removeContact)="onRemoved($event)"
   ></app-contact-card>
 </ion-content>

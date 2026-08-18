@@ -615,13 +615,21 @@ export class HomePage implements OnInit {
   onContactTap(contact: ContactInfo) {
     // 2026-08-16: the card tap opens the FULL feature surface - flip it for
     // chat, reminders, the confidante, edit, call, email, map, remove.
+    // 2026-08-18: edits/removals made INSIDE the surface come back on dismiss.
     void this.modalController.create({
       component: ContactSurfaceModalComponent,
       componentProps: { contact },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95],
       initialBreakpoint: 0.92,
-    }).then((m) => m.present());
+    }).then((m) => {
+      void m.onDidDismiss().then((res: any) => {
+        const data = res?.data;
+        if (data?.action === 'edit' && data?.contact) this.onEditContact(data.contact);
+        else if (data?.action === 'remove' && data?.contact) this.onRemoveContact(data.contact);
+      });
+      void m.present();
+    });
   }
 
   onContactsChange(contacts: ContactInfo[]) {

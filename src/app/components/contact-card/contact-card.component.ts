@@ -788,13 +788,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       Postal Addresses Count: ${postalAddresses.length}
     `.trim();
 
-    // Use updateAlerts instead of console.log
-    if (!environment.production || true) { // Show in production for debugging; remove `|| true` later
-      this.alertService.updateAlerts({
-        header: 'Contact Form Debug Info',
-        message: debugString,
-      });
-    }
+    // 2026-08-18: the debug alert popped OVER the edit form on every change -
+    // removed; the form itself is the interface.
+    void debugString;
 
     // Force change detection since we're using OnPush
     this.cdr.detectChanges();

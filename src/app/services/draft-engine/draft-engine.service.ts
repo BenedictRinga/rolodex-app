@@ -164,7 +164,13 @@ export class DraftEngineService {
   }
 
   contactName(c: ContactInfo): string {
-    return String(c?.name || c?.nickname || (c as any)?.firstName || 'friend');
+    // 2026-08-18: the name is a NamePayload OBJECT - never String() it
+    // (that leaked '[object Object]' into every appointment/draft header).
+    const n = c?.name as any;
+    const display = typeof n === 'string'
+      ? n
+      : (n?.display || n?.formatted || [n?.given, n?.middle, n?.family].filter(Boolean).join(' '));
+    return String(display || c?.nickname || (c as any)?.firstName || 'friend');
   }
 
   /** The relationship's rotating context as a compact block. */
