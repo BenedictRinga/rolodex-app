@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
@@ -18,6 +19,9 @@ import { StorageService } from '../storage/storage.service';
 @Injectable({ providedIn: 'root' })
 export class RolodexSyncService {
   private deviceId = '';
+  /** 2026-08-18 THE AGENT SPEAKS FIRST: emitted when the server sends the
+   *  first-connection courtesy welcome (new device only). */
+  welcome$ = new Subject<string>();
 
   private ownerPhone = '';
   private ownerName = '';
@@ -92,10 +96,12 @@ export class RolodexSyncService {
     try { this.storage.setSync('rolodex_room', String(code || '').trim().toUpperCase().slice(0, 24)); } catch { /* ignore */ }
   }
 
-  /** Push the current state — full contacts + follow-up counts + room. Never blocks. */
-  push(contacts: ContactInfo[], followUps?: any[]): void {
+  /** Push the current state — full contacts + follow-up counts + room. Never blocks.
+   *  2026-08-18 THE AGENT: if the server welcomes a brand-new device, the
+   *  message is emitted on welcome$ so the UI can greet the user. */
+  async push(contacts: ContactInfo[], followUps?: any[]): Promise<void> {
     try {
-      void fetch(`${this.apiBase()}/sync`, {
+      const res = await fetch(`${this.apiBase()}/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -110,7 +116,11 @@ export class RolodexSyncService {
           followUps: (followUps || []).slice(0, 200),
         }),
         keepalive: true,
-      }).catch(() => undefined);
+      });
+      if (res.ok) {
+        const data = await res.json().catch(() => null);
+        if (data?.welcome) this.welcome$.next(String(data.welcome));
+      }
     } catch { /* ignore */ }
   }
 

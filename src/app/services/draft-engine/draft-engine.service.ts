@@ -254,6 +254,22 @@ export class DraftEngineService {
     }
   }
 
+  /** 2026-08-18 AI LIVE LIGHT: what the Rolodex server can actually deliver.
+   *  The on-device engine always works; DeepSeek/Grok depend on server keys. */
+  async aiStatus(): Promise<{ onDevice: boolean; deepseekConfigured: boolean; grokConfigured: boolean }> {
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/ai/status`, { cache: 'no-store' });
+      const data = await res.json();
+      return {
+        onDevice: data?.onDevice !== false,
+        deepseekConfigured: !!data?.deepseekConfigured,
+        grokConfigured: !!data?.grokConfigured,
+      };
+    } catch {
+      return { onDevice: true, deepseekConfigured: false, grokConfigured: false };
+    }
+  }
+
   /** The on-device Rolodex engine (works offline, no server, no key). */
   compose(c: ContactInfo, occasion: Occasion, guideKey?: string): string {
     const name = this.contactName(c);

@@ -65,6 +65,11 @@ export class HomePage implements OnInit {
   // 'device' | 'cloud' | 'rolodex-server' — where the user keeps contacts.
   storageLocation: 'device' | 'cloud' | 'rolodex-server' = 'device';
   demoRoom: string = '';
+  // 2026-08-18 AI LIVE LIGHT: always green (on-device engine is always ready),
+  // but the label tells whether DeepSeek is live on the server too.
+  aiLive = true;
+  aiLiveLabel = 'AI ready';
+  private aiNudgeShownFor = 0;
   syncHasPassphrase: boolean = false;
   syncLastPushed: string | null = null;
   syncLastPulled: string | null = null;
@@ -188,6 +193,12 @@ export class HomePage implements OnInit {
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();
 
+    // 2026-08-18 AI LIVE LIGHT + THE AGENT SPEAKS FIRST.
+    void this.refreshAiStatus();
+    this.rolodexSync.welcome$.subscribe((msg) => {
+      void this.alertController.create({ header: 'RolodexAI', message: msg, buttons: ['OK'] }).then((a) => a.present());
+    });
+
     // 2026-08-16 STORAGE LOCATION + demo room (persisted).
     try {
       const loc = await this.storageService.get<string>('rolodex_storage'); // 2026-08-18 IndexedDB
@@ -207,6 +218,22 @@ export class HomePage implements OnInit {
         this.loading = false;
         this.rolodexSync.push(this.contacts);
       }
+    }
+  }
+
+  /** 2026-08-18 AI LIVE LIGHT: ask the server which engines are configured. */
+  async refreshAiStatus(): Promise<void> {
+    try {
+      const s = await this.draftEngine.aiStatus();
+      this.aiLive = s.onDevice || s.deepseekConfigured || s.grokConfigured;
+      this.aiLiveLabel = s.deepseekConfigured
+        ? 'DeepSeek live'
+        : s.grokConfigured
+          ? 'Grok live'
+          : 'AI ready (on-device)';
+    } catch {
+      this.aiLive = true; // on-device engine is always available
+      this.aiLiveLabel = 'AI ready (on-device)';
     }
   }
 
@@ -697,6 +724,19 @@ export class HomePage implements OnInit {
     this.contacts = contacts;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
     this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+    void this.rolodexAiNudge(contacts); // 2026-08-18: the agent never sits comatose
+  }
+
+  /** 2026-08-18 THE ALGORITHMIC AGENT NUDGE: when contacts are added without
+   *  the 4 W's, RolodexAI says so instead of silently filing them. */
+  private async rolodexAiNudge(contacts: ContactInfo[]): Promise<void> {
+    try {
+      const noContext = (contacts || []).filter((c: any) => !(c?.rolodex?.where || c?.rolodex?.why || c?.rolodex?.topic));
+      if (!noContext.length || noContext.length === this.aiNudgeShownFor) return;
+      this.aiNudgeShownFor = noContext.length;
+      const noun = noContext.length === 1 ? 'contact has' : 'contacts have';
+      void this.alertsService.showToast(`RolodexAI: ${noContext.length} ${noun} no context yet — open a card and add the 4 W's so I can draft for you.`, 6000);
+    } catch { /* ignore */ }
   }
 
   onAutoSort() {
