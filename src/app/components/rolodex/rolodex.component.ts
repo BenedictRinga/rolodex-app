@@ -317,12 +317,13 @@ export class RolodexComponent implements OnInit {
   }
 
   /** 2026-08-18 PROFILE GUIDANCE: tells the user what the Confidante needs
-   *  (name, phone, photo) and why - they show on every share/invite. */
+   *  (name, phone, photo) and why: polished greetings benefit the receiver,
+   *  invites benefit the sender. */
   profileCompletionLabel(): string {
     const done = [this.profile.name, this.profile.phone, this.profile.photo].filter(Boolean).length;
-    if (done === 3) return `complete — shares will say ${this.profile.name || 'you'}.`;
+    if (done === 3) return `Profile complete — polished greetings say ${this.profile.name || 'you'}, invites carry your name back.`;
     const missing = 3 - done;
-    return `${missing} more to go for polished invites.`;
+    return `${missing} more to go — their greetings get polished, your invites carry you.`;
   }
 
   async changeProfilePhoto(): Promise<void> {

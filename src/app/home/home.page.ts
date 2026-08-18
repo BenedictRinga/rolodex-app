@@ -226,14 +226,12 @@ export class HomePage implements OnInit {
     try {
       const s = await this.draftEngine.aiStatus();
       this.aiLive = s.onDevice || s.deepseekConfigured || s.grokConfigured;
-      this.aiLiveLabel = s.deepseekConfigured
-        ? 'DeepSeek live'
-        : s.grokConfigured
-          ? 'Grok live'
-          : 'AI ready (on-device)';
+      // 2026-08-18 per owner: the label beside the green glow is just
+      // "RolodexAI" - no engine names, no second "live".
+      this.aiLiveLabel = 'RolodexAI';
     } catch {
       this.aiLive = true; // on-device engine is always available
-      this.aiLiveLabel = 'AI ready (on-device)';
+      this.aiLiveLabel = 'RolodexAI';
     }
   }
 

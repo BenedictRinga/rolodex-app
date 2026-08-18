@@ -73,6 +73,12 @@ ion-content {
 }
 
 /* Front & Back shared */
+/* ═══════════════════════════════════════════════════════════════
+   ZYPPAR 2024 ORIGINAL CARD SCHEME — LOCKED.
+   Source: D:\MacBook\noGoogle\zyppar\src\app\components\contact-card\contact-card.component.scss
+   DO NOT CHANGE these colors/borders/radii again without the OWNER'S
+   EXPRESS PERMISSION. This is the 2024 original look, not a "bland" version.
+   ═══════════════════════════════════════════════════════════════ */
 .rolodex-container .card-front,
 .rolodex-container .card-back {
   position: absolute;
@@ -81,13 +87,16 @@ ion-content {
   backface-visibility: hidden;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: #f9f9f9; /* 2026-08-18: the 2024 Zyppar source */
+  background-color: #f9f9f9;
+  /* 2024 Zyppar original: soft border + rounded corners. */
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 /* ── Front ───────────────────────────────────────── */
 .rolodex-container .card-front {
-  /* 2026-08-18: the 2024 Zyppar source is PLAIN - #fff, no border, no
-     radius, no shadow, no hover lift. Nothing bleached in. */
+  /* 2024 Zyppar original front: plain #fff, border/radius from the shared
+     block above. Do NOT strip them. */
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -98,8 +107,9 @@ ion-content {
 }
 
 .rolodex-container .rolodex-avatar {
-  width: 64px;
-  height: 64px;
+  /* 2024 Zyppar original avatar size: 60px. Locked. */
+  width: 60px;
+  height: 60px;
   margin-bottom: var(--rolodex-space-3);
   border: 2px solid var(--rolodex-border-light);
   border-radius: 50%;
@@ -213,7 +223,7 @@ ion-content {
 
 /* ── Back ────────────────────────────────────────── */
 .rolodex-container .card-back {
-  /* 2026-08-18: the 2024 Zyppar source - plain #f9f9f9, no border. */
+  /* 2024 Zyppar original back: #f9f9f9 + shared border/radius. Locked. */
   background-color: #f9f9f9;
   transform: rotateY(180deg);
   display: flex;
@@ -301,8 +311,8 @@ ion-content {
 }
 
 .grid-view .grid-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   margin-right: var(--rolodex-space-3);
   border-radius: 50%;
 }
@@ -390,8 +400,8 @@ ion-content {
 }
 
 .gridcard .modal-avatar {
-  width: 88px;
-  height: 88px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto var(--rolodex-space-4);
   display: block;
   border-radius: 50%;
@@ -470,8 +480,8 @@ ion-content {
 }
 
 .professional-card .professional-avatar {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   margin: 0 auto var(--rolodex-space-3);
   border: 3px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -552,8 +562,8 @@ ion-content {
 }
 
 .family-card .family-avatar {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   margin: 0 auto var(--rolodex-space-3);
   border: 3px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -675,8 +685,8 @@ ion-content {
 
 .zyppar-card .card-front ion-avatar,
 .provider-card .card-front ion-avatar {
-  width: 62px;
-  height: 62px;
+  width: 70px;
+  height: 70px;
   margin-bottom: var(--rolodex-space-3);
   border: 2px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
