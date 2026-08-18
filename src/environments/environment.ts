@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
-  version: '0.1.0', // RolodexAI app version — compared against /api/rolodex/version
+  version: '0.2.0', // RolodexAI app version — compared against /api/rolodex/version
 };
 
 /*
