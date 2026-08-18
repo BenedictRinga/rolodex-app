@@ -224,7 +224,14 @@ export class CardChatService {
   async seedThread(contact: any): Promise<ChatThread> {
     const key = String(contact?.contactId || 'anon');
     const existing = await this.loadThread(key);
-    if (existing) return existing;
+    if (existing) {
+      // 2026-08-18 PURGE: threads seeded by the OLD code (ids s1/s2/s3 or the
+      // 'You met at' text) are stale dummy history - replace with an empty one.
+      const stale = (existing?.messages || []).some((m: any) =>
+        /^(s1|s2|s3)$/.test(String(m?.id || '')) || String(m?.text || '').includes('You met at'));
+      if (!stale) return existing;
+      try { await this.storage.remove(PREFIX + key); } catch { /* replace below */ }
+    }
     const name = contact?.name?.display || 'Contact';
     const thread: ChatThread = {
       key,

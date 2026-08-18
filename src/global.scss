@@ -386,5 +386,14 @@ ion-modal {
 }
 
 .card-chat-modal-sheet ion-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--rolodex-surface);
+}
+
+.card-chat-modal-sheet .chat-body {
+  flex: 1;
+  min-height: 0;
 }

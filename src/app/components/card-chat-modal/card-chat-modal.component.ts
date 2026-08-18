@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CardChatService, ChatThread } from '../../services/card-chat/card-chat.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
+import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -25,6 +26,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     private readonly modalController: ModalController,
     private readonly chatService: CardChatService,
     private readonly socketChat: SocketChatService,
+    readonly timeNorm: TimeNormalizerService,
   ) {}
 
   ngOnInit(): void {

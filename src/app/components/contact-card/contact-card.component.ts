@@ -501,8 +501,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       component: CardChatModalComponent,
       componentProps: { thread },
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95],
-      initialBreakpoint: 0.95, // 2026-08-18: rise so the composer is usable
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 1, // 2026-08-18: full height - the composer is fully visible
       keyboardClose: false,
     });
     await modal.present();

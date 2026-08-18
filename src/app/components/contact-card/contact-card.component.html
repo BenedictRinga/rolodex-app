@@ -29,12 +29,22 @@
           <ion-item *ngIf="seg.contact.showDetails" class="contact-details-item">
             <ion-card>
               <ion-card-content>
-                <p><strong>Phone:</strong> {{ seg.contact.phones?.[0]?.number || 'No Phone Info' }}</p>
-                <p><strong>Email:</strong> {{ seg.contact.emails?.[0]?.address || 'No Email Info' }}</p>
-                <p><strong>Address:</strong>
-                  {{ seg.contact.postalAddresses?.[0]?.street }},
-                  {{ seg.contact.postalAddresses?.[0]?.city }},
-                  {{ seg.contact.postalAddresses?.[0]?.country }}
+                <p><strong>Phone:</strong>
+                  <span *ngIf="seg.contact.phones?.length">
+                    <span *ngFor="let ph of seg.contact.phones; let i = index">{{ i > 0 ? ' · ' : '' }}{{ ph.number }}</span>
+                  </span>
+                  <span *ngIf="!seg.contact.phones?.length">No Phone Info</span>
+                </p>
+                <p><strong>Email:</strong>
+                  <span *ngIf="seg.contact.emails?.length">
+                    <span *ngFor="let em of seg.contact.emails; let i = index">{{ i > 0 ? ' · ' : '' }}{{ em.address }}</span>
+                  </span>
+                  <span *ngIf="!seg.contact.emails?.length">No Email Info</span>
+                </p>
+                <p *ngIf="seg.contact.postalAddresses?.length"><strong>Address:</strong>
+                  <span *ngFor="let ad of seg.contact.postalAddresses; let i = index">
+                    {{ i > 0 ? ' · ' : '' }}{{ ad.street }}{{ ad.city ? ', ' + ad.city : '' }}{{ ad.country ? ', ' + ad.country : '' }}
+                  </span>
                 </p>
                 <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
                 <p><strong>Last Interaction:</strong> {{ seg.contact.rolodex?.when || 'No Interaction' }}</p>
@@ -75,23 +85,23 @@
                   <p (click)="$event.stopPropagation(); callContact(contact)">
                     <ion-icon name="call-outline" class="detail-icon"></ion-icon>
                     <span *ngIf="contact.phones && contact.phones.length > 0; else noPhone">
-                      {{ contact.phones[0].number }}
+                      <span *ngFor="let ph of contact.phones; let i = index; let last = last">{{ i > 0 ? ' · ' : '' }}{{ ph.number }}</span>
                     </span>
                     <ng-template #noPhone>No Phone</ng-template>
                   </p>
                   <p (click)="$event.stopPropagation(); emailContact(contact)">
                     <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
                     <span *ngIf="contact.emails && contact.emails.length > 0; else noEmail">
-                      {{ contact.emails[0].address }}
+                      <span *ngFor="let em of contact.emails; let i = index">{{ i > 0 ? ' · ' : '' }}{{ em.address }}</span>
                     </span>
                     <ng-template #noEmail>No Email</ng-template>
                   </p>
                   <p *ngIf="contact.postalAddresses && contact.postalAddresses.length > 0"
                     (click)="$event.stopPropagation(); openAddress(contact)">
                     <ion-icon name="location-outline" class="detail-icon"></ion-icon>
-                    {{ contact.postalAddresses[0].street || '' }},
-                    {{ contact.postalAddresses[0].city || '' }},
-                    {{ contact.postalAddresses[0].country || '' }}
+                    <span *ngFor="let ad of contact.postalAddresses; let i = index">
+                      {{ i > 0 ? ' · ' : '' }}{{ ad.street }}{{ ad.city ? ', ' + ad.city : '' }}{{ ad.country ? ', ' + ad.country : '' }}
+                    </span>
                   </p>
                   <p *ngIf="contact.rolodex?.followUp">
                     <ion-icon name="time-outline" class="detail-icon"></ion-icon>

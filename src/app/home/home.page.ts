@@ -696,7 +696,24 @@ export class HomePage implements OnInit {
     const emails = Array.isArray(raw?.email)
       ? raw.email.filter(Boolean).map((a: any) => (typeof a === 'object' && a !== null ? String(a?.address || a?.value || '') : String(a))).filter(Boolean)
       : [];
-    const addr = String(raw?.address || '').trim();
+    // 2026-08-18: the picker can hand back the address as a STRING or an
+    // ARRAY of address objects - normalize to a typed postalAddresses list
+    // (never a leaked '[object ContactAddress]').
+    const rawAddr = raw?.address;
+    const addrList = Array.isArray(rawAddr) ? rawAddr : rawAddr ? [rawAddr] : [];
+    const addr = addrList
+      .filter(Boolean)
+      .map((a: any) => {
+        const isObj = typeof a === 'object' && a !== null;
+        return {
+          type: 'home' as any,
+          street: isObj ? String(a?.street || a?.formattedAddress || a?.address || '') : String(a),
+          city: isObj ? String(a?.city || '') : '',
+          country: isObj ? String(a?.country || '') : '',
+          postcode: isObj ? String(a?.postalCode || a?.postcode || '') : '',
+        };
+      })
+      .filter((x: any) => x.street);
     return {
       contactId: 'picked-' + when + '-' + index,
       name: {
@@ -722,9 +739,7 @@ export class HomePage implements OnInit {
         isPrimary: i === 0,
         label: null,
       })),
-      postalAddresses: addr
-        ? [{ type: 'home' as any, street: addr, city: '', country: '', postcode: '' }]
-        : [],
+      postalAddresses: addr, // 2026-08-18: addr is already the typed list
       organization: { company: '', jobTitle: '', department: '' },
       birthday: null,
       note: '',
