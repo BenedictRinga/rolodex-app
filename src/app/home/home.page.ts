@@ -293,18 +293,49 @@ export class HomePage implements OnInit {
     this.alertsService.showToast(`Showing ${filter} — tap any card for details`, 2500);
   }
 
+  /**
+   * 2026-08-18 REAL CONTACTS SURVIVE A RELOAD: the picked/imported contacts
+   * persist to localStorage (rolodex_contacts) on every change - but ONLY
+   * when the list contains real (non-mock) entries, so the demo filler is
+   * never persisted and can never block actual data.
+   */
+  private persistContacts(contacts: ContactInfo[]): void {
+    try {
+      const hasReal = (contacts || []).some((c) => !(c as any)?.isMockData);
+      if (hasReal) {
+        localStorage.setItem('rolodex_contacts', JSON.stringify(contacts));
+      }
+    } catch { /* storage unavailable - the in-memory list still works */ }
+  }
+
+  private readPersistedContacts(): ContactInfo[] {
+    try {
+      const raw = localStorage.getItem('rolodex_contacts');
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch { return []; }
+  }
+
   async loadContacts() {
     this.loading = true;
     try {
-      // 2026-08-18: real data is always preferred; the demo deck is ONLY the
-      // filler when there is nothing real yet, and it never blocks actual
-      // contacts when syncAllContacts returns them (or when a later sync/
-      // restore delivers them - those replace this array wholesale).
-      this.contacts = await this.contactsSyncService.syncAllContacts();
-      if (this.contacts.length === 0) {
-        this.contacts = mockContacts;
-        // Also run automation on mock data for demo purposes
-        await this.contactsSyncService.automateContactSetup(this.contacts);
+      // 2026-08-18: the persisted REAL contacts win (they include the user's
+      // picks - they must survive a reload). The demo deck is ONLY the filler
+      // when there is nothing real anywhere yet, and real data (persisted or
+      // freshly synced) always takes precedence over it.
+      const persisted = this.readPersistedContacts();
+      if (persisted.length) {
+        this.contacts = persisted;
+      } else {
+        this.contacts = await this.contactsSyncService.syncAllContacts();
+        if (this.contacts.length === 0) {
+          this.contacts = mockContacts;
+          // Also run automation on mock data for demo purposes
+          await this.contactsSyncService.automateContactSetup(this.contacts);
+        } else {
+          this.persistContacts(this.contacts);
+        }
       }
     } catch {
       this.contacts = mockContacts;
@@ -585,6 +616,7 @@ export class HomePage implements OnInit {
 
   onContactsChange(contacts: ContactInfo[]) {
     this.contacts = contacts;
+    this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
     this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
   }
 
