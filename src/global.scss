@@ -397,3 +397,25 @@ ion-modal {
   flex: 1;
   min-height: 0;
 }
+
+/* 2026-08-18 THE SURFACE SHEET + THE EDIT: the sheet is full height (no slip)
+   and the edit form inside it scrolls its content while the footer stays
+   pinned to the sheet's bottom - CANCEL / SAVE CHANGES are ALWAYS visible. */
+.card-chat-modal-sheet .contact-edit-body {
+  --overflow: auto;
+  flex: 1;
+  min-height: 0;
+  height: calc(100vh - 132px);
+}
+
+.card-chat-modal-sheet .contact-edit-footer {
+  position: static;
+  flex-shrink: 0;
+}
+
+.card-chat-modal-sheet app-contact-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}

@@ -655,8 +655,11 @@ export class HomePage implements OnInit {
       component: ContactSurfaceModalComponent,
       componentProps: { contact },
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95],
-      initialBreakpoint: 0.92,
+      // 2026-08-18 CERTAINTY: the surface opens FULL and cannot slip - the
+      // edit footer is never trapped below the fold again.
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 1,
+      keyboardClose: false,
     }).then((m) => {
       void m.onDidDismiss().then((res: any) => {
         const data = res?.data;

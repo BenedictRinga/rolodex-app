@@ -88,3 +88,14 @@ The About page carries a padlocked Investors section. Password (default):
 `northstar`. Change it in `src/app/components/about-rolodex/about-rolodex.component.ts`.
 Behind it: this North Star document, the roadmap, the pricing model, the
 tiny-loops thesis.
+
+
+## 2026-08-18 THE SHAREAPP DISTRIBUTION MECHANIC (fresh-thread work)
+
+The 'casual' send: the counterparty receives a CRAFTED, moment-aware share
+message (chat / birthday / milestone / congratulations / appointment) that
+carries the RolodexAI logo + the invite deeplink, and arrives at THEIR card
+ready with the pre-join comms. The OG-tagged landing makes the link preview
+itself the branded card. The honest-send options sheet (already built) is
+the doorway; the 7-day Confidante trial is the conversion. Full design:
+D:/Tools/Grok/Conversations/rolodex-shareapp-distribution-2026-08-18.md
