@@ -934,3 +934,19 @@ ion-content {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--rolodex-border), transparent);
 }
+
+/* 2026-08-18 THE EDIT FORM: the CANCEL / SAVE CHANGES footer is always
+   visible - the form flows into the page scroll (no internal scroll) and
+   the footer sticks to the bottom, exactly like the chat sheet. */
+.contact-edit-body {
+  --overflow: hidden;
+  height: auto;
+}
+
+.contact-edit-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 6;
+  background: var(--rolodex-surface);
+  border-top: 1px solid var(--rolodex-border-light);
+}

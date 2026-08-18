@@ -309,12 +309,12 @@ export class HomePage implements OnInit {
    * when the list contains real (non-mock) entries, so the demo filler is
    * never persisted and can never block actual data.
    */
-  private persistContacts(contacts: ContactInfo[]): void {
+  private async persistContacts(contacts: ContactInfo[]): Promise<void> {
     try {
-      const hasReal = (contacts || []).some((c) => !(c as any)?.isMockData);
-      if (hasReal) {
-        void this.storageService.set('rolodex_contacts', contacts); // 2026-08-18 IndexedDB
-      }
+      // 2026-08-18 FIX: persist EVERYTHING (the demo deck included) - a
+      // removed contact must stay removed across reloads. The deck is the
+      // truth, whatever it holds.
+      await this.storageService.set('rolodex_contacts', contacts); // 2026-08-18 IndexedDB
     } catch { /* storage unavailable - the in-memory list still works */ }
   }
 
@@ -612,8 +612,11 @@ export class HomePage implements OnInit {
     void this.alertsService.showToast('Contact updated', 1800);
   }
 
-  onRemoveContact(contact: ContactInfo) {
+  async onRemoveContact(contact: ContactInfo) {
     this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
+    // 2026-08-18 FIX: persist the filtered list AWAITED - a reload right
+    // after the tap must find the write already in IndexedDB.
+    await this.persistContacts(this.contacts);
     this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
   }
 

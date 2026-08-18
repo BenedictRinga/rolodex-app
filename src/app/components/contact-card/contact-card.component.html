@@ -624,7 +624,7 @@
       </ng-container>
   </ng-container>
 
-<ion-content *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
+<ion-content class="contact-edit-body" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
   <div class="no-scrollbar">
 
     <ng-container *ngIf="selectedMode === 'createContact'">
@@ -1409,7 +1409,7 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
+<ion-footer class="contact-edit-footer" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
   <ion-toolbar>
     <!-- Cancel Button -->
     <ion-buttons slot="start">
