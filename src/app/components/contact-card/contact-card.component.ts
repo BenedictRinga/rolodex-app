@@ -532,20 +532,61 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Proffer the message — the user reviews and hits Send.
    *  2026-08-18 SHAREAPP: SMS/Email now carry the invite link too (the OG
    *  landing + the ready card), so even a direct send is a distribution move. */
+  /** 2026-08-18 MULTI-WHATSAPP SUPPORT: every phone on the card, in order. */
+  private phoneNumbers(contact: any): string[] {
+    return Array.isArray(contact?.phones)
+      ? contact.phones.map((p: any) => String(p?.number || '').trim()).filter(Boolean)
+      : [];
+  }
+
+  /** Ask which number to use when a contact has more than one. */
+  private choosePhone(contact: any, purpose: string): Promise<string | null> {
+    const nums = this.phoneNumbers(contact);
+    if (!nums.length) return Promise.resolve(null);
+    if (nums.length === 1) return Promise.resolve(nums[0]);
+    return new Promise(async (resolve) => {
+      const buttons: any[] = nums.map((n, i) => ({
+        text: n + (i === 0 ? ' (default)' : ''),
+        handler: () => { resolve(n); return true; },
+      }));
+      buttons.push({ text: 'Cancel', role: 'cancel', handler: () => { resolve(null); return true; } });
+      const sheet = await this.actionSheetCtrl.create({
+        header: `Send via ${purpose} to which number?`,
+        buttons,
+      });
+      await sheet.present();
+    });
+  }
+
   async draftMessage(contact: any): Promise<void> {
     const draft = await this.draftEngine.composeAi(contact, this.occasionFor(contact), contact.contactId);
     const name = this.draftEngine.contactName(contact) || 'this contact';
     const from = await this.cardChat.senderNameAsync();
     const room = this.cardChat.room || '';
-    const phone = contact.phones?.[0]?.number;
+    const nums = this.phoneNumbers(contact);
     const email = contact.emails?.[0]?.address;
     this.alertService.showToast('Confidante: message drafted for ' + name, 2000);
+
+    const sendSms = async (): Promise<void> => {
+      const chosen = await this.choosePhone(contact, 'SMS');
+      if (!chosen) return;
+      this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')');
+      void this.shareApp.shareViaSms('chat-message', { from, to: name, text: draft, room }, chosen);
+    };
+    const sendWhatsApp = async (): Promise<void> => {
+      const chosen = await this.choosePhone(contact, 'WhatsApp');
+      if (!chosen) return;
+      this.draftEngine.pushContext(contact, 'Sent a WhatsApp follow-up (' + new Date().toLocaleDateString() + ')');
+      void this.shareApp.shareViaWhatsApp('chat-message', { from, to: name, text: draft, room }, chosen);
+    };
+
     void this.alertCtrl
       .create({
         header: 'Message proffered by your confidante',
         message: draft,
         buttons: [
-          ...(phone ? [{ text: 'Send via SMS', handler: () => { this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')'); void this.shareApp.shareViaSms('chat-message', { from, to: name, text: draft, room }, phone); } }] : []),
+          ...(nums.length ? [{ text: 'Send via WhatsApp', handler: () => { void sendWhatsApp(); } }] : []),
+          ...(nums.length ? [{ text: 'Send via SMS', handler: () => { void sendSms(); } }] : []),
           ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },
@@ -559,7 +600,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     const thread = await this.cardChat.seedThread(contact);
     const modal = await this.modalController.create({
       component: CardChatModalComponent,
-      componentProps: { thread, sendeePhone: contact?.phones?.[0]?.number || '' },
+      componentProps: {
+        thread,
+        sendeePhone: contact?.phones?.[0]?.number || '',
+        // 2026-08-18 MULTI-WHATSAPP: pass ALL numbers so the chat's external
+        // delivery can ask which one to use.
+        sendeePhones: this.phoneNumbers(contact),
+      },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
       initialBreakpoint: 1, // 2026-08-18: full height - the composer is fully visible
@@ -656,6 +703,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       message: "They don't need Rolodex to catch it — the link previews the branded card, and the tap opens their card ready.",
       buttons: [
         { text: 'Send the first-meeting note', handler: () => { void this.shareMoment(contact, 'first-meeting', from, room, name); } },
+        { text: 'Send via WhatsApp', handler: () => { void this.shareWhatsApp(contact, from, room, name); } },
         { text: 'Send birthday wishes', handler: () => { void this.shareMoment(contact, 'birthday', from, room, name); } },
         { text: 'Send congratulations', handler: () => { void this.shareMoment(contact, 'congratulations', from, room, name); } },
         { text: 'Share an appointment', handler: () => { void this.shareAppointment(contact, from, room, name); } },
@@ -760,6 +808,14 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   private async shareCasual(from: string, room: string, name: string): Promise<void> {
     const res = await this.shareApp.share('casual', { from, to: name, room });
     if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it anywhere — the preview is the branded card, and the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+  }
+
+  /** 2026-08-18 DIRECT WHATSAPP: lets the user pick WHICH number to open
+   *  wa.me with when the contact has more than one WhatsApp line. */
+  private async shareWhatsApp(contact: any, from: string, room: string, name: string): Promise<void> {
+    const phone = await this.choosePhone(contact, 'WhatsApp');
+    if (!phone) return;
+    await this.shareApp.shareViaWhatsApp('chat-message', { from, to: name, room }, phone);
   }
 
   /** The next upcoming appointment on the card (from invites + my own). */

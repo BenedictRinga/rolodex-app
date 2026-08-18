@@ -15,8 +15,11 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CardChatModalComponent implements OnInit, OnDestroy {
   @Input() thread!: ChatThread;
-  /** 2026-08-18 the sendee's phone - the Users DB is consulted before sending. */
+  /** 2026-08-18 the sendee's default phone - the Users DB is consulted before sending. */
   @Input() sendeePhone = '';
+  /** 2026-08-18 MULTI-WHATSAPP: ALL of the sendee's numbers - the external
+   *  delivery asks which one to use when there are several. */
+  @Input() sendeePhones: string[] = [];
   draft = '';
   typingName = '';
   pickingId = '';
@@ -98,13 +101,45 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
    * 2026-08-18 SHAREAPP: every option now carries the crafted moment text +
    * the OG-tagged invite link (never a plain sentence with no distribution).
    */
+  /** 2026-08-18 MULTI-WHATSAPP: ask which number to use when the contact has
+   *  more than one; otherwise return the default (or first). */
+  private async chooseSendeePhone(purpose: string): Promise<string | null> {
+    const nums = ((this.sendeePhones && this.sendeePhones.length ? this.sendeePhones : [this.sendeePhone]) || [])
+      .map((n) => String(n || '').trim()).filter(Boolean);
+    if (!nums.length) return null;
+    if (nums.length === 1) return nums[0];
+    return new Promise(async (resolve) => {
+      const buttons: any[] = nums.map((n, i) => ({
+        text: n + (i === 0 ? ' (default)' : ''),
+        handler: () => { resolve(n); return true; },
+      }));
+      buttons.push({ text: 'Cancel', role: 'cancel', handler: () => { resolve(null); return true; } });
+      const a = await this.alertController.create({
+        header: `Send via ${purpose} to which number?`,
+        buttons,
+      });
+      await a.present();
+    });
+  }
+
   private async offerExternalDelivery(): Promise<void> {
     const name = this.thread?.title || 'this contact';
-    const phone = this.sendeePhone || '';
     const draft = this.thread?.messages?.slice(-1)?.[0]?.text || '';
     // The invite's FROM is the SENDER (the user), never the sendee's card title.
     const sender = await this.chatService.senderNameAsync();
     const ctx = { from: sender, to: name, text: draft, room: 'rolodex' };
+
+    const sendWhatsApp = async (): Promise<void> => {
+      const chosen = await this.chooseSendeePhone('WhatsApp');
+      if (!chosen) return;
+      await this.shareApp.shareViaWhatsApp('chat-message', ctx, chosen);
+    };
+    const sendSms = async (): Promise<void> => {
+      const chosen = await this.chooseSendeePhone('SMS');
+      if (!chosen) return;
+      await this.shareApp.shareViaSms('chat-message', ctx, chosen);
+    };
+
     const sheet = await this.alertController.create({
       header: name + ' isn\'t on Rolodex yet',
       message: 'The message is saved here, but it can\'t reach their in-app thread until they join. Bring them in — every share carries the link, and the link opens their card ready:',
@@ -114,11 +149,11 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
             return true;
           } },
         { text: 'Send via WhatsApp', handler: async () => {
-            await this.shareApp.shareViaWhatsApp('chat-message', ctx, phone);
+            await sendWhatsApp();
             return true;
           } },
         { text: 'Send via SMS', handler: async () => {
-            await this.shareApp.shareViaSms('chat-message', ctx, phone);
+            await sendSms();
             return true;
           } },
         { text: 'Keep it here', role: 'cancel' },
