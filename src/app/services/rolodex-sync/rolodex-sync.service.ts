@@ -19,6 +19,15 @@ import { StorageService } from '../storage/storage.service';
 export class RolodexSyncService {
   private deviceId = '';
 
+  private ownerPhone = '';
+  private ownerName = '';
+
+  /** 2026-08-18: register the device's identity for the Users DB. */
+  setOwnerIdentity(phone: string, name: string): void {
+    this.ownerPhone = String(phone || '').trim();
+    this.ownerName = String(name || '').trim();
+  }
+
   constructor(
     private readonly storage: StorageService,
     ) {
@@ -64,6 +73,10 @@ export class RolodexSyncService {
           deviceId: this.deviceId,
           deviceName: typeof navigator !== 'undefined' ? String(navigator.userAgent).slice(0, 40) : this.deviceId,
           room: this.room,
+          // 2026-08-18 THE USERS DB: the sync registers the owner's identity so
+          // the chat can tell a sender whether a sendee is reachable in-app.
+          ownerPhone: this.ownerPhone,
+          ownerName: this.ownerName,
           contacts: (contacts || []).slice(0, 500),
           followUps: (followUps || []).slice(0, 200),
         }),

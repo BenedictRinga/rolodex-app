@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { SecurityService } from '../services/security/security.service';
 import { ContactInfo } from '../models/contacts';
 import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
 import { FollowUpEngine } from '../services/followup-engine/followup-engine.service';
@@ -84,6 +85,7 @@ export class HomePage implements OnInit {
     private inviteService: InviteService,
     private cardChat: CardChatService,
     private readonly storageService: StorageService,
+    private readonly security: SecurityService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -175,6 +177,8 @@ export class HomePage implements OnInit {
   }
 
   async ngOnInit() {
+    // 2026-08-18 THE APP LOCK: gate the app for the authorized user.
+    void this.enforceAppLock();
     // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
     void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
@@ -611,6 +615,33 @@ export class HomePage implements OnInit {
   onRemoveContact(contact: ContactInfo) {
     this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
     this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+  }
+
+  /** 2026-08-18 SECURITY: the PIN gate on every cold start. */
+  private async enforceAppLock(): Promise<void> {
+    try {
+      const needs = await this.security.needsUnlock();
+      if (!needs) return;
+      const alert = await this.alertController.create({
+        header: 'Rolodex is locked',
+        message: 'Enter your PIN to open the app.',
+        inputs: [{ name: 'pin', type: 'password', placeholder: 'PIN' }],
+        buttons: [
+          { text: 'Cancel', role: 'cancel' },
+          {
+            text: 'Unlock',
+            handler: async (data: any) => {
+              const ok = await this.security.verifyPin(String(data?.pin || ''));
+              if (ok) return true;
+              void alert.dismiss();
+              setTimeout(() => { void this.enforceAppLock(); }, 200);
+              return false;
+            },
+          },
+        ],
+      });
+      await alert.present();
+    } catch { /* lock is best-effort */ }
   }
 
   onContactTap(contact: ContactInfo) {

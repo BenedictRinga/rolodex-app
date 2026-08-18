@@ -12,6 +12,8 @@ import { ModalController } from '@ionic/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
+import { RolodexSyncService } from '../../services/rolodex-sync/rolodex-sync.service';
+import { SecurityService } from '../../services/security/security.service';
 import { PodsModalComponent } from '../pods-modal/pods-modal.component';
 import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
 import { AboutRolodexComponent } from '../about-rolodex/about-rolodex.component';
@@ -133,6 +135,8 @@ export class RolodexComponent implements OnInit {
     private cardChat: CardChatService,
     private destroyRef: DestroyRef,
     private photoService: PhotoService,
+    private rolodexSync: RolodexSyncService,
+    private security: SecurityService,
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
   ) { }
@@ -252,15 +256,38 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-18 SECURITY: the app lock toggle. */
+  lockEnabled = false;
+
+  async toggleLock(ev: any): Promise<void> {
+    const enable = !!(ev?.detail?.checked);
+    if (enable) {
+      const pin = window.prompt('Set your app-lock PIN (4-6 digits)', '');
+      const clean = String(pin || '').trim();
+      if (clean.length < 4) {
+        void this.alertService.showToast('A PIN needs at least 4 digits', 2500);
+        this.lockEnabled = false;
+        return;
+      }
+      await this.security.setPin(clean);
+      this.lockEnabled = true;
+      void this.alertService.showToast('App locked - it will ask for the PIN on every cold start', 3000);
+    } else {
+      await this.security.disableLock();
+      this.lockEnabled = false;
+      void this.alertService.showToast('App lock off', 1800);
+    }
+  }
+
   /** 2026-08-17 MY PROFILE: the user's own identity — name + photo. */
-  profile: { name: string; photo: string } = { name: '', photo: '' };
+  profile: { name: string; photo: string; phone: string } = { name: '', photo: '', phone: '' };
   private readonly PROFILE_KEY = 'rolodex_profile';
 
   private loadProfile(): void {
     void (async () => {
       try {
         const raw = await this.storageService.get<string>(this.PROFILE_KEY);
-        if (raw) this.profile = { name: '', photo: '', ...JSON.parse(raw) };
+        if (raw) this.profile = { name: '', photo: '', phone: '', ...JSON.parse(raw) };
       } catch { /* fresh */ }
     })();
   }
@@ -277,6 +304,13 @@ export class RolodexComponent implements OnInit {
     this.saveProfile();
   }
 
+  changeProfilePhone(): void {
+    const phone = window.prompt('Your phone number - how contacts reach you, and how the chat knows you are on Rolodex', this.profile.phone || '');
+    if (phone == null) return;
+    this.profile.phone = phone.trim().slice(0, 20) || this.profile.phone;
+    this.saveProfile();
+  }
+
   changeProfileName(): void {
     const name = window.prompt('Your name - how you appear to your contacts', this.profile.name || '');
     if (name == null) return;
@@ -286,7 +320,14 @@ export class RolodexComponent implements OnInit {
 
   private saveProfile(): void {
     void this.storageService.set(this.PROFILE_KEY, this.profile); // 2026-08-18 IndexedDB, no localStorage
-    try { const sc: any = this.cardChat as any; if (sc?.socketChat?.name) sc.socketChat.name = this.profile.name || sc.socketChat.name; } catch { /* ignore */ }
+    try {
+      // 2026-08-18 THE USERS DB: the device's identity (phone + name + room)
+      this.rolodexSync.setOwnerIdentity(this.profile.phone || '', this.profile.name || '');
+      const sc: any = this.cardChat as any;
+      if (sc?.socketChat?.name) sc.socketChat.name = this.profile.name || sc.socketChat.name;
+      // re-push so the backend registers the identity now
+      try { this.rolodexSync.push(this.contacts || []); } catch { /* ignore */ }
+    } catch { /* ignore */ }
   }
 
   ngOnInit() {

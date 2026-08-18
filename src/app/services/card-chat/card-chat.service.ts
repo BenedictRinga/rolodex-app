@@ -3,6 +3,7 @@ import { StorageService } from '../storage/storage.service';
 import { Subject } from 'rxjs';
 import { SocketChatService } from '../socket-chat/socket-chat.service';
 import { DraftEngineService } from '../draft-engine/draft-engine.service';
+import { UsersApiService } from '../users-api/users-api.service';
 
 export type ReceiptStatus = 'sent' | 'delivered' | 'read';
 
@@ -47,6 +48,7 @@ export class CardChatService {
     private readonly storage: StorageService,
     private readonly socketChat: SocketChatService,
     private readonly draftEngine: DraftEngineService,
+    private readonly usersApi: UsersApiService,
   ) {
     try {
       const raw = this.storage.getSync<string>(this.UNREAD_KEY); // 2026-08-18 IndexedDB memory cache
@@ -258,8 +260,13 @@ export class CardChatService {
     return thread;
   }
 
-  /** Append a message (local send) + a demo auto-reply. */
-  async send(thread: ChatThread, text: string): Promise<ChatThread> {
+  /**
+   * Append a message (local send) + the HONEST DELIVERY.
+   * 2026-08-18: when a sendee phone is given, the Users DB is consulted - if
+   * they are NOT a Rolodex user yet, the message stays local and the caller
+   * is told { pendingExternal: true } so the share/invite path is offered.
+   */
+  async send(thread: ChatThread, text: string, sendeePhone?: string): Promise<ChatThread & { pendingExternal?: boolean; sendeePhone?: string }> {
     const clean = text.trim();
     if (!clean) return thread;
     const me: ChatMessage = {
@@ -269,13 +276,7 @@ export class CardChatService {
       at: new Date().toISOString(),
       status: 'sent',
     };
-    const them: ChatMessage = {
-      id: 't' + Date.now(),
-      from: 'them',
-      text: `Got it — I'll respond properly when I'm back online. (Rolodex chat: delivered to ${thread.title}'s device.)`,
-      at: new Date(Date.now() + 1500).toISOString(),
-    };
-    thread.messages = [...thread.messages, me, them];
+    thread.messages = [...thread.messages, me];
     // 2026-08-16 ROTATING CONTEXT: the chat exchange feeds the relationship story.
     try {
       const rot = Array.isArray((thread as any).contextRotation) ? (thread as any).contextRotation : [];
@@ -285,9 +286,22 @@ export class CardChatService {
     } catch {}
     await this.saveThread(thread);
     this.lastSentKey = thread.key;
-    // 2026-08-16 SOCKET: push to the demo room so the peer device sees it live.
-    try { this.socketChat.send(clean, thread.key); } catch { /* offline demo still works */ }
-    return thread;
+
+    // 2026-08-18 THE USERS DB: can the sendee actually receive this in-app?
+    let pendingExternal = false;
+    if (sendeePhone) {
+      try {
+        const r = await this.usersApi.lookup(sendeePhone);
+        pendingExternal = r !== null && !r.isUser; // offline (null) = keep sending
+      } catch {
+        pendingExternal = false;
+      }
+    }
+    if (!pendingExternal) {
+      // 2026-08-16 SOCKET: push to the demo room so the peer device sees it live.
+      try { this.socketChat.send(clean, thread.key); } catch { /* offline demo still works */ }
+    }
+    return { ...thread, pendingExternal, sendeePhone };
   }
 
   /** Distinct groups across contacts for the pods list. */

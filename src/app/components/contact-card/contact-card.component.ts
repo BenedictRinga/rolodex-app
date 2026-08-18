@@ -499,7 +499,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     const thread = await this.cardChat.seedThread(contact);
     const modal = await this.modalController.create({
       component: CardChatModalComponent,
-      componentProps: { thread },
+      componentProps: { thread, sendeePhone: contact?.phones?.[0]?.number || '' },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
       initialBreakpoint: 1, // 2026-08-18: full height - the composer is fully visible

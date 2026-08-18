@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
+import { UsersApiService } from '../../services/users-api/users-api.service';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -19,7 +20,48 @@ export class AboutRolodexComponent {
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
+    private readonly usersApi: UsersApiService,
   ) {}
+
+  /**
+   * 2026-08-18 HOW AN INVESTOR GETS THE WORD: the padlock gate has a
+   * 'Request access' path - they leave their name + email, the request is
+   * recorded at the backend, and the access is dispensed on the spot.
+   */
+  async requestAccess(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Request investor access',
+      message: 'Leave your details - the door opens for you right here.',
+      inputs: [
+        { name: 'name', type: 'text', placeholder: 'Your name' },
+        { name: 'email', type: 'email', placeholder: 'Your email' },
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Request access',
+          handler: async (data: any) => {
+            const email = String(data?.email || '').trim();
+            if (!email) return false;
+            const name = String(data?.name || '').trim();
+            const access = await this.usersApi.requestInvestorAccess(name, email, '');
+            if (access) {
+              this.unlocked = true;
+              void this.alertCtrl.create({
+                header: 'Welcome in',
+                message: 'Your request is recorded. The roadmap is open for you.',
+                buttons: ['OK'],
+              }).then((a) => a.present());
+              return true;
+            }
+            void this.alertCtrl.create({ header: 'Not yet', message: 'The request could not be recorded - try again when online.', buttons: ['OK'] }).then((a) => a.present());
+            return false;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
 
   async promptPassword(): Promise<void> {
     if (this.unlocked) return;
@@ -29,6 +71,7 @@ export class AboutRolodexComponent {
       inputs: [{ name: 'pass', type: 'password', placeholder: 'Password' }],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
+        { text: 'Request access', handler: () => { void this.requestAccess(); return true; } },
         {
           text: 'Enter',
           handler: (data: any) => {

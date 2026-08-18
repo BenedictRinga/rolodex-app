@@ -1,8 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { CardChatService, ChatThread } from '../../services/card-chat/card-chat.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
+import { InviteService } from '../../services/invite/invite.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CardChatModalComponent implements OnInit, OnDestroy {
   @Input() thread!: ChatThread;
+  /** 2026-08-18 the sendee's phone - the Users DB is consulted before sending. */
+  @Input() sendeePhone = '';
   draft = '';
   typingName = '';
   pickingId = '';
@@ -24,6 +27,8 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly modalController: ModalController,
+    private readonly alertController: AlertController,
+    private readonly inviteService: InviteService,
     private readonly chatService: CardChatService,
     private readonly socketChat: SocketChatService,
     readonly timeNorm: TimeNormalizerService,
@@ -79,8 +84,39 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     const text = this.draft?.trim();
     if (!text) return;
     this.draft = '';
-    const next = await this.chatService.send(this.thread, text);
+    const next = await this.chatService.send(this.thread, text, this.sendeePhone);
     this.thread = next;
+    if ((next as any)?.pendingExternal && this.sendeePhone) {
+      await this.offerExternalDelivery();
+    }
+  }
+
+  /**
+   * 2026-08-18 THE HONEST OPTIONS: the sendee is NOT on Rolodex yet, so the
+   * in-app thread cannot reach them. The sender is told the truth and given
+   * the distributor options - every excited receiver becomes a distributor.
+   */
+  private async offerExternalDelivery(): Promise<void> {
+    const name = this.thread?.title || 'this contact';
+    const phone = this.sendeePhone || '';
+    const draft = this.thread?.messages?.slice(-1)?.[0]?.text || '';
+    const sheet = await this.alertController.create({
+      header: name + ' isn\'t on Rolodex yet',
+      message: 'The message is saved here, but it can\'t reach their in-app thread until they join. Bring them in:',
+      buttons: [
+        { text: 'Share the invite', handler: async () => {
+            try {
+              const inv = await this.inviteService.create({ from: this.thread?.title || 'Me', room: 'rolodex', kind: 'message', text: draft });
+              if (inv) await this.inviteService.share(inv);
+            } catch { /* fall back below */ }
+            return true;
+          } },
+        { text: 'Send via WhatsApp', handler: () => { window.open('https://wa.me/?text=' + encodeURIComponent('Join me on Rolodex — ' + draft), '_blank'); return true; } },
+        { text: 'Send via SMS', handler: () => { if (phone) window.location.href = 'sms:' + phone + '?body=' + encodeURIComponent(draft); return true; } },
+        { text: 'Keep it here', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
   }
 
   close(): void {

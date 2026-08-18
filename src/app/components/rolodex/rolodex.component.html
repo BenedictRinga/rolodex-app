@@ -229,6 +229,9 @@
             <ion-button fill="outline" size="small" (click)="changeProfileName()" appTooltip="Change name">
               <ion-icon name="create-outline"></ion-icon>
             </ion-button>
+            <ion-button fill="outline" size="small" (click)="changeProfilePhone()" appTooltip="Your phone - how contacts reach you">
+              <ion-icon name="call-outline"></ion-icon>
+            </ion-button>
           </ion-buttons>
         </ion-item>
 
@@ -270,6 +273,18 @@
           <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
           <ion-label>Reminders & follow-ups</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-18 SECURITY: the app lock - only the authorized user opens it. -->
+        <ion-item lines="none" class="elegant-item" id="settings-security">
+          <ion-icon name="lock-closed-outline" slot="start" color="danger"></ion-icon>
+          <ion-label>
+            App lock
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open Rolodex' }}
+            </p>
+          </ion-label>
+          <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>
         </ion-item>
 
         <!-- 2026-08-16 UPDATES: the automatic update slot — shows both the app
