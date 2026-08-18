@@ -221,6 +221,7 @@
           <ion-label>
             <h2>{{ profile.name || 'My profile' }}</h2>
             <p>You are the Confidante's principal.</p>
+            <p class="profile-guide">Your name, phone and photo appear on every share/invite — {{ profileCompletionLabel() }}</p>
           </ion-label>
           <ion-buttons slot="end">
             <ion-button fill="outline" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
@@ -272,7 +273,7 @@
               <span class="update-checked" *ngIf="lastCheckedLabel"> · {{ lastCheckedLabel }}</span>
             </p>
           </ion-label>
-          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : 'medium'" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
+          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : (updateChecked ? 'success' : 'medium')" class="update-btn" [class.update-ok]="updateChecked && !updateAvailable" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
             {{ updateAvailable ? 'Update now' : (updateChecked ? 'Up to date' : 'Check') }}
           </ion-button>
         </ion-item>

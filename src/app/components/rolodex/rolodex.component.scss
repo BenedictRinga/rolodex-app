@@ -10,6 +10,12 @@
   height: 52px;
 }
 
+.profile-guide {
+  font-size: 10.5px;
+  color: var(--rolodex-text-secondary);
+  margin-top: 2px;
+}
+
 /* ═══════════════════════════════════════════════════════
    ROLODEX COMPONENT — Main Chrome
    Premium relationship manager interface with warm,
@@ -89,6 +95,14 @@ app-filter-search {
   &::-webkit-scrollbar { display: none; }
 
   ion-list-header {
+    /* 2026-08-18 STICKY CONTROLS: the row under the header stays in view
+       while the contact list scrolls - no more hunting for Pods/Filters/
+       Card options after scrolling. */
+    position: sticky;
+    top: 0;
+    z-index: 12;
+    background: var(--rolodex-bg);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -228,12 +242,26 @@ app-contact-card {
    ═══════════════════════════════════════════════════════ */
 
 
-/* 2026-08-16 SETTINGS MAP: the quick-nav chips - the full list at a glance. */
+/* 2026-08-16 SETTINGS MAP: the quick-nav chips - the full list at a glance.
+   2026-08-18 STICKY: the chips stay under the header while Settings scrolls. */
 .settings-quicknav {
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  background: var(--rolodex-bg);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   padding: 8px 12px 4px;
+}
+
+/* The Settings view's own list-header scrolls away; the quicknav is the row
+   that must remain. */
+.settings-list ion-list-header {
+  position: static;
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .settings-quicknav ion-chip {
@@ -620,4 +648,12 @@ app-contact-card {
 
 .update-checked {
   opacity: 0.7;
+}
+
+/* 2026-08-18 "UP TO DATE" GLOWS GREEN: the button reads as a live, healthy
+   state - not a dead grey label. */
+.update-btn.update-ok {
+  color: #3fb950 !important;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(63, 185, 80, 0.75), 0 0 2px rgba(63, 185, 80, 0.9);
 }

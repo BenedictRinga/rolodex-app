@@ -316,6 +316,15 @@ export class RolodexComponent implements OnInit {
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' rx='48' fill='#4f6df5'/><text x='48' y='61' font-size='42' text-anchor='middle' fill='#fff' font-family='sans-serif'>${ch}</text></svg>`);
   }
 
+  /** 2026-08-18 PROFILE GUIDANCE: tells the user what the Confidante needs
+   *  (name, phone, photo) and why - they show on every share/invite. */
+  profileCompletionLabel(): string {
+    const done = [this.profile.name, this.profile.phone, this.profile.photo].filter(Boolean).length;
+    if (done === 3) return `complete — shares will say ${this.profile.name || 'you'}.`;
+    const missing = 3 - done;
+    return `${missing} more to go for polished invites.`;
+  }
+
   async changeProfilePhoto(): Promise<void> {
     const dataUrl = await this.photoService.pick();
     if (!dataUrl) return;
