@@ -316,14 +316,13 @@ export class RolodexComponent implements OnInit {
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' rx='48' fill='#4f6df5'/><text x='48' y='61' font-size='42' text-anchor='middle' fill='#fff' font-family='sans-serif'>${ch}</text></svg>`);
   }
 
-  /** 2026-08-18 PROFILE GUIDANCE: tells the user what the Confidante needs
-   *  (name, phone, photo) and why: polished greetings benefit the receiver,
-   *  invites benefit the sender. */
+  /** 2026-08-18 PROFILE GUIDANCE: a complete profile makes every greeting
+   *  polished. No distribution language here - that stays invisible. */
   profileCompletionLabel(): string {
     const done = [this.profile.name, this.profile.phone, this.profile.photo].filter(Boolean).length;
-    if (done === 3) return `Profile complete — polished greetings say ${this.profile.name || 'you'}, invites carry your name back.`;
+    if (done === 3) return `Profile complete — every greeting carries your name and face.`;
     const missing = 3 - done;
-    return `${missing} more to go — their greetings get polished, your invites carry you.`;
+    return `${missing} more to go for polished greetings.`;
   }
 
   async changeProfilePhoto(): Promise<void> {
