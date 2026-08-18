@@ -49,7 +49,7 @@ export class CardChatService {
     private readonly draftEngine: DraftEngineService,
   ) {
     try {
-      const raw = localStorage.getItem(this.UNREAD_KEY);
+      const raw = this.storage.getSync<string>(this.UNREAD_KEY); // 2026-08-18 IndexedDB memory cache
       if (raw) this.unread = JSON.parse(raw);
     } catch { /* fresh */ }
     // 2026-08-16 SOCKET: incoming cross-device messages land in their thread
@@ -159,7 +159,7 @@ export class CardChatService {
     try {
       if (this.unread[key]) {
         delete this.unread[key];
-        localStorage.setItem(this.UNREAD_KEY, JSON.stringify(this.unread));
+        this.storage.setSync(this.UNREAD_KEY, this.unread);
       }
     } catch { /* ignore */ }
   }
@@ -192,7 +192,7 @@ export class CardChatService {
       await this.saveThread(thread);
       // 2026-08-17 AWARENESS: bump the badge + announce the arrival.
       this.unread[key] = (this.unread[key] || 0) + 1;
-      try { localStorage.setItem(this.UNREAD_KEY, JSON.stringify(this.unread)); } catch { /* ignore */ }
+      try { this.storage.setSync(this.UNREAD_KEY, this.unread); } catch { /* ignore */ }
       this.arrival$.next({ key, label: name || this.threadTitle(key) });
     } catch {
       /* local-only best effort */

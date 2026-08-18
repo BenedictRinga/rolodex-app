@@ -89,7 +89,7 @@ export class CloudSyncService {
   }
 
   clearPassphrase(): void {
-    localStorage.removeItem(SYNC_PASSPHRASE_KEY);
+    void this.storage.remove(SYNC_PASSPHRASE_KEY); // 2026-08-18 IndexedDB
   }
 
   // ===== Provider selection =================================================

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
+import { StorageService } from '../storage/storage.service';
 
 export type Occasion = 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
 export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
@@ -55,18 +56,24 @@ export class DraftEngineService {
 
   provider: AiProvider = 'rolodex';
 
-  constructor() {
-    try {
-      const stored = localStorage.getItem(AI_PROVIDER_KEY) as AiProvider | null;
-      this.provider = stored === 'deepseek' || stored === 'grok' || stored === 'rolodex' ? stored : 'rolodex';
-      this.plan = (localStorage.getItem(PLAN_KEY) as any) || '';
-    } catch { /* defaults */ }
+  /** 2026-08-18 all persistence via the IndexedDB StorageService (no localStorage). */
+  constructor(private readonly storage: StorageService) {
+    // async hydrate of the persisted preferences into the sync fields
+    void (async () => {
+      try {
+        const stored = await this.storage.get<AiProvider>(AI_PROVIDER_KEY);
+        if (stored === 'deepseek' || stored === 'grok' || stored === 'rolodex') this.provider = stored;
+        this.plan = (await this.storage.get<'basic' | 'confidante' | ''>(PLAN_KEY)) || '';
+        this.interventionsRecord = (await this.storage.get<Record<string, number>>(INTERVENTIONS_KEY)) || {};
+        this.trialUntilMs = (await this.storage.get<number>(TRIAL_KEY)) || 0;
+      } catch { /* defaults */ }
+    })();
   }
 
   /** 2026-08-16: the user picks the engine; ROLODEX holds the keys. */
   setProvider(p: AiProvider): void {
     this.provider = p;
-    try { localStorage.setItem(AI_PROVIDER_KEY, p); } catch { /* ignore */ }
+    void this.storage.set(AI_PROVIDER_KEY, p);
   }
 
   // ═══ ENTITLEMENT: Basic = the Assistant (5 AI interventions a month).
@@ -80,12 +87,14 @@ export class DraftEngineService {
 
   setPlan(p: 'basic' | 'confidante' | ''): void {
     this.plan = p;
-    try { localStorage.setItem(PLAN_KEY, p); } catch {}
+    void this.storage.set(PLAN_KEY, p);
   }
 
   /** 2026-08-17 FREE TRIAL — epoch ms the trial runs until (0 = none). */
+  private trialUntilMs = 0;
+
   trialUntil(): number {
-    try { return Number(localStorage.getItem(TRIAL_KEY) || 0) || 0; } catch { return 0; }
+    return this.trialUntilMs;
   }
 
   trialDaysLeft(): number {
@@ -107,29 +116,24 @@ export class DraftEngineService {
   ensureTrial(): void {
     if (this.plan === 'confidante') return;
     if (this.trialUntil() > Date.now()) return;
-    try { localStorage.setItem(TRIAL_KEY, String(Date.now() + TRIAL_DAYS * DAY_MS)); } catch {}
+    this.trialUntilMs = Date.now() + TRIAL_DAYS * DAY_MS;
+    void this.storage.set(TRIAL_KEY, this.trialUntilMs);
   }
 
+  private interventionsRecord: Record<string, number> = {};
+
   interventionsLeft(): number {
-    try {
-      const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
-      const rec = JSON.parse(raw);
-      const key = this.monthKey();
-      const used = rec[key] || 0;
-      if (this.plan === 'confidante' || this.trialActive()) return Number.MAX_SAFE_INTEGER;
-      return Math.max(0, MONTHLY_QUOTA - used);
-    } catch { return MONTHLY_QUOTA; }
+    const key = this.monthKey();
+    const used = this.interventionsRecord[key] || 0;
+    if (this.plan === 'confidante' || this.trialActive()) return Number.MAX_SAFE_INTEGER;
+    return Math.max(0, MONTHLY_QUOTA - used);
   }
 
   private consumeIntervention(): void {
-    try {
-      if (this.plan === 'confidante' || this.trialActive()) return; // the trial/Confidante never burns the monthly count
-      const raw = localStorage.getItem(INTERVENTIONS_KEY) || '{}';
-      const rec = JSON.parse(raw);
-      const key = this.monthKey();
-      rec[key] = (rec[key] || 0) + 1;
-      localStorage.setItem(INTERVENTIONS_KEY, JSON.stringify(rec));
-    } catch {}
+    if (this.plan === 'confidante' || this.trialActive()) return; // the trial/Confidante never burns the monthly count
+    const key = this.monthKey();
+    this.interventionsRecord[key] = (this.interventionsRecord[key] || 0) + 1;
+    void this.storage.set(INTERVENTIONS_KEY, this.interventionsRecord);
   }
 
   /** Rotating context: append a line to the relationship's rolling story. */
@@ -142,13 +146,10 @@ export class DraftEngineService {
   }
 
   private loadGuides(): Record<string, MessageGuide> {
-    try {
-      const raw = localStorage.getItem(this.GUIDES_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch { return {}; }
+    return this.storage.getSync<Record<string, MessageGuide>>(this.GUIDES_KEY) || {}; // 2026-08-18 IndexedDB memory cache
   }
   private saveGuides(guides: Record<string, MessageGuide>): void {
-    try { localStorage.setItem(this.GUIDES_KEY, JSON.stringify(guides)); } catch { /* ignore */ }
+    this.storage.setSync(this.GUIDES_KEY, guides);
   }
 
   /** A guide keyed by contact id, group id (groupId:xxx), or 'default'. */

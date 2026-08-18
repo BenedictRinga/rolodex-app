@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
+import { StorageService } from '../storage/storage.service';
+
 
 /**
  * 2026-08-16 DEMO SYNC — the one-chance proof: the app talks to the fresh
@@ -17,16 +19,18 @@ import { environment } from '../../../environments/environment';
 export class RolodexSyncService {
   private deviceId = '';
 
-  constructor() {
+  constructor(
+    private readonly storage: StorageService,
+    ) {
     this.deviceId = this.loadDeviceId();
   }
 
   private loadDeviceId(): string {
     try {
-      const stored = localStorage.getItem('rolodex_device_id');
+      const stored = this.storage.getSync<string>('rolodex_device_id'); // 2026-08-18 IndexedDB memory cache
       if (stored) return stored;
       const id = 'rolodex-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-      localStorage.setItem('rolodex_device_id', id);
+      this.storage.setSync('rolodex_device_id', id);
       return id;
     } catch {
       return 'rolodex-' + Date.now().toString(36);
@@ -44,10 +48,10 @@ export class RolodexSyncService {
 
   /** The demo room code (persisted) — links devices into one live space. */
   get room(): string {
-    try { return localStorage.getItem('rolodex_room') || ''; } catch { return ''; }
+    try { return this.storage.getSync<string>('rolodex_room') || ''; } catch { return ''; }
   }
   setRoom(code: string): void {
-    try { localStorage.setItem('rolodex_room', String(code || '').trim().toUpperCase().slice(0, 24)); } catch { /* ignore */ }
+    try { this.storage.setSync('rolodex_room', String(code || '').trim().toUpperCase().slice(0, 24)); } catch { /* ignore */ }
   }
 
   /** Push the current state — full contacts + follow-up counts + room. Never blocks. */

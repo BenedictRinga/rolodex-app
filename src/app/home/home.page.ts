@@ -19,6 +19,8 @@ import { InviteService } from '../services/invite/invite.service';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
+import { StorageService } from '../services/storage/storage.service';
+
 
 @Component({
   selector: 'app-home',
@@ -80,7 +82,8 @@ export class HomePage implements OnInit {
     private draftEngine: DraftEngineService,
     private inviteService: InviteService,
     private cardChat: CardChatService,
-  ) {
+    private readonly storageService: StorageService,
+    ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
       const url = new URL(window.location.href);
@@ -96,7 +99,7 @@ export class HomePage implements OnInit {
    *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
   async presentWelcome(isReplay = false) {
     try {
-      if (localStorage.getItem(WELCOME_DISMISSED_KEY)) return;
+      if (await this.storageService.get<string>(WELCOME_DISMISSED_KEY)) return; // 2026-08-18 IndexedDB
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
         componentProps: { isReplay },
@@ -111,8 +114,8 @@ export class HomePage implements OnInit {
   }
 
   /** The Settings 'Show' side of Welcome Again: clear the dismissal + replay. */
-  showWelcomeAgain() {
-    try { localStorage.removeItem(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
+  async showWelcomeAgain() {
+    try { await this.storageService.remove(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
     void this.presentWelcome(true);
   }
 
@@ -179,7 +182,7 @@ export class HomePage implements OnInit {
 
     // 2026-08-16 STORAGE LOCATION + demo room (persisted).
     try {
-      const loc = localStorage.getItem('rolodex_storage');
+      const loc = await this.storageService.get<string>('rolodex_storage'); // 2026-08-18 IndexedDB
       if (loc === 'cloud' || loc === 'rolodex-server' || loc === 'device') this.storageLocation = loc;
       this.demoRoom = this.rolodexSync.room;
     } catch { /* ignore */ }
@@ -204,7 +207,7 @@ export class HomePage implements OnInit {
     const loc = event?.detail?.value as 'device' | 'cloud' | 'rolodex-server';
     if (!loc) return;
     this.storageLocation = loc;
-    try { localStorage.setItem('rolodex_storage', loc); } catch { /* ignore */ }
+    try { await this.storageService.set('rolodex_storage', loc); } catch { /* ignore */ }
     if (loc === 'rolodex-server') {
       const restored = await this.rolodexSync.restore();
       if (restored && restored.length) {
@@ -272,7 +275,7 @@ export class HomePage implements OnInit {
         break;
       case 'storage':
         this.storageLocation = 'rolodex-server';
-        try { localStorage.setItem('rolodex_storage', 'rolodex-server'); } catch { /* ignore */ }
+        try { void this.storageService.set('rolodex_storage', 'rolodex-server'); } catch { /* ignore */ }
         this.onStorageChange({ detail: { value: 'rolodex-server' } });
         break;
       case 'sync':
@@ -295,7 +298,7 @@ export class HomePage implements OnInit {
 
   /**
    * 2026-08-18 REAL CONTACTS SURVIVE A RELOAD: the picked/imported contacts
-   * persist to localStorage (rolodex_contacts) on every change - but ONLY
+   * persist to IndexedDB (rolodex_contacts) on every change - but ONLY
    * when the list contains real (non-mock) entries, so the demo filler is
    * never persisted and can never block actual data.
    */
@@ -303,16 +306,14 @@ export class HomePage implements OnInit {
     try {
       const hasReal = (contacts || []).some((c) => !(c as any)?.isMockData);
       if (hasReal) {
-        localStorage.setItem('rolodex_contacts', JSON.stringify(contacts));
+        void this.storageService.set('rolodex_contacts', contacts); // 2026-08-18 IndexedDB
       }
     } catch { /* storage unavailable - the in-memory list still works */ }
   }
 
-  private readPersistedContacts(): ContactInfo[] {
+  private async readPersistedContacts(): Promise<ContactInfo[]> {
     try {
-      const raw = localStorage.getItem('rolodex_contacts');
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
+      const parsed = await this.storageService.get<ContactInfo[]>('rolodex_contacts');
       return Array.isArray(parsed) ? parsed : [];
     } catch { return []; }
   }
@@ -324,7 +325,7 @@ export class HomePage implements OnInit {
       // picks - they must survive a reload). The demo deck is ONLY the filler
       // when there is nothing real anywhere yet, and real data (persisted or
       // freshly synced) always takes precedence over it.
-      const persisted = this.readPersistedContacts();
+      const persisted = await this.readPersistedContacts();
       if (persisted.length) {
         this.contacts = persisted;
       } else {

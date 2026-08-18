@@ -256,10 +256,12 @@ export class RolodexComponent implements OnInit {
   private readonly PROFILE_KEY = 'rolodex_profile';
 
   private loadProfile(): void {
-    try {
-      const raw = localStorage.getItem(this.PROFILE_KEY);
-      if (raw) this.profile = { name: '', photo: '', ...JSON.parse(raw) };
-    } catch { /* fresh */ }
+    void (async () => {
+      try {
+        const raw = await this.storageService.get<string>(this.PROFILE_KEY);
+        if (raw) this.profile = { name: '', photo: '', ...JSON.parse(raw) };
+      } catch { /* fresh */ }
+    })();
   }
 
   profileFallback(): string {
@@ -282,7 +284,7 @@ export class RolodexComponent implements OnInit {
   }
 
   private saveProfile(): void {
-    try { localStorage.setItem(this.PROFILE_KEY, JSON.stringify(this.profile)); } catch { /* ignore */ }
+    void this.storageService.set(this.PROFILE_KEY, this.profile); // 2026-08-18 IndexedDB, no localStorage
     try { const sc: any = this.cardChat as any; if (sc?.socketChat?.name) sc.socketChat.name = this.profile.name || sc.socketChat.name; } catch { /* ignore */ }
   }
 

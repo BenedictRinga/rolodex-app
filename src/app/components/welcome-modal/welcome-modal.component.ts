@@ -1,5 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { StorageService } from '../../services/storage/storage.service';
+
 
 export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
 
@@ -102,7 +104,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   autoPlay = true;
   private timer: ReturnType<typeof setInterval> | null = null;
 
-  constructor(private readonly modalController: ModalController) {}
+  constructor(private readonly modalController: ModalController,
+    private readonly storageService: StorageService,
+    ) {}
 
   get isFirst(): boolean {
     return this.stepIndex === 0;
@@ -179,7 +183,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   /** The off-switch: persists the dismissal key so the demo never shows again. */
   dontShowAgain(): void {
     try {
-      localStorage.setItem(WELCOME_DISMISSED_KEY, '1');
+      void this.storageService.set(WELCOME_DISMISSED_KEY, '1'); // 2026-08-18 IndexedDB
     } catch { /* ignore */ }
     void this.modalController.dismiss('dismissed', 'close');
   }
