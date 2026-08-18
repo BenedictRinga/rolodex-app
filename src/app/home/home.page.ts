@@ -640,6 +640,67 @@ export class HomePage implements OnInit {
 
   /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,
    *  exactly how Teams/Zoom handle contacts on the web. One-by-one picking. */
+  /**
+   * 2026-08-18 FULL ANDROID/iOS -> ROLODEX MAPPING: the Contact Picker's raw
+   * shape ({ name, tel[], email[], address, icon }) is mapped into a COMPLETE
+   * ContactInfo - every field the app functions read gets a value or a sane
+   * default, so a device contact is fully subject to the follow-up engine,
+   * the relationship monitor, the 4 W's, the reminders and the chat - never
+   * a partial stub (the legacy Zyppar mapper did exactly this; this is its
+   * Rolodex counterpart, including the picker's address + photo icon).
+   */
+  private mapPickedContact(raw: any, index: number, when: number): any {
+    const display = String(raw?.name || '').trim() || 'Picked contact ' + (index + 1);
+    const parts = display.trim().split(/\s+/);
+    const tel = Array.isArray(raw?.tel) ? raw.tel.filter(Boolean) : [];
+    const emails = Array.isArray(raw?.email) ? raw.email.filter(Boolean) : [];
+    const addr = String(raw?.address || '').trim();
+    return {
+      contactId: 'picked-' + when + '-' + index,
+      name: {
+        display,
+        given: parts[0] || '',
+        middle: '',
+        family: parts.slice(1).join(' ') || '',
+        prefix: '',
+        suffix: '',
+      },
+      phoneNumbers: tel.map((n: string) => ({ type: 'mobile' as any, number: n })),
+      emailAddresses: emails.map((a: string) => ({ type: 'email' as any, address: a })),
+      postalAddresses: addr ? [{ type: 'home' as any, street: addr }] : [],
+      organization: { company: '', jobTitle: '' },
+      image: { base64String: null },
+      rolodex: {
+        when: '',
+        where: '',
+        who: '',
+        why: '',
+        how: '',
+        topic: '',
+        followUp: '',
+        personalTidbits: '',
+        outcome: '',
+        priority: 'medium' as const,
+        contactFrequency: 'weekly' as const, // so the follow-up engine adopts them
+        references: [],
+      },
+      socialProfiles: {},
+      tags: [],
+      groups: [],
+      privacy: { level: 'private' as any, sharedWith: [] },
+      sharedBy: [],
+      lastInteraction: null,
+      nextInteraction: null,
+      reminders: [],
+      appointments: [],
+      isMockData: false,
+      isContactInfo: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      preferences: { refreshContacts: false, notificationPreference: 'email' as any },
+    };
+  }
+
   async addFromPhoneContacts(): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
@@ -647,26 +708,26 @@ export class HomePage implements OnInit {
       return;
     }
     try {
-      const props = ['name', 'email', 'tel'];
+      const props = ['name', 'email', 'tel', 'address', 'icon'];
       const picked = await picker.select(props, { multiple: true });
-      const mapped = (picked || []).map((raw: any, i: number) => {
-        const display = String(raw?.name || '').trim() || 'Picked contact ' + (i + 1);
-        const parts = display.split(/s+/);
-        const num = Array.isArray(raw?.tel) ? raw.tel[0] || '' : '';
-        const email = Array.isArray(raw?.email) ? raw.email[0] || '' : '';
-        return {
-          contactId: 'picked-' + Date.now() + '-' + i,
-          name: { display, given: parts[0] || '', middle: '', family: parts.slice(1).join(' ') || '', prefix: '', suffix: '' },
-          phoneNumbers: num ? [{ type: 'mobile' as any, number: num }] : [],
-          emailAddresses: email ? [{ type: 'email' as any, address: email }] : [],
-          image: { base64String: null },
-          isMockData: false,
-          isContactInfo: true,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          preferences: { refreshContacts: false, notificationPreference: 'email' as any },
-        };
-      });
+      const when = Date.now();
+      const mapped: any[] = [];
+      for (let i = 0; i < (picked || []).length; i++) {
+        const raw = picked[i];
+        const c = this.mapPickedContact(raw, i, when);
+        // the picker may supply a photo blob (icon) - read it into the card image
+        if (raw?.icon instanceof Blob) {
+          try {
+            c.image.base64String = await new Promise<string | null>((res) => {
+              const fr = new FileReader();
+              fr.onload = () => res(typeof fr.result === 'string' ? fr.result : null);
+              fr.onerror = () => res(null);
+              fr.readAsDataURL(raw.icon);
+            });
+          } catch { /* keep the generated avatar */ }
+        }
+        mapped.push(c);
+      }
       if (!mapped.length) return; // user cancelled
       this.contacts = [...mapped, ...this.contacts]; // 2026-08-18 prepend: the deck's first batch shows the new card
       this.onContactsChange(this.contacts);
