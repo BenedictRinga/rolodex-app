@@ -15,6 +15,21 @@
 </ion-header>
 
 <ion-content class="billing-body">
+  <!-- 2026-08-18 MULTI-GATEWAY: Stripe / Paystack / Flutterwave / Paddle -->
+  <ion-item lines="none" class="billing-gateway">
+    <ion-label>Payment method</ion-label>
+    <ion-select [(ngModel)]="gateway" interface="popover">
+      <ion-select-option value="stripe">Stripe (cards)</ion-select-option>
+      <ion-select-option value="paystack">Paystack (Nigeria)</ion-select-option>
+      <ion-select-option value="flutterwave">Flutterwave (Kenya / M-Pesa)</ion-select-option>
+      <ion-select-option value="paddle">Paddle (global)</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item lines="none" *ngIf="gateway !== 'stripe'" class="billing-email">
+    <ion-label position="stacked">Email for the receipt</ion-label>
+    <ion-input [(ngModel)]="email" type="email" placeholder="you@example.com"></ion-input>
+  </ion-item>
+
   <!-- 2026-08-17 FREE TRIAL: 7 days of the Confidante, counting down. -->
   <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — the Confidante, free.</div>
   <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Confidante ($5, the agent). -->
@@ -49,9 +64,10 @@
     <ion-icon name="warning-outline"></ion-icon>
     {{ error }}
   </div>
-  <div class="billing-note" *ngIf="stripeMissing">
+  <div class="billing-note" *ngIf="gatewayMissing">
     <ion-icon name="card-outline"></ion-icon>
-    Stripe isn't connected yet — add STRIPE_SECRET_KEY to the rolodex-server
+    {{ gatewayLabel() }} isn't connected yet — add its key to rolodex-server
+    (STRIPE_SECRET_KEY / PAYSTACK_SECRET_KEY / FLUTTERWAVE_SECRET_KEY / PADDLE_API_KEY)
     and this button opens a live checkout.
   </div>
   <div class="billing-note">
@@ -59,6 +75,6 @@
     Your plan: <strong>{{ currentPlan }}</strong>
   </div>
   <div class="billing-footnote">
-    Payments processed by Stripe. Cancel anytime in this screen.
+    Payments processed by Stripe · Paystack · Flutterwave · Paddle. Cancel anytime in this screen.
   </div>
 </ion-content>
