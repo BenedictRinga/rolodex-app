@@ -144,7 +144,7 @@ export class ContactsSyncService {
 
       phones: contact.phones || [],
       emails: contact.emails || [],
-      postalAddresses: contact.postalAddresses || [],
+      postalAddresses: (contact.postalAddresses || []).map((a: any) => this.safeAddress(a)).filter((x: any) => x.street || x.city || x.country),
       urls: contact.urls || [],
 
       // Rolodex-specific defaults
@@ -177,6 +177,25 @@ export class ContactsSyncService {
   }
 
   // ---- helpers ----
+
+  /** 2026-08-18 ADDRESS SAFETY: flatten any Capacitor/ContactAddress shape to a
+   *  plain typed object; object-valued fields are dropped, never stringified. */
+  private safeAddress(a: any): any {
+    if (a == null) return {};
+    if (typeof a === 'string') return { type: 'home', label: '', isPrimary: false, street: a.trim(), neighborhood: '', city: '', region: '', postcode: '', country: '' };
+    const s = (v: any) => (typeof v === 'string' ? v.trim() : typeof v === 'number' || typeof v === 'boolean' ? String(v) : '');
+    return {
+      type: a?.type || 'home',
+      label: s(a?.label),
+      isPrimary: !!a?.isPrimary,
+      street: s(a?.street || a?.streetAddress || a?.formattedAddress || a?.address || a?.line1 || ''),
+      neighborhood: s(a?.neighborhood || ''),
+      city: s(a?.city || ''),
+      region: s(a?.region || a?.state || ''),
+      postcode: s(a?.postalCode || a?.postcode || ''),
+      country: s(a?.country || ''),
+    };
+  }
 
   private isPwa(): boolean {
     try {

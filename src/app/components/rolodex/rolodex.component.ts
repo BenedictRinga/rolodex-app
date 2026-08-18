@@ -384,7 +384,7 @@ export class RolodexComponent implements OnInit {
       id: `event_${contact.contactId}_${Date.now()}`,
       title: `Catch up with ${contact.name?.display}`,
       start: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-      location: contact.postalAddresses?.[0]?.city || 'Online',
+      location: typeof contact.postalAddresses?.[0]?.city === 'string' ? contact.postalAddresses[0].city : 'Online',
       notes: 'Plan some time to connect!',
       url: '',
     };

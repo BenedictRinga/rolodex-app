@@ -48,6 +48,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   @Input() contact: ContactInfo = {} as ContactInfo;
   @ViewChild('gridView') gridView!: ElementRef;
   @Input() selectedMode: string | null = null;
+  /** 2026-08-18: true when this card is rendered INSIDE the full surface modal
+   *  (edit then opens the inline form; outside it opens the full surface). */
+  @Input() embedded = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -784,10 +787,37 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /** 2026-08-18 ADDRESS SAFETY: renders a postal address as a clean string no
+   *  matter whether the entry is a plain string, a Capacitor/ContactAddress
+   *  object, or an object with nested/odd fields - never "[object ContactAddress]".
+   *  Used by every card type so one fix applies to all of them. */
+  addressLabel(ad: any): string {
+    if (ad == null) return '';
+    if (typeof ad === 'string') return ad.trim();
+    if (typeof ad === 'object') {
+      const street = this.addressPart(ad.street || ad.streetAddress || ad.formattedAddress || ad.address || ad.line1 || '');
+      const city = this.addressPart(ad.city || '');
+      const region = this.addressPart(ad.region || ad.state || '');
+      const postcode = this.addressPart(ad.postalCode || ad.postcode || '');
+      const country = this.addressPart(ad.country || '');
+      return [street, city, region, postcode, country].filter(Boolean).join(', ');
+    }
+    return '';
+  }
+
+  /** Only strings/numbers become visible text - an object field is dropped,
+   *  never stringified into "[object …]". */
+  private addressPart(v: any): string {
+    if (v == null) return '';
+    if (typeof v === 'string') return v.trim();
+    if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return '';
+  }
+
   openAddress(contact: any): void {
     const addr = contact.postalAddresses?.[0];
     if (addr) {
-      const addressString = `${addr.street}, ${addr.city}, ${addr.country}`;
+      const addressString = this.addressLabel(addr) || `${this.addressPart(addr.street)}, ${this.addressPart(addr.city)}, ${this.addressPart(addr.country)}`;
       this.deviceConnector.openMaps(addressString);
     } else {
       !environment.production && console.warn('No address available for this contact.');
@@ -1238,16 +1268,19 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     this.updateSaveEnabled(); // Explicitly check after adding
   }
   addPostalAddress(address?: PostalAddressPayload) {
+    // 2026-08-18 ADDRESS SAFETY: sanitize every field so a ContactAddress
+    // object can never leak "[object ContactAddress]" into the form inputs.
+    const a: any = address || {};
     const addressGroup = this.fb.group({
-      type: [address?.type || PostalAddressType.Home],
-      label: [address?.label || ''],
-      isPrimary: [address?.isPrimary || false],
-      street: [address?.street || ''],
-      neighborhood: [address?.neighborhood || ''],
-      city: [address?.city || ''],
-      region: [address?.region || ''],
-      postcode: [address?.postcode || ''],
-      country: [address?.country || ''],
+      type: [a?.type || PostalAddressType.Home],
+      label: [this.addressPart(a?.label || '')],
+      isPrimary: [!!a?.isPrimary],
+      street: [this.addressPart(a?.street || a?.streetAddress || a?.formattedAddress || a?.address || a?.line1 || '')],
+      neighborhood: [this.addressPart(a?.neighborhood || '')],
+      city: [this.addressPart(a?.city || '')],
+      region: [this.addressPart(a?.region || a?.state || '')],
+      postcode: [this.addressPart(a?.postalCode || a?.postcode || '')],
+      country: [this.addressPart(a?.country || '')],
     });
     this.postalAddresses.push(addressGroup);
     this.updateSaveEnabled(); // Explicitly check after adding
@@ -1471,6 +1504,15 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   onEditContact(contact?: ContactInfo) {
     const target = contact || this.contact;
     if (!target) return;
+    // 2026-08-18 FULL-FLEDGED COMPONENT: outside the surface modal the edit
+    // access opens the WHOLE card surface (chat, reminders, confidante, edit,
+    // call, email, map, remove) - one consistent entry on every card type.
+    // Inside the surface (embedded=true) the pencil keeps opening the inline
+    // edit form so the modal is not recursive.
+    if (!this.embedded) {
+      this.contactTap.emit(target);
+      return;
+    }
     // 2026-08-18 CRUD: open the built-in edit form pre-filled with the TAPPED
     // contact (the old code emitted this.contact - wrong in a multi-contact deck).
     this.selectedMode = 'editContact';

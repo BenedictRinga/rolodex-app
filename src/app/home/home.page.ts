@@ -782,12 +782,12 @@ export class HomePage implements OnInit {
         const isObj = typeof a === 'object' && a !== null;
         return {
           type: 'home' as any,
-          street: isObj ? String(a?.street || a?.streetAddress || a?.formattedAddress || a?.address || '') : String(a),
-          neighborhood: isObj ? String(a?.neighborhood || '') : '',
-          city: isObj ? String(a?.city || '') : '',
-          region: isObj ? String(a?.region || a?.state || '') : '',
-          country: isObj ? String(a?.country || '') : '',
-          postcode: isObj ? String(a?.postalCode || a?.postcode || '') : '',
+          street: isObj ? this.pickAddressPart(a?.street || a?.streetAddress || a?.formattedAddress || a?.address || a?.line1 || '') : this.pickAddressPart(a),
+          neighborhood: isObj ? this.pickAddressPart(a?.neighborhood || '') : '',
+          city: isObj ? this.pickAddressPart(a?.city || '') : '',
+          region: isObj ? this.pickAddressPart(a?.region || a?.state || '') : '',
+          country: isObj ? this.pickAddressPart(a?.country || '') : '',
+          postcode: isObj ? this.pickAddressPart(a?.postalCode || a?.postcode || '') : '',
         };
       })
       .filter((x: any) => x.street);
@@ -853,6 +853,15 @@ export class HomePage implements OnInit {
       updatedAt: new Date(),
       preferences: { refreshContacts: false, notificationPreference: 'email' as any },
     };
+  }
+
+  /** 2026-08-18 ADDRESS SAFETY: only strings/numbers become visible text;
+   *  an object-valued field is dropped, never stringified into "[object …]". */
+  private pickAddressPart(v: any): string {
+    if (v == null) return '';
+    if (typeof v === 'string') return v.trim();
+    if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return '';
   }
 
   async addFromPhoneContacts(): Promise<void> {

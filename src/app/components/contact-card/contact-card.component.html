@@ -43,7 +43,7 @@
                 </p>
                 <p *ngIf="seg.contact.postalAddresses?.length"><strong>Address:</strong>
                   <span *ngFor="let ad of seg.contact.postalAddresses; let i = index">
-                    {{ i > 0 ? ' · ' : '' }}{{ ad.street }}{{ ad.city ? ', ' + ad.city : '' }}{{ ad.country ? ', ' + ad.country : '' }}
+                    {{ i > 0 ? ' · ' : '' }}{{ addressLabel(ad) }}
                   </span>
                 </p>
                 <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
@@ -100,7 +100,7 @@
                     (click)="$event.stopPropagation(); openAddress(contact)">
                     <ion-icon name="location-outline" class="detail-icon"></ion-icon>
                     <span *ngFor="let ad of contact.postalAddresses; let i = index">
-                      {{ i > 0 ? ' · ' : '' }}{{ ad.street }}{{ ad.city ? ', ' + ad.city : '' }}{{ ad.country ? ', ' + ad.country : '' }}
+                      {{ i > 0 ? ' · ' : '' }}{{ addressLabel(ad) }}
                     </span>
                   </p>
                   <p *ngIf="contact.rolodex?.followUp">
@@ -178,6 +178,10 @@
                   <!-- Chevron icon triggers onToggleDetails -->
                   <ion-icon [name]="contact === activeContact ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
                     (click)="onToggleDetails(contact, $event); $event.stopPropagation()"></ion-icon>
+                  <!-- 2026-08-18 FULL CARD: edit opens the whole surface on every card type. -->
+                  <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -257,6 +261,11 @@
                 Next Interaction: {{ contact.nextInteraction | date:'mediumDate' }}
               </p>
             </div>
+            <!-- 2026-08-18 FULL CARD: edit opens the whole surface on every card type. -->
+            <ion-button fill="outline" size="small" (click)="onEditContact(contact); $event.stopPropagation()">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Open card
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </ng-container>
@@ -372,6 +381,11 @@
                 </div>
               </div>
             </div>
+            <!-- 2026-08-18 FULL CARD: edit opens the whole surface on every card type. -->
+            <ion-button fill="outline" size="small" (click)="onEditContact(contact); $event.stopPropagation()">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Open card
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </ng-container>
@@ -384,6 +398,9 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
         </ion-item>
       </ng-container>
       
@@ -395,6 +412,9 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
         </ion-item>
       </ng-container>
       
@@ -487,6 +507,9 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
             </div>
           </div>
+          <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
         </ion-item>
       </ng-container>
       
@@ -503,6 +526,9 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
             </div>
           </div>
+          <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
         </ion-item>
       </ng-container>
       
@@ -525,6 +551,9 @@
                 </ion-label>
               </div>
               <!-- Optionally add a toggle icon if details are needed -->
+              <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-button>
             </ion-item>
           </ng-container>
         </ion-list>
@@ -549,9 +578,7 @@
             <p><strong>Phone:</strong> {{ activeContact.phones?.[0]?.number || 'No Phone Info' }}</p>
             <p><strong>Email:</strong> {{ activeContact.emails?.[0]?.address || 'No Email Info' }}</p>
             <p><strong>Address:</strong>
-              {{ activeContact.postalAddresses?.[0]?.street || '' }},
-              {{ activeContact.postalAddresses?.[0]?.city || '' }},
-              {{ activeContact.postalAddresses?.[0]?.country || '' }}
+              {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address Info' }}
             </p>
             <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
@@ -606,7 +633,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
-          <ion-button fill="outline" slot="end" (click)="onEditContact()">View & Edit</ion-button>
+          <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>
 
@@ -617,7 +644,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
-          <ion-button fill="outline" slot="end" (click)="onEditContact()">View & Edit</ion-button>
+          <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>
       
@@ -1471,9 +1498,7 @@
             <!-- Clickable Address -->
             <p (click)="$event.stopPropagation(); openAddress(activeContact)">
               <ion-icon name="location-outline" class="detail-icon"></ion-icon>
-              {{ activeContact.postalAddresses?.[0]?.street || '' }},
-              {{ activeContact.postalAddresses?.[0]?.city || '' }},
-              {{ activeContact.postalAddresses?.[0]?.country || '' }}
+              {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address' }}
             </p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
             <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'No Follow-Up' }}</p>
