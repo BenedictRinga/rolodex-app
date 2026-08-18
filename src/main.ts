@@ -2,6 +2,7 @@ import { platformBrowser } from '@angular/platform-browser';
 import { Injector, INJECTOR } from '@angular/core';
 
 import { AppModule } from './app/app.module';
+import { environment } from 'src/environments/environment';
 
 // 2026-08-16 FIX (two parts):
 // 1. Bootstrap: platformBrowserDynamic (JIT) on an AOT bundle created the platform
@@ -32,4 +33,4 @@ if (typeof INJECTOR_ANY.NULL === 'undefined') {
 platformBrowser([
   { provide: Injector, useFactory: (injector: unknown) => injector, deps: [INJECTOR] },
 ]).bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+  .catch(err => !environment.production && console.log(err));

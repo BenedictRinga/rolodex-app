@@ -19,6 +19,7 @@ import { BillingModalComponent } from '../billing-modal/billing-modal.component'
 import { AiSettingsModalComponent } from '../ai-settings-modal/ai-settings-modal.component';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { UpdatesService } from '../../services/updates/updates.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-rolodex',
@@ -355,7 +356,7 @@ export class RolodexComponent implements OnInit {
     else if (command.includes('call')) this.onAudioCallContact(contact);
     else if (command.includes('video')) this.onVideoCallContact(contact);
     else if (command.includes('schedule')) this.onScheduleEvent(contact);
-    else { console.log('Voice command not recognized:', command); }
+    else { !environment.production && console.log('Voice command not recognized:', command); }
   }
 
   onResetFilters() { this.resetFilters.emit(); this.showRegularView(); }

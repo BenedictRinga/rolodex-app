@@ -152,8 +152,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     // If in edit mode, clone the contact for editing
     if (this.selectedMode === 'editContact') {
       // this.editedContact = mockContacts[4];
-      // console.log('if this.selectedMode === editContact this.contact"', this.contact);
-      // console.log('f this.selectedMode === editContact this.editedContact', this.editedContact);
+      // !environment.production && console.log('if this.selectedMode === editContact this.contact"', this.contact);
+      // !environment.production && console.log('f this.selectedMode === editContact this.editedContact', this.editedContact);
       this.editedContact = { ...this.contact };
       this.initializeForm();
       this.contactForm.get('privacy.level')?.valueChanges.subscribe((value: any) => {
@@ -238,7 +238,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log('gridView is now available:', this.gridView);
+    // !environment.production && console.log('gridView is now available:', this.gridView);
 
     this.watchBusinessCards();
   }
@@ -397,7 +397,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   checkGridScroll(event: Event): void {
     // Ensure gridView exists; it will because the view has been initialized
     const scrollElement = this.gridView.nativeElement;
-    // console.log('I see you scroll - scrollElement', scrollElement);
+    // !environment.production && console.log('I see you scroll - scrollElement', scrollElement);
     // Calculate the distance from the bottom
     const scrollPosition = scrollElement.scrollHeight - scrollElement.scrollTop - scrollElement.clientHeight;
     // When the distance is less than 100 pixels and not already fetching data, load the next batch
@@ -409,7 +409,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   checkRolodexScroll(event: Event): void {
     // Ensure gridView exists; it will because the view has been initialized
     const scrollElement = this.gridView.nativeElement;
-    // console.log('I see you scroll - scrollElement', scrollElement);
+    // !environment.production && console.log('I see you scroll - scrollElement', scrollElement);
     // Calculate the distance from the bottom
     const scrollPosition = scrollElement.scrollHeight - scrollElement.scrollTop - scrollElement.clientHeight;
     // When the distance is less than 100 pixels and not already fetching data, load the next batch
@@ -455,7 +455,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     if (phone) {
       this.deviceConnector.makeCall(phone);
     } else {
-      console.warn('No phone number available for this contact.');
+      !environment.production && console.warn('No phone number available for this contact.');
     }
   }
 
@@ -713,7 +713,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     if (email) {
       this.deviceConnector.sendEmail(email);
     } else {
-      console.warn('No email available for this contact.');
+      !environment.production && console.warn('No email available for this contact.');
     }
   }
 
@@ -723,7 +723,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       const addressString = `${addr.street}, ${addr.city}, ${addr.country}`;
       this.deviceConnector.openMaps(addressString);
     } else {
-      console.warn('No address available for this contact.');
+      !environment.production && console.warn('No address available for this contact.');
     }
   }
 
@@ -756,7 +756,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
         url = 'https://www.instagram.com/' + handle;
         break;
       default:
-        console.warn('Unsupported social platform:', platform);
+        !environment.production && console.warn('Unsupported social platform:', platform);
         return;
     }
     // Call deviceConnector to open the URL
@@ -943,11 +943,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
       
       // Custom patching for birthday since form control expects a string
       if (birthdayValue) {
-        // console.log('Birthday Value:', birthdayValue);
-        // console.log('Form Control Value:', this.contactForm.get('birthday')?.value);
+        // !environment.production && console.log('Birthday Value:', birthdayValue);
+        // !environment.production && console.log('Form Control Value:', this.contactForm.get('birthday')?.value);
 
         this.contactForm.get('birthday')?.setValue(birthdayValue);
-        // console.log('Form Control Value AFTER .setValue:', this.contactForm.get('birthday')?.value);
+        // !environment.production && console.log('Form Control Value AFTER .setValue:', this.contactForm.get('birthday')?.value);
       }
 
       // Patch other values excluding birthday
@@ -1034,7 +1034,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   private setError(field: string, message: string) {
     // Example of setting error in UI
     // Here you might update the UI to show this error message
-    console.log(`Error on field ${field}: ${message}`);
+    !environment.production && console.log(`Error on field ${field}: ${message}`);
     // You would typically update the view here, e.g., 
     // this.errors[field] = message;
   }
@@ -1043,7 +1043,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     // Clear any error message for this field
 
     if(!environment.production) {
-      console.log(`Clearing error on field ${field}`);
+      !environment.production && console.log(`Clearing error on field ${field}`);
     }
 
     // Similar to setError, update your UI logic here
@@ -1331,7 +1331,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
 
   flipCard() {
     this.isFlipped = !this.isFlipped;
-    console.log('Card flipped:', this.isFlipped); // Debugging
+    !environment.production && console.log('Card flipped:', this.isFlipped); // Debugging
   }
 
   flipRolodexcard(contact: ContactInfo): void {
@@ -1473,7 +1473,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
 
       return await modal.present();
     } else {
-      console.log('no displayPicture string to work with');
+      !environment.production && console.log('no displayPicture string to work with');
     }
   }
 

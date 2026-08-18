@@ -20,6 +20,7 @@ import { DraftEngineService } from '../services/draft-engine/draft-engine.servic
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -367,7 +368,7 @@ export class HomePage implements OnInit {
     this.upcomingBirthdays = bdayReport.upcoming;
     await this.birthdayReminder.cleanupOldEntries();
 
-    console.log('[HomePage] Automation complete:', {
+    !environment.production && console.log('[HomePage] Automation complete:', {
       followUp: this.followUpReport,
       topScores: this.relationshipScores.slice(0, 3),
       birthdays: bdayReport.scheduled,
@@ -405,7 +406,7 @@ export class HomePage implements OnInit {
       this.refreshSyncState();
       this.alertsService.showToast('Connected to cloud');
     } catch (err: any) {
-      console.error('[HomePage] Sync connect failed:', err);
+      !environment.production && console.error('[HomePage] Sync connect failed:', err);
       this.alertsService.showToast(err.message ?? 'Failed to connect');
     } finally {
       this.syncBusy = false;
@@ -420,7 +421,7 @@ export class HomePage implements OnInit {
       this.refreshSyncState();
       this.alertsService.showToast('Disconnected from cloud');
     } catch (err: any) {
-      console.error('[HomePage] Sync disconnect failed:', err);
+      !environment.production && console.error('[HomePage] Sync disconnect failed:', err);
     } finally {
       this.syncBusy = false;
     }
@@ -480,7 +481,7 @@ export class HomePage implements OnInit {
       this.refreshSyncState();
       this.alertsService.showToast('Pushed to cloud');
     } catch (err: any) {
-      console.error('[HomePage] Push failed:', err);
+      !environment.production && console.error('[HomePage] Push failed:', err);
       this.alertsService.showToast('Push failed: ' + (err.message ?? 'Unknown error'));
     } finally {
       this.syncBusy = false;
@@ -511,7 +512,7 @@ export class HomePage implements OnInit {
       // Re-run automation on merged contacts
       await this.runAutomation();
     } catch (err: any) {
-      console.error('[HomePage] Pull failed:', err);
+      !environment.production && console.error('[HomePage] Pull failed:', err);
       this.alertsService.showToast('Pull failed: ' + (err.message ?? 'Unknown error'));
     } finally {
       this.syncBusy = false;
@@ -525,7 +526,7 @@ export class HomePage implements OnInit {
       this.cloudSync.exportLocal(this.contacts, events);
       this.alertsService.showToast('Exported .rolodex file');
     } catch (err: any) {
-      console.error('[HomePage] Export failed:', err);
+      !environment.production && console.error('[HomePage] Export failed:', err);
     }
   }
 
@@ -554,7 +555,7 @@ export class HomePage implements OnInit {
       this.alertsService.showToast(`Imported ${bundle.contacts.length} contacts`);
       await this.runAutomation();
     } catch (err: any) {
-      console.error('[HomePage] Import failed:', err);
+      !environment.production && console.error('[HomePage] Import failed:', err);
       this.alertsService.showToast('Import failed');
     }
   }
@@ -577,19 +578,19 @@ export class HomePage implements OnInit {
   // ===== Event handlers ====================================================
 
   onChatContact(contact: ContactInfo) {
-    console.log('Chat with:', contact.name?.display);
+    !environment.production && console.log('Chat with:', contact.name?.display);
   }
 
   onAudioCallContact(contact: ContactInfo) {
-    console.log('Audio call:', contact.name?.display);
+    !environment.production && console.log('Audio call:', contact.name?.display);
   }
 
   onVideoCallContact(contact: ContactInfo) {
-    console.log('Video call:', contact.name?.display);
+    !environment.production && console.log('Video call:', contact.name?.display);
   }
 
   onScheduleEvent(event: { contact: ContactInfo; event: any }) {
-    console.log('Schedule event:', event);
+    !environment.production && console.log('Schedule event:', event);
   }
 
   onToggleDetails(contact: ContactInfo) {
@@ -639,19 +640,19 @@ export class HomePage implements OnInit {
   }
 
   onAutoSort() {
-    console.log('Auto sort triggered');
+    !environment.production && console.log('Auto sort triggered');
   }
 
   onLoadMoreAutoSort() {
-    console.log('Load more auto sort');
+    !environment.production && console.log('Load more auto sort');
   }
 
   onApplyFilter() {
-    console.log('Apply filter:', this.selectedFilter);
+    !environment.production && console.log('Apply filter:', this.selectedFilter);
   }
 
   onApplyGroupFilter(event: any) {
-    console.log('Apply group filter:', event);
+    !environment.production && console.log('Apply group filter:', event);
   }
 
   onToggleWelcome() {
@@ -670,7 +671,7 @@ export class HomePage implements OnInit {
   }
 
   onInitMap(mapElement: HTMLElement) {
-    console.log('Map initialized');
+    !environment.production && console.log('Map initialized');
   }
 
   /** 2026-08-17 ADD CONTACTS, like the big web apps: pick from the phone
@@ -866,7 +867,7 @@ export class HomePage implements OnInit {
   }
 
   onToggleNotifications(enabled: boolean) {
-    console.log('Notifications:', enabled ? 'on' : 'off');
+    !environment.production && console.log('Notifications:', enabled ? 'on' : 'off');
   }
 
   onChangeLanguage(lang: string) {
@@ -878,10 +879,10 @@ export class HomePage implements OnInit {
   }
 
   onGoToPrivacySettings() {
-    console.log('Privacy settings');
+    !environment.production && console.log('Privacy settings');
   }
 
   onShowAbout() {
-    console.log('About Rolodex');
+    !environment.production && console.log('About Rolodex');
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
+import { environment } from 'src/environments/environment';
 
 const EVENTS_KEY = 'calendar_events';
 const MAX_RECURRENCE = 30;
@@ -38,7 +39,7 @@ export class EventService implements OnDestroy {
 
   constructor(private readonly storage: StorageService) {
     this.initializeScheduledEvents().catch((err) =>
-      console.error('[EventService] Init failed:', err),
+      !environment.production && console.error('[EventService] Init failed:', err),
     );
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import type { ContactInfo } from '../../models/contacts';
 import type { CalendarEvent } from '../event/event.service';
 import type { SyncBundle } from './sync.types';
+import { environment } from 'src/environments/environment';
 
 // ---------------------------------------------------------------------------
 // Local file export / import — plain JSON so the user always has a manual
@@ -70,14 +71,14 @@ export class LocalExportService {
 
           // Basic validation
           if (!bundle.version || !bundle.contacts || !Array.isArray(bundle.contacts)) {
-            console.error('[LocalExport] Invalid .rolodex file: missing version or contacts array');
+            !environment.production && console.error('[LocalExport] Invalid .rolodex file: missing version or contacts array');
             resolve(null);
             return;
           }
 
           resolve(bundle);
         } catch (err) {
-          console.error('[LocalExport] Failed to parse .rolodex file:', err);
+          !environment.production && console.error('[LocalExport] Failed to parse .rolodex file:', err);
           resolve(null);
         }
       };
