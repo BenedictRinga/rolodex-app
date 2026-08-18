@@ -665,10 +665,28 @@ export class HomePage implements OnInit {
         prefix: '',
         suffix: '',
       },
-      phoneNumbers: tel.map((n: string) => ({ type: 'mobile' as any, number: n })),
-      emailAddresses: emails.map((a: string) => ({ type: 'email' as any, address: a })),
-      postalAddresses: addr ? [{ type: 'home' as any, street: addr }] : [],
-      organization: { company: '', jobTitle: '' },
+      // 2026-08-18 the legacy Zyppar deviceToContactInfo used phones/emails
+      // (the Capacitor payload names the model + card render) - NOT
+      // phoneNumbers/emailAddresses. The card shows phones[0]/emails[0].
+      phones: tel.map((n: string, i: number) => ({
+        number: n,
+        type: 'mobile' as any,
+        isPrimary: i === 0,
+        label: null,
+      })),
+      emails: emails.map((a: string, i: number) => ({
+        address: a,
+        type: 'personal' as any,
+        isPrimary: i === 0,
+        label: null,
+      })),
+      postalAddresses: addr
+        ? [{ type: 'home' as any, street: addr, city: '', country: '', postcode: '' }]
+        : [],
+      organization: { company: '', jobTitle: '', department: '' },
+      birthday: null,
+      note: '',
+      urls: [],
       image: { base64String: null },
       rolodex: {
         when: '',
