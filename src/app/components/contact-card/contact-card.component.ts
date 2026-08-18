@@ -10,7 +10,7 @@ import { PagemanagerService, RolodexView } from '../../services/pagemanager/page
 import { FormvalidationService, atLeastOneContactMethod, atLeastOnePhoneOrEmail, birthdayRangeValidator, convertBirthdayToDate, emailDomainValidator, safeCompose, uniqueTags, validPhoneNumberFormat } from '../../services/formvalidation/formvalidation.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
-import { InviteService } from '../../services/invite/invite.service';
+import { ShareAppService, ShareMoment } from '../../services/share-app/share-app.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
@@ -122,7 +122,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     private draftEngine: DraftEngineService,
     private gestureCtrl: GestureController,
     private cardChat: CardChatService,
-    private inviteService: InviteService,
+    private shareApp: ShareAppService,
     private socketChat: SocketChatService,
     private photoService: PhotoService
   ) { 
@@ -462,8 +462,16 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
   // ================================================================
   // 2026-08-16 THE CONFIDANTE — the draft is proffered; the user sends.
   // ================================================================
-  /** Occasion for a contact: a birthday soon, else a plain check-in. */
+  /** Occasion for a contact: a recent first meeting leads with the secretary's
+   *  courtesy note while the fire is still warm; a birthday soon is next; else
+   *  a plain check-in. */
   private occasionFor(contact: any): Occasion {
+    // 2026-08-18 THE EARLY CARD: a first encounter inside the last 3 days.
+    const when = (contact as any)?.rolodex?.when || '';
+    if (when) {
+      const t = new Date(when).getTime();
+      if (!isNaN(t) && t <= Date.now() && Date.now() - t <= 3 * 86400000) return 'first-meeting';
+    }
     if (contact?.birthday?.month && contact?.birthday?.day) {
       const now = new Date();
       const bday = new Date(now.getFullYear(), Number(contact.birthday.month) - 1, Number(contact.birthday.day));
@@ -474,19 +482,24 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     return 'follow-up';
   }
 
-  /** Proffer the message — the user reviews and hits Send. */
+  /** Proffer the message — the user reviews and hits Send.
+   *  2026-08-18 SHAREAPP: SMS/Email now carry the invite link too (the OG
+   *  landing + the ready card), so even a direct send is a distribution move. */
   async draftMessage(contact: any): Promise<void> {
     const draft = await this.draftEngine.composeAi(contact, this.occasionFor(contact), contact.contactId);
+    const name = this.draftEngine.contactName(contact) || 'this contact';
+    const from = (this.socketChat as any)?.name || 'Me';
+    const room = this.cardChat.room || '';
     const phone = contact.phones?.[0]?.number;
     const email = contact.emails?.[0]?.address;
-    this.alertService.showToast('Confidante: message drafted for ' + this.draftEngine.contactName(contact), 2000);
+    this.alertService.showToast('Confidante: message drafted for ' + name, 2000);
     void this.alertCtrl
       .create({
         header: 'Message proffered by your confidante',
         message: draft,
         buttons: [
-          ...(phone ? [{ text: 'Send via SMS', handler: () => { this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')'); window.location.href = `sms:${phone}?body=${encodeURIComponent(draft)}`; } }] : []),
-          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); window.location.href = `mailto:${email}?subject=${encodeURIComponent('Reaching out')}&body=${encodeURIComponent(draft)}`; } }] : []),
+          ...(phone ? [{ text: 'Send via SMS', handler: () => { this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')'); void this.shareApp.shareViaSms('chat-message', { from, to: name, text: draft, room }, phone); } }] : []),
+          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },
         ],
@@ -580,19 +593,43 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
     this.editContact.emit(contact);
   }
 
-  /** 2026-08-17 THE DROPBOX MOMENT: they don't have Rolodex yet - the
-   *  invite travels via WhatsApp / email / SMS / copy-link, and the click
-   *  opens the PWA on their device. */
+  /**
+   * 2026-08-17 THE DROPBOX MOMENT: they don't have Rolodex yet - the
+   * invite travels via WhatsApp / email / SMS / copy-link, and the click
+   * opens the PWA on their device.
+   * 2026-08-18 THE SHAREAPP WEDGE: the share is usable WITHOUT an investment
+   * pitch - any chat, any birthday, any milestone, or just the app itself.
+   * Every option carries the crafted moment text + the OG-tagged invite link. */
   async shareOut(contact: any): Promise<void> {
     const name = this.draftEngine.contactName(contact) || 'this contact';
     const from = (this.socketChat as any)?.name || 'Me';
     const room = this.cardChat.room || '';
     const sheet = await this.alertCtrl.create({
-      header: 'Share with ' + name,
-      message: "They don't need Rolodex to catch it — the link opens it on their device.",
+      header: 'Share Rolodex with ' + name,
+      message: "They don't need Rolodex to catch it — the link previews the branded card, and the tap opens their card ready.",
       buttons: [
+        { text: 'Send the first-meeting note', handler: () => { void this.shareMoment(contact, 'first-meeting', from, room, name); } },
+        { text: 'Send birthday wishes', handler: () => { void this.shareMoment(contact, 'birthday', from, room, name); } },
+        { text: 'Send congratulations', handler: () => { void this.shareMoment(contact, 'congratulations', from, room, name); } },
         { text: 'Share an appointment', handler: () => { void this.shareAppointment(contact, from, room, name); } },
-        { text: 'Share a message', handler: () => { void this.shareMessage(contact, from, room, name); } },
+        { text: 'More moments', handler: () => { void this.moreMoments(contact, from, room, name); } },
+        { text: 'Share Rolodex (casual)', handler: () => { void this.shareCasual(from, room, name); } },
+        { text: 'Cancel', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
+
+  /** 2026-08-18 THE REST OF THE MOMENTS: message / anniversary / milestone /
+   *  follow-up — kept one tap away so the main wedge stays the early card. */
+  private async moreMoments(contact: any, from: string, room: string, name: string): Promise<void> {
+    const sheet = await this.alertCtrl.create({
+      header: 'More moments with ' + name,
+      buttons: [
+        { text: 'Send a message', handler: () => { void this.shareMessage(contact, from, room, name); } },
+        { text: 'Send an anniversary note', handler: () => { void this.shareMoment(contact, 'anniversary', from, room, name); } },
+        { text: 'Send milestone congratulations', handler: () => { void this.shareMoment(contact, 'milestone', from, room, name); } },
+        { text: 'Send a follow-up check-in', handler: () => { void this.shareMoment(contact, 'follow-up', from, room, name); } },
         { text: 'Cancel', role: 'cancel' },
       ],
     });
@@ -613,10 +650,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
           handler: async (v: any) => {
             const title = String(v?.title || '').trim();
             if (!title) return false;
-            const inv = await this.inviteService.create({ from, room, kind: 'appointment', title, when: String(v?.when || '') });
-            if (!inv) { void this.alertCtrl.create({ header: 'Offline', message: 'Could not create the invite link — check your connection.', buttons: ['OK'] }).then((a) => a.present()); return true; }
-            const res = await this.inviteService.share(inv);
-            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            const res = await this.shareApp.share('appointment', { from, to: name, title, when: String(v?.when || ''), room });
+            if (res === 'failed') { void this.alertCtrl.create({ header: 'Offline', message: 'Could not create the invite link — check your connection.', buttons: ['OK'] }).then((a) => a.present()); }
+            else if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },
@@ -636,16 +672,47 @@ export class ContactCardComponent implements OnInit, AfterViewInit {
           handler: async (v: any) => {
             const text = String(v?.text || '').trim();
             if (!text) return false;
-            const inv = await this.inviteService.create({ from, room, kind: 'message', text });
-            if (!inv) return true;
-            const res = await this.inviteService.share(inv);
-            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            const res = await this.shareApp.share('chat-message', { from, to: name, text, room });
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },
       ],
     });
     await alert.present();
+  }
+
+  /** 2026-08-18 THE MOMENT TEMPLATES: birthday / congratulations / milestone /
+   *  anniversary etc. - prefilled with the confidante's natural line, editable. */
+  private async shareMoment(contact: any, moment: ShareMoment, from: string, room: string, name: string): Promise<void> {
+    const defaultText = this.shareApp.defaultMessage(moment, { to: name });
+    const labels: Record<string, string> = {
+      'first-meeting': 'First-meeting note', birthday: 'Birthday wishes', anniversary: 'Anniversary note',
+      milestone: 'Milestone congratulations', congratulations: 'Congratulations', 'follow-up': 'Follow-up check-in',
+    };
+    const alert = await this.alertCtrl.create({
+      header: (labels[moment] || 'Message') + ' for ' + name,
+      inputs: [{ name: 'text', type: 'textarea', value: defaultText, placeholder: 'Write the wish…' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Share the link',
+          handler: async (v: any) => {
+            const text = String(v?.text || '').trim();
+            const res = await this.shareApp.share(moment, { from, to: name, text, room });
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** 2026-08-18 THE CASUAL WEDGE: the app itself, no occasion needed. */
+  private async shareCasual(from: string, room: string, name: string): Promise<void> {
+    const res = await this.shareApp.share('casual', { from, to: name, room });
+    if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it anywhere — the preview is the branded card, and the tap opens Rolodex on their device.', buttons: ['OK'] }).then((a) => a.present()); }
   }
 
   /** The next upcoming appointment on the card (from invites + my own). */

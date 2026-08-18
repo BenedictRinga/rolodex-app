@@ -1,6 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { Capacitor } from '@capacitor/core';
 import { StorageService } from '../storage/storage.service';
+import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
 import { environment } from 'src/environments/environment';
 
 const EVENTS_KEY = 'calendar_events';
@@ -37,7 +39,10 @@ export class EventService implements OnDestroy {
   private pendingNotifications: CalendarEvent[] = [];
   private notificationDebounceTimeout: any = null;
 
-  constructor(private readonly storage: StorageService) {
+  constructor(
+    private readonly storage: StorageService,
+    private readonly inAppNotifications: InAppNotificationService,
+  ) {
     this.initializeScheduledEvents().catch((err) =>
       !environment.production && console.error('[EventService] Init failed:', err),
     );
@@ -175,21 +180,31 @@ export class EventService implements OnDestroy {
 
       for (const evt of batch) {
         try {
-          const { LocalNotifications } = await import('@capacitor/local-notifications');
-          const permission = await LocalNotifications.requestPermissions();
-          if (permission.display !== 'granted') continue;
+          // 2026-08-18 LONDON-BUS FIX: on the web/PWA the reminder lands in the
+          // draggable in-app Ionic dock - NOT the obtrusive browser notification
+          // stack. Native keeps the real system notification (expected there).
+          if (Capacitor.isNativePlatform()) {
+            const { LocalNotifications } = await import('@capacitor/local-notifications');
+            const permission = await LocalNotifications.requestPermissions();
+            if (permission.display !== 'granted') continue;
 
-          await LocalNotifications.schedule({
-            notifications: [
-              {
-                id: Math.abs(this.hashCode(evt.id)) % 2147483647,
-                title: evt.title,
-                body: evt.notes ?? '',
-                schedule: { at: new Date() },
-                extra: { eventId: evt.id, contactId: evt.contactId, type: 'event' },
-              },
-            ],
-          });
+            await LocalNotifications.schedule({
+              notifications: [
+                {
+                  id: Math.abs(this.hashCode(evt.id)) % 2147483647,
+                  title: evt.title,
+                  body: evt.notes ?? '',
+                  schedule: { at: new Date() },
+                  extra: { eventId: evt.id, contactId: evt.contactId, type: 'event' },
+                },
+              ],
+            });
+          } else {
+            this.inAppNotifications.notify(
+              evt.title + (evt.notes ? ' — ' + evt.notes : ''),
+              { kind: 'info', duration: 5000 },
+            );
+          }
 
           this.publish('eventFired', evt);
           this.scheduledNotifications.delete(evt.id);

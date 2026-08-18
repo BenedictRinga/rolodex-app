@@ -1,0 +1,33 @@
+<div
+  class="notify-dock"
+  #dock
+  *ngIf="notifications.length"
+  [ngStyle]="{ left: position.x + 'px', top: position.y + 'px' }"
+  (pointerdown)="onDragStart($event)"
+  (pointermove)="onDragMove($event)"
+  (pointerup)="onDragEnd($event)"
+  (pointercancel)="onDragEnd($event)"
+>
+  <div class="notify-header">
+    <ion-icon name="notifications-outline" class="notify-header-icon"></ion-icon>
+    <span class="notify-title">Rolodex</span>
+    <ion-icon name="reorder-two-outline" class="notify-grip"></ion-icon>
+  </div>
+  <div class="notify-list">
+    <div
+      *ngFor="let n of notifications"
+      class="notify-item"
+      [class.error]="n.kind === 'error'"
+      [class.success]="n.kind === 'success'"
+    >
+      <ion-icon
+        [name]="n.kind === 'error' ? 'alert-circle-outline' : (n.kind === 'success' ? 'checkmark-circle-outline' : 'information-circle-outline')"
+        class="notify-icon"
+      ></ion-icon>
+      <span class="notify-msg">{{ n.message }}</span>
+      <ion-button fill="clear" size="small" class="notify-close" (click)="dismiss(n); $event.stopPropagation()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</div>

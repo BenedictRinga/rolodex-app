@@ -37,11 +37,29 @@ export class InviteLandingComponent {
       const picked = await picker.select(['name', 'tel'], { multiple: false });
       const raw = picked?.[0];
       if (raw) {
-        void this.modalController.dismiss({ picked: { name: String(raw.name || ''), tel: Array.isArray(raw.tel) ? raw.tel[0] || '' : '' } }, 'picked');
+        void this.modalController.dismiss({ picked: { name: this.contactName(raw), tel: Array.isArray(raw.tel) ? raw.tel[0] || '' : '' } }, 'picked');
       }
     } catch {
       void this.modalController.dismiss(null, 'cancel');
     }
+  }
+
+  /** 2026-08-18 FIX: the picker's name can be a string, a structured object
+   *  ({formatted, givenName, familyName, …}) or an array — never String() it. */
+  private contactName(raw: any): string {
+    const n = raw?.name;
+    if (typeof n === 'string') return n;
+    if (Array.isArray(n)) {
+      return n
+        .map((x: any) => (typeof x === 'string' ? x : (x?.formatted || x?.displayName || x?.display || [x?.givenName, x?.familyName].filter(Boolean).join(' ') || '')))
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+    }
+    if (n && typeof n === 'object') {
+      return String(n.formatted || n.displayName || n.display || [n.givenName, n.familyName].filter(Boolean).join(' ') || raw.nickname || raw.displayName || '');
+    }
+    return String(raw?.nickname || raw?.displayName || '');
   }
 
   /** Hook 2 — the Play Store nudge (the 7-day trial begins there). */

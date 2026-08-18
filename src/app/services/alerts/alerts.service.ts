@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
+import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
 
 export interface AlertPayload {
   header: string;
@@ -17,8 +18,8 @@ export class AlertsService {
 
   constructor(
     private readonly alertController: AlertController,
-    private readonly toastController: ToastController,
     private readonly actionSheetController: ActionSheetController,
+    private readonly inAppNotifications: InAppNotificationService,
   ) {}
 
   /** 2026-08-16: action sheet with roles — resolves the tapped button's role. */
@@ -85,15 +86,12 @@ export class AlertsService {
     this.activeAlert = null;
   }
 
-  // ---- Toast -------------------------------------------------------------
+  // ---- In-app toast ------------------------------------------------------
 
-  /** Show a brief toast notification. `interval` defaults to 2000 ms. */
+  /** 2026-08-18 SHOWTOAST IS NOW THE DRAGGABLE IN-APP DOCK: the Ionic dock
+   *  renders inside the app, can be dragged to a convenient corner, and never
+   *  stacks like browser/system notifications. `interval` = auto-dismiss ms. */
   async showToast(message: string, interval: number = 2000): Promise<void> {
-    const toast = await this.toastController.create({
-      message,
-      duration: interval,
-      position: 'bottom',
-    });
-    await toast.present();
+    this.inAppNotifications.notify(message, { kind: 'info', duration: interval });
   }
 }

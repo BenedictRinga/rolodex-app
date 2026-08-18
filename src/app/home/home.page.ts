@@ -742,26 +742,35 @@ export class HomePage implements OnInit {
     // { formatted, givenName, familyName, middleName, honorificPrefix,
     //   honorificSuffix } - map through the EXISTING NamePayload fields
     // (display/given/middle/family/prefix/suffix), never invent new keys.
+    // 2026-08-18 HARDENED: the name can arrive as a string, a structured
+    // object, OR an array of either (some Android/WebKit builds). Also fall
+    // back to raw displayName/nickname and finally to the phone/email so a
+    // real contact never degrades to 'Picked contact N'.
     const rawName = raw?.name;
-    const nameObj = typeof rawName === 'object' && rawName !== null ? rawName : null;
+    const nameSources: any[] = Array.isArray(rawName) ? rawName : (rawName ? [rawName] : []);
+    const nameObj = nameSources.find((n: any) => typeof n === 'object' && n !== null) || null;
+    const nameString = nameSources
+      .map((n: any) => (typeof n === 'string' ? n : (n?.formatted || n?.displayName || n?.display || n?.fullName || n?.name || '')))
+      .filter(Boolean)
+      .join(' ')
+      .trim();
     const namePrefix = nameObj ? String(nameObj.honorificPrefix || nameObj.prefix || '').trim() : '';
     const nameGiven = nameObj ? String(nameObj.givenName || nameObj.given || '').trim() : '';
     const nameMiddle = nameObj ? String(nameObj.middleName || nameObj.middle || '').trim() : '';
     const nameFamily = nameObj ? String(nameObj.familyName || nameObj.family || '').trim() : '';
     const nameSuffix = nameObj ? String(nameObj.honorificSuffix || nameObj.suffix || '').trim() : '';
-    const nameFormatted = nameObj ? String(nameObj.formatted || nameObj.displayName || nameObj.display || '').trim() : '';
+    const nameFormatted = nameObj ? String(nameObj.formatted || nameObj.displayName || nameObj.display || nameObj.fullName || nameObj.name || '').trim() : '';
     const joined = [namePrefix, nameGiven, nameMiddle, nameFamily, nameSuffix].filter(Boolean).join(' ');
-    const display = (nameFormatted || joined || String(typeof rawName === 'string' ? rawName : '')).trim()
-      || 'Picked contact ' + (index + 1);
-    const parts = display.trim().split(/\s+/);
-    // 2026-08-18: the picker can return tel/email entries as STRINGS or as
-    // OBJECTS ({number}/{address}) - normalize both, never leak [object X].
+    // phones/emails are needed for the nameless fallback, so normalize them first.
     const tel = Array.isArray(raw?.tel)
       ? raw.tel.filter(Boolean).map((n: any) => (typeof n === 'object' && n !== null ? String(n?.number || n?.value || '') : String(n))).filter(Boolean)
       : [];
     const emails = Array.isArray(raw?.email)
       ? raw.email.filter(Boolean).map((a: any) => (typeof a === 'object' && a !== null ? String(a?.address || a?.value || '') : String(a))).filter(Boolean)
       : [];
+    const fallbackName = String(raw?.displayName || raw?.nickname || raw?.formattedName || '').trim();
+    const display = (nameFormatted || nameString || joined || fallbackName || tel[0] || emails[0] || 'Picked contact ' + (index + 1)).trim();
+    const parts = display.trim().split(/\s+/);
     // 2026-08-18: the picker can hand back the address as a STRING or an
     // ARRAY of address objects - normalize to a typed postalAddresses list
     // (never a leaked '[object ContactAddress]').

@@ -3,7 +3,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { CardChatService, ChatThread } from '../../services/card-chat/card-chat.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
-import { InviteService } from '../../services/invite/invite.service';
+import { ShareAppService } from '../../services/share-app/share-app.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -28,9 +28,9 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   constructor(
     private readonly modalController: ModalController,
     private readonly alertController: AlertController,
-    private readonly inviteService: InviteService,
     private readonly chatService: CardChatService,
     private readonly socketChat: SocketChatService,
+    private readonly shareApp: ShareAppService,
     readonly timeNorm: TimeNormalizerService,
   ) {}
 
@@ -95,24 +95,32 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
    * 2026-08-18 THE HONEST OPTIONS: the sendee is NOT on Rolodex yet, so the
    * in-app thread cannot reach them. The sender is told the truth and given
    * the distributor options - every excited receiver becomes a distributor.
+   * 2026-08-18 SHAREAPP: every option now carries the crafted moment text +
+   * the OG-tagged invite link (never a plain sentence with no distribution).
    */
   private async offerExternalDelivery(): Promise<void> {
     const name = this.thread?.title || 'this contact';
     const phone = this.sendeePhone || '';
     const draft = this.thread?.messages?.slice(-1)?.[0]?.text || '';
+    // The invite's FROM is the SENDER (the user), never the sendee's card title.
+    const sender = (this.socketChat as any)?.name || 'Me';
+    const ctx = { from: sender, to: name, text: draft, room: 'rolodex' };
     const sheet = await this.alertController.create({
       header: name + ' isn\'t on Rolodex yet',
-      message: 'The message is saved here, but it can\'t reach their in-app thread until they join. Bring them in:',
+      message: 'The message is saved here, but it can\'t reach their in-app thread until they join. Bring them in — every share carries the link, and the link opens their card ready:',
       buttons: [
         { text: 'Share the invite', handler: async () => {
-            try {
-              const inv = await this.inviteService.create({ from: this.thread?.title || 'Me', room: 'rolodex', kind: 'message', text: draft });
-              if (inv) await this.inviteService.share(inv);
-            } catch { /* fall back below */ }
+            await this.shareApp.share('chat-message', ctx);
             return true;
           } },
-        { text: 'Send via WhatsApp', handler: () => { window.open('https://wa.me/?text=' + encodeURIComponent('Join me on Rolodex — ' + draft), '_blank'); return true; } },
-        { text: 'Send via SMS', handler: () => { if (phone) window.location.href = 'sms:' + phone + '?body=' + encodeURIComponent(draft); return true; } },
+        { text: 'Send via WhatsApp', handler: async () => {
+            await this.shareApp.shareViaWhatsApp('chat-message', ctx, phone);
+            return true;
+          } },
+        { text: 'Send via SMS', handler: async () => {
+            await this.shareApp.shareViaSms('chat-message', ctx, phone);
+            return true;
+          } },
         { text: 'Keep it here', role: 'cancel' },
       ],
     });

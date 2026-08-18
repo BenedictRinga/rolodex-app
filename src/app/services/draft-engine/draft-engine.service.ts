@@ -3,7 +3,7 @@ import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 
-export type Occasion = 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
+export type Occasion = 'first-meeting' | 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
 export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
 
 export interface MessageGuide {
@@ -265,6 +265,8 @@ export class DraftEngineService {
 
     // The confidante's own voice, occasion-aware.
     switch (occasion) {
+      case 'first-meeting':
+        return `It was really lovely to meet you${name ? ', ' + name : ''}! I'm glad we crossed paths — let's stay in touch.`;
       case 'birthday': {
         const age = (c as any)?.birthday?.year ? new Date().getFullYear() - Number((c as any).birthday.year) : null;
         return `Happy birthday, ${name}${age ? ` — ${age}!` : '!'} I hope your day is as bright as you are. Let's catch up properly soon. 🎂`;
