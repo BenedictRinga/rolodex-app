@@ -54,7 +54,9 @@ export class DraftEngineService {
     return this._currentFilter;
   }
 
-  provider: AiProvider = 'rolodex';
+  /** 2026-08-18 DEEPSEEK FIRST: the demo defaults to DeepSeek (server proxy
+   *  holds the key); if the server has no key yet it falls back to on-device. */
+  provider: AiProvider = 'deepseek';
 
   /** 2026-08-18 all persistence via the IndexedDB StorageService (no localStorage). */
   constructor(private readonly storage: StorageService) {

@@ -22,6 +22,12 @@
       keys. Your contacts' storage (Device / Cloud / Rolodex server, under
       Storage) is separate and stays exactly where you set it.
     </p>
+    <p class="ai-note">
+      Keys are set on the Rolodex server (<code>DEEPSEEK_API_KEY</code> /
+      <code>GROK_API_KEY</code> in its <code>.env</code>) — never inside the
+      app. If the server key is missing, the confidante automatically falls
+      back to the on-device engine.
+    </p>
 
     <ion-item lines="none" class="ai-item">
       <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
