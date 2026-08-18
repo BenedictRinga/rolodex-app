@@ -256,8 +256,11 @@ ion-content {
 
 .rolodex-container .card-actions {
   width: 100%;
-  display: flex;
-  justify-content: space-around;
+  /* 2026-08-18: 4 buttons per row, two rows - no more cramped single row. */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  justify-items: center;
   padding-top: var(--rolodex-space-2);
   border-top: 1px solid var(--rolodex-border);
 
@@ -267,6 +270,14 @@ ion-content {
     font-size: var(--rolodex-text-xs);
     height: 28px;
   }
+}
+
+/* 2026-08-18 DEFAULT VIEW DETAILS ACTIONS: 4 per row, two rows. */
+.card-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 8px;
 }
 
 /* ═══════════════════════════════════════════════════════

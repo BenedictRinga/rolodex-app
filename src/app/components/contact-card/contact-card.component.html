@@ -49,11 +49,14 @@
                 <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
                 <p><strong>Last Interaction:</strong> {{ seg.contact.rolodex?.when || 'No Interaction' }}</p>
                 <p><strong>Follow-Up:</strong> {{ seg.contact.rolodex?.followUp || 'No Follow-Up' }}</p>
-                <ion-button color="primary" (click)="callContact(seg.contact)" expand="block">Call</ion-button>
-                <ion-button color="secondary" (click)="emailContact(seg.contact)" expand="block">Email</ion-button>
-                <ion-button color="tertiary" (click)="openAddress(seg.contact)" expand="block">Map</ion-button>
-                <ion-button color="warning" (click)="onEditContact(seg.contact)" expand="block">Edit</ion-button>
-                <ion-button color="danger" (click)="onRemoveContact(seg.contact)" expand="block">Remove</ion-button>
+                <!-- 2026-08-18: 4 per row, two rows - not a cramped single row. -->
+                <div class="card-actions-grid">
+                  <ion-button color="primary" (click)="callContact(seg.contact)" expand="block">Call</ion-button>
+                  <ion-button color="secondary" (click)="emailContact(seg.contact)" expand="block">Email</ion-button>
+                  <ion-button color="tertiary" (click)="openAddress(seg.contact)" expand="block">Map</ion-button>
+                  <ion-button color="warning" (click)="onEditContact(seg.contact)" expand="block">Edit</ion-button>
+                  <ion-button color="danger" (click)="onRemoveContact(seg.contact)" expand="block">Remove</ion-button>
+                </div>
               </ion-card-content>
             </ion-card>
           </ion-item>
