@@ -152,7 +152,7 @@ export class HomePage implements OnInit {
           updatedAt: new Date(),
           preferences: { refreshContacts: false, notificationPreference: 'email' as any },
         };
-        this.contacts = [...this.contacts, c as any];
+        this.contacts = [c as any, ...this.contacts];
         this.onContactsChange(this.contacts);
         if (inv.kind === 'message') {
           const thread = await this.cardChat.seedThread(c as any);
@@ -625,7 +625,7 @@ export class HomePage implements OnInit {
       message: 'How do you want to bring people in?',
       buttons: [
         { text: 'Pick from my phone contacts', handler: () => { void this.addFromPhoneContacts(); } },
-        { text: 'Add the demo contacts', handler: () => { this.contacts = [...this.contacts, ...mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId))]; this.onContactsChange(this.contacts); } },
+        { text: 'Add the demo contacts', handler: () => { const fresh = mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId)); this.contacts = [...fresh, ...this.contacts]; this.onContactsChange(this.contacts); } },
         { text: 'Cancel', role: 'cancel' },
       ],
     });
@@ -662,7 +662,7 @@ export class HomePage implements OnInit {
         };
       });
       if (!mapped.length) return; // user cancelled
-      this.contacts = [...this.contacts, ...mapped];
+      this.contacts = [...mapped, ...this.contacts]; // 2026-08-18 prepend: the deck's first batch shows the new card
       this.onContactsChange(this.contacts);
       void this.alertsService.showToast(mapped.length + ' contact' + (mapped.length === 1 ? '' : 's') + ' added from your phone.', 4000);
     } catch {
