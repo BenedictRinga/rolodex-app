@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InviteService, RolodexInvite } from '../invite/invite.service';
+import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 
 /**
  * 2026-08-18 THE SHAREAPP DISTRIBUTION MECHANIC.
@@ -45,7 +46,18 @@ export interface ShareAppContext {
   providedIn: 'root',
 })
 export class ShareAppService {
-  constructor(private readonly inviteService: InviteService) {}
+  constructor(
+    private readonly inviteService: InviteService,
+    private readonly rolodexSync: RolodexSyncService,
+  ) {}
+
+  /** 2026-08-18 REAL SENDER: prefer the caller's explicit `from`, else the
+   *  user's My Profile name (async IndexedDB read - never a premature 'Me'). */
+  private async resolveFrom(ctx: ShareAppContext): Promise<string> {
+    const explicit = String(ctx.from || '').trim();
+    if (explicit && explicit !== 'Me') return explicit;
+    return this.rolodexSync.senderNameAsync();
+  }
 
   /** The natural default message for a moment when the user has not typed one. */
   defaultMessage(moment: ShareMoment, ctx: ShareAppContext): string {
@@ -84,7 +96,8 @@ export class ShareAppService {
 
   /** Create the invite server-side (48h token) and return the RolodexInvite. */
   async createInvite(moment: ShareMoment, ctx: ShareAppContext): Promise<RolodexInvite | null> {
-    return this.inviteService.create(this.invitePayload(moment, ctx));
+    const from = await this.resolveFrom(ctx);
+    return this.inviteService.create(this.invitePayload(moment, { ...ctx, from }));
   }
 
   private whenLabel(when: string): string {
@@ -101,9 +114,9 @@ export class ShareAppService {
    * OG-tagged invite URL so the preview itself is the branded card — never a
    * casual link-less sentence.
    */
-  buildText(moment: ShareMoment, inv: RolodexInvite, ctx: ShareAppContext): string {
+  async buildText(moment: ShareMoment, inv: RolodexInvite, ctx: ShareAppContext): Promise<string> {
     const url = this.inviteService.shareUrl(inv);
-    const from = ctx.from || 'Someone';
+    const from = await this.resolveFrom(ctx);
     const to = ctx.to || '';
     const text = (ctx.text || '').trim();
     const quote = text ? ` — “${text}”` : '';
@@ -138,14 +151,14 @@ export class ShareAppService {
   async share(moment: ShareMoment, ctx: ShareAppContext): Promise<'shared' | 'copied' | 'failed'> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return 'failed';
-    return this.inviteService.share(inv, this.buildText(moment, inv, ctx));
+    return this.inviteService.share(inv, await this.buildText(moment, inv, ctx));
   }
 
   /** Direct WhatsApp send (pre-filled with the crafted text + the OG link). */
   async shareViaWhatsApp(moment: ShareMoment, ctx: ShareAppContext, phone?: string): Promise<void> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return;
-    const text = this.buildText(moment, inv, ctx);
+    const text = await this.buildText(moment, inv, ctx);
     const digits = String(phone || '').replace(/[^\d]/g, '');
     const target = digits ? `https://wa.me/${digits}` : 'https://wa.me/';
     window.open(`${target}?text=${encodeURIComponent(text)}`, '_blank');
@@ -155,7 +168,7 @@ export class ShareAppService {
   async shareViaSms(moment: ShareMoment, ctx: ShareAppContext, phone?: string): Promise<void> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return;
-    const text = this.buildText(moment, inv, ctx);
+    const text = await this.buildText(moment, inv, ctx);
     if (phone) {
       window.location.href = `sms:${phone}?body=${encodeURIComponent(text)}`;
     } else {
@@ -167,7 +180,7 @@ export class ShareAppService {
   async shareViaEmail(moment: ShareMoment, ctx: ShareAppContext, email?: string): Promise<void> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return;
-    const text = this.buildText(moment, inv, ctx);
+    const text = await this.buildText(moment, inv, ctx);
     const subject = 'A note for you on RolodexAI';
     if (email) {
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
@@ -180,7 +193,7 @@ export class ShareAppService {
   async copy(moment: ShareMoment, ctx: ShareAppContext): Promise<boolean> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return false;
-    const text = this.buildText(moment, inv, ctx);
+    const text = await this.buildText(moment, inv, ctx);
     if (!navigator.clipboard?.writeText) return false;
     try {
       await navigator.clipboard.writeText(text);

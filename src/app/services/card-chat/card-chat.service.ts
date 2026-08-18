@@ -190,6 +190,11 @@ export class CardChatService {
     return this.rolodexSync.senderName;
   }
 
+  /** Await this before composing an invite/share (real profile name loaded). */
+  async senderNameAsync(): Promise<string> {
+    return this.rolodexSync.senderNameAsync();
+  }
+
   /** The thread title for arrival toasts. */
   threadTitle(key: string): string {
     return key.startsWith('pod:') ? key.slice(4) : key;

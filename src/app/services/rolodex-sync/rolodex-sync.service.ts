@@ -21,6 +21,9 @@ export class RolodexSyncService {
 
   private ownerPhone = '';
   private ownerName = '';
+  /** 2026-08-18 PROFILE HYDRATION promise: the IndexedDB read is async, so
+   *  callers must await senderNameAsync() before composing invites/shares. */
+  private profileReady: Promise<void>;
 
   /** 2026-08-18: register the device's identity for the Users DB. */
   setOwnerIdentity(phone: string, name: string): void {
@@ -34,15 +37,25 @@ export class RolodexSyncService {
     return this.ownerName || 'Me';
   }
 
+  /** Await this before composing an invite/share so the real profile name is
+   *  loaded from IndexedDB instead of the 'Me' fallback. */
+  async senderNameAsync(): Promise<string> {
+    await this.profileReady;
+    return this.senderName;
+  }
+
   constructor(
     private readonly storage: StorageService,
     ) {
     this.deviceId = this.loadDeviceId();
-    // 2026-08-18 PROFILE HYDRATION: the profile lives in IndexedDB (set from
-    // Settings > My Profile); reading it here means invites say the real name
-    // even before the user opens Settings in this session.
+    this.profileReady = this.hydrateProfile();
+  }
+
+  private async hydrateProfile(): Promise<void> {
     try {
-      const p = this.storage.getSync<any>('rolodex_profile');
+      // 2026-08-18 FIX: getSync() only reads the in-memory cache which is empty
+      // at service construction - use the real async IndexedDB read.
+      const p = await this.storage.get<any>('rolodex_profile');
       if (p && typeof p === 'object') {
         this.ownerName = String(p?.name || '').trim();
         this.ownerPhone = String(p?.phone || '').trim();

@@ -535,7 +535,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   async draftMessage(contact: any): Promise<void> {
     const draft = await this.draftEngine.composeAi(contact, this.occasionFor(contact), contact.contactId);
     const name = this.draftEngine.contactName(contact) || 'this contact';
-    const from = this.cardChat.senderName;
+    const from = await this.cardChat.senderNameAsync();
     const room = this.cardChat.room || '';
     const phone = contact.phones?.[0]?.number;
     const email = contact.emails?.[0]?.address;
@@ -649,7 +649,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
    * Every option carries the crafted moment text + the OG-tagged invite link. */
   async shareOut(contact: any): Promise<void> {
     const name = this.draftEngine.contactName(contact) || 'this contact';
-    const from = this.cardChat.senderName;
+    const from = await this.cardChat.senderNameAsync();
     const room = this.cardChat.room || '';
     const sheet = await this.alertCtrl.create({
       header: 'Share Rolodex with ' + name,
