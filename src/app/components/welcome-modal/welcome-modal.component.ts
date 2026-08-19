@@ -104,8 +104,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'taste',
       kicker: 'The surprise',
-      title: 'Close one real loop — right now',
-      copy: 'Pick three of your most difficult, postponed communications. We work through the first one, together. We compose the message, ready to send. We can do it.',
+      title: 'Let us solve a real problem — right now',
+      copy: 'Pick three of your most difficult, postponed communications. We work through the first one, together. We compose the message, and once ready, you send.',
     },
   ];
 

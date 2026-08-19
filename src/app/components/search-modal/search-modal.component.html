@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title style="font-size: 15px;">Search RolodexAI</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="search-body">
+  <div class="search-field">
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <ion-input
+      [(ngModel)]="query"
+      placeholder="Name, phone, email, company, tag…"
+      autofocus
+      class="search-input"
+      (keyup.enter)="results[0] ? open(results[0]) : null"
+    ></ion-input>
+    <ion-button *ngIf="query" fill="clear" size="small" (click)="clear()">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="search-results">
+    <div *ngIf="!results.length" class="search-empty">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>{{ query ? 'No contacts match "' + query + '"' : 'Start typing to search your contacts.' }}</p>
+    </div>
+
+    <ion-item *ngFor="let c of results" button class="search-result" (click)="open(c)">
+      <ion-avatar slot="start">
+        <img [src]="c.image?.base64String || avatarFor(c)" (error)="avatarFailed($event)" alt="" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ c.name?.display || 'Unknown' }}</h2>
+        <p>
+          <span *ngIf="c.organization?.company">{{ c.organization.company }} · </span>
+          <span *ngIf="uniquePhones(c)[0]">{{ uniquePhones(c)[0].number }}</span>
+          <span *ngIf="!uniquePhones(c)[0] && uniqueEmails(c)[0]">{{ uniqueEmails(c)[0].address }}</span>
+        </p>
+      </ion-label>
+      <ion-icon slot="end" name="chevron-forward-outline" style="color: var(--rolodex-text-tertiary);"></ion-icon>
+    </ion-item>
+  </div>
+</ion-content>

@@ -17,6 +17,7 @@ import { PrivacySettingsModalComponent } from '../components/privacy-settings-mo
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
 import { RolodexComponent } from '../components/rolodex/rolodex.component';
 import { RemindersModalComponent } from '../components/reminders-modal/reminders-modal.component';
+import { SearchModalComponent } from '../components/search-modal/search-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
 import { ChatWithRolodexModalComponent } from '../components/chat-with-rolodex/chat-with-rolodex.component';
 import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
@@ -325,6 +326,21 @@ export class HomePage implements OnInit, OnDestroy {
     inst?.navigate?.subscribe?.((featureId: string) => this.onHelpNavigate(featureId));
   }
 
+  /** 2026-08-19 SEARCH: the FAB-launched search sheet over the real deck. */
+  async openSearchModal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: SearchModalComponent,
+      componentProps: { contacts: this.contacts },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+    const res = await modal.onDidDismiss();
+    if (res?.data?.contact) this.onContactTap(res.data.contact);
+  }
+
   /** 2026-08-19 A help "Go" tap now DEMONSTRATES the feature with real data
    *  or real navigation — not a toast that disappears. */
   onHelpNavigate(featureId: string): void {
@@ -335,7 +351,7 @@ export class HomePage implements OnInit, OnDestroy {
         else this.alertsService.showToast('Add a contact first, then flip its card', 2500);
         break;
       case 'search':
-        void this.demoSearch();
+        void this.openSearchModal();
         break;
       case 'merge':
         void this.demoMerge();
@@ -524,7 +540,11 @@ export class HomePage implements OnInit, OnDestroy {
       // freshly synced) always takes precedence over it.
       const persisted = await this.readPersistedContacts();
       if (persisted !== null) {
-        this.contacts = this.mockEnabled ? [...persisted, ...mockContacts] : persisted;
+        // 2026-08-19 DEDUPE: old storage may still contain mock entries from
+        // before the real/demo separation. Only REAL persisted contacts are
+        // loaded; demo filler is added exactly once from mockContacts.
+        const realPersisted = (persisted || []).filter((c: any) => !(c as any)?.isMockData);
+        this.contacts = this.mockEnabled ? [...realPersisted, ...mockContacts] : realPersisted;
       } else {
         this.contacts = await this.contactsSyncService.syncAllContacts();
         if (this.contacts.length === 0) {

@@ -19,6 +19,7 @@ import { ConfidanteComposerModalComponent } from './confidante-composer-modal/co
 import { VideoCallModalComponent } from './video-call-modal/video-call-modal.component';
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
 import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rolodex.component';
+import { SearchModalComponent } from './search-modal/search-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rol
     VideoCallModalComponent,
     LinkPreviewComponent,
     ChatWithRolodexModalComponent,
+    SearchModalComponent,
   ],
   imports: [
     CommonModule,

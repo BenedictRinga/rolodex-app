@@ -91,4 +91,11 @@
   >
   </app-rolodex>
   </div>
+
+  <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet. -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab">
+    <ion-fab-button (click)="openSearchModal()" color="primary" aria-label="Search contacts">
+      <ion-icon name="search-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
