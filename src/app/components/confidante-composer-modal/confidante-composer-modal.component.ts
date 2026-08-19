@@ -6,6 +6,7 @@ import { ShareAppService } from '../../services/share-app/share-app.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
+import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 
 interface ComposerMsg {
   role: 'user' | 'ai';
@@ -68,6 +69,9 @@ interface ComposerMsg {
         </ion-button>
         <ion-button expand="block" fill="outline" color="medium" (click)="sendInAppChat()">
           <ion-icon name="chatbubbles-outline" slot="start"></ion-icon> In-app chat
+        </ion-button>
+        <ion-button expand="block" fill="outline" color="danger" (click)="videoCall()">
+          <ion-icon name="videocam-outline" slot="start"></ion-icon> Video call / clip
         </ion-button>
         <ion-button expand="block" fill="outline" color="warning" (click)="scheduleReminder()">
           <ion-icon name="alarm-outline" slot="start"></ion-icon> Schedule & remind
@@ -177,6 +181,19 @@ export class ConfidanteComposerModalComponent implements OnInit {
     } catch {
       void this.alertsService.showToast('Could not open the chat thread', 2500);
     }
+  }
+
+  /** 2026-08-19 WEBRTC: live video call + record/send a video clip. */
+  async videoCall(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: VideoCallModalComponent,
+      componentProps: { contact: this.contact, contactName: this.contactName },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
   }
 
   async scheduleReminder(): Promise<void> {

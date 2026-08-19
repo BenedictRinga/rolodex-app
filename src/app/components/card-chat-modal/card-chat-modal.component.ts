@@ -21,6 +21,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
    *  delivery asks which one to use when there are several. */
   @Input() sendeePhones: string[] = [];
   draft = '';
+  previewUrl = '';
   typingName = '';
   pickingId = '';
   peersOnline = this.socketChat?.peerCount || 0;
@@ -67,6 +68,8 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
 
   onTyping(): void {
     if (this.draft?.trim()) this.socketChat.emitTyping();
+    // 2026-08-19 LINK PREVIEW: the first URL in the draft gets a card.
+    this.previewUrl = this.draft?.match(/https?:\/\/[^\s]+/i)?.[0] || '';
   }
 
   /** 2026-08-17 REACTIONS: tap a bubble to open the emoji row. */

@@ -80,6 +80,15 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('appointment:invite', (payload: { key?: string; title?: string; when?: string; from?: string }) => {
       for (const cb of this.appointmentListeners) { try { cb({ key: String(payload?.key || ''), title: String(payload?.title || ''), when: String(payload?.when || ''), from: String(payload?.from || '') }); } catch {} }
     });
+    this.socket.on('webrtc:signal', (payload: { type?: string; sdp?: string; candidate?: string; name?: string }) => {
+      for (const cb of this.webrtcListeners) { try { cb({ type: String(payload?.type || ''), sdp: String(payload?.sdp || ''), candidate: String(payload?.candidate || ''), name: String(payload?.name || '') }); } catch {} }
+    });
+    this.socket.on('webrtc:leave', (payload: { name?: string }) => {
+      for (const cb of this.webrtcLeaveListeners) { try { cb(String(payload?.name || '')); } catch {} }
+    });
+    this.socket.on('video-clip', (payload: { name?: string; dataUrl?: string; note?: string; ts?: number }) => {
+      for (const cb of this.videoClipListeners) { try { cb({ name: String(payload?.name || ''), dataUrl: String(payload?.dataUrl || ''), note: String(payload?.note || ''), ts: Number(payload?.ts) || Date.now() }); } catch {} }
+    });
     this.socket.on('chat:typing', (payload: { room?: string; name?: string }) => {
       this.typing$.next({ room: payload?.room || '', name: payload?.name || '' });
     });
@@ -107,6 +116,9 @@ export class SocketChatService implements OnDestroy {
   private readListeners: Array<(key: string) => void> = [];
   private reactListeners: Array<(payload: { key: string; messageId: string; emoji: string; name?: string }) => void> = [];
   private appointmentListeners: Array<(payload: { key: string; title: string; when: string; from: string }) => void> = [];
+  private webrtcListeners: Array<(payload: { type: string; sdp: string; candidate: string; name: string }) => void> = [];
+  private webrtcLeaveListeners: Array<(name: string) => void> = [];
+  private videoClipListeners: Array<(payload: { name: string; dataUrl: string; note: string; ts: number }) => void> = [];
 
   emitTyping(): void {
     if (!this.room || !this.socket?.connected) return;
@@ -140,6 +152,35 @@ export class SocketChatService implements OnDestroy {
   sendAppointment(key: string, title: string, when: string): void {
     if (!this.room || !this.socket?.connected) return;
     this.socket.emit('appointment:invite', { room: this.room, key, title, when, name: this.name });
+  }
+
+  // ===== 2026-08-19 WEBRTC + VIDEO CLIP ======================================
+
+  emitWebRtcSignal(type: string, sdp?: string, candidate?: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('webrtc:signal', { room: this.room, type, sdp: sdp || '', candidate: candidate || '' });
+  }
+
+  emitWebRtcLeave(): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('webrtc:leave', { room: this.room });
+  }
+
+  onWebRtcSignal(cb: (payload: { type: string; sdp: string; candidate: string; name: string }) => void): void {
+    this.webrtcListeners.push(cb);
+  }
+
+  onWebRtcLeave(cb: (name: string) => void): void {
+    this.webrtcLeaveListeners.push(cb);
+  }
+
+  sendVideoClip(dataUrl: string, note?: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('video-clip', { room: this.room, dataUrl, note: note || '' });
+  }
+
+  onVideoClip(cb: (payload: { name: string; dataUrl: string; note: string; ts: number }) => void): void {
+    this.videoClipListeners.push(cb);
   }
 
   send(text: string, key?: string): void {

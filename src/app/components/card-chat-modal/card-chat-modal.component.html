@@ -45,6 +45,7 @@
 
 <ion-footer class="ion-no-border">
   <div class="chat-typing" *ngIf="typingName">&#160;{{ typingName }} is typing…</div>
+  <app-link-preview *ngIf="previewUrl" [url]="previewUrl"></app-link-preview>
   <div class="chat-input-bar">
     <ion-input
       placeholder="Message…"

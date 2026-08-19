@@ -16,6 +16,8 @@ import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-su
 import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
 import { InviteLandingComponent } from './invite-landing/invite-landing.component';
 import { ConfidanteComposerModalComponent } from './confidante-composer-modal/confidante-composer-modal.component';
+import { VideoCallModalComponent } from './video-call-modal/video-call-modal.component';
+import { LinkPreviewComponent } from './link-preview/link-preview.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { ConfidanteComposerModalComponent } from './confidante-composer-modal/co
     WelcomeModalComponent,
     InviteLandingComponent,
     ConfidanteComposerModalComponent,
+    VideoCallModalComponent,
+    LinkPreviewComponent,
   ],
   imports: [
     CommonModule,
