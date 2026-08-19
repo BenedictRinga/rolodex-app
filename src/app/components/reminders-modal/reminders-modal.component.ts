@@ -5,7 +5,11 @@ interface ReminderRow {
   note: string;
   contact: string;
   date: Date;
+  /** 2026-08-19 true when the row came from a demo/mock contact. */
+  demo: boolean;
 }
+
+type ReminderSegment = { type: 'row'; row: ReminderRow } | { type: 'sep' };
 
 /**
  * 2026-08-16 REMINDERS SECTION: every reminder across contacts + upcoming
@@ -44,19 +48,37 @@ export class RemindersModalComponent {
     this.birthdays = [];
     for (const c of this.contacts || []) {
       const name = c?.name?.display || 'Contact';
+      const demo = !!(c as any)?.isMockData;
       for (const r of c?.reminders || []) {
-        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()) });
+        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()), demo });
       }
       if (c?.rolodex?.followUp && c?.nextInteraction) {
-        this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction) });
+        this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction), demo });
       }
       if (c?.birthday?.day && c?.birthday?.month) {
-        this.birthdays.push({ note: '', contact: name, date: new Date(2000, c.birthday.month - 1, c.birthday.day) });
+        this.birthdays.push({ note: '', contact: name, date: new Date(2000, c.birthday.month - 1, c.birthday.day), demo });
       }
     }
     this.reminders.sort((a, b) => a.date.getTime() - b.date.getTime());
     this.followUps.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
+
+  /** 2026-08-19 DEMO REMINDERS MARKER: real rows first, then a clear
+   *  "DEMO REMINDERS" line, then demo rows — always, even without real rows. */
+  private segments(rows: ReminderRow[]): ReminderSegment[] {
+    const real = rows.filter((r) => !r.demo);
+    const demo = rows.filter((r) => r.demo);
+    const out: ReminderSegment[] = real.map((row) => ({ type: 'row' as const, row }));
+    if (demo.length) {
+      out.push({ type: 'sep' as const });
+      out.push(...demo.map((row) => ({ type: 'row' as const, row })));
+    }
+    return out;
+  }
+
+  reminderSegments(): ReminderSegment[] { return this.segments(this.reminders); }
+  followUpSegments(): ReminderSegment[] { return this.segments(this.followUps); }
+  birthdaySegments(): ReminderSegment[] { return this.segments(this.birthdays); }
 
   /** Submit the inline form — contact, note, date -> lands on the card. */
   submitReminder(): void {

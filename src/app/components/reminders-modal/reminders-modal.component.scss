@@ -43,3 +43,23 @@ ion-content {
   min-height: 34px;
   font-size: 13px;
 }
+
+/* 2026-08-19 DEMO REMINDERS MARKER — same visual language as DEMO CONTACTS. */
+.demo-separator-row {
+  --background: transparent;
+  --min-height: 26px;
+  padding: 0;
+  margin: 4px 0 0;
+}
+
+.demo-separator-row ion-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-secondary);
+  padding: 4px 12px;
+  border-top: 1px dashed var(--rolodex-border-light);
+  border-bottom: 1px dashed var(--rolodex-border-light);
+  background: var(--rolodex-surface-alt);
+}

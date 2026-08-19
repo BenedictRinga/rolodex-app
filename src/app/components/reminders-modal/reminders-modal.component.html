@@ -31,27 +31,46 @@
   </div>
 
   <ion-list lines="full">
-    <ion-item *ngFor="let r of reminders">
-      <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
-      <ion-label>
-        <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ r.note }}</h2>
-        <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ r.contact }} · {{ r.date | date: 'MMM d, yyyy' }}</p>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let f of followUps">
-      <ion-icon name="time-outline" slot="start" style="color: var(--rolodex-info);"></ion-icon>
-      <ion-label>
-        <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ f.note }}</h2>
-        <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ f.contact }} · follow-up {{ f.date | date: 'MMM d, yyyy' }}</p>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let b of birthdays">
-      <ion-icon name="gift-outline" slot="start" style="color: var(--rolodex-danger);"></ion-icon>
-      <ion-label>
-        <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ b.contact }}</h2>
-        <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Birthday {{ b.date | date: 'MMM d' }}</p>
-      </ion-label>
-    </ion-item>
+    <!-- 2026-08-19 DEMO REMINDERS MARKER: each list keeps real rows first,
+         then a DEMO REMINDERS line before any demo rows. -->
+    <ng-container *ngFor="let s of reminderSegments()">
+      <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
+        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+      </ion-item>
+      <ion-item *ngIf="s.type === 'row'">
+        <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
+        <ion-label>
+          <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · {{ s.row.date | date: 'MMM d, yyyy' }}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+
+    <ng-container *ngFor="let s of followUpSegments()">
+      <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
+        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+      </ion-item>
+      <ion-item *ngIf="s.type === 'row'">
+        <ion-icon name="time-outline" slot="start" style="color: var(--rolodex-info);"></ion-icon>
+        <ion-label>
+          <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · follow-up {{ s.row.date | date: 'MMM d, yyyy' }}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+
+    <ng-container *ngFor="let s of birthdaySegments()">
+      <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
+        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+      </ion-item>
+      <ion-item *ngIf="s.type === 'row'">
+        <ion-icon name="gift-outline" slot="start" style="color: var(--rolodex-danger);"></ion-icon>
+        <ion-label>
+          <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.contact }}</h2>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Birthday {{ s.row.date | date: 'MMM d' }}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
   </ion-list>
   <div *ngIf="!reminders.length && !followUps.length && !birthdays.length"
     style="padding: 40px 20px; text-align: center; color: var(--rolodex-text-secondary); font-size: 13px;">

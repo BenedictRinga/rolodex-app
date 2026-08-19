@@ -674,16 +674,15 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * 2026-08-18 THE DEMO SEPARATOR: when BOTH real contacts and the demo deck
-   * are present, render [real..., separator, mock...] so the user always
-   * knows which cards are theirs and which are the filler. The separator
-   * (and its 'Demo Contacts' label) appears only once real contacts arrive.
+   * 2026-08-18 THE DEMO SEPARATOR: whenever ANY demo/mock cards are present,
+   * they are shown after a clear "DEMO CONTACTS" line — whether or not real
+   * contacts also exist. 2026-08-19 the marker is now unconditional for mock.
    */
   get displaySegments(): Array<{ type: 'contact'; contact: any } | { type: 'separator' }> {
     const all = this.contacts || [];
     const real = all.filter((c: any) => !(c as any)?.isMockData);
     const mock = all.filter((c: any) => (c as any)?.isMockData);
-    if (!real.length || !mock.length) {
+    if (!mock.length) {
       return all.map((c) => ({ type: 'contact' as const, contact: c }));
     }
     return [

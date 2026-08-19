@@ -218,6 +218,13 @@ export class HomePage implements OnInit, OnDestroy {
       this.demoRoom = this.rolodexSync.room;
     } catch { /* ignore */ }
 
+    // 2026-08-19 DEMO TOGGLE STATE: remember whether the demo deck is shown,
+    // so a reload does not silently resurrect demo cards the user stopped.
+    try {
+      const demo = await this.storageService.get<boolean>('rolodex_demo_enabled');
+      if (demo !== null) this.mockEnabled = !!demo;
+    } catch { /* default true */ }
+
     await this.loadContacts();
     await this.runAutomation();
 
@@ -349,25 +356,40 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /**
-   * 2026-08-18 REAL CONTACTS SURVIVE A RELOAD: the picked/imported contacts
-   * persist to IndexedDB (rolodex_contacts) on every change - but ONLY
-   * when the list contains real (non-mock) entries, so the demo filler is
-   * never persisted and can never block actual data.
+   * 2026-08-18 REAL CONTACTS SURVIVE A RELOAD: only REAL contacts are ever
+   * persisted. Demo/mock contacts are transient filler and must never be able
+   * to overwrite the user's deck.
+   * 2026-08-19 CRITICAL FIX: the old "persist EVERYTHING" behaviour let the
+   * Demo toggle write an empty/mock list over real contacts. Now:
+   *   - persistContacts() filters out isMockData before writing;
+   *   - an empty write only happens when the caller explicitly asks
+   *     ({ allowEmpty: true }, e.g. removing the last real contact);
+   *   - demo toggles never call persist at all.
    */
-  private async persistContacts(contacts: ContactInfo[]): Promise<void> {
+  private async persistContacts(contacts: ContactInfo[], opts?: { allowEmpty?: boolean }): Promise<void> {
     try {
-      // 2026-08-18 FIX: persist EVERYTHING (the demo deck included) - a
-      // removed contact must stay removed across reloads. The deck is the
-      // truth, whatever it holds.
-      await this.storageService.set('rolodex_contacts', contacts); // 2026-08-18 IndexedDB
+      const real = (contacts || []).filter((c: any) => !(c as any)?.isMockData);
+      if (!real.length && !opts?.allowEmpty) return; // never overwrite real deck with empty/mock
+      await this.storageService.set('rolodex_contacts', real); // 2026-08-18 IndexedDB
     } catch { /* storage unavailable - the in-memory list still works */ }
   }
 
-  private async readPersistedContacts(): Promise<ContactInfo[]> {
+  private async readPersistedContacts(): Promise<ContactInfo[] | null> {
     try {
       const parsed = await this.storageService.get<ContactInfo[]>('rolodex_contacts');
-      return Array.isArray(parsed) ? parsed : [];
-    } catch { return []; }
+      return Array.isArray(parsed) ? parsed : null;
+    } catch { return null; }
+  }
+
+  /** The real deck — demo entries are never part of it. */
+  private realContacts(): ContactInfo[] {
+    return (this.contacts || []).filter((c: any) => !(c as any)?.isMockData);
+  }
+
+  /** The deck as shown: real contacts + demo filler when enabled. */
+  private deckWithDemo(): ContactInfo[] {
+    const real = this.realContacts();
+    return this.mockEnabled ? [...real, ...mockContacts] : real;
   }
 
   async loadContacts() {
@@ -378,8 +400,8 @@ export class HomePage implements OnInit, OnDestroy {
       // when there is nothing real anywhere yet, and real data (persisted or
       // freshly synced) always takes precedence over it.
       const persisted = await this.readPersistedContacts();
-      if (persisted.length) {
-        this.contacts = persisted;
+      if (persisted !== null) {
+        this.contacts = this.mockEnabled ? [...persisted, ...mockContacts] : persisted;
       } else {
         this.contacts = await this.contactsSyncService.syncAllContacts();
         if (this.contacts.length === 0) {
@@ -664,7 +686,9 @@ export class HomePage implements OnInit, OnDestroy {
     this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
     // 2026-08-18 FIX: persist the filtered list AWAITED - a reload right
     // after the tap must find the write already in IndexedDB.
-    await this.persistContacts(this.contacts);
+    // 2026-08-19 allowEmpty: removing the LAST real contact must persist the
+    // empty list (otherwise the demo/mock filler would come back as "real").
+    await this.persistContacts(this.contacts, { allowEmpty: true });
     this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
   }
 
@@ -772,19 +796,22 @@ export class HomePage implements OnInit, OnDestroy {
     !environment.production && console.log('Apply group filter:', event);
   }
 
-  onToggleWelcome() {
+  /** 2026-08-19 CRITICAL FIX: the demo toggle only adds/removes DEMO cards.
+   *  Real contacts are never touched, never replaced, never persisted-over. */
+  private applyDemoToggle(): void {
     this.mockEnabled = !this.mockEnabled;
-    if (!this.mockEnabled) {
-      this.contacts = [];
-    } else {
-      this.contacts = mockContacts;
-    }
-    this.onContactsChange(this.contacts); // 2026-08-18: propagate so the deck + sync change state
+    this.contacts = this.deckWithDemo();
+    void this.storageService.set('rolodex_demo_enabled', this.mockEnabled); // 2026-08-19 persisted state
+    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+    void this.rolodexAiNudge(this.contacts);
+  }
+
+  onToggleWelcome() {
+    this.applyDemoToggle();
   }
 
   onMockDataRepeat() {
-    this.contacts = this.contacts.length ? [] : mockContacts;
-    this.onContactsChange(this.contacts); // 2026-08-18: propagate so the deck + sync change state
+    this.applyDemoToggle();
   }
 
   onInitMap(mapElement: HTMLElement) {
@@ -799,7 +826,7 @@ export class HomePage implements OnInit, OnDestroy {
       message: 'How do you want to bring people in?',
       buttons: [
         { text: 'Pick from my phone contacts', handler: () => { void this.addFromPhoneContacts(); } },
-        { text: 'Add the demo contacts', handler: () => { const fresh = mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId)); this.contacts = [...fresh, ...this.contacts]; this.onContactsChange(this.contacts); } },
+        { text: 'Add the demo contacts', handler: () => { this.mockEnabled = true; const fresh = mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId)); this.contacts = [...fresh, ...this.contacts]; this.onContactsChange(this.contacts); } },
         { text: 'Cancel', role: 'cancel' },
       ],
     });

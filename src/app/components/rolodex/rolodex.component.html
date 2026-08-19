@@ -286,6 +286,76 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
+        <!-- 2026-08-19 CHAT WITH ROLODEXAI: the suggestion/help channel. -->
+        <ion-item lines="none" class="elegant-item" (click)="openRolodexChat()">
+          <ion-icon name="chatbubbles-outline" slot="start" color="success"></ion-icon>
+          <ion-label>
+            Chat with RolodexAI
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Tell us how to make it better — free AI handoff</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-18 SECURITY: the app lock - only the authorized user opens it. -->
+        <ion-item lines="none" class="elegant-item" id="settings-security">
+          <ion-icon name="lock-closed-outline" slot="start" color="danger"></ion-icon>
+          <ion-label>
+            App lock
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open Rolodex' }}
+            </p>
+          </ion-label>
+          <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>
+        </ion-item>
+
+        <!-- 2026-08-16 REMINDERS: the section button — alarms, follow-ups, birthdays. -->
+        <ion-item lines="none" class="elegant-item" (click)="openReminders()">
+          <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
+          <ion-label>Reminders & follow-ups</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
+        <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
+          <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>AI Confidante</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-16 BILLING: the two tiers + Stripe. -->
+        <ion-item lines="none" class="elegant-item" (click)="openBilling()">
+          <ion-icon name="card-outline" slot="start" color="success"></ion-icon>
+          <ion-label>Billing</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-19 INVESTORS: the full portal, opened directly and unlocked. -->
+        <ion-item lines="none" class="elegant-item" (click)="openInvestors()">
+          <ion-icon name="briefcase-outline" slot="start" color="warning"></ion-icon>
+          <ion-label>Investors</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item" id="settings-privacy">
+          <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
+          <ion-label>Privacy</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onGoToPrivacySettings()">Manage</ion-button>
+        </ion-item>
+
+        <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
+        <ion-item lines="none" class="elegant-item" (click)="openAbout()">
+          <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>About Rolodex</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <ion-item lines="none" class="elegant-item" id="settings-welcome">
+          <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>Welcome Again</ion-label>
+          <ion-button slot="end" fill="clear" (click)="onShowWelcome()">Show</ion-button>
+          <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Stop</ion-button>
+        </ion-item>
+
         <!-- 2026-08-19 INSTALL ROLODEXAI: PWA now, Play/App Store INCOMING. -->
         <ion-item-divider>
           <ion-label color="medium">Install RolodexAI</ion-label>
@@ -325,16 +395,6 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
-        <!-- 2026-08-19 CHAT WITH ROLODEXAI: the suggestion channel. -->
-        <ion-item lines="none" class="elegant-item" (click)="openRolodexChat()">
-          <ion-icon name="chatbubbles-outline" slot="start" color="success"></ion-icon>
-          <ion-label>
-            Chat with RolodexAI
-            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Tell us how to make it better — free AI handoff</p>
-          </ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
-        </ion-item>
-
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Card View</ion-label>
@@ -348,60 +408,6 @@
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Demo Contacts</ion-label>
           <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">Show/Stop</ion-button>
-        </ion-item>
-
-        <!-- 2026-08-16 REMINDERS: the section button — alarms, follow-ups, birthdays. -->
-        <ion-item lines="none" class="elegant-item" (click)="openReminders()">
-          <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Reminders & follow-ups</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
-        </ion-item>
-
-        <!-- 2026-08-18 SECURITY: the app lock - only the authorized user opens it. -->
-        <ion-item lines="none" class="elegant-item" id="settings-security">
-          <ion-icon name="lock-closed-outline" slot="start" color="danger"></ion-icon>
-          <ion-label>
-            App lock
-            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open Rolodex' }}
-            </p>
-          </ion-label>
-          <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>
-        </ion-item>
-
-        <ion-item lines="none" class="elegant-item" id="settings-welcome">
-          <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Welcome Again</ion-label>
-          <ion-button slot="end" fill="clear" (click)="onShowWelcome()">Show</ion-button>
-          <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Stop</ion-button>
-        </ion-item>
-
-        <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
-        <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
-          <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
-          <ion-label>AI Confidante</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
-        </ion-item>
-
-        <!-- 2026-08-16 BILLING: the two tiers + Stripe. -->
-        <ion-item lines="none" class="elegant-item" (click)="openBilling()">
-          <ion-icon name="card-outline" slot="start" color="success"></ion-icon>
-          <ion-label>Billing</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
-        </ion-item>
-
-        <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
-        <ion-item lines="none" class="elegant-item" (click)="openAbout()">
-          <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>About Rolodex</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
-        </ion-item>
-
-        <!-- 2026-08-19 INVESTORS: the full portal, opened directly and unlocked. -->
-        <ion-item lines="none" class="elegant-item" (click)="openInvestors()">
-          <ion-icon name="briefcase-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Investors</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- <ion-item lines="none" class="elegant-item">
@@ -437,12 +443,6 @@
             <ion-select-option value="large">Large</ion-select-option>
           </ion-select>
         </ion-item> -->
-
-        <ion-item lines="none" class="elegant-item" id="settings-privacy">
-          <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Privacy</ion-label>
-          <ion-button slot="end" fill="clear" (click)="onGoToPrivacySettings()">Manage</ion-button>
-        </ion-item>
 
         <ion-item-divider id="settings-cloudsync">
           <ion-label color="medium">Cloud Sync</ion-label>
