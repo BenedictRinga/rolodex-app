@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { UsersApiService } from '../../services/users-api/users-api.service';
+import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
+import { AlertsService } from '../../services/alerts/alerts.service';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -13,7 +15,7 @@ const INVESTOR_PASSWORD = 'northstar';
   styleUrls: ['./about-rolodex.component.scss'],
   standalone: false,
 })
-export class AboutRolodexComponent implements OnInit {
+export class AboutRolodexComponent implements OnInit, OnDestroy {
   /** 2026-08-19 DIRECT INVESTOR PORTAL: when opened from Settings > Investors,
    *  the modal is the portal (locked, password NorthStar) - NOT the About tour. */
   @Input() portalMode: 'about' | 'investors' = 'about';
@@ -22,10 +24,21 @@ export class AboutRolodexComponent implements OnInit {
 
   version: string = environment.version || '0.1.0';
 
+  // 2026-08-19 LIVE RECORD ANALYSIS: charts live inside the Investor page,
+  // refreshed hourly (not every 5 seconds) so the investor sees the state of
+  // the live record without leaving the app.
+  investorStats: any = null;
+  statsLoading = false;
+  statsError = '';
+  statsUpdatedLabel = '';
+  private statsTimer: any = null;
+
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
     private readonly usersApi: UsersApiService,
+    private readonly time: TimeNormalizerService,
+    private readonly alerts: AlertsService,
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +46,51 @@ export class AboutRolodexComponent implements OnInit {
     if (this.openInvestors) this.portalMode = 'investors';
     // The portal stays LOCKED. The word is NorthStar (case-insensitive).
     this.unlocked = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.statsTimer) clearInterval(this.statsTimer);
+  }
+
+  /** Start hourly refresh of the live-record analysis once the portal opens. */
+  private startInvestorStats(): void {
+    void this.loadInvestorStats();
+    if (!this.statsTimer) {
+      this.statsTimer = setInterval(() => {
+        if (this.unlocked) void this.loadInvestorStats();
+      }, 3600_000);
+    }
+  }
+
+  /** Fetch the raw, captioned investor summary from the Rolodex server. */
+  async loadInvestorStats(): Promise<void> {
+    if (this.statsLoading) return;
+    this.statsLoading = true;
+    this.statsError = '';
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/investor/summary`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('summary fetch failed');
+      const data = await res.json();
+      this.investorStats = data;
+      this.statsUpdatedLabel = this.time.format(data?.generatedAt || new Date(), 'datetime');
+    } catch (e: any) {
+      this.statsError = e?.message || 'could not reach the live record';
+    } finally {
+      this.statsLoading = false;
+    }
+  }
+
+  /** Hour label for a timeline bucket — always through the TimeNormalizer. */
+  hourLabel(iso: string): string {
+    return this.time.format(iso, 'time') || '—';
+  }
+
+  /** Bar width as a percentage of the busiest hour in the timeline. */
+  barWidth(count: number): number {
+    const counts = (this.investorStats?.timeline || []).map((b: any) => Number(b?.count) || 0);
+    const max = Math.max(0, ...counts);
+    if (!max) return 0;
+    return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
   }
 
   /**
@@ -59,6 +117,7 @@ export class AboutRolodexComponent implements OnInit {
             const access = await this.usersApi.requestInvestorAccess(name, email, '');
             if (access) {
               this.unlocked = true;
+              this.startInvestorStats();
               void this.alertCtrl.create({
                 header: 'Welcome in',
                 message: 'Your request is recorded. The roadmap is open for you.',
@@ -90,6 +149,7 @@ export class AboutRolodexComponent implements OnInit {
             const pass = String(data?.pass || '').trim();
             if (pass.toLowerCase() === INVESTOR_PASSWORD.toLowerCase()) {
               this.unlocked = true;
+              this.startInvestorStats();
               return true;
             }
             // Wrong word: close the prompt, then the denial — one alert at a time.
@@ -107,8 +167,11 @@ export class AboutRolodexComponent implements OnInit {
     await alert.present();
   }
 
-  /** 2026-08-18 THE INVESTOR GATEWAY: one tap opens the read-only live peek. */
+  /** 2026-08-18 THE INVESTOR GATEWAY: one tap opens the read-only live peek.
+   *  2026-08-19 EXPLICIT NEW TAB: the button says "new tab" and the app says
+   *  so out loud, so nobody wonders where the Rolodex app went. */
   openLive(): void {
+    void this.alerts.showToast('Opening the live dashboard in a new tab — this page stays open here.', 3500);
     window.open(`${environment.rolodexApiBase}/live`, '_blank', 'noopener');
   }
 

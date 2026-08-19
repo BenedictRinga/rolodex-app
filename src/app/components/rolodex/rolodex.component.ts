@@ -22,6 +22,7 @@ import { AiSettingsModalComponent } from '../ai-settings-modal/ai-settings-modal
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { UpdatesService } from '../../services/updates/updates.service';
 import { AppInstallService } from '../../services/app-install/app-install.service';
+import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -143,6 +144,7 @@ export class RolodexComponent implements OnInit {
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
     private appInstall: AppInstallService,
+    private readonly time: TimeNormalizerService,
   ) { }
 
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
@@ -220,6 +222,7 @@ export class RolodexComponent implements OnInit {
   }
 
   /** 2026-08-16 UPDATES: polite automatic check + critical notice. */
+  private readonly UPDATE_ACK_KEY = 'rolodex_update_ack_build';
   updateCurrent: string = this.updatesService.appVersion;
   updateCurrentBuild: number = this.updatesService.appBuild;
   updateServer = '';
@@ -232,6 +235,16 @@ export class RolodexComponent implements OnInit {
   private updateTimer: any = null;
   private promptedBuild = 0;
 
+  /** 2026-08-19: load the acknowledged build BEFORE the first check, so a
+   *  user who already tapped "Update now" is not nagged again after reload. */
+  private async initUpdates(): Promise<void> {
+    try {
+      const ack = await this.storageService.get<number>(this.UPDATE_ACK_KEY);
+      this.promptedBuild = Number(ack) || 0;
+    } catch { /* first run */ }
+    await this.refreshUpdatesQuietly();
+  }
+
   /** 2026-08-16: quiet re-check - updates the counter, no alert. */
   async refreshUpdatesQuietly(): Promise<void> {
     this.checkingUpdates = true;
@@ -243,10 +256,11 @@ export class RolodexComponent implements OnInit {
       this.updateServerBuild = result.serverBuild || 0;
       this.updateAvailable = result.available;
       this.updateChecked = true;
-      this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
+      this.lastCheckedLabel = 'checked ' + this.time.format(new Date(), 'time');
       // 2026-08-19 UNILATERAL NOTICE: when a new build appears, the app says
-      // so itself - no waiting for the user to tap Check.
-      if (result.available && this.promptedBuild !== result.serverBuild) {
+      // so itself - no waiting for the user to tap Check. The ack is
+      // persistent, so tapping Update now stops the popup for this build.
+      if (result.available && result.serverBuild > this.promptedBuild) {
         this.promptedBuild = result.serverBuild;
         await this.presentUpdatePrompt();
       }
@@ -265,7 +279,7 @@ export class RolodexComponent implements OnInit {
       this.updateServerBuild = result.serverBuild || 0;
       this.updateAvailable = result.available;
       this.updateChecked = true;
-      this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
+      this.lastCheckedLabel = 'checked ' + this.time.format(new Date(), 'time');
       if (result.available) {
         await this.presentUpdatePrompt();
       } else {
@@ -293,10 +307,18 @@ export class RolodexComponent implements OnInit {
     await alert.present();
   }
 
-  /** Direct tap on the Settings "Update vX" button: apply immediately. */
-  applyUpdate(): void {
+  /** Direct tap on the Settings "Update vX" button: apply immediately.
+   *  2026-08-19 PERSISTENT ACK: remember the build we tried to install so the
+   *  popup does not come straight back after the reload. */
+  async applyUpdate(): Promise<void> {
     if (this.applyingUpdate) return;
     this.applyingUpdate = true;
+    try {
+      if (this.updateServerBuild > 0) {
+        await this.storageService.set(this.UPDATE_ACK_KEY, this.updateServerBuild);
+        this.promptedBuild = this.updateServerBuild;
+      }
+    } catch { /* the reload still happens */ }
     setTimeout(() => window.location.reload(), 350);
   }
 
@@ -423,8 +445,9 @@ export class RolodexComponent implements OnInit {
     this.updateTimer = setInterval(() => { void this.refreshUpdatesQuietly(); }, 300000);
     // 2026-08-16 UPDATES: boot check — an update is a POP-UP now, not a toast
     // that can be missed during rapid dev iteration. refreshUpdatesQuietly
-    // auto-prompts once per new build.
-    void this.refreshUpdatesQuietly();
+    // auto-prompts once per new build; initUpdates first restores the
+    // acknowledged build so a tapped update stays acknowledged.
+    void this.initUpdates();
     // 2026-08-16: capture the PWA install prompt (Chrome) so the web install
     // path can offer it later (mirrors Zyppar's appInstaller pattern).
     if (typeof window !== 'undefined') {

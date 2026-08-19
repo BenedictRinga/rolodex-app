@@ -96,6 +96,27 @@ export class RolodexSyncService {
     try { this.storage.setSync('rolodex_room', String(code || '').trim().toUpperCase().slice(0, 24)); } catch { /* ignore */ }
   }
 
+  /** A short, human-readable device label — not a truncated user-agent. */
+  private deviceLabel(): string {
+    try {
+      const ua = typeof navigator !== 'undefined' ? String(navigator.userAgent || '') : '';
+      let os = 'Web';
+      if (/Android/i.test(ua)) os = 'Android';
+      else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+      else if (/Windows/i.test(ua)) os = 'Windows';
+      else if (/Mac OS X|Macintosh/i.test(ua)) os = 'macOS';
+      else if (/Linux/i.test(ua)) os = 'Linux';
+      let browser = 'Browser';
+      if (/Edg\//i.test(ua)) browser = 'Edge';
+      else if (/Chrome\//i.test(ua)) browser = 'Chrome';
+      else if (/Safari\//i.test(ua)) browser = 'Safari';
+      else if (/Firefox\//i.test(ua)) browser = 'Firefox';
+      return `Rolodex — ${os} · ${browser}`;
+    } catch {
+      return 'Rolodex device';
+    }
+  }
+
   /** Push the current state — full contacts + follow-up counts + room. Never blocks.
    *  2026-08-18 THE AGENT: if the server welcomes a brand-new device, the
    *  message is emitted on welcome$ so the UI can greet the user. */
@@ -106,7 +127,7 @@ export class RolodexSyncService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           deviceId: this.deviceId,
-          deviceName: typeof navigator !== 'undefined' ? String(navigator.userAgent).slice(0, 40) : this.deviceId,
+          deviceName: this.deviceLabel(),
           room: this.room,
           // 2026-08-18 THE USERS DB: the sync registers the owner's identity so
           // the chat can tell a sender whether a sendee is reachable in-app.

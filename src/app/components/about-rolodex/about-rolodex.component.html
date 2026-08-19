@@ -158,15 +158,78 @@
           Android/iOS (Play Store next) · licensing the loop-closing engine to
           OEMs and telcos.</p>
 
+        <!-- 2026-08-19 LIVE RECORD ANALYSIS: charts inside the Investor page,
+             refreshed hourly (not every 5s), so investors see the live record
+             without leaving the app. -->
+        <div class="investor-live-analysis" *ngIf="investorStats">
+          <p class="investor-chart-title"><strong>Live record — analysis</strong></p>
+          <div class="investor-kpis">
+            <div class="kpi-card">
+              <div class="kpi-value">{{ investorStats.totals.devices }}</div>
+              <div class="kpi-label">Devices synced</div>
+              <div class="kpi-caption">One row per device that has pushed a state to the Rolodex database.</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value">{{ investorStats.totals.contacts }}</div>
+              <div class="kpi-label">Contacts recorded</div>
+              <div class="kpi-caption">Sum of the contacts counts devices last pushed — not deduplicated people.</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value">{{ investorStats.totals.followUps }}</div>
+              <div class="kpi-label">Follow-ups recorded</div>
+              <div class="kpi-caption">Sum of the follow-up counts devices last pushed.</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value">{{ investorStats.totals.activeLast24h }}</div>
+              <div class="kpi-label">Active in last 24h</div>
+              <div class="kpi-caption">Devices whose last sync happened in the past 24 hours.</div>
+            </div>
+          </div>
+
+          <div class="investor-chart-block" *ngIf="investorStats.timeline?.length">
+            <p class="investor-chart-title"><strong>Devices seen by hour — last 24 hours</strong></p>
+            <div class="bar-chart">
+              <div class="bar-row" *ngFor="let b of investorStats.timeline">
+                <span class="bar-label">{{ hourLabel(b.bucketStart) }}</span>
+                <div class="bar-track">
+                  <div class="bar-fill" [style.width.%]="barWidth(b.count)"></div>
+                </div>
+                <span class="bar-count">{{ b.count }}</span>
+              </div>
+            </div>
+            <p class="investor-chart-note">Each bar = the number of devices whose last sync fell inside that hour. This is the real record, not a projection.</p>
+          </div>
+
+          <div class="investor-chart-block" *ngIf="investorStats.rooms?.length">
+            <p class="investor-chart-title"><strong>Top rooms</strong></p>
+            <div class="room-row" *ngFor="let r of investorStats.rooms">
+              <span class="room-name">{{ r.room }}</span>
+              <span class="room-meta">{{ r.deviceCount }} device(s) · {{ r.contacts }} contacts</span>
+            </div>
+            <p class="investor-chart-note">Rooms are the shared demo-space codes. Devices without a code are grouped under "(no room)".</p>
+          </div>
+
+          <p class="investor-live-note">
+            <span *ngIf="statsUpdatedLabel">Last refreshed: {{ statsUpdatedLabel }} · auto-refreshes hourly.</span>
+            <ion-button size="small" fill="clear" (click)="loadInvestorStats()" [disabled]="statsLoading">
+              {{ statsLoading ? 'Refreshing…' : 'Refresh now' }}
+            </ion-button>
+          </p>
+          <p class="investor-live-note" *ngIf="statsError">Live record could not be refreshed: {{ statsError }}</p>
+        </div>
+
         <!-- 2026-08-18 THE GATEWAY RESTORED: the live performance peek that
-             used to be bundled with something else and got lost. -->
+             used to be bundled with something else and got lost.
+             2026-08-19 EXPLICIT: the button names the new tab, so the switch
+             is never a surprise. -->
         <ion-button expand="block" fill="outline" color="success" (click)="openLive()">
           <ion-icon name="pulse-outline" slot="start"></ion-icon>
-          Live performance gateway
+          Open full live dashboard — new tab
         </ion-button>
         <p class="investor-live-note">
-          Device sync counts, contacts, follow-ups and the demo room — the
-          read-only peek at <code>zyppar.com/api/rolodex/live</code>, refreshing every 5 seconds.
+          This opens a separate browser tab so you don't lose your place here.
+          It shows the read-only peek at <code>zyppar.com/api/rolodex/live</code>,
+          refreshing every 5 seconds.
         </p>
 
         <p><strong>RolodexAI proof:</strong> the demo room — enter the same code on
