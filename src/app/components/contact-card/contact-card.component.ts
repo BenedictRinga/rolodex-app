@@ -967,6 +967,22 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     return '';
   }
 
+  /** 2026-08-19 SOCIAL SUMMARY: a compact one-line list for the card back so
+   *  the full surface carries the same social details the old drop-down had. */
+  socialSummary(contact: any): string {
+    const s = contact?.socialProfiles || {};
+    const parts: string[] = [];
+    const labels: Record<string, string> = {
+      x: 'X', twitter: 'Twitter', telegram: 'Telegram', snapchat: 'Snapchat',
+      tiktok: 'TikTok', linkedin: 'LinkedIn', facebook: 'Facebook', instagram: 'Instagram',
+    };
+    for (const key of Object.keys(labels)) {
+      const v = s[key];
+      if (typeof v === 'string' && v.trim()) parts.push(`${labels[key]}: ${v.trim()}`);
+    }
+    return parts.join(' · ');
+  }
+
   openAddress(contact: any): void {
     const addr = contact.postalAddresses?.[0];
     if (addr) {

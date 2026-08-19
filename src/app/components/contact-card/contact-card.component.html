@@ -21,45 +21,10 @@
                 <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
               </ion-label>
             </div>
-            <!-- Chevron icon triggers onToggleDetails -->
-            <ion-icon [name]="seg.contact.showDetails ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
-              (click)="onToggleDetails(seg.contact, $event); $event.stopPropagation()"></ion-icon>
-          </ion-item>
-      
-          <ion-item *ngIf="seg.contact.showDetails" class="contact-details-item">
-            <ion-card>
-              <ion-card-content>
-                <p><strong>Phone:</strong>
-                  <span *ngIf="seg.contact.phones?.length">
-                    <span *ngFor="let ph of seg.contact.phones; let i = index">{{ i > 0 ? ' · ' : '' }}{{ ph.number }}</span>
-                  </span>
-                  <span *ngIf="!seg.contact.phones?.length">No Phone Info</span>
-                </p>
-                <p><strong>Email:</strong>
-                  <span *ngIf="seg.contact.emails?.length">
-                    <span *ngFor="let em of seg.contact.emails; let i = index">{{ i > 0 ? ' · ' : '' }}{{ em.address }}</span>
-                  </span>
-                  <span *ngIf="!seg.contact.emails?.length">No Email Info</span>
-                </p>
-                <p *ngIf="seg.contact.postalAddresses?.length"><strong>Address:</strong>
-                  <span *ngFor="let ad of seg.contact.postalAddresses; let i = index">
-                    {{ i > 0 ? ' · ' : '' }}{{ addressLabel(ad) }}
-                  </span>
-                </p>
-                <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
-                <p><strong>Last Interaction:</strong> {{ seg.contact.rolodex?.when || 'No Interaction' }}</p>
-                <p><strong>Follow-Up:</strong> {{ seg.contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
-                <!-- 2026-08-18: 4 per row, two rows - not a cramped single row. -->
-                <div class="card-actions-grid">
-                  <ion-button color="primary" (click)="callContact(seg.contact)" expand="block">Call</ion-button>
-                  <ion-button color="secondary" (click)="emailContact(seg.contact)" expand="block">Email</ion-button>
-                  <ion-button color="tertiary" (click)="openAddress(seg.contact)" expand="block">Map</ion-button>
-                  <ion-button color="success" (click)="openConfidanteComposer(seg.contact)" expand="block">Confidante</ion-button>
-                  <ion-button color="warning" (click)="onEditContact(seg.contact)" expand="block">Edit</ion-button>
-                  <ion-button color="danger" (click)="onRemoveContact(seg.contact)" expand="block">Remove</ion-button>
-                </div>
-              </ion-card-content>
-            </ion-card>
+            <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the SAME full
+                 surface as tapping the card — no more inline drop-down. -->
+            <ion-icon name="chevron-forward-outline" slot="end"
+              (click)="onContactTap(seg.contact, $event)"></ion-icon>
           </ion-item>
             </ng-container>
         </ng-container>
@@ -107,6 +72,14 @@
                       {{ i > 0 ? ' · ' : '' }}{{ addressLabel(ad) }}
                     </span>
                   </p>
+                  <p *ngIf="contact.organization?.jobTitle">
+                    <ion-icon name="briefcase-outline" class="detail-icon"></ion-icon>
+                    <strong>Job:</strong> {{ contact.organization?.jobTitle }}
+                  </p>
+                  <p *ngIf="contact.rolodex?.when">
+                    <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+                    <strong>Last:</strong> {{ contact.rolodex?.when }}
+                  </p>
                   <p *ngIf="contact.rolodex?.followUp">
                     <ion-icon name="time-outline" class="detail-icon"></ion-icon>
                     <strong>Follow-Up:</strong> {{ contact.rolodex?.followUp }}
@@ -114,6 +87,10 @@
                   <p *ngIf="contact.rolodex?.topic">
                     <ion-icon name="chatbubble-outline" class="detail-icon"></ion-icon>
                     <strong>Topic:</strong> {{ contact.rolodex?.topic }}
+                  </p>
+                  <p *ngIf="socialSummary(contact)">
+                    <ion-icon name="people-outline" class="detail-icon"></ion-icon>
+                    <strong>Social:</strong> {{ socialSummary(contact) }}
                   </p>
                   <p (click)="$event.stopPropagation(); openCardChat(contact)" style="color: var(--rolodex-info);">
                     <ion-icon name="chatbubbles-outline" class="detail-icon"></ion-icon>
@@ -138,9 +115,10 @@
                   <ion-button fill="outline" size="small" color="success" (click)="draftMessage(contact)">
                     <ion-icon name="chatbox-ellipses-outline"></ion-icon>
                   </ion-button>
-                  <!-- 2026-08-19 USER ↔ CONFIDANTE COMPOSER: instruct, refine, dispatch. -->
+                  <!-- 2026-08-19 USER ↔ CONFIDANTE COMPOSER: instruct, refine, dispatch.
+                       2026-08-19 the icon is a ROBOT (the bot), not a hardware chip. -->
                   <ion-button fill="outline" size="small" color="tertiary" (click)="openConfidanteComposer(contact)" appTooltip="Instruct the Confidante — write, refine, dispatch">
-                    <ion-icon name="hardware-chip-outline"></ion-icon>
+                    <ion-icon name="robot-outline"></ion-icon>
                   </ion-button>
                   <!-- 2026-08-16 REMINDERS: set a reminder right off the card. -->
                   <ion-button fill="outline" size="small" color="warning" (click)="setReminder(contact)">
@@ -183,9 +161,9 @@
                       <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
                     </ion-label>
                   </div>
-                  <!-- Chevron icon triggers onToggleDetails -->
-                  <ion-icon [name]="contact === activeContact ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"
-                    (click)="onToggleDetails(contact, $event); $event.stopPropagation()"></ion-icon>
+                  <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the same full surface as tapping the card. -->
+                  <ion-icon name="chevron-forward-outline" slot="end"
+                    (click)="onContactTap(contact, $event)"></ion-icon>
                   <!-- 2026-08-18 FULL CARD: edit opens the whole surface on every card type. -->
                   <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
                     <ion-icon name="create-outline"></ion-icon>
