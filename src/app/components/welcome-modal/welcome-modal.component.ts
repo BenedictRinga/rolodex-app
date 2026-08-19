@@ -10,6 +10,8 @@ export interface WelcomeDemoStep {
   kicker: string;
   title: string;
   copy: string;
+  /** 2026-08-19 optional bold "SURPRISE" callout, separated from the main copy. */
+  surprise?: string;
 }
 
 /**
@@ -42,7 +44,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'intro',
       kicker: 'Karibu sana!',
       title: 'RolodexAI — your contacts, in motion',
-      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold. A surprise is waiting at the end of this demo.',
+      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold.',
+      surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
     },
     {
       id: 'card',
@@ -102,7 +105,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'taste',
       kicker: 'The surprise',
       title: 'Close one real loop — right now',
-      copy: 'Pick three of your most difficult, postponed communications. We work through the first one together — no name or number needed. You pick the person from your phone at the end, and the message we compose is ready to send. That is the taste.',
+      copy: 'Pick three of your most difficult, postponed communications. We work through the first one, together. We compose the message, ready to send. We can do it.',
     },
   ];
 
@@ -186,20 +189,22 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour. */
+  /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour.
+   *  2026-08-19 FIX: dismiss(data, role) — the role must be the SECOND arg,
+   *  or HomePage's onDidDismiss() sees role='close' and the navigation dies. */
   start(): void {
-    void this.modalController.dismiss('start', 'close');
+    void this.modalController.dismiss(null, 'start');
   }
 
   /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with RolodexAI in
    *  situation mode, and the surprise (the guided real-loop demo) begins. */
   startTaste(): void {
-    void this.modalController.dismiss('taste', 'close');
+    void this.modalController.dismiss(null, 'taste');
   }
 
   /** The taste offer declined — just close, no nagging. */
   maybeLater(): void {
-    void this.modalController.dismiss('later', 'close');
+    void this.modalController.dismiss(null, 'later');
   }
 
   /** The off-switch: persists the dismissal key so the demo never shows again. */
@@ -207,7 +212,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     try {
       void this.storageService.set(WELCOME_DISMISSED_KEY, '1'); // 2026-08-18 IndexedDB
     } catch { /* ignore */ }
-    void this.modalController.dismiss('dismissed', 'close');
+    void this.modalController.dismiss(null, 'dismissed');
   }
 
   close(): void {

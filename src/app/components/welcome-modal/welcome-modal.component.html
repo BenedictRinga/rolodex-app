@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="font-size: 15px;">Welcome to Rolodex</ion-title>
+    <ion-title style="font-size: 15px;">Welcome to RolodexAI</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -180,9 +180,9 @@
             <div class="taste" *ngSwitchCase="'taste'">
               <div class="taste-gift"><ion-icon name="gift-outline"></ion-icon></div>
               <div class="taste-list">
-                <div class="taste-row"><span class="taste-num">1</span><span>the reply you owe</span></div>
-                <div class="taste-row"><span class="taste-num">2</span><span>the catch-up you keep delaying</span></div>
-                <div class="taste-row"><span class="taste-num">3</span><span>the thank-you that died in drafts</span></div>
+                <div class="taste-row"><span class="taste-num">1</span><strong>The reply you owe</strong></div>
+                <div class="taste-row"><span class="taste-num">2</span><strong>The catch-up you keep delaying</strong></div>
+                <div class="taste-row"><span class="taste-num">3</span><strong>The thank-you that died in drafts</strong></div>
               </div>
               <div class="taste-hint">No names, no numbers — you pick the person from your phone at the end.</div>
             </div>
@@ -196,6 +196,8 @@
         <div class="demo-kicker">{{ s.kicker }}</div>
         <h2 class="demo-title">{{ s.title }}</h2>
         <p class="demo-text">{{ s.copy }}</p>
+        <!-- 2026-08-19 SURPRISE: separate paragraph, larger, bold, all-caps. -->
+        <p class="demo-surprise" *ngIf="s.surprise">{{ s.surprise }}</p>
       </div>
     </div>
   </ng-container>

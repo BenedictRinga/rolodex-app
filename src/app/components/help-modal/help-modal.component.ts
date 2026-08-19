@@ -18,7 +18,7 @@ export interface HelpFeature {
   template: `
   <ion-header>
     <ion-toolbar>
-      <ion-title>Rolodex — features</ion-title>
+      <ion-title>RolodexAI — features</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="close()"><ion-icon name="close" slot="icon-only"></ion-icon></ion-button>
       </ion-buttons>

@@ -35,7 +35,7 @@ export class InviteLandingComponent {
   async findInContacts(): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
-      void this.modalController.dismiss('pick-unavailable', 'close');
+      void this.modalController.dismiss(null, 'pick-unavailable');
       return;
     }
     try {
@@ -69,7 +69,7 @@ export class InviteLandingComponent {
 
   /** Hook 2 — the Play Store nudge (the 7-day trial begins there). */
   getApp(): void {
-    void this.modalController.dismiss('get-app', 'close');
+    void this.modalController.dismiss(null, 'get-app');
   }
 
   /** 2026-08-18 WHAT IS ROLODEXAI ABOUT?: opens the Welcome demo. A first-time

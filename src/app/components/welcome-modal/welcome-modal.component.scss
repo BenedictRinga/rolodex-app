@@ -1126,3 +1126,18 @@ ion-content {
   font-size: 10.5px;
   color: var(--rolodex-text-tertiary);
 }
+
+/* 2026-08-19 SURPRISE callout — larger, bold, separated from the main copy. */
+.demo-surprise {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--rolodex-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  padding: 10px 12px;
+  border: 1px solid var(--rolodex-accent);
+  border-radius: 10px;
+  background: rgba(var(--rolodex-accent-rgb), 0.08);
+}
