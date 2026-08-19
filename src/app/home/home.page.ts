@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { SecurityService } from '../services/security/security.service';
 import { ContactInfo } from '../models/contacts';
@@ -15,6 +15,8 @@ import { CardChatService } from '../services/card-chat/card-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
+import { RolodexComponent } from '../components/rolodex/rolodex.component';
+import { RemindersModalComponent } from '../components/reminders-modal/reminders-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
 import { ChatWithRolodexModalComponent } from '../components/chat-with-rolodex/chat-with-rolodex.component';
 import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
@@ -33,6 +35,9 @@ import { environment } from 'src/environments/environment';
   standalone: false,
 })
 export class HomePage implements OnInit, OnDestroy {
+  /** 2026-08-19 HELP DEMO: direct access to rolodex view/settings navigation. */
+  @ViewChild('rolodex') rolodexComp?: RolodexComponent;
+
   contacts: ContactInfo[] = [];
   displayedContacts: ContactInfo[] = [];
   sortedContacts: ContactInfo[] = [];
@@ -320,55 +325,157 @@ export class HomePage implements OnInit, OnDestroy {
     inst?.navigate?.subscribe?.((featureId: string) => this.onHelpNavigate(featureId));
   }
 
-  /** A help "Go" tap — transport the user to the feature's section. */
+  /** 2026-08-19 A help "Go" tap now DEMONSTRATES the feature with real data
+   *  or real navigation — not a toast that disappears. */
   onHelpNavigate(featureId: string): void {
     switch (featureId) {
       case 'cards':
-        // Flip the first contact's card open so the demo lands on a card.
-        if (this.contacts.length) {
-          const first = this.contacts[0];
-          first.showDetails = !first.showDetails;
-        }
+        // Real demo: open the first contact's full card surface.
+        if (this.contacts.length) this.onContactTap(this.contacts[0]);
+        else this.alertsService.showToast('Add a contact first, then flip its card', 2500);
         break;
       case 'search':
-        this.alertsService.showToast('Use the search bar above the cards', 2500);
+        void this.demoSearch();
         break;
       case 'merge':
-        this.alertsService.showToast('Duplicates merge automatically as you add contacts', 2500);
+        void this.demoMerge();
         break;
       case 'overdue':
-        this.applyHelpFilter('overdue');
+        void this.demoList('overdue');
         break;
       case 'birthdays':
-        this.applyHelpFilter('birthdays');
+        void this.demoList('birthdays');
         break;
       case 'health':
-        this.applyHelpFilter('dormant');
+        void this.demoList('health');
         break;
       case 'reminders':
-        this.alertsService.showToast('Flip a card → add a reminder right there', 2500);
+        // Real demo: the actual Reminders & follow-ups modal.
+        void this.rolodexComp?.openReminders();
         break;
       case 'storage':
-        this.storageLocation = 'rolodex-server';
-        try { void this.storageService.set('rolodex_storage', 'rolodex-server'); } catch { /* ignore */ }
-        this.onStorageChange({ detail: { value: 'rolodex-server' } });
-        break;
       case 'sync':
-        this.refreshSyncState();
-        this.alertsService.showToast('Cloud sync — push/pull with a passphrase', 2500);
+        // Real demo: open Settings and jump straight to Cloud Sync.
+        this.rolodexComp?.openSettingsSection('settings-cloudsync');
         break;
       default:
         break;
     }
   }
 
-  private applyHelpFilter(filter: string): void {
-    this.selectedFilter = filter as any;
-    try {
-      const el = document.querySelector('app-rolodex');
-      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } catch { /* ignore */ }
-    this.alertsService.showToast(`Showing ${filter} — tap any card for details`, 2500);
+  /** Search demo: a real prompt → real filter → opens the first match. */
+  private async demoSearch(): Promise<void> {
+    if (!this.contacts.length) {
+      await this.alertsService.showToast('Add a contact first, then search', 2500);
+      return;
+    }
+    const alert = await this.alertController.create({
+      header: 'Find anyone instantly',
+      message: 'Type a name, phone or email — we will open the matching card.',
+      inputs: [{ name: 'q', type: 'text', placeholder: 'Search contacts…' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Search',
+          handler: (data: any) => {
+            const q = String(data?.q || '').trim().toLowerCase();
+            if (!q) return;
+            const found = this.contacts.find((c) => {
+              const name = String(c.name?.display || '').toLowerCase();
+              const phone = (c.phones || []).map((p) => String(p.number || '')).join(' ').toLowerCase();
+              const email = (c.emails || []).map((e) => String(e.address || '')).join(' ').toLowerCase();
+              return name.includes(q) || phone.includes(q) || email.includes(q);
+            });
+            if (found) this.onContactTap(found);
+            else void this.alertsService.showToast('No match — try a different word', 2500);
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** Merge demo: scans the real deck for duplicate phones/emails. */
+  private async demoMerge(): Promise<void> {
+    const seen = new Map<string, string>();
+    const dupNames = new Set<string>();
+    for (const c of this.contacts) {
+      const name = String(c.name?.display || 'Unknown');
+      const keys: string[] = [];
+      for (const p of c.phones || []) {
+        const k = String(p.number || '').replace(/[^\d]/g, '');
+        if (k) keys.push('p:' + k);
+      }
+      for (const e of c.emails || []) {
+        const k = String(e.address || '').trim().toLowerCase();
+        if (k) keys.push('e:' + k);
+      }
+      for (const key of keys) {
+        const owner = seen.get(key);
+        if (owner && owner !== name) dupNames.add(`${owner} ↔ ${name}`);
+        else if (!owner) seen.set(key, name);
+      }
+    }
+    if (dupNames.size) {
+      const alert = await this.alertController.create({
+        header: 'Duplicates found — they merge automatically',
+        message: Array.from(dupNames).join('\n'),
+        buttons: ['Got it'],
+      });
+      await alert.present();
+    } else {
+      await this.alertsService.showToast('No duplicates — your cards are already one person, one card', 2800);
+    }
+  }
+
+  /** Overdue / birthdays / health demo: lists the real items in a dialog. */
+  private async demoList(kind: 'overdue' | 'birthdays' | 'health'): Promise<void> {
+    if (kind === 'overdue') {
+      if (!this.followUpOverdue.length) {
+        await this.alertsService.showToast('Nothing overdue — you are caught up', 2500);
+        return;
+      }
+      const names = this.followUpOverdue.map((c) => String(c.name?.display || 'Unknown')).join('\n');
+      const alert = await this.alertController.create({
+        header: 'You owe these people a reply',
+        message: names,
+        buttons: ['Got it'],
+      });
+      await alert.present();
+    } else if (kind === 'birthdays') {
+      if (!this.upcomingBirthdays.length) {
+        await this.alertsService.showToast('No upcoming birthdays in the next 30 days', 2500);
+        return;
+      }
+      const lines = this.upcomingBirthdays
+        .slice(0, 8)
+        .map((b) => `${b.name} — in ${b.daysAway} day${b.daysAway === 1 ? '' : 's'}`)
+        .join('\n');
+      const alert = await this.alertController.create({
+        header: 'Upcoming birthdays',
+        message: lines,
+        buttons: ['Got it'],
+      });
+      await alert.present();
+    } else {
+      if (!this.relationshipScores.length) {
+        await this.alertsService.showToast('No relationship scores yet — add contacts and keep in touch', 2500);
+        return;
+      }
+      const lines = this.relationshipScores
+        .slice()
+        .sort((a, b) => (a.score || 0) - (b.score || 0))
+        .slice(0, 5)
+        .map((s) => `${s.displayName}: ${Math.round(s.score * 100)}%`)
+        .join('\n');
+      const alert = await this.alertController.create({
+        header: 'Relationship health — most dormant first',
+        message: lines,
+        buttons: ['Got it'],
+      });
+      await alert.present();
+    }
   }
 
   /**

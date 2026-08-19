@@ -185,6 +185,12 @@ export class RolodexComponent implements OnInit {
     } catch { /* ignore */ }
   }
 
+  /** 2026-08-19 HELP DEMO: open Settings and jump straight to a section. */
+  openSettingsSection(id: string): void {
+    this.showSettingsView();
+    setTimeout(() => this.scrollTo(id), 300);
+  }
+
   settingsMapHint(): string {
     return 'Updates · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }

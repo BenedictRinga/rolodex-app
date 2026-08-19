@@ -1127,12 +1127,13 @@ ion-content {
   color: var(--rolodex-text-tertiary);
 }
 
-/* 2026-08-19 SURPRISE callout — larger, bold, separated from the main copy. */
+/* 2026-08-19 SURPRISE callout — larger, bold, separated from the main copy.
+   The text is dark-on-light so it is legible; the accent stays in the border. */
 .demo-surprise {
   margin-top: 10px;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--rolodex-accent);
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--rolodex-primary-dark);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   line-height: 1.35;
@@ -1140,4 +1141,15 @@ ion-content {
   border: 1px solid var(--rolodex-accent);
   border-radius: 10px;
   background: rgba(var(--rolodex-accent-rgb), 0.08);
+}
+
+/* The three taste gaps: clearly bold and larger than the surrounding rows. */
+.taste-row {
+  font-size: 14px;
+}
+
+.taste-row strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--rolodex-text);
 }
