@@ -209,38 +209,61 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-16 UPDATES: polite automatic check + critical notice. */
   updateCurrent: string = this.updatesService.appVersion;
+  updateCurrentBuild: number = this.updatesService.appBuild;
   updateServer = '';
+  updateServerBuild = 0;
   updateAvailable = false;
   updateChecked = false;
+  checkingUpdates = false;
+  applyingUpdate = false;
   lastCheckedLabel = '';
   private updateTimer: any = null;
+  private promptedBuild = 0;
 
   /** 2026-08-16: quiet re-check - updates the counter, no alert. */
   async refreshUpdatesQuietly(): Promise<void> {
+    this.checkingUpdates = true;
     try {
       const result = await this.updatesService.check();
       this.updateCurrent = result.current;
+      this.updateCurrentBuild = result.currentBuild;
       this.updateServer = result.server || '';
+      this.updateServerBuild = result.serverBuild || 0;
       this.updateAvailable = result.available;
       this.updateChecked = true;
       this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
-    } catch { /* quiet */ }
+      // 2026-08-19 UNILATERAL NOTICE: when a new build appears, the app says
+      // so itself - no waiting for the user to tap Check.
+      if (result.available && this.promptedBuild !== result.serverBuild) {
+        this.promptedBuild = result.serverBuild;
+        await this.presentUpdatePrompt();
+      }
+    } catch { /* quiet */ } finally {
+      this.checkingUpdates = false;
+    }
   }
 
   async checkForUpdates(): Promise<void> {
-    const result = await this.updatesService.check();
-    this.updateCurrent = result.current;
-    this.updateServer = result.server || '';
-    this.updateAvailable = result.available;
-    this.updateChecked = true;
-    this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
-    if (result.available) {
-      await this.presentUpdatePrompt();
-    } else {
-      await this.alertService.alertPrompt({
-        header: 'Up to date',
-        message: `You're on v${result.current} — the latest${result.server ? ` (server v${result.server})` : ''}.`,
-      });
+    this.checkingUpdates = true;
+    try {
+      const result = await this.updatesService.check();
+      this.updateCurrent = result.current;
+      this.updateCurrentBuild = result.currentBuild;
+      this.updateServer = result.server || '';
+      this.updateServerBuild = result.serverBuild || 0;
+      this.updateAvailable = result.available;
+      this.updateChecked = true;
+      this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
+      if (result.available) {
+        await this.presentUpdatePrompt();
+      } else {
+        await this.alertService.alertPrompt({
+          header: 'Up to date',
+          message: `You're on v${result.current} (build ${result.currentBuild}) — the latest${result.server ? ` (server v${result.server} build ${result.serverBuild})` : ''}.`,
+        });
+      }
+    } finally {
+      this.checkingUpdates = false;
     }
   }
 
@@ -249,10 +272,10 @@ export class RolodexComponent implements OnInit {
   async presentUpdatePrompt(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Update available',
-      message: `RolodexAI v${this.updateServer} is live — you're on v${this.updateCurrent}. Tap Update now and the app will apply it. Your contacts are safe.`,
+      message: `RolodexAI v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your contacts are safe.`,
       buttons: [
         { text: 'Later', role: 'cancel' },
-        { text: 'Update now', handler: () => { window.location.reload(); } },
+        { text: 'Update now', handler: () => { this.applyUpdate(); } },
       ],
     });
     await alert.present();
@@ -260,7 +283,9 @@ export class RolodexComponent implements OnInit {
 
   /** Direct tap on the Settings "Update vX" button: apply immediately. */
   applyUpdate(): void {
-    window.location.reload();
+    if (this.applyingUpdate) return;
+    this.applyingUpdate = true;
+    setTimeout(() => window.location.reload(), 350);
   }
 
   /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
@@ -385,25 +410,9 @@ export class RolodexComponent implements OnInit {
     // 2026-08-16: the Updates counter re-checks every 5 minutes.
     this.updateTimer = setInterval(() => { void this.refreshUpdatesQuietly(); }, 300000);
     // 2026-08-16 UPDATES: boot check — an update is a POP-UP now, not a toast
-    // that can be missed during rapid dev iteration.
-    void (async () => {
-      try {
-        if (await this.updatesService.noticeIfCritical()) {
-          this.updateAvailable = true;
-          this.updateChecked = true;
-          this.updateCurrent = this.updatesService.appVersion;
-          this.updateServer = this.updatesService.serverVersion;
-          this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
-          await this.presentUpdatePrompt();
-        } else {
-          this.updateServer = this.updatesService.serverVersion;
-          this.updateChecked = true;
-          this.lastCheckedLabel = 'checked ' + new Date().toLocaleTimeString();
-        }
-      } catch {
-        /* quiet */
-      }
-    })();
+    // that can be missed during rapid dev iteration. refreshUpdatesQuietly
+    // auto-prompts once per new build.
+    void this.refreshUpdatesQuietly();
     // 2026-08-16: capture the PWA install prompt (Chrome) so the web install
     // path can offer it later (mirrors Zyppar's appInstaller pattern).
     if (typeof window !== 'undefined') {

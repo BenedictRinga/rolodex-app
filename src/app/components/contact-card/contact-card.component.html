@@ -18,7 +18,7 @@
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ seg.contact.organization?.company || 'No Company Info' }}</p>
-                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || '' }}</p>
+                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
               </ion-label>
             </div>
             <!-- Chevron icon triggers onToggleDetails -->
@@ -48,7 +48,7 @@
                 </p>
                 <p><strong>Job Title:</strong> {{ seg.contact.organization?.jobTitle || 'No Job Title' }}</p>
                 <p><strong>Last Interaction:</strong> {{ seg.contact.rolodex?.when || 'No Interaction' }}</p>
-                <p><strong>Follow-Up:</strong> {{ seg.contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+                <p><strong>Follow-Up:</strong> {{ seg.contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
                 <!-- 2026-08-18: 4 per row, two rows - not a cramped single row. -->
                 <div class="card-actions-grid">
                   <ion-button color="primary" (click)="callContact(seg.contact)" expand="block">Call</ion-button>
@@ -441,7 +441,7 @@
             <!-- Social Content -->
             <div class="social-content">
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
-              <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+              <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
               <!-- Social Profiles -->
               <div class="social-profiles">
                 <div class="social-profile" *ngIf="contact.socialProfiles?.x"
@@ -512,7 +512,7 @@
               <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
               <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
               <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -531,7 +531,7 @@
               <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
               <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
               <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'No Follow-Up' }}</p>
+              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -590,7 +590,7 @@
             </p>
             <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
-            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'No Follow-Up' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
       
             <!-- Social Activation (if needed, you can add further social details here) -->
             <div class="social-activation" *ngIf="activeContact.socialProfiles">
@@ -1536,7 +1536,7 @@
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address' }}
             </p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
-            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'No Follow-Up' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             <div class="modal-buttons">
               <ion-button fill="outline" (click)="onEditContact(activeContact)" expand="block">
                 <ion-icon name="card-outline"></ion-icon>

@@ -265,16 +265,16 @@
               <span class="update-dot" [class.live]="updateAvailable" *ngIf="updateChecked"></span>
             </span>
             <p class="update-versions">
-              <span class="ver-current">You: v{{ updateCurrent }}</span>
+              <span class="ver-current">You: v{{ updateCurrent }} (b{{ updateCurrentBuild }})</span>
               <ng-container *ngIf="updateServer && updateChecked">
                 <span class="ver-arrow">→</span>
-                <span class="ver-server" [class.newer]="updateAvailable">Server: v{{ updateServer }}</span>
+                <span class="ver-server" [class.newer]="updateAvailable">Server: v{{ updateServer }} (b{{ updateServerBuild }})</span>
               </ng-container>
               <span class="update-checked" *ngIf="lastCheckedLabel"> · {{ lastCheckedLabel }}</span>
             </p>
           </ion-label>
-          <ion-button slot="end" fill="clear" [color]="updateAvailable ? 'warning' : (updateChecked ? 'success' : 'medium')" class="update-btn" [class.update-ok]="updateChecked && !updateAvailable" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
-            {{ updateAvailable ? 'Update now' : (updateChecked ? 'Up to date' : 'Check') }}
+          <ion-button slot="end" fill="clear" [disabled]="checkingUpdates || applyingUpdate" [color]="updateAvailable ? 'warning' : (updateChecked ? 'success' : 'medium')" class="update-btn" [class.update-ok]="updateChecked && !updateAvailable" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
+            {{ applyingUpdate ? 'Applying…' : (checkingUpdates ? 'Checking…' : (updateAvailable ? 'Update now' : (updateChecked ? 'Up to date' : 'Check'))) }}
           </ion-button>
         </ion-item>
 

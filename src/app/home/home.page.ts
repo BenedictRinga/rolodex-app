@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { SecurityService } from '../services/security/security.service';
 import { ContactInfo } from '../models/contacts';
@@ -31,7 +31,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   contacts: ContactInfo[] = [];
   displayedContacts: ContactInfo[] = [];
   sortedContacts: ContactInfo[] = [];
@@ -41,6 +41,9 @@ export class HomePage implements OnInit {
   selectedGroup: string = 'all';
   mockEnabled: boolean = true;
   loading: boolean = false;
+  /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
+  headerLine = 'Where your contacts live';
+  private headerTimer: ReturnType<typeof setInterval> | null = null;
   groups: { id: string; name: string }[] = [
     { id: 'all', name: 'All Contacts' },
     { id: 'family', name: 'Family' },
@@ -195,6 +198,12 @@ export class HomePage implements OnInit {
 
     // 2026-08-18 AI LIVE LIGHT + THE AGENT SPEAKS FIRST.
     void this.refreshAiStatus();
+    // 2026-08-19 HEADER: "Where your contacts live" ↔ "Always staying in touch…"
+    this.headerTimer = setInterval(() => {
+      this.headerLine = this.headerLine === 'Where your contacts live'
+        ? 'Always staying in touch…'
+        : 'Where your contacts live';
+    }, 6000);
     this.rolodexSync.welcome$.subscribe((msg) => {
       void this.alertController.create({ header: 'RolodexAI', message: msg, buttons: ['OK'] }).then((a) => a.present());
     });
@@ -219,6 +228,10 @@ export class HomePage implements OnInit {
         this.rolodexSync.push(this.contacts);
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.headerTimer) clearInterval(this.headerTimer);
   }
 
   /** 2026-08-18 AI LIVE LIGHT: ask the server which engines are configured. */

@@ -12,26 +12,32 @@ import { environment } from '../../../environments/environment';
 })
 export class UpdatesService {
   appVersion: string = environment.version || '0.0.0';
+  appBuild: number = Number(environment.build) || 0;
   serverVersion = '';
-  lastResult: { available: boolean; current: string; server: string } | null = null;
+  serverBuild = 0;
+  lastResult: { available: boolean; current: string; server: string; currentBuild: number; serverBuild: number } | null = null;
   lastCheckAt: number | null = null;
   private checked = false;
 
-  async check(): Promise<{ available: boolean; current: string; server: string }> {
+  async check(): Promise<{ available: boolean; current: string; server: string; currentBuild: number; serverBuild: number }> {
     try {
       const res = await fetch(`${environment.rolodexApiBase}/version`, { cache: 'no-store' });
       if (!res.ok) throw new Error('version fetch failed');
       const data = await res.json();
       this.serverVersion = String(data?.version || '').trim();
+      this.serverBuild = Number(data?.build) || 0;
       this.lastCheckAt = Date.now();
       this.checked = true;
       // 2026-08-18 REAL SEMVER: an update exists only when the SERVER is NEWER,
       // not merely different (a stale server must never claim an update).
-      const available = this.serverVersion !== '' && this.compareVersions(this.serverVersion, this.appVersion) > 0;
-      this.lastResult = { available, current: this.appVersion, server: this.serverVersion };
+      // 2026-08-19 BUILD COUNTER: when semver is equal, the integer build
+      // counter still moves the notification (no more stuck 0.3.0).
+      const semverCmp = this.compareVersions(this.serverVersion, this.appVersion);
+      const available = this.serverVersion !== '' && (semverCmp > 0 || (semverCmp === 0 && this.serverBuild > this.appBuild));
+      this.lastResult = { available, current: this.appVersion, server: this.serverVersion, currentBuild: this.appBuild, serverBuild: this.serverBuild };
       return this.lastResult;
     } catch {
-      return { available: false, current: this.appVersion, server: '' };
+      return { available: false, current: this.appVersion, server: '', currentBuild: this.appBuild, serverBuild: 0 };
     }
   }
 
