@@ -21,6 +21,7 @@ import { BillingModalComponent } from '../billing-modal/billing-modal.component'
 import { AiSettingsModalComponent } from '../ai-settings-modal/ai-settings-modal.component';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { UpdatesService } from '../../services/updates/updates.service';
+import { AppInstallService } from '../../services/app-install/app-install.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -141,6 +142,7 @@ export class RolodexComponent implements OnInit {
     private security: SecurityService,
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
+    private appInstall: AppInstallService,
   ) { }
 
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
@@ -259,6 +261,21 @@ export class RolodexComponent implements OnInit {
   /** Direct tap on the Settings "Update vX" button: apply immediately. */
   applyUpdate(): void {
     window.location.reload();
+  }
+
+  /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
+  installPwa(): void {
+    void this.appInstall.encourageAppInstall('RolodexAI');
+  }
+
+  /** 2026-08-19 INSTALL: Google Play is INCOMING - no store link yet. */
+  openPlayStore(): void {
+    void this.alertService.showToast('Google Play — incoming', 2500);
+  }
+
+  /** 2026-08-19 INSTALL: App Store is INCOMING - no store link yet. */
+  openAppStore(): void {
+    void this.alertService.showToast('App Store — incoming', 2500);
   }
 
   /** 2026-08-16 PODS: group threads derived from the contacts' groups. */

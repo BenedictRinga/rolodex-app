@@ -15,6 +15,7 @@ import { AiSettingsModalComponent } from './ai-settings-modal/ai-settings-modal.
 import { ContactSurfaceModalComponent } from './contact-surface-modal/contact-surface-modal.component';
 import { WelcomeModalComponent } from './welcome-modal/welcome-modal.component';
 import { InviteLandingComponent } from './invite-landing/invite-landing.component';
+import { ConfidanteComposerModalComponent } from './confidante-composer-modal/confidante-composer-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { InviteLandingComponent } from './invite-landing/invite-landing.componen
     ContactSurfaceModalComponent,
     WelcomeModalComponent,
     InviteLandingComponent,
+    ConfidanteComposerModalComponent,
   ],
   imports: [
     CommonModule,

@@ -15,6 +15,7 @@ import { ShareAppService, ShareMoment } from '../../services/share-app/share-app
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
+import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
@@ -591,6 +592,19 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.updateSaveEnabled();
     void this.alertService.showToast('Confidante: context captured — this card now has a story', 2500);
+  }
+
+  /** 2026-08-19 USER ↔ CONFIDANTE COMPOSER: instruct, refine, dispatch. */
+  async openConfidanteComposer(contact: any): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ConfidanteComposerModalComponent,
+      componentProps: { contact, occasion: this.occasionFor(contact) },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
   }
 
   async draftMessage(contact: any): Promise<void> {

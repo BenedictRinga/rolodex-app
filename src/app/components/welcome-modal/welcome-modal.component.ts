@@ -42,7 +42,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'intro',
       kicker: 'Karibu sana!',
       title: 'RolodexAI — your contacts, in motion',
-      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%.',
+      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold.',
     },
     {
       id: 'card',
@@ -60,7 +60,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'followup',
       kicker: '03 · The loop',
       title: 'The follow-up engine',
-      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold.',
+      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold. You never forget. You never delay. You never postpone.',
     },
     {
       id: 'signal',
@@ -72,7 +72,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '05 · The confidante',
       title: 'The AI drafts — you hit Send',
-      copy: 'The confidential secretary digs up your context and writes the message in your own voice. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
+      copy: 'The confidential secretary digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
@@ -96,7 +96,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'outro',
       kicker: 'You\u2019re set',
       title: 'That\u2019s the tour — it\u2019s all live',
-      copy: 'Tap through the app, or replay this demo any time from Settings → Welcome Again.',
+      copy: 'You never forget again. You never delay again. You never postpone again. Tap through the app, or replay this demo any time from Settings → Welcome Again.',
     },
   ];
 

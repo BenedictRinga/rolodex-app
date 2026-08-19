@@ -270,6 +270,29 @@ export class DraftEngineService {
     }
   }
 
+  /** 2026-08-19 CONFIDANTE COMPOSER: back-and-forth refinement. Sends the
+   *  user's instruction + current draft to the chosen engine; falls back to
+   *  the current draft on failure (the on-device engine cannot refine yet). */
+  async refine(instruction: string, current: string): Promise<string> {
+    if (this.provider === 'deepseek' || this.provider === 'grok') {
+      try {
+        const res = await fetch(`${environment.rolodexApiBase}/ai/compose`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            engine: this.provider,
+            briefing: `The user wants to refine their outgoing message.\nUser instruction: ${String(instruction || '').slice(0, 1500)}\nCurrent draft:\n${String(current || '').slice(0, 1500)}\nReturn only the improved message.`,
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.draft) return String(data.draft).trim();
+        }
+      } catch { /* fall through */ }
+    }
+    return current;
+  }
+
   /** The on-device Rolodex engine (works offline, no server, no key). */
   compose(c: ContactInfo, occasion: Occasion, guideKey?: string): string {
     const name = this.contactName(c);

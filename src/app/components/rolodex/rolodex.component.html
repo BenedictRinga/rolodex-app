@@ -286,6 +286,35 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
+        <!-- 2026-08-19 INSTALL ROLODEXAI: PWA now, Play/App Store INCOMING. -->
+        <ion-item-divider>
+          <ion-label color="medium">Install RolodexAI</ion-label>
+        </ion-item-divider>
+        <ion-item lines="none" class="elegant-item" (click)="installPwa()">
+          <ion-icon name="download-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            Install this app (PWA)
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Runs like an app at zyppar.com/rolodex/</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+        <ion-item lines="none" class="elegant-item" (click)="openPlayStore()">
+          <ion-icon name="logo-google" slot="start" color="success"></ion-icon>
+          <ion-label>
+            Google Play
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Incoming</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+        <ion-item lines="none" class="elegant-item" (click)="openAppStore()">
+          <ion-icon name="logo-apple" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            App Store
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Incoming</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Card View</ion-label>

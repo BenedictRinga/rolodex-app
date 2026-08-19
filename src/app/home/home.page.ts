@@ -273,9 +273,12 @@ export class HomePage implements OnInit {
       component: HelpModalComponent,
       cssClass: 'help-modal',
     });
+    // 2026-08-19 FIX: the component instance only exists AFTER present() —
+    // subscribing before it meant every "Go" tap dismissed the modal and
+    // landed the user on their face with nothing happening.
+    await modal.present();
     const inst = modal.componentRef?.instance as HelpModalComponent | null;
     inst?.navigate?.subscribe?.((featureId: string) => this.onHelpNavigate(featureId));
-    await modal.present();
   }
 
   /** A help "Go" tap — transport the user to the feature's section. */

@@ -256,9 +256,10 @@ ion-content {
 
 .rolodex-container .card-actions {
   width: 100%;
-  /* 2026-08-18: 4 buttons per row, two rows - no more cramped single row. */
+  /* 2026-08-19 ELEGANT GRID: 5 per row on normal screens (9 buttons = 5+4,
+     no orphan); 4 per row only on narrow phones. */
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 4px;
   justify-items: center;
   padding-top: var(--rolodex-space-2);
@@ -270,14 +271,22 @@ ion-content {
     font-size: var(--rolodex-text-xs);
     height: 28px;
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-/* 2026-08-18 DEFAULT VIEW DETAILS ACTIONS: 4 per row, two rows. */
+/* 2026-08-19 DEFAULT VIEW DETAILS ACTIONS: 5 per row, 4 only on phones. */
 .card-actions-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 6px;
   margin-top: 8px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
