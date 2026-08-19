@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">About Rolodex</ion-title>
+    <ion-title style="font-size: 15px;">{{ portalMode === 'investors' ? 'Investors' : 'About Rolodex' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -15,12 +15,12 @@
 </ion-header>
 
 <ion-content class="about-body">
-  <div class="about-hero">
+  <div class="about-hero" *ngIf="portalMode !== 'investors'">
     <div class="about-logo">RolodexAI</div>
     <div class="about-tagline">Your contacts, in motion.</div>
   </div>
 
-  <div class="about-section">
+  <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>What is Rolodex?</h3>
     <p>
       Rolodex is your <strong>confidential secretary</strong> — the contact
@@ -31,7 +31,7 @@
     </p>
   </div>
 
-  <div class="about-section">
+  <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Why it exists</h3>
     <p>
       Contacts were never meant to sit still in a phonebook. Rolodex came out
@@ -41,7 +41,7 @@
     </p>
   </div>
 
-  <div class="about-section">
+  <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Rolodex × RolodexAI</h3>
     <p>
       <strong>Rolodex (Basic · $1/month):</strong> cards, groups, reminders,
@@ -54,7 +54,7 @@
     </p>
   </div>
 
-  <div class="about-section">
+  <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Version</h3>
     <p>RolodexAI v{{ version }} · running as a PWA on zyppar.com/rolodex/</p>
   </div>

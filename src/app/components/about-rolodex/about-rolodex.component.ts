@@ -15,7 +15,8 @@ const INVESTOR_PASSWORD = 'northstar';
 })
 export class AboutRolodexComponent implements OnInit {
   /** 2026-08-19 DIRECT INVESTOR PORTAL: when opened from Settings > Investors,
-   *  the padlock is already open - the full portal is the destination. */
+   *  the modal is the portal (locked, password NorthStar) - NOT the About tour. */
+  @Input() portalMode: 'about' | 'investors' = 'about';
   @Input() openInvestors = false;
   @Input() unlocked = false;
 
@@ -28,7 +29,10 @@ export class AboutRolodexComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.openInvestors) this.unlocked = true;
+    // Legacy compatibility: openInvestors=true means the Investors portal.
+    if (this.openInvestors) this.portalMode = 'investors';
+    // The portal stays LOCKED. The word is NorthStar (case-insensitive).
+    this.unlocked = false;
   }
 
   /**
@@ -84,7 +88,7 @@ export class AboutRolodexComponent implements OnInit {
           text: 'Enter',
           handler: (data: any) => {
             const pass = String(data?.pass || '').trim();
-            if (pass === INVESTOR_PASSWORD) {
+            if (pass.toLowerCase() === INVESTOR_PASSWORD.toLowerCase()) {
               this.unlocked = true;
               return true;
             }
