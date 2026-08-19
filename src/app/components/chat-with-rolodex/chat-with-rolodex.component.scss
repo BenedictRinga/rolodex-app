@@ -81,3 +81,15 @@ ion-content {
   --background: var(--rolodex-surface);
   --color: var(--rolodex-text);
 }
+
+.mode-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 10px 16px;
+}
+
+.mode-picker ion-button {
+  --border-radius: 12px;
+  font-weight: 600;
+}
