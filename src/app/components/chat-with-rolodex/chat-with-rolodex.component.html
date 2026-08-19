@@ -20,7 +20,7 @@
     <ion-icon name="sparkles-outline" slot="start"></ion-icon>
     <div>
       <strong>How can we make RolodexAI better for you?</strong>
-      <p>Two quick answers is all it takes — then we hand you to the free AI chats for the deep dive.</p>
+      <p>A real conversation with the Confidante — after a couple of exchanges we hand you to the free AI chats for the deep dive.</p>
     </div>
   </div>
 
@@ -38,7 +38,7 @@
       class="chat-input"
       fill="outline"
     ></ion-input>
-    <ion-button (click)="send()" [disabled]="!input.trim()">
+    <ion-button (click)="send()" [disabled]="!input.trim() || !chatReady">
       <ion-icon name="send-outline"></ion-icon>
     </ion-button>
   </div>

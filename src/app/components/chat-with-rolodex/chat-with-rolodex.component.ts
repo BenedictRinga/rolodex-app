@@ -3,13 +3,15 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { RolodexSyncService } from '../../services/rolodex-sync/rolodex-sync.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 
 /**
- * 2026-08-19 CHAT WITH ROLODEXAI — the suggestion channel.
+ * 2026-08-19 CHAT WITH ROLODEXAI — a REAL chat with the Confidante, not presets.
  *
  * The modal opens with a visible banner: "How can we make RolodexAI better
- * for you?" That frames the whole conversation. The Confidante holds a bare
- * minimum of exchanges (two user messages), gleans the direction into a
+ * for you?" That frames the conversation. Every reply comes from the live AI
+ * (DeepSeek or Grok through the rolodex-server proxy, ROLODEX's keys). After a
+ * bare minimum of user exchanges the Confidante gleans the direction into a
  * summary, stores it for the Investors portal, then pops a notification with
  * two links — free DeepSeek and free Grok chats — each opening in a new tab.
  */
@@ -22,51 +24,101 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 export class ChatWithRolodexModalComponent {
   messages: { from: 'system' | 'user'; text: string }[] = [];
   input = '';
+  chatReady = false;
+  private history: { role: 'user' | 'assistant'; content: string }[] = [];
   private userMessageCount = 0;
   private submitted = false;
   private readonly MIN_EXCHANGES = 2;
   private readonly DEEPSEEK_URL = 'https://chat.deepseek.com/';
   private readonly GROK_URL = 'https://grok.com/';
+  private engine = 'deepseek';
 
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
     private readonly rolodexSync: RolodexSyncService,
     private readonly alerts: AlertsService,
+    private readonly draftEngine: DraftEngineService,
   ) {
-    this.messages.push({
-      from: 'system',
-      text: 'Hi! I’m the Confidante. The banner already said it, so let’s keep this tight: what is one thing about RolodexAI that feels frustrating or missing?',
-    });
+    void this.start();
+  }
+
+  /** Open the chat with a REAL AI greeting (never a canned script). */
+  private async start(): Promise<void> {
+    try {
+      const status = await this.draftEngine.aiStatus();
+      this.engine = status.grokConfigured && !status.deepseekConfigured ? 'grok' : 'deepseek';
+    } catch { /* default deepseek; backend falls back */ }
+
+    this.messages.push({ from: 'system', text: 'Connecting to the Confidante…' });
+    const opening = await this.chat([{
+      role: 'user',
+      content: 'Please greet me warmly and ask what one thing about RolodexAI feels frustrating or missing. Keep it to 1-2 sentences.',
+    }]);
+    this.chatReady = true;
+    if (opening.reply) {
+      this.messages[0] = { from: 'system', text: opening.reply };
+      this.history.push({ role: 'assistant', content: opening.reply });
+    } else {
+      this.messages[0] = {
+        from: 'system',
+        text: 'The live Confidante is not reachable right now. Tell us the frustration anyway, or use the free AI chats below for the deep dive.',
+      };
+    }
   }
 
   send(): void {
     const text = this.input.trim();
-    if (!text) return;
-    this.messages.push({ from: 'user', text });
+    if (!text || !this.chatReady) return;
     this.input = '';
+    this.messages.push({ from: 'user', text });
+    this.history.push({ role: 'user', content: text });
     this.userMessageCount++;
+    this.messages.push({ from: 'system', text: '…' });
 
-    if (this.userMessageCount >= this.MIN_EXCHANGES && !this.submitted) {
-      this.submitted = true;
-      void this.finishAndOffer();
-      return;
-    }
+    void (async () => {
+      const res = await this.chat(this.history);
+      const reply = res.reply || 'The live Confidante did not reply. Try again, or open a free AI chat below.';
+      // replace the typing placeholder with the real AI reply
+      const idx = this.messages.findIndex((m) => m.text === '…' && m.from === 'system');
+      if (idx >= 0) this.messages[idx] = { from: 'system', text: reply };
+      else this.messages.push({ from: 'system', text: reply });
+      this.history.push({ role: 'assistant', content: reply });
 
-    this.messages.push({
-      from: 'system',
-      text: 'Got it — that’s the frustration. If we could change ONE thing to fix that, what would it look like?',
-    });
+      if (this.userMessageCount >= this.MIN_EXCHANGES && !this.submitted) {
+        this.submitted = true;
+        await this.gleanAndOffer();
+      }
+    })();
   }
 
-  /** Glean the direction, store it, then hand the user to free AI chats. */
-  private async finishAndOffer(): Promise<void> {
-    const userMessages = this.messages.filter((m) => m.from === 'user').map((m) => m.text);
-    const summary = `Frustration: ${userMessages[0] || ''} — Direction: ${userMessages[1] || userMessages[0] || ''}`;
-    this.messages.push({
-      from: 'system',
-      text: 'Perfect — I’ve logged that. For the full brainstorm I’m handing you to the free AI chats now.',
-    });
+  /** Real chat call through the rolodex-server proxy. */
+  private async chat(messages: { role: 'user' | 'assistant'; content: string }[]): Promise<{ reply: string; fallback: boolean }> {
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ engine: this.engine, messages }),
+      });
+      if (!res.ok) return { reply: '', fallback: true };
+      const data = await res.json();
+      return { reply: String(data?.reply || ''), fallback: !!data?.fallback };
+    } catch {
+      return { reply: '', fallback: true };
+    }
+  }
+
+  /** After the minimum exchanges: AI-glean the direction, store it, hand off. */
+  private async gleanAndOffer(): Promise<void> {
+    const summaryRes = await this.chat([
+      ...this.history,
+      {
+        role: 'user',
+        content: 'Summarize the user\'s suggestion in one concise line shaped as: Frustration: ... — Direction: ...',
+      },
+    ]);
+    const userTexts = this.history.filter((m) => m.role === 'user').map((m) => m.content);
+    const summary = summaryRes.reply || `Frustration: ${userTexts[0] || ''} — Direction: ${userTexts[1] || userTexts[0] || ''}`;
 
     try {
       const res = await fetch(`${environment.rolodexApiBase}/feedback`, {
@@ -75,7 +127,7 @@ export class ChatWithRolodexModalComponent {
         body: JSON.stringify({
           deviceId: this.rolodexSync.getDeviceId(),
           deviceName: 'Chat with RolodexAI',
-          messages: userMessages,
+          messages: userTexts,
           summary,
         }),
       });
