@@ -100,6 +100,9 @@ interface ComposerMsg {
 export class ConfidanteComposerModalComponent implements OnInit {
   @Input() contact!: ContactInfo;
   @Input() occasion: Occasion = 'follow-up';
+  /** 2026-08-19 THE TASTE: a pre-composed draft can be handed in directly. */
+  @Input() initialDraft = '';
+  @Input() initialInstruction = '';
 
   messages: ComposerMsg[] = [];
   instruction = '';
@@ -126,6 +129,15 @@ export class ConfidanteComposerModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.contactName = this.draftEngine.contactName(this.contact) || 'this contact';
+    // 2026-08-19 THE TASTE: pre-composed draft lands in the composer ready to
+    // refine or dispatch; the user only chooses the medium.
+    if (this.initialDraft) {
+      this.draft = this.initialDraft;
+      this.messages.push({ role: 'ai', text: this.initialDraft });
+    }
+    if (this.initialInstruction) {
+      this.instruction = this.initialInstruction;
+    }
   }
 
   async send(): Promise<void> {

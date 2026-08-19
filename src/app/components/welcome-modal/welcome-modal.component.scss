@@ -1071,3 +1071,58 @@ ion-content {
   color: var(--rolodex-text-tertiary);
   text-align: center;
 }
+
+/* 2026-08-19 THE TASTE — the surprise card. */
+.taste {
+  text-align: center;
+}
+
+.taste-gift {
+  font-size: 42px;
+  color: var(--rolodex-accent);
+  margin-bottom: 10px;
+  animation: taste-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes taste-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: .8; }
+}
+
+.taste-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.taste-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--rolodex-text);
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.taste-num {
+  flex: 0 0 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rolodex-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.taste-hint {
+  font-size: 10.5px;
+  color: var(--rolodex-text-tertiary);
+}

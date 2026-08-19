@@ -42,7 +42,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'intro',
       kicker: 'Karibu sana!',
       title: 'RolodexAI — your contacts, in motion',
-      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold.',
+      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold. A surprise is waiting at the end of this demo.',
     },
     {
       id: 'card',
@@ -98,6 +98,12 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       title: 'That\u2019s the tour — it\u2019s all live',
       copy: 'You never forget again. You never delay again. You never postpone again. Tap through the app, or replay this demo any time from Settings → Welcome Again.',
     },
+    {
+      id: 'taste',
+      kicker: 'The surprise',
+      title: 'Close one real loop — right now',
+      copy: 'Pick three of your most difficult, postponed communications. We work through the first one together — no name or number needed. You pick the person from your phone at the end, and the message we compose is ready to send. That is the taste.',
+    },
   ];
 
   stepIndex = 0;
@@ -114,6 +120,11 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   get isLast(): boolean {
     return this.stepIndex === this.steps.length - 1;
+  }
+
+  /** 2026-08-19 THE TASTE: the final "surprise" card that starts the guided loop. */
+  get isTaste(): boolean {
+    return this.steps[this.stepIndex]?.id === 'taste';
   }
 
   ngOnInit(): void {
@@ -178,6 +189,17 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour. */
   start(): void {
     void this.modalController.dismiss('start', 'close');
+  }
+
+  /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with RolodexAI in
+   *  situation mode, and the surprise (the guided real-loop demo) begins. */
+  startTaste(): void {
+    void this.modalController.dismiss('taste', 'close');
+  }
+
+  /** The taste offer declined — just close, no nagging. */
+  maybeLater(): void {
+    void this.modalController.dismiss('later', 'close');
   }
 
   /** The off-switch: persists the dismissal key so the demo never shows again. */

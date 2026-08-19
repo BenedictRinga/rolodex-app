@@ -53,15 +53,15 @@
                 <div class="card-details">
                   <p (click)="$event.stopPropagation(); callContact(contact)">
                     <ion-icon name="call-outline" class="detail-icon"></ion-icon>
-                    <span *ngIf="contact.phones && contact.phones.length > 0; else noPhone">
-                      <span *ngFor="let ph of contact.phones; let i = index; let last = last">{{ i > 0 ? ' · ' : '' }}{{ ph.number }}</span>
+                    <span *ngIf="uniquePhones(contact).length > 0; else noPhone">
+                      <span *ngFor="let ph of uniquePhones(contact); let i = index; let last = last">{{ i > 0 ? ' · ' : '' }}{{ ph.number }}</span>
                     </span>
                     <ng-template #noPhone>No Phone</ng-template>
                   </p>
                   <p (click)="$event.stopPropagation(); emailContact(contact)">
                     <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
-                    <span *ngIf="contact.emails && contact.emails.length > 0; else noEmail">
-                      <span *ngFor="let em of contact.emails; let i = index">{{ i > 0 ? ' · ' : '' }}{{ em.address }}</span>
+                    <span *ngIf="uniqueEmails(contact).length > 0; else noEmail">
+                      <span *ngFor="let em of uniqueEmails(contact); let i = index">{{ i > 0 ? ' · ' : '' }}{{ em.address }}</span>
                     </span>
                     <ng-template #noEmail>No Email</ng-template>
                   </p>
@@ -203,16 +203,16 @@
                 <span>{{ contact.organization?.jobTitle }}</span>
               </div>
       
-              <!-- Primary Phone -->
-              <div class="info-row" *ngIf="contact.phones && contact.phones.length">
+              <!-- Primary Phone (deduped) -->
+              <div class="info-row" *ngIf="uniquePhones(contact).length">
                 <ion-icon name="call-outline" class="info-icon"></ion-icon>
-                <span>{{ contact.phones[0].number }}</span>
+                <span>{{ uniquePhones(contact)[0].number }}</span>
               </div>
       
-              <!-- Primary Email -->
-              <div class="info-row" *ngIf="contact.emails && contact.emails.length">
+              <!-- Primary Email (deduped) -->
+              <div class="info-row" *ngIf="uniqueEmails(contact).length">
                 <ion-icon name="mail-outline" class="info-icon"></ion-icon>
-                <span>{{ contact.emails[0].address }}</span>
+                <span>{{ uniqueEmails(contact)[0].address }}</span>
               </div>
       
               <!-- Social Profiles -->
@@ -306,19 +306,19 @@
               </div>
             </div>
       
-            <!-- Optional Phone Activation -->
-            <div class="info-row" *ngIf="contact.phones && contact.phones.length">
+            <!-- Optional Phone Activation (deduped) -->
+            <div class="info-row" *ngIf="uniquePhones(contact).length">
               <ion-icon name="call-outline" class="info-icon"></ion-icon>
               <span (click)="callContact(contact); $event.stopPropagation()" style="cursor:pointer;">
-                {{ contact.phones[0].number }}
+                {{ uniquePhones(contact)[0].number }}
               </span>
             </div>
       
-            <!-- Optional Email Activation -->
-            <div class="info-row" *ngIf="contact.emails && contact.emails.length">
+            <!-- Optional Email Activation (deduped) -->
+            <div class="info-row" *ngIf="uniqueEmails(contact).length">
               <ion-icon name="mail-outline" class="info-icon"></ion-icon>
               <span (click)="emailContact(contact); $event.stopPropagation()" style="cursor:pointer;">
-                {{ contact.emails[0].address }}
+                {{ uniqueEmails(contact)[0].address }}
               </span>
             </div>
       
@@ -561,8 +561,8 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            <p><strong>Phone:</strong> {{ activeContact.phones?.[0]?.number || 'No Phone Info' }}</p>
-            <p><strong>Email:</strong> {{ activeContact.emails?.[0]?.address || 'No Email Info' }}</p>
+            <p><strong>Phone:</strong> {{ uniquePhones(activeContact)[0]?.number || 'No Phone Info' }}</p>
+            <p><strong>Email:</strong> {{ uniqueEmails(activeContact)[0]?.address || 'No Email Info' }}</p>
             <p><strong>Address:</strong>
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address Info' }}
             </p>
@@ -1502,12 +1502,12 @@
             <!-- Clickable Phone -->
             <p (click)="$event.stopPropagation(); callContact(activeContact)">
               <ion-icon name="call-outline" class="detail-icon"></ion-icon>
-              {{ activeContact.phones?.[0]?.number || 'No Phone' }}
+              {{ uniquePhones(activeContact)[0]?.number || 'No Phone' }}
             </p>
             <!-- Clickable Email -->
             <p (click)="$event.stopPropagation(); emailContact(activeContact)">
               <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
-              {{ activeContact.emails?.[0]?.address || 'No Email' }}
+              {{ uniqueEmails(activeContact)[0]?.address || 'No Email' }}
             </p>
             <!-- Clickable Address -->
             <p (click)="$event.stopPropagation(); openAddress(activeContact)">

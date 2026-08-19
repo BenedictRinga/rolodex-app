@@ -1,21 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { RolodexSyncService } from '../../services/rolodex-sync/rolodex-sync.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
+import { StorageService } from '../../services/storage/storage.service';
+import { ContactInfo } from '../../models/contacts';
+import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
 
-type ChatMode = '' | 'feedback' | 'help';
+type ChatMode = '' | 'feedback' | 'help' | 'situation';
 
 /**
  * 2026-08-19 CHAT WITH ROLODEXAI — a REAL chat with the Confidante, not presets.
  *
- * The banner frames two paths: help improve RolodexAI, or get help using it.
- * After the user chooses, every reply comes from the live AI (DeepSeek or Grok
- * through the rolodex-server proxy). Feedback mode gleans a summary for the
- * Investors portal after a bare minimum of exchanges; help mode is kept short
- * by the backend directive and both modes hand off to free DeepSeek/Grok chats
- * when the session limit is reached.
+ * Modes:
+ *  - feedback: improve RolodexAI → summary to the Investors room.
+ *  - help: how to use the app.
+ *  - situation (THE TASTE): work through a real postponed communication.
+ *    The AI collects the 4 W's + critical context WITHOUT asking for the other
+ *    person's name/number. When ready, the user picks the person from their
+ *    phone; the composed draft slots into the Confidante composer where they
+ *    choose the medium — distribution in exchange for easing a problem.
  */
 @Component({
   selector: 'app-chat-with-rolodex',
@@ -23,11 +28,22 @@ type ChatMode = '' | 'feedback' | 'help';
   styleUrls: ['./chat-with-rolodex.component.scss'],
   standalone: false,
 })
-export class ChatWithRolodexModalComponent {
+export class ChatWithRolodexModalComponent implements OnInit {
+  @Input() startMode: ChatMode = '';
+
   messages: { from: 'system' | 'user'; text: string }[] = [];
   input = '';
   mode: ChatMode = '';
   chatReady = false;
+
+  // Situation mode state
+  situationCount = 0;
+  situationOrdinalLabel = '';
+  pickContactCard = false;
+  situationDraft = '';
+  situationPicked = false;
+  private readonly SITUATION_COUNT_KEY = 'rolodex_situation_count';
+
   private history: { role: 'user' | 'assistant'; content: string }[] = [];
   private userMessageCount = 0;
   private handedOff = false;
@@ -44,25 +60,40 @@ export class ChatWithRolodexModalComponent {
     private readonly rolodexSync: RolodexSyncService,
     private readonly alerts: AlertsService,
     private readonly draftEngine: DraftEngineService,
+    private readonly storage: StorageService,
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    if (this.startMode) {
+      await this.begin(this.startMode);
+    }
+  }
 
   chooseMode(mode: 'feedback' | 'help'): void {
     if (this.mode) return;
-    this.mode = mode;
-    void this.start();
+    void this.begin(mode);
   }
 
-  /** Open the chat with a REAL AI greeting for the chosen mode. */
-  private async start(): Promise<void> {
+  /** Start a mode: feedback, help, or the situation (taste) flow. */
+  private async begin(mode: ChatMode): Promise<void> {
+    if (this.mode) return;
+    this.mode = mode;
+    this.chatReady = false;
+
+    if (mode === 'situation') {
+      try {
+        this.situationCount = Number(await this.storage.get<number>(this.SITUATION_COUNT_KEY)) || 0;
+      } catch { /* first time */ }
+      this.situationOrdinalLabel = this.ordinal(this.situationCount + 1);
+    }
+
     try {
       const status = await this.draftEngine.aiStatus();
       this.engine = status.grokConfigured && !status.deepseekConfigured ? 'grok' : 'deepseek';
     } catch { /* default deepseek; backend falls back */ }
 
     this.messages.push({ from: 'system', text: 'Connecting to the Confidante…' });
-    const openingPrompt = this.mode === 'help'
-      ? 'The user needs help using RolodexAI. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.'
-      : 'Please greet me warmly and ask what one thing about RolodexAI feels frustrating or missing. Keep it to 1-2 sentences.';
+    const openingPrompt = this.openingPromptFor(mode);
     const opening = await this.chat([{ role: 'user', content: openingPrompt }]);
     this.chatReady = true;
     if (opening.reply) {
@@ -71,8 +102,22 @@ export class ChatWithRolodexModalComponent {
     } else {
       this.messages[0] = {
         from: 'system',
-        text: 'The live Confidante is not reachable right now. Tell us what you need anyway, or use the free AI chats below for the deep dive.',
+        text: mode === 'situation'
+          ? 'The live Confidante is not reachable right now. Tell us about the postponed communication anyway — we can still work through it.'
+          : 'The live Confidante is not reachable right now. Tell us what you need anyway, or use the free AI chats below for the deep dive.',
       };
+    }
+  }
+
+  private openingPromptFor(mode: ChatMode): string {
+    switch (mode) {
+      case 'help':
+        return 'The user needs help using RolodexAI. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
+      case 'situation':
+        return `We are working together to improve a ${this.situationOrdinalLabel} situation — a real postponed communication the user wants to finally send. Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). IMPORTANT: do NOT ask for the other person's name, phone, email or number — the app will let them pick the person from their phone contacts later. Keep it to 1-2 sentences.`;
+      case 'feedback':
+      default:
+        return 'Please greet me warmly and ask what one thing about RolodexAI feels frustrating or missing. Keep it to 1-2 sentences.';
     }
   }
 
@@ -95,6 +140,11 @@ export class ChatWithRolodexModalComponent {
 
       if (this.handedOff) return;
 
+      if (this.mode === 'situation') {
+        await this.maybeSituationStep();
+        return;
+      }
+
       if (this.mode === 'feedback' && this.userMessageCount >= this.MIN_FEEDBACK_EXCHANGES) {
         this.handedOff = true;
         await this.gleanAndOffer();
@@ -106,6 +156,135 @@ export class ChatWithRolodexModalComponent {
         await this.offerFreeChats('This chat window is intentionally short — the free AI chats below can go as deep as you like.');
       }
     })();
+  }
+
+  /** Situation mode: after a little context, show the phone-picker card and
+   *  ask the Confidante to compose the actual message draft. */
+  private async maybeSituationStep(): Promise<void> {
+    if (this.userMessageCount >= 2 && !this.pickContactCard) {
+      this.pickContactCard = true;
+      this.messages.push({
+        from: 'system',
+        text: 'That’s enough context for now — when you’re ready, tap the card below to pick the person from your phone. No typing their name or number.',
+      });
+      const draftRes = await this.chat([
+        ...this.history,
+        {
+          role: 'user',
+          content: 'Now compose the message to this person using the context gathered. Keep it one warm, human paragraph. Do not include their name or any contact details — we do not know them yet.',
+        },
+      ]);
+      if (draftRes.reply) {
+        this.situationDraft = draftRes.reply;
+        this.messages.push({ from: 'system', text: draftRes.reply });
+        this.history.push({ role: 'assistant', content: draftRes.reply });
+      }
+    }
+  }
+
+  /** 2026-08-19 THE TASTE: open the native Contact Picker, then hand the
+   *  composed draft + selected person to the Confidante composer for dispatch. */
+  async pickFromPhone(): Promise<void> {
+    const picker = (navigator as any)?.contacts;
+    if (!picker?.select) {
+      await this.alerts.showToast('Contact picking needs Android Chrome — or add the person from Settings → Add contacts.', 4000);
+      return;
+    }
+    try {
+      const picked = await picker.select(['name', 'tel', 'email', 'address', 'icon'], { multiple: false });
+      const raw = picked?.[0];
+      if (!raw) return; // cancelled
+      const contact = this.mapPicked(raw);
+
+      this.situationPicked = true;
+      this.situationCount = (this.situationCount || 0) + 1;
+      await this.storage.set(this.SITUATION_COUNT_KEY, this.situationCount);
+
+      await this.modalController.dismiss();
+      const composer = await this.modalController.create({
+        component: ConfidanteComposerModalComponent,
+        componentProps: {
+          contact,
+          occasion: 'follow-up',
+          initialDraft: this.situationDraft,
+          initialInstruction: 'Refine it if you like — then choose how to send it.',
+        },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95, 1],
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
+      });
+      await composer.present();
+    } catch {
+      await this.alerts.showToast('Contact picking was cancelled.', 2500);
+    }
+  }
+
+  /** Minimal-but-complete mapper for a picked phone contact. */
+  private mapPicked(raw: any): ContactInfo {
+    const rawName = raw?.name;
+    const nameSources: any[] = Array.isArray(rawName) ? rawName : (rawName ? [rawName] : []);
+    const nameObj = nameSources.find((n: any) => typeof n === 'object' && n !== null) || null;
+    const nameString = nameSources
+      .map((n: any) => (typeof n === 'string' ? n : (n?.formatted || n?.displayName || n?.display || n?.fullName || n?.name || '')))
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    const namePrefix = nameObj ? String(nameObj.honorificPrefix || nameObj.prefix || '').trim() : '';
+    const nameGiven = nameObj ? String(nameObj.givenName || nameObj.given || '').trim() : '';
+    const nameMiddle = nameObj ? String(nameObj.middleName || nameObj.middle || '').trim() : '';
+    const nameFamily = nameObj ? String(nameObj.familyName || nameObj.family || '').trim() : '';
+    const nameSuffix = nameObj ? String(nameObj.honorificSuffix || nameObj.suffix || '').trim() : '';
+    const nameFormatted = nameObj ? String(nameObj.formatted || nameObj.displayName || nameObj.display || nameObj.fullName || nameObj.name || '').trim() : '';
+    const joined = [namePrefix, nameGiven, nameMiddle, nameFamily, nameSuffix].filter(Boolean).join(' ');
+    const display = (nameFormatted || nameString || joined || 'Picked contact').trim();
+    const tel = Array.isArray(raw?.tel)
+      ? raw.tel.filter(Boolean).map((n: any) => (typeof n === 'object' && n !== null ? String(n?.number || n?.value || '') : String(n))).filter(Boolean)
+      : [];
+    const emails = Array.isArray(raw?.email)
+      ? raw.email.filter(Boolean).map((a: any) => (typeof a === 'object' && a !== null ? String(a?.address || a?.value || '') : String(a))).filter(Boolean)
+      : [];
+    return {
+      contactId: 'taste-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      name: {
+        display,
+        given: nameGiven,
+        middle: nameMiddle,
+        family: nameFamily,
+        prefix: namePrefix,
+        suffix: nameSuffix,
+      } as any,
+      phones: tel.map((n: string) => ({ number: n, type: 'mobile' as any, isPrimary: false, label: null })),
+      emails: emails.map((a: string) => ({ address: a, type: 'personal' as any, isPrimary: false, label: null })),
+      postalAddresses: [],
+      organization: { company: '', jobTitle: '', department: '' },
+      birthday: null,
+      note: '',
+      urls: [],
+      image: raw?.icon instanceof Blob ? { base64String: null } : { base64String: null },
+      rolodex: {
+        when: '', where: '', who: '', why: '', how: '', topic: '', followUp: this.situationDraft ? 'Send the composed message' : '',
+        personalTidbits: '', outcome: '', priority: 'medium' as const, contactFrequency: 'weekly' as const, references: [],
+      },
+      socialProfiles: {},
+      tags: [],
+      groups: [],
+      privacy: { level: 'private' as any, sharedWith: [] },
+      sharedBy: [],
+      lastInteraction: null,
+      nextInteraction: null,
+      reminders: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      preferences: { refreshContacts: false, notificationPreference: 'email' as any },
+      isMockData: false,
+      isContactInfo: true,
+    } as any as ContactInfo;
+  }
+
+  private ordinal(n: number): string {
+    const ord = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
+    return ord[n - 1] || 'next';
   }
 
   /** Real chat call through the rolodex-server proxy. */

@@ -15,12 +15,18 @@
 </ion-header>
 
 <ion-content class="chat-body">
-  <!-- 2026-08-19 THE FRAMING BANNER: feedback OR help — the user chooses. -->
-  <div class="chat-banner">
+  <!-- 2026-08-19 THE FRAMING BANNER: feedback, help, or the situation flow. -->
+  <div class="chat-banner" [class.situation]="mode === 'situation'">
     <ion-icon name="sparkles-outline" slot="start"></ion-icon>
     <div>
-      <strong>How can we make RolodexAI better for you?</strong>
-      <p>Or do you need help using RolodexAI? Choose below and the Confidante will take it from there.</p>
+      <ng-container *ngIf="mode === 'situation'; else feedbackHelpBanner">
+        <strong>We are working together to improve a {{ situationOrdinalLabel }} situation.</strong>
+        <p>No name or number needed — the Confidante gathers the context, then you pick the person from your phone.</p>
+      </ng-container>
+      <ng-template #feedbackHelpBanner>
+        <strong>How can we make RolodexAI better for you?</strong>
+        <p>Or do you need help using RolodexAI? Choose below and the Confidante will take it from there.</p>
+      </ng-template>
     </div>
   </div>
 
@@ -39,6 +45,17 @@
     <div class="chat-thread">
       <div *ngFor="let m of messages" class="chat-message" [class.user]="m.from === 'user'">
         <div class="bubble">{{ m.text }}</div>
+      </div>
+
+      <!-- 2026-08-19 THE TASTE: the phone-picker card appears once enough
+           context is gathered — no name/number typed by the user. -->
+      <div class="picker-card" *ngIf="mode === 'situation' && pickContactCard && !situationPicked">
+        <div class="picker-card-title"><ion-icon name="person-add-outline"></ion-icon> Who is it?</div>
+        <p class="picker-card-copy">Pick the person from your phone — we never asked you to type their name or number.</p>
+        <ion-button expand="block" fill="outline" color="primary" (click)="pickFromPhone()">
+          <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
+          Pick from my phone contacts
+        </ion-button>
       </div>
     </div>
 

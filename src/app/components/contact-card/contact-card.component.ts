@@ -966,6 +966,28 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     return '';
   }
 
+  /** 2026-08-19 DEDUPE: phones shown on cards are unique by normalized number. */
+  uniquePhones(contact: any): any[] {
+    const seen = new Set<string>();
+    return (contact?.phones || []).filter((p: any) => {
+      const key = String(p?.number || '').replace(/[^\d]/g, '');
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  /** 2026-08-19 DEDUPE: emails shown on cards are unique by lowercase address. */
+  uniqueEmails(contact: any): any[] {
+    const seen = new Set<string>();
+    return (contact?.emails || []).filter((e: any) => {
+      const key = String(e?.address || '').trim().toLowerCase();
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   /** 2026-08-19 SOCIAL SUMMARY: a compact one-line list for the card back so
    *  the full surface carries the same social details the old drop-down had. */
   socialSummary(contact: any): string {

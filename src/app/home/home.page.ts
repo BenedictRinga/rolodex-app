@@ -16,6 +16,7 @@ import { HelpModalComponent } from '../components/help-modal/help-modal.componen
 import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
+import { ChatWithRolodexModalComponent } from '../components/chat-with-rolodex/chat-with-rolodex.component';
 import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
 import { InviteService } from '../services/invite/invite.service';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
@@ -122,8 +123,23 @@ export class HomePage implements OnInit, OnDestroy {
       });
       await modal.present();
       const res = await modal.onDidDismiss();
-      if (res?.role === 'start') void this.openHelp();
+      if (res?.role === 'taste') void this.openTasteFlow();
+      else if (res?.role === 'start') void this.openHelp();
     } catch { /* quiet */ }
+  }
+
+  /** 2026-08-19 THE TASTE: the welcome demo's surprise — a guided real-loop
+   *  session in Chat with RolodexAI (situation mode). */
+  async openTasteFlow(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ChatWithRolodexModalComponent,
+      componentProps: { startMode: 'situation' },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
   }
 
   /** The Settings 'Show' side of Welcome Again: clear the dismissal + replay. */

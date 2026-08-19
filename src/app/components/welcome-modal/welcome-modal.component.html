@@ -176,6 +176,17 @@
               <div class="recap-done">You’re set — everything above is live.</div>
             </div>
 
+            <!-- THE TASTE: the surprise — three postponed loops, one real close. -->
+            <div class="taste" *ngSwitchCase="'taste'">
+              <div class="taste-gift"><ion-icon name="gift-outline"></ion-icon></div>
+              <div class="taste-list">
+                <div class="taste-row"><span class="taste-num">1</span><span>the reply you owe</span></div>
+                <div class="taste-row"><span class="taste-num">2</span><span>the catch-up you keep delaying</span></div>
+                <div class="taste-row"><span class="taste-num">3</span><span>the thank-you that died in drafts</span></div>
+              </div>
+              <div class="taste-hint">No names, no numbers — you pick the person from your phone at the end.</div>
+            </div>
+
           </ng-container>
         </div>
       </div>
@@ -210,7 +221,13 @@
 
   <!-- ── ACTIONS ────────────────────────────────────────────────────── -->
   <div class="demo-actions">
-    <ion-button fill="clear" size="small" (click)="dontShowAgain()">Don't show this again</ion-button>
-    <ion-button expand="block" class="demo-start" (click)="start()">Start exploring</ion-button>
+    <ng-container *ngIf="isTaste; else normalActions">
+      <ion-button expand="block" class="demo-start" (click)="startTaste()">Let's go</ion-button>
+      <ion-button fill="clear" size="small" (click)="maybeLater()">Maybe later</ion-button>
+    </ng-container>
+    <ng-template #normalActions>
+      <ion-button fill="clear" size="small" (click)="dontShowAgain()">Don't show this again</ion-button>
+      <ion-button expand="block" class="demo-start" (click)="start()">Start exploring</ion-button>
+    </ng-template>
   </div>
 </ion-content>
