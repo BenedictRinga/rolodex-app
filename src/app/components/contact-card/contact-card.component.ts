@@ -596,15 +596,19 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 2026-08-19 USER ↔ CONFIDANTE COMPOSER: instruct, refine, dispatch. */
   async openConfidanteComposer(contact: any): Promise<void> {
-    const modal = await this.modalController.create({
-      component: ConfidanteComposerModalComponent,
-      componentProps: { contact, occasion: this.occasionFor(contact) },
-      cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95, 1],
-      initialBreakpoint: 0.95,
-      keyboardClose: false,
-    });
-    await modal.present();
+    try {
+      const modal = await this.modalController.create({
+        component: ConfidanteComposerModalComponent,
+        componentProps: { contact, occasion: this.occasionFor(contact) },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95, 1],
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
+      });
+      await modal.present();
+    } catch {
+      void this.alertService.showToast('Could not open the Confidante', 2500);
+    }
   }
 
   async draftMessage(contact: any): Promise<void> {

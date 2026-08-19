@@ -87,17 +87,18 @@ ion-content {
   backface-visibility: hidden;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: #f9f9f9;
-  /* 2024 Zyppar original: soft border + rounded corners. */
-  border: 1px solid #ccc;
+  background-color: #fbf3e7;
+  /* 2024 Zyppar original: soft warm border + rounded corners + gentle lift.
+     Warm palette: ringa cream #f1ce9d, primary #ff8945, page #fdfbf7. */
+  border: 1px solid #e8d5bd;
   border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 /* ── Front ───────────────────────────────────────── */
 .rolodex-container .card-front {
-  /* 2024 Zyppar original front: plain #fff, border/radius from the shared
-     block above. Do NOT strip them. */
-  background-color: #fff;
+  /* 2024 Zyppar original front: warm white #fffdf8 on the cream scheme. */
+  background-color: #fffdf8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,9 +112,10 @@ ion-content {
   width: 60px;
   height: 60px;
   margin-bottom: var(--rolodex-space-3);
-  border: 2px solid var(--rolodex-border-light);
+  /* 2024 Zyppar ringa cream border - the warm identity. */
+  border: 2px solid #f1ce9d;
   border-radius: 50%;
-  box-shadow: var(--rolodex-shadow-xs);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 /* 2026-08-16: ONLY the DEFAULT view avatar is iPad-shaped (square, rounded
@@ -154,6 +156,19 @@ ion-content {
 .contact-card-content .default-view-avatar {
   --border-radius: 16px;
   border-radius: 16px;
+}
+
+/* 2026-08-19 DEFAULT VIEW CARD — 2024 Zyppar original colors: white card,
+   warm border-radius, soft shadow, #333 title / #666 body text. */
+.default-card-row {
+  --background: #ffffff;
+  border-radius: 10px;
+  margin: 5px 0;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  h2 { color: #333333; }
+  p { color: #666666; }
 }
 
 /* 2026-08-16: the DEFAULT view label — name, company, one extra line stacked
@@ -209,7 +224,7 @@ ion-content {
 .rolodex-container .card-title {
   font-size: var(--rolodex-text-base);
   font-weight: var(--rolodex-font-semibold);
-  color: var(--rolodex-text);
+  color: #3a3a3c;
   margin: 0 0 2px;
 }
 
@@ -217,14 +232,14 @@ ion-content {
 .rolodex-container .card-job,
 .rolodex-container .card-extra {
   font-size: var(--rolodex-text-xs);
-  color: var(--rolodex-text-secondary);
+  color: #666666;
   margin: 1px 0;
 }
 
 /* ── Back ────────────────────────────────────────── */
 .rolodex-container .card-back {
-  /* 2024 Zyppar original back: #f9f9f9 + shared border/radius. Locked. */
-  background-color: #f9f9f9;
+  /* 2024 Zyppar original back: warm ringa cream #fbf3e7. */
+  background-color: #fbf3e7;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -249,7 +264,8 @@ ion-content {
   .detail-icon {
     font-size: 14px;
     margin-right: var(--rolodex-space-2);
-    color: var(--rolodex-primary);
+    /* 2024 Zyppar primary orange - the warm signature on the card back. */
+    color: #ff8945;
     flex-shrink: 0;
   }
 }

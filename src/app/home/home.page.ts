@@ -42,7 +42,7 @@ export class HomePage implements OnInit, OnDestroy {
   mockEnabled: boolean = true;
   loading: boolean = false;
   /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
-  headerLine = 'Where your contacts come alive';
+  headerLine = 'Where your contacts come alive...';
   private headerTimer: ReturnType<typeof setInterval> | null = null;
   groups: { id: string; name: string }[] = [
     { id: 'all', name: 'All Contacts' },
@@ -198,11 +198,11 @@ export class HomePage implements OnInit, OnDestroy {
 
     // 2026-08-18 AI LIVE LIGHT + THE AGENT SPEAKS FIRST.
     void this.refreshAiStatus();
-    // 2026-08-19 HEADER: "Where your contacts come alive" ↔ "Always staying in touch…"
+    // 2026-08-19 HEADER: "Where your contacts come alive..." ↔ "Always staying in touch…"
     this.headerTimer = setInterval(() => {
-      this.headerLine = this.headerLine === 'Where your contacts come alive'
+      this.headerLine = this.headerLine === 'Where your contacts come alive...'
         ? 'Always staying in touch…'
-        : 'Where your contacts come alive';
+        : 'Where your contacts come alive...';
     }, 6000);
     this.rolodexSync.welcome$.subscribe((msg) => {
       void this.alertController.create({ header: 'RolodexAI', message: msg, buttons: ['OK'] }).then((a) => a.present());
