@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
+import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 
 export type Occasion = 'first-meeting' | 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
 export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
@@ -14,8 +15,10 @@ export interface MessageGuide {
 const AI_PROVIDER_KEY = 'rolodex_ai_provider';
 const PLAN_KEY = 'rolodex_plan';
 const INTERVENTIONS_KEY = 'rolodex_interventions';
-/** 2026-08-17 FREE TRIAL: 7 days of the Confidante, auto-granted on first AI use. */
+/** 2026-08-17 FREE TRIAL: 7 days of the Confidante, auto-granted on first use.
+ *  2026-08-19 NOW ONE-TIME: the start is recorded; only reopenTrial() can reset. */
 const TRIAL_KEY = 'rolodex_trial_until';
+const TRIAL_START_KEY = 'rolodex_trial_started_at';
 const TRIAL_DAYS = 7;
 const DAY_MS = 86400_000;
 const MONTHLY_QUOTA = 5;
@@ -59,7 +62,10 @@ export class DraftEngineService {
   provider: AiProvider = 'deepseek';
 
   /** 2026-08-18 all persistence via the IndexedDB StorageService (no localStorage). */
-  constructor(private readonly storage: StorageService) {
+  constructor(
+    private readonly storage: StorageService,
+    private readonly rolodexSync: RolodexSyncService,
+  ) {
     // async hydrate of the persisted preferences into the sync fields
     void (async () => {
       try {
@@ -68,6 +74,7 @@ export class DraftEngineService {
         this.plan = (await this.storage.get<'basic' | 'confidante' | ''>(PLAN_KEY)) || '';
         this.interventionsRecord = (await this.storage.get<Record<string, number>>(INTERVENTIONS_KEY)) || {};
         this.trialUntilMs = (await this.storage.get<number>(TRIAL_KEY)) || 0;
+        this.trialStartedAtMs = (await this.storage.get<number>(TRIAL_START_KEY)) || 0;
       } catch { /* defaults */ }
     })();
   }
@@ -94,9 +101,14 @@ export class DraftEngineService {
 
   /** 2026-08-17 FREE TRIAL — epoch ms the trial runs until (0 = none). */
   private trialUntilMs = 0;
+  private trialStartedAtMs = 0;
 
   trialUntil(): number {
     return this.trialUntilMs;
+  }
+
+  trialStartedAt(): number {
+    return this.trialStartedAtMs;
   }
 
   trialDaysLeft(): number {
@@ -114,12 +126,44 @@ export class DraftEngineService {
     return d > 0 ? 'Trial: ' + d + (d === 1 ? ' day' : ' days') + ' of the Confidante left' : '';
   }
 
-  /** Auto-grant once: the first AI use starts the 7-day Confidante trial. */
+  /** 2026-08-19 ONE-TIME GRANT: first use starts the 7-day Confidante trial.
+   *  Once started (even after expiry) it is never auto-renewed — only
+   *  reopenTrial() can reset it, deliberately. The existence of the until-key
+   *  also covers devices that started under the older client (no start key). */
   ensureTrial(): void {
     if (this.plan === 'confidante') return;
-    if (this.trialUntil() > Date.now()) return;
-    this.trialUntilMs = Date.now() + TRIAL_DAYS * DAY_MS;
+    if (this.trialUntil() > 0) return; // granted before — active or expired
+    const now = Date.now();
+    this.trialStartedAtMs = now;
+    this.trialUntilMs = now + TRIAL_DAYS * DAY_MS;
+    void this.storage.set(TRIAL_START_KEY, this.trialStartedAtMs);
     void this.storage.set(TRIAL_KEY, this.trialUntilMs);
+  }
+
+  /** 2026-08-19 REOPEN THE TRIAL: owner/investor control. Resets both the
+   *  client and the server record for this device. */
+  async reopenTrial(): Promise<boolean> {
+    const now = Date.now();
+    this.trialStartedAtMs = now;
+    this.trialUntilMs = now + TRIAL_DAYS * DAY_MS;
+    await this.storage.set(TRIAL_START_KEY, this.trialStartedAtMs);
+    await this.storage.set(TRIAL_KEY, this.trialUntilMs);
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/trial/reopen`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deviceId: this.rolodexSync.getDeviceId() }),
+      });
+      const data = await res.json();
+      const ends = data?.trial?.endsAt ? new Date(data.trial.endsAt).getTime() : 0;
+      if (ends > 0 && !isNaN(ends)) {
+        this.trialUntilMs = ends;
+        await this.storage.set(TRIAL_KEY, ends);
+      }
+      return true;
+    } catch {
+      return false; // local reset still applied; server will adopt on next sync
+    }
   }
 
   private interventionsRecord: Record<string, number> = {};

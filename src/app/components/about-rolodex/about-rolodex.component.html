@@ -232,6 +232,36 @@
           refreshing every 5 seconds.
         </p>
 
+        <!-- 2026-08-19 THE EXTENDED ROOM: suggestions from Chat with RolodexAI,
+             locked behind northstar-x2. Also hosts the trial re-open control. -->
+        <div class="about-section investors-section investor-x2-section">
+          <h3 (click)="promptX2()" class="investors-title">
+            <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
+            Investor suggestions room
+          </h3>
+          <p class="investors-hint" *ngIf="!x2Unlocked">
+            A word with a twist. The summaries users send through Chat with
+            RolodexAI live here.
+          </p>
+          <ng-container *ngIf="x2Unlocked">
+            <p class="investor-chart-title"><strong>Trial control</strong></p>
+            <p class="investor-live-note">{{ trialStatusLabel() }}
+              <ion-button size="small" fill="outline" color="warning" (click)="reopenTrial()">Re-open 7-day trial</ion-button>
+            </p>
+
+            <p class="investor-chart-title"><strong>What users are asking for</strong></p>
+            <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with RolodexAI is the intake.</div>
+            <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
+            <div class="feedback-card" *ngFor="let f of feedbackList">
+              <div class="feedback-summary">{{ f.summary }}</div>
+              <div class="feedback-meta">{{ f.deviceName || 'Rolodex device' }} · {{ time.format(f.createdAt, 'datetime') }}</div>
+            </div>
+            <ion-button size="small" fill="clear" (click)="loadFeedback()" [disabled]="feedbackLoading">
+              {{ feedbackLoading ? 'Loading…' : 'Refresh suggestions' }}
+            </ion-button>
+          </ng-container>
+        </div>
+
         <p><strong>RolodexAI proof:</strong> the demo room — enter the same code on
           two devices and chat appears on both, immediately. The product
           communicates right now.</p>

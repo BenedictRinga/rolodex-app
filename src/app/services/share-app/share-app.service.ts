@@ -189,6 +189,27 @@ export class ShareAppService {
     }
   }
 
+  /** 2026-08-19 STANDARD SHARE APP (Settings): the plain, always-appropriate
+   *  share of RolodexAI itself — native share sheet first, clipboard fallback. */
+  async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
+    const url = 'https://zyppar.com/rolodex/';
+    const text = `I'm keeping my whole address book on RolodexAI — it remembers why I know everyone and nudges me before I forget. Come keep your people close too. ${url}`;
+    const nav: any = navigator;
+    try {
+      if (nav.share) {
+        await nav.share({ title: 'RolodexAI', text, url });
+        return 'shared';
+      }
+    } catch { /* user cancelled the sheet */ }
+    try {
+      if (nav.clipboard?.writeText) {
+        await nav.clipboard.writeText(text);
+        return 'copied';
+      }
+    } catch { /* clipboard unavailable */ }
+    return 'failed';
+  }
+
   /** Copy the crafted text (the user pastes it anywhere). */
   async copy(moment: ShareMoment, ctx: ShareAppContext): Promise<boolean> {
     const inv = await this.createInvite(moment, ctx);

@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">Chat with RolodexAI</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-body">
+  <!-- 2026-08-19 THE FRAMING BANNER: every chat opens under this question. -->
+  <div class="chat-banner">
+    <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+    <div>
+      <strong>How can we make RolodexAI better for you?</strong>
+      <p>Two quick answers is all it takes — then we hand you to the free AI chats for the deep dive.</p>
+    </div>
+  </div>
+
+  <div class="chat-thread">
+    <div *ngFor="let m of messages" class="chat-message" [class.user]="m.from === 'user'">
+      <div class="bubble">{{ m.text }}</div>
+    </div>
+  </div>
+
+  <div class="chat-composer">
+    <ion-input
+      [(ngModel)]="input"
+      placeholder="Tell the Confidante…"
+      (keyup.enter)="send()"
+      class="chat-input"
+      fill="outline"
+    ></ion-input>
+    <ion-button (click)="send()" [disabled]="!input.trim()">
+      <ion-icon name="send-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

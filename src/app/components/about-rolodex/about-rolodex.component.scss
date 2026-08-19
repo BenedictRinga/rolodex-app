@@ -223,3 +223,30 @@ ion-content {
   color: var(--rolodex-text-secondary);
   white-space: nowrap;
 }
+
+/* 2026-08-19 INVESTOR SUGGESTIONS ROOM (-x2) */
+.investor-x2-section {
+  margin-top: 16px;
+  border-color: var(--rolodex-accent);
+}
+
+.feedback-card {
+  background: var(--rolodex-surface-alt);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 8px 0;
+}
+
+.feedback-summary {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--rolodex-text);
+  white-space: pre-wrap;
+}
+
+.feedback-meta {
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+  margin-top: 6px;
+}

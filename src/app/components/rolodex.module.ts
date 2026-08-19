@@ -18,6 +18,7 @@ import { InviteLandingComponent } from './invite-landing/invite-landing.componen
 import { ConfidanteComposerModalComponent } from './confidante-composer-modal/confidante-composer-modal.component';
 import { VideoCallModalComponent } from './video-call-modal/video-call-modal.component';
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
+import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rolodex.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { LinkPreviewComponent } from './link-preview/link-preview.component';
     ConfidanteComposerModalComponent,
     VideoCallModalComponent,
     LinkPreviewComponent,
+    ChatWithRolodexModalComponent,
   ],
   imports: [
     CommonModule,

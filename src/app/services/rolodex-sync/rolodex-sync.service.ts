@@ -119,9 +119,14 @@ export class RolodexSyncService {
 
   /** Push the current state — full contacts + follow-up counts + room. Never blocks.
    *  2026-08-18 THE AGENT: if the server welcomes a brand-new device, the
-   *  message is emitted on welcome$ so the UI can greet the user. */
+   *  message is emitted on welcome$ so the UI can greet the user.
+   *  2026-08-19 THE TRIAL: the client sends its local trial timestamps so a
+   *  first sync can adopt them; the server's authoritative trial comes back in
+   *  the response and is persisted when the client has none yet. */
   async push(contacts: ContactInfo[], followUps?: any[]): Promise<void> {
     try {
+      const trialStartedAt = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
+      const trialEndsAt = (await this.storage.get<number>('rolodex_trial_until')) || 0;
       const res = await fetch(`${this.apiBase()}/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,12 +140,22 @@ export class RolodexSyncService {
           ownerName: this.ownerName,
           contacts: (contacts || []).slice(0, 500),
           followUps: (followUps || []).slice(0, 200),
+          trial: { startedAt: trialStartedAt || null, endsAt: trialEndsAt || null },
         }),
         keepalive: true,
       });
       if (res.ok) {
         const data = await res.json().catch(() => null);
         if (data?.welcome) this.welcome$.next(String(data.welcome));
+        // 2026-08-19 server trial is the source of truth on first contact
+        if (data?.trial) {
+          const existingStart = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
+          const existingEnd = (await this.storage.get<number>('rolodex_trial_until')) || 0;
+          const serverStart = data.trial.startedAt ? new Date(data.trial.startedAt).getTime() : 0;
+          const serverEnd = data.trial.endsAt ? new Date(data.trial.endsAt).getTime() : 0;
+          if (!existingStart && serverStart > 0) await this.storage.set('rolodex_trial_started_at', serverStart);
+          if (!existingEnd && serverEnd > 0) await this.storage.set('rolodex_trial_until', serverEnd);
+        }
       }
     } catch { /* ignore */ }
   }

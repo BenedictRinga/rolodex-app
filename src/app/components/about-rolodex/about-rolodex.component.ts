@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { UsersApiService } from '../../services/users-api/users-api.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -33,12 +34,19 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsUpdatedLabel = '';
   private statsTimer: any = null;
 
+  // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with RolodexAI,
+  // locked behind the regular password extended with "-x2" (northstar-x2).
+  x2Unlocked = false;
+  feedbackList: any[] = [];
+  feedbackLoading = false;
+
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
     private readonly usersApi: UsersApiService,
     private readonly time: TimeNormalizerService,
     private readonly alerts: AlertsService,
+    private readonly draftEngine: DraftEngineService,
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +99,67 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     const max = Math.max(0, ...counts);
     if (!max) return 0;
     return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
+  }
+
+  /** 2026-08-19 EXTENDED ROOM PASSWORD: northstar-x2 (case-insensitive). */
+  async promptX2(): Promise<void> {
+    if (this.x2Unlocked) return;
+    const alert = await this.alertCtrl.create({
+      header: 'Investor suggestions room',
+      subHeader: 'A word with a twist.',
+      inputs: [{ name: 'pass', type: 'password', placeholder: 'Password' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Enter',
+          handler: (data: any) => {
+            const pass = String(data?.pass || '').trim();
+            if (pass.toLowerCase() === (INVESTOR_PASSWORD + '-x2').toLowerCase()) {
+              this.x2Unlocked = true;
+              void this.loadFeedback();
+              return true;
+            }
+            void alert.dismiss();
+            setTimeout(() => {
+              void this.alertCtrl
+                .create({ header: 'Not yet', message: 'That word does not open this room.', buttons: ['OK'] })
+                .then((a) => a.present());
+            }, 150);
+            return false;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** Fetch the user suggestions from Chat with RolodexAI. */
+  async loadFeedback(): Promise<void> {
+    if (this.feedbackLoading) return;
+    this.feedbackLoading = true;
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/feedback`, { cache: 'no-store' });
+      const data = await res.json();
+      this.feedbackList = Array.isArray(data?.items) ? data.items : [];
+    } catch {
+      this.feedbackList = [];
+    } finally {
+      this.feedbackLoading = false;
+    }
+  }
+
+  /** The current device's trial status for the investor control. */
+  trialStatusLabel(): string {
+    const days = this.draftEngine.trialDaysLeft();
+    if (days > 0) return `7-day Confidante trial: ${days} day${days === 1 ? '' : 's'} left.`;
+    if (this.draftEngine.trialStartedAt() > 0) return 'Trial used on this device — it can be re-opened.';
+    return 'Trial starts on first use.';
+  }
+
+  /** Re-open the 7-day trial on this device (owner/investor control). */
+  async reopenTrial(): Promise<void> {
+    const ok = await this.draftEngine.reopenTrial();
+    await this.alerts.showToast(ok ? '7-day trial re-opened on this device.' : 'Trial re-opened locally — server will adopt it on next sync.', 3200);
   }
 
   /**

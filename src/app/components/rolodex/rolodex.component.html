@@ -315,6 +315,26 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
+        <!-- 2026-08-19 SHARE ROLODEXAI: the standard share sheet. -->
+        <ion-item lines="none" class="elegant-item" (click)="shareApp()">
+          <ion-icon name="share-social-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>
+            Share RolodexAI
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Send the app to a friend — native share sheet</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-19 CHAT WITH ROLODEXAI: the suggestion channel. -->
+        <ion-item lines="none" class="elegant-item" (click)="openRolodexChat()">
+          <ion-icon name="chatbubbles-outline" slot="start" color="success"></ion-icon>
+          <ion-label>
+            Chat with RolodexAI
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Tell us how to make it better — free AI handoff</p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Card View</ion-label>

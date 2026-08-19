@@ -23,6 +23,8 @@ import { DraftEngineService } from '../../services/draft-engine/draft-engine.ser
 import { UpdatesService } from '../../services/updates/updates.service';
 import { AppInstallService } from '../../services/app-install/app-install.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
+import { ShareAppService } from '../../services/share-app/share-app.service';
+import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -145,6 +147,7 @@ export class RolodexComponent implements OnInit {
     private draftEngine: DraftEngineService,
     private appInstall: AppInstallService,
     private readonly time: TimeNormalizerService,
+    private readonly shareAppService: ShareAppService,
   ) { }
 
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
@@ -335,6 +338,29 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-19 INSTALL: App Store is INCOMING - no store link yet. */
   openAppStore(): void {
     void this.alertService.showToast('App Store — incoming', 2500);
+  }
+
+  /** 2026-08-19 SHARE APP: the standard native share sheet (clipboard fallback). */
+  async shareApp(): Promise<void> {
+    const result = await this.shareAppService.shareAppStandard();
+    if (result === 'shared') return;
+    if (result === 'copied') {
+      void this.alertService.showToast('RolodexAI link copied — paste it anywhere', 2500);
+    } else {
+      void this.alertService.showToast('Sharing is not available on this browser', 2500);
+    }
+  }
+
+  /** 2026-08-19 CHAT WITH ROLODEXAI: the suggestion channel with the banner,
+   *  minimum exchanges, and the free DeepSeek/Grok handoff. */
+  async openRolodexChat(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ChatWithRolodexModalComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+    });
+    await modal.present();
   }
 
   /** 2026-08-16 PODS: group threads derived from the contacts' groups. */

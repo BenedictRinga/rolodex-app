@@ -188,6 +188,9 @@ export class HomePage implements OnInit, OnDestroy {
   async ngOnInit() {
     // 2026-08-18 THE APP LOCK: gate the app for the authorized user.
     void this.enforceAppLock();
+    // 2026-08-19 THE 7-DAY TRIAL: first use starts it on the client too (the
+    // server starts it on the first sync). One-time; reopenTrial() resets it.
+    this.draftEngine.ensureTrial();
     // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
     void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
