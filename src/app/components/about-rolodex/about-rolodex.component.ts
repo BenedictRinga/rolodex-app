@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { UsersApiService } from '../../services/users-api/users-api.service';
@@ -13,15 +13,23 @@ const INVESTOR_PASSWORD = 'northstar';
   styleUrls: ['./about-rolodex.component.scss'],
   standalone: false,
 })
-export class AboutRolodexComponent {
+export class AboutRolodexComponent implements OnInit {
+  /** 2026-08-19 DIRECT INVESTOR PORTAL: when opened from Settings > Investors,
+   *  the padlock is already open - the full portal is the destination. */
+  @Input() openInvestors = false;
+  @Input() unlocked = false;
+
   version: string = environment.version || '0.1.0';
-  unlocked = false;
 
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
     private readonly usersApi: UsersApiService,
   ) {}
+
+  ngOnInit(): void {
+    if (this.openInvestors) this.unlocked = true;
+  }
 
   /**
    * 2026-08-18 HOW AN INVESTOR GETS THE WORD: the padlock gate has a

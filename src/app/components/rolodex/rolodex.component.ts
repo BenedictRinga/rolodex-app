@@ -195,6 +195,18 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-19 THE INVESTORS PORTAL: the full portal, already unlocked. */
+  async openInvestors(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: AboutRolodexComponent,
+      componentProps: { openInvestors: true, unlocked: true },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+    });
+    await modal.present();
+  }
+
   /** 2026-08-16 REMINDERS: the section — alarms, follow-ups, birthdays. */
   async openReminders(): Promise<void> {
     const modal = await this.modalController.create({
