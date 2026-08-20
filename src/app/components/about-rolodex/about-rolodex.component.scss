@@ -250,3 +250,54 @@ ion-content {
   color: var(--rolodex-text-secondary);
   margin-top: 6px;
 }
+
+/* 2026-08-20 THE ORIGINAL ROLODEX — history with a secretary at the desk. */
+.rolodex-history {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.history-image {
+  text-align: center;
+}
+
+.history-svg {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--rolodex-border-light);
+  background: var(--rolodex-surface-alt);
+}
+
+.history-caption {
+  font-size: 10.5px;
+  color: var(--rolodex-text-tertiary);
+  margin-top: 4px;
+}
+
+.history-copy p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--rolodex-text-secondary);
+  margin: 0 0 8px;
+}
+
+.history-copy strong {
+  color: var(--rolodex-text);
+}
+
+@media (min-width: 560px) {
+  .rolodex-history {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .history-image {
+    flex: 0 0 320px;
+  }
+  .history-copy {
+    flex: 1;
+  }
+}

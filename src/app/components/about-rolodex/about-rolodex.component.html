@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">{{ portalMode === 'investors' ? 'Investors' : 'About Rolodex' }}</ion-title>
+    <ion-title style="font-size: 15px;">{{ portalMode === 'investors' ? 'Investors' : 'About RolodexAI' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -29,6 +29,53 @@
       milestones, follow-ups, and the message you were going to send anyway —
       proffered, ready, one tap from Send.
     </p>
+  </div>
+
+  <div class="about-section" *ngIf="portalMode !== 'investors'">
+    <h3>The original Rolodex — 1958</h3>
+    <div class="rolodex-history">
+      <div class="history-image">
+        <svg viewBox="0 0 320 180" class="history-svg" role="img" aria-label="A secretary at her desk with a Rolodex card file in view">
+          <rect width="320" height="180" fill="#F5F1EC"/>
+          <rect x="10" y="130" width="300" height="14" rx="4" fill="#C9A87C"/>
+          <rect x="10" y="144" width="300" height="30" rx="4" fill="#B78A5C"/>
+          <ellipse cx="250" cy="86" rx="26" ry="30" fill="#E8B48C"/>
+          <circle cx="250" cy="74" r="8" fill="#6B4A3A"/>
+          <path d="M210 140 Q220 95 250 92 Q280 95 290 140 Z" fill="#4F6DF5"/>
+          <circle cx="244" cy="82" r="2.5" fill="#2B2B2B"/>
+          <circle cx="256" cy="82" r="2.5" fill="#2B2B2B"/>
+          <path d="M246 90 Q250 94 254 90" stroke="#C96F4A" stroke-width="2" fill="none"/>
+          <path d="M290 112 Q300 118 296 128" stroke="#E8B48C" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <rect x="30" y="96" width="70" height="34" rx="5" fill="#5BA4FC"/>
+          <rect x="30" y="96" width="70" height="8" rx="4" fill="#4F6DF5"/>
+          <circle cx="94" cy="108" r="10" fill="#FFD93D"/>
+          <line x1="94" y1="98" x2="94" y2="118" stroke="#B78A5C" stroke-width="3"/>
+          <path d="M34 116 L40 92 L78 88 L72 112 Z" fill="#FFFFFF" stroke="#E8E3DE"/>
+          <path d="M40 116 L46 96 L82 92 L76 112 Z" fill="#FFF7E6" stroke="#E8E3DE"/>
+          <path d="M46 116 L52 100 L86 96 L80 112 Z" fill="#FFFFFF" stroke="#E8E3DE"/>
+          <text x="58" y="106" font-size="7" fill="#70757A">A–Z</text>
+          <rect x="128" y="118" width="36" height="14" rx="3" fill="#3B3B3B"/>
+        </svg>
+        <div class="history-caption">The desk secretary's memory — 1958.</div>
+      </div>
+      <div class="history-copy">
+        <p>
+          Long before the app, the <strong>Rolodex</strong> was a real desk tool —
+          a rotary card file that sat beside the telephone of every capable
+          secretary. Invented by <strong>Arnold Neustadter</strong> (patented 1956,
+          on desks by 1958), its name blends <em>rolling</em> and <em>index</em>.
+          One card per person: name, number, notes. Flip the wheel, find the
+          person, keep the relationship moving.
+        </p>
+        <p>
+          RolodexAI is that same promise, digitized: the card still holds the
+          person's story, but now the confidential secretary also remembers the
+          reply you owe, the birthday you missed, and the follow-up that keeps a
+          relationship alive. The wheel became an app — the secretary became the
+          Confidante.
+        </p>
+      </div>
+    </div>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">

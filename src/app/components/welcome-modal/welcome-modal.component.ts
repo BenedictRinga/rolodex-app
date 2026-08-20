@@ -73,7 +73,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: '04 · The loop',
       title: 'The follow-up engine',
       copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold.',
-      emphasis: 'You never forget. You never delay. You never postpone.',
+      emphasis: 'You no longer forget. You no longer delay. You no longer postpone.',
     },
     {
       id: 'signal',
