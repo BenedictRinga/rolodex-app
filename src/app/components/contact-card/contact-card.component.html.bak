@@ -28,6 +28,7 @@
                 <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
               </ion-label>
             </div>
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: seg.contact}"></ng-container>
             <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the SAME full
                  surface as tapping the card — no more inline drop-down. -->
             <ion-icon name="chevron-forward-outline" slot="end"
@@ -163,6 +164,7 @@
                       <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
                     </ion-label>
                   </div>
+                  <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
                   <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the same full surface as tapping the card. -->
                   <ion-icon name="chevron-forward-outline" slot="end"
                     (click)="onContactTap(contact, $event)"></ion-icon>
@@ -386,6 +388,7 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -400,6 +403,7 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -469,6 +473,7 @@
       
             <!-- Social Actions -->
             <div class="social-actions">
+              <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
               <ion-button fill="clear" (click)="onEditContact(contact)">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-button>
@@ -495,6 +500,7 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -514,6 +520,7 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -539,6 +546,7 @@
                 </ion-label>
               </div>
               <!-- Optionally add a toggle icon if details are needed -->
+              <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-button>
@@ -625,6 +633,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>
@@ -636,6 +645,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>
