@@ -4,28 +4,33 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { VoiceOptionsService } from '../voice-options/voice-options.service';
 
 /**
- * 2026-08-20 BROWSER TTS SERVICE — reusable narration for Welcome Again and
- * anywhere else in RolodexAI later.
+ * 2026-08-20 BROWSER/NATIVE TTS SERVICE — reusable narration for Welcome Again
+ * and anywhere else in RolodexAI later.
  *
- * Besides the thin speechSynthesis wrapper, it fixes context-dependent words:
+ * DEVICE-FIRST (Zyppar Studio pattern): Capacitor native TTS on Android/iOS,
+ * browser speechSynthesis as the web/fallback tier. Web speech is CHUNKED at
+ * sentence boundaries (Zyppar's speakWebSync pattern) — long single utterances
+ * are silently dropped by several mobile engines.
+ *
+ * Also fixes context-dependent words:
  *   - "live across devices" / "it's all live" → laɪv (broadcast/live)
  *   - "where your contacts live" → lɪv (to reside)
  *   - "sent · delivered · read" → red (past tense)
- *
- * The trick is phonetic spellings that speech engines pronounce reliably:
- *   lyve → laɪv, lihv → lɪv, redd → red.
  */
 @Injectable({ providedIn: 'root' })
 export class TtsService {
+  private webChunks: string[] = [];
+  private webChunkIdx = 0;
+  /** Generation counter: stop() bumps it so old chunk chains die instantly. */
+  private webGen = 0;
+
   get supported(): boolean {
     return this.voiceOptions.supported;
   }
 
   constructor(private readonly voiceOptions: VoiceOptionsService) {}
 
-  /** Speak a line of narration, stopping anything already playing.
-   *  DEVICE-FIRST (Zyppar Studio pattern): Capacitor native TTS on Android/iOS,
-   *  browser speechSynthesis as the web/fallback tier. */
+  /** Speak a line of narration, stopping anything already playing. */
   speak(text: string, rate = 0.95): void {
     if (!this.supported) return;
     const out = this.disambiguate(text);
@@ -35,18 +40,25 @@ export class TtsService {
     const pitch = confidanteDefault ? 1.05 : 1.0;
 
     if (Capacitor.isNativePlatform()) {
-      void TextToSpeech.speak({
-        text: out,
-        rate,
-        pitch,
-        volume: 1.0,
-        lang: voice?.lang || 'en-US',
-      }).catch(() => this.speakWeb(out, rate, voice, pitch));
+      // Await stop() BEFORE speak() — otherwise an in-flight async stop can
+      // land after the new utterance starts and cancel it (a silent killer).
+      void TextToSpeech.stop()
+        .catch(() => undefined)
+        .then(() =>
+          TextToSpeech.speak({
+            text: out,
+            rate,
+            pitch,
+            volume: 1.0,
+            lang: voice?.lang || 'en-US',
+          }).catch(() => this.speakWeb(out, rate, voice, pitch))
+        );
       return;
     }
     this.speakWeb(out, rate, voice, pitch);
   }
 
+  /** Chunked web speech — sentence by sentence, chaining via onend/onerror. */
   private speakWeb(
     text: string,
     rate: number,
@@ -55,24 +67,58 @@ export class TtsService {
   ): void {
     if (!('speechSynthesis' in window)) return;
     try {
-      // NOTE: no cancel() here — Zyppar's speakWebSync does NOT cancel before
-      // speak; a same-tick cancel+speak can drop the utterance on iOS/mobile.
-      // Callers stop previous speech via stop() before speaking.
-      // Mobile Chrome/WebView quirk: speech can be left in a paused state and
-      // silently refuses to start. Resume before every speak (Zyppar pattern).
+      // Mobile Chrome/WebView quirk: speech can be left paused and silently
+      // refuses to start. Resume before speaking (Zyppar pattern).
       if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-      const utterance = new SpeechSynthesisUtterance(text);
+
+      this.webChunks = text.match(/[^.!?\n]+[.!?]+(\s|$)|[^.!?\n]+$/g) || [text];
+      this.webChunkIdx = 0;
+      const gen = ++this.webGen;
+      this.speakNextWebChunk(gen, rate, voice, pitch);
+    } catch { /* narration is best-effort */ }
+  }
+
+  private speakNextWebChunk(
+    gen: number,
+    rate: number,
+    voice: SpeechSynthesisVoice | undefined,
+    pitch: number,
+  ): void {
+    if (gen !== this.webGen) return;
+    if (this.webChunkIdx >= this.webChunks.length) return;
+
+    const chunk = this.webChunks[this.webChunkIdx].trim();
+    if (!chunk) {
+      this.webChunkIdx++;
+      this.speakNextWebChunk(gen, rate, voice, pitch);
+      return;
+    }
+
+    try {
+      const utterance = new SpeechSynthesisUtterance(chunk);
       utterance.rate = rate;
       utterance.pitch = pitch;
       utterance.volume = 1.0;
       utterance.lang = voice?.lang || 'en-US';
       utterance.voice = voice ?? null;
+      utterance.onend = () => {
+        if (gen !== this.webGen) return;
+        this.webChunkIdx++;
+        this.speakNextWebChunk(gen, rate, voice, pitch);
+      };
+      utterance.onerror = () => {
+        // Spurious 'canceled'/'interrupted' errors are harmless — advance.
+        if (gen !== this.webGen) return;
+        this.webChunkIdx++;
+        this.speakNextWebChunk(gen, rate, voice, pitch);
+      };
       window.speechSynthesis.speak(utterance);
-    } catch { /* narration is best-effort */ }
+    } catch { /* best-effort */ }
   }
 
-  /** Stop all speech immediately (native + web). */
+  /** Stop all speech immediately (native + web chunk chain). */
   stop(): void {
+    this.webGen++;
     if (Capacitor.isNativePlatform()) {
       void TextToSpeech.stop().catch(() => undefined);
     }
