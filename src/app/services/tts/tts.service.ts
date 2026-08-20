@@ -95,6 +95,7 @@ export class TtsService {
     // "devices live" (e.g. "link devices live") and "loves live" (She loves live)
     out = out.replace(/\bdevices\s+live\b/gi, 'devices lyve');
     out = out.replace(/\bloves\s+live\b/gi, 'loves lyve');
+    out = out.replace(/\blink\s+live\b/gi, 'link lyve');
 
     // "it's all live" / "is live" — the tour is happening live, not residing
     out = out.replace(/\ball\s+live\b/gi, 'all lyve');
@@ -111,6 +112,15 @@ export class TtsService {
       /\b(?:where\s+your\s+)?contacts\s+live\b/gi,
       'contacts lihv'
     );
+    out = out.replace(
+      /\b(?:you|they|we|people|i|he|she|my\s+friend|friends|family)\s+live\b/gi,
+      (m) => m.replace(/\blive\b/i, 'lihv')
+    );
+
+    // ---- live (laɪv) at END OF SENTENCE: "devices link live." / "it's all live."
+    // In this app's copy, sentence-final "live" is almost always the real-time
+    // meaning; the verb-form cases above have already been converted to lihv.
+    out = out.replace(/\blive\b(?=[.!?]|$)/gi, 'lyve');
 
     // ---- read (red: past tense, as in "sent · delivered · read") ----
     out = out.replace(
