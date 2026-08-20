@@ -33,4 +33,14 @@ if (typeof INJECTOR_ANY.NULL === 'undefined') {
 platformBrowser([
   { provide: Injector, useFactory: (injector: unknown) => injector, deps: [INJECTOR] },
 ]).bootstrapModule(AppModule)
+  .then(() => {
+    // 2026-08-20 ZYPPAR-STYLE PWA: register the one service worker so the app
+    // becomes installable (manifest + SW with a fetch handler are the Chrome
+    // install criteria). The SW is a passthrough; updates clear it fully.
+    if (environment.production && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('custom-sw.js').catch(() => {});
+      });
+    }
+  })
   .catch(err => !environment.production && console.log(err));

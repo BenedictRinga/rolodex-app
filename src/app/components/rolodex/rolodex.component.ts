@@ -483,14 +483,8 @@ export class RolodexComponent implements OnInit {
     // auto-prompts once per new build; initUpdates first restores the
     // acknowledged build so a tapped update stays acknowledged.
     void this.initUpdates();
-    // 2026-08-16: capture the PWA install prompt (Chrome) so the web install
-    // path can offer it later (mirrors Zyppar's appInstaller pattern).
-    if (typeof window !== 'undefined') {
-      (window as any).addEventListener?.('beforeinstallprompt', (e: Event) => {
-        e.preventDefault();
-        (window as any).__rolodexInstallPrompt = e;
-      });
-    }
+    // 2026-08-20: the PWA install prompt is captured by AppInstallService
+    // (Zyppar-style) — no duplicate capture here.
   }
 
   onChatContact(contact: ContactInfo) {
@@ -566,25 +560,10 @@ export class RolodexComponent implements OnInit {
     this.currentView = RolodexView.AutoSort; this.autoSortStarted = true; this.searchResultsVisible = false; this.autoSort.emit();
   }
 
-  /** 2026-08-16: the web install path — PWA install prompt (Chrome) or the
-   *  Android/iOS guidance, mirroring Zyppar's appInstaller pattern. */
+  /** 2026-08-20: the web install path — delegated to the Zyppar-style
+   *  AppInstallService (metrics, cooldown, native prompt, iOS/Android guides). */
   private async offerAppInstall(): Promise<void> {
-    const anyWindow = window as any;
-    const deferredPrompt = anyWindow.__rolodexInstallPrompt;
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const outcome = await deferredPrompt.userChoice;
-      if (outcome?.outcome === 'accepted') {
-        anyWindow.__rolodexInstallPrompt = null;
-        this.alertService.alertPrompt({ header: 'Installing Rolodex', message: 'Once installed, open it from your home screen — the auto-sort engine gains access to your real contacts.' });
-      }
-      return;
-    }
-    // Generic guidance (Android Chrome PWA / iOS Safari Add to Home Screen).
-    this.alertService.alertPrompt({
-      header: 'Install Rolodex',
-      message: 'Chrome: tap the browser menu → "Install app" / "Add to Home screen". iOS Safari: Share → "Add to Home Screen". After install, relaunch Rolodex from the home screen — device contacts + auto-sort become available. (A Play Store build is on the way — then full native access on Android and iOS.)',
-    });
+    await this.appInstall.encourageAppInstall('RolodexAI');
   }
 
   showSearchView() { this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false; }

@@ -1,0 +1,35 @@
+{
+    "name": "RolodexAI",
+    "short_name": "RolodexAI",
+    "theme_color": "#FF6B35",
+    "background_color": "#FAF8F5",
+    "display": "standalone",
+    "scope": "/rolodex/",
+    "start_url": "/rolodex/",
+    "icons": [
+        {
+            "src": "assets/rolodex/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/rolodex/icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "assets/rolodex/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/rolodex/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
