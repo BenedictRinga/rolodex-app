@@ -4,6 +4,7 @@ import { StorageService } from '../../services/storage/storage.service';
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
 import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
 import { Capacitor } from '@capacitor/core';
+import { environment } from '../../../environments/environment';
 
 
 export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
@@ -134,6 +135,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
   currentStepMs = this.STEP_MS;
   private timer: ReturnType<typeof setTimeout> | null = null;
+  /** null = not tried, true = /tts returned audio, false = 501 (use device TTS on tap only). */
+  private backendTtsOk: boolean | null = null;
 
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
@@ -168,20 +171,20 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   next(): void {
     if (!this.isLast) {
       this.stepIndex++;
-      this.restartTimer();
+      this.restartTimer(true);
     }
   }
 
   prev(): void {
     if (!this.isFirst) {
       this.stepIndex--;
-      this.restartTimer();
+      this.restartTimer(true);
     }
   }
 
   goTo(i: number): void {
     this.stepIndex = Math.min(this.steps.length - 1, Math.max(0, i));
-    this.restartTimer();
+    this.restartTimer(true);
   }
 
   toggleAuto(): void {
@@ -196,12 +199,12 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   /** 2026-08-20 One full show, then stop on the last slide so it never loops
    *  forever. Each step's dwell is sized to its narration (longer copy → more
    *  time to absorb), not a fixed metronome. */
-  private restartTimer(): void {
+  private restartTimer(allowDeviceFallback = false): void {
     this.clearTimer();
     if (!this.autoPlay) return;
     const step = this.steps[this.stepIndex];
     this.currentStepMs = this.stepMsFor(step);
-    this.speakStep(step);
+    void this.speakStep(step, allowDeviceFallback);
     this.timer = setTimeout(() => {
       if (this.isLast) {
         this.autoPlay = false;
@@ -209,7 +212,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
         return;
       }
       this.stepIndex++;
-      this.restartTimer();
+      this.restartTimer(false);
     }, this.currentStepMs);
   }
 
@@ -227,31 +230,44 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     return Math.max(this.STEP_MS, text.length * 60 + 5000);
   }
 
-  /** Narrates the current card using the transplanted Studio device-TTS path
-   *  (speakDeviceFirst — Capacitor native → chunked web speech, NO remote),
-   *  with the transplanted TextsplitterService handling pronunciation. */
-  private speakStep(step: WelcomeDemoStep): void {
+  /** B: POST /tts → playBlob (timer-safe once primed). A: speakDeviceFirst on tap if 501. */
+  private async speakStep(step: WelcomeDemoStep, allowDeviceFallback = false): Promise<void> {
     if (!this.narrate || !this.speechSupported) return;
     const raw = `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`;
     const text = this.textsplitter.preprocessForTTS(raw, 'All');
-    void this.playback.speakDeviceFirst(text, 'en-US');
+    if (this.backendTtsOk !== false) {
+      try {
+        const r = await fetch(`${environment.rolodexApiBase}/tts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+        if (r.status === 501) {
+          this.backendTtsOk = false;
+        } else if (r.ok) {
+          this.backendTtsOk = true;
+          await this.playback.playBlob(await r.blob());
+          return;
+        }
+      } catch { /* fall through to A on tap */ }
+    }
+    if (this.backendTtsOk === false && allowDeviceFallback) {
+      await this.playback.speakDeviceFirst(text, 'en-US');
+    }
   }
 
   private stopSpeech(): void {
-    this.playback.stopSpeech();
+    this.playback.stop();
   }
 
-  /** Zyppar Studio pattern: when the user taps 🔊, stop → beginLoading →
-   *  primeGesturePermission (silent audio unlock inside the tap) → then start
-   *  narration. Without this, mobile browsers expire the gesture during the
-   *  async TTS path and the first utterance is silently dropped. */
+  /** 🔊: prime HTMLAudio, then B (MP3) or A (device TTS for this card only). */
   async toggleNarrate(): Promise<void> {
     this.narrate = !this.narrate;
     if (this.narrate) {
       this.playback.stop();
       this.playback.beginLoading();
       await this.playback.primeGesturePermission();
-      this.restartTimer();
+      this.restartTimer(true);
     } else {
       this.stopSpeech();
       this.restartTimer();

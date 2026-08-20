@@ -1,3 +1,10 @@
+<ng-template #agentHit let-c>
+  <button type="button" class="confidante-hit"
+    (click)="openConfidanteComposer(c); $event.stopPropagation()"
+    title="Ask the Confidante to help you write to them">
+    <img src="assets/rolodex/toolbar-mark.png" alt="Confidante" />
+  </button>
+</ng-template>
 <ng-container *ngIf="!selectedMode || selectedMode === ''">
   <ng-container [ngSwitch]="viewMode">
       <ng-container *ngSwitchCase="'default'">
@@ -21,6 +28,7 @@
                 <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
               </ion-label>
             </div>
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: seg.contact}"></ng-container>
             <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the SAME full
                  surface as tapping the card — no more inline drop-down. -->
             <ion-icon name="chevron-forward-outline" slot="end"
@@ -37,6 +45,7 @@
             <div class="card-inner" (click)="flipRolodexcard(contact)">
               <!-- Front Side -->
               <div class="card-front">
+                <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
                 <ion-avatar class="rolodex-avatar">
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)" />
@@ -115,11 +124,6 @@
                   <ion-button fill="outline" size="small" color="success" (click)="draftMessage(contact)">
                     <ion-icon name="chatbox-ellipses-outline"></ion-icon>
                   </ion-button>
-                  <!-- 2026-08-19 USER ↔ CONFIDANTE COMPOSER: instruct, refine, dispatch.
-                       2026-08-19 the icon is a ROBOT (the bot), not a hardware chip. -->
-                  <ion-button fill="outline" size="small" color="tertiary" (click)="openConfidanteComposer(contact)" appTooltip="Instruct the Confidante — write, refine, dispatch">
-                    <ion-icon name="sparkles-outline"></ion-icon>
-                  </ion-button>
                   <!-- 2026-08-16 REMINDERS: set a reminder right off the card. -->
                   <ion-button fill="outline" size="small" color="warning" (click)="setReminder(contact)">
                     <ion-icon name="alarm-outline"></ion-icon>
@@ -161,6 +165,7 @@
                       <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
                     </ion-label>
                   </div>
+                  <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
                   <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the same full surface as tapping the card. -->
                   <ion-icon name="chevron-forward-outline" slot="end"
                     (click)="onContactTap(contact, $event)"></ion-icon>
@@ -192,6 +197,7 @@
             <ion-card-subtitle class="card-subtitle">
               {{ contact.organization?.company || 'No Company Info' }}
             </ion-card-subtitle>
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           </ion-card-header>
       
           <!-- Content Section -->
@@ -267,6 +273,7 @@
             <ion-card-title class="family-title">
               {{ contact.name?.display || 'Unknown Family Member' }}
             </ion-card-title>
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           </ion-card-header>
       
           <!-- Content: Birthday, Notes, Reminders, and Social Profiles -->
@@ -384,6 +391,7 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -398,6 +406,7 @@
             <p>{{ contact.organization?.company || 'No Company Info' }}</p>
             <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -467,6 +476,7 @@
       
             <!-- Social Actions -->
             <div class="social-actions">
+              <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
               <ion-button fill="clear" (click)="onEditContact(contact)">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-button>
@@ -493,6 +503,7 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -512,6 +523,7 @@
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
             </div>
           </div>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
             <ion-icon name="create-outline"></ion-icon>
           </ion-button>
@@ -537,6 +549,7 @@
                 </ion-label>
               </div>
               <!-- Optionally add a toggle icon if details are needed -->
+              <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-button>
@@ -605,7 +618,7 @@
             <ion-button color="primary" (click)="callContact(activeContact)">Call</ion-button>
             <ion-button color="secondary" (click)="emailContact(activeContact)">Email</ion-button>
             <ion-button color="tertiary" (click)="openAddress(activeContact)">Map</ion-button>
-            <ion-button color="success" (click)="openConfidanteComposer(activeContact)">Confidante</ion-button>
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: activeContact}"></ng-container>
             <ion-button color="warning" (click)="onEditContact(activeContact)">Edit</ion-button>
             <ion-button color="danger" (click)="onRemoveContact(activeContact)">Remove</ion-button>
           </div>
@@ -620,6 +633,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>
@@ -631,6 +645,7 @@
             <h2>{{ contact.organization?.jobTitle }}</h2>
             <p>{{ contact.organization?.company }}</p>
           </ion-label>
+          <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
       </ng-container>

@@ -595,6 +595,13 @@ ion-content {
   color: white;
   text-align: center;
   padding: var(--rolodex-space-6) var(--rolodex-space-4);
+  position: relative;
+}
+.family-card .family-header .confidante-hit,
+.professional-card .card-header .confidante-hit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .family-card .family-avatar {
@@ -1045,4 +1052,32 @@ ion-content {
   padding: 6px 0;
   margin: 0 4px 10px;
   background: rgba(79, 109, 245, 0.035);
+}
+
+/* Confidante hit — the R+gold mark, not another outline ion-icon. */
+button.confidante-hit {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px #c9a227, 0 2px 8px rgba(30, 35, 40, 0.1);
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+}
+button.confidante-hit img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  pointer-events: none;
+}
+.rolodex-container .card-front button.confidante-hit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
 }

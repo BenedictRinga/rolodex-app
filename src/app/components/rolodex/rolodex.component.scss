@@ -219,10 +219,10 @@ app-contact-card {
 
 /* 2026-08-20 LOOP CHALLENGES: the RolodexAI standalone icon in the toolbar. */
 .fab-rolodex-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  object-fit: cover;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  background: transparent;
 }
 
 /* ── Autosort Buttons ────────────────────────────── */
