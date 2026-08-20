@@ -86,20 +86,29 @@ export class TtsService {
     let out = text;
 
     // ---- live (laɪv: broadcast / happening now) ----
-    // "live across devices", "live demo", "live stream", "live from", "live at", "live on stage"
+    // PHRASE-FIRST: replace the whole ambiguous phrase with an unambiguous
+    // spoken paraphrase. Device TTS engines routinely read "lyve" as lɪv, so
+    // we no longer rely on spelling tricks for the phrases that actually appear.
+    out = out.replace(/\blive across devices\b/gi, 'in real time across devices');
+    out = out.replace(/\bdevices link live\b/gi, 'devices link in real time');
+    out = out.replace(/\blink devices live\b/gi, 'link devices in real time');
+    out = out.replace(/\bdevices live\b/gi, 'devices in real time');
+    out = out.replace(/\blink live\b/gi, 'link in real time');
+    out = out.replace(/\ball live\b/gi, 'all in real time');
+    out = out.replace(/\bis live\b/gi, 'is in real time');
+    out = out.replace(/\bgo live\b/gi, 'go in real time');
+    out = out.replace(/\blive demo\b/gi, 'real-time demo');
+    out = out.replace(/\blive stream\b/gi, 'real-time stream');
+    out = out.replace(/\blive broadcast\b/gi, 'real-time broadcast');
+    out = out.replace(/\blive on stage\b/gi, 'in real time on stage');
+    out = out.replace(/\bloves live\b/gi, 'loves live music');
+
+    // Remaining laɪv "live" followed by a noun/context word — use the phonetic
+    // fallback only for phrases we have not paraphrased above.
     out = out.replace(
-      /\blive\b(?=\s+(?:across|demo|room|stream|from|show|broadcast|event|performance|album|on\s+stage|at\s+\d))/gi,
+      /\blive\b(?=\s+(?:across|from|show|event|performance|album|at\s+\d|room))/gi,
       'lyve'
     );
-
-    // "devices live" (e.g. "link devices live") and "loves live" (She loves live)
-    out = out.replace(/\bdevices\s+live\b/gi, 'devices lyve');
-    out = out.replace(/\bloves\s+live\b/gi, 'loves lyve');
-    out = out.replace(/\blink\s+live\b/gi, 'link lyve');
-
-    // "it's all live" / "is live" — the tour is happening live, not residing
-    out = out.replace(/\ball\s+live\b/gi, 'all lyve');
-    out = out.replace(/\bis\s+live\b/gi, 'is lyve');
 
     // ---- live (lɪv: to reside / dwell / exist) ----
     out = out.replace(
