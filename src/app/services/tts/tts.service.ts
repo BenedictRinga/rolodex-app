@@ -55,7 +55,21 @@ export class TtsService {
         );
       return;
     }
-    this.speakWeb(out, rate, voice, pitch);
+
+    if (!('speechSynthesis' in window)) return;
+    const synth = window.speechSynthesis;
+    if (synth.paused) synth.resume();
+
+    if (synth.speaking || synth.pending) {
+      // Mobile killer: cancel()+speak() in the same tick silently drops the
+      // new utterance. Let the cancel settle, then start the new chain.
+      synth.cancel();
+      setTimeout(() => this.speakWeb(out, rate, voice, pitch), 60);
+    } else {
+      // First tap: nothing is playing, so speak synchronously inside the
+      // user gesture — required by iOS/Android autoplay policies.
+      this.speakWeb(out, rate, voice, pitch);
+    }
   }
 
   /** Chunked web speech — sentence by sentence, chaining via onend/onerror. */

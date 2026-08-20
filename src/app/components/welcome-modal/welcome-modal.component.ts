@@ -223,9 +223,11 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     return Math.max(this.STEP_MS, text.length * 60 + 5000);
   }
 
-  /** Browser TTS — narrates the current card's kicker, title and copy. */
+  /** Browser TTS — narrates the current card's kicker, title and copy.
+   *  NOTE: no stopSpeech() before speak() — a same-tick cancel+speak silently
+   *  drops the utterance on mobile browsers (iOS/Android). TtsService.speak()
+   *  handles stopping previous speech safely. */
   private speakStep(step: WelcomeDemoStep): void {
-    this.stopSpeech();
     if (!this.narrate || !this.speechSupported) return;
     try {
       this.tts.speak(
