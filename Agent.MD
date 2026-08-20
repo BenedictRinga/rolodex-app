@@ -3,6 +3,8 @@
 YARN ONLY on this project. Never npm.
 Production build: `yarn build:prod` (chains the static-block fix). Deploy: `deploy.sh` on the droplet.
 
+Studio audio (ported from Zyppar, 2026-08-20): `StudioPlaybackService` + `StudioAudioBridgeService` (`services/studio-playback`, `services/studio-bridge`). They speak Confidante drafts. Device-first; optional `POST /api/rolodex/tts`. Do not import Zyppar's Audiobrief, library API, or the `zyppar` db.
+
 ---
 
 ## ROLODEX NORTHSTAR (2026-08-16)

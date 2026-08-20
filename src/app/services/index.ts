@@ -15,3 +15,6 @@ export { DropboxProvider } from './cloud-sync/dropbox.provider';
 export { OneDriveProvider } from './cloud-sync/onedrive.provider';
 export { LocalExportService } from './cloud-sync/local-export.service';
 export type { SyncBundle, EncryptedBundle, CloudProvider, SyncState } from './cloud-sync/sync.types';
+export { StudioPlaybackService } from './studio-playback/studio-playback.service';
+export { StudioAudioBridgeService, StudioBridgeService } from './studio-bridge/studio-bridge.service';
+export { StudioQwenTtsService } from './studio-qwen-tts/studio-qwen-tts.service';

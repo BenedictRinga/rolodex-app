@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { ContactInfo } from '../../models/contacts';
 import { DraftEngineService, Occasion } from '../../services/draft-engine/draft-engine.service';
 import { ShareAppService } from '../../services/share-app/share-app.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
+import { StudioAudioBridgeService } from '../../services/studio-bridge/studio-bridge.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 
@@ -58,6 +60,10 @@ interface ComposerMsg {
 
       <div class="composer-dispatch" *ngIf="draft">
         <p class="composer-dispatch-title">Dispatch</p>
+        <ion-button expand="block" fill="outline" color="dark" (click)="toggleListen()">
+          <ion-icon [name]="listening ? 'stop-circle-outline' : 'volume-high-outline'" slot="start"></ion-icon>
+          {{ listening ? 'Stop listening' : 'Hear the draft' }}
+        </ion-button>
         <ion-button expand="block" fill="outline" color="success" (click)="sendSms()" [disabled]="!firstPhone">
           <ion-icon name="chatbubble-outline" slot="start"></ion-icon> SMS
         </ion-button>
@@ -97,7 +103,7 @@ interface ComposerMsg {
     `.composer-dispatch ion-button { --min-height: 36px; margin-bottom: 6px; }`,
   ],
 })
-export class ConfidanteComposerModalComponent implements OnInit {
+export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
   @Input() contact!: ContactInfo;
   @Input() occasion: Occasion = 'follow-up';
   /** 2026-08-19 THE TASTE: a pre-composed draft can be handed in directly. */
@@ -108,6 +114,7 @@ export class ConfidanteComposerModalComponent implements OnInit {
   instruction = '';
   draft = '';
   busy = false;
+  listening = false;
   contactName = 'this contact';
 
   constructor(
@@ -117,6 +124,8 @@ export class ConfidanteComposerModalComponent implements OnInit {
     private readonly draftEngine: DraftEngineService,
     private readonly shareApp: ShareAppService,
     private readonly cardChat: CardChatService,
+    private readonly studioPlayback: StudioPlaybackService,
+    private readonly studioBridge: StudioAudioBridgeService,
   ) {}
 
   get firstPhone(): string {
@@ -232,6 +241,38 @@ export class ConfidanteComposerModalComponent implements OnInit {
     await alert.present();
   }
 
+  async toggleListen(): Promise<void> {
+    if (this.listening) {
+      this.studioPlayback.stop();
+      this.listening = false;
+      return;
+    }
+    if (!this.draft) return;
+    this.listening = true;
+    await this.studioPlayback.primeGesturePermission();
+    this.studioPlayback.setCancelPredicate(() => !this.listening);
+    this.studioPlayback.onEnded(() => { this.listening = false; });
+    try {
+      await this.studioBridge.playDemo(
+        this.draft,
+        'Confidante draft',
+        'rolodex-confidante',
+        '',
+        this.studioPlayback,
+        { isTemplate: true },
+      );
+    } catch {
+      void this.alertsService.showToast('Could not play the draft', 2000);
+      this.listening = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.listening = false;
+    this.studioPlayback.setCancelPredicate(null);
+    this.studioPlayback.stop();
+  }
+
   async copyDraft(): Promise<void> {
     if (!this.draft) return;
     try {
@@ -243,6 +284,8 @@ export class ConfidanteComposerModalComponent implements OnInit {
   }
 
   close(): void {
+    this.listening = false;
+    this.studioPlayback.stop();
     void this.modalController.dismiss();
   }
 }

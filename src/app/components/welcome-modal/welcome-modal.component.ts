@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from '../../services/storage/storage.service';
-import { TtsService } from '../../services/tts/tts.service';
+import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
+import { Capacitor } from '@capacitor/core';
 
 
 export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
@@ -127,14 +128,15 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
    *  that unlocks audio reliably on mobile. */
   narrate = false;
   get speechSupported(): boolean {
-    return this.tts.supported;
+    return Capacitor.isNativePlatform() ||
+      (typeof window !== 'undefined' && 'speechSynthesis' in window);
   }
   currentStepMs = this.STEP_MS;
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
-    private readonly tts: TtsService,
+    private readonly playback: StudioPlaybackService,
     ) {}
 
   get isFirst(): boolean {
@@ -223,21 +225,41 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     return Math.max(this.STEP_MS, text.length * 60 + 5000);
   }
 
-  /** Browser TTS — narrates the current card's kicker, title and copy.
-   *  NOTE: no stopSpeech() before speak() — a same-tick cancel+speak silently
-   *  drops the utterance on mobile browsers (iOS/Android). TtsService.speak()
-   *  handles stopping previous speech safely. */
+  /** Narrates the current card using the transplanted Studio device-TTS path
+   *  (speakDeviceFirst — Capacitor native → chunked web speech, NO remote). */
   private speakStep(step: WelcomeDemoStep): void {
     if (!this.narrate || !this.speechSupported) return;
-    try {
-      this.tts.speak(
-        `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`
-      );
-    } catch { /* narration is best-effort */ }
+    const text = this.disambiguateNarration(
+      `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`
+    );
+    void this.playback.speakDeviceFirst(text, 'en-US');
   }
 
   private stopSpeech(): void {
-    this.tts.stop();
+    this.playback.stopSpeech();
+  }
+
+  /** Keeps the live/read pronunciation fixes without a TTS service layer. */
+  private disambiguateNarration(text: string): string {
+    if (!text) return text;
+    let out = text;
+    out = out.replace(/\blive across devices\b/gi, 'in real time across devices');
+    out = out.replace(/\bdevices link live\b/gi, 'devices link in real time');
+    out = out.replace(/\blink devices live\b/gi, 'link devices in real time');
+    out = out.replace(/\bdevices live\b/gi, 'devices in real time');
+    out = out.replace(/\blink live\b/gi, 'link in real time');
+    out = out.replace(/\ball live\b/gi, 'all in real time');
+    out = out.replace(/\bis live\b/gi, 'is in real time');
+    out = out.replace(/\blive demo\b/gi, 'real-time demo');
+    out = out.replace(/\blive stream\b/gi, 'real-time stream');
+    out = out.replace(/\bloves live\b/gi, 'loves live music');
+    out = out.replace(/\b(?:where\s+your\s+)?contacts\s+live\b/gi, 'contacts lihv');
+    out = out.replace(/\b(?:you|they|we|people|i|he|she|friends|family)\s+live\b/gi,
+      (m) => m.replace(/\blive\b/i, 'lihv'));
+    out = out.replace(/\blive\b(?=[.!?]|$)/gi, 'lyve');
+    out = out.replace(/(?:sent|delivered)\s*[·•]\s*read\b/gi, (m) => m.replace(/\bread\b/i, 'redd'));
+    out = out.replace(/\breads\b/gi, 'reedz');
+    return out;
   }
 
   toggleNarrate(): void {
