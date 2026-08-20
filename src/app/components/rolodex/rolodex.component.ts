@@ -166,6 +166,25 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-20 CONFIDANTE VOICE: Zyppar-style voice picker. */
   async chooseVoice(): Promise<void> {
     await this.voiceOptions.loadVoices();
+
+    // 2026-08-20 MOBILE: speechSynthesis voices often arrive a moment AFTER
+    // getVoices() returns empty (voiceschanged fires late). Wait for a
+    // non-empty list (max ~2.5s) before building the picker.
+    if (!this.voiceOptions.voices.length) {
+      await new Promise<void>((resolve) => {
+        const sub = this.voiceOptions.voices$.subscribe((voices) => {
+          if (voices.length) {
+            sub.unsubscribe();
+            resolve();
+          }
+        });
+        setTimeout(() => {
+          sub.unsubscribe();
+          resolve();
+        }, 2500);
+      });
+    }
+
     const options = this.voiceOptions.getVoiceOptions();
     if (!options.length) {
       await this.alertService.showToast('No voices available on this device', 2500);
