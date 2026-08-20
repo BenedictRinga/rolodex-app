@@ -80,10 +80,10 @@ export class UpdatesService {
     }
   }
 
-  /** 2026-08-20 THE ZYPPAR CHECK — /updates/check?clientVersion=... */
-  async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string }> {
+  /** 2026-08-20 THE ZYPPAR CHECK — /api/rolodex/updates/check?clientVersion=... */
+  async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string; gate: 'offline' | 'ok' }> {
     if (!navigator.onLine) {
-      return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion };
+      return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
     }
     const res = await fetch(
       `${environment.rolodexApiBase}/updates/check?clientVersion=${encodeURIComponent(this.appVersion)}`,
@@ -97,7 +97,40 @@ export class UpdatesService {
       isUpdateAvailable: version !== '' && version !== this.appVersion,
       type,
       version,
+      gate: 'ok',
     };
+  }
+
+  /** 2026-08-20 ZYPPAR MANUAL CHECK — never lies: surfaces the gate reason and
+   *  the exact compared versions, so a failed/blocked check can never be
+   *  presented as "up to date". */
+  async manualCheckForUpdates(): Promise<{
+    isUpdateAvailable: boolean;
+    type: 'flexible' | 'immediate';
+    version: string;
+    gate: 'offline' | 'ok' | 'error';
+    currentVersion: string;
+    serverVersion: string;
+    error?: string;
+  }> {
+    try {
+      const status = await this.checkForUpdates();
+      return {
+        ...status,
+        currentVersion: this.appVersion,
+        serverVersion: status.version,
+      };
+    } catch (err) {
+      return {
+        isUpdateAvailable: false,
+        type: 'flexible',
+        version: this.appVersion,
+        gate: 'error',
+        currentVersion: this.appVersion,
+        serverVersion: '',
+        error: String((err as Error)?.message || err),
+      };
+    }
   }
 
   /** Apply the update: persist version, clear caches + SW, hard reload. */

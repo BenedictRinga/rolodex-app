@@ -321,20 +321,36 @@ export class RolodexComponent implements OnInit {
   async checkForUpdates(): Promise<void> {
     this.checkingUpdates = true;
     try {
-      const result = await this.updatesService.check();
-      this.updateCurrent = result.current;
-      this.updateCurrentBuild = result.currentBuild;
-      this.updateServer = result.server || '';
-      this.updateServerBuild = result.serverBuild || 0;
-      this.updateAvailable = result.available;
+      const result = await this.updatesService.manualCheckForUpdates();
+      this.updateCurrent = result.currentVersion;
+      this.updateCurrentBuild = this.updatesService.appBuild;
+      this.updateServer = result.serverVersion || '';
+      this.updateServerBuild = 0;
+      this.updateAvailable = result.isUpdateAvailable;
       this.updateChecked = true;
       this.lastCheckedLabel = 'checked ' + this.time.format(new Date(), 'time');
-      if (result.available) {
+
+      if (result.gate === 'error') {
+        await this.alertService.alertPrompt({
+          header: 'Update check failed',
+          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on v${result.currentVersion}; the server version could not be confirmed.`,
+        });
+        return;
+      }
+      if (result.gate === 'offline') {
+        await this.alertService.alertPrompt({
+          header: 'Offline',
+          message: `No internet connection — the update check was skipped. You are on v${result.currentVersion}.`,
+        });
+        return;
+      }
+
+      if (result.isUpdateAvailable) {
         await this.presentUpdatePrompt();
       } else {
         await this.alertService.alertPrompt({
           header: 'Up to date',
-          message: `You're on v${result.current} (build ${result.currentBuild}) — the latest${result.server ? ` (server v${result.server} build ${result.serverBuild})` : ''}.`,
+          message: `You're on v${result.currentVersion} — the latest${result.serverVersion ? ` (server v${result.serverVersion})` : ''}.`,
         });
       }
     } finally {

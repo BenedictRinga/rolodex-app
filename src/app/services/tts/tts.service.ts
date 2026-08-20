@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { VoiceOptionsService } from '../voice-options/voice-options.service';
 
 /**
@@ -21,28 +23,57 @@ export class TtsService {
 
   constructor(private readonly voiceOptions: VoiceOptionsService) {}
 
-  /** Speak a line of narration, stopping anything already playing. */
+  /** Speak a line of narration, stopping anything already playing.
+   *  DEVICE-FIRST (Zyppar Studio pattern): Capacitor native TTS on Android/iOS,
+   *  browser speechSynthesis as the web/fallback tier. */
   speak(text: string, rate = 0.95): void {
     if (!this.supported) return;
+    const out = this.disambiguate(text);
+    const voice = this.voiceOptions.resolveVoice();
+    const confidanteDefault = !this.voiceOptions.selectedVoiceId ||
+      this.voiceOptions.selectedVoiceId === this.voiceOptions.CONFIDANTE_ID;
+    const pitch = confidanteDefault ? 1.05 : 1.0;
+
+    if (Capacitor.isNativePlatform()) {
+      void TextToSpeech.speak({
+        text: out,
+        rate,
+        pitch,
+        volume: 1.0,
+        lang: voice?.lang || 'en-US',
+      }).catch(() => this.speakWeb(out, rate, voice, pitch));
+      return;
+    }
+    this.speakWeb(out, rate, voice, pitch);
+  }
+
+  private speakWeb(
+    text: string,
+    rate: number,
+    voice: SpeechSynthesisVoice | undefined,
+    pitch: number,
+  ): void {
+    if (!('speechSynthesis' in window)) return;
     try {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(this.disambiguate(text));
+      const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = rate;
-      // Confidante default: female secretary voice (or the user's chosen voice).
-      utterance.voice = this.voiceOptions.resolveVoice() ?? null;
-      if (!this.voiceOptions.selectedVoiceId || this.voiceOptions.selectedVoiceId === this.voiceOptions.CONFIDANTE_ID) {
-        utterance.pitch = 1.05;
-      }
+      utterance.pitch = pitch;
+      utterance.voice = voice ?? null;
       window.speechSynthesis.speak(utterance);
     } catch { /* narration is best-effort */ }
   }
 
-  /** Stop all speech immediately. */
+  /** Stop all speech immediately (native + web). */
   stop(): void {
-    if (!this.supported) return;
-    try {
-      window.speechSynthesis.cancel();
-    } catch { /* ignore */ }
+    if (Capacitor.isNativePlatform()) {
+      void TextToSpeech.stop().catch(() => undefined);
+    }
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch { /* ignore */ }
+    }
   }
 
   /**
