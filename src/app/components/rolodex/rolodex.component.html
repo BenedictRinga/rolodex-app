@@ -7,12 +7,12 @@
           <ion-label class="fabcolor" (click)="openCardSelect()">My Rolodex: {{ pageManager.upperCardMode }}
             view</ion-label>
           <ion-buttons>
-            <ion-button (click)="openPods()" appTooltip="Pods — group threads">
+            <!-- <ion-button (click)="openPods()" appTooltip="Pods — group threads">
               <ion-icon name="people-outline" class="fabcolor"></ion-icon>
             </ion-button>
             <ion-button (click)="showAutoSortView()" appTooltip="Rolodex your Contacts">
               <ion-icon name="card-outline" class="fabcolor"></ion-icon>
-            </ion-button>
+            </ion-button> -->
             <ion-button (click)="openLoopChallenge()" appTooltip="Confidante — talk to RolodexAI">
               <ion-icon name="accessibility-outline" class="fabcolor"></ion-icon>
               <!-- <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="Confidante" /> -->
@@ -216,25 +216,30 @@
         <!-- 2026-08-17 MY PROFILE: the user's own identity - name + photo,
              the 'me' behind the cards (feeds the chat sender name too). -->
         <ion-item class="profile-card" lines="none">
-          <ion-avatar slot="start" class="profile-avatar">
-            <img [src]="profile.photo || profileFallback()" alt="My profile" />
-          </ion-avatar>
+          <!-- 2026-08-21: photo + the three actions stacked vertically beside it,
+               so the label gets the rest of the row and the section stays short
+               even with the longer profile-guide text. -->
+          <div slot="start" class="profile-media">
+            <ion-avatar class="profile-avatar">
+              <img [src]="profile.photo || profileFallback()" alt="My profile" />
+            </ion-avatar>
+            <div class="profile-actions">
+              <ion-button fill="outline" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
+                <ion-icon name="image-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" size="small" (click)="changeProfileName()" appTooltip="Change name">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" size="small" (click)="changeProfilePhone()" appTooltip="Your phone - how contacts reach you">
+                <ion-icon name="call-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
           <ion-label>
             <h2>{{ profile.name || 'My profile' }}</h2>
             <p>You are the Confidante's principal.</p>
             <p class="profile-guide">Your name, phone and photo appear on every share — {{ profileCompletionLabel() }}</p>
           </ion-label>
-          <ion-buttons slot="end">
-            <ion-button fill="outline" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
-              <ion-icon name="image-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="outline" size="small" (click)="changeProfileName()" appTooltip="Change name">
-              <ion-icon name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="outline" size="small" (click)="changeProfilePhone()" appTooltip="Your phone - how contacts reach you">
-              <ion-icon name="call-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
         </ion-item>
 
         <!-- 2026-08-16 SETTINGS MAP: every section at a glance - nobody is

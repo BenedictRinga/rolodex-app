@@ -89,7 +89,7 @@ export class StudioAudioBridgeService {
   }
 
   async resolveAudioUrl(_audioTextId: string, content: string, _loggedIn: boolean): Promise<string | undefined> {
-    const r = await fetch(`${environment.rolodexApiBase}/tts`, {
+    const r = await fetch(`${environment.rolodexApiBase}/tts/stream`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: String(content || '').slice(0, 4000) }),
@@ -118,7 +118,7 @@ export class StudioAudioBridgeService {
     const cached = this.demoCache.get(cacheKey);
     if (cached) return cached;
 
-    const r = await fetch(`${environment.rolodexApiBase}/tts`, {
+    const r = await fetch(`${environment.rolodexApiBase}/tts/stream`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

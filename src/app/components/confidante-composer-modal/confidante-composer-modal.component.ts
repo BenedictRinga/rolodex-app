@@ -253,13 +253,16 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
     this.studioPlayback.setCancelPredicate(() => !this.listening);
     this.studioPlayback.onEnded(() => { this.listening = false; });
     try {
+      // 2026-08-21: NOT template anymore — try the backend MP3 path first
+      // (StudioBridge → /tts/stream), then fall back to device TTS. This is the
+      // same order as Zyppar's StudioAudioBridge and makes mobile PWA sound work
+      // when the server's Qwen TTS is configured.
       await this.studioBridge.playDemo(
         this.draft,
         'Confidante draft',
         'rolodex-confidante',
         '',
         this.studioPlayback,
-        { isTemplate: true },
       );
     } catch {
       void this.alertsService.showToast('Could not play the draft', 2000);

@@ -4,10 +4,33 @@
   margin: 10px 4px 4px;
 }
 
+/* 2026-08-21: photo + vertical action stack beside it, label takes the rest. */
+.profile-media {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 12px;
+}
+
 .profile-avatar {
   --border-radius: 50%;
   width: 52px;
   height: 52px;
+  flex-shrink: 0;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-actions ion-button {
+  height: 30px;
+  width: 34px;
+  margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
 }
 
 .profile-guide {

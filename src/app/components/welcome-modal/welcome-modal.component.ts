@@ -235,34 +235,47 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     return Math.max(this.STEP_MS, text.length * 60 + 5000);
   }
 
-  /** Device-first on user gesture (matches Zyppar's AgentStudio pattern and keeps
-   *  speechSynthesis inside the tap's gesture window on mobile PWA). Backend
-   *  /tts is only tried on the pre-gesture autoplay path, where MP3 could play
-   *  if the page was already unlocked; the device fallback is reserved for the
-   *  user-granted path so a network 501 never eats the gesture. */
+  /** MP3-first (matches Zyppar StudioAudioBridge): try backend /tts with a
+   *  short timeout, then device TTS only when the user granted audio. On mobile
+   *  the primeGesturePermission() call in toggleNarrate unlocks the audio element
+   *  so the MP3 can play after the network round-trip. */
   private async speakStep(step: WelcomeDemoStep, allowDeviceFallback = false): Promise<void> {
     if (!this.narrate || !this.speechSupported) return;
     const raw = `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`;
     const text = this.textsplitter.preprocessForTTS(raw, 'All');
-    if (allowDeviceFallback) {
-      await this.playback.speakDeviceFirst(text, 'en-US');
-      return;
-    }
     if (this.backendTtsOk !== false) {
       try {
-        const r = await fetch(`${environment.rolodexApiBase}/tts`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        });
+        const r = await this.fetchTtsWithTimeout(text);
         if (r.status === 501) {
           this.backendTtsOk = false;
         } else if (r.ok) {
           this.backendTtsOk = true;
           await this.playback.playBlob(await r.blob());
           return;
+        } else {
+          this.backendTtsOk = false;
         }
-      } catch { /* no gesture → stay silent rather than fight autoplay */ }
+      } catch {
+        this.backendTtsOk = false;
+      }
+    }
+    if (this.backendTtsOk === false && allowDeviceFallback) {
+      await this.playback.speakDeviceFirst(text, 'en-US');
+    }
+  }
+
+  private async fetchTtsWithTimeout(text: string): Promise<Response> {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    try {
+      return await fetch(`${environment.rolodexApiBase}/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+        signal: ctrl.signal,
+      });
+    } finally {
+      clearTimeout(timer);
     }
   }
 
