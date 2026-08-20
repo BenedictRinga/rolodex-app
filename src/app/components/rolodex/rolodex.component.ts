@@ -317,6 +317,8 @@ export class RolodexComponent implements OnInit {
   }
 
   /** Direct tap on the Settings "Update vX" button: apply immediately.
+   *  2026-08-20 ZYPPAR-STYLE: the update clears caches + unregisters the SW,
+   *  then hard-reloads — the user ACTUALLY sees the new bundle.
    *  2026-08-19 PERSISTENT ACK: remember the build we tried to install so the
    *  popup does not come straight back after the reload. */
   async applyUpdate(): Promise<void> {
@@ -328,7 +330,8 @@ export class RolodexComponent implements OnInit {
         this.promptedBuild = this.updateServerBuild;
       }
     } catch { /* the reload still happens */ }
-    setTimeout(() => window.location.reload(), 350);
+    const target = this.updateServer || this.updatesService.appVersion;
+    await this.updatesService.forceUpdate(target);
   }
 
   /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
