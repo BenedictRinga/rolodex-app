@@ -45,7 +45,6 @@
             <div class="card-inner" (click)="flipRolodexcard(contact)">
               <!-- Front Side -->
               <div class="card-front">
-                <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
                 <ion-avatar class="rolodex-avatar">
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)" />
@@ -197,7 +196,6 @@
             <ion-card-subtitle class="card-subtitle">
               {{ contact.organization?.company || 'No Company Info' }}
             </ion-card-subtitle>
-            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           </ion-card-header>
       
           <!-- Content Section -->
@@ -273,7 +271,6 @@
             <ion-card-title class="family-title">
               {{ contact.name?.display || 'Unknown Family Member' }}
             </ion-card-title>
-            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
           </ion-card-header>
       
           <!-- Content: Birthday, Notes, Reminders, and Social Profiles -->
@@ -618,9 +615,12 @@
             <ion-button color="primary" (click)="callContact(activeContact)">Call</ion-button>
             <ion-button color="secondary" (click)="emailContact(activeContact)">Email</ion-button>
             <ion-button color="tertiary" (click)="openAddress(activeContact)">Map</ion-button>
-            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: activeContact}"></ng-container>
             <ion-button color="warning" (click)="onEditContact(activeContact)">Edit</ion-button>
             <ion-button color="danger" (click)="onRemoveContact(activeContact)">Remove</ion-button>
+          </div>
+          <!-- 2026-08-20 CONFIDANTE HIT: bottom center of the opened card. -->
+          <div class="confidante-opened">
+            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: activeContact}"></ng-container>
           </div>
         </ion-card>
       </div>
