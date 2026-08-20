@@ -1126,17 +1126,19 @@ ion-content {
   flex-shrink: 0;
 }
 
-/* ── THE 4 W'S: four plates, arriving separately, skewed like the fan ── */
+/* ── THE 4 W'S: four plates in a 2×2 grid — no overlap, wide enough to read,
+     still arriving separately with a gentle fan-like tilt ── */
 .fourws-fan {
-  position: relative;
-  width: 290px;
-  height: 190px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 310px;
+  margin: 0 auto;
 }
 
 .w-plate {
-  position: absolute;
-  width: 150px;
-  min-height: 54px;
+  min-height: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1152,13 +1154,13 @@ ion-content {
   animation: plateIn 0.55s var(--rolodex-spring) both;
 }
 
-.wp1 { --plate-rot: -12deg; left: 0;    top: 18px; animation-delay: 0.15s; }
-.wp2 { --plate-rot: -4deg;  left: 44px;  top: 4px;  animation-delay: 0.8s; }
-.wp3 { --plate-rot: 5deg;   left: 96px;  top: 14px; animation-delay: 1.5s; }
-.wp4 { --plate-rot: 13deg;  left: 148px; top: 34px; animation-delay: 2.2s; }
+.wp1 { --plate-rot: -2deg; animation-delay: 0.15s; }
+.wp2 { --plate-rot: 2deg;  animation-delay: 0.75s; }
+.wp3 { --plate-rot: -2deg; animation-delay: 1.35s; }
+.wp4 { --plate-rot: 2deg;  animation-delay: 1.95s; }
 
 @keyframes plateIn {
-  from { opacity: 0; transform: translateY(14px) rotate(var(--plate-rot, 0deg)) scale(0.9); }
+  from { opacity: 0; transform: translateY(14px) rotate(var(--plate-rot, 0deg)) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) rotate(var(--plate-rot, 0deg)) scale(1); }
 }
 
@@ -1186,15 +1188,13 @@ ion-content {
 }
 
 .w-foot {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -22px;
+  grid-column: 1 / -1;
   font-size: 10px;
   color: var(--rolodex-text-tertiary);
   text-align: center;
+  padding-top: 4px;
   opacity: 0;
-  animation: popIn 0.4s var(--rolodex-spring) 2.8s both;
+  animation: popIn 0.4s var(--rolodex-spring) 2.4s both;
 }
 
 /* 2026-08-19 THE TASTE — the surprise card. */

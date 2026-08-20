@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from '../../services/storage/storage.service';
+import { TtsService } from '../../services/tts/tts.service';
 
 
 export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
@@ -122,12 +123,15 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   autoPlay = true;
   /** 2026-08-20 BROWSER TTS: narrate each card while it is on screen. */
   narrate = true;
-  speechSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
+  get speechSupported(): boolean {
+    return this.tts.supported;
+  }
   currentStepMs = this.STEP_MS;
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
+    private readonly tts: TtsService,
     ) {}
 
   get isFirst(): boolean {
@@ -221,18 +225,14 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.stopSpeech();
     if (!this.narrate || !this.speechSupported) return;
     try {
-      const utterance = new SpeechSynthesisUtterance(
+      this.tts.speak(
         `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`
       );
-      utterance.rate = 0.95;
-      window.speechSynthesis.speak(utterance);
     } catch { /* narration is best-effort */ }
   }
 
   private stopSpeech(): void {
-    try {
-      if (this.speechSupported) window.speechSynthesis.cancel();
-    } catch { /* ignore */ }
+    this.tts.stop();
   }
 
   toggleNarrate(): void {
