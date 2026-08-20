@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { StorageService } from '../../services/storage/storage.service';
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
+import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
 import { Capacitor } from '@capacitor/core';
 
 
@@ -137,6 +138,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
     private readonly playback: StudioPlaybackService,
+    private readonly textsplitter: TextsplitterService,
     ) {}
 
   get isFirst(): boolean {
@@ -226,40 +228,17 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
 
   /** Narrates the current card using the transplanted Studio device-TTS path
-   *  (speakDeviceFirst — Capacitor native → chunked web speech, NO remote). */
+   *  (speakDeviceFirst — Capacitor native → chunked web speech, NO remote),
+   *  with the transplanted TextsplitterService handling pronunciation. */
   private speakStep(step: WelcomeDemoStep): void {
     if (!this.narrate || !this.speechSupported) return;
-    const text = this.disambiguateNarration(
-      `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`
-    );
+    const raw = `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`;
+    const text = this.textsplitter.preprocessForTTS(raw, 'All');
     void this.playback.speakDeviceFirst(text, 'en-US');
   }
 
   private stopSpeech(): void {
     this.playback.stopSpeech();
-  }
-
-  /** Keeps the live/read pronunciation fixes without a TTS service layer. */
-  private disambiguateNarration(text: string): string {
-    if (!text) return text;
-    let out = text;
-    out = out.replace(/\blive across devices\b/gi, 'in real time across devices');
-    out = out.replace(/\bdevices link live\b/gi, 'devices link in real time');
-    out = out.replace(/\blink devices live\b/gi, 'link devices in real time');
-    out = out.replace(/\bdevices live\b/gi, 'devices in real time');
-    out = out.replace(/\blink live\b/gi, 'link in real time');
-    out = out.replace(/\ball live\b/gi, 'all in real time');
-    out = out.replace(/\bis live\b/gi, 'is in real time');
-    out = out.replace(/\blive demo\b/gi, 'real-time demo');
-    out = out.replace(/\blive stream\b/gi, 'real-time stream');
-    out = out.replace(/\bloves live\b/gi, 'loves live music');
-    out = out.replace(/\b(?:where\s+your\s+)?contacts\s+live\b/gi, 'contacts lihv');
-    out = out.replace(/\b(?:you|they|we|people|i|he|she|friends|family)\s+live\b/gi,
-      (m) => m.replace(/\blive\b/i, 'lihv'));
-    out = out.replace(/\blive\b(?=[.!?]|$)/gi, 'lyve');
-    out = out.replace(/(?:sent|delivered)\s*[·•]\s*read\b/gi, (m) => m.replace(/\bread\b/i, 'redd'));
-    out = out.replace(/\breads\b/gi, 'reedz');
-    return out;
   }
 
   toggleNarrate(): void {
