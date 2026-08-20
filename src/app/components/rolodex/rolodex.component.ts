@@ -343,8 +343,6 @@ export class RolodexComponent implements OnInit {
       this.updateServer = result.serverVersion || '';
       this.updateServerBuild = 0;
       this.updateAvailable = result.isUpdateAvailable;
-      this.updateChecked = true;
-      this.lastCheckedLabel = 'checked ' + this.time.format(new Date(), 'time');
 
       if (result.gate === 'error') {
         await this.alertService.alertPrompt({
@@ -360,6 +358,10 @@ export class RolodexComponent implements OnInit {
         });
         return;
       }
+
+      // Only a real server answer earns the "Up to date" / "checked" state.
+      this.updateChecked = true;
+      this.lastCheckedLabel = 'checked ' + this.time.format(new Date(), 'time');
 
       if (result.isUpdateAvailable) {
         await this.presentUpdatePrompt();

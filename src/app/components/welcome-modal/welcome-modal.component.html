@@ -249,8 +249,8 @@
       <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay ? 'Pause demo' : 'Play demo'">{{ autoPlay ? '❚❚' : '▶' }}</button>
       <button class="nav-btn" (click)="toggleNarrate()" [attr.aria-label]="narrate ? 'Mute narration' : 'Enable narration'">{{ narrate ? '🔊' : '🔇' }}</button>
       <button class="nav-btn" [disabled]="isLast" (click)="next()" aria-label="Next step">›</button>
+      <span class="sound-hint" *ngIf="!narrate && speechSupported">Tap for sound</span>
     </div>
-    <div class="sound-hint" *ngIf="!narrate && speechSupported">Tap 🔊 for sound — the step restarts with narration.</div>
   </div>
 
   <!-- ── ACTIONS ────────────────────────────────────────────────────── -->

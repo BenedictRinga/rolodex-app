@@ -122,10 +122,11 @@ ion-content {
 }
 
 .sound-hint {
-  margin-top: 6px;
-  font-size: 11px;
+  align-self: center;
+  margin-left: 4px;
+  font-size: 10.5px;
+  white-space: nowrap;
   color: var(--rolodex-text-secondary);
-  text-align: center;
   animation: hintPulse 2s ease-in-out infinite;
 }
 

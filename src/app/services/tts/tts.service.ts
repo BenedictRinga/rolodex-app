@@ -55,7 +55,9 @@ export class TtsService {
   ): void {
     if (!('speechSynthesis' in window)) return;
     try {
-      window.speechSynthesis.cancel();
+      // NOTE: no cancel() here — Zyppar's speakWebSync does NOT cancel before
+      // speak; a same-tick cancel+speak can drop the utterance on iOS/mobile.
+      // Callers stop previous speech via stop() before speaking.
       // Mobile Chrome/WebView quirk: speech can be left in a paused state and
       // silently refuses to start. Resume before every speak (Zyppar pattern).
       if (window.speechSynthesis.paused) window.speechSynthesis.resume();

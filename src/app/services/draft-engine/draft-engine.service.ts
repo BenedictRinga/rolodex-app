@@ -66,8 +66,11 @@ export class DraftEngineService {
     private readonly storage: StorageService,
     private readonly rolodexSync: RolodexSyncService,
   ) {
-    // async hydrate of the persisted preferences into the sync fields
-    void (async () => {
+    // async hydrate of the persisted preferences into the sync fields.
+    // 2026-08-20 FIX: exposed as a promise so ensureTrial() can AWAIT it —
+    // otherwise HomePage calls ensureTrial() before hydration finishes, and
+    // every launch re-grants a fresh 7 days (the counter never counts down).
+    this.hydrateReady = (async () => {
       try {
         const stored = await this.storage.get<AiProvider>(AI_PROVIDER_KEY);
         if (stored === 'deepseek' || stored === 'grok' || stored === 'rolodex') this.provider = stored;
@@ -78,6 +81,8 @@ export class DraftEngineService {
       } catch { /* defaults */ }
     })();
   }
+
+  private hydrateReady: Promise<void>;
 
   /** 2026-08-16: the user picks the engine; ROLODEX holds the keys. */
   setProvider(p: AiProvider): void {
@@ -130,14 +135,15 @@ export class DraftEngineService {
    *  Once started (even after expiry) it is never auto-renewed — only
    *  reopenTrial() can reset it, deliberately. The existence of the until-key
    *  also covers devices that started under the older client (no start key). */
-  ensureTrial(): void {
+  async ensureTrial(): Promise<void> {
+    await this.hydrateReady;
     if (this.plan === 'confidante') return;
     if (this.trialUntil() > 0) return; // granted before — active or expired
     const now = Date.now();
     this.trialStartedAtMs = now;
     this.trialUntilMs = now + TRIAL_DAYS * DAY_MS;
-    void this.storage.set(TRIAL_START_KEY, this.trialStartedAtMs);
-    void this.storage.set(TRIAL_KEY, this.trialUntilMs);
+    await this.storage.set(TRIAL_START_KEY, this.trialStartedAtMs);
+    await this.storage.set(TRIAL_KEY, this.trialUntilMs);
   }
 
   /** 2026-08-19 REOPEN THE TRIAL: owner/investor control. Resets both the
@@ -263,7 +269,7 @@ export class DraftEngineService {
     if (guide?.strict) return guide.guide;
 
     // 2026-08-17 FREE TRIAL: the first AI use auto-grants 7 days of the Confidante.
-    this.ensureTrial();
+    await this.ensureTrial();
 
     if (this.interventionsLeft() <= 0) {
       return 'Your Assistant taste is used up for this month — upgrade to the Confidante ($5/month) for unlimited AI interventions.';
