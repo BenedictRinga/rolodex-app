@@ -241,9 +241,21 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.playback.stopSpeech();
   }
 
-  toggleNarrate(): void {
+  /** Zyppar Studio pattern: when the user taps 🔊, stop → beginLoading →
+   *  primeGesturePermission (silent audio unlock inside the tap) → then start
+   *  narration. Without this, mobile browsers expire the gesture during the
+   *  async TTS path and the first utterance is silently dropped. */
+  async toggleNarrate(): Promise<void> {
     this.narrate = !this.narrate;
-    this.restartTimer();
+    if (this.narrate) {
+      this.playback.stop();
+      this.playback.beginLoading();
+      await this.playback.primeGesturePermission();
+      this.restartTimer();
+    } else {
+      this.stopSpeech();
+      this.restartTimer();
+    }
   }
 
   /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour.
