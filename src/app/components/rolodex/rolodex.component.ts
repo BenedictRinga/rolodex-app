@@ -428,6 +428,21 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-20 LOOP CHALLENGES (distribution): the RolodexAI icon opens the
+   *  same guided Confidante chat as the end of the Welcome demo — up to 5
+   *  failed/weak/delayed loops, one at a time. */
+  async openLoopChallenge(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ChatWithRolodexModalComponent,
+      componentProps: { startMode: 'situation' },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
   /** 2026-08-16 PODS: group threads derived from the contacts' groups. */
   async openPods(): Promise<void> {
     const pods = this.cardChat.groupsFrom(this.contacts as any[]);

@@ -121,8 +121,11 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   stepIndex = 0;
   autoPlay = true;
-  /** 2026-08-20 BROWSER TTS: narrate each card while it is on screen. */
-  narrate = true;
+  /** 2026-08-20 BROWSER TTS: narrate each card while it is on screen.
+   *  DEFAULT OFF: browsers block speech without a user gesture. Starting muted
+   *  makes the user notice the 🔊 control and tap it — the tap is the gesture
+   *  that unlocks audio reliably on mobile. */
+  narrate = false;
   get speechSupported(): boolean {
     return this.tts.supported;
   }

@@ -38,7 +38,7 @@ interface ComposerMsg {
       <div class="composer-thread">
         <div *ngIf="!messages.length" class="composer-empty">
           Tell the Confidante what to write to {{ contactName }} — it will draft,
-          you refine, then dispatch.
+          you refine, and then you dispatch.
         </div>
         <div *ngFor="let m of messages" class="composer-msg" [class.user]="m.role === 'user'">
           <span class="composer-label">{{ m.role === 'user' ? 'You' : 'Confidante' }}</span>

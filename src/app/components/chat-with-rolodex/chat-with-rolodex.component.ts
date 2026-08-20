@@ -103,7 +103,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       this.messages[0] = {
         from: 'system',
         text: mode === 'situation'
-          ? 'The live Confidante is not reachable right now. Tell us about the postponed communication anyway — we can still work through it.'
+          ? 'The live Confidante is not reachable right now. Tell us about the loop challenge anyway — we can still work through it.'
           : 'The live Confidante is not reachable right now. Tell us what you need anyway, or use the free AI chats below for the deep dive.',
       };
     }
@@ -114,7 +114,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       case 'help':
         return 'The user needs help using RolodexAI. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
       case 'situation':
-        return `We are working together to improve a ${this.situationOrdinalLabel} situation — a real postponed communication the user wants to finally send. Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). IMPORTANT: do NOT ask for the other person's name, phone, email or number — the app will let them pick the person from their phone contacts later. Keep it to 1-2 sentences.`;
+        return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). IMPORTANT: do NOT ask for the other person's name, phone, email or number — the app will let them pick the person from their phone contacts later. Keep it to 1-2 sentences.`;
       case 'feedback':
       default:
         return 'Please greet me warmly and ask what one thing about RolodexAI feels frustrating or missing. Keep it to 1-2 sentences.';
