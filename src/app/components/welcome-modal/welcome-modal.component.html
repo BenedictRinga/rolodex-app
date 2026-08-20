@@ -15,7 +15,7 @@
   <ng-container *ngFor="let s of steps; let i = index">
     <div class="demo-step" *ngIf="i === stepIndex">
       <div class="demo-progress">
-        <div class="demo-progress-fill" [class.paused]="!autoPlay" [ngStyle]="{'animation-duration': STEP_MS + 'ms'}"></div>
+        <div class="demo-progress-fill" [class.paused]="!autoPlay" [ngStyle]="{'animation-duration': currentStepMs + 'ms'}"></div>
       </div>
 
       <!-- ── STAGE: the visual, drawn entirely in CSS ────────────────── -->
@@ -65,6 +65,14 @@
               <div class="flip-hint">tap to flip</div>
             </div>
 
+            <!-- THE PROMISE: "No more I keep meaning to" — a thought caught -->
+            <div class="loop-motto" *ngSwitchCase="'loopmotto'">
+              <div class="motto-thought">“I keep meaning to…”</div>
+              <div class="motto-strike"></div>
+              <div class="motto-answer"><ion-icon name="checkmark-circle"></ion-icon> No more.</div>
+              <div class="motto-catch">The loop closes before the fire goes cold.</div>
+            </div>
+
             <!-- FOLLOW-UP ENGINE: the loop list -->
             <div class="loop" *ngSwitchCase="'followup'">
               <div class="loop-row row-overdue">
@@ -85,7 +93,7 @@
               <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> caught before it goes cold</div>
             </div>
 
-            <!-- SIGNAL: they always know - the badge, the toast, the receipts -->
+            <!-- SIGNAL: they always know - badge, toast, receipts, live update -->
             <div class="signal" *ngSwitchCase="'signal'">
               <div class="sig-row">
                 <div class="sig-card">
@@ -107,14 +115,34 @@
                 <span class="rcpt read"><ion-icon name="checkmark-done-outline"></ion-icon></span>
                 <span class="rcpt-label">sent · delivered · read</span>
               </div>
+              <div class="sig-update">
+                <div class="sig-update-icon"><ion-icon name="calendar-outline"></ion-icon></div>
+                <div class="sig-update-txt">
+                  <b>Appointment fixed with Amina</b>
+                  <span>her card caught it too — live across devices</span>
+                </div>
+                <span class="sig-update-check"><ion-icon name="checkmark-circle"></ion-icon></span>
+              </div>
             </div>
 
-            <!-- THE 4 W'S: the Confidante's deep context -->
-            <div class="fourws-demo" *ngSwitchCase="'fourws'">
-              <div class="w-line"><span class="w-tag who">Who</span><span class="w-txt">Amina, Creative Director</span></div>
-              <div class="w-line"><span class="w-tag what">What</span><span class="w-txt">Fashion line — collab opportunity</span></div>
-              <div class="w-line"><span class="w-tag where">Where</span><span class="w-txt">Met at the Lagos showroom</span></div>
-              <div class="w-line"><span class="w-tag when">When</span><span class="w-txt">Mar 2024 · next Fri</span></div>
+            <!-- THE 4 W'S: four plates, arriving separately, skewed like a fan -->
+            <div class="fourws-fan" *ngSwitchCase="'fourws'">
+              <div class="w-plate wp1">
+                <span class="w-tag who">Who</span>
+                <span class="w-txt">Amina, Creative Director</span>
+              </div>
+              <div class="w-plate wp2">
+                <span class="w-tag what">What</span>
+                <span class="w-txt">Fashion line — collab opportunity</span>
+              </div>
+              <div class="w-plate wp3">
+                <span class="w-tag where">Where</span>
+                <span class="w-txt">Met at the Lagos showroom</span>
+              </div>
+              <div class="w-plate wp4">
+                <span class="w-tag when">When</span>
+                <span class="w-txt">Mar 2024 · next Fri</span>
+              </div>
               <div class="w-foot">the Confidante reads the story</div>
             </div>
 
@@ -196,6 +224,8 @@
         <div class="demo-kicker">{{ s.kicker }}</div>
         <h2 class="demo-title">{{ s.title }}</h2>
         <p class="demo-text">{{ s.copy }}</p>
+        <!-- 2026-08-20 EMPHASIS: detached, bold, slightly larger — a recapture line. -->
+        <p class="demo-emphasis" *ngIf="s.emphasis">{{ s.emphasis }}</p>
         <!-- 2026-08-19 SURPRISE: separate paragraph, larger, bold, all-caps. -->
         <p class="demo-surprise" *ngIf="s.surprise">{{ s.surprise }}</p>
       </div>
@@ -217,6 +247,7 @@
     <div class="demo-nav">
       <button class="nav-btn" [disabled]="isFirst" (click)="prev()" aria-label="Previous step">‹</button>
       <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay ? 'Pause demo' : 'Play demo'">{{ autoPlay ? '❚❚' : '▶' }}</button>
+      <button class="nav-btn" (click)="toggleNarrate()" [attr.aria-label]="narrate ? 'Mute narration' : 'Enable narration'">{{ narrate ? '🔊' : '🔇' }}</button>
       <button class="nav-btn" [disabled]="isLast" (click)="next()" aria-label="Next step">›</button>
     </div>
   </div>

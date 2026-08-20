@@ -12,6 +12,8 @@ export interface WelcomeDemoStep {
   copy: string;
   /** 2026-08-19 optional bold "SURPRISE" callout, separated from the main copy. */
   surprise?: string;
+  /** 2026-08-20 optional bold/larger emphasis line, detached from the copy. */
+  emphasis?: string;
 }
 
 /**
@@ -44,7 +46,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'intro',
       kicker: 'Karibu sana!',
       title: 'RolodexAI — your contacts, in motion',
-      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%. No more "I keep meaning to" — the loop closes before the fire goes cold.',
+      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%.',
       surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
     },
     {
@@ -54,44 +56,51 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the Confidante live right there on the person.',
     },
     {
+      id: 'loopmotto',
+      kicker: '02 · The promise',
+      title: 'No more "I keep meaning to"',
+      copy: 'Every missed reply starts the same way: "I keep meaning to." RolodexAI catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
+    },
+    {
       id: 'fourws',
-      kicker: '02 · The 4 W\u2019s',
+      kicker: '03 · The 4 W\u2019s',
       title: 'The deep context',
       copy: 'Who, What, Where, When — the story behind every card, the briefing that powers everything after this: the follow-ups, the signals, the drafts.',
     },
     {
       id: 'followup',
-      kicker: '03 · The loop',
+      kicker: '04 · The loop',
       title: 'The follow-up engine',
-      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold. You never forget. You never delay. You never postpone.',
+      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold.',
+      emphasis: 'You never forget. You never delay. You never postpone.',
     },
     {
       id: 'signal',
-      kicker: '04 · The signal',
+      kicker: '05 · The signal',
       title: 'They always know',
       copy: 'Send a message and the other card badges it. Fix an appointment and the other card catches it — with a toast and receipts: sent → delivered → read, live across devices.',
     },
     {
       id: 'confidante',
-      kicker: '05 · The confidante',
+      kicker: '06 · The confidante',
       title: 'The AI drafts — you hit Send',
       copy: 'The confidential secretary digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
-      kicker: '06 · Pods',
+      kicker: '07 · Pods',
       title: 'Pods, not chatrooms',
       copy: 'Group threads grow straight from your groups — one pod for the people who share your life, with a shared schedule and reminders.',
     },
     {
       id: 'storage',
-      kicker: '07 · Your data',
+      kicker: '08 · Your data',
       title: 'Where your contacts live',
       copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — your trust level, your choice. Demo room codes link devices live.',
     },
     {
       id: 'pricing',
-      kicker: '08 · The tiers',
+      kicker: '09 · The tiers',
       title: 'Basic $1 · Confidante $5',
       copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Confidante lets the AI work all month. Billing lives in Settings.',
     },
@@ -111,7 +120,11 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   stepIndex = 0;
   autoPlay = true;
-  private timer: ReturnType<typeof setInterval> | null = null;
+  /** 2026-08-20 BROWSER TTS: narrate each card while it is on screen. */
+  narrate = true;
+  speechSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
+  currentStepMs = this.STEP_MS;
+  private timer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
@@ -138,6 +151,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearTimer();
+    this.stopSpeech();
   }
 
   next(): void {
@@ -168,25 +182,62 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** One full show, then stop on the last slide so it never loops forever. */
+  /** 2026-08-20 One full show, then stop on the last slide so it never loops
+   *  forever. Each step's dwell is sized to its narration (longer copy → more
+   *  time to absorb), not a fixed metronome. */
   private restartTimer(): void {
     this.clearTimer();
     if (!this.autoPlay) return;
-    this.timer = setInterval(() => {
+    const step = this.steps[this.stepIndex];
+    this.currentStepMs = this.stepMsFor(step);
+    this.speakStep(step);
+    this.timer = setTimeout(() => {
       if (this.isLast) {
         this.autoPlay = false;
         this.clearTimer();
         return;
       }
       this.stepIndex++;
-    }, this.STEP_MS);
+      this.restartTimer();
+    }, this.currentStepMs);
   }
 
   private clearTimer(): void {
     if (this.timer !== null) {
-      clearInterval(this.timer);
+      clearTimeout(this.timer);
       this.timer = null;
     }
+  }
+
+  /** Dwell time: narration-aware so the reader/listener actually absorbs it. */
+  private stepMsFor(step: WelcomeDemoStep): number {
+    if (!this.narrate || !this.speechSupported) return this.STEP_MS;
+    const text = `${step.kicker} ${step.title} ${step.copy} ${step.emphasis || ''} ${step.surprise || ''}`;
+    return Math.max(this.STEP_MS, text.length * 60 + 5000);
+  }
+
+  /** Browser TTS — narrates the current card's kicker, title and copy. */
+  private speakStep(step: WelcomeDemoStep): void {
+    this.stopSpeech();
+    if (!this.narrate || !this.speechSupported) return;
+    try {
+      const utterance = new SpeechSynthesisUtterance(
+        `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`
+      );
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    } catch { /* narration is best-effort */ }
+  }
+
+  private stopSpeech(): void {
+    try {
+      if (this.speechSupported) window.speechSynthesis.cancel();
+    } catch { /* ignore */ }
+  }
+
+  toggleNarrate(): void {
+    this.narrate = !this.narrate;
+    this.restartTimer();
   }
 
   /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour.
