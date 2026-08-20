@@ -53,6 +53,11 @@
                 <p class="card-job">{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
                 <ion-icon *ngIf="contact.rolodex?.who" name="people-outline" title="Last Interaction With"></ion-icon>
                 <span *ngIf="contact.rolodex?.who" class="card-extra">{{ contact.rolodex?.who }}</span>
+                <!-- 2026-08-21 CONFIDANTE R: only on the OPENED card front
+                     (contact-surface-modal passes embedded=true), bottom-center. -->
+                <div class="confidante-opened" *ngIf="embedded">
+                  <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: contact}"></ng-container>
+                </div>
               </div>
       
               <!-- Back Side -->
@@ -609,10 +614,6 @@
             <ion-button color="tertiary" (click)="openAddress(activeContact)">Map</ion-button>
             <ion-button color="warning" (click)="onEditContact(activeContact)">Edit</ion-button>
             <ion-button color="danger" (click)="onRemoveContact(activeContact)">Remove</ion-button>
-          </div>
-          <!-- 2026-08-20 CONFIDANTE HIT: bottom center of the opened card. -->
-          <div class="confidante-opened">
-            <ng-container *ngTemplateOutlet="agentHit; context: {$implicit: activeContact}"></ng-container>
           </div>
         </ion-card>
       </div>

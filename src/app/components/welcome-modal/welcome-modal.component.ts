@@ -129,6 +129,10 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
    *  makes the user notice the 🔊 control and tap it — the tap is the gesture
    *  that unlocks audio reliably on mobile. */
   narrate = false;
+  /** 2026-08-21: once the user taps 🔊, every timer-advanced step is allowed
+   *  to speak too — previously only the tapped step spoke and the rest went
+   *  silent because auto-advance passed allowDeviceFallback=false. */
+  private deviceFallbackGranted = false;
   get speechSupported(): boolean {
     return Capacitor.isNativePlatform() ||
       (typeof window !== 'undefined' && 'speechSynthesis' in window);
@@ -212,7 +216,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
         return;
       }
       this.stepIndex++;
-      this.restartTimer(false);
+      // Once the user granted audio (tapped 🔊,), keep narrating every step.
+      this.restartTimer(this.deviceFallbackGranted);
     }, this.currentStepMs);
   }
 
@@ -230,11 +235,19 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     return Math.max(this.STEP_MS, text.length * 60 + 5000);
   }
 
-  /** B: POST /tts → playBlob (timer-safe once primed). A: speakDeviceFirst on tap if 501. */
+  /** Device-first on user gesture (matches Zyppar's AgentStudio pattern and keeps
+   *  speechSynthesis inside the tap's gesture window on mobile PWA). Backend
+   *  /tts is only tried on the pre-gesture autoplay path, where MP3 could play
+   *  if the page was already unlocked; the device fallback is reserved for the
+   *  user-granted path so a network 501 never eats the gesture. */
   private async speakStep(step: WelcomeDemoStep, allowDeviceFallback = false): Promise<void> {
     if (!this.narrate || !this.speechSupported) return;
     const raw = `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`;
     const text = this.textsplitter.preprocessForTTS(raw, 'All');
+    if (allowDeviceFallback) {
+      await this.playback.speakDeviceFirst(text, 'en-US');
+      return;
+    }
     if (this.backendTtsOk !== false) {
       try {
         const r = await fetch(`${environment.rolodexApiBase}/tts`, {
@@ -249,10 +262,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
           await this.playback.playBlob(await r.blob());
           return;
         }
-      } catch { /* fall through to A on tap */ }
-    }
-    if (this.backendTtsOk === false && allowDeviceFallback) {
-      await this.playback.speakDeviceFirst(text, 'en-US');
+      } catch { /* no gesture → stay silent rather than fight autoplay */ }
     }
   }
 
@@ -260,15 +270,18 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.playback.stop();
   }
 
-  /** 🔊: prime HTMLAudio, then B (MP3) or A (device TTS for this card only). */
+  /** 🔊: prime HTMLAudio, then speak this card immediately (device-first on the
+   *  user gesture) and keep narrating on every auto-advanced step after that. */
   async toggleNarrate(): Promise<void> {
     this.narrate = !this.narrate;
     if (this.narrate) {
+      this.deviceFallbackGranted = true;
       this.playback.stop();
       this.playback.beginLoading();
       await this.playback.primeGesturePermission();
       this.restartTimer(true);
     } else {
+      this.deviceFallbackGranted = false;
       this.stopSpeech();
       this.restartTimer();
     }

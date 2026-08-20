@@ -597,7 +597,7 @@ ion-content {
   padding: var(--rolodex-space-6) var(--rolodex-space-4);
   position: relative;
 }
-/* 2026-08-20 CONFIDANTE HIT: bottom center of the opened Details Card. */
+/* 2026-08-20 CONFIDANTE HIT: bottom center of the opened card. */
 .confidante-opened {
   display: flex;
   justify-content: center;
@@ -605,6 +605,15 @@ ion-content {
 }
 .confidante-opened button.confidante-hit {
   margin: 0;
+}
+/* 2026-08-21: on the rolodex card front (the real opened surface inside the
+   contact-surface modal), the mark sits bottom-center of the face. */
+.rolodex-container .card-front .confidante-opened {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
 }
 
 .family-card .family-avatar {
