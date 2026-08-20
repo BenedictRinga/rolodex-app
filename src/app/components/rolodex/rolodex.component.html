@@ -356,6 +356,16 @@
           <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Stop</ion-button>
         </ion-item>
 
+        <!-- 2026-08-20 CONFIDANTE VOICE: Zyppar-style voice options. -->
+        <ion-item lines="none" class="elegant-item" id="settings-voice" (click)="chooseVoice()">
+          <ion-icon name="mic-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>
+            Confidante Voice
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ currentVoiceLabel }}</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear">Choose</ion-button>
+        </ion-item>
+
         <!-- 2026-08-19 INSTALL ROLODEXAI: PWA now, Play/App Store INCOMING. -->
         <ion-item-divider>
           <ion-label color="medium">Install RolodexAI</ion-label>

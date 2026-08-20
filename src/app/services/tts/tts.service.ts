@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { VoiceOptionsService } from '../voice-options/voice-options.service';
 
 /**
  * 2026-08-20 BROWSER TTS SERVICE — reusable narration for Welcome Again and
  * anywhere else in RolodexAI later.
  *
  * Besides the thin speechSynthesis wrapper, it fixes context-dependent words:
- *   - "live across devices"  → laɪv (broadcast/live)
+ *   - "live across devices" / "it's all live" → laɪv (broadcast/live)
  *   - "where your contacts live" → lɪv (to reside)
  *   - "sent · delivered · read" → red (past tense)
  *
@@ -15,8 +16,10 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class TtsService {
   get supported(): boolean {
-    return typeof window !== 'undefined' && 'speechSynthesis' in window;
+    return this.voiceOptions.supported;
   }
+
+  constructor(private readonly voiceOptions: VoiceOptionsService) {}
 
   /** Speak a line of narration, stopping anything already playing. */
   speak(text: string, rate = 0.95): void {
@@ -25,6 +28,11 @@ export class TtsService {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(this.disambiguate(text));
       utterance.rate = rate;
+      // Confidante default: female secretary voice (or the user's chosen voice).
+      utterance.voice = this.voiceOptions.resolveVoice() ?? null;
+      if (!this.voiceOptions.selectedVoiceId || this.voiceOptions.selectedVoiceId === this.voiceOptions.CONFIDANTE_ID) {
+        utterance.pitch = 1.05;
+      }
       window.speechSynthesis.speak(utterance);
     } catch { /* narration is best-effort */ }
   }
@@ -56,6 +64,10 @@ export class TtsService {
     // "devices live" (e.g. "link devices live") and "loves live" (She loves live)
     out = out.replace(/\bdevices\s+live\b/gi, 'devices lyve');
     out = out.replace(/\bloves\s+live\b/gi, 'loves lyve');
+
+    // "it's all live" / "is live" — the tour is happening live, not residing
+    out = out.replace(/\ball\s+live\b/gi, 'all lyve');
+    out = out.replace(/\bis\s+live\b/gi, 'is lyve');
 
     // ---- live (lɪv: to reside / dwell / exist) ----
     out = out.replace(

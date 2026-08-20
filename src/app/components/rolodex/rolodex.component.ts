@@ -22,6 +22,7 @@ import { AiSettingsModalComponent } from '../ai-settings-modal/ai-settings-modal
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { UpdatesService } from '../../services/updates/updates.service';
 import { AppInstallService } from '../../services/app-install/app-install.service';
+import { VoiceOptionsService } from '../../services/voice-options/voice-options.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { ShareAppService } from '../../services/share-app/share-app.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
@@ -146,6 +147,7 @@ export class RolodexComponent implements OnInit {
     private updatesService: UpdatesService,
     private draftEngine: DraftEngineService,
     private appInstall: AppInstallService,
+    private voiceOptions: VoiceOptionsService,
     private readonly time: TimeNormalizerService,
     private readonly shareAppService: ShareAppService,
   ) { }
@@ -159,6 +161,41 @@ export class RolodexComponent implements OnInit {
       initialBreakpoint: 0.7,
     });
     await modal.present();
+  }
+
+  /** 2026-08-20 CONFIDANTE VOICE: Zyppar-style voice picker. */
+  async chooseVoice(): Promise<void> {
+    await this.voiceOptions.loadVoices();
+    const options = this.voiceOptions.getVoiceOptions();
+    if (!options.length) {
+      await this.alertService.showToast('No voices available on this device', 2500);
+      return;
+    }
+    const alert = await this.alertController.create({
+      header: 'Confidante Voice',
+      message: 'Choose the voice RolodexAI uses for narration.',
+      inputs: options.map((o) => ({
+        type: 'radio' as const,
+        label: o.label,
+        value: o.id,
+        checked: o.id === this.voiceOptions.selectedVoiceId,
+      })),
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Select',
+          handler: async (data: any) => {
+            if (!data) return;
+            await this.voiceOptions.selectVoice(data);
+            const chosen = options.find((o) => o.id === data);
+            this.currentVoiceLabel = chosen?.label || 'Confidante';
+            await this.alertService.showToast(`Voice set to ${this.currentVoiceLabel}`, 2000);
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the Confidante. */
@@ -243,6 +280,9 @@ export class RolodexComponent implements OnInit {
   lastCheckedLabel = '';
   private updateTimer: any = null;
   private promptedBuild = 0;
+
+  /** 2026-08-20 CONFIDANTE VOICE: current voice label shown in Settings. */
+  currentVoiceLabel = 'Confidante';
 
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a
    *  user who already tapped "Update now" is not nagged again after reload. */
@@ -470,6 +510,12 @@ export class RolodexComponent implements OnInit {
   }
 
   ngOnInit() {
+    // 2026-08-20 CONFIDANTE VOICE: reflect the saved voice in Settings.
+    void this.voiceOptions.loadVoices().then(() => {
+      const opts = this.voiceOptions.getVoiceOptions();
+      const cur = opts.find((o) => o.id === this.voiceOptions.selectedVoiceId);
+      this.currentVoiceLabel = cur?.label || 'Confidante';
+    });
     this.loadProfile();
     // 2026-08-17 AWARENESS: a new message / appointment invite toasts immediately.
     this.cardChat.arrival$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ev) => {
