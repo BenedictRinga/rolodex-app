@@ -198,6 +198,19 @@ export class RolodexComponent implements OnInit {
     await alert.present();
   }
 
+  /** 2026-08-20 PRIVACY: the explicit opt-in for ANY backend sync. */
+  async onBackendSyncToggle(event: any): Promise<void> {
+    const enabled = !!event?.detail?.checked;
+    this.backendSyncEnabled = enabled;
+    await this.rolodexSync.setBackendSyncEnabled(enabled);
+    await this.alertService.showToast(
+      enabled
+        ? 'Backend sync enabled — only the contacts you add will sync.'
+        : 'Backend sync disabled — nothing leaves this device.',
+      3200
+    );
+  }
+
   /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the Confidante. */
   onApplyFilterContext(): void {
     this.draftEngine.currentFilter = String(this.selectedFilter || 'all');
@@ -283,6 +296,9 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-20 CONFIDANTE VOICE: current voice label shown in Settings. */
   currentVoiceLabel = 'Confidante';
+
+  /** 2026-08-20 PRIVACY: backend sync consent — default OFF. */
+  backendSyncEnabled = false;
 
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a
    *  user who already tapped "Update now" is not nagged again after reload. */
@@ -547,6 +563,8 @@ export class RolodexComponent implements OnInit {
       const cur = opts.find((o) => o.id === this.voiceOptions.selectedVoiceId);
       this.currentVoiceLabel = cur?.label || 'Confidante';
     });
+    // 2026-08-20 PRIVACY: reflect the backend sync consent toggle.
+    void this.rolodexSync.isBackendSyncEnabled().then((v) => (this.backendSyncEnabled = v));
     this.loadProfile();
     // 2026-08-17 AWARENESS: a new message / appointment invite toasts immediately.
     this.cardChat.arrival$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ev) => {

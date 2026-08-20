@@ -56,9 +56,14 @@ export class TtsService {
     if (!('speechSynthesis' in window)) return;
     try {
       window.speechSynthesis.cancel();
+      // Mobile Chrome/WebView quirk: speech can be left in a paused state and
+      // silently refuses to start. Resume before every speak (Zyppar pattern).
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = rate;
       utterance.pitch = pitch;
+      utterance.volume = 1.0;
+      utterance.lang = voice?.lang || 'en-US';
       utterance.voice = voice ?? null;
       window.speechSynthesis.speak(utterance);
     } catch { /* narration is best-effort */ }

@@ -121,6 +121,19 @@ ion-content {
   gap: 8px;
 }
 
+.sound-hint {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+  text-align: center;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
 .nav-btn {
   width: 34px;
   height: 34px;

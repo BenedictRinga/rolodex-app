@@ -546,14 +546,13 @@ export class HomePage implements OnInit, OnDestroy {
         const realPersisted = (persisted || []).filter((c: any) => !(c as any)?.isMockData);
         this.contacts = this.mockEnabled ? [...realPersisted, ...mockContacts] : realPersisted;
       } else {
-        this.contacts = await this.contactsSyncService.syncAllContacts();
-        if (this.contacts.length === 0) {
-          this.contacts = mockContacts;
-          // Also run automation on mock data for demo purposes
-          await this.contactsSyncService.automateContactSetup(this.contacts);
-        } else {
-          this.persistContacts(this.contacts);
-        }
+        // 2026-08-20 PRIVACY: never auto-read the device address book. The user
+        // must explicitly pick contacts (Add from phone) or enable device sync.
+        // Demo contacts still appear for the tour, but no real contact data is
+        // ever silently imported — and nothing leaves the device unless the
+        // user has enabled backend sync in Settings → Cloud Sync.
+        this.contacts = mockContacts;
+        await this.contactsSyncService.automateContactSetup(this.contacts);
       }
     } catch {
       this.contacts = mockContacts;

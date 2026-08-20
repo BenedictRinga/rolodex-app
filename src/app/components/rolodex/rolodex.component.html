@@ -458,6 +458,19 @@
           <ion-label color="medium">Cloud Sync</ion-label>
         </ion-item-divider>
 
+        <!-- 2026-08-20 PRIVACY GATE: default OFF. Nothing leaves the device
+             until the user explicitly allows backend sync. -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="cloud-offline-outline" slot="start" [color]="backendSyncEnabled ? 'success' : 'medium'"></ion-icon>
+          <ion-label>
+            Backend sync consent
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+              Default OFF. Nothing leaves this device — not even demo sync — until you allow it.
+            </p>
+          </ion-label>
+          <ion-toggle slot="end" [(ngModel)]="backendSyncEnabled" (ionChange)="onBackendSyncToggle($event)"></ion-toggle>
+        </ion-item>
+
         <!-- Passphrase -->
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="lock-closed-outline" slot="start" [color]="syncHasPassphrase ? 'success' : 'danger'"></ion-icon>

@@ -18,6 +18,12 @@ import { StorageService } from '../storage/storage.service';
  */
 @Injectable({ providedIn: 'root' })
 export class RolodexSyncService {
+  /** 2026-08-20 PRIVACY GATE: nothing leaves the device unless the user
+   *  explicitly flips this ON in Settings → Cloud Sync. Default OFF. */
+  private readonly BACKEND_SYNC_KEY = 'rolodex_backend_sync_enabled';
+  private backendSyncEnabled = false;
+  private backendSyncLoaded = false;
+
   private deviceId = '';
   /** 2026-08-18 THE AGENT SPEAKS FIRST: emitted when the server sends the
    *  first-connection courtesy welcome (new device only). */
@@ -83,6 +89,27 @@ export class RolodexSyncService {
     return this.deviceId;
   }
 
+  /** 2026-08-20 PRIVACY: has the user explicitly allowed backend sync? */
+  async isBackendSyncEnabled(): Promise<boolean> {
+    if (!this.backendSyncLoaded) {
+      try {
+        const stored = await this.storage.get<boolean | string>(this.BACKEND_SYNC_KEY);
+        this.backendSyncEnabled = stored === true || stored === '1' || stored === 'true';
+      } catch { /* default false */ }
+      this.backendSyncLoaded = true;
+    }
+    return this.backendSyncEnabled;
+  }
+
+  /** 2026-08-20 PRIVACY: explicit opt-in/out for ANY data leaving the device. */
+  async setBackendSyncEnabled(enabled: boolean): Promise<void> {
+    this.backendSyncEnabled = !!enabled;
+    this.backendSyncLoaded = true;
+    try {
+      await this.storage.set(this.BACKEND_SYNC_KEY, this.backendSyncEnabled);
+    } catch { /* best effort */ }
+  }
+
   /** The demo API base (see environment.prod.ts). */
   private apiBase(): string {
     return environment.rolodexApiBase || 'https://zyppar.com/api/rolodex';
@@ -124,6 +151,9 @@ export class RolodexSyncService {
    *  first sync can adopt them; the server's authoritative trial comes back in
    *  the response and is persisted when the client has none yet. */
   async push(contacts: ContactInfo[], followUps?: any[]): Promise<void> {
+    // 2026-08-20 PRIVACY GATE: no contact data leaves the device unless the
+    // user has explicitly enabled backend sync. Default OFF.
+    if (!(await this.isBackendSyncEnabled())) return;
     try {
       const trialStartedAt = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
       const trialEndsAt = (await this.storage.get<number>('rolodex_trial_until')) || 0;
@@ -162,8 +192,9 @@ export class RolodexSyncService {
 
   /** Restore the device's full contact list from the Rolodex server.
    *  Returns null when the server has nothing (or is unreachable) — the
-   *  caller keeps its local list. */
+   *  caller keeps its local list. Privacy: still gated behind consent. */
   async restore(): Promise<ContactInfo[] | null> {
+    if (!(await this.isBackendSyncEnabled())) return null;
     try {
       const res = await fetch(`${this.apiBase()}/state/${encodeURIComponent(this.deviceId)}`, { headers: { Accept: 'application/json' } });
       if (!res.ok) return null;
