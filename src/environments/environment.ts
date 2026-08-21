@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // RolodexAI app version — compared against /api/updates/check
-  build: 37, // 2026-08-21 FAQ opens Help modal directly from Settings; composer follows AgentStudio stop-beginLoading-prime-play; TTS timeout 3s
+  build: 38, // 2026-08-21 Welcome: slides start paused, Play primes audio first; floating audio-unlock button in stage on userInteractionRequired; My Profile text smaller + icon-only wedge; My Rolodex label smaller
 };
 
 /*

@@ -4,7 +4,7 @@
     <ng-container *ngSwitchCase="RolodexView.Regular">
       <ion-list class="seriescontact">
         <ion-list-header>
-          <ion-label class="fabcolor" (click)="openCardSelect()">My Rolodex: {{ pageManager.upperCardMode }}
+          <ion-label class="fabcolor" style="font-size: 11px;" (click)="openCardSelect()">My Rolodex: {{ pageManager.upperCardMode }}
             view</ion-label>
           <ion-buttons>
             <!-- <ion-button (click)="openPods()" appTooltip="Pods — group threads">
@@ -216,29 +216,27 @@
         <!-- 2026-08-17 MY PROFILE: the user's own identity - name + photo,
              the 'me' behind the cards (feeds the chat sender name too). -->
         <ion-item class="profile-card" lines="none">
-          <!-- 2026-08-21: photo + the three actions stacked vertically beside it,
-               so the label gets the rest of the row and the section stays short
-               even with the longer profile-guide text. -->
+          <!-- 2026-08-21: photo + the three icon-only actions stacked vertically
+               beside it (no borders — a quiet wedge between photo and profile). -->
           <div slot="start" class="profile-media">
             <ion-avatar class="profile-avatar">
               <img [src]="profile.photo || profileFallback()" alt="My profile" />
             </ion-avatar>
             <div class="profile-actions">
-              <ion-button fill="outline" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
+              <ion-button fill="clear" size="small" (click)="changeProfilePhoto()" appTooltip="Change photo">
                 <ion-icon name="image-outline"></ion-icon>
               </ion-button>
-              <ion-button fill="outline" size="small" (click)="changeProfileName()" appTooltip="Change name">
+              <ion-button fill="clear" size="small" (click)="changeProfileName()" appTooltip="Change name">
                 <ion-icon name="create-outline"></ion-icon>
               </ion-button>
-              <ion-button fill="outline" size="small" (click)="changeProfilePhone()" appTooltip="Your phone - how contacts reach you">
+              <ion-button fill="clear" size="small" (click)="changeProfilePhone()" appTooltip="Your phone - how contacts reach you">
                 <ion-icon name="call-outline"></ion-icon>
               </ion-button>
             </div>
           </div>
           <ion-label>
             <h2>{{ profile.name || 'My profile' }}</h2>
-            <p>You are the Confidante's principal.</p>
-            <p class="profile-guide">Your name, phone and photo appear on every share — {{ profileCompletionLabel() }}</p>
+            <p class="profile-guide">You are the Confidante's principal — every greeting carries your name and face.</p>
           </ion-label>
         </ion-item>
 

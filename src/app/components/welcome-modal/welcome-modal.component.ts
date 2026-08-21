@@ -123,7 +123,10 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   ];
 
   stepIndex = 0;
-  autoPlay = true;
+  /** 2026-08-21: slides do NOT auto-start. The user taps Play; that same tap
+   *  primes audio first (stop → beginLoading → primeGesturePermission), then the
+   *  timer starts — audio command before slides so they stay in sync. */
+  autoPlay = false;
   /** 2026-08-20 BROWSER TTS: narrate each card while it is on screen.
    *  DEFAULT OFF: browsers block speech without a user gesture. Starting muted
    *  makes the user notice the 🔊 control and tap it — the tap is the gesture
@@ -133,6 +136,12 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
    *  to speak too — previously only the tapped step spoke and the rest went
    *  silent because auto-advance passed allowDeviceFallback=false. */
   private deviceFallbackGranted = false;
+  /** 2026-08-21 FLOATING AUDIO BUTTON: hidden normally; appears centered in the
+   *  animation window when playback reports userInteractionRequired (NotAllowed
+   *  or speech not-allowed). Off state first; tap enables audio, then fades. */
+  audioUnlockVisible = false;
+  audioUnlockActive = false;
+  private unsubscribeUserInteraction?: () => void;
   get speechSupported(): boolean {
     return Capacitor.isNativePlatform() ||
       (typeof window !== 'undefined' && 'speechSynthesis' in window);
@@ -164,10 +173,17 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // 2026-08-17: first visit greets Karibu sana!; the replay says Welcome Again.
     if (this.isReplay) this.steps[0].kicker = 'Welcome Again';
+    // 2026-08-21: listen for the browser demanding a tap before audio — that is
+    // when the floating audio button appears (off state) in the animation window.
+    this.unsubscribeUserInteraction = this.playback.onUserInteractionRequired(() => {
+      this.audioUnlockVisible = true;
+      this.audioUnlockActive = false;
+    });
     this.restartTimer();
   }
 
   ngOnDestroy(): void {
+    this.unsubscribeUserInteraction?.();
     this.clearTimer();
     this.stopSpeech();
   }
@@ -191,11 +207,20 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.restartTimer(true);
   }
 
-  toggleAuto(): void {
+  /** 2026-08-21: Play = audio command FIRST (stop → beginLoading → prime),
+   *  then the slides start. The same tap grants audio; no separate 🔊 needed
+   *  unless the browser later demands another gesture (floating button). */
+  async toggleAuto(): Promise<void> {
     this.autoPlay = !this.autoPlay;
     if (this.autoPlay) {
-      this.restartTimer();
+      this.deviceFallbackGranted = true;
+      this.narrate = true;
+      this.playback.stop();
+      this.playback.beginLoading();
+      await this.playback.primeGesturePermission();
+      this.restartTimer(true);
     } else {
+      this.stopSpeech();
       this.clearTimer();
     }
   }
@@ -285,21 +310,21 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.playback.stop();
   }
 
-  /** 🔊: prime HTMLAudio, then speak this card immediately (device-first on the
-   *  user gesture) and keep narrating on every auto-advanced step after that. */
-  async toggleNarrate(): Promise<void> {
-    this.narrate = !this.narrate;
-    if (this.narrate) {
-      this.deviceFallbackGranted = true;
-      this.playback.stop();
-      this.playback.beginLoading();
-      await this.playback.primeGesturePermission();
-      this.restartTimer(true);
-    } else {
-      this.deviceFallbackGranted = false;
-      this.stopSpeech();
-      this.restartTimer();
-    }
+  /** Floating audio button (only visible after a userInteractionRequired error):
+   *  off → tap → audio comes ON with the tap (never before), then fades away. */
+  async tapAudioUnlock(): Promise<void> {
+    if (this.audioUnlockActive) return;
+    this.audioUnlockActive = true;
+    this.narrate = true;
+    this.deviceFallbackGranted = true;
+    this.playback.stop();
+    this.playback.beginLoading();
+    await this.playback.primeGesturePermission();
+    await this.speakStep(this.steps[this.stepIndex], true);
+    setTimeout(() => {
+      this.audioUnlockVisible = false;
+      this.audioUnlockActive = false;
+    }, 1500);
   }
 
   /** Primary CTA — dismiss with role 'start'; HomePage opens the live tour.

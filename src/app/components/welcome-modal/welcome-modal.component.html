@@ -217,6 +217,15 @@
 
           </ng-container>
         </div>
+        <!-- 2026-08-21 FLOATING AUDIO UNLOCK: hidden normally; appears centered
+             in the animation window only when playback reports a
+             userInteractionRequired error. Off state first; tap turns audio ON
+             with the tap, then it fades away until the next such error. -->
+        <button type="button" class="demo-audio-unlock" *ngIf="audioUnlockVisible"
+          [class.on]="audioUnlockActive" (click)="tapAudioUnlock()"
+          [attr.aria-label]="audioUnlockActive ? 'Audio on' : 'Tap for sound'">
+          <ion-icon [name]="audioUnlockActive ? 'volume-high-outline' : 'volume-mute-outline'"></ion-icon>
+        </button>
       </div>
 
       <!-- ── COPY ───────────────────────────────────────────────────── -->
@@ -247,9 +256,7 @@
     <div class="demo-nav">
       <button class="nav-btn" [disabled]="isFirst" (click)="prev()" aria-label="Previous step">‹</button>
       <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay ? 'Pause demo' : 'Play demo'">{{ autoPlay ? '❚❚' : '▶' }}</button>
-      <button class="nav-btn" (click)="toggleNarrate()" [attr.aria-label]="narrate ? 'Mute narration' : 'Enable narration'">{{ narrate ? '🔊' : '🔇' }}</button>
       <button class="nav-btn" [disabled]="isLast" (click)="next()" aria-label="Next step">›</button>
-      <span class="sound-hint" *ngIf="!narrate && speechSupported">Tap for sound</span>
     </div>
   </div>
 

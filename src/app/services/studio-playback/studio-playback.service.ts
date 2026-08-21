@@ -23,6 +23,9 @@ export class StudioPlaybackService {
   private readonly startedListeners = new Set<() => void>();
   private readonly endedListeners = new Set<() => void>();
   private readonly loadFailedListeners = new Set<() => void>();
+  /** 2026-08-21: surfaces that want to show their OWN unlock affordance (e.g.
+   *  Welcome's floating audio button) listen here instead of the global overlay. */
+  private readonly userInteractionRequiredListeners = new Set<() => void>();
   private _isLoading = false;
   private _isPlaying = false;
   private _isSpeaking = false;
@@ -65,6 +68,13 @@ export class StudioPlaybackService {
   onLoadFailed(cb: () => void): () => void {
     this.loadFailedListeners.add(cb);
     return () => this.loadFailedListeners.delete(cb);
+  }
+
+  /** 2026-08-21: called when the browser demands a user gesture for audio
+   *  (NotAllowedError / speech not-allowed). Returns an unsubscribe fn. */
+  onUserInteractionRequired(cb: () => void): () => void {
+    this.userInteractionRequiredListeners.add(cb);
+    return () => this.userInteractionRequiredListeners.delete(cb);
   }
 
   beginLoading(): void { this._isLoading = true; this._startedSignaled = false; }
@@ -379,7 +389,11 @@ export class StudioPlaybackService {
     } catch (e) {
       const err = e as { name?: string; message?: string };
       if (err?.name === 'NotAllowedError') {
-        this.showUnlockOverlay(() => { void this.playWebElement(url); });
+        this.signalUserInteractionRequired();
+        // Only show the global overlay when no surface is handling unlock itself.
+        if (this.userInteractionRequiredListeners.size === 0) {
+          this.showUnlockOverlay(() => { void this.playWebElement(url); });
+        }
       }
       !environment.production && console.warn('[StudioPlayback] playWebElement failed:', err?.name, err?.message);
       this._isPlaying = false;
@@ -457,11 +471,18 @@ export class StudioPlaybackService {
       if (this._shouldStop?.()) { this.cancelChunkedSpeech(); return; }
       if (!this._speechPaused) { this.speakChunkIdx++; this.speakNextChunk(); }
     };
-    utterance.onerror = () => {
+    utterance.onerror = (event: any) => {
       if (this._shouldStop?.()) { this.cancelChunkedSpeech(); return; }
+      if (event?.error === 'not-allowed') this.signalUserInteractionRequired();
       if (!this._speechPaused) { this.speakChunkIdx++; this.speakNextChunk(); }
     };
-    window.speechSynthesis.speak(utterance);
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      const err = e as { name?: string };
+      if (err?.name === 'NotAllowedError' || err?.name === 'not-allowed') this.signalUserInteractionRequired();
+      if (!this._speechPaused) { this.speakChunkIdx++; this.speakNextChunk(); }
+    }
   }
 
   private cancelChunkedSpeech(): void {
@@ -489,6 +510,10 @@ export class StudioPlaybackService {
       cb();
     }
     this.endedListeners.forEach((cb) => cb());
+  }
+
+  private signalUserInteractionRequired(): void {
+    this.userInteractionRequiredListeners.forEach((cb) => cb());
   }
 
   private warmVoices(): void {
