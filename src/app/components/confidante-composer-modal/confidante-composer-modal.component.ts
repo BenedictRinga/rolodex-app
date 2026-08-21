@@ -29,7 +29,7 @@ interface ComposerMsg {
         <ion-buttons slot="start">
           <ion-button (click)="close()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
         </ion-buttons>
-        <ion-title style="font-size: 15px;">Confidante → {{ contactName }}</ion-title>
+        <ion-title style="font-size: 15px;">Assistant → {{ contactName }}</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="close()"><ion-icon name="close-outline"></ion-icon></ion-button>
         </ion-buttons>
@@ -39,15 +39,15 @@ interface ComposerMsg {
     <ion-content class="composer-body">
       <div class="composer-thread">
         <div *ngIf="!messages.length" class="composer-empty">
-          Tell the Confidante what to write to {{ contactName }} — it will draft,
+          Tell the assistant what to write to {{ contactName }} — it will draft,
           you refine, and then you dispatch.
         </div>
         <div *ngFor="let m of messages" class="composer-msg" [class.user]="m.role === 'user'">
-          <span class="composer-label">{{ m.role === 'user' ? 'You' : 'Confidante' }}</span>
+          <span class="composer-label">{{ m.role === 'user' ? 'You' : 'Assistant' }}</span>
           <span class="composer-text">{{ m.text }}</span>
         </div>
         <div *ngIf="busy" class="composer-msg ai">
-          <span class="composer-label">Confidante</span>
+          <span class="composer-label">Assistant</span>
           <span class="composer-text">Thinking…</span>
         </div>
       </div>
@@ -221,14 +221,14 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
     if (!this.draft) return;
     const alert = await this.alertController.create({
       header: 'Save draft + remind me',
-      message: 'The draft is kept on the card. When should the Confidante remind you to send it?',
+      message: 'The draft is kept on the card. When should the assistant remind you to send it?',
       inputs: [{ name: 'when', type: 'datetime-local', value: new Date(Date.now() + 86400000).toISOString().slice(0, 16) }],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         { text: 'Schedule', handler: (data: any) => {
             try {
               const reminders = Array.isArray((this.contact as any).reminders) ? (this.contact as any).reminders : [];
-              reminders.push({ note: 'Send the Confidante draft: ' + this.draft, date: new Date(data?.when || Date.now()) });
+              reminders.push({ note: 'Send the assistant draft: ' + this.draft, date: new Date(data?.when || Date.now()) });
               (this.contact as any).reminders = reminders;
               void this.alertsService.showToast('Draft saved + reminder set on the card', 2500);
             } catch {
@@ -262,8 +262,8 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
       // when the server's Qwen TTS is configured.
       await this.studioBridge.playDemo(
         this.draft,
-        'Confidante draft',
-        'rolodex-confidante',
+        'Assistant draft',
+        'rolodex-assistant',
         '',
         this.studioPlayback,
       );

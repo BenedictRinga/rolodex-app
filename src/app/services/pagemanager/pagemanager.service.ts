@@ -13,7 +13,7 @@ export enum RolodexView {
   Settings = 'Settings',
   Locations = 'Locations',
   Interactive = 'Interactive',
-  FourWs = 'FourWs', // 2026-08-17 the Confidante's deep-context lens
+  FourWs = 'FourWs', // 2026-08-17 the Assistant's deep-context lens
 }
 
 // ---------------------------------------------------------------------------

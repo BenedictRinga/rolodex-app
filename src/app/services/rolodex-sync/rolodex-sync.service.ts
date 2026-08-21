@@ -8,7 +8,7 @@ import { StorageService } from '../storage/storage.service';
 /**
  * 2026-08-16 DEMO SYNC — the one-chance proof: the app talks to the fresh
  * `rolodex` database the moment it launches and after every contact change.
- * The investor "peek" view (zyppar.com/api/rolodex/live) shows the device
+ * The investor "peek" view (zyppar.com/api/openloop/live) shows the device
  * appear LIVE. Fire-and-forget — a demo sync failure must never break the app.
  *
  * Also the "rolodex-server" STORAGE LOCATION (the B2B-style three-way choice:
@@ -112,7 +112,7 @@ export class RolodexSyncService {
 
   /** The demo API base (see environment.prod.ts). */
   private apiBase(): string {
-    return environment.rolodexApiBase || 'https://zyppar.com/api/rolodex';
+    return environment.rolodexApiBase || 'https://zyppar.com/api/openloop';
   }
 
   /** The demo room code (persisted) — links devices into one live space. */

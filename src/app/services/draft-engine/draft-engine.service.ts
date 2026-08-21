@@ -15,7 +15,7 @@ export interface MessageGuide {
 const AI_PROVIDER_KEY = 'rolodex_ai_provider';
 const PLAN_KEY = 'rolodex_plan';
 const INTERVENTIONS_KEY = 'rolodex_interventions';
-/** 2026-08-17 FREE TRIAL: 7 days of the Confidante, auto-granted on first use.
+/** 2026-08-17 FREE TRIAL: 7 days of the Assistant, auto-granted on first use.
  *  2026-08-19 NOW ONE-TIME: the start is recorded; only reopenTrial() can reset. */
 const TRIAL_KEY = 'rolodex_trial_until';
 const TRIAL_START_KEY = 'rolodex_trial_started_at';
@@ -42,7 +42,7 @@ const CONTEXT_CAP = 8;
  * SEPARATE from the engine in use.
  *
  * ENTITLEMENT: Basic (or no plan) = 5 AI interventions a month (the
- * Assistant taste). Confidante = unlimited. The quota rolls monthly.
+ * Assistant taste). Assistant = unlimited. The quota rolls monthly.
  */
 @Injectable({ providedIn: 'root' })
 export class DraftEngineService {
@@ -91,7 +91,7 @@ export class DraftEngineService {
   }
 
   // ═══ ENTITLEMENT: Basic = the Assistant (5 AI interventions a month).
-  // Confidante = the AI works all month. Rolls monthly. ═══
+  // Assistant = the AI works all month. Rolls monthly. ═══
   plan: 'basic' | 'confidante' | '' = '';
 
   private monthKey(): string {
@@ -128,10 +128,10 @@ export class DraftEngineService {
 
   trialLabel(): string {
     const d = this.trialDaysLeft();
-    return d > 0 ? 'Trial: ' + d + (d === 1 ? ' day' : ' days') + ' of the Confidante left' : '';
+    return d > 0 ? 'Trial: ' + d + (d === 1 ? ' day' : ' days') + ' of the Assistant left' : '';
   }
 
-  /** 2026-08-19 ONE-TIME GRANT: first use starts the 7-day Confidante trial.
+  /** 2026-08-19 ONE-TIME GRANT: first use starts the 7-day Assistant trial.
    *  Once started (even after expiry) it is never auto-renewed — only
    *  reopenTrial() can reset it, deliberately. The existence of the until-key
    *  also covers devices that started under the older client (no start key). */
@@ -182,7 +182,7 @@ export class DraftEngineService {
   }
 
   private consumeIntervention(): void {
-    if (this.plan === 'confidante' || this.trialActive()) return; // the trial/Confidante never burns the monthly count
+    if (this.plan === 'confidante' || this.trialActive()) return; // the trial/Assistant never burns the monthly count
     const key = this.monthKey();
     this.interventionsRecord[key] = (this.interventionsRecord[key] || 0) + 1;
     void this.storage.set(INTERVENTIONS_KEY, this.interventionsRecord);
@@ -268,11 +268,11 @@ export class DraftEngineService {
     const guide = guideKey ? this.getGuide(guideKey) : null;
     if (guide?.strict) return guide.guide;
 
-    // 2026-08-17 FREE TRIAL: the first AI use auto-grants 7 days of the Confidante.
+    // 2026-08-17 FREE TRIAL: the first AI use auto-grants 7 days of the Assistant.
     await this.ensureTrial();
 
     if (this.interventionsLeft() <= 0) {
-      return 'Your Assistant taste is used up for this month — upgrade to the Confidante ($5/month) for unlimited AI interventions.';
+      return 'Your Assistant taste is used up for this month — upgrade to the Assistant ($5/month) for unlimited AI interventions.';
     }
     this.consumeIntervention();
 

@@ -1,7 +1,7 @@
 <div class="invite-shell">
   <div class="invite-card" [class.appointment]="invite.kind === 'appointment'">
     <div class="invite-kicker">{{ invite.kind === 'appointment' ? 'Appointment from' : 'Message from' }}</div>
-    <div class="invite-wedge">Rolodex — you never forget to stay in touch… again</div>
+    <div class="invite-wedge">OpenLoop — you never forget to stay in touch… again</div>
     <h2 class="invite-from">{{ invite.from }}</h2>
 
     <div class="invite-body">
@@ -39,7 +39,7 @@
       </ion-button>
       <ion-button expand="block" fill="outline" color="medium" (click)="whatIsRolodex()">
         <ion-icon name="sparkles-outline" slot="start"></ion-icon>
-        What is RolodexAI about?
+        What is OpenLoop about?
       </ion-button>
       <ion-button expand="block" fill="clear" size="small" (click)="close()">Not now</ion-button>
     </div>

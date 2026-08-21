@@ -11,7 +11,7 @@ import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/c
 type ChatMode = '' | 'feedback' | 'help' | 'situation';
 
 /**
- * 2026-08-19 CHAT WITH ROLODEXAI — a REAL chat with the Confidante, not presets.
+ * 2026-08-19 CHAT WITH ROLODEXAI — a REAL chat with the Assistant, not presets.
  *
  * Modes:
  *  - feedback (DIRECTION): free-form chat about what's missing / where RolodexAI
@@ -20,7 +20,7 @@ type ChatMode = '' | 'feedback' | 'help' | 'situation';
  *  - situation (THE TASTE): work through a real postponed communication.
  *    The AI collects the 4 W's + critical context WITHOUT asking for the other
  *    person's name/number. When ready, the user picks the person from their
- *    phone; the composed draft slots into the Confidante composer where they
+ *    phone; the composed draft slots into the Assistant composer where they
  *    choose the medium — distribution in exchange for easing a problem.
  */
 @Component({
@@ -93,7 +93,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       this.engine = status.grokConfigured && !status.deepseekConfigured ? 'grok' : 'deepseek';
     } catch { /* default deepseek; backend falls back */ }
 
-    this.messages.push({ from: 'system', text: 'Connecting to the Confidante…' });
+    this.messages.push({ from: 'system', text: 'Connecting to the Assistant…' });
     const openingPrompt = this.openingPromptFor(mode);
     const opening = await this.chat([{ role: 'user', content: openingPrompt }]);
     this.chatReady = true;
@@ -104,8 +104,8 @@ export class ChatWithRolodexModalComponent implements OnInit {
       this.messages[0] = {
         from: 'system',
         text: mode === 'situation'
-          ? 'The live Confidante is not reachable right now. Tell us about the loop challenge anyway — we can still work through it.'
-          : 'The live Confidante is not reachable right now. Tell us what you need anyway, or use the free AI chats below for the deep dive.',
+          ? 'The live Assistant is not reachable right now. Tell us about the loop challenge anyway — we can still work through it.'
+          : 'The live Assistant is not reachable right now. Tell us what you need anyway, or use the free AI chats below for the deep dive.',
       };
     }
   }
@@ -113,12 +113,12 @@ export class ChatWithRolodexModalComponent implements OnInit {
   private openingPromptFor(mode: ChatMode): string {
     switch (mode) {
       case 'help':
-        return 'The user needs help using RolodexAI. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
+        return 'The user needs help using OpenLoop. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
       case 'situation':
         return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). Keep it to 1-2 sentences.`;
       case 'feedback':
       default:
-        return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in RolodexAI, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
+        return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in OpenLoop, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
     }
   }
 
@@ -133,7 +133,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
 
     void (async () => {
       const res = await this.chat(this.history);
-      const reply = res.reply || 'The live Confidante did not reply. Try again, or open a free AI chat below.';
+      const reply = res.reply || 'The live Assistant did not reply. Try again, or open a free AI chat below.';
       const idx = this.messages.findIndex((m) => m.text === '…' && m.from === 'system');
       if (idx >= 0) this.messages[idx] = { from: 'system', text: reply };
       else this.messages.push({ from: 'system', text: reply });
@@ -160,7 +160,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
   }
 
   /** Situation mode: after a little context, show the phone-picker card and
-   *  ask the Confidante to compose the actual message draft. */
+   *  ask the Assistant to compose the actual message draft. */
   private async maybeSituationStep(): Promise<void> {
     if (this.userMessageCount >= 2 && !this.pickContactCard) {
       this.pickContactCard = true;
@@ -184,7 +184,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
   }
 
   /** 2026-08-19 THE TASTE: open the native Contact Picker, then hand the
-   *  composed draft + selected person to the Confidante composer for dispatch. */
+   *  composed draft + selected person to the Assistant composer for dispatch. */
   async pickFromPhone(): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
@@ -310,7 +310,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       ...this.history,
       {
         role: 'user',
-        content: 'Summarize the user\'s direction for RolodexAI in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
+        content: 'Summarize the user\'s direction for OpenLoop in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
       },
     ]);
     const userTexts = this.history.filter((m) => m.role === 'user').map((m) => m.content);

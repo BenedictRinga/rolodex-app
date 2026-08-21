@@ -25,10 +25,10 @@ export class BillingModalComponent {
   ) {}
 
   get currentPlan(): string {
-    return this.draftEngine.plan === 'confidante' ? 'Confidante ($5/month)' : 'Assistant (Basic $1/month)';
+    return this.draftEngine.plan === 'confidante' ? 'Assistant ($5/month)' : 'Assistant (Basic $1/month)';
   }
 
-  /** 2026-08-17 FREE TRIAL: the 7-day Confidante banner. */
+  /** 2026-08-17 FREE TRIAL: the 7-day Assistant banner. */
   get trialLabel(): string {
     return this.draftEngine.trialLabel();
   }

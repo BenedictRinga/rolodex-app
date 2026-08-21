@@ -13,8 +13,8 @@
             <ion-button (click)="showAutoSortView()" appTooltip="Rolodex your Contacts">
               <ion-icon name="card-outline" class="fabcolor"></ion-icon>
             </ion-button> -->
-            <ion-button (click)="openLoopChallenge()" appTooltip="Confidante — talk to RolodexAI">
-              <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="Confidante" />
+            <ion-button (click)="openLoopChallenge()" appTooltip="Assistant — talk to RolodexAI">
+              <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="Assistant" />
             </ion-button>
             <ion-button (click)="openCardSelect()" appTooltip="Card Display Options">
               <ion-icon name="grid-outline" class="fabcolor"></ion-icon>
@@ -183,12 +183,12 @@
     </ng-container>
 
     <!-- Settings view -->
-    <!-- 2026-08-17 THE 4 W'S: the Confidante's deep-context lens. -->
+    <!-- 2026-08-17 THE 4 W'S: the Assistant's deep-context lens. -->
     <ng-container *ngSwitchCase="RolodexView.FourWs">
       <div class="fourws">
         <div class="fourws-head">
           <h3>The 4 W's — deep context</h3>
-          <p>Who you know, what they are about, where the thread started, and when to act — the story the Confidante reads.</p>
+          <p>Who you know, what they are about, where the thread started, and when to act — the story the Assistant reads.</p>
         </div>
         <div class="fourws-grid">
           <div class="fourws-card" *ngFor="let c of displayedContacts">
@@ -235,7 +235,7 @@
           </div>
           <ion-label>
             <h2>{{ profile.name || 'My profile' }}</h2>
-            <p class="profile-guide">You are the Confidante's principal — every greeting carries your name and face.</p>
+            <p class="profile-guide">You are the Assistant's principal — every greeting carries your name and face.</p>
           </ion-label>
         </ion-item>
 
@@ -321,7 +321,7 @@
         <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
         <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
           <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
-          <ion-label>AI Confidante</ion-label>
+          <ion-label>AI Assistant</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
@@ -363,7 +363,7 @@
         <ion-item lines="none" class="elegant-item" id="settings-voice" (click)="chooseVoice()">
           <ion-icon name="mic-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            Confidante Voice
+            Assistant Voice
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ currentVoiceLabel }}</p>
           </ion-label>
           <ion-button slot="end" fill="clear">Choose</ion-button>
@@ -371,13 +371,13 @@
 
         <!-- 2026-08-19 INSTALL ROLODEXAI: PWA now, Play/App Store INCOMING. -->
         <ion-item-divider>
-          <ion-label color="medium">Install RolodexAI</ion-label>
+          <ion-label color="medium">Install OpenLoop</ion-label>
         </ion-item-divider>
         <ion-item lines="none" class="elegant-item" (click)="installPwa()">
           <ion-icon name="download-outline" slot="start" color="primary"></ion-icon>
           <ion-label>
             Install this app (PWA)
-            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Runs like an app at zyppar.com/rolodex/</p>
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Runs like an app at zyppar.com/openloop/</p>
           </ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
@@ -402,7 +402,7 @@
         <ion-item lines="none" class="elegant-item" (click)="shareApp()">
           <ion-icon name="share-social-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            Share RolodexAI
+            Share OpenLoop
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Send the app to a friend — native share sheet</p>
           </ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>

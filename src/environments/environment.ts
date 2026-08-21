@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
-  version: '0.3.1', // RolodexAI app version — compared against /api/updates/check
-  build: 42, // 2026-08-21 OpenLoop chat window above deck with copy-on-reply; copy edits per frontendLogs (Demo Room, 4 Ws, privacy, AI settings, update alert); header label minimal font-only
+  rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
+  version: '0.3.1', // OpenLoop app version — compared against /api/updates/check
+  build: 43, // 2026-08-21 OPENLOOP REBRAND SWEEP: app name OpenLoop, api base /api/openloop, PWA path /openloop/, Confidante to Assistant/RolodexAI
 };
 
 /*

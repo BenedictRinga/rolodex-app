@@ -30,16 +30,16 @@
     <ion-input [(ngModel)]="email" type="email" placeholder="you@example.com"></ion-input>
   </ion-item>
 
-  <!-- 2026-08-17 FREE TRIAL: 7 days of the Confidante, counting down. -->
-  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — the Confidante, free.</div>
-  <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Confidante ($5, the agent). -->
+  <!-- 2026-08-17 FREE TRIAL: 7 days of the Assistant, counting down. -->
+  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — the Assistant, free.</div>
+  <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Assistant ($5, the agent). -->
   <div class="plan-card" [class.plan-featured]="plan === 'confidante'">
     <div class="plan-name">Basic</div>
     <div class="plan-price">$1<span>/month</span></div>
     <ul class="plan-features">
       <li>Contact manager — cards, groups, reminders, follow-ups, birthdays</li>
-      <li>Sync (cloud / Rolodex server), pods, in-app chat</li>
-      <li><strong>Assistant:</strong> 5 AI interventions a month — a taste of the Confidante</li>
+      <li>Sync (cloud / OpenLoop server), pods, in-app chat</li>
+      <li><strong>Assistant:</strong> 5 AI interventions a month — a taste of the Assistant</li>
     </ul>
     <ion-button expand="block" fill="outline" (click)="subscribe('basic')" [disabled]="busy">
       {{ busyPlan === 'basic' ? 'Opening checkout…' : 'Subscribe — $1/month' }}
@@ -47,7 +47,7 @@
   </div>
 
   <div class="plan-card plan-featured">
-    <div class="plan-name">Confidante</div>
+    <div class="plan-name">Assistant</div>
     <div class="plan-price">$5<span>/month</span></div>
     <ul class="plan-features">
       <li>Everything in Basic</li>

@@ -1,8 +1,8 @@
 <ng-template #agentHit let-c>
   <button type="button" class="confidante-hit"
     (click)="openConfidanteComposer(c); $event.stopPropagation()"
-    title="Ask the Confidante to help you write to them">
-    <img src="assets/rolodex/toolbar-mark.png" alt="Confidante" />
+    title="Ask the assistant to help you write to them">
+    <img src="assets/rolodex/toolbar-mark.png" alt="Assistant" />
   </button>
 </ng-template>
 <ng-container *ngIf="!selectedMode || selectedMode === ''">
@@ -25,7 +25,7 @@
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ seg.contact.organization?.company || 'No Company Info' }}</p>
-                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
               </ion-label>
             </div>
             <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the SAME full
@@ -477,7 +477,7 @@
             <!-- Social Content -->
             <div class="social-content">
               <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
-              <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+              <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
               <!-- Social Profiles -->
               <div class="social-profiles">
                 <div class="social-profile" *ngIf="contact.socialProfiles?.x"
@@ -553,7 +553,7 @@
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </div>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -577,7 +577,7 @@
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </div>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -605,7 +605,7 @@
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </ion-label>
               </div>
               <ion-icon name="chevron-forward-outline" slot="end"
@@ -628,7 +628,7 @@
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </ion-label>
               </div>
               <ion-icon name="chevron-forward-outline" slot="end"
@@ -661,7 +661,7 @@
             </p>
             <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
-            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
       
             <!-- Social Activation (if needed, you can add further social details here) -->
             <div class="social-activation" *ngIf="activeContact.socialProfiles">
@@ -857,11 +857,11 @@
                   <div class="confidante-note">
                     <ion-icon name="sparkles-outline"></ion-icon>
                     <div>
-                      <strong>The Confidante reads this context</strong>
+                      <strong>RolodexAI reads this context</strong>
                       <p>The 4 W's (and the lines right below) are what the AI uses to draft in your voice and catch the loop before it goes cold. Give it the details you are comfortable sharing.</p>
                       <ion-button size="small" fill="clear" color="primary" (click)="startConfidanteInterview()">
                         <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
-                        Let the Confidante interview you
+                        Let the assistant interview you
                       </ion-button>
                     </div>
                   </div>
@@ -1289,11 +1289,11 @@
               <div class="confidante-note">
                 <ion-icon name="sparkles-outline"></ion-icon>
                 <div>
-                  <strong>The Confidante reads this context</strong>
+                  <strong>RolodexAI reads this context</strong>
                   <p>The 4 W's (and the lines right below) are what the AI uses to draft in your voice and catch the loop before it goes cold. Give it the details you are comfortable sharing.</p>
                   <ion-button size="small" fill="clear" color="primary" (click)="startConfidanteInterview()">
                     <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
-                    Let the Confidante interview you
+                    Let the assistant interview you
                   </ion-button>
                 </div>
               </div>
@@ -1625,7 +1625,7 @@
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address' }}
             </p>
             <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
-            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the Confidante set one' }}</p>
+            <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
             <div class="modal-buttons">
               <ion-button fill="outline" (click)="onEditContact(activeContact)" expand="block">
                 <ion-icon name="card-outline"></ion-icon>

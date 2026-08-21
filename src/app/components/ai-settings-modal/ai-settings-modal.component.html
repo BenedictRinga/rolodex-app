@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">AI Confidante</ion-title>
+    <ion-title style="font-size: 15px;">AI Assistant</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -17,11 +17,11 @@
 <ion-content>
   <div class="ai-section">
     <p class="ai-intro">
-      <strong>Choose which AI engine Rolodex uses</strong> for the assistant.
-      Your contacts stay where you put them — Device, Cloud, or Rolodex Server.
+      <strong>Choose which AI engine OpenLoop uses</strong> for the assistant.
+      Your contacts stay where you put them — Device, Cloud, or OpenLoop Server.
     </p>
     <p class="ai-note">
-      Engine keys live on the Rolodex server, never inside the app. If a key is
+      Engine keys live on the OpenLoop server, never inside the app. If a key is
       missing, the app uses its on-device engine.
     </p>
 
@@ -29,7 +29,7 @@
       <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
       <ion-label>Engine</ion-label>
       <ion-select [(ngModel)]="provider" (ionChange)="onProviderChange()">
-        <ion-select-option value="rolodex">Rolodex's engine (on-device)</ion-select-option>
+        <ion-select-option value="rolodex">OpenLoop's engine (on-device)</ion-select-option>
         <ion-select-option value="deepseek">DeepSeek</ion-select-option>
         <ion-select-option value="grok">Grok</ion-select-option>
       </ion-select>
@@ -46,7 +46,7 @@
     <div class="ai-quota">
       <strong>Your Assistant tier</strong> — {{ planLabel() }}:
       {{ plan === 'confidante' ? 'unlimited AI interventions' : interventionsLeft() + ' of 5 AI interventions left this month' }}.
-      <span *ngIf="plan !== 'confidante'">Upgrade to the Confidante ($5/month) in Billing for the AI to work all month.</span>
+      <span *ngIf="plan !== 'confidante'">Upgrade to the Assistant ($5/month) in Billing for the AI to work all month.</span>
     </div>
   </div>
 </ion-content>

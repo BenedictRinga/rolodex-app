@@ -80,7 +80,7 @@ export class UpdatesService {
     }
   }
 
-  /** 2026-08-20 THE ZYPPAR CHECK — /api/rolodex/updates/check?clientVersion=... */
+  /** 2026-08-20 THE ZYPPAR CHECK — /api/openloop/updates/check?clientVersion=... */
   async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string; gate: 'offline' | 'ok' }> {
     if (!navigator.onLine) {
       return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
@@ -137,7 +137,7 @@ export class UpdatesService {
   async forceUpdate(newVersion: string): Promise<void> {
     try {
       await this.setVersion(newVersion);
-      await this.alertsService.showToast(`Updating RolodexAI to v${newVersion}…`, 2500);
+      await this.alertsService.showToast(`Updating OpenLoop to v${newVersion}…`, 2500);
       await this.clearCachesAndReload();
     } catch (error) {
       console.error('Update failed:', error);

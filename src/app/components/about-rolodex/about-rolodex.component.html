@@ -21,9 +21,9 @@
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>What is RolodexAI?</h3>
+    <h3>What is OpenLoop?</h3>
     <p>
-      RolodexAI is your <strong>confidential secretary</strong> — the contact
+      OpenLoop is your <strong>confidential secretary</strong> — the contact
       manager that remembers, prompts, and communicates for you. It keeps
       every person you care about moving: birthdays, anniversaries,
       milestones, follow-ups, and the message you were going to send anyway —
@@ -71,7 +71,7 @@
           OpenLoop is that same promise, digitized: the card still holds the
           person's story, but now the confidential secretary also remembers the
           reply you owe, the birthday you missed, and the follow-up that keeps a
-          relationship alive. The wheel became an app — with its RolodexAI agent devoted to helping you close the open loop.
+          relationship alive. The wheel became an app — with its OpenLoop agent devoted to helping you close the open loop.
         </p>
       </div>
     </div>
@@ -137,7 +137,7 @@
           of the human condition that software has never once solved, because
           software filed contacts instead of keeping relationships.</p>
 
-        <p><strong>The Confidante's first questions — the psychology of a
+        <p><strong>The Assistant's first questions — the psychology of a
           top-notch secretary:</strong></p>
         <ul class="investor-questions">
           <li>When did you last contact this person?</li>
@@ -156,7 +156,7 @@
           you own the map of human relationships — who knows whom, who owes
           whom, who has gone cold, who matters most, who is one nudge from
           alive again. Every card is a node; every loop is an edge; every
-          Confidante interaction is a signal. The network layer turns each
+          Assistant interaction is a signal. The network layer turns each
           user's kept relationships into the most valuable graph a consumer AI
           company could build — earned one tiny loop at a time.</p>
 
@@ -186,13 +186,13 @@
           does it flatten it? That is the whole job.
         </p>
 
-        <p><strong>Pricing — Basic ($1) = "Assistant", Confidante ($5) = the full agent:</strong></p>
+        <p><strong>Pricing — Basic ($1) = "Assistant", Assistant ($5) = the full agent:</strong></p>
         <p>· <strong>Basic — $1/month.</strong> OpenLoop the contact manager —
           cards, groups, reminders, follow-ups, birthdays, sync, pods, in-app
           chat — plus the <strong>Assistant</strong>: <strong>5 AI
-          interventions a month</strong>, a taste of the Confidante.</p>
-        <p>· <strong>RolodexAI (Full) — $5/month.</strong> Everything in Basic, and
-          the AI works all month: the Confidante intervenes on every loop —
+          interventions a month</strong>, a taste of the Assistant.</p>
+        <p>· <strong>OpenLoop (Full) — $5/month.</strong> Everything in Basic, and
+          the AI works all month: the Assistant intervenes on every loop —
           context, call, draft, send — across all your relationships. The
           $1 tier is the hook and the taste; the $5 tier is the engine that
           flattens the curve.</p>
@@ -297,7 +297,7 @@
             </p>
 
             <p class="investor-chart-title"><strong>What users are asking for</strong></p>
-            <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with RolodexAI is the intake.</div>
+            <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with OpenLoop is the intake.</div>
             <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
             <div class="feedback-card" *ngFor="let f of feedbackList">
               <div class="feedback-summary">{{ f.summary }}</div>

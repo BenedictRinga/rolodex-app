@@ -68,15 +68,15 @@ export class StudioQwenTtsService {
     }
   }
 
-  /** Persona catalog — Confidante first, then a male fallback for resolveDeviceVoice. */
+  /** Persona catalog — Assistant first, then a male fallback for resolveDeviceVoice. */
   getLocalPersonalityCatalog(): StudioPersonalityVoice[] {
     return [
       {
         id: 'qwen-echo',
-        name: 'Confidante',
+        name: 'Assistant',
         language: 'en-US',
         gender: 'female',
-        description: 'The Confidante default — warm, clear, personal.',
+        description: 'The Assistant default — warm, clear, personal.',
         archetype: 'Universal',
         defaultEmotion: 'neutral',
         speedHint: { min: 0.9, max: 1.15, default: 1.0 },

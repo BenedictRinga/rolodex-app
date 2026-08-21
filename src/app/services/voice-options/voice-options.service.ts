@@ -8,14 +8,14 @@ import { StorageService } from '../storage/storage.service';
  * 2026-08-20 VOICE OPTIONS SERVICE — brought over from Zyppar's audiobrief
  * voice system: browser voices + Capacitor native TTS voices, merged.
  *
- * The default is "Confidante": a female, highly-competent-secretary voice.
+ * The default is "Assistant": a female, highly-competent-secretary voice.
  * We cannot manufacture a gender from the browser/device, so we pick the best
- * female-named / female-typed voice available and label it Confidante.
+ * female-named / female-typed voice available and label it Assistant.
  */
 @Injectable({ providedIn: 'root' })
 export class VoiceOptionsService {
   private readonly VOICE_KEY = 'rolodex_tts_voice';
-  /** Sentinel id for the default Confidante voice. */
+  /** Sentinel id for the default Assistant voice. */
   readonly CONFIDANTE_ID = 'confidante';
 
   private voicesSubject = new BehaviorSubject<SpeechSynthesisVoice[]>([]);
@@ -124,7 +124,7 @@ export class VoiceOptionsService {
     const opts: { id: string; label: string; detail: string }[] = [
       {
         id: this.CONFIDANTE_ID,
-        label: 'Confidante',
+        label: 'Assistant',
         detail: 'Default — female, highly competent secretary',
       },
     ];
@@ -148,13 +148,13 @@ export class VoiceOptionsService {
 
   /**
    * Resolve the active SpeechSynthesisVoice.
-   * Confidante = best female voice available, else first English voice.
+   * Assistant = best female voice available, else first English voice.
    */
   resolveVoice(): SpeechSynthesisVoice | undefined {
     if (!this._voices.length) return undefined;
 
     if (this._selectedVoiceId === this.CONFIDANTE_ID) {
-      return this.findConfidanteVoice();
+      return this.findAssistantVoice();
     }
 
     return this._voices.find(
@@ -162,7 +162,7 @@ export class VoiceOptionsService {
     );
   }
 
-  private findConfidanteVoice(): SpeechSynthesisVoice | undefined {
+  private findAssistantVoice(): SpeechSynthesisVoice | undefined {
     const femaleHints = [
       'female', 'woman', 'girl', 'samantha', 'victoria', 'karen', 'moira',
       'tessa', 'fiona', 'serena', 'zira', 'aria', 'jenny', 'hazel', 'susan',

@@ -21,10 +21,10 @@
     <div>
       <ng-container *ngIf="mode === 'situation'; else feedbackHelpBanner">
         <strong>We are working together to improve a {{ situationOrdinalLabel }} loop challenge.</strong>
-        <p>Like a good secretary — the Confidante gathers the context, then you pick the person from your phone, or copy and paste in any other app to send.</p>
+        <p>Like a good secretary — RolodexAI gathers the context, then you pick the person from your phone, or copy and paste in any other app to send.</p>
       </ng-container>
       <ng-template #feedbackHelpBanner>
-        <strong>What direction should RolodexAI take?</strong>
+        <strong>What direction should OpenLoop take?</strong>
         <p>Speak freely — what's missing, what's wrong, what should we build next. Or choose help below.</p>
       </ng-template>
     </div>
@@ -37,7 +37,7 @@
     </ion-button>
     <ion-button expand="block" fill="outline" color="primary" (click)="chooseMode('help')">
       <ion-icon name="help-circle-outline" slot="start"></ion-icon>
-      I need help using RolodexAI
+      I need help using OpenLoop
     </ion-button>
   </div>
 
@@ -62,7 +62,7 @@
     <div class="chat-composer">
       <ion-input
         [(ngModel)]="input"
-        placeholder="Tell the Confidante…"
+        placeholder="Tell the Assistant…"
         (keyup.enter)="send()"
         class="chat-input"
         fill="outline"

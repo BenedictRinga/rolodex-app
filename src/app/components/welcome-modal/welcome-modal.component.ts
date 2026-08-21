@@ -49,7 +49,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'intro',
       kicker: 'Karibu sana!',
-      title: 'RolodexAI — your contacts, in motion',
+      title: 'OpenLoop — your contacts, in motion',
       copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%.',
       surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
     },
@@ -57,13 +57,13 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'card',
       kicker: '01 · The card',
       title: 'The card is everything',
-      copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the Confidante live right there on the person.',
+      copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the Assistant live right there on the person.',
     },
     {
       id: 'loopmotto',
       kicker: '02 · The promise',
       title: 'No more "I keep meaning to"',
-      copy: 'Every missed reply starts the same way: "I keep meaning to." RolodexAI catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
+      copy: 'Every missed reply starts the same way: "I keep meaning to." OpenLoop catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
     },
     {
       id: 'fourws',
@@ -88,7 +88,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '06 · The confidante',
       title: 'The AI drafts — you hit Send',
-      copy: 'The confidential secretary digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine Rolodex uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
+      copy: 'The confidential secretary digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine OpenLoop uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
@@ -100,13 +100,13 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'storage',
       kicker: '08 · Your data',
       title: 'Where your contacts live',
-      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — your trust level, your choice. Rolodex Server mode links your devices live.',
+      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — your trust level, your choice. OpenLoop Server mode links your devices live.',
     },
     {
       id: 'pricing',
       kicker: '09 · The tiers',
-      title: 'Basic $1 · Confidante $5',
-      copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Confidante lets the AI work all month. Billing lives in Settings.',
+      title: 'Basic $1 · Assistant $5',
+      copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Assistant lets the AI work all month. Billing lives in Settings.',
     },
     {
       id: 'outro',
@@ -334,7 +334,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     void this.modalController.dismiss(null, 'start');
   }
 
-  /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with RolodexAI in
+  /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with OpenLoop in
    *  situation mode, and the surprise (the guided real-loop demo) begins. */
   startTaste(): void {
     void this.modalController.dismiss(null, 'taste');

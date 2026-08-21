@@ -4,7 +4,7 @@ import { StudioPlaybackService } from '../studio-playback/studio-playback.servic
 
 /**
  * Studio audio orchestrator — ported from Zyppar's StudioAudioBridgeService.
- * Plays Confidante drafts / card notes through StudioPlaybackService.
+ * Plays Assistant drafts / card notes through StudioPlaybackService.
  * Device-first; optional MP3 from rolodex-server POST /tts. Never talks to
  * Zyppar's library API or the zyppar database.
  */

@@ -144,7 +144,7 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     };
 
     const sheet = await this.alertController.create({
-      header: name + ' isn\'t on Rolodex yet',
+      header: name + ' isn\'t on OpenLoop yet',
       message: 'The message is saved here, but it can\'t reach their in-app thread until they join. Bring them in — every share carries the link, and the link opens their card ready:',
       buttons: [
         { text: 'Share the invite', handler: async () => {

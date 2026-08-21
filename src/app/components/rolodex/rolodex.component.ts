@@ -193,7 +193,7 @@ export class RolodexComponent implements OnInit {
       return;
     }
     const alert = await this.alertController.create({
-      header: 'Confidante Voice',
+      header: 'Assistant Voice',
       message: 'Choose the voice RolodexAI uses for narration.',
       inputs: options.map((o) => ({
         type: 'radio' as const,
@@ -209,7 +209,7 @@ export class RolodexComponent implements OnInit {
             if (!data) return;
             await this.voiceOptions.selectVoice(data);
             const chosen = options.find((o) => o.id === data);
-            this.currentVoiceLabel = chosen?.label || 'Confidante';
+            this.currentVoiceLabel = chosen?.label || 'Assistant';
             await this.alertService.showToast(`Voice set to ${this.currentVoiceLabel}`, 2000);
             return true;
           },
@@ -232,7 +232,7 @@ export class RolodexComponent implements OnInit {
     );
   }
 
-  /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the Confidante. */
+  /** 2026-08-16 THE CONTEXT BANGER: every filter change feeds the Assistant. */
   onApplyFilterContext(): void {
     this.draftEngine.currentFilter = String(this.selectedFilter || 'all');
   }
@@ -335,7 +335,7 @@ export class RolodexComponent implements OnInit {
   private promptedBuild = 0;
 
   /** 2026-08-20 CONFIDANTE VOICE: current voice label shown in Settings. */
-  currentVoiceLabel = 'Confidante';
+  currentVoiceLabel = 'Assistant';
 
   /** 2026-08-20 PRIVACY: backend sync consent — default OFF. */
   backendSyncEnabled = false;
@@ -421,7 +421,7 @@ export class RolodexComponent implements OnInit {
   async presentUpdatePrompt(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Update available',
-      message: `RolodexAI v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your OpenLoop and device contacts are all safe during app updates.`,
+      message: `OpenLoop v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your OpenLoop and device contacts are all safe during app updates.`,
       buttons: [
         { text: 'Later', role: 'cancel' },
         { text: 'Update now', handler: () => { this.applyUpdate(); } },
@@ -450,7 +450,7 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
   installPwa(): void {
-    void this.appInstall.encourageAppInstall('RolodexAI');
+    void this.appInstall.encourageAppInstall('OpenLoop');
   }
 
   /** 2026-08-19 INSTALL: Google Play is INCOMING - no store link yet. */
@@ -468,7 +468,7 @@ export class RolodexComponent implements OnInit {
     const result = await this.shareAppService.shareAppStandard();
     if (result === 'shared') return;
     if (result === 'copied') {
-      void this.alertService.showToast('RolodexAI link copied — paste it anywhere', 2500);
+      void this.alertService.showToast('OpenLoop link copied — paste it anywhere', 2500);
     } else {
       void this.alertService.showToast('Sharing is not available on this browser', 2500);
     }
@@ -604,7 +604,7 @@ export class RolodexComponent implements OnInit {
     void this.voiceOptions.loadVoices().then(() => {
       const opts = this.voiceOptions.getVoiceOptions();
       const cur = opts.find((o) => o.id === this.voiceOptions.selectedVoiceId);
-      this.currentVoiceLabel = cur?.label || 'Confidante';
+      this.currentVoiceLabel = cur?.label || 'Assistant';
     });
     // 2026-08-20 PRIVACY: reflect the backend sync consent toggle.
     void this.rolodexSync.isBackendSyncEnabled().then((v) => (this.backendSyncEnabled = v));
@@ -701,7 +701,7 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-20: the web install path — delegated to the Zyppar-style
    *  AppInstallService (metrics, cooldown, native prompt, iOS/Android guides). */
   private async offerAppInstall(): Promise<void> {
-    await this.appInstall.encourageAppInstall('RolodexAI');
+    await this.appInstall.encourageAppInstall('OpenLoop');
   }
 
   showSearchView() { this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false; }
@@ -715,7 +715,7 @@ export class RolodexComponent implements OnInit {
   onRemoveContact(contact: ContactInfo) { this.removeContact.emit(contact); }
   onContactTap(contact: ContactInfo) { this.contactTap.emit(contact); }
   onAutoSortScroll() { this.loadMoreAutoSort.emit(); }
-  /** 2026-08-17 THE 4 W'S: the Confidante's deep-context lens - Who, What,
+  /** 2026-08-17 THE 4 W'S: the Assistant's deep-context lens - Who, What,
    *  Where, When - the whole deck through the relationship story. */
   onApplyFilter() {
     if (this.selectedFilter === 'fourws') {

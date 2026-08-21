@@ -24,7 +24,7 @@ export class AiSettingsModalComponent {
   }
 
   providerLabel(): string {
-    return this.provider === 'rolodex' ? "Rolodex's engine" : this.provider;
+    return this.provider === 'rolodex' ? "OpenLoop's engine" : this.provider;
   }
 
   save(): void {
@@ -37,7 +37,7 @@ export class AiSettingsModalComponent {
   }
 
   planLabel(): string {
-    return this.draftEngine.plan === 'confidante' ? 'Confidante' : 'Basic ($1)';
+    return this.draftEngine.plan === 'confidante' ? 'Assistant' : 'Basic ($1)';
   }
 
   interventionsLeft(): number {

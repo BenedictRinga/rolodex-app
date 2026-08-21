@@ -34,7 +34,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsUpdatedLabel = '';
   private statsTimer: any = null;
 
-  // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with RolodexAI,
+  // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with OpenLoop,
   // locked behind the regular password extended with "-x2" (northstar-x2).
   x2Unlocked = false;
   feedbackList: any[] = [];
@@ -133,7 +133,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  /** Fetch the user suggestions from Chat with RolodexAI. */
+  /** Fetch the user suggestions from Chat with OpenLoop. */
   async loadFeedback(): Promise<void> {
     if (this.feedbackLoading) return;
     this.feedbackLoading = true;
@@ -151,7 +151,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   /** The current device's trial status for the investor control. */
   trialStatusLabel(): string {
     const days = this.draftEngine.trialDaysLeft();
-    if (days > 0) return `7-day Confidante trial: ${days} day${days === 1 ? '' : 's'} left.`;
+    if (days > 0) return `7-day Assistant trial: ${days} day${days === 1 ? '' : 's'} left.`;
     if (this.draftEngine.trialStartedAt() > 0) return 'Trial used on this device — it can be re-opened.';
     return 'Trial starts on first use.';
   }
