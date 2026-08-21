@@ -54,7 +54,7 @@ export class HomePage implements OnInit, OnDestroy {
   rolodexAiBusy = false;
   rolodexAiInput = '';
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
-    { from: 'assistant', text: 'Hello — I’m AI Assistant. Ask about a contact, a follow-up, or what to do next.' },
+    { from: 'assistant', text: 'Hello — I’m the AI Assistant. Ask about an open loop, a follow-up, what to say, or what to do next.' },
   ];
   /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
   headerLine = 'Where your contacts come alive...';
