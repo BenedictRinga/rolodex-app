@@ -123,6 +123,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredSortedContacts: ContactInfo[] = [];
   filteredDisplayedContacts: ContactInfo[] = [];
   groupedContacts: { [key: string]: ContactInfo[] } = {};
+  /** 2026-08-21: alphabetical groups split so real contacts are rendered first,
+   *  then the DEMO CONTACTS divider, then demo groups. */
+  groupedContactsReal: { [key: string]: ContactInfo[] } = {};
+  groupedContactsDemo: { [key: string]: ContactInfo[] } = {};
 
 
   saveEnabled = false;
@@ -379,14 +383,55 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   groupContactsAlphabetically() {
-    this.groupedContacts = this.contacts.reduce((groups, contact) => {
+    const real: { [key: string]: ContactInfo[] } = {};
+    const demo: { [key: string]: ContactInfo[] } = {};
+    for (const contact of this.contacts) {
       const firstLetter = contact.name?.display?.charAt(0).toUpperCase() || 'Unknown';
-      if (!groups[firstLetter]) {
-        groups[firstLetter] = [];
-      }
-      groups[firstLetter].push(contact);
-      return groups;
-    }, {} as { [key: string]: ContactInfo[] });
+      const target = (contact as any)?.isMockData ? demo : real;
+      if (!target[firstLetter]) target[firstLetter] = [];
+      target[firstLetter].push(contact);
+    }
+    this.groupedContactsReal = real;
+    this.groupedContactsDemo = demo;
+    // Merged map kept for the legacy flatten/batch path (order: real then demo).
+    this.groupedContacts = { ...real, ...demo };
+  }
+
+  /** 2026-08-21: real/demo split reused by every card view for the divider. */
+  get realContacts(): ContactInfo[] {
+    return (this.contacts || []).filter((c: any) => !c?.isMockData);
+  }
+
+  get demoContacts(): ContactInfo[] {
+    return (this.contacts || []).filter((c: any) => c?.isMockData);
+  }
+
+  get hasDemoContacts(): boolean {
+    return this.demoContacts.length > 0;
+  }
+
+  get alphabeticalRealGroups(): Array<{ key: string; contacts: ContactInfo[] }> {
+    return Object.keys(this.groupedContactsReal).sort().map((key) => ({ key, contacts: this.groupedContactsReal[key] }));
+  }
+
+  get alphabeticalDemoGroups(): Array<{ key: string; contacts: ContactInfo[] }> {
+    return Object.keys(this.groupedContactsDemo).sort().map((key) => ({ key, contacts: this.groupedContactsDemo[key] }));
+  }
+
+  get realSortedContacts(): ContactInfo[] {
+    return (this.sortedcontacts || []).filter((c: any) => !c?.isMockData);
+  }
+
+  get demoSortedContacts(): ContactInfo[] {
+    return (this.sortedcontacts || []).filter((c: any) => c?.isMockData);
+  }
+
+  get realDisplayedContacts(): ContactInfo[] {
+    return (this.displayedContacts || []).filter((c: any) => !c?.isMockData);
+  }
+
+  get demoDisplayedContacts(): ContactInfo[] {
+    return (this.displayedContacts || []).filter((c: any) => c?.isMockData);
   }
 
   onGroupToggleDetails(contact: ContactInfo, event: MouseEvent): void {
