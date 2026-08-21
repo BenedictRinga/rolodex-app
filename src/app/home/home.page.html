@@ -27,6 +27,39 @@
     </ion-button> -->
   </div>
 
+  <!-- 2026-08-21 OPENLOOP CHAT: RolodexAI lives above the deck so the user
+       always knows what/how to engage. Every assistant reply carries a copy
+       button as the counterweight to the send button. -->
+  <div class="openloop-chat" *ngIf="rolodexAiChatOpen">
+    <div class="openloop-chat-head">
+      <strong>RolodexAI</strong>
+      <span class="openloop-chat-hint">Ask anything — contacts, next steps, follow-ups</span>
+      <ion-button fill="clear" size="small" (click)="rolodexAiChatOpen = false" appTooltip="Hide chat">
+        <ion-icon name="chevron-up-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="openloop-chat-thread">
+      <div *ngFor="let m of rolodexAiMessages" class="openloop-msg" [class.user]="m.from === 'user'">
+        <div class="openloop-bubble">{{ m.text }}</div>
+        <ion-button *ngIf="m.from === 'assistant' && m.text && m.text !== '…'" fill="clear" size="small" class="openloop-copy" (click)="copyRolodexAi(m.text)" appTooltip="Copy whole reply">
+          <ion-icon name="copy-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+    <div class="openloop-chat-input">
+      <ion-input
+        [(ngModel)]="rolodexAiInput"
+        placeholder="Ask RolodexAI…"
+        (keyup.enter)="sendRolodexAi()"
+        fill="outline"
+        class="openloop-input"
+      ></ion-input>
+      <ion-button (click)="sendRolodexAi()" [disabled]="!rolodexAiInput.trim() || rolodexAiBusy">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
   <app-rolodex
     #rolodex
     [contacts]="contacts"

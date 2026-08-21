@@ -3,11 +3,11 @@
 YARN ONLY on this project. Never npm.
 Production build: `yarn build:prod` (chains the static-block fix). Deploy: `deploy.sh` on the droplet.
 
-Studio audio (ported from Zyppar, 2026-08-20): `StudioPlaybackService` + `StudioAudioBridgeService` (`services/studio-playback`, `services/studio-bridge`). They speak Confidante drafts. Device-first; optional `POST /api/rolodex/tts`. Do not import Zyppar's Audiobrief, library API, or the `zyppar` db.
+Studio audio (ported from Zyppar, 2026-08-20): `StudioPlaybackService` + `StudioAudioBridgeService` (`services/studio-playback`, `services/studio-bridge`). They speak Confidante drafts. Device-first; optional `POST /api/openloop/tts`. Do not import Zyppar's Audiobrief, library API, or the `zyppar` db.
 
 ---
 
-## ROLODEX NORTHSTAR (2026-08-16)
+## OpenLoop NORTHSTAR (2026-08-16)
 
 ### The post that IS the North Star — inspirational first, for seed investors, and our design direction
 > "One of the biggest consumer AI opportunities is helping people close the
@@ -26,13 +26,13 @@ Studio audio (ported from Zyppar, 2026-08-20): `StudioPlaybackService` + `Studio
 >
 > The wedge is going after one loop first and nailing it."
 
-Rolodex's wedge is the **owed-reply loop** — the person you keep meaning to
+OpenLoop's wedge is the **owed-reply loop** — the person you keep meaning to
 write back. That is a relationship loop: the birthday, the anniversary, the
 "how did it go?", the follow-up you owe, the thank-you. It is the most
 universal tiny loop there is, and it never closes on its own.
 
-Rolodex is the agent that does the hard 90% of the relationship loop:
-it digs up the context (who, when, why — the rolodex record), makes the call
+RolodexAI is the agent that does the hard 90% of the relationship loop:
+it digs up the context (who, what, when, why — the OpenLoop record), makes the call
 (the occasion, the timing), drafts the message (in your own voice, via your
 preset guides), so all you do is **hit send**.
 
@@ -64,18 +64,18 @@ preset guides), so all you do is **hit send**.
    priority auto-schedule the recurring check-in — the daily reason to
    return.
 4. **Pods, not chatrooms.** Group threads derived from contact groups —
-   shared schedule, shared reminders — grown INTO Rolodex, never back into
+   shared schedule, shared reminders — grown INTO OpenLoop, never back into
    Zyppar.
-5. **Provenance.** Rolodex was extracted from Zyppar (2026-07-01); the
+5. **Provenance.** OpenLoop was extracted from Zyppar (2026-07-01); the
    Rolodex component, pagemanager/RolodexView, contact-card and the socket
    service still live inside Zyppar today. The direction of travel is
-   forward — every rail grows into Rolodex.
+   forward — every rail grows into OpenLoop.
 6. **Live proof.** The demo room + socket chat: a message sent on one device
    appears on another immediately — the product communicates, right now.
 
 ### Pricing — Rolodex × RolodexAI
 **Basic — $1/month.** Rolodex the contact manager: cards, groups, reminders,
-follow-ups, birthday engine, cloud/Rolodex-server sync, pods, in-app chat
+follow-ups, birthday engine, cloud/OpenLoop-server sync, pods, in-app chat
 (text), device contacts.
 **RolodexAI — $5/month.** Everything in Basic PLUS the AI layer: the
 confidante (the hard 90% — context, call, draft; the user hits Send), AI
@@ -87,7 +87,7 @@ The $1 tier is the habit; the $5 tier is the loop-closer — the confidante.
 
 ### Investor access
 The About page carries a padlocked Investors section. Password (default):
-`northstar`. Change it in `src/app/components/about-rolodex/about-rolodex.component.ts`.
+`northstar`. Change it in `src/app/components/about-openloop/about-openloop.component.ts`.
 Behind it: this North Star document, the roadmap, the pricing model, the
 tiny-loops thesis.
 

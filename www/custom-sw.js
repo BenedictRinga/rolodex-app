@@ -1,6 +1,6 @@
 // src/custom-sw.js
 // 2026-08-20 ZYPPAR-STYLE SERVICE WORKER — the app's ONE service worker.
-// It exists so Chrome/Safari/Edge treat RolodexAI as installable (a SW with a
+// It exists so Chrome/Safari/Edge treat OpenLoop as installable (a SW with a
 // fetch handler is part of the PWA install criteria). It does NOT cache or
 // intercept responses itself; the UpdatesService clears caches and unregisters
 // it during an update, so the user always gets the fresh bundle.

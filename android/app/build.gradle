@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.zyppar.rolodexai"
+    namespace "com.zyppar.openloop"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.zyppar.rolodexai"
+        applicationId "com.zyppar.openloop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

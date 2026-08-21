@@ -32,7 +32,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>Device-first storage</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            Your cards, notes and 4-W context live in this device's IndexedDB. They do not leave the device until you sync or share.
+            Your cards, notes and 4-W context live in your device's memory. They do not leave the device unless you choose to sync or share.
           </p>
         </ion-label>
       </ion-item>
@@ -42,7 +42,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>App lock</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            Optional PIN gate on cold start. The PIN is SHA-256 hashed on-device — never stored or sent anywhere. If you forget it, the only reset is clearing app data / reinstalling.
+            Optional PIN gate on cold start. The PIN is SHA-256 hashed on-device — never sent anywhere. If you forget it, the only reset is clearing app data / reinstalling.
           </p>
         </ion-label>
       </ion-item>
@@ -62,7 +62,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>Sharing is by your choice</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            An invite shares only the moment you chose to send. The rest of the card stays private — the Confidante uses your context locally, never as a public profile.
+            An invite shares only the moment you chose to send. The rest of the card stays private — RolodexAI uses your context locally, never as a public profile.
           </p>
         </ion-label>
       </ion-item>

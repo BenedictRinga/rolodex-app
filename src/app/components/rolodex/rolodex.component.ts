@@ -421,7 +421,7 @@ export class RolodexComponent implements OnInit {
   async presentUpdatePrompt(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Update available',
-      message: `RolodexAI v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your contacts are safe.`,
+      message: `RolodexAI v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your OpenLoop and device contacts are all safe during app updates.`,
       buttons: [
         { text: 'Later', role: 'cancel' },
         { text: 'Update now', handler: () => { this.applyUpdate(); } },

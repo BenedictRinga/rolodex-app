@@ -1,14 +1,14 @@
 {
-  "name": "rolodex-app",
+  "name": "openloop-app",
   "version": "0.3.0",
-  "author": "Rolodex",
+  "author": "OpenLoop",
   "homepage": "",
   "scripts": {
     "ng": "node node_modules/@angular/cli/bin/ng.js",
     "start": "node node_modules/@angular/cli/bin/ng.js serve --port 4400 --open",
     "start:prod": "node node_modules/@angular/cli/bin/ng.js serve --port 4400 --configuration production",
     "build": "node node_modules/@angular/cli/bin/ng.js build --configuration development",
-    "build:prod": "node node_modules/@angular/cli/bin/ng.js build --configuration production --base-href /rolodex/ && node scripts/fix-static-blocks.cjs && node scripts/fix-index-css.cjs",
+    "build:prod": "node node_modules/@angular/cli/bin/ng.js build --configuration production --base-href /openloop/ && node scripts/fix-static-blocks.cjs && node scripts/fix-index-css.cjs",
     "watch": "node node_modules/@angular/cli/bin/ng.js build --watch --configuration development",
     "test": "node node_modules/@angular/cli/bin/ng.js test",
     "lint": "node node_modules/@angular/cli/bin/ng.js lint",
@@ -72,5 +72,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.0"
   },
-  "description": "Rolodex - The contacts app that remembers why you know someone and helps you nurture every relationship"
+  "description": "OpenLoop - The contacts app that remembers why you know someone and helps you nurture every relationship"
 }

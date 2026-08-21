@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">{{ portalMode === 'investors' ? 'Investors' : 'About RolodexAI' }}</ion-title>
+    <ion-title style="font-size: 15px;">{{ portalMode === 'investors' ? 'Investors' : 'About OpenLoop' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -16,14 +16,14 @@
 
 <ion-content class="about-body">
   <div class="about-hero" *ngIf="portalMode !== 'investors'">
-    <div class="about-logo">RolodexAI</div>
+    <div class="about-logo">OpenLoop</div>
     <div class="about-tagline">Your contacts, in motion.</div>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>What is Rolodex?</h3>
+    <h3>What is RolodexAI?</h3>
     <p>
-      Rolodex is your <strong>confidential secretary</strong> — the contact
+      RolodexAI is your <strong>confidential secretary</strong> — the contact
       manager that remembers, prompts, and communicates for you. It keeps
       every person you care about moving: birthdays, anniversaries,
       milestones, follow-ups, and the message you were going to send anyway —
@@ -68,11 +68,10 @@
           person, keep the relationship moving.
         </p>
         <p>
-          RolodexAI is that same promise, digitized: the card still holds the
+          OpenLoop is that same promise, digitized: the card still holds the
           person's story, but now the confidential secretary also remembers the
           reply you owe, the birthday you missed, and the follow-up that keeps a
-          relationship alive. The wheel became an app — the secretary became the
-          Confidante.
+          relationship alive. The wheel became an app — with its RolodexAI agent devoted to helping you close the open loop.
         </p>
       </div>
     </div>
@@ -81,7 +80,7 @@
   <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Why it exists</h3>
     <p>
-      Contacts were never meant to sit still in a phonebook. Rolodex came out
+      Contacts were never meant to sit still in a phonebook. OpenLoop came out
       of Zyppar (2026) with one idea: the relationship is the product. The
       card is the surface — flip to a person and everything lives there:
       chat, reminders, follow-ups, their story.
@@ -89,13 +88,13 @@
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>Rolodex × RolodexAI</h3>
+    <h3>Basic × Full</h3>
     <p>
-      <strong>Rolodex (Basic · $1/month):</strong> cards, groups, reminders,
+      <strong>OpenLoop (Basic · $1/month):</strong> cards, groups, reminders,
       the follow-up engine, birthdays, sync, pods, in-app chat.
     </p>
     <p>
-      <strong>RolodexAI ($5/month):</strong> everything in Basic, plus the
+      <strong>OpenLoop (Full · $5/month):</strong> everything in Basic, plus the
       confidante — messages composed in your own voice, spoken aloud before
       you send (Studio playback), AI drafting,
       preset guides, suggested follow-ups and timing.
@@ -104,7 +103,7 @@
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Version</h3>
-    <p>RolodexAI v{{ version }} · running as a PWA on zyppar.com/rolodex/</p>
+    <p>OpenLoop v{{ version }} · running as a PWA on zyppar.com/openloop/</p>
   </div>
 
   <!-- 2026-08-16 THE PADLOCK: investors only — exclusive, mysterious. -->
@@ -150,7 +149,7 @@
           <li>What would they feel if you reached out today? What would they feel if you waited another year?</li>
           <li>Where does this relationship stand in five years if neither of you does anything?</li>
         </ul>
-        <p>That last question is the one people answer with a wince. RolodexAI
+        <p>That last question is the one people answer with a wince. OpenLoop
           is built to make the wince unnecessary.</p>
 
         <p><strong>The vast human mapping:</strong> win the follow-up loop and
@@ -176,7 +175,7 @@
           <!-- the flattening that means PMF -->
           <polyline points="24,12 60,30 96,58 132,80 168,92 204,98 240,99 276,100 292,100" fill="none" stroke="#00C853" stroke-width="3"/>
           <line x1="150" y1="95" x2="292" y2="95" stroke="#FFD93D" stroke-width="1.5" stroke-dasharray="6 4"/>
-          <text x="216" y="90" font-size="8" fill="#00C853">Rolodex: the loop-closer</text>
+          <text x="216" y="90" font-size="8" fill="#00C853">OpenLoop: the loop-closer</text>
         </svg>
         <p class="investor-chart-note">
           % of users still active on day N. Every consumer app decays — the
@@ -188,11 +187,11 @@
         </p>
 
         <p><strong>Pricing — Basic ($1) = "Assistant", Confidante ($5) = the full agent:</strong></p>
-        <p>· <strong>Basic — $1/month.</strong> Rolodex the contact manager —
+        <p>· <strong>Basic — $1/month.</strong> OpenLoop the contact manager —
           cards, groups, reminders, follow-ups, birthdays, sync, pods, in-app
           chat — plus the <strong>Assistant</strong>: <strong>5 AI
           interventions a month</strong>, a taste of the Confidante.</p>
-        <p>· <strong>Confidante — $5/month.</strong> Everything in Basic, and
+        <p>· <strong>RolodexAI (Full) — $5/month.</strong> Everything in Basic, and
           the AI works all month: the Confidante intervenes on every loop —
           context, call, draft, send — across all your relationships. The
           $1 tier is the hook and the taste; the $5 tier is the engine that
@@ -215,7 +214,7 @@
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.devices }}</div>
               <div class="kpi-label">Devices synced</div>
-              <div class="kpi-caption">One row per device that has pushed a state to the Rolodex database.</div>
+              <div class="kpi-caption">One row per device that has pushed a state to the OpenLoop database.</div>
             </div>
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.contacts }}</div>
@@ -276,11 +275,11 @@
         </ion-button>
         <p class="investor-live-note">
           This opens a separate browser tab so you don't lose your place here.
-          It shows the read-only peek at <code>zyppar.com/api/rolodex/live</code>,
+          It shows the read-only peek at <code>zyppar.com/api/openloop/live</code>,
           refreshing every 5 seconds.
         </p>
 
-        <!-- 2026-08-19 THE EXTENDED ROOM: suggestions from Chat with RolodexAI,
+        <!-- 2026-08-19 THE EXTENDED ROOM: suggestions from Chat with OpenLoop,
              locked behind northstar-x2. Also hosts the trial re-open control. -->
         <div class="about-section investors-section investor-x2-section">
           <h3 (click)="promptX2()" class="investors-title">
@@ -289,7 +288,7 @@
           </h3>
           <p class="investors-hint" *ngIf="!x2Unlocked">
             A word with a twist. The summaries users send through Chat with
-            RolodexAI live here.
+            OpenLoop live here.
           </p>
           <ng-container *ngIf="x2Unlocked">
             <p class="investor-chart-title"><strong>Trial control</strong></p>
@@ -302,7 +301,7 @@
             <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
             <div class="feedback-card" *ngFor="let f of feedbackList">
               <div class="feedback-summary">{{ f.summary }}</div>
-              <div class="feedback-meta">{{ f.deviceName || 'Rolodex device' }} · {{ time.format(f.createdAt, 'datetime') }}</div>
+              <div class="feedback-meta">{{ f.deviceName || 'OpenLoop device' }} · {{ time.format(f.createdAt, 'datetime') }}</div>
             </div>
             <ion-button size="small" fill="clear" (click)="loadFeedback()" [disabled]="feedbackLoading">
               {{ feedbackLoading ? 'Loading…' : 'Refresh suggestions' }}
@@ -310,7 +309,7 @@
           </ng-container>
         </div>
 
-        <p><strong>RolodexAI proof:</strong> the demo room — enter the same code on
+        <p><strong>OpenLoop proof:</strong> the demo room — enter the same code on
           two devices and chat appears on both, immediately. The product
           communicates right now.</p>
       </div>

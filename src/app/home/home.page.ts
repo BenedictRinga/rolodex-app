@@ -49,6 +49,13 @@ export class HomePage implements OnInit, OnDestroy {
   selectedGroup: string = 'all';
   mockEnabled: boolean = true;
   loading: boolean = false;
+  /** 2026-08-21 OPENLOOP CHAT: RolodexAI above the deck — ask anything. */
+  rolodexAiChatOpen = true;
+  rolodexAiBusy = false;
+  rolodexAiInput = '';
+  rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
+    { from: 'assistant', text: 'Hello — I’m RolodexAI. Ask about a contact, a follow-up, or what to do next.' },
+  ];
   /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
   headerLine = 'Where your contacts come alive...';
   private headerTimer: ReturnType<typeof setInterval> | null = null;
@@ -1049,6 +1056,48 @@ export class HomePage implements OnInit, OnDestroy {
       updatedAt: now,
       preferences: { refreshContacts: false, notificationPreference: 'email' as const },
     } as any as ContactInfo;
+  }
+
+  /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */
+  async sendRolodexAi(): Promise<void> {
+    const text = this.rolodexAiInput.trim();
+    if (!text || this.rolodexAiBusy) return;
+    this.rolodexAiInput = '';
+    this.rolodexAiMessages.push({ from: 'user', text });
+    this.rolodexAiMessages.push({ from: 'assistant', text: '…' });
+    this.rolodexAiBusy = true;
+    try {
+      let engine = 'deepseek';
+      try {
+        const s = await this.draftEngine.aiStatus();
+        engine = s.grokConfigured && !s.deepseekConfigured ? 'grok' : 'deepseek';
+      } catch { /* default deepseek; backend falls back */ }
+      const history = this.rolodexAiMessages
+        .filter((m) => m.text !== '…')
+        .map((m) => ({ role: m.from === 'user' ? 'user' as const : 'assistant' as const, content: m.text }));
+      const res = await fetch(`${environment.rolodexApiBase}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ engine, messages: history }),
+      });
+      const data = await res.json().catch(() => ({}));
+      const reply = String(data?.reply || 'RolodexAI could not reply right now — try again.');
+      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: reply };
+    } catch {
+      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: 'RolodexAI could not reply right now — try again.' };
+    } finally {
+      this.rolodexAiBusy = false;
+    }
+  }
+
+  /** Copy the WHOLE AI reply — the counterweight to the send button. */
+  async copyRolodexAi(text: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(text);
+      await this.alertsService.showToast('RolodexAI reply copied', 1800);
+    } catch {
+      await this.alertsService.showToast('Could not copy — select the text manually', 2500);
+    }
   }
 
   /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,

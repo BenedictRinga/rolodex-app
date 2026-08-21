@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">RolodexAI</string>
-    <string name="title_activity_main">RolodexAI</string>
-    <string name="package_name">com.zyppar.rolodexai</string>
-    <string name="custom_url_scheme">com.zyppar.rolodexai</string>
+    <string name="app_name">OpenLoop</string>
+    <string name="title_activity_main">OpenLoop</string>
+    <string name="package_name">com.zyppar.openloop</string>
+    <string name="custom_url_scheme">com.zyppar.openloop</string>
 </resources>

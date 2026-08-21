@@ -115,7 +115,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       case 'help':
         return 'The user needs help using RolodexAI. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
       case 'situation':
-        return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). IMPORTANT: do NOT ask for the other person's name, phone, email or number — the app will let them pick the person from their phone contacts later. Keep it to 1-2 sentences.`;
+        return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). Keep it to 1-2 sentences.`;
       case 'feedback':
       default:
         return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in RolodexAI, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
@@ -166,13 +166,13 @@ export class ChatWithRolodexModalComponent implements OnInit {
       this.pickContactCard = true;
       this.messages.push({
         from: 'system',
-        text: 'That’s enough context for now — when you’re ready, tap the card below to pick the person from your phone. No typing their name or number.',
+        text: 'That’s enough context for now — when you’re ready, tap the card below to pick the person from your phone.',
       });
       const draftRes = await this.chat([
         ...this.history,
         {
           role: 'user',
-          content: 'Now compose the message to this person using the context gathered. Keep it one warm, human paragraph. Do not include their name or any contact details — we do not know them yet.',
+          content: 'Now compose the message to this person using the context gathered. Keep it one warm, human paragraph.',
         },
       ]);
       if (draftRes.reply) {

@@ -1,11 +1,11 @@
 {
-    "name": "RolodexAI",
-    "short_name": "RolodexAI",
+    "name": "OpenLoop",
+    "short_name": "OpenLoop",
     "theme_color": "#FF6B35",
     "background_color": "#FAF8F5",
     "display": "standalone",
-    "scope": "/rolodex/",
-    "start_url": "/rolodex/",
+    "scope": "/openloop/",
+    "start_url": "/openloop/",
     "icons": [
         {
             "src": "assets/rolodex/icon-192.png",

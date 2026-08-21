@@ -1,4 +1,4 @@
-package com.zyppar.rolodexai;
+package com.zyppar.openloop;
 
 import com.getcapacitor.BridgeActivity;
 

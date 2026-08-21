@@ -16,6 +16,88 @@ app-rolodex {
   overflow: hidden;
 }
 
+/* 2026-08-21 OPENLOOP CHAT: RolodexAI above the deck, always know what to ask. */
+.openloop-chat {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--rolodex-border, #333);
+  background: var(--rolodex-surface, #111827);
+  padding: 8px 10px 10px;
+}
+
+.openloop-chat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--rolodex-primary, #4f6df5);
+}
+
+.openloop-chat-hint {
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  color: var(--rolodex-text-secondary, #8b93b0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.openloop-chat-thread {
+  max-height: 160px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.openloop-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  max-width: 92%;
+}
+
+.openloop-msg.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.openloop-bubble {
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: var(--rolodex-surface-alt, #1f2937);
+  color: var(--rolodex-text, #e5e7eb);
+  font-size: 12.5px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.openloop-msg.user .openloop-bubble {
+  background: var(--rolodex-primary, #4f6df5);
+  color: #fff;
+}
+
+.openloop-copy {
+  --padding-start: 2px;
+  --padding-end: 2px;
+  height: 26px;
+  color: var(--rolodex-text-secondary, #8b93b0);
+}
+
+.openloop-chat-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.openloop-input {
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  font-size: 12.5px;
+}
+
 /* 2026-08-16: compact storage header for mobile — smaller segment + button fonts. */
 .storage-segment {
   --height: 24px;

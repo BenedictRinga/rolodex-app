@@ -1,4 +1,4 @@
-# Rolodex — Design Notes (2026-08-16)
+# OpenLoop — Design Notes (2026-08-16)
 
 ## THE CONFIDANTE (original concept, restored 2026-08-16)
 The AI is not just a reminder engine — it is the user's **confidante / confidential
@@ -11,7 +11,7 @@ birthdays, anniversaries, milestones, congratulations, and overdue follow-ups.
   `{name}` / `{occasion}`.
 - **No preset**: the confidante composes from the contact's own context (name,
   birthday proximity, role, notes).
-- **Network layer (future)**: the Rolodex AI agent of one user's comms to that of
+- **Network layer (future)**: the OpenLoop AI agent of one user's comms to that of
   another or a group — grows from this per-card engine.
 - **v0 (built 2026-08-16)**: deterministic template engine — the same surface
   later calls a real model for open-ended composition. Incomplete-but-real.
@@ -23,8 +23,8 @@ birthdays, anniversaries, milestones, congratulations, and overdue follow-ups.
 ## What the contact card HAS today (flip to a card)
 - Actions: Call, Email, Map, Edit, Remove (device deep-links)
 - Details: phone, email, address
-- Follow-Up display (`rolodex.followUp` — set by the follow-up engine)
-- Topic (`rolodex.topic`) and Note (free text)
+- Follow-Up display (`openloop.followUp` — set by the follow-up engine)
+- Topic (`openloop.topic`) and Note (free text)
 - Reminders: stored in the model (`reminders[]` note+date) AND rendered on the card
 - Birthday reminder button + add-to-calendar
 - Flip animation, search, alphabetical grouping
@@ -42,7 +42,7 @@ birthdays, anniversaries, milestones, congratulations, and overdue follow-ups.
    (only cloud-sync providers remain: Dropbox/Drive/OneDrive).
 
 ## Growth direction (user directive 2026-08-16)
-- The chat/pods/comm rails grow INTO Rolodex — NOT back into Zyppar.
+- The chat/pods/comm rails grow INTO OpenLoop — NOT back into Zyppar.
 - The card is the surface: flip to a contact → chat (text + video) + reminders
   + follow-up right there, in-card. No separate chatroom list.
 - The follow-up engine is the loop scheduler; AI drafting (DeepSeek/Grok/Qwen

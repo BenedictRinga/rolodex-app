@@ -21,7 +21,7 @@
     <div>
       <ng-container *ngIf="mode === 'situation'; else feedbackHelpBanner">
         <strong>We are working together to improve a {{ situationOrdinalLabel }} loop challenge.</strong>
-        <p>No name or number needed — the Confidante gathers the context, then you pick the person from your phone, or copy and paste in any other app to send.</p>
+        <p>Like a good secretary — the Confidante gathers the context, then you pick the person from your phone, or copy and paste in any other app to send.</p>
       </ng-container>
       <ng-template #feedbackHelpBanner>
         <strong>What direction should RolodexAI take?</strong>
@@ -51,7 +51,7 @@
            context is gathered — no name/number typed by the user. -->
       <div class="picker-card" *ngIf="mode === 'situation' && pickContactCard && !situationPicked">
         <div class="picker-card-title"><ion-icon name="person-add-outline"></ion-icon> Who is it?</div>
-        <p class="picker-card-copy">Pick the person from your phone — we never asked you to type their name or number.</p>
+        <p class="picker-card-copy">Pick the contact from your phone.</p>
         <ion-button expand="block" fill="outline" color="primary" (click)="pickFromPhone()">
           <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
           Pick from my phone contacts

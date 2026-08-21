@@ -100,7 +100,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'storage',
       kicker: '08 · Your data',
       title: 'Where your contacts live',
-      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — your trust level, your choice. Demo room codes link devices live.',
+      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — your trust level, your choice. Rolodex Server mode links your devices live.',
     },
     {
       id: 'pricing',
