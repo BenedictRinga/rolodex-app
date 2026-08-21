@@ -249,6 +249,9 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
     }
     if (!this.draft) return;
     this.listening = true;
+    // AgentStudio pattern: stop → beginLoading → prime gesture → play.
+    this.studioPlayback.stop();
+    this.studioPlayback.beginLoading();
     await this.studioPlayback.primeGesturePermission();
     this.studioPlayback.setCancelPredicate(() => !this.listening);
     this.studioPlayback.onEnded(() => { this.listening = false; });

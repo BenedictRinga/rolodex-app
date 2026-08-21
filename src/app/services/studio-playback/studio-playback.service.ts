@@ -96,6 +96,18 @@ export class StudioPlaybackService {
     prime.pause();
     prime.src = '';
     prime.load();
+    // 2026-08-21 iOS PWA: speechSynthesis also needs a gesture-time warm-up or
+    // the later chunked speak() can be silently dropped. Speak+cancel an empty
+    // utterance inside the same gesture stack.
+    if ('speechSynthesis' in window) {
+      try {
+        const warm = new SpeechSynthesisUtterance(' ');
+        warm.volume = 0;
+        warm.rate = 1;
+        window.speechSynthesis.speak(warm);
+        window.speechSynthesis.cancel();
+      } catch { /* ignore */ }
+    }
   }
 
   async playUrl(url: string, _loggedIn = true): Promise<void> {

@@ -266,7 +266,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   private async fetchTtsWithTimeout(text: string): Promise<Response> {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 6000);
+    // 3s: enough for a local Qwen hit, short enough that a missing/unreachable
+    // backend doesn't leave mobile users in silence before the device fallback.
+    const timer = setTimeout(() => ctrl.abort(), 3000);
     try {
       return await fetch(`${environment.rolodexApiBase}/tts`, {
         method: 'POST',

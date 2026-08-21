@@ -26,6 +26,7 @@ import { VoiceOptionsService } from '../../services/voice-options/voice-options.
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { ShareAppService } from '../../services/share-app/share-app.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
+import { HelpModalComponent } from '../help-modal/help-modal.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -124,6 +125,7 @@ export class RolodexComponent implements OnInit {
   @Output() changeFontSize = new EventEmitter<string>();
   @Output() goToPrivacySettings = new EventEmitter<void>();
   @Output() openFaq = new EventEmitter<void>();
+  @Output() helpNavigate = new EventEmitter<string>();
   @Output() showAbout = new EventEmitter<void>();
 
   public RolodexView = RolodexView;
@@ -258,6 +260,25 @@ export class RolodexComponent implements OnInit {
   openSettingsSection(id: string): void {
     this.showSettingsView();
     setTimeout(() => this.scrollTo(id), 300);
+  }
+
+  /** 2026-08-21 FAQ & HELP: opens the modal DIRECTLY from Settings (the old
+   *  event hop to HomePage let Settings close and nothing appear on some
+   *  PWA builds). "Go" taps bubble up through helpNavigate for real demos. */
+  async openFaqHelp(): Promise<void> {
+    try {
+      const modal = await this.modalController.create({
+        component: HelpModalComponent,
+        cssClass: 'help-modal',
+      });
+      await modal.present();
+      const inst = modal.componentRef?.instance as HelpModalComponent | null;
+      inst?.navigate?.subscribe?.((featureId: string) => {
+        this.helpNavigate.emit(featureId);
+      });
+    } catch {
+      await this.alertService.showToast('Could not open FAQ — try again', 2500);
+    }
   }
 
   settingsMapHint(): string {

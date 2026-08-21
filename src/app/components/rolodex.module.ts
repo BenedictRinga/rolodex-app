@@ -20,6 +20,7 @@ import { VideoCallModalComponent } from './video-call-modal/video-call-modal.com
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
 import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rolodex.component';
 import { SearchModalComponent } from './search-modal/search-modal.component';
+import { HelpModalComponent } from './help-modal/help-modal.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SearchModalComponent } from './search-modal/search-modal.component';
     LinkPreviewComponent,
     ChatWithRolodexModalComponent,
     SearchModalComponent,
+    HelpModalComponent,
   ],
   imports: [
     CommonModule,
