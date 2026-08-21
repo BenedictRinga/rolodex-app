@@ -15,6 +15,7 @@ import { CardChatService } from '../services/card-chat/card-chat.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
+import { ContactCardComponent } from '../components/contact-card/contact-card.component';
 import { RolodexComponent } from '../components/rolodex/rolodex.component';
 import { RemindersModalComponent } from '../components/reminders-modal/reminders-modal.component';
 import { SearchModalComponent } from '../components/search-modal/search-modal.component';
@@ -960,19 +961,94 @@ export class HomePage implements OnInit, OnDestroy {
     !environment.production && console.log('Map initialized');
   }
 
-  /** 2026-08-17 ADD CONTACTS, like the big web apps: pick from the phone
-   *  (Contact Picker API - Android Chrome) or add the demo deck back. */
+  /** 2026-08-21 ADD CONTACTS: from the phone (Contact Picker, Android Chrome)
+   *  or the manual entry form — the created contact lands at the TOP of the
+   *  deck, exactly like a device import. */
   async onCreateContact() {
     const sheet = await this.alertController.create({
-      header: 'Add contacts',
-      message: 'How do you want to bring people in?',
+      header: 'Add Contacts',
+      message: 'How do you want to bring the contact in?',
       buttons: [
-        { text: 'Pick from my phone contacts', handler: () => { void this.addFromPhoneContacts(); } },
-        { text: 'Add the demo contacts', handler: () => { this.mockEnabled = true; const fresh = mockContacts.filter((m) => !this.contacts.some((c) => c.contactId === m.contactId)); this.contacts = [...fresh, ...this.contacts]; this.onContactsChange(this.contacts); } },
-        { text: 'Cancel', role: 'cancel' },
+        { text: 'FROM MY PHONE CONTACTS', handler: () => { void this.addFromPhoneContacts(); } },
+        { text: 'WILL PUT IT MYSELF', handler: () => { void this.openManualContactEntry(); } },
+        { text: 'CANCEL', role: 'cancel' },
       ],
     });
     await sheet.present();
+  }
+
+  /** Manual entry: reuse the ContactCardComponent create form in a modal, then
+   *  capture the saved contact at the TOP as if it came from device contacts. */
+  async openManualContactEntry(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ContactCardComponent,
+      componentProps: {
+        selectedMode: 'createContact',
+        contact: {} as ContactInfo,
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data?.mode === 'createContact' && data?.contact) {
+      const contact = this.normalizeManualContact(data.contact);
+      this.contacts = [contact, ...this.contacts]; // bump to top like a device import
+      this.onContactsChange(this.contacts);
+      void this.alertsService.showToast('Contact added', 2000);
+    }
+  }
+
+  /** Make the manual form output a full ContactInfo with the same defaults as
+   *  a device-picked contact (isMockData false, rolodex engine adopted, etc.). */
+  private normalizeManualContact(raw: any): ContactInfo {
+    const now = new Date();
+    const nameRaw = raw?.name || {};
+    const phones = Array.isArray(raw?.phones)
+      ? raw.phones.map((p: any, i: number) => ({ ...p, isPrimary: i === 0, label: p?.label ?? null }))
+      : [];
+    const emails = Array.isArray(raw?.emails)
+      ? raw.emails.map((e: any, i: number) => ({ ...e, isPrimary: i === 0, label: e?.label ?? null }))
+      : [];
+    const display = String(nameRaw.display || [nameRaw.given, nameRaw.middle, nameRaw.family].filter(Boolean).join(' ') || 'New contact').trim();
+    return {
+      contactId: 'manual-' + Date.now() + '-' + Math.floor(Math.random() * 10000),
+      name: {
+        display, given: nameRaw.given || '', middle: nameRaw.middle || '', family: nameRaw.family || '',
+        prefix: nameRaw.prefix || '', suffix: nameRaw.suffix || '',
+      } as any,
+      organization: raw?.organization || { company: '', jobTitle: '', department: '' },
+      birthday: raw?.birthday || null,
+      note: raw?.note || '',
+      phones,
+      emails,
+      postalAddresses: Array.isArray(raw?.postalAddresses) ? raw.postalAddresses : [],
+      image: raw?.image || undefined,
+      rolodex: {
+        when: raw?.rolodex?.when || '', where: raw?.rolodex?.where || '', who: raw?.rolodex?.who || '',
+        why: raw?.rolodex?.why || '', how: raw?.rolodex?.how || '', topic: raw?.rolodex?.topic || '',
+        followUp: raw?.rolodex?.followUp || '', personalTidbits: raw?.rolodex?.personalTidbits || '',
+        outcome: raw?.rolodex?.outcome || '', priority: raw?.rolodex?.priority || 'medium' as const,
+        contactFrequency: raw?.rolodex?.contactFrequency || 'weekly' as const,
+        references: Array.isArray(raw?.rolodex?.references) ? raw.rolodex.references : [],
+      },
+      socialProfiles: raw?.socialProfiles || {},
+      tags: Array.isArray(raw?.tags) ? raw.tags : [],
+      groups: Array.isArray(raw?.groups) ? raw.groups : [],
+      privacy: raw?.privacy || { level: 'private' as const, sharedWith: [] },
+      sharedBy: [],
+      lastInteraction: null,
+      nextInteraction: null,
+      reminders: [],
+      appointments: [],
+      isMockData: false,
+      isContactInfo: true,
+      createdAt: now,
+      updatedAt: now,
+      preferences: { refreshContacts: false, notificationPreference: 'email' as const },
+    } as any as ContactInfo;
   }
 
   /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // RolodexAI app version — compared against /api/updates/check
-  build: 40, // 2026-08-21 Persist last card view in IndexedDB (StorageService), restore on launch
+  build: 41, // 2026-08-21 Header: fixed-width small MY ROLODEX label + non-shrinking R icon; Add Contacts sheet with manual entry via ContactCardComponent create form, new contact bumped to top
 };
 
 /*

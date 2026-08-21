@@ -138,6 +138,24 @@ app-filter-search {
     color: var(--rolodex-text-tertiary);
     --background: transparent;
   }
+
+  /* 2026-08-21 VIEW LABEL: always small and the same width, no matter how
+     long the view name is — the four right-side icons keep their space and the
+     R icon never gets squished by "Alphabet" / "Business Card". */
+  ion-list-header ion-buttons {
+    flex-shrink: 0;
+  }
+
+  ion-list-header .rolodex-view-label {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 42vw;
+    font-size: 10px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* ── Contact Card Item ───────────────────────────── */
@@ -245,6 +263,9 @@ app-contact-card {
 .fab-rolodex-icon {
   width: 26px;
   height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  flex-shrink: 0;
   object-fit: contain;
   background: transparent;
 }

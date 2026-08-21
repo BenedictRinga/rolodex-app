@@ -71,7 +71,7 @@ export class HelpModalComponent {
     {
       label: 'Your data, your choice',
       features: [
-        { id: 'storage', title: 'Where contacts live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — pick per your trust level. The demo room code links devices into one live space.', goLabel: 'Choose' },
+        { id: 'storage', title: 'Where contacts live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the Rolodex Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
         { id: 'sync', title: 'Cloud sync', guide: 'Encrypted push/pull to the cloud provider of your choice, with a passphrase.', goLabel: 'Sync' },
       ],
     },
