@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // RolodexAI app version — compared against /api/updates/check
-  build: 38, // 2026-08-21 Welcome: slides start paused, Play primes audio first; floating audio-unlock button in stage on userInteractionRequired; My Profile text smaller + icon-only wedge; My Rolodex label smaller
+  build: 39, // 2026-08-21 R icon on Confidante button; R icon opens free-form direction chat (feedback mode, capped+summary); situation/taste mode preserved
 };
 
 /*

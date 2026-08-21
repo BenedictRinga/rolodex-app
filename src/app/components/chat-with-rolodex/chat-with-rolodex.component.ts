@@ -14,7 +14,8 @@ type ChatMode = '' | 'feedback' | 'help' | 'situation';
  * 2026-08-19 CHAT WITH ROLODEXAI — a REAL chat with the Confidante, not presets.
  *
  * Modes:
- *  - feedback: improve RolodexAI → summary to the Investors room.
+ *  - feedback (DIRECTION): free-form chat about what's missing / where RolodexAI
+ *    should go — capped after a few exchanges, summary to the Investors room.
  *  - help: how to use the app.
  *  - situation (THE TASTE): work through a real postponed communication.
  *    The AI collects the 4 W's + critical context WITHOUT asking for the other
@@ -47,9 +48,9 @@ export class ChatWithRolodexModalComponent implements OnInit {
   private history: { role: 'user' | 'assistant'; content: string }[] = [];
   private userMessageCount = 0;
   private handedOff = false;
-  private readonly MIN_FEEDBACK_EXCHANGES = 2;
+  private readonly MIN_FEEDBACK_EXCHANGES = 4;
   private readonly MAX_HELP_EXCHANGES = 4;
-  private readonly MAX_TOTAL_EXCHANGES = 5;
+  private readonly MAX_TOTAL_EXCHANGES = 6;
   private readonly DEEPSEEK_URL = 'https://chat.deepseek.com/';
   private readonly GROK_URL = 'https://grok.com/';
   private engine = 'deepseek';
@@ -117,7 +118,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
         return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). IMPORTANT: do NOT ask for the other person's name, phone, email or number — the app will let them pick the person from their phone contacts later. Keep it to 1-2 sentences.`;
       case 'feedback':
       default:
-        return 'Please greet me warmly and ask what one thing about RolodexAI feels frustrating or missing. Keep it to 1-2 sentences.';
+        return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in RolodexAI, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
     }
   }
 
@@ -309,11 +310,11 @@ export class ChatWithRolodexModalComponent implements OnInit {
       ...this.history,
       {
         role: 'user',
-        content: 'Summarize the user\'s suggestion in one concise line shaped as: Frustration: ... — Direction: ...',
+        content: 'Summarize the user\'s direction for RolodexAI in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
       },
     ]);
     const userTexts = this.history.filter((m) => m.role === 'user').map((m) => m.content);
-    const summary = summaryRes.reply || `Frustration: ${userTexts[0] || ''} — Direction: ${userTexts[1] || userTexts[0] || ''}`;
+    const summary = summaryRes.reply || `Direction: ${userTexts[userTexts.length - 1] || ''} — Missing: ${userTexts[0] || ''} — Suggested next: ${userTexts[1] || userTexts[0] || ''}`;
 
     try {
       const res = await fetch(`${environment.rolodexApiBase}/feedback`, {

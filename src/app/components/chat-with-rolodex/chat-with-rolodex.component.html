@@ -24,8 +24,8 @@
         <p>No name or number needed — the Confidante gathers the context, then you pick the person from your phone, or copy and paste in any other app to send.</p>
       </ng-container>
       <ng-template #feedbackHelpBanner>
-        <strong>How can we make RolodexAI better for you?</strong>
-        <p>Or do you need help using RolodexAI? Choose below and the Confidante will take it from there.</p>
+        <strong>What direction should RolodexAI take?</strong>
+        <p>Speak freely — what's missing, what's wrong, what should we build next. Or choose help below.</p>
       </ng-template>
     </div>
   </div>
@@ -33,7 +33,7 @@
   <div class="mode-picker" *ngIf="!mode">
     <ion-button expand="block" fill="outline" color="success" (click)="chooseMode('feedback')">
       <ion-icon name="bulb-outline" slot="start"></ion-icon>
-      Give feedback / a suggestion
+      Direction / what's missing
     </ion-button>
     <ion-button expand="block" fill="outline" color="primary" (click)="chooseMode('help')">
       <ion-icon name="help-circle-outline" slot="start"></ion-icon>

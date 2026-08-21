@@ -486,13 +486,14 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
-  /** 2026-08-20 LOOP CHALLENGES (distribution): the RolodexAI icon opens the
-   *  same guided Confidante chat as the end of the Welcome demo — up to 5
-   *  failed/weak/delayed loops, one at a time. */
+  /** 2026-08-21 DIRECTION CHAT: the R icon opens the free-form "what's missing /
+   *  where should Rolodex go" chat — no guided loop script (that target is
+   *  already handled by the Welcome taste). It is capped after a few exchanges
+   *  and the summary lands in the investors' room so we learn app direction. */
   async openLoopChallenge(): Promise<void> {
     const modal = await this.modalController.create({
       component: ChatWithRolodexModalComponent,
-      componentProps: { startMode: 'situation' },
+      componentProps: { startMode: 'feedback' },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
       initialBreakpoint: 0.95,
