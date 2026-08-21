@@ -143,7 +143,7 @@ export class ShareAppService {
       }
       case 'casual':
       default:
-        return `I'm keeping my whole address book on OpenLoop now — it remembers why I know everyone and nudges me before I forget. Come keep your people close too. ${url}`;
+        return `I use OpenLoop for one thing: the people I keep meaning to text but don't. It turns "I should really reach out" into a two-minute send. One person at a time — no address-book takeover. ${url}`;
     }
   }
 
@@ -193,7 +193,7 @@ export class ShareAppService {
    *  share of OpenLoop itself — native share sheet first, clipboard fallback. */
   async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
     const url = 'https://zyppar.com/openloop/';
-    const text = `I'm keeping my whole address book on OpenLoop — it remembers why I know everyone and nudges me before I forget. Come keep your people close too. ${url}`;
+    const text = `OpenLoop is for the people you keep meaning to text — the ones you don't want to lose to "I should really reach out." One person at a time, no contact-list takeover. ${url}`;
     const nav: any = navigator;
     try {
       if (nav.share) {
