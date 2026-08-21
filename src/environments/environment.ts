@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // OpenLoop app version — compared against /api/updates/check
-  build: 43, // 2026-08-21 OPENLOOP REBRAND SWEEP: app name OpenLoop, api base /api/openloop, PWA path /openloop/, Confidante to Assistant/RolodexAI
+  build: 44, // 2026-08-21 AI Assistant front-facing (no RolodexAI); R icon reopens inline chat; Settings Make AI Assistant your own Coming Soon + curiosity counter; TTS timeout 12s + visible error toasts
 };
 
 /*

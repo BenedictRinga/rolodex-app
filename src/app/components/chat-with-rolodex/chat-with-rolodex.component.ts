@@ -322,7 +322,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           deviceId: this.rolodexSync.getDeviceId(),
-          deviceName: 'Chat with RolodexAI',
+          deviceName: 'Chat with AI Assistant',
           messages: userTexts,
           summary,
         }),

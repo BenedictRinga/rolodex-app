@@ -13,8 +13,8 @@
             <ion-button (click)="showAutoSortView()" appTooltip="Rolodex your Contacts">
               <ion-icon name="card-outline" class="fabcolor"></ion-icon>
             </ion-button> -->
-            <ion-button (click)="openLoopChallenge()" appTooltip="Assistant — talk to RolodexAI">
-              <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="Assistant" />
+            <ion-button (click)="onOpenAiChat()" appTooltip="AI Assistant — OpenLoop's AI working for you">
+              <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="AI Assistant" />
             </ion-button>
             <ion-button (click)="openCardSelect()" appTooltip="Card Display Options">
               <ion-icon name="grid-outline" class="fabcolor"></ion-icon>
@@ -293,7 +293,7 @@
         <ion-item lines="none" class="elegant-item" (click)="openRolodexChat()">
           <ion-icon name="chatbubbles-outline" slot="start" color="success"></ion-icon>
           <ion-label>
-            Chat with RolodexAI
+            Chat with AI Assistant
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Tell us how to make it better — free AI handoff</p>
           </ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
@@ -322,6 +322,14 @@
         <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
           <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>AI Assistant</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-08-21 MAKE AI ASSISTANT YOUR OWN: name + train your everyday Secretary.
+             Coming Soon — tap counter records curiosity so we know how much people want it. -->
+        <ion-item lines="none" class="elegant-item" (click)="makeAiAssistantYourOwn()">
+          <ion-icon name="person-add-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>Make AI Assistant your own</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 

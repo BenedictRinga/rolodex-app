@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { StorageService } from '../../services/storage/storage.service';
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
 import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
+import { AlertsService } from '../../services/alerts/alerts.service';
 import { Capacitor } from '@capacitor/core';
 import { environment } from '../../../environments/environment';
 
@@ -150,11 +151,14 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   private timer: ReturnType<typeof setTimeout> | null = null;
   /** null = not tried, true = /tts returned audio, false = 501 (use device TTS on tap only). */
   private backendTtsOk: boolean | null = null;
+  /** 2026-08-21: one visible notice per failed streak — no toast spam per slide. */
+  private ttsErrorNotified = false;
 
   constructor(private readonly modalController: ModalController,
     private readonly storageService: StorageService,
     private readonly playback: StudioPlaybackService,
     private readonly textsplitter: TextsplitterService,
+    private readonly alerts: AlertsService,
     ) {}
 
   get isFirst(): boolean {
@@ -275,6 +279,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
           this.backendTtsOk = false;
         } else if (r.ok) {
           this.backendTtsOk = true;
+          this.ttsErrorNotified = false;
           await this.playback.playBlob(await r.blob());
           return;
         } else {
@@ -284,6 +289,15 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
         this.backendTtsOk = false;
       }
     }
+    // 2026-08-21 VISIBLE TTS ERRORS: one toast per failed streak, then fall back
+    // to the device voice when the user already granted audio.
+    if (this.backendTtsOk === false && !this.ttsErrorNotified) {
+      this.ttsErrorNotified = true;
+      void this.alerts.showToast(
+        allowDeviceFallback ? 'Audio hiccup — trying device voice…' : 'Narration audio failed — tap Play to retry',
+        3500
+      );
+    }
     if (this.backendTtsOk === false && allowDeviceFallback) {
       await this.playback.speakDeviceFirst(text, 'en-US');
     }
@@ -291,9 +305,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   private async fetchTtsWithTimeout(text: string): Promise<Response> {
     const ctrl = new AbortController();
-    // 3s: enough for a local Qwen hit, short enough that a missing/unreachable
-    // backend doesn't leave mobile users in silence before the device fallback.
-    const timer = setTimeout(() => ctrl.abort(), 3000);
+    // 12s: Piper CPU synthesis is live now and can take a few seconds per chunk;
+    // short enough that a truly dead backend still hands over to device voice.
+    const timer = setTimeout(() => ctrl.abort(), 12000);
     try {
       return await fetch(`${environment.rolodexApiBase}/tts`, {
         method: 'POST',

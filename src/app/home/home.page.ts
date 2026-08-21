@@ -54,7 +54,7 @@ export class HomePage implements OnInit, OnDestroy {
   rolodexAiBusy = false;
   rolodexAiInput = '';
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
-    { from: 'assistant', text: 'Hello — I’m RolodexAI. Ask about a contact, a follow-up, or what to do next.' },
+    { from: 'assistant', text: 'Hello — I’m AI Assistant. Ask about a contact, a follow-up, or what to do next.' },
   ];
   /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
   headerLine = 'Where your contacts come alive...';
@@ -238,7 +238,7 @@ export class HomePage implements OnInit, OnDestroy {
         : 'Where your contacts come alive...';
     }, 6000);
     this.rolodexSync.welcome$.subscribe((msg) => {
-      void this.alertController.create({ header: 'RolodexAI', message: msg, buttons: ['OK'] }).then((a) => a.present());
+      void this.alertController.create({ header: 'AI Assistant', message: msg, buttons: ['OK'] }).then((a) => a.present());
     });
 
     // 2026-08-16 STORAGE LOCATION + demo room (persisted).
@@ -281,10 +281,10 @@ export class HomePage implements OnInit, OnDestroy {
       this.aiLive = s.onDevice || s.deepseekConfigured || s.grokConfigured;
       // 2026-08-18 per owner: the label beside the green glow is just
       // "RolodexAI" - no engine names, no second "live".
-      this.aiLiveLabel = 'RolodexAI';
+      this.aiLiveLabel = 'AI Assistant';
     } catch {
       this.aiLive = true; // on-device engine is always available
-      this.aiLiveLabel = 'RolodexAI';
+      this.aiLiveLabel = 'AI Assistant';
     }
   }
 
@@ -926,7 +926,7 @@ export class HomePage implements OnInit, OnDestroy {
       if (!noContext.length || noContext.length === this.aiNudgeShownFor) return;
       this.aiNudgeShownFor = noContext.length;
       const noun = noContext.length === 1 ? 'contact has' : 'contacts have';
-      void this.alertsService.showToast(`RolodexAI: ${noContext.length} ${noun} no context yet — open a card and add the 4 W's so I can draft for you.`, 6000);
+      void this.alertsService.showToast(`AI Assistant: ${noContext.length} ${noun} no context yet — open a card and add the 4 W's so I can draft for you.`, 6000);
     } catch { /* ignore */ }
   }
 
@@ -1081,10 +1081,10 @@ export class HomePage implements OnInit, OnDestroy {
         body: JSON.stringify({ engine, messages: history }),
       });
       const data = await res.json().catch(() => ({}));
-      const reply = String(data?.reply || 'RolodexAI could not reply right now — try again.');
+      const reply = String(data?.reply || 'AI Assistant could not reply right now — try again.');
       this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: reply };
     } catch {
-      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: 'RolodexAI could not reply right now — try again.' };
+      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: 'AI Assistant could not reply right now — try again.' };
     } finally {
       this.rolodexAiBusy = false;
     }
@@ -1094,10 +1094,15 @@ export class HomePage implements OnInit, OnDestroy {
   async copyRolodexAi(text: string): Promise<void> {
     try {
       await navigator.clipboard.writeText(text);
-      await this.alertsService.showToast('RolodexAI reply copied', 1800);
+      await this.alertsService.showToast('AI Assistant reply copied', 1800);
     } catch {
       await this.alertsService.showToast('Could not copy — select the text manually', 2500);
     }
+  }
+
+  /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
+  openRolodexAiChat(): void {
+    this.rolodexAiChatOpen = true;
   }
 
   /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,

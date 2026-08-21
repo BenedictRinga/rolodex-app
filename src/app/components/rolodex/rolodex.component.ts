@@ -127,6 +127,8 @@ export class RolodexComponent implements OnInit {
   @Output() openFaq = new EventEmitter<void>();
   @Output() helpNavigate = new EventEmitter<string>();
   @Output() showAbout = new EventEmitter<void>();
+  /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
+  @Output() openAiChat = new EventEmitter<void>();
 
   public RolodexView = RolodexView;
   currentView: string = RolodexView.Regular;
@@ -194,7 +196,7 @@ export class RolodexComponent implements OnInit {
     }
     const alert = await this.alertController.create({
       header: 'Assistant Voice',
-      message: 'Choose the voice RolodexAI uses for narration.',
+      message: 'Choose the voice AI Assistant uses for narration.',
       inputs: options.map((o) => ({
         type: 'radio' as const,
         label: o.label,
@@ -474,7 +476,7 @@ export class RolodexComponent implements OnInit {
     }
   }
 
-  /** 2026-08-19 CHAT WITH ROLODEXAI: the suggestion channel with the banner,
+  /** 2026-08-19 CHAT WITH AI ASSISTANT: the suggestion channel with the banner,
    *  minimum exchanges, and the free DeepSeek/Grok handoff. */
   async openRolodexChat(): Promise<void> {
     const modal = await this.modalController.create({
@@ -486,8 +488,27 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
+  /** 2026-08-21: header R icon re-opens the inline AI Assistant chat above the deck. */
+  onOpenAiChat(): void {
+    this.openAiChat.emit();
+  }
+
+  /** 2026-08-21 MAKE AI ASSISTANT YOUR OWN: Coming Soon + curiosity counter. */
+  async makeAiAssistantYourOwn(): Promise<void> {
+    const KEY = 'openloop_ai_own_counter';
+    let count = Number(await this.storageService.get<number>(KEY)) || 0;
+    count += 1;
+    await this.storageService.set(KEY, count);
+    const alert = await this.alertController.create({
+      header: 'Make AI Assistant your own',
+      message: `Coming Soon!!!\n\nName it and train it to work as your everyday Secretary.\n\nYou're #${count} to ask — we're counting the curiosity.`,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
   /** 2026-08-21 DIRECTION CHAT: the R icon opens the free-form "what's missing /
-   *  where should Rolodex go" chat — no guided loop script (that target is
+   *  where should OpenLoop go" chat — no guided loop script (that target is
    *  already handled by the Welcome taste). It is capped after a few exchanges
    *  and the summary lands in the investors' room so we learn app direction. */
   async openLoopChallenge(): Promise<void> {

@@ -10,7 +10,7 @@
       <div style="display:flex; align-items:center; gap:6px;">
         <ion-label style="font-size: 12px; color: #8b93b0;">{{ headerLine }}</ion-label>
         <span class="ai-live-dot" [class.live]="aiLive" title="AI status"></span>
-        <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">RolodexAI</span>
+        <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">AI Assistant</span>
       </div>
       <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
         <ion-segment-button value="device">Device</ion-segment-button>
@@ -32,7 +32,7 @@
        button as the counterweight to the send button. -->
   <div class="openloop-chat" *ngIf="rolodexAiChatOpen">
     <div class="openloop-chat-head">
-      <strong>RolodexAI</strong>
+      <strong>AI Assistant</strong>
       <span class="openloop-chat-hint">Ask anything — contacts, next steps, follow-ups</span>
       <ion-button fill="clear" size="small" (click)="rolodexAiChatOpen = false" appTooltip="Hide chat">
         <ion-icon name="chevron-up-outline"></ion-icon>
@@ -49,7 +49,7 @@
     <div class="openloop-chat-input">
       <ion-input
         [(ngModel)]="rolodexAiInput"
-        placeholder="Ask RolodexAI…"
+        placeholder="Ask AI Assistant…"
         (keyup.enter)="sendRolodexAi()"
         fill="outline"
         class="openloop-input"
@@ -114,6 +114,7 @@
     (openFaq)="openHelp()"
     (helpNavigate)="onHelpNavigate($event)"
     (showAbout)="onShowAbout()"
+    (openAiChat)="openRolodexAiChat()"
     (runAutomation)="runAutomation()"
     (syncConnect)="onSyncConnect($event)"
     (syncDisconnect)="onSyncDisconnect()"
