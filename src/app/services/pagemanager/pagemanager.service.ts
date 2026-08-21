@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { ContactInfo } from '../../models/contacts';
+import { StorageService } from '../storage/storage.service';
 
 // ---------------------------------------------------------------------------
 // View modes the Rolodex tab can be in
@@ -52,5 +53,19 @@ export class PagemanagerService {
     return contactCardModes[this.currentViewMode] ?? contactCardModes['default'];
   }
 
-  constructor() {}
+  /** 2026-08-21 PERSISTED VIEW: restore the last card view the user chose
+   *  (IndexedDB via StorageService — no localStorage) so the next launch opens
+   *  on the same view instead of default. */
+  constructor(private readonly storage: StorageService) {
+    void this.restoreViewMode();
+  }
+
+  private async restoreViewMode(): Promise<void> {
+    try {
+      const saved = await this.storage.get<string>('contact-cardViewMode');
+      if (saved && contactCardModes[saved]) {
+        this.currentViewMode = saved;
+      }
+    } catch { /* fresh profile → default view */ }
+  }
 }

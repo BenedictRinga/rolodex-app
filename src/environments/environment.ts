@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/rolodex', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // RolodexAI app version — compared against /api/updates/check
-  build: 39, // 2026-08-21 R icon on Confidante button; R icon opens free-form direction chat (feedback mode, capped+summary); situation/taste mode preserved
+  build: 40, // 2026-08-21 Persist last card view in IndexedDB (StorageService), restore on launch
 };
 
 /*
