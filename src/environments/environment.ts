@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 54, // 2026-08-22 LoopKeeper ShareApp modal (Zyppar-style branded share sheet); backend OG now LoopKeeper + loopkeeper tile, invite URLs /openloop
+  build: 55, // 2026-08-22 PNG OG brand assets (og-1200x630, icon PNGs, apple-touch) so WhatsApp unfurls LoopKeeper not Zyppar favicon; ShareApp link preview
 };
 
 /*
