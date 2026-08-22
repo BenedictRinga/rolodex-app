@@ -58,7 +58,7 @@ export class HomePage implements OnInit, OnDestroy {
    *  user taps the input, not only after the first send. */
   rolodexAiEngaged = false;
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
-    { from: 'assistant', text: 'Welcome back. Who do you owe?' },
+    { from: 'assistant', text: 'Hello — who\'s the one you keep meaning to text?' },
   ];
   /** 2026-08-19 HEADER: alternates with the live pulse + AI Assistant label. */
   headerLine = 'One loop at a time.';

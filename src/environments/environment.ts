@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 52, // 2026-08-22 full comms sweep: trial stated in welcome pricing, greeting undeferred (Who do you owe?), Assistant name in about/ai-settings, nudges not interventions
+  build: 53, // 2026-08-22 greeting softened: Hello - who is the one you keep meaning to text (Who do you owe rejected as aggressive)
 };
 
 /*
