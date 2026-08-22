@@ -50,12 +50,15 @@ export class HomePage implements OnInit, OnDestroy {
   selectedGroup: string = 'all';
   mockEnabled: boolean = true;
   loading: boolean = false;
-  /** 2026-08-21 OPENLOOP CHAT: RolodexAI above the deck — ask anything. */
+  /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
   rolodexAiBusy = false;
   rolodexAiInput = '';
+  /** 2026-08-22: instant engagement — the Assistant opens the loop as soon as the
+   *  user taps the input, not only after the first send. */
+  rolodexAiEngaged = false;
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
-    { from: 'assistant', text: 'Hello — I’m the AI Assistant. Ask about an open loop, a follow-up, what to say, or what to do next.' },
+    { from: 'assistant', text: 'Hello — Where is that open loop, that needs a follow-up, what to say, or what to do next?' },
   ];
   /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
   headerLine = 'Where your contacts come alive...';
@@ -329,13 +332,11 @@ export class HomePage implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: HelpModalComponent,
       cssClass: 'help-modal',
+      componentProps: {
+        onNavigate: (featureId: string) => this.onHelpNavigate(featureId),
+      },
     });
-    // 2026-08-19 FIX: the component instance only exists AFTER present() —
-    // subscribing before it meant every "Go" tap dismissed the modal and
-    // landed the user on their face with nothing happening.
     await modal.present();
-    const inst = modal.componentRef?.instance as HelpModalComponent | null;
-    inst?.navigate?.subscribe?.((featureId: string) => this.onHelpNavigate(featureId));
   }
 
   /** 2026-08-19 SEARCH: the FAB-launched search sheet over the real deck. */
@@ -1060,6 +1061,17 @@ export class HomePage implements OnInit, OnDestroy {
       updatedAt: now,
       preferences: { refreshContacts: false, notificationPreference: 'email' as const },
     } as any as ContactInfo;
+  }
+
+  /** 2026-08-22 INSTANT ENGAGEMENT: the moment the user taps to type, the
+   *  Assistant meets them with the next question — no dead air, no waiting. */
+  onAiInputFocus(): void {
+    if (this.rolodexAiEngaged) return;
+    this.rolodexAiEngaged = true;
+    this.rolodexAiMessages.push({
+      from: 'assistant',
+      text: 'Start with the one you keep meaning to text — who is it, and what is the loop?',
+    });
   }
 
   /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */

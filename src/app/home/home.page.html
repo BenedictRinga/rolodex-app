@@ -33,7 +33,6 @@
   <div class="openloop-chat" *ngIf="rolodexAiChatOpen">
     <div class="openloop-chat-head">
       <strong>AI Assistant</strong>
-      <span class="openloop-chat-hint">Ask anything — contacts, next steps, follow-ups</span>
       <ion-button fill="clear" size="small" (click)="rolodexAiChatOpen = false" appTooltip="Hide chat">
         <ion-icon name="chevron-up-outline"></ion-icon>
       </ion-button>
@@ -49,7 +48,8 @@
     <div class="openloop-chat-input">
       <ion-input
         [(ngModel)]="rolodexAiInput"
-        placeholder="Ask AI Assistant…"
+        placeholder="Where is that open loop?"
+        (ionFocus)="onAiInputFocus()"
         (keyup.enter)="sendRolodexAi()"
         fill="outline"
         class="openloop-input"

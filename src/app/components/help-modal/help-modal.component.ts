@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 export interface HelpFeature {
@@ -49,6 +49,9 @@ export interface HelpFeature {
 })
 export class HelpModalComponent {
   @Output() navigate = new EventEmitter<string>();
+  /** 2026-08-22 ROBUST NAVIGATION: a direct callback avoids the modal-instance
+   *  EventEmitter subscription that silently failed in production/AOT builds. */
+  @Input() onNavigate?: (featureId: string) => void;
 
   groups: { label: string; features: HelpFeature[] }[] = [
     {
@@ -97,6 +100,7 @@ export class HelpModalComponent {
 
   go(f: HelpFeature): void {
     this.navigate.emit(f.id);
+    this.onNavigate?.(f.id);
     void this.modalCtrl.dismiss();
   }
 

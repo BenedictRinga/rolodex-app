@@ -16,46 +16,50 @@ app-rolodex {
   overflow: hidden;
 }
 
-/* 2026-08-21 OPENLOOP CHAT: RolodexAI above the deck, always know what to ask. */
+/* 2026-08-22 OPENLOOP CHAT: a proper assistant conversation, not an SMS slit —
+   the first face of interaction once engaged. */
 .openloop-chat {
   flex-shrink: 0;
-  border-bottom: 1px solid var(--rolodex-border, #333);
+  display: flex;
+  flex-direction: column;
+  max-height: 52vh;
+  margin: 8px 10px 0;
+  border-radius: 16px;
+  border: 1px solid var(--rolodex-border, #333);
   background: var(--rolodex-surface, #111827);
-  padding: 8px 10px 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
 }
 
 .openloop-chat-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  font-size: 13px;
+  padding: 10px 12px 8px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--rolodex-primary, #4f6df5);
-}
-
-.openloop-chat-hint {
-  flex: 1;
-  min-width: 0;
-  font-size: 10px;
-  color: var(--rolodex-text-secondary, #8b93b0);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--rolodex-border-light, #2a2f3a);
 }
 
 .openloop-chat-thread {
-  max-height: 160px;
+  flex: 1;
+  min-height: 140px;
+  max-height: 36vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin: 8px 0;
+  gap: 8px;
+  padding: 12px;
+  scrollbar-width: thin;
 }
 
 .openloop-msg {
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  max-width: 92%;
+  max-width: 88%;
 }
 
 .openloop-msg.user {
@@ -64,12 +68,13 @@ app-rolodex {
 }
 
 .openloop-bubble {
-  padding: 7px 10px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
   background: var(--rolodex-surface-alt, #1f2937);
   color: var(--rolodex-text, #e5e7eb);
-  font-size: 12.5px;
-  line-height: 1.45;
+  font-size: 13px;
+  line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -77,6 +82,8 @@ app-rolodex {
 .openloop-msg.user .openloop-bubble {
   background: var(--rolodex-primary, #4f6df5);
   color: #fff;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 4px;
 }
 
 .openloop-copy {
@@ -89,13 +96,16 @@ app-rolodex {
 .openloop-chat-input {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--rolodex-border-light, #2a2f3a);
 }
 
 .openloop-input {
-  --padding-top: 4px;
-  --padding-bottom: 4px;
-  font-size: 12.5px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  font-size: 13.5px;
+  border-radius: 12px;
 }
 
 /* 2026-08-16: compact storage header for mobile — smaller segment + button fonts. */

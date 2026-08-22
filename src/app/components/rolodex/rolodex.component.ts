@@ -264,20 +264,19 @@ export class RolodexComponent implements OnInit {
     setTimeout(() => this.scrollTo(id), 300);
   }
 
-  /** 2026-08-21 FAQ & HELP: opens the modal DIRECTLY from Settings (the old
-   *  event hop to HomePage let Settings close and nothing appear on some
-   *  PWA builds). "Go" taps bubble up through helpNavigate for real demos. */
+  /** 2026-08-22 FAQ & HELP: opens the modal DIRECTLY from Settings and passes a
+   *  direct onNavigate callback — no modal-instance EventEmitter subscription,
+   *  so every "Go" button reliably reaches HomePage's demo handler. */
   async openFaqHelp(): Promise<void> {
     try {
       const modal = await this.modalController.create({
         component: HelpModalComponent,
         cssClass: 'help-modal',
+        componentProps: {
+          onNavigate: (featureId: string) => this.helpNavigate.emit(featureId),
+        },
       });
       await modal.present();
-      const inst = modal.componentRef?.instance as HelpModalComponent | null;
-      inst?.navigate?.subscribe?.((featureId: string) => {
-        this.helpNavigate.emit(featureId);
-      });
     } catch {
       await this.alertService.showToast('Could not open FAQ — try again', 2500);
     }

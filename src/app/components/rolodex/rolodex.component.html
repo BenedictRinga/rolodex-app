@@ -4,7 +4,7 @@
     <ng-container *ngSwitchCase="RolodexView.Regular">
       <ion-list class="seriescontact">
         <ion-list-header>
-          <ion-label class="fabcolor rolodex-view-label" (click)="openCardSelect()">My Rolodex: {{ pageManager.upperCardMode }}
+          <ion-label class="fabcolor rolodex-view-label" (click)="openCardSelect()">My OpenLoop: {{ pageManager.upperCardMode }}
             view</ion-label>
           <ion-buttons>
             <!-- <ion-button (click)="openPods()" appTooltip="Pods — group threads">
@@ -289,7 +289,7 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
-        <!-- 2026-08-19 CHAT WITH ROLODEXAI: the suggestion/help channel. -->
+        <!-- 2026-08-19 CHAT WITH OPENLOOP: the suggestion/help channel. -->
         <ion-item lines="none" class="elegant-item" (click)="openRolodexChat()">
           <ion-icon name="chatbubbles-outline" slot="start" color="success"></ion-icon>
           <ion-label>
@@ -305,7 +305,7 @@
           <ion-label>
             App lock
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open Rolodex' }}
+              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open the Loop' }}
             </p>
           </ion-label>
           <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>
@@ -356,7 +356,7 @@
         <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
         <ion-item lines="none" class="elegant-item" (click)="openAbout()">
           <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>About Rolodex</ion-label>
+          <ion-label>About OpenLoop</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
@@ -377,7 +377,7 @@
           <ion-button slot="end" fill="clear">Choose</ion-button>
         </ion-item>
 
-        <!-- 2026-08-19 INSTALL ROLODEXAI: PWA now, Play/App Store INCOMING. -->
+        <!-- 2026-08-19 INSTALL OPENLOOP: PWA now, Play/App Store INCOMING. -->
         <ion-item-divider>
           <ion-label color="medium">Install OpenLoop</ion-label>
         </ion-item-divider>
@@ -406,7 +406,7 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
-        <!-- 2026-08-19 SHARE ROLODEXAI: the standard share sheet. -->
+        <!-- 2026-08-19 SHARE OPENLOOP: the standard share sheet. -->
         <ion-item lines="none" class="elegant-item" (click)="shareApp()">
           <ion-icon name="share-social-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
@@ -488,7 +488,7 @@
           <ion-label>
             {{ syncHasPassphrase ? 'Passphrase set' : 'Set encryption passphrase' }}
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              Encrypts your Rolodex bundle before it leaves the device — required before connecting a cloud provider.
+              Encrypts your OpenLoop bundle before it leaves the device — required before connecting a cloud provider.
             </p>
           </ion-label>
           <ion-button slot="end" fill="clear" (click)="syncSetPassphrase.emit()">

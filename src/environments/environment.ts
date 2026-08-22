@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // OpenLoop app version — compared against /api/updates/check
-  build: 47, // 2026-08-22 Approved positioning copy across welcome/about/billing/help/toasts/update/invite; AssistantCardService on-device card update after sends (Rolodex that remembers)
+  build: 48, // 2026-08-22 Proper AI chat window (rich thread, instant engagement on input focus, new greeting); FAQ Go buttons via direct onNavigate callback (fixes demos closing with no action)
 };
 
 /*
