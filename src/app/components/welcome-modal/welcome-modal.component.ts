@@ -50,15 +50,15 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'intro',
       kicker: 'Karibu sana!',
-      title: 'OpenLoop — your contacts, in motion',
-      copy: 'The rolodex that closes the tiny loops: flip a card, keep in touch, and let the confidential secretary do the hard 90%.',
+      title: 'OpenLoop — close the loop you keep meaning to close',
+      copy: 'The rolodex that closes the tiny loops: start with the few who matter most — add more, as you close the current. The Assistant does the hard 90%.',
       surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
     },
     {
       id: 'card',
       kicker: '01 · The card',
       title: 'The card is everything',
-      copy: 'Every person is a card. Tap it and it flips — chat, call, email, reminders and the Assistant live right there on the person.',
+      copy: 'Every person you keep meaning to reach is a card. Tap it — chat, call, email, reminders and the Assistant live right there on the person. Start with the few who matter most; add more as you close the current.',
     },
     {
       id: 'loopmotto',
@@ -89,7 +89,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '06 · The confidante',
       title: 'The AI drafts — you hit Send',
-      copy: 'The confidential secretary digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine OpenLoop uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
+      copy: 'The Assistant digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine OpenLoop uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
@@ -100,26 +100,26 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'storage',
       kicker: '08 · Your data',
-      title: 'Where your contacts live',
+      title: 'Where your essentials live',
       copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — your trust level, your choice. OpenLoop Server mode links your devices live.',
     },
     {
       id: 'pricing',
       kicker: '09 · The tiers',
       title: 'Basic $1 · Assistant $5',
-      copy: 'Basic gives you the Assistant — 5 AI interventions a month, a taste. Assistant lets the AI work all month. Billing lives in Settings.',
+      copy: 'Basic gives you the Assistant — 5 interventions a month, a taste. Assistant works all month — every open loop gets caught. Billing lives in Settings.',
     },
     {
       id: 'outro',
       kicker: 'You\u2019re set',
       title: 'That\u2019s the tour — it\u2019s all live',
-      copy: 'You never forget again. You never delay again. You never postpone again. Tap through the app, or replay this demo any time from Settings → Welcome Again.',
+      copy: "One less 'I keep meaning to.' Then another. After every send, the Assistant updates the card for next time — like a Rolodex that remembers. Tap through the app, or replay this demo any time from Settings → Welcome Again.",
     },
     {
       id: 'taste',
       kicker: 'The surprise',
       title: 'Let us solve a real LOOP problem — right now',
-      copy: 'Pick three of your most difficult, postponed communications. We work through the first one, together. We compose the message, and once ready, you send.',
+      copy: 'Pick the first person you keep meaning to text. We work through that one, together. We compose the message, and once ready, you send.',
     },
   ];
 

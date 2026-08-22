@@ -54,7 +54,7 @@ export class HelpModalComponent {
     {
       label: 'Contact management',
       features: [
-        { id: 'cards', title: 'The Rolodex cards', guide: 'Flip a card to see every detail — phones, emails, addresses, socials, notes, tags and groups. Tap Call, Email or Map to act on the spot.', goLabel: 'Flip a card' },
+        { id: 'cards', title: 'The cards', guide: 'Flip a card to see every detail — phones, emails, addresses, socials, notes, tags and groups. Tap Call, Email or Map to act on the spot.', goLabel: 'Flip a card' },
         { id: 'search', title: 'Find anyone instantly', guide: 'Search any contact, or browse by alphabetical groups — Family, Business, Friends.', goLabel: 'Search' },
         { id: 'merge', title: 'One person, one card', guide: 'Duplicates merge automatically — no more scattered entries for the same person.', goLabel: 'Merge' },
       ],
@@ -69,9 +69,9 @@ export class HelpModalComponent {
       ],
     },
     {
-      label: 'Your data, your choice',
+      label: 'Your essentials, your choice',
       features: [
-        { id: 'storage', title: 'Where contacts live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
+        { id: 'storage', title: 'Where your essentials live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
         { id: 'sync', title: 'Cloud sync', guide: 'Encrypted push/pull to the cloud provider of your choice, with a passphrase.', goLabel: 'Sync' },
       ],
     },

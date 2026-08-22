@@ -423,7 +423,7 @@ export class RolodexComponent implements OnInit {
   async presentUpdatePrompt(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Update available',
-      message: `OpenLoop v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. Your OpenLoop and device contacts are all safe during app updates.`,
+      message: `OpenLoop v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. This update replaces app code only. Your cards stay on this device, untouched.`,
       buttons: [
         { text: 'Later', role: 'cancel' },
         { text: 'Update now', handler: () => { this.applyUpdate(); } },

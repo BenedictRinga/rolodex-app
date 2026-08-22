@@ -9,6 +9,7 @@ import { StudioPlaybackService } from '../../services/studio-playback/studio-pla
 import { StudioAudioBridgeService } from '../../services/studio-bridge/studio-bridge.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
+import { AssistantCardService } from '../../services/assistant-card/assistant-card.service';
 
 interface ComposerMsg {
   role: 'user' | 'ai';
@@ -126,6 +127,7 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
     private readonly cardChat: CardChatService,
     private readonly studioPlayback: StudioPlaybackService,
     private readonly studioBridge: StudioAudioBridgeService,
+    private readonly assistantCard: AssistantCardService,
   ) {}
 
   get firstPhone(): string {
@@ -175,16 +177,19 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
   async sendSms(): Promise<void> {
     if (!this.firstPhone || !this.draft) return;
     await this.shareApp.shareViaSms('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstPhone);
+    this.assistantCard.push(this.contact?.contactId, 'SMS', this.draft);
   }
 
   async sendEmail(): Promise<void> {
     if (!this.firstEmail || !this.draft) return;
     await this.shareApp.shareViaEmail('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstEmail);
+    this.assistantCard.push(this.contact?.contactId, 'Email', this.draft);
   }
 
   async sendWhatsApp(): Promise<void> {
     if (!this.firstPhone || !this.draft) return;
     await this.shareApp.shareViaWhatsApp('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstPhone);
+    this.assistantCard.push(this.contact?.contactId, 'WhatsApp', this.draft);
   }
 
   async sendInAppChat(): Promise<void> {
@@ -199,6 +204,7 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
         keyboardClose: false,
       });
       await modal.present();
+      this.assistantCard.push(this.contact?.contactId, 'in-app chat', this.draft);
     } catch {
       void this.alertsService.showToast('Could not open the chat thread', 2500);
     }

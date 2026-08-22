@@ -27,6 +27,7 @@ import { DraftEngineService } from '../services/draft-engine/draft-engine.servic
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
+import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -110,6 +111,7 @@ export class HomePage implements OnInit, OnDestroy {
     private cardChat: CardChatService,
     private readonly storageService: StorageService,
     private readonly security: SecurityService,
+    private readonly assistantCard: AssistantCardService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -225,6 +227,8 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
     void this.presentWelcome();
+    // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
+    this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
     // Wire passphrase prompt callback for CloudSyncService
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();
@@ -829,7 +833,7 @@ export class HomePage implements OnInit, OnDestroy {
       : [contact, ...this.contacts];
     void this.persistContacts(this.contacts);
     this.rolodexSync.push(this.contacts);
-    void this.alertsService.showToast('Contact updated', 1800);
+    void this.alertsService.showToast('Card updated — loop intact.', 1800);
   }
 
   async onRemoveContact(contact: ContactInfo) {
@@ -1105,6 +1109,32 @@ export class HomePage implements OnInit, OnDestroy {
     this.rolodexAiChatOpen = true;
   }
 
+  /** 2026-08-22 THE ROLODEX THAT REMEMBERS: after any send, update the card on
+   *  device so next time is easier — no user effort, no server round-trip. */
+  private applyAssistantCardUpdate(ev: AssistantCardUpdate): void {
+    const idx = this.contacts.findIndex((c) => c.contactId === ev.contactId);
+    if (idx < 0) return;
+    const now = new Date();
+    const old = this.contacts[idx];
+    const updated: any = {
+      ...old,
+      rolodex: { ...(old.rolodex || {}) },
+      lastInteraction: now,
+      updatedAt: now,
+      nextInteraction: new Date(now.getTime() + 7 * 86400000),
+    };
+    updated.rolodex.when = now.toISOString().slice(0, 10);
+    updated.rolodex.outcome = 'Message sent via ' + ev.medium;
+    updated.rolodex.followUp = updated.rolodex.followUp || 'Waiting for reply — nudge if silence.';
+    if (ev.text) {
+      const tidbits = Array.isArray(updated.rolodex.personalTidbits) ? updated.rolodex.personalTidbits : [];
+      updated.rolodex.personalTidbits = [ev.text.slice(0, 140), ...tidbits].slice(0, 3);
+    }
+    this.contacts = this.contacts.map((c, i) => (i === idx ? updated : c));
+    this.onContactsChange(this.contacts);
+    void this.alertsService.showToast('Card updated for next time', 1600);
+  }
+
   /** The Contact Picker API (navigator.contacts) - browser-level, consent-based,
    *  exactly how Teams/Zoom handle contacts on the web. One-by-one picking. */
   /**
@@ -1246,7 +1276,7 @@ export class HomePage implements OnInit, OnDestroy {
   async addFromPhoneContacts(): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
-      void this.alertsService.showToast('Contact picking needs Android Chrome — the app (Play Store) has full contact sync.', 5000);
+      void this.alertsService.showToast('Pick from your phone on Android Chrome — or add the one person manually.', 5000);
       return;
     }
     try {
