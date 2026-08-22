@@ -55,10 +55,10 @@ export class HelpModalComponent {
 
   groups: { label: string; features: HelpFeature[] }[] = [
     {
-      label: 'Contact management',
+      label: 'Your people',
       features: [
         { id: 'cards', title: 'The cards', guide: 'Flip a card to see every detail — phones, emails, addresses, socials, notes, tags and groups. Tap Call, Email or Map to act on the spot.', goLabel: 'Flip a card' },
-        { id: 'search', title: 'Find anyone instantly', guide: 'Search any contact, or browse by alphabetical groups — Family, Business, Friends.', goLabel: 'Search' },
+        { id: 'search', title: 'Find the person you owe', guide: 'Search a person, or browse by alphabetical groups — Family, Business, Friends.', goLabel: 'Search' },
         { id: 'merge', title: 'One person, one card', guide: 'Duplicates merge automatically — no more scattered entries for the same person.', goLabel: 'Merge' },
       ],
     },
@@ -67,7 +67,7 @@ export class HelpModalComponent {
       features: [
         { id: 'overdue', title: 'Follow-up engine', guide: 'Each contact carries a frequency and priority. The engine schedules check-ins and surfaces who you owe a reply — the small loops everyone avoids, caught before they go cold.', goLabel: 'See overdue' },
         { id: 'birthdays', title: 'Birthday reminders', guide: 'Upcoming birthdays are flagged and one tap drops them into your calendar.', goLabel: 'Birthdays' },
-        { id: 'health', title: 'Relationship health', guide: 'Every contact gets a health score from how often you keep in touch — the dormant ones are called out so no one falls off.', goLabel: 'Scores' },
+        { id: 'health', title: 'Who went quiet', guide: 'The person who has gone quiet longest is surfaced first — start there.', goLabel: 'See who' },
         { id: 'reminders', title: 'Card reminders', guide: 'Set a reminder right on a card — a note and a date — and it lives with the person.', goLabel: 'Set one' },
       ],
     },

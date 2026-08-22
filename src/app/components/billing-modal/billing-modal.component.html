@@ -31,7 +31,7 @@
   </ion-item>
 
   <!-- 2026-08-17 FREE TRIAL: 7 days of the Assistant, counting down. -->
-  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — the Assistant, free.</div>
+  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — free until your first loops close.</div>
   <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Assistant ($5, the agent). -->
   <div class="plan-card" [class.plan-featured]="plan === 'confidante'">
     <div class="plan-name">Basic</div>
@@ -39,7 +39,7 @@
     <ul class="plan-features">
       <li>The essentials: cards for the people who matter, follow-ups, and one good nudge</li>
       <li>Sync (cloud / LoopKeeper server), pods, in-app chat</li>
-      <li><strong>Assistant:</strong> 5 AI interventions a month — a taste of the Assistant</li>
+      <li><strong>Assistant:</strong> five nudges a month — enough to clear what's owed</li>
     </ul>
     <ion-button expand="block" fill="outline" (click)="subscribe('basic')" [disabled]="busy">
       {{ busyPlan === 'basic' ? 'Opening checkout…' : 'Subscribe — $1/month' }}

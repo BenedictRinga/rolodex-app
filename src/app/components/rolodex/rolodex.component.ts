@@ -500,7 +500,7 @@ export class RolodexComponent implements OnInit {
     await this.storageService.set(KEY, count);
     const alert = await this.alertController.create({
       header: 'Make AI Assistant your own',
-      message: `Coming Soon!!!\n\nName it and train it to work as your everyday Secretary.\n\nYou're #${count} to ask — we're counting the curiosity.`,
+      message: `Coming soon.\n\nName it and train it to work as your everyday Secretary.`,
       buttons: ['OK'],
     });
     await alert.present();
@@ -700,11 +700,11 @@ export class RolodexComponent implements OnInit {
       // install the app (native contacts + auto-sort) or run the pipeline on
       // the sample contacts (the automation engine works fully on mock data).
       const action = await this.alertService.presentActionSheet({
-        header: 'Auto-sort your contacts',
-        message: 'Full device contacts + the auto-sort engine live in the installed app (Android/iOS). On the web you can run the same engine on the sample contacts — or install the app for your real ones.',
+        header: 'Sort my few cards',
+        message: 'Tidy the cards you actually use. The engine runs here on sample cards — or install the app to run it on your own.',
         buttons: [
-          { text: 'Install the app (real contacts)', role: 'install', icon: 'download-outline' },
-          { text: 'Run on sample contacts', role: 'sample', icon: 'people-outline' },
+          { text: 'Install the app (my cards)', role: 'install', icon: 'download-outline' },
+          { text: 'Run on sample cards', role: 'sample', icon: 'people-outline' },
           { text: 'Cancel', role: 'cancel', icon: 'close-outline' },
         ],
       });

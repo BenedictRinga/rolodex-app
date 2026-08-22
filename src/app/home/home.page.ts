@@ -60,8 +60,8 @@ export class HomePage implements OnInit, OnDestroy {
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
     { from: 'assistant', text: 'Hello — Where is that open loop, that needs a follow-up, what to say, or what to do next?' },
   ];
-  /** 2026-08-19 HEADER: alternates with the live pulse + RolodexAI label. */
-  headerLine = 'Where your contacts come alive...';
+  /** 2026-08-19 HEADER: alternates with the live pulse + AI Assistant label. */
+  headerLine = 'One loop at a time.';
   private headerTimer: ReturnType<typeof setInterval> | null = null;
   groups: { id: string; name: string }[] = [
     { id: 'all', name: 'All Contacts' },
@@ -238,11 +238,11 @@ export class HomePage implements OnInit, OnDestroy {
 
     // 2026-08-18 AI LIVE LIGHT + THE AGENT SPEAKS FIRST.
     void this.refreshAiStatus();
-    // 2026-08-19 HEADER: "Where your contacts come alive..." ↔ "Always staying in touch…"
+    // 2026-08-19 HEADER: "One loop at a time." ↔ "Close the loop."
     this.headerTimer = setInterval(() => {
-      this.headerLine = this.headerLine === 'Where your contacts come alive...'
-        ? 'Always staying in touch…'
-        : 'Where your contacts come alive...';
+      this.headerLine = this.headerLine === 'One loop at a time.'
+        ? 'Close the loop.'
+        : 'One loop at a time.';
     }, 6000);
     this.rolodexSync.welcome$.subscribe((msg) => {
       void this.alertController.create({ header: 'AI Assistant', message: msg, buttons: ['OK'] }).then((a) => a.present());
@@ -981,8 +981,8 @@ export class HomePage implements OnInit, OnDestroy {
       header: 'Add Contacts',
       message: 'How do you want to bring the contact in?',
       buttons: [
-        { text: 'FROM MY PHONE CONTACTS', handler: () => { void this.addFromPhoneContacts(); } },
-        { text: 'WILL PUT IT MYSELF', handler: () => { void this.openManualContactEntry(); } },
+        { text: 'Pick from my phone', handler: () => { void this.addFromPhoneContacts(); } },
+        { text: "I'll type one in", handler: () => { void this.openManualContactEntry(); } },
         { text: 'CANCEL', role: 'cancel' },
       ],
     });

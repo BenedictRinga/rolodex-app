@@ -124,9 +124,9 @@ export class ShareAppService {
       case 'chat-message':
         return `${from} sent you a message on LoopKeeper${quote}. It's waiting on your card — tap to open it. ${url}`;
       case 'first-meeting':
-        return `${from} sent you a first-meeting note on LoopKeeper${quote}. It was lovely meeting you — the note is waiting on your card. ${url}`;
+        return `Hey${to ? ' ' + to : ''} — good meeting you today. I'm bad at following up, so I set myself a reminder — this is it. Let's keep in touch. ${url}`;
       case 'birthday':
-        return `${from} sent you birthday wishes on LoopKeeper${to ? ' ' + to : ''}${quote}. Your card is ready. ${url}`;
+        return `Happy birthday${to ? ', ' + to : ''}! I'd have meant to text you anyway — glad the reminder beat me to it. ${url}`;
       case 'anniversary':
         return `${from} sent you a note on this anniversary${quote}. It's waiting on your LoopKeeper card. ${url}`;
       case 'milestone':
@@ -134,7 +134,7 @@ export class ShareAppService {
       case 'congratulations':
         return `${from} sent you congratulations on LoopKeeper${quote}. Your card is ready. ${url}`;
       case 'follow-up':
-        return `${from} checked in on LoopKeeper${quote}. It's waiting on your card. ${url}`;
+        return `Hi${to ? ' ' + to : ''} — checking in like I promised myself I would. No agenda. What's new with you? ${url}`;
       case 'appointment': {
         const title = ctx.title || inv.title || 'An appointment';
         const whenRaw = ctx.when || inv.when || '';
@@ -143,7 +143,7 @@ export class ShareAppService {
       }
       case 'casual':
       default:
-        return `I use LoopKeeper for one thing: the people I keep meaning to text but don't. It turns "I should really reach out" into a two-minute send. One person at a time — no address-book takeover. ${url}`;
+        return `Hey${to ? ' ' + to : ''} — I've been meaning to text you for weeks, so I finally did. That's the whole message. How've you been? ${url}`;
     }
   }
 
@@ -193,7 +193,7 @@ export class ShareAppService {
    *  share of LoopKeeper itself — native share sheet first, clipboard fallback. */
   async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
     const url = 'https://zyppar.com/openloop/';
-    const text = `LoopKeeper is for the people you keep meaning to text — the ones you don't want to lose to "I should really reach out." One person at a time, no contact-list takeover. ${url}`;
+    const text = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: ${url}`;
     const nav: any = navigator;
     try {
       if (nav.share) {
