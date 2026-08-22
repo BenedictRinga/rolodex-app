@@ -72,7 +72,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>The app's home</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            LoopKeeper lives at zyppar.com/openloop/ — bookmark that exact address.
+            LoopKeeper lives at zyppar.com/loopkeeper/ — bookmark that exact address.
           </p>
         </ion-label>
       </ion-item>

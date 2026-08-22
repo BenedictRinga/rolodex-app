@@ -44,7 +44,7 @@ export class SocketChatService implements OnDestroy {
     } catch {
       /* ignore */
     }
-    const base = environment.rolodexApiBase.replace(/\/api\/rolodex$/, '');
+    const base = environment.rolodexApiBase.replace(/\/api\/(rolodex|openloop)$/, '');
     // 2026-08-16: /socket-rolodex/ - Zyppar's socket owns /socket.io on this
     // droplet; a shared path would clash.
     this.socket = io(base, {

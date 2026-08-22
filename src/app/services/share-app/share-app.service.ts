@@ -192,7 +192,7 @@ export class ShareAppService {
   /** 2026-08-19 STANDARD SHARE APP (Settings): the plain, always-appropriate
    *  share of LoopKeeper itself — native share sheet first, clipboard fallback. */
   async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
-    const url = 'https://zyppar.com/openloop/';
+    const url = 'https://zyppar.com/loopkeeper/';
     const text = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: ${url}`;
     const nav: any = navigator;
     try {

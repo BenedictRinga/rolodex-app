@@ -83,7 +83,7 @@ export class HelpModalComponent {
       features: [
         { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. The clean reset is to clear LoopKeeper\'s app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. Contacts already synced to the LoopKeeper Server / cloud come back after you sign in again.' },
         { id: 'faq-passphrase', title: 'I forgot my sync passphrase', guide: 'The passphrase is never stored anywhere, so the old cloud bundle cannot be decrypted without it. Set a new passphrase to start a fresh encrypted bundle; the previous bundle stays unrecoverable by design.' },
-        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'The PWA lives at zyppar.com/openloop/ — bookmark that exact URL, not the bare zyppar.com home.' },
+        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'The PWA lives at zyppar.com/loopkeeper/ — bookmark that exact URL, not the bare zyppar.com home.' },
       ],
     },
     {

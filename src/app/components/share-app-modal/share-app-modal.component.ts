@@ -7,7 +7,7 @@ import { LinkPreviewService, LinkPreview } from '../../services/link-preview/lin
  * 2026-08-22 LOOPKEEPER SHAREAPP — the branded share sheet, modeled on
  * Zyppar's ShareApp component. Shows the loop mark + wedge + link, then
  * hands the user a platform choice. The preview URL always carries
- * https://zyppar.com/openloop/ so the OG card reads LoopKeeper, never
+ * https://zyppar.com/loopkeeper/ so the OG card reads LoopKeeper, never
  * the old /rolodex + R-icon combo.
  */
 @Component({
@@ -16,8 +16,8 @@ import { LinkPreviewService, LinkPreview } from '../../services/link-preview/lin
   styleUrls: ['./share-app-modal.component.scss'],
 })
 export class ShareAppModalComponent implements OnInit {
-  readonly shareUrl = 'https://zyppar.com/openloop/';
-  readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/openloop/`;
+  readonly shareUrl = 'https://zyppar.com/loopkeeper/';
+  readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/`;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
   preview: LinkPreview | null = null;
 
