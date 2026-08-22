@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 58, // 2026-08-22 legacy rebrand sweep: invite landing "LoopKeeper card", billing server name, Play Store id com.zyppar.openloop
+  build: 59, // 2026-08-22 About LoopKeeper refined (wedge to Rolodex to Why it exists) + vivid Rolodex SVG (card writes back, LoopKeeper palette)
 };
 
 /*
