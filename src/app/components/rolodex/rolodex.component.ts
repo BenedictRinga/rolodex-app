@@ -27,6 +27,7 @@ import { TimeNormalizerService } from '../../services/time-normalizer/time-norma
 import { ShareAppService } from '../../services/share-app/share-app.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
+import { ShareAppModalComponent } from '../share-app-modal/share-app-modal.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -464,15 +465,14 @@ export class RolodexComponent implements OnInit {
     void this.alertService.showToast('App Store — incoming', 2500);
   }
 
-  /** 2026-08-19 SHARE APP: the standard native share sheet (clipboard fallback). */
+  /** 2026-08-22 SHARE APP: opens the branded LoopKeeper ShareApp sheet
+   *  (loop mark + wedge + platform buttons), modeled on Zyppar's ShareApp. */
   async shareApp(): Promise<void> {
-    const result = await this.shareAppService.shareAppStandard();
-    if (result === 'shared') return;
-    if (result === 'copied') {
-      void this.alertService.showToast('LoopKeeper link copied — paste it anywhere', 2500);
-    } else {
-      void this.alertService.showToast('Sharing is not available on this browser', 2500);
-    }
+    const modal = await this.modalController.create({
+      component: ShareAppModalComponent,
+      cssClass: 'share-app-modal',
+    });
+    await modal.present();
   }
 
   /** 2026-08-19 CHAT WITH AI ASSISTANT: the suggestion channel with the banner,

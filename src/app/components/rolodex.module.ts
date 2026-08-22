@@ -21,6 +21,7 @@ import { LinkPreviewComponent } from './link-preview/link-preview.component';
 import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rolodex.component';
 import { SearchModalComponent } from './search-modal/search-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { HelpModalComponent } from './help-modal/help-modal.component';
     ChatWithRolodexModalComponent,
     SearchModalComponent,
     HelpModalComponent,
+    ShareAppModalComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,44 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title style="font-size: 15px;">Share LoopKeeper</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="share-body">
+  <div class="share-preview">
+    <img class="share-logo" [src]="shareImage" alt="LoopKeeper" />
+    <div class="share-word">LoopKeeper</div>
+    <div class="share-wedge">Close the loop you keep meaning to close.</div>
+    <div class="share-link">{{ shareUrl }}</div>
+  </div>
+
+  <div class="share-message">{{ shareText }}</div>
+
+  <div class="share-actions">
+    <ion-button expand="block" color="success" (click)="whatsapp()">
+      <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+      WhatsApp
+    </ion-button>
+    <ion-button expand="block" color="primary" (click)="email()">
+      <ion-icon slot="start" name="mail-outline"></ion-icon>
+      Email
+    </ion-button>
+    <ion-button expand="block" color="medium" (click)="sms()">
+      <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
+      SMS
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="copy()">
+      <ion-icon slot="start" name="copy-outline"></ion-icon>
+      Copy link
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="native()">
+      <ion-icon slot="start" name="share-social-outline"></ion-icon>
+      More…
+    </ion-button>
+  </div>
+</ion-content>

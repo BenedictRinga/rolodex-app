@@ -1,0 +1,55 @@
+.share-body {
+  padding: 0 16px 16px;
+}
+
+.share-preview {
+  margin: 12px 0 14px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--rolodex-border-light, #2a2f3a);
+  background: #17120E;
+  color: #FAF6F0;
+  text-align: center;
+}
+
+.share-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+}
+
+.share-word {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.share-wedge {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #B8AC9E;
+}
+
+.share-link {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #FF5A36;
+  word-break: break-all;
+}
+
+.share-message {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--rolodex-surface-alt, #1f2937);
+  color: var(--rolodex-text-secondary, #8b93b0);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.share-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
