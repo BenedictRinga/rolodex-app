@@ -80,11 +80,14 @@ export class SocketChatService implements OnDestroy {
     this.socket.on('appointment:invite', (payload: { key?: string; title?: string; when?: string; from?: string }) => {
       for (const cb of this.appointmentListeners) { try { cb({ key: String(payload?.key || ''), title: String(payload?.title || ''), when: String(payload?.when || ''), from: String(payload?.from || '') }); } catch {} }
     });
-    this.socket.on('webrtc:signal', (payload: { type?: string; sdp?: string; candidate?: string; name?: string }) => {
-      for (const cb of this.webrtcListeners) { try { cb({ type: String(payload?.type || ''), sdp: String(payload?.sdp || ''), candidate: String(payload?.candidate || ''), name: String(payload?.name || '') }); } catch {} }
+    this.socket.on('webrtc:signal', (payload: { type?: string; sdp?: string; candidate?: string; name?: string; callerId?: string }) => {
+      for (const cb of this.webrtcListeners) { try { cb({ type: String(payload?.type || ''), sdp: String(payload?.sdp || ''), candidate: String(payload?.candidate || ''), name: String(payload?.name || ''), callerId: String(payload?.callerId || '') }); } catch {} }
     });
-    this.socket.on('webrtc:leave', (payload: { name?: string }) => {
-      for (const cb of this.webrtcLeaveListeners) { try { cb(String(payload?.name || '')); } catch {} }
+    this.socket.on('webrtc:join', (payload: { name?: string; callerId?: string }) => {
+      for (const cb of this.webrtcJoinListeners) { try { cb({ name: String(payload?.name || ''), callerId: String(payload?.callerId || '') }); } catch {} }
+    });
+    this.socket.on('webrtc:leave', (payload: { name?: string; callerId?: string }) => {
+      for (const cb of this.webrtcLeaveListeners) { try { cb(String(payload?.name || ''), String(payload?.callerId || '')); } catch {} }
     });
     this.socket.on('video-clip', (payload: { name?: string; dataUrl?: string; note?: string; ts?: number }) => {
       for (const cb of this.videoClipListeners) { try { cb({ name: String(payload?.name || ''), dataUrl: String(payload?.dataUrl || ''), note: String(payload?.note || ''), ts: Number(payload?.ts) || Date.now() }); } catch {} }
@@ -116,8 +119,9 @@ export class SocketChatService implements OnDestroy {
   private readListeners: Array<(key: string) => void> = [];
   private reactListeners: Array<(payload: { key: string; messageId: string; emoji: string; name?: string }) => void> = [];
   private appointmentListeners: Array<(payload: { key: string; title: string; when: string; from: string }) => void> = [];
-  private webrtcListeners: Array<(payload: { type: string; sdp: string; candidate: string; name: string }) => void> = [];
-  private webrtcLeaveListeners: Array<(name: string) => void> = [];
+  private webrtcListeners: Array<(payload: { type: string; sdp: string; candidate: string; name: string; callerId: string }) => void> = [];
+  private webrtcJoinListeners: Array<(payload: { name: string; callerId: string }) => void> = [];
+  private webrtcLeaveListeners: Array<(name: string, callerId?: string) => void> = [];
   private videoClipListeners: Array<(payload: { name: string; dataUrl: string; note: string; ts: number }) => void> = [];
 
   emitTyping(): void {
@@ -156,21 +160,37 @@ export class SocketChatService implements OnDestroy {
 
   // ===== 2026-08-19 WEBRTC + VIDEO CLIP ======================================
 
-  emitWebRtcSignal(type: string, sdp?: string, candidate?: string): void {
+  /** Announce this caller in the room so peers can decide who sends the offer. */
+  emitWebRtcJoin(callerId: string): void {
     if (!this.room || !this.socket?.connected) return;
-    this.socket.emit('webrtc:signal', { room: this.room, type, sdp: sdp || '', candidate: candidate || '' });
+    this.socket.emit('webrtc:join', { room: this.room, callerId: String(callerId || '').slice(0, 64) });
   }
 
-  emitWebRtcLeave(): void {
+  emitWebRtcSignal(type: string, sdp?: string, candidate?: string, callerId?: string): void {
     if (!this.room || !this.socket?.connected) return;
-    this.socket.emit('webrtc:leave', { room: this.room });
+    this.socket.emit('webrtc:signal', {
+      room: this.room,
+      type,
+      sdp: sdp || '',
+      candidate: candidate || '',
+      callerId: String(callerId || '').slice(0, 64),
+    });
   }
 
-  onWebRtcSignal(cb: (payload: { type: string; sdp: string; candidate: string; name: string }) => void): void {
+  emitWebRtcLeave(callerId?: string): void {
+    if (!this.room || !this.socket?.connected) return;
+    this.socket.emit('webrtc:leave', { room: this.room, callerId: String(callerId || '').slice(0, 64) });
+  }
+
+  onWebRtcSignal(cb: (payload: { type: string; sdp: string; candidate: string; name: string; callerId: string }) => void): void {
     this.webrtcListeners.push(cb);
   }
 
-  onWebRtcLeave(cb: (name: string) => void): void {
+  onWebRtcJoin(cb: (payload: { name: string; callerId: string }) => void): void {
+    this.webrtcJoinListeners.push(cb);
+  }
+
+  onWebRtcLeave(cb: (name: string, callerId?: string) => void): void {
     this.webrtcLeaveListeners.push(cb);
   }
 
