@@ -2,6 +2,14 @@ ion-content {
   --background: var(--rolodex-bg);
 }
 
+/* 2026-08-23 ABOUT SCROLL LOCK: stop the rubber-band "drag along shakily"
+   at the top/bottom of the About page. The scroll area stays scrollable but
+   does not drag the page beyond its bounds. */
+ion-content::part(scroll) {
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+}
+
 .about-body {
   padding: 8px;
 }
