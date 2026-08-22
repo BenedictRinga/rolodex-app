@@ -34,7 +34,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsUpdatedLabel = '';
   private statsTimer: any = null;
 
-  // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with OpenLoop,
+  // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with LoopKeeper,
   // locked behind the regular password extended with "-x2" (northstar-x2).
   x2Unlocked = false;
   feedbackList: any[] = [];
@@ -133,7 +133,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  /** Fetch the user suggestions from Chat with OpenLoop. */
+  /** Fetch the user suggestions from Chat with LoopKeeper. */
   async loadFeedback(): Promise<void> {
     if (this.feedbackLoading) return;
     this.feedbackLoading = true;

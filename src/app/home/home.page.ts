@@ -318,7 +318,7 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-16 SOCKET CHAT: joining the room joins the live chat too.
     if (code) {
       try {
-        this.socketChat.connect(code, 'OpenLoop demo');
+        this.socketChat.connect(code, 'LoopKeeper demo');
       } catch {
         /* live chat is best-effort; the local demo still works */
       }
@@ -657,7 +657,7 @@ export class HomePage implements OnInit, OnDestroy {
   async onSyncSetPassphrase() {
     const alert = await this.alertController.create({
       header: 'Sync Passphrase',
-      message: 'Enter a strong passphrase to encrypt your OpenLoop data in the cloud. You\'ll need this on every device.',
+      message: 'Enter a strong passphrase to encrypt your LoopKeeper data in the cloud. You\'ll need this on every device.',
       inputs: [
         {
           name: 'passphrase',
@@ -853,7 +853,7 @@ export class HomePage implements OnInit, OnDestroy {
       const needs = await this.security.needsUnlock();
       if (!needs) return;
       const alert = await this.alertController.create({
-        header: 'OpenLoop is locked',
+        header: 'LoopKeeper is locked',
         message: 'Enter your PIN to open the app.',
         inputs: [{ name: 'pin', type: 'password', placeholder: 'PIN' }],
         buttons: [
@@ -887,7 +887,7 @@ export class HomePage implements OnInit, OnDestroy {
   private async showLockRecovery(): Promise<void> {
     const a = await this.alertController.create({
       header: 'Forgot your PIN?',
-      message: 'Your PIN is hashed on this device and cannot be recovered — by us or anyone. The clean reset is to clear OpenLoop app data (Settings → Apps → OpenLoop → Clear storage) or reinstall. If your contacts are synced to the OpenLoop Server / cloud, they come back after you sign in again. Full Q&A lives in Settings → FAQ & Help.',
+      message: 'Your PIN is hashed on this device and cannot be recovered — by us or anyone. The clean reset is to clear LoopKeeper app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. If your contacts are synced to the LoopKeeper Server / cloud, they come back after you sign in again. Full Q&A lives in Settings → FAQ & Help.',
       buttons: ['OK'],
     });
     await a.present();

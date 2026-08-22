@@ -422,7 +422,7 @@ export class RolodexComponent implements OnInit {
   async presentUpdatePrompt(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Update available',
-      message: `OpenLoop v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. This update replaces app code only. Your cards stay on this device, untouched.`,
+      message: `LoopKeeper v${this.updateServer} (build ${this.updateServerBuild}) is live — you're on v${this.updateCurrent} (build ${this.updateCurrentBuild}). Tap Update now and the app will apply it. This update replaces app code only. Your cards stay on this device, untouched.`,
       buttons: [
         { text: 'Later', role: 'cancel' },
         { text: 'Update now', handler: () => { this.applyUpdate(); } },
@@ -451,7 +451,7 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
   installPwa(): void {
-    void this.appInstall.encourageAppInstall('OpenLoop');
+    void this.appInstall.encourageAppInstall('LoopKeeper');
   }
 
   /** 2026-08-19 INSTALL: Google Play is INCOMING - no store link yet. */
@@ -469,7 +469,7 @@ export class RolodexComponent implements OnInit {
     const result = await this.shareAppService.shareAppStandard();
     if (result === 'shared') return;
     if (result === 'copied') {
-      void this.alertService.showToast('OpenLoop link copied — paste it anywhere', 2500);
+      void this.alertService.showToast('LoopKeeper link copied — paste it anywhere', 2500);
     } else {
       void this.alertService.showToast('Sharing is not available on this browser', 2500);
     }
@@ -507,7 +507,7 @@ export class RolodexComponent implements OnInit {
   }
 
   /** 2026-08-21 DIRECTION CHAT: the R icon opens the free-form "what's missing /
-   *  where should OpenLoop go" chat — no guided loop script (that target is
+   *  where should LoopKeeper go" chat — no guided loop script (that target is
    *  already handled by the Welcome taste). It is capped after a few exchanges
    *  and the summary lands in the investors' room so we learn app direction. */
   async openLoopChallenge(): Promise<void> {
@@ -721,7 +721,7 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-20: the web install path — delegated to the Zyppar-style
    *  AppInstallService (metrics, cooldown, native prompt, iOS/Android guides). */
   private async offerAppInstall(): Promise<void> {
-    await this.appInstall.encourageAppInstall('OpenLoop');
+    await this.appInstall.encourageAppInstall('LoopKeeper');
   }
 
   showSearchView() { this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false; }

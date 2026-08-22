@@ -7,7 +7,7 @@ import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
  *
  * The "casual" send: a crafted, moment-aware share message (chat message,
  * birthday, milestone, congratulations, appointment…) that carries the
- * OpenLoop logo via the OG-tagged landing + the invite deeplink. The receiver
+ * LoopKeeper logo via the OG-tagged landing + the invite deeplink. The receiver
  * taps once, sees THEIR card ready with the pre-join comms, and the 7-day
  * Assistant trial does the conversion. Every sendee who is NOT a user becomes
  * the next receiver of the app itself.
@@ -122,28 +122,28 @@ export class ShareAppService {
     const quote = text ? ` — “${text}”` : '';
     switch (moment) {
       case 'chat-message':
-        return `${from} sent you a message on OpenLoop${quote}. It's waiting on your card — tap to open it. ${url}`;
+        return `${from} sent you a message on LoopKeeper${quote}. It's waiting on your card — tap to open it. ${url}`;
       case 'first-meeting':
-        return `${from} sent you a first-meeting note on OpenLoop${quote}. It was lovely meeting you — the note is waiting on your card. ${url}`;
+        return `${from} sent you a first-meeting note on LoopKeeper${quote}. It was lovely meeting you — the note is waiting on your card. ${url}`;
       case 'birthday':
-        return `${from} sent you birthday wishes on OpenLoop${to ? ' ' + to : ''}${quote}. Your card is ready. ${url}`;
+        return `${from} sent you birthday wishes on LoopKeeper${to ? ' ' + to : ''}${quote}. Your card is ready. ${url}`;
       case 'anniversary':
-        return `${from} sent you a note on this anniversary${quote}. It's waiting on your OpenLoop card. ${url}`;
+        return `${from} sent you a note on this anniversary${quote}. It's waiting on your LoopKeeper card. ${url}`;
       case 'milestone':
-        return `${from} marked your milestone on OpenLoop${quote}. Your card is ready — tap to see it. ${url}`;
+        return `${from} marked your milestone on LoopKeeper${quote}. Your card is ready — tap to see it. ${url}`;
       case 'congratulations':
-        return `${from} sent you congratulations on OpenLoop${quote}. Your card is ready. ${url}`;
+        return `${from} sent you congratulations on LoopKeeper${quote}. Your card is ready. ${url}`;
       case 'follow-up':
-        return `${from} checked in on OpenLoop${quote}. It's waiting on your card. ${url}`;
+        return `${from} checked in on LoopKeeper${quote}. It's waiting on your card. ${url}`;
       case 'appointment': {
         const title = ctx.title || inv.title || 'An appointment';
         const whenRaw = ctx.when || inv.when || '';
         const when = whenRaw ? this.whenLabel(whenRaw) : '';
-        return `${from} invited you to “${title}” on OpenLoop${when ? ' — ' + when : ''}. It's already on your card. ${url}`;
+        return `${from} invited you to “${title}” on LoopKeeper${when ? ' — ' + when : ''}. It's already on your card. ${url}`;
       }
       case 'casual':
       default:
-        return `I use OpenLoop for one thing: the people I keep meaning to text but don't. It turns "I should really reach out" into a two-minute send. One person at a time — no address-book takeover. ${url}`;
+        return `I use LoopKeeper for one thing: the people I keep meaning to text but don't. It turns "I should really reach out" into a two-minute send. One person at a time — no address-book takeover. ${url}`;
     }
   }
 
@@ -181,7 +181,7 @@ export class ShareAppService {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return;
     const text = await this.buildText(moment, inv, ctx);
-    const subject = 'A note for you on OpenLoop';
+    const subject = 'A note for you on LoopKeeper';
     if (email) {
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
     } else {
@@ -190,14 +190,14 @@ export class ShareAppService {
   }
 
   /** 2026-08-19 STANDARD SHARE APP (Settings): the plain, always-appropriate
-   *  share of OpenLoop itself — native share sheet first, clipboard fallback. */
+   *  share of LoopKeeper itself — native share sheet first, clipboard fallback. */
   async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
     const url = 'https://zyppar.com/openloop/';
-    const text = `OpenLoop is for the people you keep meaning to text — the ones you don't want to lose to "I should really reach out." One person at a time, no contact-list takeover. ${url}`;
+    const text = `LoopKeeper is for the people you keep meaning to text — the ones you don't want to lose to "I should really reach out." One person at a time, no contact-list takeover. ${url}`;
     const nav: any = navigator;
     try {
       if (nav.share) {
-        await nav.share({ title: 'OpenLoop', text, url });
+        await nav.share({ title: 'LoopKeeper', text, url });
         return 'shared';
       }
     } catch { /* user cancelled the sheet */ }

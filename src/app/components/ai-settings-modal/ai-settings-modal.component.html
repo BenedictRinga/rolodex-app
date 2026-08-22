@@ -17,11 +17,11 @@
 <ion-content>
   <div class="ai-section">
     <p class="ai-intro">
-      <strong>Choose which AI engine OpenLoop uses</strong> for the assistant.
-      Your contacts stay where you put them — Device, Cloud, or OpenLoop Server.
+      <strong>Choose which AI engine LoopKeeper uses</strong> for the assistant.
+      Your contacts stay where you put them — Device, Cloud, or LoopKeeper Server.
     </p>
     <p class="ai-note">
-      Engine keys live on the OpenLoop server, never inside the app. If a key is
+      Engine keys live on the LoopKeeper server, never inside the app. If a key is
       missing, the app uses its on-device engine.
     </p>
 
@@ -29,7 +29,7 @@
       <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
       <ion-label>Engine</ion-label>
       <ion-select [(ngModel)]="provider" (ionChange)="onProviderChange()">
-        <ion-select-option value="rolodex">OpenLoop's engine (on-device)</ion-select-option>
+        <ion-select-option value="rolodex">LoopKeeper's engine (on-device)</ion-select-option>
         <ion-select-option value="deepseek">DeepSeek</ion-select-option>
         <ion-select-option value="grok">Grok</ion-select-option>
       </ion-select>

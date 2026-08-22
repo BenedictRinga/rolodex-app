@@ -24,7 +24,7 @@ export class AiSettingsModalComponent {
   }
 
   providerLabel(): string {
-    return this.provider === 'rolodex' ? "OpenLoop's engine" : this.provider;
+    return this.provider === 'rolodex' ? "LoopKeeper's engine" : this.provider;
   }
 
   save(): void {

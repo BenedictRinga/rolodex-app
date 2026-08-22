@@ -4,7 +4,7 @@
     <ng-container *ngSwitchCase="RolodexView.Regular">
       <ion-list class="seriescontact">
         <ion-list-header>
-          <ion-label class="fabcolor rolodex-view-label" (click)="openCardSelect()">My OpenLoop: {{ pageManager.upperCardMode }}
+          <ion-label class="fabcolor rolodex-view-label" (click)="openCardSelect()">My LoopKeeper: {{ pageManager.upperCardMode }}
             view</ion-label>
           <ion-buttons>
             <!-- <ion-button (click)="openPods()" appTooltip="Pods — group threads">
@@ -13,8 +13,8 @@
             <ion-button (click)="showAutoSortView()" appTooltip="Rolodex your Contacts">
               <ion-icon name="card-outline" class="fabcolor"></ion-icon>
             </ion-button> -->
-            <ion-button (click)="onOpenAiChat()" appTooltip="AI Assistant — OpenLoop's AI working for you">
-              <img src="assets/rolodex/toolbar-mark.png" class="fab-rolodex-icon" alt="AI Assistant" />
+            <ion-button (click)="onOpenAiChat()" appTooltip="AI Assistant — LoopKeeper's AI working for you">
+              <img src="assets/loopkeeper/icon.svg" class="fab-rolodex-icon" alt="AI Assistant" />
             </ion-button>
             <ion-button (click)="openCardSelect()" appTooltip="Card Display Options">
               <ion-icon name="grid-outline" class="fabcolor"></ion-icon>
@@ -356,7 +356,7 @@
         <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
         <ion-item lines="none" class="elegant-item" (click)="openAbout()">
           <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>About OpenLoop</ion-label>
+          <ion-label>About LoopKeeper</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
@@ -379,7 +379,7 @@
 
         <!-- 2026-08-19 INSTALL OPENLOOP: PWA now, Play/App Store INCOMING. -->
         <ion-item-divider>
-          <ion-label color="medium">Install OpenLoop</ion-label>
+          <ion-label color="medium">Install LoopKeeper</ion-label>
         </ion-item-divider>
         <ion-item lines="none" class="elegant-item" (click)="installPwa()">
           <ion-icon name="download-outline" slot="start" color="primary"></ion-icon>
@@ -410,7 +410,7 @@
         <ion-item lines="none" class="elegant-item" (click)="shareApp()">
           <ion-icon name="share-social-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            Share OpenLoop
+            Share LoopKeeper
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Send the app to a friend — native share sheet</p>
           </ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
@@ -488,7 +488,7 @@
           <ion-label>
             {{ syncHasPassphrase ? 'Passphrase set' : 'Set encryption passphrase' }}
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              Encrypts your OpenLoop bundle before it leaves the device — required before connecting a cloud provider.
+              Encrypts your LoopKeeper bundle before it leaves the device — required before connecting a cloud provider.
             </p>
           </ion-label>
           <ion-button slot="end" fill="clear" (click)="syncSetPassphrase.emit()">

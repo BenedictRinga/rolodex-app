@@ -180,7 +180,7 @@ export class FollowUpEngine {
       parts.push(`Personal: ${contact.rolodex.personalTidbits}`);
 
     const body = parts.join('\n') || `Touch base with ${name}`;
-    return `OpenLoop auto-reminder: ${body}`;
+    return `LoopKeeper auto-reminder: ${body}`;
   }
 
   private mapFrequencyToRepeat(freq: string): CalendarEvent['repeat'] {

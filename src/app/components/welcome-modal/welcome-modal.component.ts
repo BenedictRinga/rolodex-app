@@ -50,7 +50,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'intro',
       kicker: 'Karibu sana!',
-      title: 'OpenLoop — close the loop you keep meaning to close',
+      title: 'LoopKeeper — close the loop you keep meaning to close',
       copy: 'The rolodex that closes the tiny loops: start with the few who matter most — add more, as you close the current. The Assistant does the hard 90%.',
       surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
     },
@@ -64,7 +64,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'loopmotto',
       kicker: '02 · The promise',
       title: 'No more "I keep meaning to"',
-      copy: 'Every missed reply starts the same way: "I keep meaning to." OpenLoop catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
+      copy: 'Every missed reply starts the same way: "I keep meaning to." LoopKeeper catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
     },
     {
       id: 'fourws',
@@ -89,7 +89,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '06 · The confidante',
       title: 'The AI drafts — you hit Send',
-      copy: 'The Assistant digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine OpenLoop uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
+      copy: 'The Assistant digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine LoopKeeper uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
     },
     {
       id: 'pods',
@@ -101,7 +101,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'storage',
       kicker: '08 · Your data',
       title: 'Where your essentials live',
-      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — your trust level, your choice. OpenLoop Server mode links your devices live.',
+      copy: 'Device, Cloud (Dropbox · Drive · OneDrive), or the LoopKeeper Server — your trust level, your choice. LoopKeeper Server mode links your devices live.',
     },
     {
       id: 'pricing',
@@ -348,7 +348,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     void this.modalController.dismiss(null, 'start');
   }
 
-  /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with OpenLoop in
+  /** 2026-08-19 THE TASTE: Let's go → HomePage opens Chat with LoopKeeper in
    *  situation mode, and the surprise (the guided real-loop demo) begins. */
   startTaste(): void {
     void this.modalController.dismiss(null, 'taste');

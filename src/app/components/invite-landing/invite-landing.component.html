@@ -1,7 +1,7 @@
 <div class="invite-shell">
   <div class="invite-card" [class.appointment]="invite.kind === 'appointment'">
     <div class="invite-kicker">{{ invite.kind === 'appointment' ? 'Appointment from' : 'Message from' }}</div>
-    <div class="invite-wedge">OpenLoop — you never forget to stay in touch… again</div>
+    <div class="invite-wedge">LoopKeeper — you never forget to stay in touch… again</div>
     <h2 class="invite-from">{{ invite.from }}</h2>
 
     <div class="invite-body">
@@ -25,7 +25,7 @@
 
     <div class="invite-hook">
       <div class="hook-title">It came from a Rolodex card.</div>
-      <div class="hook-copy">One card, no list required. This note is waiting for you — open it in OpenLoop, or paste the link anywhere.</div>
+      <div class="hook-copy">One card, no list required. This note is waiting for you — open it in LoopKeeper, or paste the link anywhere.</div>
     </div>
 
     <div class="invite-actions">
@@ -39,7 +39,7 @@
       </ion-button>
       <ion-button expand="block" fill="outline" color="medium" (click)="whatIsRolodex()">
         <ion-icon name="sparkles-outline" slot="start"></ion-icon>
-        What is OpenLoop about?
+        What is LoopKeeper about?
       </ion-button>
       <ion-button expand="block" fill="clear" size="small" (click)="close()">Not now</ion-button>
     </div>

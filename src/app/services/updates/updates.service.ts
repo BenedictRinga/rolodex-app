@@ -137,7 +137,7 @@ export class UpdatesService {
   async forceUpdate(newVersion: string): Promise<void> {
     try {
       await this.setVersion(newVersion);
-      await this.alertsService.showToast(`Updating OpenLoop to v${newVersion}…`, 2500);
+      await this.alertsService.showToast(`Updating LoopKeeper to v${newVersion}…`, 2500);
       await this.clearCachesAndReload();
     } catch (error) {
       console.error('Update failed:', error);

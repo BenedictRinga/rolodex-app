@@ -62,7 +62,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>Sharing is by your choice</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            An invite shares only the moment you chose to send. The rest of the card stays private — OpenLoop uses your context locally, never as a public profile.
+            An invite shares only the moment you chose to send. The rest of the card stays private — LoopKeeper uses your context locally, never as a public profile.
           </p>
         </ion-label>
       </ion-item>
@@ -72,7 +72,7 @@ import { ModalController } from '@ionic/angular';
         <ion-label>
           <b>The app's home</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            OpenLoop lives at zyppar.com/openloop/ — bookmark that exact address.
+            LoopKeeper lives at zyppar.com/openloop/ — bookmark that exact address.
           </p>
         </ion-label>
       </ion-item>

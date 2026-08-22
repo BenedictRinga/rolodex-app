@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+  <rect width="480" height="480" fill="#17120E"/>
+  <g transform="translate(168,110)">
+    <path d="M38.67 20.88 A15 15 0 1 1 27.12 9.33" fill="none" stroke="#FAF6F0" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="34.6" cy="13.4" r="4.5" fill="#FF5A36"/>
+  </g>
+  <text x="240" y="270" text-anchor="middle" font-family="Manrope, DM Sans, system-ui, sans-serif" font-size="40" font-weight="700" fill="#FAF6F0">LoopKeeper</text>
+  <text x="240" y="310" text-anchor="middle" font-family="Manrope, DM Sans, system-ui, sans-serif" font-size="16" fill="#B8AC9E">You never forget to stay in touch… again</text>
+</svg>

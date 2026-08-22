@@ -113,12 +113,12 @@ export class ChatWithRolodexModalComponent implements OnInit {
   private openingPromptFor(mode: ChatMode): string {
     switch (mode) {
       case 'help':
-        return 'The user needs help using OpenLoop. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
+        return 'The user needs help using LoopKeeper. Greet them warmly and ask what they are trying to do. Keep it to 1-2 sentences.';
       case 'situation':
         return `We are working together to improve a ${this.situationOrdinalLabel} loop challenge — one of the user's failed, weak, or delayed communication loops (up to five in total). Greet them warmly and ask, one question at a time, for the 4 W's and any critical context (who the person is to them, what they owe, where they met, when it started, why it matters, topic, follow-up, tidbits). Keep it to 1-2 sentences.`;
       case 'feedback':
       default:
-        return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in OpenLoop, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
+        return 'Greet the user warmly and tell them this is a free-form direction chat: what is missing in LoopKeeper, what the app should become, what feels wrong or unclear. No menus, no right answers. Ask what direction we should take next. Keep it to 1-2 sentences.';
     }
   }
 
@@ -310,7 +310,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       ...this.history,
       {
         role: 'user',
-        content: 'Summarize the user\'s direction for OpenLoop in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
+        content: 'Summarize the user\'s direction for LoopKeeper in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
       },
     ]);
     const userTexts = this.history.filter((m) => m.role === 'user').map((m) => m.content);

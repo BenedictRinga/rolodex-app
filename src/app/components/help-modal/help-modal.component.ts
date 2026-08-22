@@ -18,7 +18,7 @@ export interface HelpFeature {
   template: `
   <ion-header>
     <ion-toolbar>
-      <ion-title>OpenLoop — features</ion-title>
+      <ion-title>LoopKeeper — features</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="close()"><ion-icon name="close" slot="icon-only"></ion-icon></ion-button>
       </ion-buttons>
@@ -42,7 +42,7 @@ export interface HelpFeature {
     </ng-container>
 
     <p style="margin-top:18px; color:var(--rolodex-text-secondary); font-size:12px;">
-      Built on your device first — then Cloud or the OpenLoop Server, your choice.
+      Built on your device first — then Cloud or the LoopKeeper Server, your choice.
     </p>
   </ion-content>
   `,
@@ -74,16 +74,16 @@ export class HelpModalComponent {
     {
       label: 'Your essentials, your choice',
       features: [
-        { id: 'storage', title: 'Where your essentials live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the OpenLoop Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
+        { id: 'storage', title: 'Where your essentials live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the LoopKeeper Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
         { id: 'sync', title: 'Cloud sync', guide: 'Encrypted push/pull to the cloud provider of your choice, with a passphrase.', goLabel: 'Sync' },
       ],
     },
     {
       label: 'FAQ',
       features: [
-        { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. The clean reset is to clear OpenLoop\'s app data (Settings → Apps → OpenLoop → Clear storage) or reinstall. Contacts already synced to the OpenLoop Server / cloud come back after you sign in again.' },
+        { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. The clean reset is to clear LoopKeeper\'s app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. Contacts already synced to the LoopKeeper Server / cloud come back after you sign in again.' },
         { id: 'faq-passphrase', title: 'I forgot my sync passphrase', guide: 'The passphrase is never stored anywhere, so the old cloud bundle cannot be decrypted without it. Set a new passphrase to start a fresh encrypted bundle; the previous bundle stays unrecoverable by design.' },
-        { id: 'faq-url', title: 'Where does OpenLoop live?', guide: 'The PWA lives at zyppar.com/openloop/ — bookmark that exact URL, not the bare zyppar.com home.' },
+        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'The PWA lives at zyppar.com/openloop/ — bookmark that exact URL, not the bare zyppar.com home.' },
       ],
     },
     {

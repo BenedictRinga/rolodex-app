@@ -796,8 +796,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     const from = await this.cardChat.senderNameAsync();
     const room = this.cardChat.room || '';
     const sheet = await this.alertCtrl.create({
-      header: 'Share OpenLoop with ' + name,
-      message: "They don't need OpenLoop to catch it — the link previews the branded card, and the tap opens their card ready.",
+      header: 'Share LoopKeeper with ' + name,
+      message: "They don't need LoopKeeper to catch it — the link previews the branded card, and the tap opens their card ready.",
       buttons: [
         { text: 'Send the first-meeting note', handler: () => { void this.shareMoment(contact, 'first-meeting', from, room, name); } },
         { text: 'Send via WhatsApp', handler: () => { void this.shareWhatsApp(contact, from, room, name); } },
@@ -805,7 +805,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         { text: 'Send congratulations', handler: () => { void this.shareMoment(contact, 'congratulations', from, room, name); } },
         { text: 'Share an appointment', handler: () => { void this.shareAppointment(contact, from, room, name); } },
         { text: 'More moments', handler: () => { void this.moreMoments(contact, from, room, name); } },
-        { text: 'Share OpenLoop (casual)', handler: () => { void this.shareCasual(from, room, name); } },
+        { text: 'Share LoopKeeper (casual)', handler: () => { void this.shareCasual(from, room, name); } },
         { text: 'Cancel', role: 'cancel' },
       ],
     });
@@ -844,7 +844,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!title) return false;
             const res = await this.shareApp.share('appointment', { from, to: name, title, when: String(v?.when || ''), room });
             if (res === 'failed') { void this.alertCtrl.create({ header: 'Offline', message: 'Could not create the invite link — check your connection.', buttons: ['OK'] }).then((a) => a.present()); }
-            else if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens OpenLoop on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            else if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens LoopKeeper on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },
@@ -865,7 +865,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
             const text = String(v?.text || '').trim();
             if (!text) return false;
             const res = await this.shareApp.share('chat-message', { from, to: name, text, room });
-            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens OpenLoop on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens LoopKeeper on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },
@@ -892,7 +892,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
           handler: async (v: any) => {
             const text = String(v?.text || '').trim();
             const res = await this.shareApp.share(moment, { from, to: name, text, room });
-            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens OpenLoop on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+            if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it in WhatsApp, email or SMS — the preview is the branded card, and the tap opens LoopKeeper on their device.', buttons: ['OK'] }).then((a) => a.present()); }
             return true;
           },
         },
@@ -904,7 +904,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 2026-08-18 THE CASUAL WEDGE: the app itself, no occasion needed. */
   private async shareCasual(from: string, room: string, name: string): Promise<void> {
     const res = await this.shareApp.share('casual', { from, to: name, room });
-    if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it anywhere — the preview is the branded card, and the tap opens OpenLoop on their device.', buttons: ['OK'] }).then((a) => a.present()); }
+    if (res === 'copied') { void this.alertCtrl.create({ header: 'Link copied', message: 'Paste it anywhere — the preview is the branded card, and the tap opens LoopKeeper on their device.', buttons: ['OK'] }).then((a) => a.present()); }
   }
 
   /** 2026-08-18 DIRECT WHATSAPP: lets the user pick WHICH number to open
