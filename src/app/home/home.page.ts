@@ -213,7 +213,7 @@ export class HomePage implements OnInit, OnDestroy {
         }
         void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
       } else if (role === 'get-app') {
-        window.open('https://play.google.com/store/apps/details?id=com.zyppar.rolodexai', '_blank');
+        window.open('https://play.google.com/store/apps/details?id=com.zyppar.openloop', '_blank');
       } else if (role === 'pick-unavailable') {
         void this.alertsService.showToast('Contact picking needs Android Chrome — the app does the correlation everywhere.', 4500);
       }

@@ -618,7 +618,7 @@ export class AppInstallService {
    */
   private getStoreUrl(): string {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    return isIOS ? 'https://apps.apple.com/app/idYOUR_APP_ID' : 'https://play.google.com/store/apps/details?id=com.zyppar.rolodexai';
+    return isIOS ? 'https://apps.apple.com/app/idYOUR_APP_ID' : 'https://play.google.com/store/apps/details?id=com.zyppar.openloop';
   }
 
   public isAppInstalled(): boolean {
