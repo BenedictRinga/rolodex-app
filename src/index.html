@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://zyppar.com/openloop/assets/rolodex/icon-512.png" />
 
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#FF6B35" />
+  <meta name="theme-color" content="#FF5A36" />
   <link rel="icon" type="image/png" href="assets/loopkeeper/tile.svg" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/loopkeeper/tile.svg" />
   <link rel="apple-touch-icon" href="assets/rolodex/apple-touch-icon.png" />
@@ -39,25 +39,38 @@
 </head>
 
 <body>
-  <!-- 2026-08-18 SPLASH: the user's own logos - the single icon + the name,
-       background-stripped, standing alone. -->
+  <!-- 2026-08-22 SPLASH: OxAlpha's animated mark — the ring draws itself, the
+       coral dot orbits once and settles into the gap: loop opened → followed
+       through. Falls back gracefully when motion is reduced. -->
   <div id="rolodex-splash">
     <div class="splash-inner">
-      <img src="assets/rolodex/icon-512.png" alt="LoopKeeper" class="splash-logo" />
-      <img src="assets/rolodex/name-512.png" alt="LoopKeeper" class="splash-wordmark" />
+      <svg class="splash-mark" viewBox="0 0 48 48" aria-label="LoopKeeper">
+        <path class="splash-ring" d="M38.67 20.88 A15 15 0 1 1 27.12 9.33" fill="none" stroke="#FAF6F0" stroke-width="7" stroke-linecap="round"/>
+        <circle class="splash-dot" cx="34.6" cy="13.4" r="4.5" fill="#FF5A36"/>
+      </svg>
+      <div class="splash-word">LoopKeeper</div>
       <div class="splash-tag">You never forget to stay in touch… again</div>
     </div>
     <style>
       #rolodex-splash {
         position: fixed; inset: 0; z-index: 99999;
-        background: #12141c;
+        background: #17120E;
         display: flex; align-items: center; justify-content: center;
         transition: opacity 0.45s ease;
+        font-family: Manrope, DM Sans, system-ui, sans-serif;
       }
       .splash-inner { text-align: center; }
-      .splash-logo { width: 88px; height: 88px; border-radius: 22px; }
-      .splash-wordmark { width: 200px; margin-top: 16px; }
-      .splash-tag { color: #8b93b0; font-size: 12px; margin-top: 8px; font-family: system-ui, sans-serif; }
+      .splash-mark { width: 120px; height: 120px; margin: 0 auto; display: block; }
+      .splash-ring { stroke-dasharray: 77.5; stroke-dashoffset: 77.5; animation: lk-draw 0.7s ease-out 0.15s forwards; }
+      .splash-dot { opacity: 0; animation: lk-orbit 1.1s cubic-bezier(0.6, 0.05, 0.3, 1) 0.55s forwards; }
+      .splash-word { color: #FAF6F0; font-size: 30px; font-weight: 700; letter-spacing: 0.01em; margin-top: 24px; opacity: 0; transform: translateY(8px); animation: lk-rise 0.6s ease-out 1.25s forwards; }
+      .splash-tag { color: #B8AC9E; font-size: 14px; letter-spacing: 0.02em; margin-top: 8px; opacity: 0; transform: translateY(8px); animation: lk-rise 0.6s ease-out 1.5s forwards; }
+      @keyframes lk-draw { to { stroke-dashoffset: 0; } }
+      @keyframes lk-orbit { 0% { opacity: 0; offset-distance: 0%; } 15% { opacity: 1; } 100% { opacity: 1; offset-distance: 100%; } }
+      @keyframes lk-rise { to { opacity: 1; transform: none; } }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-ring, .splash-dot, .splash-word, .splash-tag { animation: none; opacity: 1; stroke-dashoffset: 0; transform: none; }
+      }
       #rolodex-splash.gone { opacity: 0; pointer-events: none; }
     </style>
     <script>
@@ -69,8 +82,8 @@
             setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
           }
         }
-        if (document.readyState === 'complete') { setTimeout(hide, 650); }
-        else { window.addEventListener('load', function () { setTimeout(hide, 650); }); }
+        if (document.readyState === 'complete') { setTimeout(hide, 1900); }
+        else { window.addEventListener('load', function () { setTimeout(hide, 1900); }); }
       })();
     </script>
   </div>

@@ -4,6 +4,34 @@ import { Capacitor } from '@capacitor/core';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { StorageService } from '../storage/storage.service';
 
+/** 2026-08-22 LOOPKEEPER PERSONAS — the Piper voice catalog (mirrors the
+ *  backend listVoices). Selecting one sends its qwen-* id to /tts so Piper
+ *  picks the mapped voice. */
+const PERSONAS: { id: string; name: string; language: string; description: string }[] = [
+  { id: 'qwen-echo', name: 'Echo', language: 'en', description: 'Clean universal — the default' },
+  { id: 'qwen-atlas', name: 'Atlas', language: 'en', description: 'Warm anchor — business and news' },
+  { id: 'qwen-orion', name: 'Orion', language: 'en', description: 'Energetic guide — motivation and tutorials' },
+  { id: 'qwen-morgan', name: 'Morgan', language: 'en', description: 'Deep storyteller — documentary and epic narration' },
+  { id: 'qwen-onyx', name: 'Onyx', language: 'en', description: 'Noir detective — thrillers and intimate podcasts' },
+  { id: 'qwen-luna', name: 'Luna', language: 'en', description: 'Gentle companion — wellness and bedtime' },
+  { id: 'qwen-aria', name: 'Aria', language: 'en', description: 'Crisp presenter — podcasts and education' },
+  { id: 'qwen-sage', name: 'Sage', language: 'en', description: 'Warm mentor — advice and reflection' },
+  { id: 'qwen-ember', name: 'Ember', language: 'en', description: 'Firebrand — conviction and passion' },
+  { id: 'qwen-fr-lumiere', name: 'Lumière', language: 'fr', description: 'French artist — poetry and romance' },
+  { id: 'qwen-es-fuego', name: 'Fuego', language: 'es', description: 'Spanish storyteller — vibrant narratives' },
+  { id: 'qwen-de-stern', name: 'Stern', language: 'de', description: 'German authority — technical and formal' },
+  { id: 'qwen-pt-rio', name: 'Rio', language: 'pt', description: 'Portuguese anchor — community and briefs' },
+  { id: 'qwen-it-roma', name: 'Roma', language: 'it', description: 'Italian storyteller' },
+  { id: 'qwen-nl-amstel', name: 'Amstel', language: 'nl', description: 'Dutch presenter' },
+  { id: 'qwen-sw-sauti', name: 'Sauti', language: 'sw', description: 'Swahili storyteller' },
+  { id: 'qwen-zh-dragon', name: 'Dragon', language: 'zh', description: 'Chinese scholar (English fallback voice)' },
+  { id: 'qwen-zh-lotus', name: 'Lotus', language: 'zh', description: 'Chinese companion (English fallback voice)' },
+  { id: 'qwen-ja-sakura', name: 'Sakura', language: 'ja', description: 'Japanese companion (English fallback voice)' },
+  { id: 'qwen-ko-seoul', name: 'Seoul', language: 'ko', description: 'Korean presenter (English fallback voice)' },
+  { id: 'qwen-ar-sahara', name: 'Sahara', language: 'ar', description: 'Arabic scholar (English fallback voice)' },
+  { id: 'qwen-hi-ganga', name: 'Ganga', language: 'hi', description: 'Hindi companion (English fallback voice)' },
+];
+
 /**
  * 2026-08-20 VOICE OPTIONS SERVICE — brought over from Zyppar's audiobrief
  * voice system: browser voices + Capacitor native TTS voices, merged.
@@ -125,8 +153,13 @@ export class VoiceOptionsService {
       {
         id: this.CONFIDANTE_ID,
         label: 'Assistant',
-        detail: 'Default — female, highly competent secretary',
+        detail: 'Default — warm, clear, personal secretary',
       },
+      ...PERSONAS.map((p) => ({
+        id: p.id,
+        label: p.name,
+        detail: `${p.language.toUpperCase()} · ${p.description}`,
+      })),
     ];
 
     for (const v of this._voices) {

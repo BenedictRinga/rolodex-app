@@ -4,6 +4,7 @@ import { StorageService } from '../../services/storage/storage.service';
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
 import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { VoiceOptionsService } from '../../services/voice-options/voice-options.service';
 import { Capacitor } from '@capacitor/core';
 import { environment } from '../../../environments/environment';
 
@@ -159,6 +160,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     private readonly playback: StudioPlaybackService,
     private readonly textsplitter: TextsplitterService,
     private readonly alerts: AlertsService,
+    private readonly voiceOptions: VoiceOptionsService,
     ) {}
 
   get isFirst(): boolean {
@@ -308,11 +310,13 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     // 12s: Piper CPU synthesis is live now and can take a few seconds per chunk;
     // short enough that a truly dead backend still hands over to device voice.
     const timer = setTimeout(() => ctrl.abort(), 12000);
+    const selected = this.voiceOptions.selectedVoiceId;
+    const voice = selected?.startsWith('qwen-') ? selected : 'qwen-echo';
     try {
       return await fetch(`${environment.rolodexApiBase}/tts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, voice }),
         signal: ctrl.signal,
       });
     } finally {
