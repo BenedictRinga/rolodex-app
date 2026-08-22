@@ -39,13 +39,13 @@
       Use {{ providerLabel() }}
     </ion-button>
     <div class="ai-note" *ngIf="saved">
-      Saved. The confidante now delivers through {{ providerLabel() }}.
+      Saved. The Assistant now delivers through {{ providerLabel() }}.
     </div>
 
     <!-- 2026-08-16 THE TASTE: the Assistant quota. -->
     <div class="ai-quota">
       <strong>Your Assistant tier</strong> — {{ planLabel() }}:
-      {{ plan === 'confidante' ? 'unlimited AI interventions' : interventionsLeft() + ' of 5 AI interventions left this month' }}.
+      {{ plan === 'confidante' ? 'unlimited nudges' : interventionsLeft() + ' of 5 nudges left this month' }}.
       <span *ngIf="plan !== 'confidante'">Upgrade to the Assistant ($5/month) in Billing for the AI to work all month.</span>
     </div>
   </div>

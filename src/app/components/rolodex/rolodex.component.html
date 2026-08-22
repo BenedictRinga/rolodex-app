@@ -305,7 +305,7 @@
           <ion-label>
             App lock
             <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open the Loop' }}
+              {{ lockEnabled ? 'Locked with a PIN - the app asks on every cold start' : 'A PIN gate so only you can open & keep the Loop' }}
             </p>
           </ion-label>
           <ion-toggle slot="end" [checked]="lockEnabled" (ionChange)="toggleLock($event)"></ion-toggle>

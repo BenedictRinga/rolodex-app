@@ -96,7 +96,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'pricing',
       kicker: '07 · The tiers',
       title: 'Basic $1 · Assistant $5',
-      copy: 'Basic catches five loops a month. Assistant catches them all. Billing lives in Settings.',
+      copy: 'Start with a 7-day free trial — every loop, all month. Basic catches five loops a month. Assistant catches them all. Billing lives in Settings.',
     },
     {
       id: 'outro',
