@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 60, // 2026-08-23 About scroll lock: overscroll-behavior contain on ion-content scroll part (no shaky rubber-band drag at top/bottom)
+  build: 61, // 2026-08-23 Living Rolodex: 7.5s CSS-animated SVG story (pen writes, news relays, dot settles, teal check, streak ticks; reduced-motion collapses to static)
 };
 
 /*

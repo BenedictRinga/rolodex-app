@@ -297,6 +297,230 @@ ion-content::part(scroll) {
   color: var(--rolodex-text);
 }
 
+/* ── 2026-08-23 THE LIVING ROLODEX ─────────────────────────────────────
+   The About scene tells its story on a gentle 7.5s loop: the pen writes,
+   the news relays back to the wheel, the LoopKeeper dot settles into the
+   gap, the teal check stamps, streak ticks accrue — then the scene
+   exhales and begins again. Pure CSS on SVG geometry (opacity /
+   transform / stroke-dashoffset only). No JS, no SMIL. Every animated
+   node carries .anim so prefers-reduced-motion collapses the whole
+   production to the static illustration in one rule (default attribute
+   state = the shipped static art). */
+.history-svg {
+  --story-loop: 7.5s;
+}
+
+/* one-shot intro: the ring draws itself once, echoing the app splash */
+.history-svg .wheel-ring {
+  stroke-dasharray: 192;
+  animation: rk-ring-in 1.1s cubic-bezier(0.6, 0.05, 0.3, 1) 0.15s 1 both;
+}
+
+/* ambient life: lamp warmth breathes */
+.history-svg .lamp-glow {
+  animation: rk-lamp var(--story-loop) ease-in-out infinite both;
+}
+
+/* ambient life: coffee steam rises (two wisps, half-cycle apart) */
+.history-svg .steam-a {
+  animation: rk-steam 3.75s ease-out infinite both;
+}
+.history-svg .steam-b {
+  animation: rk-steam 3.75s ease-out -1.875s infinite both;
+}
+
+/* beat A — the pen writes */
+.history-svg .pen {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+  animation: rk-pen-write var(--story-loop) ease-in-out infinite both;
+}
+.history-svg .write-line {
+  stroke-dasharray: 33;
+  animation: rk-write-line var(--story-loop) linear infinite both;
+}
+.history-svg .write-period {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rk-write-period var(--story-loop) ease-out infinite both;
+}
+
+/* beat B — the news relays, dot by dot, back to the wheel */
+.history-svg .news-1 { animation: rk-news-1 var(--story-loop) cubic-bezier(0.6, 0.05, 0.3, 1) infinite both; }
+.history-svg .news-2 { animation: rk-news-2 var(--story-loop) cubic-bezier(0.6, 0.05, 0.3, 1) infinite both; }
+.history-svg .news-3 { animation: rk-news-3 var(--story-loop) cubic-bezier(0.6, 0.05, 0.3, 1) infinite both; }
+
+/* beat C — the LoopKeeper dot settles into the gap */
+.history-svg .keeper-dot {
+  animation: rk-dot-settle var(--story-loop) cubic-bezier(0.6, 0.05, 0.3, 1) infinite both;
+}
+.history-svg .dot-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rk-halo var(--story-loop) ease-out infinite both;
+}
+.history-svg .dot-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rk-rays var(--story-loop) ease-out infinite both;
+}
+
+/* beat D — the teal check stamps (closed loops only) */
+.history-svg .check {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rk-check-stamp var(--story-loop) cubic-bezier(0.34, 1.56, 0.64, 1) infinite both;
+}
+.history-svg .check-ring {
+  stroke-dasharray: 51;
+  animation: rk-check-ring var(--story-loop) linear infinite both;
+}
+.history-svg .check-tick {
+  stroke-dasharray: 12;
+  animation: rk-check-tick var(--story-loop) linear infinite both;
+}
+
+/* beat E — streak ticks accrue on the plinth */
+.history-svg .streak-1 { animation: rk-streak-1 var(--story-loop) ease-out infinite both; }
+.history-svg .streak-2 { animation: rk-streak-2 var(--story-loop) ease-out infinite both; }
+.history-svg .streak-3 { animation: rk-streak-3 var(--story-loop) ease-out infinite both; }
+
+/* ── keyframes ── */
+@keyframes rk-ring-in {
+  0%   { stroke-dashoffset: 192; opacity: 0; }
+  8%   { opacity: 1; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes rk-lamp {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.21; }
+}
+
+@keyframes rk-steam {
+  0%   { transform: translateY(0);    opacity: 0; }
+  25%  { opacity: 0.38; }
+  70%  { opacity: 0.25; }
+  100% { transform: translateY(-6px); opacity: 0; }
+}
+
+@keyframes rk-pen-write {
+  0%   { transform: rotate(0deg); }
+  3%   { transform: rotate(2deg); }
+  6%   { transform: rotate(-1.5deg); }
+  9%   { transform: rotate(2deg); }
+  12%  { transform: rotate(-1deg); }
+  15%  { transform: rotate(1.5deg); }
+  18%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes rk-write-line {
+  0%   { stroke-dashoffset: 33; opacity: 0; }
+  2%   { opacity: 1; }
+  16%  { stroke-dashoffset: 0; }
+  93%  { stroke-dashoffset: 0; opacity: 1; }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-write-period {
+  0%, 13% { opacity: 0; transform: scale(0.4); }
+  16%     { opacity: 1; transform: scale(1); }
+  18%     { transform: scale(1.15); }
+  20%, 93% { opacity: 1; transform: scale(1); }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-news-1 {
+  0%, 20% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  23%     { opacity: 1; transform: translate(0, 0) scale(1); }
+  28%     { opacity: 0.9; transform: translate(-24px, -16px) scale(1); }
+  29%, 100% { opacity: 0; }
+}
+@keyframes rk-news-2 {
+  0%, 27% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  30%     { opacity: 1; transform: translate(0, 0) scale(1); }
+  35%     { opacity: 0.7; transform: translate(-19px, -10px) scale(1); }
+  36%, 100% { opacity: 0; }
+}
+@keyframes rk-news-3 {
+  0%, 34% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  37%     { opacity: 1; transform: translate(0, 0) scale(1); }
+  42%     { opacity: 0.55; transform: translate(-15px, -8px) scale(1); }
+  43%, 100% { opacity: 0; }
+}
+
+@keyframes rk-dot-settle {
+  0%, 42% { opacity: 0; transform: translate(12px, 6px); }
+  44%     { opacity: 1; }
+  50%     { transform: translate(-1.5px, -0.8px); }
+  54%, 93% { opacity: 1; transform: translate(0, 0); }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-halo {
+  0%, 44% { opacity: 0; transform: scale(0.4); }
+  49%     { opacity: 0.45; transform: scale(1.15); }
+  54%, 93% { opacity: 0.4; transform: scale(1); }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-rays {
+  0%, 48% { opacity: 0; transform: scale(0.6); }
+  53%     { opacity: 1; transform: scale(1.05); }
+  57%, 93% { opacity: 1; transform: scale(1); }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-check-stamp {
+  0%, 60% { opacity: 0; transform: scale(1.5); }
+  63%     { opacity: 1; transform: scale(0.95); }
+  66%, 93% { opacity: 1; transform: scale(1); }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-check-ring {
+  0%, 61% { stroke-dashoffset: 51; opacity: 0; }
+  63%     { opacity: 1; }
+  71%, 93% { stroke-dashoffset: 0; opacity: 1; }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-check-tick {
+  0%, 66% { stroke-dashoffset: 12; opacity: 0; }
+  68%     { opacity: 1; }
+  74%, 93% { stroke-dashoffset: 0; opacity: 1; }
+  99%, 100% { opacity: 0; }
+}
+
+@keyframes rk-streak-1 {
+  0%, 73% { opacity: 0; transform: translateY(2px); }
+  75%     { opacity: 0.95; transform: translateY(0); }
+  77%, 90% { opacity: 0.95; transform: translateY(0); }
+  96%, 100% { opacity: 0; }
+}
+@keyframes rk-streak-2 {
+  0%, 77% { opacity: 0; transform: translateY(2px); }
+  79%     { opacity: 0.95; transform: translateY(0); }
+  81%, 90% { opacity: 0.95; transform: translateY(0); }
+  96%, 100% { opacity: 0; }
+}
+@keyframes rk-streak-3 {
+  0%, 81% { opacity: 0; transform: translateY(2px); }
+  83%     { opacity: 0.95; transform: translateY(0); }
+  85%, 90% { opacity: 0.95; transform: translateY(0); }
+  96%, 100% { opacity: 0; }
+}
+
+/* ── REDUCED MOTION: collapse to the static illustration ──
+   Authoritative even though global.scss already zeroes durations — the
+   global rule alone would leave infinite loops spinning at 0.01ms. */
+@media (prefers-reduced-motion: reduce) {
+  .history-svg .anim,
+  .history-svg .anim * {
+    animation: none !important;
+  }
+}
+
 @media (min-width: 560px) {
   .rolodex-history {
     flex-direction: row;

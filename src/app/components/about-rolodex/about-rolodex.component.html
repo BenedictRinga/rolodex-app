@@ -31,11 +31,11 @@
     <h3>The original Rolodex — 1958</h3>
     <div class="rolodex-history">
       <div class="history-image">
-        <svg viewBox="0 0 320 180" class="history-svg" role="img"
-             aria-label="At a warmly lamplit desk, a secretary's hand lifts one card out of the Rolodex wheel while a coral pen writes the latest update onto it; a trail of coral dots carries the news back to the open ring, where the LoopKeeper dot settles into the gap beside a small teal loop-closed check.">
+        <svg viewBox="0 0 320 180" class="history-svg story-svg" role="img"
+             aria-label="At a warmly lamplit desk, a secretary's hand lifts one card out of the Rolodex wheel while a coral pen writes the latest update onto it; a trail of coral dots carries the news back to the open ring, where the LoopKeeper dot settles into the gap beside a small teal loop-closed check. The scene animates gently on a loop.">
           <!-- paper + lamp warmth -->
           <rect width="320" height="180" fill="#FAF6F0"/>
-          <polygon points="40,42 178,122 46,122" fill="#FFB25C" opacity="0.15"/>
+          <polygon class="lamp-glow anim" points="40,42 178,122 46,122" fill="#FFB25C" opacity="0.15"/>
           <path d="M0 22 Q18 14 30 24" stroke="#241E19" stroke-width="5" stroke-linecap="round" fill="none"/>
           <path d="M22 16 L58 30 L38 56 Z" fill="#241E19"/>
           <circle cx="40" cy="41" r="4.5" fill="#FFB25C"/>
@@ -50,15 +50,20 @@
           <ellipse cx="37" cy="120.5" rx="16" ry="2.5" fill="#241E19" opacity="0.85"/>
           <path d="M27 106 h20 l-2.5 13 h-15 Z" fill="#FFFFFF" stroke="#241E19" stroke-width="1.5" stroke-linejoin="round"/>
           <path d="M47 108 q7 3 1 8" fill="none" stroke="#241E19" stroke-width="1.5"/>
-          <path d="M33 101 c-3 -4 3 -7 0 -11" fill="none" stroke="#241E19" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
-          <path d="M42 103 c-3 -4 3 -6 0 -10" fill="none" stroke="#241E19" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+          <path class="steam steam-a anim" d="M33 101 c-3 -4 3 -7 0 -11" fill="none" stroke="#241E19" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+          <path class="steam steam-b anim" d="M42 103 c-3 -4 3 -6 0 -10" fill="none" stroke="#241E19" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
 
           <!-- shadow of the lifted card on the desk -->
           <ellipse cx="205" cy="124" rx="44" ry="4" fill="#241E19" opacity="0.12"/>
 
           <!-- the wheel that became a loop: open ring, one card gone -->
           <polygon points="74,122 102,122 96,112 80,112" fill="#241E19"/>
-          <path d="M100.3 44.2 A36 36 0 1 0 121.8 65.7" stroke="#241E19" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <g class="streak-ticks">
+            <rect class="streak streak-1 anim" x="82.5" y="114" width="2" height="6" rx="1" fill="#FF5A36"/>
+            <rect class="streak streak-2 anim" x="87.5" y="114" width="2" height="6" rx="1" fill="#FF5A36"/>
+            <rect class="streak streak-3 anim" x="92.5" y="114" width="2" height="6" rx="1" fill="#FF5A36"/>
+          </g>
+          <path class="wheel-ring anim" d="M100.3 44.2 A36 36 0 1 0 121.8 65.7" stroke="#241E19" stroke-width="7" stroke-linecap="round" fill="none"/>
           <g transform="rotate(25 88 78)">
             <rect x="76" y="14" width="24" height="32" rx="3" fill="#FFFFFF" stroke="#241E19" stroke-width="1.5"/>
             <rect x="81" y="9" width="14" height="7" rx="2" fill="#FF5A36"/>
@@ -80,14 +85,16 @@
             <rect x="81" y="9" width="14" height="7" rx="2" fill="#E3D3BD"/>
           </g>
           <!-- the LoopKeeper dot settling into the gap -->
-          <circle cx="116" cy="49" r="10" fill="#FFB25C" opacity="0.4"/>
-          <circle cx="116" cy="49" r="6" fill="#FF5A36" stroke="#FAF6F0" stroke-width="1.5"/>
-          <path d="M126 38 l7 -7 M135 46 l9 -3 M121 31 l3 -8" stroke="#FF5A36" stroke-width="2" stroke-linecap="round"/>
+          <g class="keeper-dot anim">
+            <circle class="dot-halo anim" cx="116" cy="49" r="10" fill="#FFB25C" opacity="0.4"/>
+            <circle class="dot-core" cx="116" cy="49" r="6" fill="#FF5A36" stroke="#FAF6F0" stroke-width="1.5"/>
+          </g>
+          <path class="dot-rays anim" d="M126 38 l7 -7 M135 46 l9 -3 M121 31 l3 -8" stroke="#FF5A36" stroke-width="2" stroke-linecap="round"/>
 
           <!-- the news travels from the pen back to the loop -->
-          <circle cx="182" cy="84" r="2.4" fill="#FF5A36" opacity="0.9"/>
-          <circle cx="158" cy="68" r="2.1" fill="#FF5A36" opacity="0.7"/>
-          <circle cx="139" cy="58" r="1.8" fill="#FF5A36" opacity="0.55"/>
+          <circle class="news-dot news-1 anim" cx="182" cy="84" r="2.4" fill="#FF5A36" opacity="0.9"/>
+          <circle class="news-dot news-2 anim" cx="158" cy="68" r="2.1" fill="#FF5A36" opacity="0.7"/>
+          <circle class="news-dot news-3 anim" cx="139" cy="58" r="1.8" fill="#FF5A36" opacity="0.55"/>
 
           <!-- the lifted card, writing back -->
           <g transform="rotate(-8 204 92)">
@@ -96,15 +103,19 @@
             <rect x="196" y="60" width="16" height="9" rx="2" fill="#FF5A36"/>
             <path d="M172 80 q6 -5 12 0 t12 0" fill="none" stroke="#241E19" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
             <path d="M172 91 H230 M172 100 H222" stroke="#241E19" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
-            <path d="M172 109 H204" stroke="#FF5A36" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="206" cy="109" r="2.6" fill="#FF5A36"/>
-            <circle cx="228" cy="110" r="8" fill="none" stroke="#1E9E8E" stroke-width="2.5"/>
-            <path d="M224.5 110 l2.5 2.8 l4.5 -5.5" fill="none" stroke="#1E9E8E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="write-line anim" d="M172 109 H204" stroke="#FF5A36" stroke-width="2.5" stroke-linecap="round"/>
+            <circle class="write-period anim" cx="206" cy="109" r="2.6" fill="#FF5A36"/>
+            <g class="check anim">
+              <circle class="check-ring" cx="228" cy="110" r="8" fill="none" stroke="#1E9E8E" stroke-width="2.5"/>
+              <path class="check-tick" d="M224.5 110 l2.5 2.8 l4.5 -5.5" fill="none" stroke="#1E9E8E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
           </g>
 
           <!-- the coral pen, mid-sentence -->
-          <path d="M208.5 107.8 L212 104.3" stroke="#241E19" stroke-width="3" stroke-linecap="round"/>
-          <path d="M211 105 L233 83" stroke="#FF5A36" stroke-width="5" stroke-linecap="round"/>
+          <g class="pen anim">
+            <path d="M208.5 107.8 L212 104.3" stroke="#241E19" stroke-width="3" stroke-linecap="round"/>
+            <path d="M211 105 L233 83" stroke="#FF5A36" stroke-width="5" stroke-linecap="round"/>
+          </g>
 
           <!-- her hand: she supplies the caring -->
           <path d="M320 158 L286 126 L268 140 L296 168 Z" fill="#FFB25C"/>
