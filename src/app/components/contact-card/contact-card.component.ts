@@ -15,6 +15,7 @@ import { ShareAppService, ShareMoment } from '../../services/share-app/share-app
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
+import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -708,6 +709,22 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
       initialBreakpoint: 1, // 2026-08-18: full height - the composer is fully visible
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
+  /** 2026-08-23 VIDEO OFF THE CARD: WebRTC call + clip, straight from the card back. */
+  async openVideoCall(contact: any): Promise<void> {
+    const modal = await this.modalController.create({
+      component: VideoCallModalComponent,
+      componentProps: {
+        contact,
+        contactName: contact?.name || contact?.firstName || 'this contact',
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
       keyboardClose: false,
     });
     await modal.present();
