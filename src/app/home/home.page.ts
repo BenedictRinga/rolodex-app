@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AlertController, ModalController, ActionSheetController } from '@ionic/angular';
 import { SecurityService } from '../services/security/security.service';
+import { SoundService } from '../services/sound/sound.service';
 import { ContactInfo } from '../models/contacts';
 import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
 import { FollowUpEngine } from '../services/followup-engine/followup-engine.service';
@@ -56,7 +57,6 @@ export class HomePage implements OnInit, OnDestroy {
   rolodexAiBusy = false;
   rolodexAiTyping = false;
   rolodexAiInput = '';
-  private chatAudioCtx?: AudioContext;
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
     { from: 'assistant', text: 'Hello — who\'s the one you keep meaning to text?' },
   ];
@@ -116,6 +116,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly storageService: StorageService,
     private readonly security: SecurityService,
     private readonly assistantCard: AssistantCardService,
+    private readonly sound: SoundService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -1073,7 +1074,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (!text || this.rolodexAiBusy) return;
     this.rolodexAiInput = '';
     this.rolodexAiMessages.push({ from: 'user', text });
-    this.playChatSound('send');
+    void this.sound.playChatSend();
     this.rolodexAiBusy = true;
     this.rolodexAiTyping = true;
     this.scrollChatToBottom();
@@ -1093,14 +1094,23 @@ export class HomePage implements OnInit, OnDestroy {
       const data = await res.json().catch(() => ({}));
       const reply = String(data?.reply || 'AI Assistant could not reply right now — try again.');
       this.rolodexAiMessages.push({ from: 'assistant', text: reply });
-      this.playChatSound('receive');
+      void this.sound.playChatReceive();
     } catch {
       this.rolodexAiMessages.push({ from: 'assistant', text: 'AI Assistant could not reply right now — try again.' });
-      this.playChatSound('receive');
+      void this.sound.playChatReceive();
     } finally {
       this.rolodexAiTyping = false;
       this.rolodexAiBusy = false;
       this.scrollChatToBottom();
+    }
+  }
+
+  /** 2026-08-23: Enter sends; Shift+Enter makes a new line in the auto-grow box. */
+  onChatEnter(event: Event): void {
+    const kbd = event as KeyboardEvent;
+    if (!kbd.shiftKey) {
+      kbd.preventDefault();
+      void this.sendRolodexAi();
     }
   }
 
@@ -1110,32 +1120,6 @@ export class HomePage implements OnInit, OnDestroy {
       const el = this.chatThread?.nativeElement;
       if (el) el.scrollTop = el.scrollHeight;
     });
-  }
-
-  /** 2026-08-23: tiny WebAudio send/receive ticks (optional, silent on block). */
-  private playChatSound(kind: 'send' | 'receive'): void {
-    try {
-      const Ctx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!Ctx) return;
-      if (!this.chatAudioCtx) this.chatAudioCtx = new Ctx();
-      const ctx = this.chatAudioCtx;
-      if (ctx.state === 'suspended') void ctx.resume();
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      const start = kind === 'send' ? 520 : 420;
-      const end = kind === 'send' ? 760 : 620;
-      osc.frequency.setValueAtTime(start, now);
-      osc.frequency.exponentialRampToValueAtTime(end, now + 0.09);
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(kind === 'send' ? 0.08 : 0.07, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + (kind === 'send' ? 0.12 : 0.16));
-      osc.start(now);
-      osc.stop(now + (kind === 'send' ? 0.13 : 0.17));
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-    } catch { /* sound is optional */ }
   }
 
   /** 2026-08-23: attach a good reply to a card (the loop) or copy it elsewhere. */
@@ -1179,7 +1163,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
   openRolodexAiChat(): void {
-    this.rolodexAiChatOpen = true;
+    // this.rolodexAiChatOpen = true;
+    this.rolodexAiChatOpen ? this.rolodexAiChatOpen = false : this.rolodexAiChatOpen = true;
   }
 
   /** 2026-08-22 THE ROLODEX THAT REMEMBERS: after any send, update the card on

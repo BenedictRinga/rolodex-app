@@ -287,13 +287,14 @@ export class RolodexComponent implements OnInit {
     return 'Updates · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }
 
-  /** 2026-08-16 ABOUT: the app story + the padlocked Investors section. */
+  /** 2026-08-16 ABOUT: the app story + the padlocked Investors section.
+   *  2026-08-23: NOT a sheet modal — full-height so the content scrolls
+   *  stably instead of dragging the modal down/closed while trying to read. */
   async openAbout(): Promise<void> {
     const modal = await this.modalController.create({
       component: AboutRolodexComponent,
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95],
-      initialBreakpoint: 0.9,
+      initialBreakpoint: 1,
     });
     await modal.present();
   }

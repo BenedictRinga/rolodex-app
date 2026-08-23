@@ -140,6 +140,14 @@ app-rolodex {
   --padding-bottom: 8px;
   font-size: 13.5px;
   border-radius: 12px;
+  /* 2026-08-23: auto-grow up to ~6 lines, then scroll inside the field. */
+  max-height: 126px;
+  overflow-y: auto;
+}
+
+.openloop-input textarea {
+  max-height: 126px;
+  overflow-y: auto;
 }
 
 /* 2026-08-16: compact storage header for mobile — smaller segment + button fonts. */
