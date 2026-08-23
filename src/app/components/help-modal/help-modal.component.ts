@@ -89,8 +89,6 @@ export class HelpModalComponent {
     {
       label: 'Coming next',
       features: [
-        { id: 'chat', title: 'Chat off the card', guide: 'Flip to a card and message right there — no separate chatroom list. The thread lives with the person.' },
-        { id: 'video', title: 'Video off the card', guide: 'A call, straight from the card, when you need the face — not a ringtone menu.' },
         { id: 'ai', title: 'AI drafts — getting smarter', guide: 'Drafts composed from your card’s context — you just hit Send. Rolling out across the follow-up engine first.' },
       ],
     },
