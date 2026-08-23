@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 69, // 2026-08-23 About image lightbox (full-screen click), chat corner radii continuous, chat actions horizontal with smaller labels
+  build: 70, // 2026-08-23 Investors inner vault: Ox Alpha analyses behind northstar-x2 (assets + expandable pre panels)
 };
 
 /*

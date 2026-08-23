@@ -948,3 +948,20 @@ ion-content::part(scroll) {
   padding: 4px 8px;
   border-radius: 8px;
 }
+
+
+/* ============ INNER VAULT: Ox Alpha analyses (2026-08-23) ============ */
+.analysis-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary);
+  background: var(--rolodex-surface-alt);
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0 0;
+  max-height: 46vh;
+  overflow-y: auto;
+}

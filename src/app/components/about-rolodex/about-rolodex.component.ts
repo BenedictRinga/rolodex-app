@@ -53,6 +53,17 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   x2Unlocked = false;
   feedbackList: any[] = [];
   feedbackLoading = false;
+  /** 2026-08-23 INNER VAULT: Ox Alpha analyses served from app assets. */
+  analyses: { file: string; title: string; text: string; open: boolean }[] = [
+    { file: 'assets/analyses/01-playback-core.md', title: 'Playback core deep review', text: '', open: false },
+    { file: 'assets/analyses/02-stock-photos.md', title: 'Era stock-photo spec', text: '', open: false },
+    { file: 'assets/analyses/03-card-evolution.md', title: 'Five-era evolution timeline', text: '', open: false },
+    { file: 'assets/analyses/04-listen-feedback.md', title: 'Listen silent-player diagnosis', text: '', open: false },
+    { file: 'assets/analyses/05-about-refine.md', title: 'About copy refinement', text: '', open: false },
+    { file: 'assets/analyses/06-rolodex-impl.md', title: 'Rolodex animation implementation', text: '', open: false },
+    { file: 'assets/analyses/07-grok-video.md', title: 'Grok video completion path', text: '', open: false },
+  ];
+  analysesLoading = false;
 
   constructor(
     private readonly modalController: ModalController,
@@ -131,6 +142,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
             if (pass.toLowerCase() === (INVESTOR_PASSWORD + '-x2').toLowerCase()) {
               this.x2Unlocked = true;
               void this.loadFeedback();
+              void this.loadAnalyses();
               return true;
             }
             void alert.dismiss();
@@ -160,6 +172,32 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     } finally {
       this.feedbackLoading = false;
     }
+  }
+
+  /** 2026-08-23 INNER VAULT: load the Ox Alpha analysis texts from assets. */
+  async loadAnalyses(): Promise<void> {
+    if (this.analysesLoading) return;
+    this.analysesLoading = true;
+    try {
+      await Promise.all(this.analyses.map(async (a) => {
+        if (a.text) return;
+        try {
+          const res = await fetch(a.file, { cache: 'no-store' });
+          a.text = await res.text();
+        } catch {
+          a.text = '(Analysis file not found in this build.)';
+        }
+      }));
+    } finally {
+      this.analysesLoading = false;
+    }
+  }
+
+  toggleAnalysis(index: number): void {
+    const a = this.analyses[index];
+    if (!a) return;
+    a.open = !a.open;
+    if (a.open && !a.text) void this.loadAnalyses();
   }
 
   /** The current device's trial status for the investor control. */

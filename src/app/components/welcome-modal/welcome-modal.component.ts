@@ -52,8 +52,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'intro',
       kicker: 'Karibu sana!',
       title: 'LoopKeeper — close the loop you keep meaning to close',
-      copy: 'Start with one person you keep meaning to text. Set the rhythm. Close the loop.',
-      surprise: 'SURPRISE — a surprise is waiting at the end of this demo.',
+      copy: 'Start with one person you keep meaning to contact. Set the rhythm. Close the loop.',
+      surprise: 'A surprise awaits at the end of this demo.',
     },
     {
       id: 'card',

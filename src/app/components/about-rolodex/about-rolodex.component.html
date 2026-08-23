@@ -562,6 +562,19 @@
             <ion-button size="small" fill="clear" (click)="loadFeedback()" [disabled]="feedbackLoading">
               {{ feedbackLoading ? 'Loading…' : 'Refresh suggestions' }}
             </ion-button>
+
+            <p class="investor-chart-title" style="margin-top:16px;"><strong>Ox Alpha analyses — inner vault</strong></p>
+            <p class="investor-live-note">The full strategy/engineering analyses behind the decisions, preserved here.</p>
+            <div *ngIf="analysesLoading" class="investor-live-note">Loading analyses…</div>
+            <div class="feedback-card" *ngFor="let a of analyses; let i = index">
+              <div class="feedback-summary" style="cursor:pointer;font-weight:600;" (click)="toggleAnalysis(i)">
+                {{ a.open ? '▾' : '▸' }} {{ a.title }}
+              </div>
+              <pre *ngIf="a.open" class="analysis-text">{{ a.text }}</pre>
+            </div>
+            <ion-button size="small" fill="clear" (click)="loadAnalyses()" [disabled]="analysesLoading">
+              {{ analysesLoading ? 'Loading…' : 'Reload analyses' }}
+            </ion-button>
           </ng-container>
         </div>
 
