@@ -59,3 +59,16 @@ across all of these, or the Confidante will answer from stale facts.
   `package-lock.json` is NOT in sync. If a clean install is ever required, use
   `npm install --legacy-peer-deps` (or repair the lockfile) despite the YARN
   ONLY rule above — this repo has no `yarn.lock`.
+
+## Anonymous product analytics (build 75+)
+- Service: **`src/app/services/analytics/analytics.service.ts`** — queues
+  anonymous events (no contacts/names/message text), flushes in batches to
+  `POST /api/rolodex/analytics/events`, consent key
+  `loopkeeper_analytics_enabled` (default ON, toggle in Settings → Privacy).
+- Track meaningful actions: `app_launch`, `session_start/end` (duration),
+  `card_added`, `card_edited`, `card_removed`, `message_sent`, `loop_closed`,
+  `invite_created`, `billing_started`, `billing_succeeded`, `video_clip_sent`.
+- Investors portal (`about-rolodex.component.html`) renders the backend
+  analytics summary: DAU/WAU/MAU, sessions, avg session, retention cohorts,
+  activation, top events. Keep the portal fields in sync with
+  `rolodex-server` `computeAnalyticsSummary()`.
