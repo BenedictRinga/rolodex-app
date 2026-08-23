@@ -39,8 +39,8 @@
     </div>
     <div class="openloop-chat-thread" #chatThread>
       <div *ngFor="let m of rolodexAiMessages" class="openloop-msg" [class.user]="m.from === 'user'">
-        <div class="openloop-bubble">{{ m.text }}</div>
-        <div *ngIf="m.from === 'assistant' && m.text" class="openloop-actions">
+        <div *ngIf="m.text" class="openloop-bubble">{{ m.text }}</div>
+        <div *ngIf="m.from === 'assistant'" class="openloop-actions">
           <ion-button fill="clear" size="small" class="openloop-action" (click)="copyRolodexAi(m.text)" appTooltip="Copy whole reply">
             <ion-icon name="copy-outline" slot="start"></ion-icon>
             Copy

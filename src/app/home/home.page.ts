@@ -1122,21 +1122,75 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
-  /** 2026-08-23: attach a good reply to a card (the loop) or copy it elsewhere. */
+  /** 2026-08-23: send a good reply to a card — LoopKeeper search, device, or copy. */
   async sendRolodexAiToCard(text: string): Promise<void> {
-    const picks = (this.contacts || []).slice(0, 8);
-    const buttons: any[] = picks.map((c: any) => ({
-      text: c.name || 'Unnamed card',
-      handler: () => this.attachAiReplyToContact(c, text),
-    }));
-    buttons.push({ text: 'Copy instead', handler: () => this.copyRolodexAi(text) });
-    buttons.push({ text: 'Cancel', role: 'cancel' });
+    if (!text?.trim()) {
+      void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
+      return;
+    }
     const sheet = await this.actionSheet.create({
-      header: 'Attach this reply to a card?',
-      subHeader: 'You can also copy it into any other app.',
-      buttons,
+      header: 'Send this reply?',
+      subHeader: 'To a LoopKeeper card, your device contacts, or copy it into another app.',
+      buttons: [
+        { text: 'COPY', icon: 'copy-outline', handler: () => this.copyRolodexAi(text) },
+        { text: 'LoopKeeper card', icon: 'search-outline', handler: () => void this.openAiCardSearch(text) },
+        { text: 'Device contacts', icon: 'phone-portrait-outline', handler: () => void this.openAiDeviceContact(text) },
+        { text: 'Cancel', role: 'cancel' },
+      ],
     });
     await sheet.present();
+  }
+
+  /** 2026-08-23: LoopKeeper path — the home search bar/sheet picks the card. */
+  async openAiCardSearch(text: string): Promise<void> {
+    if (!text?.trim()) {
+      void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
+      return;
+    }
+    const modal = await this.modalController.create({
+      component: SearchModalComponent,
+      componentProps: { contacts: this.contacts },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+    const res = await modal.onDidDismiss();
+    if (res?.data?.contact) this.attachAiReplyToContact(res.data.contact, text);
+  }
+
+  /** 2026-08-23: DEVICE path — the browser contact picker chooses the person. */
+  async openAiDeviceContact(text: string): Promise<void> {
+    if (!text?.trim()) {
+      void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
+      return;
+    }
+    const picker = (navigator as any)?.contacts;
+    if (!picker?.select) {
+      void this.alertsService.showToast('Pick from your phone on Android Chrome — or choose LoopKeeper.', 5000);
+      return;
+    }
+    try {
+      const props = ['name', 'email', 'tel', 'address', 'icon'];
+      const picked = await picker.select(props, { multiple: false });
+      if (!picked?.length) return; // user cancelled
+      const raw = picked[0];
+      const c = this.mapPickedContact(raw, Date.now(), 0);
+      if (raw?.icon instanceof Blob) {
+        try {
+          c.image.base64String = await new Promise<string | null>((res) => {
+            const fr = new FileReader();
+            fr.onload = () => res(typeof fr.result === 'string' ? fr.result : null);
+            fr.onerror = () => res(null);
+            fr.readAsDataURL(raw.icon);
+          });
+        } catch { /* keep the generated avatar */ }
+      }
+      this.contacts = [c, ...this.contacts];
+      this.onContactsChange(this.contacts);
+      this.attachAiReplyToContact(c, text);
+    } catch { /* user cancelled the picker */ }
   }
 
   private attachAiReplyToContact(contact: any, text: string): void {
@@ -1153,6 +1207,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** Copy the WHOLE AI reply — the counterweight to the send button. */
   async copyRolodexAi(text: string): Promise<void> {
+    if (!text?.trim()) {
+      void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
+      return;
+    }
     try {
       await navigator.clipboard.writeText(text);
       await this.alertsService.showToast('AI Assistant reply copied', 1800);
