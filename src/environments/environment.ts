@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 67, // 2026-08-23 About era carousel v2: REAL classic rotary Rolodex wheel + cards box (CC BY, credits) + LOC secretary; sepia/Ken Burns; SVG fallback
+  build: 68, // 2026-08-23 About five-era evolution timeline: card trays -> Rolodex -> pocket folders -> PDA -> LoopKeeper (young'uns copy beats, era images, credits)
 };
 
 /*

@@ -716,3 +716,194 @@ ion-content::part(scroll) {
 @media (prefers-reduced-data: reduce) {
   .history-image__frame { display: none; }
 }
+
+
+/* ============================================================
+   2026-08-23 THE FIVE ERAS — evolution timeline (CSS-only stepper)
+   Horizontal grid >=720px, vertical rail below. Zero JS, zero
+   keyframes: the timeline is fully static, so reduced-motion needs
+   nothing disabled here. Inline SVG glyphs sit UNDER every photo
+   (same "SVG remains under everything" contract as the hero).
+   ============================================================ */
+.era-timeline-block { margin-top: 14px; }
+
+.era-timeline-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-secondary);
+  margin: 0 0 10px;
+}
+
+.era-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.era-step { position: relative; padding-left: 24px; }
+
+.era-step::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 16px;
+  bottom: -14px;
+  width: 2px;
+  background: var(--rolodex-border-light);
+}
+.era-step:last-child::before { display: none; }
+
+.era-dot {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--rolodex-surface);
+  border: 2px solid var(--rolodex-border);
+  z-index: 1;
+}
+
+.era-step--5 .era-dot {
+  background: var(--rolodex-primary);
+  border-color: var(--rolodex-primary-dark);
+  box-shadow: 0 0 0 4px rgba(var(--rolodex-primary-rgb), 0.16);
+}
+
+.era-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.era-thumb {
+  position: relative;
+  flex: 0 0 84px;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--rolodex-border-light);
+  background: var(--rolodex-surface-alt);
+
+  img,
+  svg[role="img"] {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(.45) saturate(.82) contrast(1.06);
+  }
+}
+
+.era-glyph {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--rolodex-text-tertiary);
+  background: var(--rolodex-surface-alt);
+}
+
+.era-thumb.is-broken img { display: none; }
+.era-thumb--now {
+  border-color: var(--rolodex-primary);
+  box-shadow: 0 0 0 1px rgba(var(--rolodex-primary-rgb), 0.25);
+}
+
+.era-meta { min-width: 0; }
+
+.era-year {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-secondary);
+}
+
+.era-chip {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #241E19;
+  background: #FFB25C;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.era-name {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--rolodex-text);
+  margin-top: 2px;
+}
+
+.era-line {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--rolodex-text-secondary);
+  margin: 2px 0 0;
+}
+
+.era-close {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--rolodex-text-secondary);
+  border-top: 1px dashed var(--rolodex-border-light);
+  margin: 14px 0 0;
+  padding-top: 10px;
+
+  strong { color: var(--rolodex-text); }
+}
+
+@media (min-width: 720px) {
+  .era-timeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 12px;
+    row-gap: 0;
+  }
+
+  .era-step { padding-left: 0; }
+
+  .era-step::before {
+    left: 50%;
+    right: auto;
+    top: 7px;
+    bottom: auto;
+    width: 100%;
+    height: 2px;
+  }
+
+  .era-dot {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+  }
+
+  .era-row { flex-direction: column; gap: 8px; }
+  .era-thumb { flex-basis: auto; width: 100%; }
+}
+
+@media (prefers-reduced-data: reduce) {
+  .era-thumb picture { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-timeline-block * { animation: none !important; transition: none !important; }
+}

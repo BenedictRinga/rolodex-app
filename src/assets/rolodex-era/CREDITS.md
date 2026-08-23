@@ -7,6 +7,8 @@
 | rolodex-rotary.jpg/.webp | Wikimedia Commons — File:Rolodex.agr.jpg (ArnoldReinhold, own work) | CC BY 2.5 | ArnoldReinhold via Wikimedia Commons |
 | secretary-desk-1950s.jpg/.webp | Library of Congress Prints & Photographs — Washington School for Secretaries, LOC thc 5a49194 | Public domain / no known restrictions | LOC |
 | rolodex-cards-box.jpg/.webp | Wikimedia Commons — File:Rolodex Cards - End of Box.jpg (Bill Bradford) | CC BY 2.0 | Bill Bradford via Flickr https://www.flickr.com/photos/mrbill/3509554704/ |
+| index-card-trays.jpg/.webp | Wikimedia Commons — File:Card catalog from page 167 of Manual of library classification and shelf arrangement (1898) | No restrictions / public domain | Internet Archive book scan |
+| pda-pocket-organizer.jpg/.webp | Wikimedia Commons — File:Us Robotics Palm Pilot in Computer History Museum - California.jpg | CC BY 2.0 | Photographer via Wikimedia Commons |
 
 ## Links
 - Rolodex.agr.jpg: https://commons.wikimedia.org/wiki/File:Rolodex.agr.jpg

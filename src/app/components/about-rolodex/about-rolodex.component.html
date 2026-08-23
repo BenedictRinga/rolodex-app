@@ -155,6 +155,12 @@
         <div class="rk-lockup" aria-hidden="true"></div>
       </div>
       <div class="history-copy">
+        <!-- 2026-08-23 BEAT A: the secretary stakes (user-approved) -->
+        <p>
+          Young'uns today may not know how crucial it was that a treasured secretary
+          kept the records — connections, relationships, dates, appointments — for
+          the best executives. Nothing forgotten, everything moving smoothly, always.
+        </p>
         <p>
           Before software, the remembering lived on a desk. The <strong>Rolodex</strong> —
           Arnold Neustadter's rolling index, patented 1956 and on desks everywhere
@@ -163,6 +169,14 @@
           <em>ask about the daughter</em>. Flip the wheel, find the face, make the
           call. The card carried the details so the person at the desk could carry
           the relationship.
+        </p>
+        <!-- 2026-08-23 BEAT B: pocket folders spread -->
+        <p>
+          What came next were plastic pocket folders with card slots — the Rolodex
+          name survived across countless iterations. At first they lived on the
+          secretary's desk, the quiet center of the executive suite. Then they
+          became smaller and handier, and every businessperson kept one or several
+          of their own — or synced theirs with an assistant's.
         </p>
         <p>
           LoopKeeper is that idea, still working: one card per person, holding
@@ -173,6 +187,153 @@
         </p>
       </div>
     </div>
+
+    <!-- 2026-08-23 THE FIVE ERAS: from the desk to the loop. CSS-only stepper,
+         horizontal >=720px / vertical rail below. Photos fail soft to inline
+         SVG glyphs (also shown under prefers-reduced-data). -->
+    <div class="era-timeline-block">
+      <h4 class="era-timeline-title">From the desk to the loop — five eras of keeping track</h4>
+
+      <ol class="era-timeline" role="list">
+
+        <li class="era-step era-step--1">
+          <span class="era-dot" aria-hidden="true"></span>
+          <div class="era-row">
+            <div class="era-thumb">
+              <svg class="era-glyph" viewBox="0 0 96 72" aria-hidden="true">
+                <rect x="14" y="18" width="68" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M22 30h52M22 40h52M22 50h38" stroke="currentColor" stroke-width="2" opacity=".45"/>
+                <rect x="24" y="12" width="12" height="6" rx="1.5" fill="currentColor" opacity=".7"/>
+              </svg>
+              <picture>
+                <source type="image/webp" srcset="assets/rolodex-era/index-card-trays.webp">
+                <img src="assets/rolodex-era/index-card-trays.jpg"
+                     alt="Wooden index-card trays holding rows of handwritten record cards — the pre-Rolodex office desk."
+                     width="640" height="480" loading="lazy" decoding="async"
+                     onerror="this.closest('.era-thumb').classList.add('is-broken')">
+              </picture>
+            </div>
+            <div class="era-meta">
+              <span class="era-year">Before 1958</span>
+              <span class="era-name">Paper card trays</span>
+              <p class="era-line">Every desk kept its own little archive.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="era-step era-step--2">
+          <span class="era-dot" aria-hidden="true"></span>
+          <div class="era-row">
+            <div class="era-thumb">
+              <svg class="era-glyph" viewBox="0 0 96 72" aria-hidden="true">
+                <circle cx="48" cy="36" r="20" fill="none" stroke="currentColor" stroke-width="2"/>
+                <g fill="currentColor" opacity=".7">
+                  <rect x="44" y="10" width="8" height="10" rx="1.5"/>
+                  <rect x="44" y="52" width="8" height="10" rx="1.5"/>
+                  <rect x="18" y="32" width="10" height="8" rx="1.5"/>
+                  <rect x="68" y="32" width="10" height="8" rx="1.5"/>
+                </g>
+              </svg>
+              <picture>
+                <source type="image/webp" srcset="assets/rolodex-era/rolodex-rotary.webp">
+                <img src="assets/rolodex-era/rolodex-rotary.jpg"
+                     alt="A classic rotary Rolodex card wheel with alphabet tabs on a wooden desk."
+                     width="640" height="502" loading="lazy" decoding="async"
+                     onerror="this.closest('.era-thumb').classList.add('is-broken')">
+              </picture>
+            </div>
+            <div class="era-meta">
+              <span class="era-year">1958</span>
+              <span class="era-name">The rotary wheel</span>
+              <p class="era-line">Flip, find, call — one card per person.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="era-step era-step--3">
+          <span class="era-dot" aria-hidden="true"></span>
+          <div class="era-row">
+            <div class="era-thumb">
+              <svg class="era-glyph" viewBox="0 0 96 72" aria-hidden="true">
+                <rect x="16" y="14" width="64" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="24" y="22" width="48" height="8" rx="1.5" fill="currentColor" opacity=".55"/>
+                <rect x="24" y="34" width="48" height="8" rx="1.5" fill="currentColor" opacity=".35"/>
+                <rect x="24" y="46" width="48" height="6" rx="1.5" fill="currentColor" opacity=".2"/>
+              </svg>
+              <picture>
+                <source type="image/webp" srcset="assets/rolodex-era/rolodex-cards-box.webp">
+                <img src="assets/rolodex-era/rolodex-cards-box.jpg"
+                     alt="A box of Rolodex cards standing in their plastic pockets, alphabet tabs visible."
+                     width="640" height="502" loading="lazy" decoding="async"
+                     onerror="this.closest('.era-thumb').classList.add('is-broken')">
+              </picture>
+            </div>
+            <div class="era-meta">
+              <span class="era-year">1960s–'80s</span>
+              <span class="era-name">Pocket folders</span>
+              <p class="era-line">The name survived; the wheel left her desk.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="era-step era-step--4">
+          <span class="era-dot" aria-hidden="true"></span>
+          <div class="era-row">
+            <div class="era-thumb">
+              <svg class="era-glyph" viewBox="0 0 96 72" aria-hidden="true">
+                <rect x="32" y="8" width="32" height="56" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="37" y="16" width="22" height="30" rx="2" fill="currentColor" opacity=".3"/>
+                <path d="M40 24h16M40 31h16M40 38h10" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="48" cy="56" r="3" fill="currentColor" opacity=".7"/>
+              </svg>
+              <picture>
+                <source type="image/webp" srcset="assets/rolodex-era/pda-pocket-organizer.webp">
+                <img src="assets/rolodex-era/pda-pocket-organizer.jpg"
+                     alt="An early personal digital assistant with a stylus showing a contacts list."
+                     width="640" height="480" loading="lazy" decoding="async"
+                     onerror="this.closest('.era-thumb').classList.add('is-broken')">
+              </picture>
+            </div>
+            <div class="era-meta">
+              <span class="era-year">1996–2010s</span>
+              <span class="era-name">Goes electronic</span>
+              <p class="era-line">The Rolodex shrinks into a pocket organizer.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="era-step era-step--5 is-now" aria-current="step">
+          <span class="era-dot" aria-hidden="true"></span>
+          <div class="era-row">
+            <div class="era-thumb era-thumb--now">
+              <!-- Era 5: in-house SVG — the card that writes back. No photo, no license, no bytes. -->
+              <svg viewBox="0 0 96 72" role="img"
+                   aria-label="A LoopKeeper contact card with a coral tab and a teal loop-closed check — today's card writes back.">
+                <rect x="18" y="12" width="60" height="44" rx="6" fill="#FFFFFF" stroke="#241E19" stroke-width="2"/>
+                <rect x="42" y="6" width="14" height="8" rx="2" fill="#FF5A36"/>
+                <path d="M28 28 q5 -6 10 0 t10 0" fill="none" stroke="#241E19" stroke-width="2" stroke-linecap="round"/>
+                <path d="M28 38h30M28 46h22" stroke="#241E19" stroke-width="2" opacity=".3"/>
+                <circle cx="66" cy="46" r="8" fill="none" stroke="#1E9E8E" stroke-width="2.5"/>
+                <path d="M62.5 46l2.5 2.8l4.5 -5.5" fill="none" stroke="#1E9E8E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="era-meta">
+              <span class="era-chip">Today</span>
+              <span class="era-name">AI Assistant + LoopKeeper</span>
+              <p class="era-line">The card writes back — the AI is the new secretary.</p>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+
+      <!-- the arc, closed -->
+      <p class="era-close">
+        The wheel became the loop. The card writes back.
+        <strong>LoopKeeper is that secretary, digitized.</strong>
+      </p>
+    </div>
+
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
