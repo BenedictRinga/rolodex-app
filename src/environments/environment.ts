@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 64, // 2026-08-23 Grok-completion Stage A: cinematic CSS/SVG storyboard (push-in, dust motes, dark lockup, 24s loop; reduced-motion static)
+  build: 65, // 2026-08-23 FFmpeg.wasm client-side port (Zyppar pattern) for on-device video conversion in video call clips
 };
 
 /*

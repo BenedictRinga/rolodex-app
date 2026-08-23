@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@ang
 import { ModalController } from '@ionic/angular';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { FfmpegService } from '../../services/ffmpeg/ffmpeg.service';
 
 /**
  * 2026-08-19 WEBRTC VIDEO CALL + VIDEO CLIP MESSAGING.
@@ -42,8 +43,8 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 
       <div class="vc-clip" *ngIf="clipUrl">
         <video [src]="clipUrl" controls class="vc-clip-preview"></video>
-        <ion-button expand="block" color="success" (click)="sendClip()" [disabled]="!clipUrl">
-          <ion-icon name="paper-plane-outline" slot="start"></ion-icon> Send clip to room
+        <ion-button expand="block" color="success" (click)="sendClip()" [disabled]="!clipUrl || converting">
+          <ion-icon name="paper-plane-outline" slot="start"></ion-icon> {{ converting ? 'Converting on this device…' : 'Send clip to room' }}
         </ion-button>
       </div>
 
@@ -87,6 +88,7 @@ export class VideoCallModalComponent implements OnInit, OnDestroy {
   recording = false;
   remoteActive = false;
   clipUrl = '';
+  converting = false;
 
   private pc: RTCPeerConnection | null = null;
   private localStream: MediaStream | null = null;
@@ -106,6 +108,7 @@ export class VideoCallModalComponent implements OnInit, OnDestroy {
     private readonly modalController: ModalController,
     private readonly socketChat: SocketChatService,
     private readonly alertsService: AlertsService,
+    private readonly ffmpegService: FfmpegService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -311,8 +314,27 @@ export class VideoCallModalComponent implements OnInit, OnDestroy {
     this.recording = false;
   }
 
-  sendClip(): void {
-    if (!this.clipBlob || !this.clipUrl) return;
+  async sendClip(): Promise<void> {
+    if (!this.clipBlob || !this.clipUrl || this.converting) return;
+
+    // 2026-08-22 FFMPEG.WASM: convert the recorded WebM to MP4 on-device
+    // before sending, so recipients get a broadly playable video file.
+    if (this.clipBlob.type.includes('webm')) {
+      this.converting = true;
+      try {
+        void this.alertsService.showToast('Converting to MP4 on this device…', 2500);
+        const mp4 = await this.ffmpegService.convertToMp4(this.clipBlob);
+        if (this.clipUrl) URL.revokeObjectURL(this.clipUrl);
+        this.clipBlob = mp4;
+        this.clipUrl = URL.createObjectURL(mp4);
+      } catch {
+        // Fall back to the original WebM if FFmpeg fails to load/convert.
+        void this.alertsService.showToast('MP4 conversion unavailable — sending WebM', 2500);
+      } finally {
+        this.converting = false;
+      }
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       this.socketChat.sendVideoClip(String(reader.result || ''));
