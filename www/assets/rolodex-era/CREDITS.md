@@ -1,18 +1,22 @@
 # Era photo credits — rolodex-era assets
 
-All three images are from the **Library of Congress Prints & Photographs
-Division** (Washington School for Secretaries collection), public-domain /
-"no known restrictions" (LOC rights advisory). Human verification still
-recommended before commercial marketing use, per Ox Alpha's license note.
-
 ## Assets
-| file | source item | source URL |
-|---|---|---|
-| rolodex-desk-1958.jpg/.webp | LOC thc 5a48377 — Washington School for Secretaries, Mrs. Beaver and Miss Bartlett | https://www.loc.gov/item/thc.5a48377/ |
-| secretary-desk-1950s.jpg/.webp | LOC thc 5a49194 — Washington School for Secretaries, Mrs. Beaver | https://www.loc.gov/item/thc.5a49194/ |
-| rotary-phone-detail.jpg/.webp | LOC thc 5a44958 — Washington School for Secretaries, Miss McCullum | https://www.loc.gov/item/thc.5a44958/ |
 
-Titles/dates per LOC: ca. 1920–ca. 1950 (collection-level dating); images
-are black-and-white silver gelatin prints, public domain.
+| file | source | license | attribution |
+|---|---|---|---|
+| rolodex-rotary.jpg/.webp | Wikimedia Commons — File:Rolodex.agr.jpg (ArnoldReinhold, own work) | CC BY 2.5 | ArnoldReinhold via Wikimedia Commons |
+| secretary-desk-1950s.jpg/.webp | Library of Congress Prints & Photographs — Washington School for Secretaries, LOC thc 5a49194 | Public domain / no known restrictions | LOC |
+| rolodex-cards-box.jpg/.webp | Wikimedia Commons — File:Rolodex Cards - End of Box.jpg (Bill Bradford) | CC BY 2.0 | Bill Bradford via Flickr https://www.flickr.com/photos/mrbill/3509554704/ |
 
-Retrieved 2026-08-23 via tile.loc.gov storage service.
+## Links
+- Rolodex.agr.jpg: https://commons.wikimedia.org/wiki/File:Rolodex.agr.jpg
+- Rolodex Cards - End of Box.jpg: https://commons.wikimedia.org/wiki/File:Rolodex_Cards_-_End_of_Box.jpg
+- LOC thc 5a49194: https://www.loc.gov/item/thc.5a49194/
+
+Notes:
+- CC BY images require attribution — included above; keep this file with the
+  assets in production.
+- Rolodex photos are later-era artifacts (1970s-80s look) but instantly
+  recognizable as the classic rotary card wheel; sepia treatment unifies them
+  with the 1958 story.
+- Retrieved 2026-08-23.
