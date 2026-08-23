@@ -53,7 +53,7 @@
       <li>Everything in Basic</li>
       <li><strong>The Assistant works all month</strong> — every open loop gets caught</li>
       <li>The AI drafts the message you keep meaning to send — you just hit Send</li>
-      <li>Preset guides + STRICT mode · AI-suggested follow-ups and timing</li>
+      <li>Preset guides for hard conversations · suggested follow-ups and timing</li>
     </ul>
     <ion-button expand="block" (click)="subscribe('confidante')" [disabled]="busy">
       {{ busyPlan === 'confidante' ? 'Opening checkout…' : 'Subscribe — $5/month' }}
@@ -66,9 +66,7 @@
   </div>
   <div class="billing-note" *ngIf="gatewayMissing">
     <ion-icon name="card-outline"></ion-icon>
-    {{ gatewayLabel() }} isn't connected yet — add its key to the LoopKeeper server
-    (STRIPE_SECRET_KEY / PAYSTACK_SECRET_KEY / FLUTTERWAVE_SECRET_KEY / PADDLE_API_KEY)
-    and this button opens a live checkout.
+    {{ gatewayLabel() }} isn't connected yet — pick another payment method above.
   </div>
   <div class="billing-note">
     <ion-icon name="checkmark-circle-outline"></ion-icon>

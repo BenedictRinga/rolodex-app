@@ -53,7 +53,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: 'Karibu sana!',
       title: 'LoopKeeper — close the loop you keep meaning to close',
       copy: 'Start with one person you keep meaning to contact. Set the rhythm. Close the loop.',
-      surprise: 'A surprise awaits at the end of this demo.',
+      surprise: 'Stay to the end — we’ll close one real loop together.',
     },
     {
       id: 'card',
@@ -84,7 +84,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'confidante',
       kicker: '05 · The assistant',
       title: 'The AI drafts — you hit Send',
-      copy: 'The Assistant digs up your context and writes the message in your own voice. No more drafting at midnight, no more wondering what to say. Pick the engine LoopKeeper uses - its own, DeepSeek or Grok - in Settings. All you do is hit Send.',
+      copy: 'The Assistant reads your card and writes the message in your own voice — no more drafting at midnight, no more wondering what to say.',
     },
     {
       id: 'storage',
@@ -96,7 +96,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       id: 'pricing',
       kicker: '07 · The tiers',
       title: 'Basic $1 · Assistant $5',
-      copy: 'Start with a 7-day free trial — every loop, all month. Basic catches five loops a month. Assistant catches them all. Billing lives in Settings.',
+      copy: 'Seven days free with the Assistant at full strength. Basic catches five loops a month — enough to clear what’s owed. Assistant catches them all. Billing lives in Settings.',
     },
     {
       id: 'outro',
@@ -107,8 +107,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     {
       id: 'taste',
       kicker: 'The surprise',
-      title: 'Let us solve a real LOOP problem — right now',
-      copy: 'Pick the first person you keep meaning to text. We work through that one, together. We compose the message, and once ready, you send.',
+      title: 'Let’s close one real loop — right now',
+      copy: 'Pick the person you keep meaning to text. We’ll work through that one together: compose the message, then you send.',
     },
   ];
 

@@ -217,7 +217,7 @@ export class HomePage implements OnInit, OnDestroy {
       } else if (role === 'get-app') {
         window.open('https://play.google.com/store/apps/details?id=com.zyppar.openloop', '_blank');
       } else if (role === 'pick-unavailable') {
-        void this.alertsService.showToast('Contact picking needs Android Chrome — the app does the correlation everywhere.', 4500);
+        void this.alertsService.showToast('Pick from your phone needs Android Chrome — or add the one person manually.', 4500);
       }
     } catch { /* the invite link may be dead — the app still loads */ }
   }
@@ -980,12 +980,12 @@ export class HomePage implements OnInit, OnDestroy {
    *  deck, exactly like a device import. */
   async onCreateContact() {
     const sheet = await this.alertController.create({
-      header: 'Add Contacts',
-      message: 'How do you want to bring the contact in?',
+      header: 'Add a person',
+      message: 'Bring them in — how?',
       buttons: [
         { text: 'Pick from my phone', handler: () => { void this.addFromPhoneContacts(); } },
         { text: "I'll type one in", handler: () => { void this.openManualContactEntry(); } },
-        { text: 'CANCEL', role: 'cancel' },
+        { text: 'Cancel', role: 'cancel' },
       ],
     });
     await sheet.present();

@@ -65,7 +65,7 @@ export class HelpModalComponent {
     {
       label: 'Keeping in touch (the tiny loops)',
       features: [
-        { id: 'overdue', title: 'Follow-up engine', guide: 'Each contact carries a frequency and priority. The engine schedules check-ins and surfaces who you owe a reply — the small loops everyone avoids, caught before they go cold.', goLabel: 'See overdue' },
+        { id: 'overdue', title: 'Follow-up engine', guide: 'Every card carries a rhythm and a priority. The engine schedules the check-ins and surfaces who you owe a reply — the small loops everyone avoids, caught before they go cold.', goLabel: 'See overdue' },
         { id: 'birthdays', title: 'Birthday reminders', guide: 'Upcoming birthdays are flagged and one tap drops them into your calendar.', goLabel: 'Birthdays' },
         { id: 'health', title: 'Who went quiet', guide: 'The person who has gone quiet longest is surfaced first — start there.', goLabel: 'See who' },
         { id: 'reminders', title: 'Card reminders', guide: 'Set a reminder right on a card — a note and a date — and it lives with the person.', goLabel: 'Set one' },
@@ -91,7 +91,7 @@ export class HelpModalComponent {
       features: [
         { id: 'chat', title: 'Chat off the card', guide: 'Flip to a card and message right there — no separate chatroom list. The thread lives with the person.' },
         { id: 'video', title: 'Video off the card', guide: 'A call, straight from the card, when you need the face — not a ringtone menu.' },
-        { id: 'ai', title: 'AI drafts (the hard 90%)', guide: 'The agent digs your context, makes the call, and drafts the reply — you just hit send. Coming to the follow-up engine first.' },
+        { id: 'ai', title: 'AI drafts — getting smarter', guide: 'Drafts composed from your card’s context — you just hit Send. Rolling out across the follow-up engine first.' },
       ],
     },
   ];
