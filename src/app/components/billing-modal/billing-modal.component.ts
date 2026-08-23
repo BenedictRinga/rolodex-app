@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BillingService, BillingGateway, PlanId } from '../../services/billing/billing.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 @Component({
   selector: 'app-billing-modal',
@@ -22,6 +23,7 @@ export class BillingModalComponent {
     private readonly modalController: ModalController,
     private readonly billing: BillingService,
     private readonly draftEngine: DraftEngineService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   get currentPlan(): string {
@@ -45,6 +47,7 @@ export class BillingModalComponent {
     this.busy = false;
     this.busyPlan = null;
     if (result.ok && result.url) {
+      this.analytics.track('billing_started', { plan, gateway: this.gateway });
       window.location.href = result.url as string;
       return;
     }

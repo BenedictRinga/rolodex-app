@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 /**
  * 2026-08-18 PRIVACY CENTER: replaces the old console.log dummy. It explains
@@ -24,7 +25,7 @@ import { ModalController } from '@ionic/angular';
     <ion-content class="ion-padding">
       <h2 style="margin:0 0 6px; font-size:18px;">Your data is yours.</h2>
       <p style="margin:0 0 16px; color:var(--rolodex-text-secondary); font-size:13px;">
-        No telemetry, no selling of contacts, no cloud copy unless you choose one.
+        No contact telemetry, no selling of contacts, no cloud copy unless you choose one.
       </p>
 
       <ion-item>
@@ -68,6 +69,17 @@ import { ModalController } from '@ionic/angular';
       </ion-item>
 
       <ion-item>
+        <ion-icon name="pulse-outline" slot="start" color="medium"></ion-icon>
+        <ion-label>
+          <b>Anonymous product analytics</b>
+          <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
+            Only anonymous app usage events (launches, sessions, sends, billing) — never contacts, names or message text. Helps us know what to fix.
+          </p>
+        </ion-label>
+        <ion-toggle slot="end" [checked]="analyticsEnabled" (ionChange)="toggleAnalytics($event)"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
         <ion-icon name="globe-outline" slot="start" color="medium"></ion-icon>
         <ion-label>
           <b>The app's home</b>
@@ -80,7 +92,19 @@ import { ModalController } from '@ionic/angular';
   `,
 })
 export class PrivacySettingsModalComponent {
-  constructor(private readonly modalController: ModalController) {}
+  analyticsEnabled = true;
+
+  constructor(
+    private readonly modalController: ModalController,
+    private readonly analytics: AnalyticsService,
+  ) {
+    void this.analytics.isEnabled().then((v) => (this.analyticsEnabled = v));
+  }
+
+  async toggleAnalytics(event: any): Promise<void> {
+    this.analyticsEnabled = !!event?.detail?.checked;
+    await this.analytics.setEnabled(this.analyticsEnabled);
+  }
 
   close(): void {
     void this.modalController.dismiss();

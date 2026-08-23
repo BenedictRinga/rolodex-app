@@ -28,6 +28,7 @@ import { DraftEngineService } from '../services/draft-engine/draft-engine.servic
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
+import { AnalyticsService } from '../services/analytics/analytics.service';
 import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
 import { environment } from 'src/environments/environment';
 
@@ -117,6 +118,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly security: SecurityService,
     private readonly assistantCard: AssistantCardService,
     private readonly sound: SoundService,
+    private readonly analytics: AnalyticsService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -124,6 +126,7 @@ export class HomePage implements OnInit, OnDestroy {
       if (url.searchParams.get('checkout') === 'success') {
         const plan = url.searchParams.get('plan');
         if (plan === 'basic' || plan === 'confidante') this.draftEngine.setPlan(plan);
+        this.analytics.track('billing_succeeded', { plan: plan || 'unknown', gateway: url.searchParams.get('gateway') || '' });
       }
     } catch { /* ignore */ }
   }
@@ -228,6 +231,8 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-19 THE 7-DAY TRIAL: first use starts it on the client too (the
     // server starts it on the first sync). One-time; reopenTrial() resets it.
     this.draftEngine.ensureTrial();
+    // 2026-08-23 ANONYMOUS ANALYTICS: app_launch + session_start + visibility tracking.
+    void this.analytics.init();
     // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
     void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
@@ -836,11 +841,13 @@ export class HomePage implements OnInit, OnDestroy {
       : [contact, ...this.contacts];
     void this.persistContacts(this.contacts);
     this.rolodexSync.push(this.contacts);
+    this.analytics.track('card_edited');
     void this.alertsService.showToast('Card updated — loop intact.', 1800);
   }
 
   async onRemoveContact(contact: ContactInfo) {
     this.contacts = this.contacts.filter(c => c.contactId !== contact.contactId);
+    this.analytics.track('card_removed');
     // 2026-08-18 FIX: persist the filtered list AWAITED - a reload right
     // after the tap must find the write already in IndexedDB.
     // 2026-08-19 allowEmpty: removing the LAST real contact must persist the

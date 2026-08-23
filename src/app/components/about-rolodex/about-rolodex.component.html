@@ -488,6 +488,75 @@
             </div>
           </div>
 
+          <!-- 2026-08-23 REAL ANALYTICS: presence, frequency, time, retention -->
+          <div class="investor-chart-block" *ngIf="investorStats.analytics">
+            <p class="investor-chart-title"><strong>Product analytics — presence & frequency</strong></p>
+            <div class="investor-kpis">
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.dau }}</div>
+                <div class="kpi-label">DAU</div>
+                <div class="kpi-caption">Anonymous devices active in last 24h.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.wau }}</div>
+                <div class="kpi-label">WAU</div>
+                <div class="kpi-caption">Devices active in last 7 days.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.mau }}</div>
+                <div class="kpi-label">MAU</div>
+                <div class="kpi-caption">Devices active in last 30 days.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.sessions?.last7d }}</div>
+                <div class="kpi-label">Sessions (7d)</div>
+                <div class="kpi-caption">Session starts in the last 7 days.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.avgSessionSeconds }}s</div>
+                <div class="kpi-label">Avg session</div>
+                <div class="kpi-caption">Average session_end duration, last 30 days.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="investor-chart-block" *ngIf="investorStats.analytics?.retention?.length">
+            <p class="investor-chart-title"><strong>Retention — real cohorts (D1 / D7)</strong></p>
+            <div class="retention-table">
+              <div class="retention-row retention-head">
+                <span>Cohort day</span><span>Size</span><span>D1</span><span>D7</span>
+              </div>
+              <div class="retention-row" *ngFor="let c of investorStats.analytics.retention">
+                <span>{{ c.day }}</span><span>{{ c.size }}</span><span>{{ c.d1 }}</span><span>{{ c.d7 }}</span>
+              </div>
+            </div>
+            <p class="investor-chart-note">Devices whose first app_launch fell in each day; D1/D7 = devices that came back on that day. Empty until analytics events arrive.</p>
+          </div>
+
+          <div class="investor-chart-block" *ngIf="investorStats.analytics?.activation">
+            <p class="investor-chart-title"><strong>Activation — devices that reached each milestone</strong></p>
+            <div class="retention-table">
+              <div class="retention-row retention-head"><span>Milestone</span><span>Devices</span></div>
+              <div class="retention-row"><span>Added a card</span><span>{{ investorStats.analytics.activation.cardadded || 0 }}</span></div>
+              <div class="retention-row"><span>Created a follow-up</span><span>{{ investorStats.analytics.activation.followupcreated || 0 }}</span></div>
+              <div class="retention-row"><span>Sent a message</span><span>{{ investorStats.analytics.activation.messagesent || 0 }}</span></div>
+              <div class="retention-row"><span>Closed a loop</span><span>{{ investorStats.analytics.activation.loopclosed || 0 }}</span></div>
+              <div class="retention-row"><span>Created an invite</span><span>{{ investorStats.analytics.activation.invitecreated || 0 }}</span></div>
+              <div class="retention-row"><span>Started billing</span><span>{{ investorStats.analytics.activation.billingstarted || 0 }}</span></div>
+              <div class="retention-row"><span>Billing succeeded</span><span>{{ investorStats.analytics.activation.billingsucceeded || 0 }}</span></div>
+            </div>
+          </div>
+
+          <div class="investor-chart-block" *ngIf="investorStats.analytics?.topEvents?.length">
+            <p class="investor-chart-title"><strong>Top events — last 7 days</strong></p>
+            <div class="retention-table">
+              <div class="retention-row retention-head"><span>Event</span><span>Count</span></div>
+              <div class="retention-row" *ngFor="let e of investorStats.analytics.topEvents">
+                <span>{{ e._id }}</span><span>{{ e.count }}</span>
+              </div>
+            </div>
+          </div>
+
           <div class="investor-chart-block" *ngIf="investorStats.timeline?.length">
             <p class="investor-chart-title"><strong>Devices seen by hour — last 24 hours</strong></p>
             <div class="bar-chart">

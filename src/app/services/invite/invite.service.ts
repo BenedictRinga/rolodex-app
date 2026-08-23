@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { AnalyticsService } from '../analytics/analytics.service';
 
 export interface RolodexInvite {
   token: string;
@@ -30,6 +31,8 @@ export interface RolodexInvite {
   providedIn: 'root',
 })
 export class InviteService {
+  constructor(private readonly analytics: AnalyticsService) {}
+
   create(inv: { from: string; room: string; kind: 'message' | 'appointment'; title?: string; when?: string; text?: string }): Promise<RolodexInvite | null> {
     return fetch(`${environment.rolodexApiBase}/invites`, {
       method: 'POST',
@@ -37,7 +40,13 @@ export class InviteService {
       body: JSON.stringify(inv),
     })
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => (d?.ok ? { token: d.token, url: d.url, ogUrl: d.ogUrl, from: inv.from, room: inv.room, kind: inv.kind, title: inv.title || '', when: inv.when || '', text: inv.text || '', createdAt: Date.now() } as RolodexInvite : null))
+      .then((d) => {
+        if (d?.ok) {
+          this.analytics.track('invite_created', { kind: inv.kind });
+          return { token: d.token, url: d.url, ogUrl: d.ogUrl, from: inv.from, room: inv.room, kind: inv.kind, title: inv.title || '', when: inv.when || '', text: inv.text || '', createdAt: Date.now() } as RolodexInvite;
+        }
+        return null;
+      })
       .catch(() => null);
   }
 

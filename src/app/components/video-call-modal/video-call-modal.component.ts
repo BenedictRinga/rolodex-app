@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { FfmpegService } from '../../services/ffmpeg/ffmpeg.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 /**
  * 2026-08-19 WEBRTC VIDEO CALL + VIDEO CLIP MESSAGING.
@@ -109,6 +110,7 @@ export class VideoCallModalComponent implements OnInit, OnDestroy {
     private readonly socketChat: SocketChatService,
     private readonly alertsService: AlertsService,
     private readonly ffmpegService: FfmpegService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -338,6 +340,7 @@ export class VideoCallModalComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.onloadend = () => {
       this.socketChat.sendVideoClip(String(reader.result || ''));
+      this.analytics.track('video_clip_sent', { format: this.clipBlob?.type || 'unknown' });
       void this.alertsService.showToast('Video clip sent to the room', 2000);
     };
     reader.readAsDataURL(this.clipBlob);
