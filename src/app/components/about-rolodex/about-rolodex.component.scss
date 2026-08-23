@@ -613,3 +613,106 @@ ion-content::part(scroll) {
   }
   .rk-lockup { opacity: .55; }
 }
+
+
+/* ============ ERA PHOTO LAYER (2026-08-23 stock-photo carousel) ============
+   Real Library of Congress era photos layered above the SVG; SVG remains the
+   permanent fallback (reduced motion / data saver / image error). */
+.history-image {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #e9dfcc;
+  isolation: isolate;
+
+  @media (max-width: 480px) {
+    aspect-ratio: 4 / 5;
+    border-radius: 10px;
+  }
+}
+
+.history-image__frame { position: absolute; inset: 0; z-index: 2; }
+
+.history-image__slide {
+  position: absolute; inset: 0; margin: 0;
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(.45) saturate(.82) contrast(1.06) brightness(.97);
+    animation: era-kenburns 36s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  &--1 { z-index: 1;
+    img { transform-origin: 30% 40%; animation-delay: -4s; } }
+
+  &--2, &--3 { z-index: 2; animation: era-fade 36s linear infinite; }
+
+  &--2 { animation-delay: 12s;
+    img { transform-origin: 70% 60%; animation-delay: -16s; } }
+
+  &--3 { animation-delay: 24s;
+    img { transform-origin: 50% 30%; animation-delay: -28s; } }
+
+  &.is-broken { display: none; }
+}
+
+@keyframes era-fade {
+  0%      { opacity: 0; }
+  6.67%   { opacity: 1; }
+  26.67%  { opacity: 1; }
+  33.33%  { opacity: 0; }
+  100%    { opacity: 0; }
+}
+
+@keyframes era-kenburns {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to   { transform: scale(1.09) translate3d(-1.6%, 1%, 0); }
+}
+
+.history-image__grade {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(180deg, rgba(112, 66, 20, .10), rgba(60, 36, 12, .16));
+  mix-blend-mode: multiply;
+}
+
+.history-image__grain {
+  position: absolute; inset: -10%; z-index: 4; pointer-events: none;
+  opacity: .16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+
+  @media (max-width: 480px) { opacity: .12; }
+}
+
+.history-image__vignette {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(28, 18, 8, .38) 100%);
+}
+
+.history-image__fallback {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: #e9dfcc;
+}
+
+.history-image__fallback .history-svg {
+  max-width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-image__slide { animation: none !important;
+    img { animation: none !important; transform: none; } }
+  .history-image__slide--2,
+  .history-image__slide--3 { display: none; }
+}
+
+@media (prefers-reduced-data: reduce) {
+  .history-image__frame { display: none; }
+}
