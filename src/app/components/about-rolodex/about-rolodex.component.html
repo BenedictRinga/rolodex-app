@@ -620,7 +620,7 @@
               <ion-button size="small" fill="outline" color="warning" (click)="reopenTrial()">Re-open 7-day trial</ion-button>
             </p>
 
-            <p class="investor-chart-title"><strong>What users are asking for</strong></p>
+            <p class="investor-chart-title"><strong>What users are asking for — and what frustrates them</strong></p>
             <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with LoopKeeper is the intake.</div>
             <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
             <div class="feedback-card" *ngFor="let f of feedbackList">

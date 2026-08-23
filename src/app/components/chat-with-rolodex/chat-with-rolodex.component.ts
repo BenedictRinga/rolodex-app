@@ -310,11 +310,11 @@ export class ChatWithRolodexModalComponent implements OnInit {
       ...this.history,
       {
         role: 'user',
-        content: 'Summarize the user\'s direction for LoopKeeper in one concise line shaped as: Direction: ... — Missing: ... — Suggested next: ...',
+        content: 'Summarize the user\'s frustration and direction for LoopKeeper in one concise line shaped exactly like: Frustration: ... — Direction: ... — Suggested next: ...',
       },
     ]);
     const userTexts = this.history.filter((m) => m.role === 'user').map((m) => m.content);
-    const summary = summaryRes.reply || `Direction: ${userTexts[userTexts.length - 1] || ''} — Missing: ${userTexts[0] || ''} — Suggested next: ${userTexts[1] || userTexts[0] || ''}`;
+    const summary = summaryRes.reply || `Frustration: ${userTexts[0] || ''} — Direction: ${userTexts[userTexts.length - 1] || ''} — Suggested next: ${userTexts[1] || userTexts[userTexts.length - 1] || ''}`;
 
     try {
       const res = await fetch(`${environment.rolodexApiBase}/feedback`, {
