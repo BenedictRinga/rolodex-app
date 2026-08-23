@@ -41,6 +41,7 @@ app-rolodex {
   font-weight: 700;
   color: var(--rolodex-primary, #4f6df5);
   border-bottom: 1px solid var(--rolodex-border-light, #2a2f3a);
+  border-radius: 16px 16px 0 0; /* 2026-08-23: continuous radii */
 }
 
 .openloop-chat-thread {
@@ -88,16 +89,16 @@ app-rolodex {
 
 .openloop-actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
 }
 
 .openloop-action {
   --padding-start: 4px;
   --padding-end: 4px;
-  height: 28px;
-  font-size: 11px;
+  height: 24px;
+  font-size: 7.5px; /* 2026-08-23: labels ~2/3 smaller, actions horizontal */
   color: var(--rolodex-text-secondary, #8b93b0);
   text-transform: none;
 }
@@ -133,11 +134,15 @@ app-rolodex {
   gap: 8px;
   padding: 10px 12px 12px;
   border-top: 1px solid var(--rolodex-border-light, #2a2f3a);
+  /* 2026-08-23: keep continuous radii with the chat frame (no corner gaps) */
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
 }
 
 .openloop-input {
   --padding-top: 8px;
   --padding-bottom: 8px;
+  --border-radius: 12px;
   font-size: 13.5px;
   border-radius: 12px;
   /* 2026-08-23: auto-grow up to ~6 lines, then scroll inside the field. */

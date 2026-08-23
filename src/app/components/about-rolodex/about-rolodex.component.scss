@@ -907,3 +907,44 @@ ion-content::part(scroll) {
 @media (prefers-reduced-motion: reduce) {
   .era-timeline-block * { animation: none !important; transition: none !important; }
 }
+
+
+/* ============ LIGHTBOX (2026-08-23) ============ */
+.history-image__slide img,
+.era-thumb img {
+  cursor: zoom-in;
+}
+
+.rolodex-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  padding: 24px;
+}
+
+.rolodex-lightbox img {
+  max-width: 94vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  cursor: zoom-out;
+}
+
+.rolodex-lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 34px;
+  line-height: 1;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}

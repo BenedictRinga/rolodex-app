@@ -35,20 +35,20 @@
         <div class="history-image__frame">
           <picture class="history-image__slide history-image__slide--1">
             <source type="image/webp" srcset="assets/rolodex-era/rolodex-rotary.webp">
-            <img src="assets/rolodex-era/rolodex-rotary.jpg"
+            <img src="assets/rolodex-era/rolodex-rotary.jpg" (click)="openLightbox('assets/rolodex-era/rolodex-rotary.jpg', 'Classic rotary Rolodex card wheel on a warm wooden desk')"
                  alt="A classic rotary Rolodex card wheel on a warm wooden desk, cards with alphabet tabs and handwritten entries."
                  width="640" height="502" loading="lazy" decoding="async"
                  onerror="this.closest('.history-image__slide').classList.add('is-broken')">
           </picture>
           <picture class="history-image__slide history-image__slide--2" aria-hidden="true">
             <source type="image/webp" srcset="assets/rolodex-era/secretary-desk-1950s.webp">
-            <img src="assets/rolodex-era/secretary-desk-1950s.jpg"
+            <img src="assets/rolodex-era/secretary-desk-1950s.jpg" (click)="openLightbox('assets/rolodex-era/secretary-desk-1950s.jpg', 'A secretary at her desk in a mid-century office')"
                  alt="" width="640" height="502" loading="lazy" decoding="async"
                  onerror="this.closest('.history-image__slide').classList.add('is-broken')">
           </picture>
           <picture class="history-image__slide history-image__slide--3" aria-hidden="true">
             <source type="image/webp" srcset="assets/rolodex-era/rolodex-cards-box.webp">
-            <img src="assets/rolodex-era/rolodex-cards-box.jpg"
+            <img src="assets/rolodex-era/rolodex-cards-box.jpg" (click)="openLightbox('assets/rolodex-era/rolodex-cards-box.jpg', 'A vintage box of Rolodex cards in plastic pockets')"
                  alt="" width="640" height="502" loading="lazy" decoding="async"
                  onerror="this.closest('.history-image__slide').classList.add('is-broken')">
           </picture>
@@ -207,7 +207,7 @@
               </svg>
               <picture>
                 <source type="image/webp" srcset="assets/rolodex-era/index-card-trays.webp">
-                <img src="assets/rolodex-era/index-card-trays.jpg"
+                <img src="assets/rolodex-era/index-card-trays.jpg" (click)="openLightbox('assets/rolodex-era/index-card-trays.jpg', 'Wooden index-card trays holding rows of handwritten record cards')"
                      alt="Wooden index-card trays holding rows of handwritten record cards — the pre-Rolodex office desk."
                      width="640" height="480" loading="lazy" decoding="async"
                      onerror="this.closest('.era-thumb').classList.add('is-broken')">
@@ -236,7 +236,7 @@
               </svg>
               <picture>
                 <source type="image/webp" srcset="assets/rolodex-era/rolodex-rotary.webp">
-                <img src="assets/rolodex-era/rolodex-rotary.jpg"
+                <img src="assets/rolodex-era/rolodex-rotary.jpg" (click)="openLightbox('assets/rolodex-era/rolodex-rotary.jpg', 'Classic rotary Rolodex card wheel on a warm wooden desk')"
                      alt="A classic rotary Rolodex card wheel with alphabet tabs on a wooden desk."
                      width="640" height="502" loading="lazy" decoding="async"
                      onerror="this.closest('.era-thumb').classList.add('is-broken')">
@@ -262,7 +262,7 @@
               </svg>
               <picture>
                 <source type="image/webp" srcset="assets/rolodex-era/rolodex-cards-box.webp">
-                <img src="assets/rolodex-era/rolodex-cards-box.jpg"
+                <img src="assets/rolodex-era/rolodex-cards-box.jpg" (click)="openLightbox('assets/rolodex-era/rolodex-cards-box.jpg', 'A vintage box of Rolodex cards in plastic pockets')"
                      alt="A box of Rolodex cards standing in their plastic pockets, alphabet tabs visible."
                      width="640" height="502" loading="lazy" decoding="async"
                      onerror="this.closest('.era-thumb').classList.add('is-broken')">
@@ -288,7 +288,7 @@
               </svg>
               <picture>
                 <source type="image/webp" srcset="assets/rolodex-era/pda-pocket-organizer.webp">
-                <img src="assets/rolodex-era/pda-pocket-organizer.jpg"
+                <img src="assets/rolodex-era/pda-pocket-organizer.jpg" (click)="openLightbox('assets/rolodex-era/pda-pocket-organizer.jpg', 'An early Palm Pilot personal digital assistant')"
                      alt="An early personal digital assistant with a stylus showing a contacts list."
                      width="640" height="480" loading="lazy" decoding="async"
                      onerror="this.closest('.era-thumb').classList.add('is-broken')">
@@ -571,4 +571,13 @@
       </div>
     </ng-container>
   </div>
+
+  <!-- 2026-08-23 LIGHTBOX: full-screen image view on click -->
+  <div class="rolodex-lightbox" *ngIf="lightboxUrl" (click)="closeLightbox()">
+    <button type="button" class="rolodex-lightbox-close" aria-label="Close full-screen image" (click)="closeLightbox()">
+      &times;
+    </button>
+    <img [src]="lightboxUrl" [alt]="lightboxAlt" (click)="$event.stopPropagation()" />
+  </div>
+
 </ion-content>

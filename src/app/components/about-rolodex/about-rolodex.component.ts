@@ -25,6 +25,20 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
 
   version: string = environment.version || '0.1.0';
 
+  /** 2026-08-23 LIGHTBOX: click any era/hero image for a full-screen view. */
+  lightboxUrl: string | null = null;
+  lightboxAlt = '';
+
+  openLightbox(url: string, alt: string): void {
+    this.lightboxUrl = url;
+    this.lightboxAlt = alt || 'Enlarged historical image';
+  }
+
+  closeLightbox(): void {
+    this.lightboxUrl = null;
+    this.lightboxAlt = '';
+  }
+
   // 2026-08-19 LIVE RECORD ANALYSIS: charts live inside the Investor page,
   // refreshed hourly (not every 5 seconds) so the investor sees the state of
   // the live record without leaving the app.
