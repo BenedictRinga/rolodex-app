@@ -37,19 +37,29 @@
         <ion-icon name="chevron-up-outline"></ion-icon>
       </ion-button>
     </div>
-    <div class="openloop-chat-thread">
+    <div class="openloop-chat-thread" #chatThread>
       <div *ngFor="let m of rolodexAiMessages" class="openloop-msg" [class.user]="m.from === 'user'">
         <div class="openloop-bubble">{{ m.text }}</div>
-        <ion-button *ngIf="m.from === 'assistant' && m.text && m.text !== '…'" fill="clear" size="small" class="openloop-copy" (click)="copyRolodexAi(m.text)" appTooltip="Copy whole reply">
-          <ion-icon name="copy-outline"></ion-icon>
-        </ion-button>
+        <div *ngIf="m.from === 'assistant' && m.text" class="openloop-actions">
+          <ion-button fill="clear" size="small" class="openloop-action" (click)="copyRolodexAi(m.text)" appTooltip="Copy whole reply">
+            <ion-icon name="copy-outline" slot="start"></ion-icon>
+            Copy
+          </ion-button>
+          <ion-button fill="clear" size="small" class="openloop-action" (click)="sendRolodexAiToCard(m.text)" appTooltip="Attach this reply to a card">
+            <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+            Send to card
+          </ion-button>
+        </div>
+      </div>
+      <div *ngIf="rolodexAiTyping" class="openloop-typing">
+        <span class="openloop-typing-dot"></span>
+        AI Assistant is writing…
       </div>
     </div>
     <div class="openloop-chat-input">
       <ion-input
         [(ngModel)]="rolodexAiInput"
         placeholder="Where is that open loop?"
-        (ionFocus)="onAiInputFocus()"
         (keyup.enter)="sendRolodexAi()"
         fill="outline"
         class="openloop-input"

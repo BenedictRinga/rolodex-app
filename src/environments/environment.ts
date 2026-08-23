@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 61, // 2026-08-23 Living Rolodex: 7.5s CSS-animated SVG story (pen writes, news relays, dot settles, teal check, streak ticks; reduced-motion collapses to static)
+  build: 62, // 2026-08-23 AI Assistant chat: no auto-message on focus, auto-scroll, send/receive sounds, typing indicator, Send to card + Copy affordances
 };
 
 /*

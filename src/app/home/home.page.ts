@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { AlertController, ModalController, ActionSheetController } from '@ionic/angular';
 import { SecurityService } from '../services/security/security.service';
 import { ContactInfo } from '../models/contacts';
 import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
@@ -40,6 +40,7 @@ import { environment } from 'src/environments/environment';
 export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-19 HELP DEMO: direct access to rolodex view/settings navigation. */
   @ViewChild('rolodex') rolodexComp?: RolodexComponent;
+  @ViewChild('chatThread') chatThread?: ElementRef<HTMLDivElement>;
 
   contacts: ContactInfo[] = [];
   displayedContacts: ContactInfo[] = [];
@@ -53,10 +54,9 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
   rolodexAiBusy = false;
+  rolodexAiTyping = false;
   rolodexAiInput = '';
-  /** 2026-08-22: instant engagement — the Assistant opens the loop as soon as the
-   *  user taps the input, not only after the first send. */
-  rolodexAiEngaged = false;
+  private chatAudioCtx?: AudioContext;
   rolodexAiMessages: { from: 'user' | 'assistant'; text: string }[] = [
     { from: 'assistant', text: 'Hello — who\'s the one you keep meaning to text?' },
   ];
@@ -108,6 +108,7 @@ export class HomePage implements OnInit, OnDestroy {
     private rolodexSync: RolodexSyncService,
     private modalController: ModalController,
     private alertController: AlertController,
+    private actionSheet: ActionSheetController,
     private socketChat: SocketChatService,
     private draftEngine: DraftEngineService,
     private inviteService: InviteService,
@@ -1063,16 +1064,8 @@ export class HomePage implements OnInit, OnDestroy {
     } as any as ContactInfo;
   }
 
-  /** 2026-08-22 INSTANT ENGAGEMENT: the moment the user taps to type, the
-   *  Assistant meets them with the next question — no dead air, no waiting. */
-  onAiInputFocus(): void {
-    if (this.rolodexAiEngaged) return;
-    this.rolodexAiEngaged = true;
-    this.rolodexAiMessages.push({
-      from: 'assistant',
-      text: 'Start with the one you keep meaning to text — who is it, and what is the loop?',
-    });
-  }
+  /** 2026-08-23: no auto-injected message on focus — the placeholder intro
+   *  already greets; typing is the user's move. */
 
   /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */
   async sendRolodexAi(): Promise<void> {
@@ -1080,8 +1073,10 @@ export class HomePage implements OnInit, OnDestroy {
     if (!text || this.rolodexAiBusy) return;
     this.rolodexAiInput = '';
     this.rolodexAiMessages.push({ from: 'user', text });
-    this.rolodexAiMessages.push({ from: 'assistant', text: '…' });
+    this.playChatSound('send');
     this.rolodexAiBusy = true;
+    this.rolodexAiTyping = true;
+    this.scrollChatToBottom();
     try {
       let engine = 'deepseek';
       try {
@@ -1089,7 +1084,6 @@ export class HomePage implements OnInit, OnDestroy {
         engine = s.grokConfigured && !s.deepseekConfigured ? 'grok' : 'deepseek';
       } catch { /* default deepseek; backend falls back */ }
       const history = this.rolodexAiMessages
-        .filter((m) => m.text !== '…')
         .map((m) => ({ role: m.from === 'user' ? 'user' as const : 'assistant' as const, content: m.text }));
       const res = await fetch(`${environment.rolodexApiBase}/chat`, {
         method: 'POST',
@@ -1098,12 +1092,79 @@ export class HomePage implements OnInit, OnDestroy {
       });
       const data = await res.json().catch(() => ({}));
       const reply = String(data?.reply || 'AI Assistant could not reply right now — try again.');
-      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: reply };
+      this.rolodexAiMessages.push({ from: 'assistant', text: reply });
+      this.playChatSound('receive');
     } catch {
-      this.rolodexAiMessages[this.rolodexAiMessages.length - 1] = { from: 'assistant', text: 'AI Assistant could not reply right now — try again.' };
+      this.rolodexAiMessages.push({ from: 'assistant', text: 'AI Assistant could not reply right now — try again.' });
+      this.playChatSound('receive');
     } finally {
+      this.rolodexAiTyping = false;
       this.rolodexAiBusy = false;
+      this.scrollChatToBottom();
     }
+  }
+
+  /** 2026-08-23: keep the latest message in view. */
+  private scrollChatToBottom(): void {
+    requestAnimationFrame(() => {
+      const el = this.chatThread?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
+    });
+  }
+
+  /** 2026-08-23: tiny WebAudio send/receive ticks (optional, silent on block). */
+  private playChatSound(kind: 'send' | 'receive'): void {
+    try {
+      const Ctx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!Ctx) return;
+      if (!this.chatAudioCtx) this.chatAudioCtx = new Ctx();
+      const ctx = this.chatAudioCtx;
+      if (ctx.state === 'suspended') void ctx.resume();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      const start = kind === 'send' ? 520 : 420;
+      const end = kind === 'send' ? 760 : 620;
+      osc.frequency.setValueAtTime(start, now);
+      osc.frequency.exponentialRampToValueAtTime(end, now + 0.09);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(kind === 'send' ? 0.08 : 0.07, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + (kind === 'send' ? 0.12 : 0.16));
+      osc.start(now);
+      osc.stop(now + (kind === 'send' ? 0.13 : 0.17));
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+    } catch { /* sound is optional */ }
+  }
+
+  /** 2026-08-23: attach a good reply to a card (the loop) or copy it elsewhere. */
+  async sendRolodexAiToCard(text: string): Promise<void> {
+    const picks = (this.contacts || []).slice(0, 8);
+    const buttons: any[] = picks.map((c: any) => ({
+      text: c.name || 'Unnamed card',
+      handler: () => this.attachAiReplyToContact(c, text),
+    }));
+    buttons.push({ text: 'Copy instead', handler: () => this.copyRolodexAi(text) });
+    buttons.push({ text: 'Cancel', role: 'cancel' });
+    const sheet = await this.actionSheet.create({
+      header: 'Attach this reply to a card?',
+      subHeader: 'You can also copy it into any other app.',
+      buttons,
+    });
+    await sheet.present();
+  }
+
+  private attachAiReplyToContact(contact: any, text: string): void {
+    const idx = this.contacts.findIndex((c) => c.contactId === contact.contactId);
+    if (idx >= 0) {
+      const updated: any = {
+        ...this.contacts[idx],
+        rolodex: { ...(this.contacts[idx].rolodex || {}), draftMessage: text, draftAt: new Date().toISOString() },
+      };
+      this.contacts[idx] = updated;
+    }
+    void this.alertsService.showToast(`Attached to ${contact.name || 'card'} — send from their card`, 2200);
   }
 
   /** Copy the WHOLE AI reply — the counterweight to the send button. */
