@@ -533,3 +533,83 @@ ion-content::part(scroll) {
     flex: 1;
   }
 }
+
+
+/* ============================================================
+   STAGE A - Cinematic storyboard pass (Grok beats in CSS/SVG)
+   Ox Alpha grok-video-completion, Stage A. Master timeline: 24s loop.
+   0.0-6.0  dust drift (shot 4)
+   6.0-13.0 push-in on index wheel (shot 5)
+   13.0-19.0 card lift beat (shot 8, suggested by scale/parallax)
+   19.0-24.0 dark lockup on LoopKeeper mark (shot 6) -> loop seam
+   ============================================================ */
+.rk-cinema {
+  position: relative;
+  overflow: hidden;
+  transform-origin: 50% 45%;
+  animation: rk-push-in 24s cubic-bezier(.33,0,.2,1) infinite;
+  will-change: transform;
+}
+
+/* Dust motes - two layered gradients drifting on offset phases */
+.rk-cinema::before,
+.rk-cinema::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 18% 30%, rgba(255,244,224,.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 18%, rgba(255,244,224,.4), transparent 60%),
+    radial-gradient(2.5px 2.5px at 82% 62%, rgba(255,244,224,.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 76%, rgba(255,244,224,.3), transparent 60%);
+  animation: rk-motes 24s linear infinite;
+  mix-blend-mode: screen;
+}
+.rk-cinema::after {
+  background-image:
+    radial-gradient(1.5px 1.5px at 52% 42%, rgba(255,244,224,.45), transparent 60%),
+    radial-gradient(2px 2px at 8% 58%, rgba(255,244,224,.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 90% 30%, rgba(255,244,224,.4), transparent 60%);
+  animation-duration: 31s; /* detuned so the field never visibly repeats */
+  animation-delay: -7s;
+}
+
+/* Dark lockup vignette - fades in for the final beat */
+.rk-lockup {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 45%, transparent 38%, rgba(10,10,12,.88) 100%);
+  opacity: 0;
+  animation: rk-lockup 24s ease-in-out infinite;
+}
+
+@keyframes rk-push-in {
+  0%    { transform: scale(1) translateY(0); }
+  25%   { transform: scale(1.04) translateY(-.4%); }   /* dust */
+  54%   { transform: scale(1.12) translateY(-.8%); }   /* wheel push-in */
+  79%   { transform: scale(1.08) translateY(-.4%); }   /* card beat */
+  92%   { transform: scale(1.16) translateY(-.6%); }   /* mark lockup */
+  100%  { transform: scale(1) translateY(0); }         /* seamless seam */
+}
+@keyframes rk-motes {
+  0%   { transform: translate3d(0,0,0); opacity: .0; }
+  8%   { opacity: .9; }
+  92%  { opacity: .9; }
+  100% { transform: translate3d(-4%, -7%, 0); opacity: 0; }
+}
+@keyframes rk-lockup {
+  0%, 74%  { opacity: 0; }
+  92%      { opacity: 1; }
+  99%      { opacity: 1; }
+  100%     { opacity: 0; }
+}
+
+/* Reduced motion: freeze to the lockup frame, no drift, no push */
+@media (prefers-reduced-motion: reduce) {
+  .rk-cinema, .rk-cinema::before, .rk-cinema::after, .rk-lockup {
+    animation: none !important;
+  }
+  .rk-lockup { opacity: .55; }
+}
