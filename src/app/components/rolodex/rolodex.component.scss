@@ -335,6 +335,16 @@ app-contact-card {
   &::-webkit-scrollbar { display: none; }
 }
 
+/* 2026-08-24 SETTINGS NAV PRECISION: the sticky quicknav + filter bar were
+   covering the target after scrollIntoView. Give every anchor enough
+   scroll-margin so the pill lands ON the item, not on the whitespace under
+   the sticky row. */
+.settings-list [id^="settings-"],
+.settings-list ion-item-divider[id^="settings-"] {
+  scroll-margin-top: 132px;
+  scroll-margin-bottom: 12px;
+}
+
 .elegant-item {
   --ion-item-border-color: transparent;
   --ion-item-background: var(--rolodex-surface);
