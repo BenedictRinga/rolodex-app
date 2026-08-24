@@ -73,6 +73,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     { file: 'assets/analyses/05-about-refine.md', title: 'About copy refinement', text: '', open: false },
     { file: 'assets/analyses/06-rolodex-impl.md', title: 'Rolodex animation implementation', text: '', open: false },
     { file: 'assets/analyses/07-grok-video.md', title: 'Grok video completion path', text: '', open: false },
+    { file: 'assets/analyses/08-isenberg-roadmap.md', title: 'Isenberg wedge roadmap — LoopKeeper next months', text: '', open: false },
   ];
   analysesLoading = false;
 
