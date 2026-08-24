@@ -5,6 +5,7 @@ import { UsersApiService } from '../../services/users-api/users-api.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
+import { NetworkService } from '../../services/network/network.service';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -72,6 +73,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     private readonly time: TimeNormalizerService,
     private readonly alerts: AlertsService,
     private readonly draftEngine: DraftEngineService,
+    private readonly network: NetworkService,
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +103,8 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     this.statsLoading = true;
     this.statsError = '';
     try {
-      const res = await fetch(`${environment.rolodexApiBase}/investor/summary`, { cache: 'no-store' });
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/investor/summary`, { cache: 'no-store' });
+      if (!res) throw new Error('offline — summary skipped quietly');
       if (!res.ok) throw new Error('summary fetch failed');
       const data = await res.json();
       this.investorStats = data;

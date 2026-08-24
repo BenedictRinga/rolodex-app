@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { AlertsService } from '../alerts/alerts.service';
+import { NetworkService } from '../network/network.service';
 
 /**
  * 2026-08-20 ZYPPAR-STYLE UPDATE SYSTEM — cloned verbatim in spirit from
@@ -28,6 +29,7 @@ export class UpdatesService {
   constructor(
     private readonly storageService: StorageService,
     private readonly alertsService: AlertsService,
+    private readonly network: NetworkService,
   ) {
     void this.initializeVersion();
   }
@@ -85,10 +87,14 @@ export class UpdatesService {
     if (!navigator.onLine) {
       return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
     }
-    const res = await fetch(
+    const res = await this.network.safeFetch(
       `${environment.rolodexApiBase}/updates/check?clientVersion=${encodeURIComponent(this.appVersion)}`,
       { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
     );
+    if (!res) {
+      // Offline / network changed — quiet fallback, never console noise.
+      return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
+    }
     if (!res.ok) throw new Error('update check failed');
     const data = await res.json();
     const version = String(data?.version || '').trim();

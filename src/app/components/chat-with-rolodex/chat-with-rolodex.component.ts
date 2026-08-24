@@ -323,7 +323,8 @@ export class ChatWithRolodexModalComponent implements OnInit {
         body: JSON.stringify({
           deviceId: this.rolodexSync.getDeviceId(),
           deviceName: 'Chat with AI Assistant',
-          messages: userTexts,
+          // 2026-08-24 PRIVACY: only the AI-gleaned summary is sent to the
+          // Investors portal. Raw conversation text stays on this device.
           summary,
         }),
       });

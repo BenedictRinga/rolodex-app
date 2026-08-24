@@ -3,6 +3,7 @@ import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
+import { NetworkService } from '../network/network.service';
 
 export type Occasion = 'first-meeting' | 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
 export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
@@ -65,6 +66,7 @@ export class DraftEngineService {
   constructor(
     private readonly storage: StorageService,
     private readonly rolodexSync: RolodexSyncService,
+    private readonly network: NetworkService,
   ) {
     // async hydrate of the persisted preferences into the sync fields.
     // 2026-08-20 FIX: exposed as a promise so ensureTrial() can AWAIT it —
@@ -308,7 +310,8 @@ export class DraftEngineService {
    *  The on-device engine always works; DeepSeek/Grok depend on server keys. */
   async aiStatus(): Promise<{ onDevice: boolean; deepseekConfigured: boolean; grokConfigured: boolean }> {
     try {
-      const res = await fetch(`${environment.rolodexApiBase}/ai/status`, { cache: 'no-store' });
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/ai/status`, { cache: 'no-store' });
+      if (!res) return { onDevice: true, deepseekConfigured: false, grokConfigured: false };
       const data = await res.json();
       return {
         onDevice: data?.onDevice !== false,
