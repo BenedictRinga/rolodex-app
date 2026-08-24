@@ -246,12 +246,12 @@
           <ion-chip (click)="scrollTo('settings-faq')">FAQ</ion-chip>
           <ion-chip (click)="scrollTo('settings-cardview')">Card View</ion-chip>
           <ion-chip (click)="scrollTo('settings-demo')">Demo</ion-chip>
-          <ion-chip (click)="openReminders()">Reminders</ion-chip>
+          <ion-chip (click)="scrollTo('settings-reminders')">Reminders</ion-chip>
           <ion-chip (click)="scrollTo('settings-welcome')">Welcome</ion-chip>
-          <ion-chip (click)="openAiSettings()">AI</ion-chip>
-          <ion-chip (click)="openBilling()">Billing</ion-chip>
-          <ion-chip (click)="openAbout()">About</ion-chip>
-          <ion-chip (click)="openInvestors()">Investors</ion-chip>
+          <ion-chip (click)="scrollTo('settings-ai')">AI</ion-chip>
+          <ion-chip (click)="scrollTo('settings-billing')">Billing</ion-chip>
+          <ion-chip (click)="scrollTo('settings-about')">About</ion-chip>
+          <ion-chip (click)="scrollTo('settings-investors')">Investors</ion-chip>
           <ion-chip (click)="scrollTo('settings-privacy')">Privacy</ion-chip>
           <ion-chip (click)="scrollTo('settings-cloudsync')">Cloud Sync</ion-chip>
           <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
@@ -312,14 +312,14 @@
         </ion-item>
 
         <!-- 2026-08-16 REMINDERS: the section button — alarms, follow-ups, birthdays. -->
-        <ion-item lines="none" class="elegant-item" (click)="openReminders()">
+        <ion-item lines="none" class="elegant-item" id="settings-reminders" (click)="openReminders()">
           <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
           <ion-label>Reminders & follow-ups</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
-        <ion-item lines="none" class="elegant-item" (click)="openAiSettings()">
+        <ion-item lines="none" class="elegant-item" id="settings-ai" (click)="openAiSettings()">
           <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>AI Assistant</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
@@ -334,14 +334,14 @@
         </ion-item>
 
         <!-- 2026-08-16 BILLING: the two tiers + Stripe. -->
-        <ion-item lines="none" class="elegant-item" (click)="openBilling()">
+        <ion-item lines="none" class="elegant-item" id="settings-billing" (click)="openBilling()">
           <ion-icon name="card-outline" slot="start" color="success"></ion-icon>
           <ion-label>Billing</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- 2026-08-19 INVESTORS: the full portal, opened directly and unlocked. -->
-        <ion-item lines="none" class="elegant-item" (click)="openInvestors()">
+        <ion-item lines="none" class="elegant-item" id="settings-investors" (click)="openInvestors()">
           <ion-icon name="briefcase-outline" slot="start" color="warning"></ion-icon>
           <ion-label>Investors</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
@@ -354,7 +354,7 @@
         </ion-item>
 
         <!-- 2026-08-16 ABOUT: the app story + the padlocked Investors section. -->
-        <ion-item lines="none" class="elegant-item" (click)="openAbout()">
+        <ion-item lines="none" class="elegant-item" id="settings-about" (click)="openAbout()">
           <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
           <ion-label>About LoopKeeper</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>

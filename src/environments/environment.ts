@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 83, // 2026-08-24 Settings quicknav: add missing Investors pill (opens portal directly)
+  build: 84, // 2026-08-24 Settings quicknav is a pure map: every pill scrolls to its Settings row; user decides whether to open
 };
 
 /*
