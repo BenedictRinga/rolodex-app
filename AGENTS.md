@@ -72,3 +72,26 @@ across all of these, or the Confidante will answer from stale facts.
   analytics summary: DAU/WAU/MAU, sessions, avg session, retention cohorts,
   activation, top events. Keep the portal fields in sync with
   `rolodex-server` `computeAnalyticsSummary()`.
+- Self-report fields (build 77+): `visitNumber`, `isReturning`,
+  `daysSinceFirstUse`, `totalTimeSpentSeconds` are computed locally and sent
+  as numeric props — never as identities.
+
+## NetworkService — quiet background fetches (build 77+)
+- **`src/app/services/network/network.service.ts`** — `safeFetch()` returns
+  null on offline/network-changed/abort; never throws; 12s timeout default.
+- USE IT for every background/poll fetch (updates check, AI status, investor
+  summary, analytics flush). User-initiated fetches may still use raw fetch,
+  but prefer safeFetch to keep the console quiet.
+- Browser devtools may still list failed requests; safeFetch prevents
+  unhandled rejections and retry storms.
+
+## Privacy hardening — data that may leave the device (build 77+)
+- Analytics: anonymous deviceId + event names + numeric props ONLY.
+- Cloud sync: default OFF; sends contacts/ownerPhone only when explicitly
+  enabled by the user.
+- Users API lookup: sends only the recipient phone the user chose to message
+  (user-volunteered reachability check), never the contacts list.
+- Socket chat: room + user-set display name + message text; no phone.
+- AI chat: stateless — backend never persists/logs messages.
+- Feedback: only the AI-gleaned summary is sent; raw chat text stays on device.
+- NEVER add phone/contact collection to analytics or background calls.
