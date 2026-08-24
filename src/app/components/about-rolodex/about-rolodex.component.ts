@@ -6,6 +6,7 @@ import { TimeNormalizerService } from '../../services/time-normalizer/time-norma
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { NetworkService } from '../../services/network/network.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -48,6 +49,9 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsError = '';
   statsUpdatedLabel = '';
   private statsTimer: any = null;
+  // 2026-08-24 WHAT CHANGED: snapshot of the last portal visit, compared on load.
+  private readonly SNAPSHOT_KEY = 'loopkeeper_investor_snapshot';
+  statsDelta: any = null;
 
   // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with LoopKeeper,
   // locked behind the regular password extended with "-x2" (northstar-x2).
@@ -74,6 +78,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     private readonly alerts: AlertsService,
     private readonly draftEngine: DraftEngineService,
     private readonly network: NetworkService,
+    private readonly storage: StorageService,
   ) {}
 
   ngOnInit(): void {
@@ -81,10 +86,24 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     if (this.openInvestors) this.portalMode = 'investors';
     // The portal stays LOCKED. The word is NorthStar (case-insensitive).
     this.unlocked = false;
+    // 2026-08-24 WHAT CHANGED: load the snapshot from the investor's last exit.
+    void this.loadSnapshot();
   }
 
   ngOnDestroy(): void {
     if (this.statsTimer) clearInterval(this.statsTimer);
+    // 2026-08-24 WHAT CHANGED: retain a snapshot on exit so the next visit can
+    // say "what changed" — without any identity, just the numbers.
+    if (this.investorStats) {
+      try { void this.storage.set(this.SNAPSHOT_KEY, this.investorStats); } catch { /* best effort */ }
+    }
+  }
+
+  private async loadSnapshot(): Promise<void> {
+    try {
+      const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
+      if (prev) this.statsDelta = this.computeStatsDelta(prev, this.investorStats);
+    } catch { /* first visit */ }
   }
 
   /** Start hourly refresh of the live-record analysis once the portal opens. */
@@ -109,11 +128,42 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       const data = await res.json();
       this.investorStats = data;
       this.statsUpdatedLabel = this.time.format(data?.generatedAt || new Date(), 'datetime');
+      // 2026-08-24 WHAT CHANGED: compare current with the snapshot from last exit.
+      try {
+        const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
+        if (prev) this.statsDelta = this.computeStatsDelta(prev, data);
+      } catch { /* first visit */ }
     } catch (e: any) {
       this.statsError = e?.message || 'could not reach the live record';
     } finally {
       this.statsLoading = false;
     }
+  }
+
+  /** 2026-08-24 WHAT CHANGED: numeric deltas between two investor summaries. */
+  private computeStatsDelta(prev: any, curr: any): any {
+    if (!prev || !curr) return null;
+    const n = (v: any) => Number(v) || 0;
+    const row = (label: string, p: any, c: any) => {
+      const prevV = n(p);
+      const currV = n(c);
+      if (prevV === 0 && currV === 0) return null;
+      const diff = currV - prevV;
+      const pct = prevV ? Math.round((diff / prevV) * 1000) / 10 : (currV ? 100 : 0);
+      return { label, prev: prevV, curr: currV, diff, pct };
+    };
+    const items = [
+      row('Devices synced', prev?.totals?.devices, curr?.totals?.devices),
+      row('Contacts recorded', prev?.totals?.contacts, curr?.totals?.contacts),
+      row('Follow-ups recorded', prev?.totals?.followUps, curr?.totals?.followUps),
+      row('Active last 24h', prev?.totals?.activeLast24h, curr?.totals?.activeLast24h),
+      row('DAU', prev?.analytics?.dau, curr?.analytics?.dau),
+      row('WAU', prev?.analytics?.wau, curr?.analytics?.wau),
+      row('MAU', prev?.analytics?.mau, curr?.analytics?.mau),
+      row('Sessions (7d)', prev?.analytics?.sessions?.last7d, curr?.analytics?.sessions?.last7d),
+      row('Avg session (s)', prev?.analytics?.avgSessionSeconds, curr?.analytics?.avgSessionSeconds),
+    ].filter(Boolean);
+    return items.length ? items : null;
   }
 
   /** Hour label for a timeline bucket — always through the TimeNormalizer. */

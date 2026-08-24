@@ -476,6 +476,22 @@
              without leaving the app. -->
         <div class="investor-live-analysis" *ngIf="investorStats">
           <p class="investor-chart-title"><strong>Live record — analysis</strong></p>
+          <!-- 2026-08-24 WHAT CHANGED: snapshot comparison from the last exit. -->
+          <div class="investor-chart-block" *ngIf="statsDelta?.length">
+            <p class="investor-chart-title"><strong>What changed since your last visit</strong></p>
+            <div class="retention-table">
+              <div class="retention-row retention-head"><span>Metric</span><span>Previous</span><span>Now</span><span>Change</span></div>
+              <div class="retention-row" *ngFor="let d of statsDelta">
+                <span>{{ d.label }}</span>
+                <span>{{ d.prev }}</span>
+                <span>{{ d.curr }}</span>
+                <span [style.color]="d.diff > 0 ? '#00C853' : d.diff < 0 ? '#EF476F' : '#9BA1A6'">
+                  {{ d.diff > 0 ? '▲ +' : d.diff < 0 ? '▼ ' : '● ' }}{{ d.diff }} ({{ d.pct }}%)
+                </span>
+              </div>
+            </div>
+            <p class="investor-chart-note">Compared with the snapshot saved when you last closed this portal.</p>
+          </div>
           <div class="investor-kpis">
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.devices }}</div>

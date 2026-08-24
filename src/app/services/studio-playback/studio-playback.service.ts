@@ -541,7 +541,7 @@ export class StudioPlaybackService {
     overlay.innerHTML = `
       <div style="background:#1E2328;color:#fff;border-radius:16px;padding:24px;max-width:320px;text-align:center;font-family:system-ui,sans-serif;">
         <p style="margin:0 0 16px;font-size:15px;">Tap to hear the Assistant</p>
-        <button type="button" class="studio-unlock-btn" style="min-width:44px;min-height:44px;padding:12px 24px;background:#FF6B35;color:#fff;border:none;border-radius:999px;font-size:15px;cursor:pointer;">Enable Audio</button>
+        <button type="button" class="studio-unlock-btn" style="min-width:44px;min-height:44px;padding:12px 24px;background:#00A896;color:#fff;border:none;border-radius:999px;font-size:15px;cursor:pointer;">Enable Audio</button>
       </div>`;
     const btn = overlay.querySelector('.studio-unlock-btn') as HTMLButtonElement;
     const unlock = () => { this.removeUnlockOverlay(); retry(); };

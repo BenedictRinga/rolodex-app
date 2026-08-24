@@ -69,7 +69,7 @@ export class SearchModalComponent {
     const name = String(c?.name?.display || '?');
     const initials = name.split(/\s+/).map((p) => p?.[0] || '').join('').slice(0, 2).toUpperCase();
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-      `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" rx="16" fill="#FF6B35"/><text x="32" y="41" font-family="sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">${initials}</text></svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" rx="16" fill="#00A896"/><text x="32" y="41" font-family="sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">${initials}</text></svg>`
     );
   }
 

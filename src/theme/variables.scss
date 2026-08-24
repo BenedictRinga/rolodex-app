@@ -1,16 +1,16 @@
 /* ═══════════════════════════════════════════════════════
-   ROLODEX DESIGN SYSTEM — "Warm Modern"
+   ROLODEX DESIGN SYSTEM — "Calm Teal Modern"
    Purpose-built for relationship nurturing. Every color,
-   spacing, and shadow choice is intentional: warm enough
-   to feel human, crisp enough to feel premium.
+   spacing, and shadow choice is intentional: teal enough
+   to feel calm and trustworthy, crisp enough to feel premium.
    ═══════════════════════════════════════════════════════ */
 
 :root {
   /* ── Brand ────────────────────────────────────────── */
-  --rolodex-primary: #FF6B35;
-  --rolodex-primary-rgb: 255, 107, 53;
-  --rolodex-primary-light: #FF8C5A;
-  --rolodex-primary-dark: #E55A2B;
+  --rolodex-primary: #00A896;
+  --rolodex-primary-rgb: 0, 168, 150;
+  --rolodex-primary-light: #26C3B0;
+  --rolodex-primary-dark: #00897B;
   --rolodex-primary-contrast: #FFFFFF;
 
   --rolodex-accent: #FFD93D;
@@ -44,8 +44,8 @@
   --rolodex-info-rgb: 79, 109, 245;
 
   /* ── Gradients ───────────────────────────────────── */
-  --rolodex-gradient-brand: linear-gradient(135deg, #FF6B35, #FF8C5A);
-  --rolodex-gradient-warm: linear-gradient(135deg, #FF6B35, #FFD93D);
+  --rolodex-gradient-brand: linear-gradient(135deg, #00A896, #26C3B0);
+  --rolodex-gradient-warm: linear-gradient(135deg, #00A896, #FFD93D);
   --rolodex-gradient-cool: linear-gradient(135deg, #5BA4FC, #7C5CFC);
   --rolodex-gradient-success: linear-gradient(135deg, #00C853, #64DD17);
 
@@ -96,7 +96,7 @@
   --rolodex-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --rolodex-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
   --rolodex-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
-  --rolodex-shadow-glow: 0 0 24px rgba(255, 107, 53, 0.15);
+  --rolodex-shadow-glow: 0 0 24px rgba(0, 168, 150, 0.15);
 
   /* ── Transitions ─────────────────────────────────── */
   --rolodex-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -205,10 +205,10 @@ body.dark {
     --rolodex-border: #2D3138;
     --rolodex-border-light: #252830;
 
-    --rolodex-primary: #FF7B4D;
-    --rolodex-primary-rgb: 255, 123, 77;
-    --rolodex-primary-dark: #E56A40;
-    --rolodex-primary-light: #FF9466;
+    --rolodex-primary: #26C3B0;
+    --rolodex-primary-rgb: 38, 195, 176;
+    --rolodex-primary-dark: #00A896;
+    --rolodex-primary-light: #4DD6C4;
 
     --ion-color-primary: var(--rolodex-primary);
     --ion-color-primary-rgb: var(--rolodex-primary-rgb);
@@ -244,6 +244,6 @@ body.dark {
     --rolodex-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
     --rolodex-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
     --rolodex-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4);
-    --rolodex-shadow-glow: 0 0 24px rgba(255, 123, 77, 0.2);
+    --rolodex-shadow-glow: 0 0 24px rgba(38, 195, 176, 0.2);
   }
 }
