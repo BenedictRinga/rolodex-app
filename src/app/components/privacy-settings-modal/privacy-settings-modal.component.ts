@@ -28,6 +28,18 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
         No contact telemetry, no selling of contacts, no cloud copy unless you choose one.
       </p>
 
+      <!-- 2026-08-24 PRIVACY PLEDGE: no PII to mine, so external digs find nothing. -->
+      <div style="margin:0 0 16px; padding:14px 16px; border:1px solid rgba(0,200,83,.35); border-radius:14px; background:rgba(0,200,83,.06); display:flex; gap:12px; align-items:flex-start;">
+        <ion-icon name="shield-checkmark-outline" style="font-size:22px; color:#00C853; flex:none; margin-top:2px;"></ion-icon>
+        <div style="font-size:13px; line-height:1.5;">
+          <b style="font-size:14px;">The LoopKeeper privacy pledge</b>
+          <p style="margin:4px 0 0; color:var(--rolodex-text-secondary);">
+            No phone number, email, or identity is required to use LoopKeeper. Anything you share is voluntary.
+            We do not collect personal data — so even if an external AI or forensic scan digs into us, there is no identity trove to find.
+          </p>
+        </div>
+      </div>
+
       <ion-item>
         <ion-icon name="phone-portrait-outline" slot="start" color="primary"></ion-icon>
         <ion-label>

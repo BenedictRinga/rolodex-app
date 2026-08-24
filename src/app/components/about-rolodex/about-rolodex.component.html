@@ -20,6 +20,17 @@
     <div class="about-tagline">The end of 'I keep meaning to.'</div>
   </div>
 
+  <!-- 2026-08-24 PRIVACY PLEDGE: the thing we crow about. -->
+  <div class="about-section" *ngIf="portalMode !== 'investors'" style="border:1px solid rgba(0,200,83,.35); border-radius:14px; background:rgba(0,200,83,.06);">
+    <h3 style="display:flex; align-items:center; gap:8px; margin-top:0;"><ion-icon name="shield-checkmark-outline" style="color:#00C853;"></ion-icon> Privacy is the product</h3>
+    <p style="margin:0 0 8px;">
+      LoopKeeper requires <strong>no phone number, no email, no identity</strong>. Anything you add is voluntary and stays yours.
+    </p>
+    <p style="margin:0; color:var(--rolodex-text-secondary);">
+      We don't collect personal data — so even if an external AI or forensic scan digs into us, there is no identity trove to find.
+    </p>
+  </div>
+
   <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>What is LoopKeeper?</h3>
     <p>
