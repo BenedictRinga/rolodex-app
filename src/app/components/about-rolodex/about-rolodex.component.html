@@ -14,7 +14,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="about-body">
+<ion-content class="about-body" [class.reader-mode]="readerMode" [class.reader-soft]="readerSoft" [style.--reader-font-size.px]="readerFontSize">
+  <!-- 2026-08-24 READER MODE: tired-eyes controls, same as Zyppar's reader. -->
+  <div class="reader-toolbar">
+    <span class="reader-label">Reading</span>
+    <ion-button size="small" fill="clear" (click)="decreaseFont()" aria-label="Smaller text">A−</ion-button>
+    <ion-button size="small" fill="clear" (click)="increaseFont()" aria-label="Larger text">A+</ion-button>
+    <ion-button size="small" fill="clear" (click)="toggleReaderSoft()" [attr.aria-label]="readerSoft ? 'Normal contrast' : 'Soft contrast'">
+      <ion-icon [name]="readerSoft ? 'sunny-outline' : 'eye-outline'"></ion-icon>
+    </ion-button>
+  </div>
   <div class="about-hero" *ngIf="portalMode !== 'investors'">
     <div class="about-logo">LoopKeeper</div>
     <div class="about-tagline">The end of 'I keep meaning to.'</div>
@@ -491,6 +500,10 @@
               </div>
             </div>
             <p class="investor-chart-note">Compared with the snapshot saved when you last closed this portal.</p>
+          </div>
+          <div class="investor-chart-block" *ngIf="investorStats && !statsDelta?.length">
+            <p class="investor-chart-title"><strong>What changed since your last visit</strong></p>
+            <p class="investor-live-note">No previous snapshot yet. Close this portal once — that becomes your baseline — then your next visit will show what changed.</p>
           </div>
           <div class="investor-kpis">
             <div class="kpi-card">

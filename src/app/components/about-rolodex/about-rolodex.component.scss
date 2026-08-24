@@ -965,3 +965,50 @@ ion-content::part(scroll) {
   max-height: 46vh;
   overflow-y: auto;
 }
+
+/* ============ READER MODE: tired-eyes controls (2026-08-24) ============ */
+.reader-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  margin: 0 8px 4px;
+  .reader-label {
+    margin-right: auto;
+    padding-left: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--rolodex-text-tertiary);
+  }
+  ion-button {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+}
+
+.about-body.reader-mode {
+  .about-section p,
+  .investor-content p,
+  .investor-chart-note,
+  .investor-live-note,
+  .feedback-card,
+  .feedback-summary,
+  .analysis-text {
+    font-size: var(--reader-font-size, 15px) !important;
+    line-height: 1.65 !important;
+  }
+}
+
+.about-body.reader-soft {
+  background: #FBF7F0;
+  .about-section {
+    background: #FFFDF9;
+    border-color: #E8E3DE;
+  }
+  p {
+    color: #3A4046 !important;
+  }
+}

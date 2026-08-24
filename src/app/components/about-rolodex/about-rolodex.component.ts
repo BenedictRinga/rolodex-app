@@ -53,6 +53,12 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   private readonly SNAPSHOT_KEY = 'loopkeeper_investor_snapshot';
   statsDelta: any = null;
 
+  // 2026-08-24 READER MODE: tired-eyes controls (font size + soft contrast),
+  // same spirit as Zyppar's AudioTextReader.
+  readerFontSize = 15;
+  readerMode = false;
+  readerSoft = false;
+
   // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with LoopKeeper,
   // locked behind the regular password extended with "-x2" (northstar-x2).
   x2Unlocked = false;
@@ -164,6 +170,22 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       row('Avg session (s)', prev?.analytics?.avgSessionSeconds, curr?.analytics?.avgSessionSeconds),
     ].filter(Boolean);
     return items.length ? items : null;
+  }
+
+  /** 2026-08-24 READER MODE: bigger text for tired eyes. */
+  increaseFont(): void {
+    this.readerFontSize = Math.min(22, this.readerFontSize + 1);
+    this.readerMode = true;
+  }
+
+  decreaseFont(): void {
+    this.readerFontSize = Math.max(13, this.readerFontSize - 1);
+    this.readerMode = true;
+  }
+
+  toggleReaderSoft(): void {
+    this.readerSoft = !this.readerSoft;
+    this.readerMode = true;
   }
 
   /** Hour label for a timeline bucket — always through the TimeNormalizer. */

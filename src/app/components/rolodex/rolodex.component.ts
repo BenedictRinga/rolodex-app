@@ -162,7 +162,7 @@ export class RolodexComponent implements OnInit {
     const modal = await this.modalController.create({
       component: AiSettingsModalComponent,
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.6, 0.9],
+      breakpoints: [0, 0.6, 0.7, 0.9],
       initialBreakpoint: 0.7,
     });
     await modal.present();
@@ -245,7 +245,7 @@ export class RolodexComponent implements OnInit {
     const modal = await this.modalController.create({
       component: BillingModalComponent,
       cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95],
+      breakpoints: [0, 0.7, 0.9, 0.95],
       initialBreakpoint: 0.9,
     });
     await modal.present();
