@@ -485,9 +485,23 @@
              without leaving the app. -->
         <div class="investor-live-analysis" *ngIf="investorStats">
           <p class="investor-chart-title"><strong>Live record — analysis</strong></p>
+          <!-- 2026-08-24 INVESTOR INDEX: first-glance section map. -->
+          <div class="investor-index">
+            <button class="index-chip" (click)="scrollToSection('inv-changed')">Changed</button>
+            <button class="index-chip" (click)="scrollToSection('inv-live')">Live</button>
+            <button class="index-chip" (click)="scrollToSection('inv-presence')">Presence</button>
+            <button class="index-chip" (click)="scrollToSection('inv-retention')">Retention</button>
+            <button class="index-chip" (click)="scrollToSection('inv-activation')">Activation</button>
+            <button class="index-chip" (click)="scrollToSection('inv-events')">Events</button>
+            <button class="index-chip" (click)="scrollToSection('inv-rooms')">Rooms</button>
+          </div>
+
           <!-- 2026-08-24 WHAT CHANGED: snapshot comparison from the last exit. -->
-          <div class="investor-chart-block" *ngIf="statsDelta?.length">
-            <p class="investor-chart-title"><strong>What changed since your last visit</strong></p>
+          <div class="investor-section sec-changed" id="inv-changed" *ngIf="statsDelta?.length">
+            <div class="section-head">
+              <span class="section-num">01</span>
+              <div class="section-title"><span class="section-kicker">Snapshot</span><strong>What changed since your last visit</strong></div>
+            </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Metric</span><span>Previous</span><span>Now</span><span>Change</span></div>
               <div class="retention-row" *ngFor="let d of statsDelta">
@@ -501,11 +515,20 @@
             </div>
             <p class="investor-chart-note">Compared with the snapshot saved when you last closed this portal.</p>
           </div>
-          <div class="investor-chart-block" *ngIf="investorStats && !statsDelta?.length">
-            <p class="investor-chart-title"><strong>What changed since your last visit</strong></p>
+          <div class="investor-section sec-changed" id="inv-changed" *ngIf="investorStats && !statsDelta?.length">
+            <div class="section-head">
+              <span class="section-num">01</span>
+              <div class="section-title"><span class="section-kicker">Snapshot</span><strong>What changed since your last visit</strong></div>
+            </div>
             <p class="investor-live-note">No previous snapshot yet. Close this portal once — that becomes your baseline — then your next visit will show what changed.</p>
           </div>
-          <div class="investor-kpis">
+
+          <div class="investor-section sec-live" id="inv-live">
+            <div class="section-head">
+              <span class="section-num">02</span>
+              <div class="section-title"><span class="section-kicker">Current snapshot</span><strong>Live record</strong></div>
+            </div>
+            <div class="investor-kpis">
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.devices }}</div>
               <div class="kpi-label">Devices synced</div>
@@ -527,10 +550,14 @@
               <div class="kpi-caption">Devices whose last sync happened in the past 24 hours.</div>
             </div>
           </div>
+          </div>
 
           <!-- 2026-08-23 REAL ANALYTICS: presence, frequency, time, retention -->
-          <div class="investor-chart-block" *ngIf="investorStats.analytics">
-            <p class="investor-chart-title"><strong>Product analytics — presence & frequency</strong></p>
+          <div class="investor-section sec-presence" id="inv-presence" *ngIf="investorStats.analytics">
+            <div class="section-head">
+              <span class="section-num">03</span>
+              <div class="section-title"><span class="section-kicker">Product analytics</span><strong>Presence & frequency</strong></div>
+            </div>
             <div class="investor-kpis">
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.dau }}</div>
@@ -560,8 +587,11 @@
             </div>
           </div>
 
-          <div class="investor-chart-block" *ngIf="investorStats.analytics?.retention?.length">
-            <p class="investor-chart-title"><strong>Retention — real cohorts (D1 / D7)</strong></p>
+          <div class="investor-section sec-retention" id="inv-retention" *ngIf="investorStats.analytics?.retention?.length">
+            <div class="section-head">
+              <span class="section-num">04</span>
+              <div class="section-title"><span class="section-kicker">Cohorts</span><strong>Retention (D1 / D7)</strong></div>
+            </div>
             <div class="retention-table">
               <div class="retention-row retention-head">
                 <span>Cohort day</span><span>Size</span><span>D1</span><span>D7</span>
@@ -573,8 +603,11 @@
             <p class="investor-chart-note">Devices whose first app_launch fell in each day; D1/D7 = devices that came back on that day. Empty until analytics events arrive.</p>
           </div>
 
-          <div class="investor-chart-block" *ngIf="investorStats.analytics?.activation">
-            <p class="investor-chart-title"><strong>Activation — devices that reached each milestone</strong></p>
+          <div class="investor-section sec-activation" id="inv-activation" *ngIf="investorStats.analytics?.activation">
+            <div class="section-head">
+              <span class="section-num">05</span>
+              <div class="section-title"><span class="section-kicker">Funnel</span><strong>Activation milestones</strong></div>
+            </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Milestone</span><span>Devices</span></div>
               <div class="retention-row"><span>Added a card</span><span>{{ investorStats.analytics.activation.cardadded || 0 }}</span></div>
@@ -587,8 +620,11 @@
             </div>
           </div>
 
-          <div class="investor-chart-block" *ngIf="investorStats.analytics?.topEvents?.length">
-            <p class="investor-chart-title"><strong>Top events — last 7 days</strong></p>
+          <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
+            <div class="section-head">
+              <span class="section-num">06</span>
+              <div class="section-title"><span class="section-kicker">Behavior</span><strong>Top events — last 7 days</strong></div>
+            </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Event</span><span>Count</span></div>
               <div class="retention-row" *ngFor="let e of investorStats.analytics.topEvents">
@@ -597,8 +633,11 @@
             </div>
           </div>
 
-          <div class="investor-chart-block" *ngIf="investorStats.timeline?.length">
-            <p class="investor-chart-title"><strong>Devices seen by hour — last 24 hours</strong></p>
+          <div class="investor-section sec-timeline" id="inv-timeline" *ngIf="investorStats.timeline?.length">
+            <div class="section-head">
+              <span class="section-num">07</span>
+              <div class="section-title"><span class="section-kicker">Hourly</span><strong>Devices seen by hour — last 24 hours</strong></div>
+            </div>
             <div class="bar-chart">
               <div class="bar-row" *ngFor="let b of investorStats.timeline">
                 <span class="bar-label">{{ hourLabel(b.bucketStart) }}</span>
@@ -611,8 +650,11 @@
             <p class="investor-chart-note">Each bar = the number of devices whose last sync fell inside that hour. This is the real record, not a projection.</p>
           </div>
 
-          <div class="investor-chart-block" *ngIf="investorStats.rooms?.length">
-            <p class="investor-chart-title"><strong>Top rooms</strong></p>
+          <div class="investor-section sec-rooms" id="inv-rooms" *ngIf="investorStats.rooms?.length">
+            <div class="section-head">
+              <span class="section-num">08</span>
+              <div class="section-title"><span class="section-kicker">Demo spaces</span><strong>Top rooms</strong></div>
+            </div>
             <div class="room-row" *ngFor="let r of investorStats.rooms">
               <span class="room-name">{{ r.room }}</span>
               <span class="room-meta">{{ r.deviceCount }} device(s) · {{ r.contacts }} contacts</span>

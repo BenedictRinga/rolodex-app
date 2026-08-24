@@ -1012,3 +1012,83 @@ ion-content::part(scroll) {
     color: #3A4046 !important;
   }
 }
+
+/* ============ INVESTOR SEGMENTATION: first-glance layout (2026-08-24) ============ */
+.investor-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 14px;
+  padding: 0 2px;
+  .index-chip {
+    border: 1px solid var(--rolodex-border);
+    background: var(--rolodex-surface);
+    color: var(--rolodex-text-secondary);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover, &:focus {
+      border-color: var(--rolodex-primary);
+      color: var(--rolodex-primary);
+    }
+  }
+}
+
+.investor-section {
+  position: relative;
+  margin: 14px 0;
+  padding: 14px 14px 12px 16px;
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-left: 4px solid var(--rolodex-border);
+  border-radius: 12px;
+  scroll-margin-top: 12px;
+
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    .section-num {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--rolodex-primary);
+    }
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      .section-kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--rolodex-text-tertiary);
+      }
+      strong {
+        font-size: 15px;
+        line-height: 1.25;
+        color: var(--rolodex-text);
+      }
+    }
+  }
+}
+
+/* Distinct accent per section so the eye maps the page in one pass. */
+.sec-changed     { border-left-color: #00C853; .section-num { background: #00C853; } }
+.sec-live        { border-left-color: #00A896; .section-num { background: #00A896; } }
+.sec-presence    { border-left-color: #5BA4FC; .section-num { background: #5BA4FC; } }
+.sec-retention   { border-left-color: #7C5CFC; .section-num { background: #7C5CFC; } }
+.sec-activation  { border-left-color: #FFB300; .section-num { background: #FFB300; } }
+.sec-events      { border-left-color: #4f6df5; .section-num { background: #4f6df5; } }
+.sec-timeline    { border-left-color: #00A896; .section-num { background: #00A896; } }
+.sec-rooms       { border-left-color: #9BA1A6; .section-num { background: #9BA1A6; } }

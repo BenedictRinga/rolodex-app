@@ -188,6 +188,13 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     this.readerMode = true;
   }
 
+  /** 2026-08-24 INVESTOR INDEX: jump to a section inside the modal. */
+  scrollToSection(id: string): void {
+    try {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch { /* ignore */ }
+  }
+
   /** Hour label for a timeline bucket — always through the TimeNormalizer. */
   hourLabel(iso: string): string {
     return this.time.format(iso, 'time') || '—';
