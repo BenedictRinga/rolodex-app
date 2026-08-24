@@ -251,11 +251,23 @@ export class RolodexComponent implements OnInit {
     await modal.present();
   }
 
-  /** 2026-08-16 SETTINGS MAP: jump to any section - no scrolling in ignorance. */
+  /** 2026-08-16 SETTINGS MAP: jump to any section - no scrolling in ignorance.
+   *  2026-08-24 DYNAMIC OFFSET: the sticky quicknav height changes with the
+   *  number of chips/wrapping rows. Measure it at tap time instead of guessing,
+   *  so the pill always lands ON the item. */
   scrollTo(id: string): void {
     try {
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!el) return;
+      const container = el.closest('.rolodex-scroll') || document.scrollingElement;
+      if (!container) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      const sticky = container.querySelector('.settings-quicknav');
+      const stickyH = sticky ? Math.ceil(sticky.getBoundingClientRect().height) : 0;
+      const offset = stickyH + 16; // sticky row + breathing room
+      const rect = el.getBoundingClientRect();
+      const cRect = container.getBoundingClientRect();
+      const top = rect.top - cRect.top + container.scrollTop - offset;
+      container.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     } catch { /* ignore */ }
   }
 
