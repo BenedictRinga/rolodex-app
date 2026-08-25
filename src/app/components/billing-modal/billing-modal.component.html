@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">Billing</ion-title>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.billing.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -17,46 +17,46 @@
 <ion-content class="billing-body">
   <!-- 2026-08-18 MULTI-GATEWAY: Stripe / Paystack / Flutterwave / Paddle -->
   <ion-item lines="none" class="billing-gateway">
-    <ion-label>Payment method</ion-label>
+    <ion-label>{{ 'loopkeeper.billing.paymentMethod' | translate }}</ion-label>
     <ion-select [(ngModel)]="gateway" interface="popover">
-      <ion-select-option value="stripe">Stripe (cards)</ion-select-option>
-      <ion-select-option value="paystack">Paystack (Nigeria)</ion-select-option>
-      <ion-select-option value="flutterwave">Flutterwave (Kenya / M-Pesa)</ion-select-option>
-      <ion-select-option value="paddle">Paddle (global)</ion-select-option>
+      <ion-select-option value="stripe">{{ 'loopkeeper.billing.stripe' | translate }}</ion-select-option>
+      <ion-select-option value="paystack">{{ 'loopkeeper.billing.paystack' | translate }}</ion-select-option>
+      <ion-select-option value="flutterwave">{{ 'loopkeeper.billing.flutterwave' | translate }}</ion-select-option>
+      <ion-select-option value="paddle">{{ 'loopkeeper.billing.paddle' | translate }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item lines="none" *ngIf="gateway !== 'stripe'" class="billing-email">
-    <ion-label position="stacked">Email for the receipt</ion-label>
-    <ion-input [(ngModel)]="email" type="email" placeholder="you@example.com"></ion-input>
+    <ion-label position="stacked">{{ 'loopkeeper.billing.emailReceipt' | translate }}</ion-label>
+    <ion-input [(ngModel)]="email" type="email" [placeholder]="'loopkeeper.billing.emailPlaceholder' | translate"></ion-input>
   </ion-item>
 
   <!-- 2026-08-17 FREE TRIAL: 7 days of the Assistant, counting down. -->
-  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} — free until your first loops close.</div>
+  <div *ngIf="trialLabel" class="billing-trial-banner">{{ trialLabel }} {{ 'loopkeeper.billing.trialSuffix' | translate }}</div>
   <!-- 2026-08-16 THE TWO TIERS: Basic ($1, the taste) vs Assistant ($5, the agent). -->
   <div class="plan-card" [class.plan-featured]="plan === 'confidante'">
-    <div class="plan-name">Basic</div>
-    <div class="plan-price">$1<span>/month</span></div>
+    <div class="plan-name">{{ 'loopkeeper.billing.planBasic' | translate }}</div>
+    <div class="plan-price">$1<span>{{ 'loopkeeper.billing.perMonth' | translate }}</span></div>
     <ul class="plan-features">
-      <li>The essentials: cards for the people who matter, follow-ups, and one good nudge</li>
-      <li>Sync (cloud / LoopKeeper server), pods, in-app chat</li>
-      <li><strong>Assistant:</strong> five nudges a month — enough to clear what's owed</li>
+      <li>{{ 'loopkeeper.billing.featBasic1' | translate }}</li>
+      <li>{{ 'loopkeeper.billing.featBasic2' | translate }}</li>
+      <li><strong>{{ 'loopkeeper.settings.ai' | translate }}:</strong> {{ 'loopkeeper.billing.featBasic3' | translate }}</li>
     </ul>
     <ion-button expand="block" fill="outline" (click)="subscribe('basic')" [disabled]="busy">
-      {{ busyPlan === 'basic' ? 'Opening checkout…' : 'Subscribe — $1/month' }}
+      {{ busyPlan === 'basic' ? ('loopkeeper.billing.openingCheckout' | translate) : ('loopkeeper.billing.subscribeBasic' | translate) }}
     </ion-button>
   </div>
 
   <div class="plan-card plan-featured">
-    <div class="plan-name">Assistant</div>
-    <div class="plan-price">$5<span>/month</span></div>
+    <div class="plan-name">{{ 'loopkeeper.billing.planAssistant' | translate }}</div>
+    <div class="plan-price">$5<span>{{ 'loopkeeper.billing.perMonth' | translate }}</span></div>
     <ul class="plan-features">
-      <li>Everything in Basic</li>
-      <li><strong>The Assistant works all month</strong> — every open loop gets caught</li>
-      <li>The AI drafts the message you keep meaning to send — you just hit Send</li>
-      <li>Preset guides for hard conversations · suggested follow-ups and timing</li>
+      <li>{{ 'loopkeeper.billing.featAssistant1' | translate }}</li>
+      <li><strong>{{ 'loopkeeper.billing.featAssistant2' | translate }}</strong></li>
+      <li>{{ 'loopkeeper.billing.featAssistant3' | translate }}</li>
+      <li>{{ 'loopkeeper.billing.featAssistant4' | translate }}</li>
     </ul>
     <ion-button expand="block" (click)="subscribe('confidante')" [disabled]="busy">
-      {{ busyPlan === 'confidante' ? 'Opening checkout…' : 'Subscribe — $5/month' }}
+      {{ busyPlan === 'confidante' ? ('loopkeeper.billing.openingCheckout' | translate) : ('loopkeeper.billing.subscribeAssistant' | translate) }}
     </ion-button>
   </div>
 
@@ -66,17 +66,17 @@
   </div>
   <div class="billing-note" *ngIf="gatewayMissing">
     <ion-icon name="card-outline"></ion-icon>
-    {{ gatewayLabel() }} isn't connected yet — pick another payment method above.
+    {{ 'loopkeeper.billing.gatewayMissing' | translate:{ gateway: gatewayLabel() } }}
   </div>
   <div class="billing-note">
     <ion-icon name="checkmark-circle-outline"></ion-icon>
-    Your plan: <strong>{{ currentPlan }}</strong>
+    {{ 'loopkeeper.billing.yourPlan' | translate }} <strong>{{ currentPlan }}</strong>
   </div>
   <div class="billing-note billing-privacy" style="margin-top:10px;">
     <ion-icon name="shield-checkmark-outline"></ion-icon>
-    No phone number or identity is required to use LoopKeeper. The payment processor handles your payment details for the receipt only.
+    {{ 'loopkeeper.billing.privacy' | translate }}
   </div>
   <div class="billing-footnote">
-    Payments processed by Stripe · Paystack · Flutterwave · Paddle. Cancel anytime in this screen.
+    {{ 'loopkeeper.billing.footnote' | translate }}
   </div>
 </ion-content>

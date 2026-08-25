@@ -500,7 +500,7 @@
           <div class="investor-section sec-changed" id="inv-changed" *ngIf="statsDelta?.length">
             <div class="section-head">
               <span class="section-num">01</span>
-              <div class="section-title"><span class="section-kicker">Snapshot</span><strong>What changed since your last visit</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.snapshotKicker' | translate }}</span><strong>{{ 'loopkeeper.about.changedStrong' | translate }}</strong></div>
             </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Metric</span><span>Previous</span><span>Now</span><span>Change</span></div>
@@ -518,7 +518,7 @@
           <div class="investor-section sec-changed" id="inv-changed" *ngIf="investorStats && !statsDelta?.length">
             <div class="section-head">
               <span class="section-num">01</span>
-              <div class="section-title"><span class="section-kicker">Snapshot</span><strong>What changed since your last visit</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.snapshotKicker' | translate }}</span><strong>{{ 'loopkeeper.about.changedStrong' | translate }}</strong></div>
             </div>
             <p class="investor-live-note">No previous snapshot yet. Close this portal once — that becomes your baseline — then your next visit will show what changed.</p>
           </div>
@@ -526,7 +526,7 @@
           <div class="investor-section sec-live" id="inv-live">
             <div class="section-head">
               <span class="section-num">02</span>
-              <div class="section-title"><span class="section-kicker">Current snapshot</span><strong>Live record</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.currentKicker' | translate }}</span><strong>{{ 'loopkeeper.about.liveStrong' | translate }}</strong></div>
             </div>
             <div class="investor-kpis">
             <div class="kpi-card">
@@ -556,7 +556,7 @@
           <div class="investor-section sec-presence" id="inv-presence" *ngIf="investorStats.analytics">
             <div class="section-head">
               <span class="section-num">03</span>
-              <div class="section-title"><span class="section-kicker">Product analytics</span><strong>Presence & frequency</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.analyticsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.presenceStrong' | translate }}</strong></div>
             </div>
             <div class="investor-kpis">
               <div class="kpi-card">
@@ -590,7 +590,7 @@
           <div class="investor-section sec-retention" id="inv-retention" *ngIf="investorStats.analytics?.retention?.length">
             <div class="section-head">
               <span class="section-num">04</span>
-              <div class="section-title"><span class="section-kicker">Cohorts</span><strong>Retention (D1 / D7)</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.cohortsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.retentionStrong' | translate }}</strong></div>
             </div>
             <div class="retention-table">
               <div class="retention-row retention-head">
@@ -606,7 +606,7 @@
           <div class="investor-section sec-activation" id="inv-activation" *ngIf="investorStats.analytics?.activation">
             <div class="section-head">
               <span class="section-num">05</span>
-              <div class="section-title"><span class="section-kicker">Funnel</span><strong>Activation milestones</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.funnelKicker' | translate }}</span><strong>{{ 'loopkeeper.about.activationStrong' | translate }}</strong></div>
             </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Milestone</span><span>Devices</span></div>
@@ -623,7 +623,7 @@
           <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
             <div class="section-head">
               <span class="section-num">06</span>
-              <div class="section-title"><span class="section-kicker">Behavior</span><strong>Top events — last 7 days</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.behaviorKicker' | translate }}</span><strong>{{ 'loopkeeper.about.eventsStrong' | translate }}</strong></div>
             </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Event</span><span>Count</span></div>
@@ -636,7 +636,7 @@
           <div class="investor-section sec-timeline" id="inv-timeline" *ngIf="investorStats.timeline?.length">
             <div class="section-head">
               <span class="section-num">07</span>
-              <div class="section-title"><span class="section-kicker">Hourly</span><strong>Devices seen by hour — last 24 hours</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.hourlyKicker' | translate }}</span><strong>{{ 'loopkeeper.about.hourlyStrong' | translate }}</strong></div>
             </div>
             <div class="bar-chart">
               <div class="bar-row" *ngFor="let b of investorStats.timeline">
@@ -653,7 +653,7 @@
           <div class="investor-section sec-rooms" id="inv-rooms" *ngIf="investorStats.rooms?.length">
             <div class="section-head">
               <span class="section-num">08</span>
-              <div class="section-title"><span class="section-kicker">Demo spaces</span><strong>Top rooms</strong></div>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.demoKicker' | translate }}</span><strong>{{ 'loopkeeper.about.roomsStrong' | translate }}</strong></div>
             </div>
             <div class="room-row" *ngFor="let r of investorStats.rooms">
               <span class="room-name">{{ r.room }}</span>

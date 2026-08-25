@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">AI Assistant</ion-title>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.ai.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -17,36 +17,34 @@
 <ion-content>
   <div class="ai-section">
     <p class="ai-intro">
-      <strong>Choose which AI engine LoopKeeper uses</strong> for the assistant.
-      Your contacts stay where you put them — Device, Cloud, or LoopKeeper Server.
+      <strong>{{ 'loopkeeper.ai.intro' | translate }}</strong> {{ 'loopkeeper.ai.intro2' | translate }}
     </p>
     <p class="ai-note">
-      Engine keys live on the LoopKeeper server, never inside the app. If a key is
-      missing, the app uses its on-device engine.
+      {{ 'loopkeeper.ai.noteKeys' | translate }}
     </p>
 
     <ion-item lines="none" class="ai-item">
       <ion-icon name="sparkles-outline" slot="start" color="primary"></ion-icon>
-      <ion-label>Engine</ion-label>
+      <ion-label>{{ 'loopkeeper.ai.engine' | translate }}</ion-label>
       <ion-select [(ngModel)]="provider" (ionChange)="onProviderChange()">
-        <ion-select-option value="rolodex">LoopKeeper's engine (on-device)</ion-select-option>
-        <ion-select-option value="deepseek">DeepSeek</ion-select-option>
-        <ion-select-option value="grok">Grok</ion-select-option>
+        <ion-select-option value="rolodex">{{ 'loopkeeper.ai.engineRolodex' | translate }}</ion-select-option>
+        <ion-select-option value="deepseek">{{ 'loopkeeper.ai.engineDeepseek' | translate }}</ion-select-option>
+        <ion-select-option value="grok">{{ 'loopkeeper.ai.engineGrok' | translate }}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-button expand="block" class="ai-save" (click)="save()">
-      Use {{ providerLabel() }}
+      {{ 'loopkeeper.ai.use' | translate:{ provider: providerLabel() } }}
     </ion-button>
     <div class="ai-note" *ngIf="saved">
-      Saved. The Assistant now delivers through {{ providerLabel() }}.
+      {{ 'loopkeeper.ai.saved' | translate:{ provider: providerLabel() } }}
     </div>
 
     <!-- 2026-08-16 THE TASTE: the Assistant quota. -->
     <div class="ai-quota">
-      <strong>Your Assistant tier</strong> — {{ planLabel() }}:
-      {{ plan === 'confidante' ? 'unlimited nudges' : interventionsLeft() + ' of 5 nudges left this month' }}.
-      <span *ngIf="plan !== 'confidante'">Upgrade to the Assistant ($5/month) in Billing for the AI to work all month.</span>
+      <strong>{{ 'loopkeeper.ai.tier' | translate }}</strong> — {{ planLabel() }}:
+      {{ plan === 'confidante' ? ('loopkeeper.ai.unlimited' | translate) : ('loopkeeper.ai.nudgesLeft' | translate:{ n: interventionsLeft() }) }}.
+      <span *ngIf="plan !== 'confidante'">{{ 'loopkeeper.ai.upgrade' | translate }}</span>
     </div>
   </div>
 </ion-content>

@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="font-size: 15px;">Welcome to LoopKeeper</ion-title>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.welcome.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -275,12 +275,12 @@
   <!-- ── ACTIONS ────────────────────────────────────────────────────── -->
   <div class="demo-actions">
     <ng-container *ngIf="isTaste; else normalActions">
-      <ion-button expand="block" class="demo-start" (click)="startTaste()">Let's go</ion-button>
-      <ion-button fill="clear" size="small" (click)="maybeLater()">Maybe later</ion-button>
+      <ion-button expand="block" class="demo-start" (click)="startTaste()">{{ 'loopkeeper.welcome.start' | translate }}</ion-button>
+      <ion-button fill="clear" size="small" (click)="maybeLater()">{{ 'loopkeeper.welcome.later' | translate }}</ion-button>
     </ng-container>
     <ng-template #normalActions>
-      <ion-button fill="clear" size="small" (click)="dontShowAgain()">Don't show this again</ion-button>
-      <ion-button expand="block" class="demo-start" (click)="start()">Start exploring</ion-button>
+      <ion-button fill="clear" size="small" (click)="dontShowAgain()">{{ 'loopkeeper.welcome.dontShow' | translate }}</ion-button>
+      <ion-button expand="block" class="demo-start" (click)="start()">{{ 'loopkeeper.welcome.explore' | translate }}</ion-button>
     </ng-template>
   </div>
 </ion-content>

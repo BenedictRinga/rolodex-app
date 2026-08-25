@@ -18,16 +18,16 @@ export interface HelpFeature {
   template: `
   <ion-header>
     <ion-toolbar>
-      <ion-title>LoopKeeper — features</ion-title>
+      <ion-title>{{ 'loopkeeper.help.title' | translate }}</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="close()"><ion-icon name="close" slot="icon-only"></ion-icon></ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <h2 style="margin:0 0 4px; font-size:18px;">Your people, kept right.</h2>
+    <h2 style="margin:0 0 4px; font-size:18px;">{{ 'loopkeeper.help.headline' | translate }}</h2>
     <p style="margin:0 0 14px; color:var(--rolodex-text-secondary); font-size:13px;">
-      Everything below is live in this app — tap <b>Go</b> on any feature to jump to it.
+      {{ 'loopkeeper.help.subhead' | translate }}
     </p>
 
     <ng-container *ngFor="let group of groups">
@@ -42,7 +42,7 @@ export interface HelpFeature {
     </ng-container>
 
     <p style="margin-top:18px; color:var(--rolodex-text-secondary); font-size:12px;">
-      Built on your device first — then Cloud or the LoopKeeper Server, your choice.
+      {{ 'loopkeeper.help.footer' | translate }}
     </p>
   </ion-content>
   `,
