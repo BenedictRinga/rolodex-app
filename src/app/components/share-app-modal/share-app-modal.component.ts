@@ -15,8 +15,11 @@ import { ShareAppService } from '../../services/share-app/share-app.service';
   styleUrls: ['./share-app-modal.component.scss'],
 })
 export class ShareAppModalComponent {
-  readonly shareUrl = 'https://zyppar.com/loopkeeper/';
-  readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/`;
+  // 2026-08-25 CACHE-BUSTING URL: the bare /loopkeeper/ URL is cached by social
+  // platforms with the old Zyppar preview. ?src=settings is a distinct stable URL
+  // so WhatsApp/Telegram fetch the current LoopKeeper OG card (same PWA, same OG tags).
+  readonly shareUrl = 'https://zyppar.com/loopkeeper/?src=settings';
+  readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/?src=settings`;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
 
   // 2026-08-25 STATIC LOOPKEEPER PREVIEW: always shows the branded card.
