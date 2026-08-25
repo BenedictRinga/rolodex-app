@@ -1,4 +1,4 @@
-.li-shell { display:flex; flex-direction:column; max-height:46vh; min-height:200px;
+.li-shell { display:flex; flex-direction:column; height:50vh; min-height:50vh; max-height:50vh;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014); }
 .li-head { display:flex; justify-content:space-between; align-items:center; padding:6px 10px 0 12px; }
 .li-title { font-size:13px; letter-spacing:.02em; }
@@ -53,3 +53,5 @@
 .li-receipt { display:flex; gap:8px; font-size:12px; align-items:center; padding:4px 2px; opacity:.85; }
 .li-check { color:#14b8a6; font-weight:800; }
 .li-chat-slot { display:flex; flex-direction:column; overflow-y:auto; flex:1; }
+.li-reminders { display:flex; align-items:center; justify-content:center; }
+.li-reminders-card { max-width:420px; width:100%; background:rgba(128,128,128,.08); border:1px solid rgba(128,128,128,.22); border-radius:14px; padding:18px 16px; text-align:center; font-size:13px; }

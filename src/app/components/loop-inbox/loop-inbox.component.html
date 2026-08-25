@@ -8,11 +8,11 @@
   </div>
 
   <ion-segment [(ngModel)]="tab" class="li-segment" mode="ios">
+    <ion-segment-button value="chat"><ion-label>Chat</ion-label></ion-segment-button>
     <ion-segment-button value="loops">
       <ion-label>Loops <span class="li-badge">{{ counts.mine }}</span></ion-label>
     </ion-segment-button>
-    <ion-segment-button value="chat"><ion-label>Chat</ion-label></ion-segment-button>
-    <ion-segment-button value="soon" disabled><ion-label>Soon</ion-label></ion-segment-button>
+    <ion-segment-button value="reminders"><ion-label>Reminders</ion-label></ion-segment-button>
   </ion-segment>
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
@@ -97,8 +97,17 @@
     <ng-content select="[chat-tab]"></ng-content>
   </div>
 
-  <!-- ═══════════ SOON TAB (reserved — intentionally empty) ═══════════ -->
-  <div *ngIf="tab === 'soon'" class="li-empty"><p>Reserved.</p></div>
+  <!-- ═══════════ REMINDERS TAB (same feature as Settings -> Reminders) ═══════════ -->
+  <div *ngIf="tab === 'reminders'" class="li-body li-reminders">
+    <div class="li-reminders-card">
+      <p><strong>Reminders &amp; follow-ups</strong></p>
+      <p>Same feature as Settings → Reminders — alarms, follow-ups, birthdays. It stays there too.</p>
+      <ion-button expand="block" (click)="openReminders()">
+        <ion-icon name="alarm-outline" slot="start"></ion-icon>
+        Open Reminders
+      </ion-button>
+    </div>
+  </div>
 </div>
 
 <!-- ════════ Shared row + expanded detail ════════ -->

@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import {
   LoopsService, Loop, LoopTone, LoopChannel,
 } from '../../services/loops/loops.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
+import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
 
 /**
- * 2026-08-24 LOOPKEEPER INBOX — Loops | Chat | Soon.
+ * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
  * One row = one closeable thing. Decision chips force the decision.
  * The Chat tab is PROJECTED content from home.page.html — untouched legacy.
+ * The Reminders tab opens the same Settings -> Reminders modal (which remains there).
  */
 @Component({
   selector: 'app-loop-inbox',
@@ -18,7 +20,7 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
   standalone: false,
 })
 export class LoopInboxComponent implements OnInit {
-  tab: 'loops' | 'chat' | 'soon' = 'loops';
+  tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
   todaysThree: Loop[] = [];
   mine: Loop[] = [];
@@ -63,7 +65,16 @@ export class LoopInboxComponent implements OnInit {
     private alerts: AlertsService,
     private analytics: AnalyticsService,
     private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
   ) {}
+
+  /** Reminders tab: same modal as Settings -> Reminders (which stays there). */
+  async openReminders(): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: RemindersModalComponent,
+    });
+    await modal.present();
+  }
 
   async ngOnInit(): Promise<void> {
     await this.refresh();
