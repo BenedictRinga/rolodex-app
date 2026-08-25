@@ -340,6 +340,19 @@
     "about.hourlyKicker": "प्रति घंटा",
     "about.hourlyStrong": "प्रति घंटे दिखे डिवाइस — पिछले 24 घंटे",
     "about.demoKicker": "डेमो स्थान",
-    "about.roomsStrong": "मुख्य कमरे"
+    "about.roomsStrong": "मुख्य कमरे",
+    "portal.title": "Help translate LoopKeeper",
+    "portal.subtitle": "Your language, your voice",
+    "portal.how": "Edit any string below. Your version is saved on this device and used immediately. Tap Share to copy your work for the community.",
+    "portal.translated": "Translated",
+    "portal.pending": "Pending",
+    "portal.search": "Search strings…",
+    "portal.yours": "yours",
+    "portal.reset": "Reset to original",
+    "portal.loading": "Loading…",
+    "portal.save": "Save my changes",
+    "portal.saved": "Saved ✓",
+    "portal.share": "Share my translations",
+    "settings.translate": "Help translate"
   }
 }

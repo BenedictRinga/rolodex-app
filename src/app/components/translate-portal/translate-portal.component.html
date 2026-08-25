@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.portal.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- 2026-08-25 USER-OWNED TRANSLATIONS: this portal lets anyone improve the
+       copy in their own language. Their edits are saved on-device and merged
+       over the shipped translation on every start. -->
+  <div class="tp-hero">
+    <ion-icon name="language-outline" slot="start"></ion-icon>
+    <div>
+      <b>{{ 'loopkeeper.portal.subtitle' | translate }}</b>
+      <p>{{ 'loopkeeper.portal.how' | translate }}</p>
+    </div>
+  </div>
+
+  <ion-item lines="none" class="tp-lang">
+    <ion-label>{{ 'loopkeeper.settings.language' | translate }}</ion-label>
+    <ion-select [value]="lang" (ionChange)="selectLanguage($event.detail.value)" interface="popover">
+      <ion-select-option *ngFor="let l of languages" [value]="l.code">{{ l.label }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <div class="tp-progress">
+    <span>{{ 'loopkeeper.portal.translated' | translate }}: <b>{{ translatedCount }}/{{ totalCount }}</b></span>
+    <span *ngIf="pendingCount">{{ 'loopkeeper.portal.pending' | translate }}: {{ pendingCount }}</span>
+  </div>
+
+  <ion-searchbar [(ngModel)]="search" [placeholder]="'loopkeeper.portal.search' | translate" class="tp-search"></ion-searchbar>
+
+  <ng-container *ngIf="!loading && groups.length">
+    <div class="tp-group" *ngFor="let g of groups">
+      <div class="tp-group-title">{{ g.name }}</div>
+      <div class="tp-row" *ngFor="let r of g.rows">
+        <div class="tp-row-head">
+          <code>{{ r.key }}</code>
+          <span class="tp-pill" *ngIf="r.overridden">{{ 'loopkeeper.portal.yours' | translate }}</span>
+        </div>
+        <p class="tp-en">{{ r.english }}</p>
+        <ion-textarea
+          [value]="draft[r.key] ?? r.current"
+          (ionInput)="updateDraft(r.key, $event.detail.value)"
+          auto-grow
+          rows="2"
+          fill="outline"
+          class="tp-input"
+        ></ion-textarea>
+        <button class="tp-reset" *ngIf="r.overridden" (click)="resetKey(r)">{{ 'loopkeeper.portal.reset' | translate }}</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngIf="loading" class="tp-loading">{{ 'loopkeeper.portal.loading' | translate }}</div>
+
+  <div class="tp-actions">
+    <ion-button expand="block" color="success" (click)="saveAll()" [disabled]="loading">
+      {{ savedFlash ? ('loopkeeper.portal.saved' | translate) : ('loopkeeper.portal.save' | translate) }}
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="copyShare()" [disabled]="loading">
+      {{ 'loopkeeper.portal.share' | translate }}
+    </ion-button>
+  </div>
+</ion-content>

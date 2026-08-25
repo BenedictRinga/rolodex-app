@@ -260,6 +260,7 @@
           <ion-chip (click)="scrollTo('settings-backup')">{{ 'loopkeeper.settings.backup' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-share')">{{ 'loopkeeper.settings.share' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-translate')">{{ 'loopkeeper.settings.translate' | translate }}</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
 
@@ -558,6 +559,15 @@
             </ion-button>
           </ion-item>
         </ng-container>
+
+        <ion-item-divider id="settings-translate">
+          <ion-label color="medium">{{ 'loopkeeper.settings.translate' | translate }}</ion-label>
+        </ion-item-divider>
+        <ion-item lines="none" class="elegant-item" (click)="openTranslatePortal()">
+          <ion-icon name="language-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ 'loopkeeper.portal.subtitle' | translate }}</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
 
         <ion-item-divider id="settings-backup">
           <ion-label color="medium">{{ 'loopkeeper.settings.backupfull' | translate }}</ion-label>

@@ -24,6 +24,7 @@ import { SearchModalComponent } from './search-modal/search-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
 import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
+import { TranslatePortalComponent } from './translate-portal/translate-portal.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
     HelpModalComponent,
     ShareAppModalComponent,
     LoopInboxComponent,
+    TranslatePortalComponent,
   ],
   imports: [
     CommonModule,

@@ -29,6 +29,7 @@ import { ShareAppService } from '../../services/share-app/share-app.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
 import { ShareAppModalComponent } from '../share-app-modal/share-app-modal.component';
+import { TranslatePortalComponent } from '../translate-portal/translate-portal.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -318,6 +319,17 @@ export class RolodexComponent implements OnInit {
     } catch {
       await this.alertService.showToast('Could not open FAQ — try again', 2500);
     }
+  }
+
+  /** 2026-08-25 TRANSLATION PORTAL: user-owned translations for every locale. */
+  async openTranslatePortal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: TranslatePortalComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.85, 0.95],
+      initialBreakpoint: 0.85,
+    });
+    await modal.present();
   }
 
   settingsMapHint(): string {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslationService } from './services/translation/translation.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor(translation: TranslationService) {
+    // 2026-08-25 DEVICE LANGUAGE: user choice wins, otherwise auto-detect
+    // the device/browser language and switch when we have that locale.
+    translation.init();
+  }
 }

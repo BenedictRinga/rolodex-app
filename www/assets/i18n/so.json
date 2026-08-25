@@ -262,6 +262,19 @@
     "about.hourlyKicker": "Saacad kasta",
     "about.hourlyStrong": "Qalabka la arkay saacad kasta — 24 saac ee lasoo dhaafay",
     "about.demoKicker": "Goobaha muujinta",
-    "about.roomsStrong": "Qolalka ugu sarreeya"
+    "about.roomsStrong": "Qolalka ugu sarreeya",
+    "portal.title": "Help translate LoopKeeper",
+    "portal.subtitle": "Your language, your voice",
+    "portal.how": "Edit any string below. Your version is saved on this device and used immediately. Tap Share to copy your work for the community.",
+    "portal.translated": "Translated",
+    "portal.pending": "Pending",
+    "portal.search": "Search strings…",
+    "portal.yours": "yours",
+    "portal.reset": "Reset to original",
+    "portal.loading": "Loading…",
+    "portal.save": "Save my changes",
+    "portal.saved": "Saved ✓",
+    "portal.share": "Share my translations",
+    "settings.translate": "Help translate"
   }
 }
