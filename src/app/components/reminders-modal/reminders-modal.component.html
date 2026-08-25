@@ -48,7 +48,7 @@
 
     <ng-container *ngFor="let s of followUpSegments()">
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
-        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+        <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
       <ion-item *ngIf="s.type === 'row'">
         <ion-icon name="time-outline" slot="start" style="color: var(--rolodex-info);"></ion-icon>
@@ -61,14 +61,21 @@
 
     <ng-container *ngFor="let s of birthdaySegments()">
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
-        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+        <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
       <ion-item *ngIf="s.type === 'row'">
         <ion-icon name="gift-outline" slot="start" style="color: var(--rolodex-danger);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.contact }}</h2>
-          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">Birthday {{ s.row.date | date: 'MMM d' }}</p>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+            Birthday {{ s.row.date | date: 'MMM d' }}
+            <ng-container *ngIf="!s.row.demo"> · {{ birthdayOptedIn(s.row) ? 'loops ON' : 'off' }}</ng-container>
+          </p>
         </ion-label>
+        <!-- F24: opt-in PER PERSON — only embarrass-to-miss birthdays ever loop -->
+        <ion-toggle *ngIf="!s.row.demo" slot="end"
+          [checked]="birthdayOptedIn(s.row)"
+          (ionChange)="toggleBirthdayOptIn(s.row)"></ion-toggle>
       </ion-item>
     </ng-container>
   </ion-list>

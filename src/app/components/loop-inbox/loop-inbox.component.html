@@ -83,6 +83,18 @@
       </div>
     </div>
 
+    <!-- // REVEAL-LATER: birthday inbox rows — per-person opt-in lives in the
+         Reminders tab; flip BIRTHDAY_ROWS_REVEALED (and add a birthdayRows
+         getter reading opted-in contacts) to surface them here.
+    <div class="li-section" *ngIf="BIRTHDAY_ROWS_REVEALED && birthdayRows.length">
+      <div class="li-section-title">Birthdays you chose</div>
+      <div *ngFor="let b of birthdayRows" class="li-row">
+        <span class="li-person">{{ b.person }}</span>
+        <span class="li-kind">birthday</span><span class="li-meta">{{ b.when }}</span>
+      </div>
+    </div>
+    -->
+
     <!-- Receipts (8) -->
     <div class="li-section" *ngIf="closed.length">
       <div class="li-section-title">{{ 'loopkeeper.section.recentlyClosed' | translate:{ n: counts.closedThisWeek } }}</div>
@@ -127,11 +139,27 @@
     <div *ngIf="selectedId === l.id" class="li-detail">
 
       <div class="li-packet">
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}<ng-container *ngIf="l.secondPerson"> ↔ {{ l.secondPerson }}</ng-container></span></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}</span></div>
+        <!-- F21: name the B side here; both drafts regenerate from it -->
+        <div class="li-packet-row" *ngIf="l.kind === 'intro'">
+          <label>Connect to</label>
+          <input placeholder="the other person…" [ngModel]="l.secondPerson" (blur)="saveSecondPerson($event, l)">
+          <button class="li-linkbtn" *ngIf="l.secondPerson" (click)="makeIntroB(l)">✎ Both notes</button>
+        </div>
+        <!-- // REVEAL-LATER: intro B-note — ungate via INTRO_B_NOTE_REVEALED=true
+        <div class="li-draft-block" *ngIf="INTRO_B_NOTE_REVEALED && l.kind === 'intro' && l.introNoteB">
+          <div class="li-section-title">B-note → {{ l.secondPerson }}</div>
+          <ion-textarea [(ngModel)]="l.introNoteB" auto-grow rows="4" class="li-draft"></ion-textarea>
+          <div class="li-draft-actions">
+            <button class="li-linkbtn" (click)="copyIntroB(l)">Copy B-note</button>
+            <button class="li-linkbtn" (click)="markIntroDone(l)">Intro happened ✓</button>
+          </div>
+        </div>
+        -->
         <div class="li-packet-row" *ngIf="l.relation"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><input [ngModel]="l.relation" (blur)="saveRelation($event, l)"></div>
         <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span>{{ rel(l.lastTouchAt) }}</span></div>
         <div class="li-packet-row" *ngIf="l.promise"><label>{{ 'loopkeeper.ctx.openPromise' | translate }}</label><span>{{ l.promise }}</span></div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }}</label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
         <div class="li-packet-row">
           <label>{{ 'loopkeeper.ctx.stance' | translate }}</label>
           <span class="li-chips">

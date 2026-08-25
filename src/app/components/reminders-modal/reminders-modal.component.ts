@@ -7,6 +7,8 @@ interface ReminderRow {
   date: Date;
   /** 2026-08-19 true when the row came from a demo/mock contact. */
   demo: boolean;
+  /** 2026-08-25 F24: live contact ref — powers the per-person birthday opt-in. */
+  ref?: any;
 }
 
 type ReminderSegment = { type: 'row'; row: ReminderRow } | { type: 'sep' };
@@ -56,7 +58,7 @@ export class RemindersModalComponent {
         this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction), demo });
       }
       if (c?.birthday?.day && c?.birthday?.month) {
-        this.birthdays.push({ note: '', contact: name, date: new Date(2000, c.birthday.month - 1, c.birthday.day), demo });
+        this.birthdays.push({ note: '', contact: name, date: new Date(2000, c.birthday.month - 1, c.birthday.day), demo, ref: c });
       }
     }
     this.reminders.sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -102,6 +104,15 @@ export class RemindersModalComponent {
     void this.alertCtrl
       .create({ header: 'Reminder set', message: `"${note}" for ${contact?.name?.display || 'this contact'}.`, buttons: ['OK'] })
       .then((a) => a.present());
+  }
+
+  /** F24 — per-person birthday opt-in. Device-first: flips the flag ON THE
+   *  CONTACT OBJECT; persistence rides the parent's next contacts save. */
+  birthdayOptedIn(row: ReminderRow): boolean { return !!row.ref?.loopkeeperBirthdayOptIn; }
+  toggleBirthdayOptIn(row: ReminderRow): void {
+    if (!row.ref) return;
+    row.ref.loopkeeperBirthdayOptIn = !row.ref.loopkeeperBirthdayOptIn;
+    row.ref.updatedAt = new Date();
   }
 
   close(): void {

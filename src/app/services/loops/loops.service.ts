@@ -36,8 +36,12 @@ export interface Loop {
   promise?: string;               // open promise text (12)
   lastTouchAt?: number;           // epoch ms
   whySitting?: string;            // staleness reason (13)
+  whySittingSource?: 'suggested' | 'user'; // F13: agent suggestion vs the user's own words
   stance: LoopStance;             // warm / brief / overdue-apology
   direction: LoopDirection;       // 17
+  introNoteB?: string;            // F21: the second intro note (UI gated, REVEAL-LATER)
+  introBDone?: boolean;
+  sourceContactId?: string;       // device-only provenance: which card fed this loop
 
   // ── State ──
   status: LoopStatus;
@@ -234,7 +238,7 @@ export class LoopsService {
 
   // ===== Capture in one sentence (feature 10) ===============================
 
-  parseCapture(sentence: string): Partial<Loop> {
+  parseCapture(sentence: string, contact?: any): Partial<Loop> {
     const s = String(sentence || '').trim();
     const lower = s.toLowerCase();
 
@@ -273,7 +277,8 @@ export class LoopsService {
     else if (/\btomorrow\b/i.test(lower)) waitCondition = 'Tomorrow';
     else if (/\bthis week\b/i.test(lower)) waitCondition = 'This week';
 
-    return {
+    // ── 2026-08-25 DEEPEN SIX: enrich from the resolved card (F11/F12/F13) ──
+    const enriched: Partial<Loop> = {
       person: person || 'Unnamed',
       kind,
       summary,
@@ -282,6 +287,172 @@ export class LoopsService {
       waitCondition,
       lastTouchAt: undefined,
     };
+    if (contact) {
+      const disp = String(contact?.name?.display || '').trim();
+      if (disp) enriched.person = disp;
+      enriched.sourceContactId = String(contact?.contactId || '') || undefined;
+      enriched.relation = String(contact?.rolodex?.where || contact?.rolodex?.who || contact?.rolodex?.topic || '').trim() || undefined;
+      const li = contact?.lastInteraction;
+      enriched.lastTouchAt = li instanceof Date ? li.getTime()
+        : typeof li === 'number' ? li
+        : (typeof li === 'string' && li ? new Date(li).getTime() : undefined);
+      const promise = this.extractPromiseFromContact(contact);
+      if (promise) { enriched.promise = promise; enriched.kind = 'promise'; }   // F12 precedence
+      if (enriched.kind !== 'promise') {
+        if (this.cardSaysIOweReply(contact)) {                                   // F11 card-truth override
+          enriched.kind = 'owed-reply'; enriched.direction = 'mine'; enriched.stance = 'overdue-apology';
+        } else if (this.cardSaysTheyOweUs(contact)) {
+          enriched.direction = 'theirs';                                         // F17 routing
+        }
+      }
+    }
+    // F13: SUGGESTED friction — provisional by construction; the user's edit wins.
+    const cand = { ...enriched, createdAt: Date.now() } as Loop;
+    const why = this.suggestWhySitting(cand);
+    if (why) { enriched.whySitting = why; enriched.whySittingSource = 'suggested'; }
+    return enriched;
+  }
+
+  // ===== Deepen-Six: F11/F12/F13/F21/F23 device intelligence (2026-08-25) ====
+
+  /** F12 — verbatim promise from a card's own-text fields. */
+  extractPromiseFromContact(contact: any): string | undefined {
+    if (!contact) return undefined;
+    const fields = [
+      contact?.rolodex?.followUp,
+      contact?.note,
+      Array.isArray(contact?.rolodex?.personalTidbits) ? contact.rolodex.personalTidbits.join(' ') : contact?.rolodex?.personalTidbits,
+      contact?.rolodex?.topic,
+    ];
+    const patterns: RegExp[] = [
+      /\bi'?ll\s+[a-z][^.;!\n]{3,90}/i,
+      /\bi will\s+[a-z][^.;!\n]{3,90}/i,
+      /\bpromis(?:ed|ing)?\s+(?:to\s+)?[a-z][^.;!\n]{3,90}/i,
+      /\bsaid i'?d\s+[a-z][^.;!\n]{3,90}/i,
+    ];
+    for (const raw of fields) {
+      const s = typeof raw === 'string' ? raw : '';
+      for (const re of patterns) { const m = s.match(re); if (m) return m[0].trim(); }
+    }
+    return undefined;
+  }
+
+  /** F11 — the card says YOU owe THEM (factual signals only, never shaming). */
+  private cardSaysIOweReply(contact: any): boolean {
+    const fu = String(contact?.rolodex?.followUp || '');
+    if (/^\s*(reply|respond|answer|owe)\b/i.test(fu)) return true;
+    if (/\b(asked me|wants? me to|waiting on me|my reply)\b/i.test(fu)) return true;
+    const msgs = contact?.thread?.messages || contact?.cardChat?.messages || contact?.messages;
+    if (Array.isArray(msgs) && msgs.length) {
+      const f = String(msgs[msgs.length - 1]?.from || '').toLowerCase();
+      if (f === 'them' || f === 'inbound') return true;
+    }
+    return false;
+  }
+
+  /** F17 companion — the card says THEY owe US (no-guilt pile). */
+  private cardSaysTheyOweUs(contact: any): boolean {
+    if (/waiting for reply/i.test(String(contact?.rolodex?.followUp || ''))) return true;
+    const msgs = contact?.thread?.messages || contact?.cardChat?.messages || contact?.messages;
+    if (Array.isArray(msgs) && msgs.length) {
+      const f = String(msgs[msgs.length - 1]?.from || '').toLowerCase();
+      return f === 'user' || f === 'me' || f === 'outbound';
+    }
+    return false;
+  }
+
+  /**
+   * F13 — NAME THE FRICTION. Chain per brief:
+   * missing reply > money/decision > no hook > tone-avoidance > forgot.
+   * Returns a SUGGESTION; caller marks whySittingSource='suggested'.
+   */
+  suggestWhySitting(l: Pick<Loop, 'kind' | 'summary' | 'pretext' | 'lastTouchAt' | 'createdAt'>): string | undefined {
+    const d = Math.max(0, Math.floor((Date.now() - (l.lastTouchAt || l.createdAt || Date.now())) / DAY));
+    const s = (l.summary || '').toLowerCase();
+    if (l.kind === 'owed-reply') return 'the reply is still unwritten';
+    if (/(pric|cost|quote|invoice|budget|fee|pay|discount)/.test(s)) return 'it touches money — the number is unsent';
+    if (/(decide|decision|choose|option|offer|approve|sign)/.test(s)) return 'it waits on a decision nobody has made yet';
+    if (l.kind === 'coffee') return '“sometime” was never turned into a date';
+    if (!l.pretext || l.pretext.startsWith('a real hello')) return 'there was no natural hook to reopen with';
+    if (d >= 21) return 'long silences feel heavier the longer they sit';
+    if (l.kind === 'social') return 'the right tone felt hard to find';
+    if (d >= 10) return 'it simply slipped past the busy weeks';
+    return undefined;
+  }
+
+  /** F21 — BOTH sides of the intro, drafted from ONE context, ONE loop. */
+  generateIntroNotes(l: Loop): { noteA: string; noteB: string } {
+    const noteA = this.generateDraft(l, l.tone);
+    const b = (l.secondPerson || 'them').split(' ')[0];
+    const a = l.person.split(' ')[0];
+    const topic = (l.summary || '').replace(/^about\s+/i, '');
+    const noteB =
+`Hi ${b} — ${a} suggested we connect.${topic ? ` Context: ${topic}.` : ''} ${a}'s one-liner on you goes here — [what makes you worth ${b}'s time]. Worth a conversation?
+
+No pressure either way — replying here connects you directly.`;
+    return { noteA, noteB };
+  }
+
+  /** F23 — MANUAL trigger (auto-open ships gated OFF in the Keeper). */
+  openMeetingFollowUp(contact: any, eventTitle?: string): Loop {
+    const person = String(contact?.name?.display || 'Someone');
+    const title = String(eventTitle || contact?.rolodex?.topic || 'our meeting');
+    const li = contact?.lastInteraction;
+    const touched = li instanceof Date ? li.getTime() : (typeof li === 'number' ? li : Date.now());
+    this.create({
+      person,
+      kind: 'meeting',
+      summary: `Recap ${title} + promised next step`,
+      relation: contact?.rolodex?.who || contact?.rolodex?.where || undefined,
+      lastTouchAt: touched,
+      channel: 'email',
+      stance: 'brief',
+      sourceContactId: contact?.contactId,
+    });
+    const loop = this.cache![0];
+    const why = this.suggestWhySitting(loop);
+    if (why) this.update(loop.id, { whySitting: why, whySittingSource: 'suggested' });
+    return this.getLoop(loop.id)!;
+  }
+
+  /** Dedupe key for signal ingestion + auto-open. */
+  hasOpenLoop(person: string, kind?: LoopKind): boolean {
+    const p = person.trim().toLowerCase();
+    return (this.cache || []).some(l =>
+      l.person.trim().toLowerCase() === p &&
+      l.status !== 'closed' && l.status !== 'dropped' &&
+      (!kind || l.kind === kind));
+  }
+
+  /** F11/F17 ingestion — deck signals become loop skeletons, deduped per person+kind. */
+  async ingestSignals(signals: Array<{ person: string; contactId?: string; cls: string; summary: string; lastTouchAt?: number; promise?: string }>): Promise<Loop[]> {
+    await this.all();
+    const created: Loop[] = [];
+    for (const sig of signals || []) {
+      const person = String(sig.person || '').trim();
+      if (!person || this.hasOpenLoop(person)) continue;
+      if (sig.cls === 'awaiting-them') {
+        created.push(this.create({
+          person, kind: sig.promise ? 'promise' : 'check-in',
+          summary: sig.summary, direction: 'theirs',
+          lastTouchAt: sig.lastTouchAt, promise: sig.promise,
+          sourceContactId: sig.contactId,
+        }));
+      } else if (sig.cls === 'owed-reply') {
+        created.push(this.create({
+          person, kind: 'owed-reply', summary: sig.summary,
+          direction: 'mine', stance: 'overdue-apology',
+          lastTouchAt: sig.lastTouchAt, sourceContactId: sig.contactId,
+        }));
+      } else if (sig.cls === 'stale-promise' && sig.promise) {
+        created.push(this.create({
+          person, kind: 'promise', summary: sig.summary, promise: sig.promise,
+          direction: 'mine', lastTouchAt: sig.lastTouchAt,
+          sourceContactId: sig.contactId,
+        }));
+      }
+    }
+    return created;
   }
 
   // ===== Agent layer: pretext / channel / voice (14/15/16) ===================

@@ -43,7 +43,7 @@ export interface LoopAgentEvent {
   type:
     | 'loop:captured' | 'loop:packet:built' | 'loop:draft:ready'
     | 'loop:tone:changed' | 'loop:decision' | 'loop:sent'
-    | 'loop:closed' | 'loop:dropped' | 'nudge:fired';
+    | 'loop:closed' | 'loop:dropped' | 'nudge:fired' | 'signal:detected';
   loopId: string;
   source: AgentSource;
   at: number;

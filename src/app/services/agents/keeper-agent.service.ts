@@ -5,6 +5,7 @@ import { LoopsService, Loop, LoopTone, LoopChannel } from '../loops/loops.servic
 import { AnalyticsService } from '../analytics/analytics.service';
 import { AgentEnvelope, AgentSource, LoopAgentEvent, LoopDecision } from './agents.types';
 import { AGENT_DIRECTIVES } from './directives';
+import { LoopSignalsService } from '../loops/loop-signals.service';
 
 /**
  * 2026-08-25 THE KEEPER — orchestrator of the LoopKeeper agent hierarchy.
@@ -20,14 +21,21 @@ export class KeeperAgentService {
   constructor(
     private loops: LoopsService,
     private analytics: AnalyticsService,
+    private signals: LoopSignalsService,
   ) {}
 
-  /** STAGE 1 — capture. intake → owed-reply → promise-extract (inside parseCapture). */
-  capture(sentence: string): AgentEnvelope<Loop> {
+  /** STAGE 1 — capture. intake → owed-reply → promise-extract, now enriched
+   *  from the resolved CARD when one matches (F11/F12/F13). */
+  capture(sentence: string, contacts: any[] = []): AgentEnvelope<Loop> {
     const t0 = Date.now();
     try {
-      const loop = this.loops.create(this.loops.parseCapture(sentence));
+      const pre = this.loops.parseCapture(sentence);
+      const contact = this.resolveContact(pre.person || '', contacts);
+      const loop = this.loops.create(
+        contact ? this.loops.parseCapture(sentence, contact) : pre,
+      );
       this.emit('loop:captured', loop.id, 'device');
+      if (contact) this.emit('signal:detected', loop.id, 'device');
       this.analytics.track('loop_captured');
       return { agent: 'intake', at: t0, source: 'device', ok: true, output: loop };
     } catch (e: any) {
@@ -117,6 +125,67 @@ export class KeeperAgentService {
       this.emit('nudge:fired', l.id, 'device');
       return l.id;
     });
+  }
+
+  // ══ Deepen-Six orchestration (2026-08-25) ═════════════════════════════════
+
+  /** First-name match against the deck — device-only resolution. */
+  private resolveContact(person: string, contacts: any[]): any | undefined {
+    const first = String(person || '').split(/\s+/)[0].toLowerCase();
+    if (!first || first === 'unnamed' || first === 'someone') return undefined;
+    return (contacts || []).find((c: any) =>
+      !c?.isMockData &&
+      String(c?.name?.display || '').split(/\s+/)[0].toLowerCase() === first);
+  }
+
+  /** F11/F12 sweep — deck → signals → deduped loops. Called on inbox open. */
+  async scanInboxSignals(contacts: any[]): Promise<AgentEnvelope<{ scanned: number; created: number }>> {
+    const found = this.signals.scanDeck(contacts || []);
+    const made = await this.loops.ingestSignals(found);
+    for (const l of made) {
+      this.emit('loop:captured', l.id, 'device');
+      this.emit('signal:detected', l.id, 'device');
+    }
+    return { agent: 'intake', at: Date.now(), source: 'device', ok: true,
+      output: { scanned: (contacts || []).length, created: made.length } };
+  }
+
+  /** F21 — draft BOTH intro notes; the B-side parks until its UI gate lifts. */
+  draftIntroNotes(loop: Loop): AgentEnvelope<{ noteA: string; noteB: string }> {
+    try {
+      const { noteA, noteB } = this.loops.generateIntroNotes(loop);
+      this.loops.update(loop.id, { draft: noteA, introNoteB: noteB });
+      this.emit('loop:draft:ready', loop.id, 'device');
+      return { agent: 'composer', at: Date.now(), source: 'device', ok: true, output: { noteA, noteB } };
+    } catch (e: any) {
+      return { agent: 'composer', at: Date.now(), source: 'device', ok: false, error: String(e?.message || e) };
+    }
+  }
+
+  // REVEAL-LATER: calendar auto-open — flip ONLY after manual meeting-loops
+  // prove the recap UX for a full week. Hook wired; visibility withheld.
+  private static readonly MEETING_AUTO_OPEN_ENABLED = false;
+
+  /** F23 — auto-open meeting follow-ups. GATED: returns [] while disabled. */
+  async maybeAutoOpenMeetingFollowUps(events: any[], contacts: any[]): Promise<Loop[]> {
+    if (!KeeperAgentService.MEETING_AUTO_OPEN_ENABLED) return [];
+    const cutoff = Date.now() - 24 * 3600_000;
+    const firstWords = (contacts || [])
+      .filter((c: any) => !c?.isMockData)
+      .map((c: any) => ({ c, w: String(c?.name?.display || '').split(/\s+/)[0].toLowerCase() }))
+      .filter((x: any) => x.w.length > 1);
+    const made: Loop[] = [];
+    for (const ev of events || []) {
+      const end = ev?.end ? new Date(ev.end).getTime() : NaN;
+      if (!isFinite(end) || end < cutoff || end > Date.now()) continue;
+      const title = String(ev?.title || '').toLowerCase();
+      const hit = firstWords.find((x: any) => title.includes(x.w))?.c;
+      if (!hit || this.loops.hasOpenLoop(String(hit.name?.display), 'meeting')) continue;
+      const l = this.loops.openMeetingFollowUp(hit, String(ev?.title || ''));
+      made.push(l);
+      this.emit('loop:captured', l.id, 'device');
+    }
+    return made;
   }
 
   private emit(type: LoopAgentEvent['type'], loopId: string, source: AgentSource): void {

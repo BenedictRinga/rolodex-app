@@ -58,6 +58,13 @@ export class LoopInboxComponent implements OnInit {
   waitCond = '';
   dropEditingId: string | null = null;
 
+  // REVEAL-LATER: intro B-note — data model + drafts ship NOW; flip to surface.
+  readonly INTRO_B_NOTE_REVEALED = false;
+  // REVEAL-LATER: birthday inbox rows — per-person opt-in lives in the
+  // Reminders tab until card-edit lands; flip to surface inbox rows.
+  readonly BIRTHDAY_ROWS_REVEALED = false;
+  showIntroBFor: string | null = null;
+
   readonly tones: LoopTone[] = ['short', 'honest', 'light', 'formal'];
   readonly channels: { id: LoopChannel; icon: string; label: string }[] = [
     { id: 'whatsapp', icon: 'chatbubble-ellipses-outline', label: 'WhatsApp' },
@@ -100,6 +107,9 @@ export class LoopInboxComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    // F11/F12: sweep the deck silently — owed replies + stale promises become
+    // loops BEFORE the lists paint. No toast unless something was created.
+    if (this.contacts?.length) void this.keeper.scanInboxSignals(this.contacts);
     await this.refresh();
     const woke = await this.loops.resumeExpiredWaits();
     const due = this.loops.dueNudges();
@@ -120,7 +130,7 @@ export class LoopInboxComponent implements OnInit {
     if (!sentence || this.busy) return;
     this.busy = true;
     try {
-      const envelope = this.keeper.capture(sentence);
+      const envelope = this.keeper.capture(sentence, this.contacts);
       if (!envelope.ok || !envelope.output) {
         void this.alerts.showToast('Could not open that loop — try again.', 2200);
         return;
@@ -143,10 +153,35 @@ export class LoopInboxComponent implements OnInit {
     this.loops.update(l.id, { tone: t, draft: this.loops.generateDraft(l, t) });
   }
   regenerate(l: Loop): void { this.loops.update(l.id, { draft: this.loops.generateDraft(l, l.tone), pretext: this.loops.suggestPretext(l) }); }
-  saveWhy(l: Loop, why: string): void { this.loops.update(l.id, { whySitting: why.trim() || undefined }); }
+  saveWhy(l: Loop, why: string): void {
+    // The user's own words beat any suggestion — and lock the source.
+    this.loops.update(l.id, { whySitting: why.trim() || undefined, whySittingSource: why.trim() ? 'user' : undefined });
+  }
   saveRelation(ev: any, l: Loop): void { this.loops.update(l.id, { relation: String(ev.target.value || '').trim() || undefined }); }
   setStance(l: Loop, s: Loop['stance']): void { this.loops.update(l.id, { stance: s, draft: this.loops.generateDraft({ ...l, stance: s }, l.tone) }); }
   newPretext(l: Loop): void { this.loops.update(l.id, { pretext: this.loops.suggestPretext(l) }); }
+
+  // ── Deepen-Six (F13 clear · F21 intro B) ────────────────────────────────────
+  clearSuggestedWhy(l: Loop): void { this.loops.update(l.id, { whySitting: undefined, whySittingSource: undefined }); }
+  saveSecondPerson(ev: any, l: Loop): void {
+    this.loops.update(l.id, { secondPerson: String(ev.target.value || '').trim() || undefined });
+  }
+  makeIntroB(l: Loop): void {
+    const env = this.keeper.draftIntroNotes(l);
+    if (env.ok) { this.showIntroBFor = l.id; void this.alerts.showToast('Both intro notes drafted — A is live below.', 2600); }
+    else void this.alerts.showToast('Could not draft the pair — try again.', 2200);
+  }
+  async copyIntroB(l: Loop): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(l.introNoteB || '');
+      void this.alerts.showToast('B-note copied — send it to ' + (l.secondPerson || 'them'), 2400);
+    } catch { void this.alerts.showToast('Could not copy — select the text manually', 2500); }
+  }
+  markIntroDone(l: Loop): void {
+    this.loops.closeFully(l.id); // the intro HAPPENED — one loop, celebrated once
+    void this.refresh();
+    void this.alerts.showToast(`✅ Intro made: ${l.person} ↔ ${l.secondPerson || 'them'}. Closed.`, 3000);
+  }
   toggleVoice(l: Loop): void {
     this.showVoiceFor = this.showVoiceFor === l.id ? null : l.id;
     if (this.showVoiceFor && !l.voiceOutline) this.loops.update(l.id, { voiceOutline: this.loops.voiceOutline(l) });
