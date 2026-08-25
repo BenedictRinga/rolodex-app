@@ -31,8 +31,11 @@
   </div>
 
   <div class="rv-actions">
-    <ion-button size="small" fill="outline" (click)="exportLang()" [disabled]="loading">
-      {{ flash ? ('loopkeeper.review.copied' | translate) : ('loopkeeper.review.export' | translate) }}
+    <ion-button size="small" color="success" (click)="mergeApproved()" [disabled]="loading || !!busyId">
+      {{ flash ? ('loopkeeper.review.merged' | translate) : ('loopkeeper.review.merge' | translate) }}
+    </ion-button>
+    <ion-button size="small" fill="outline" (click)="exportLang()" [disabled]="loading || !!busyId">
+      {{ 'loopkeeper.review.export' | translate }}
     </ion-button>
   </div>
 

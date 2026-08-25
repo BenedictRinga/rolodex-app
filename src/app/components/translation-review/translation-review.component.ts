@@ -112,4 +112,23 @@ export class TranslationReviewComponent {
       /* clipboard unavailable */
     }
   }
+
+  /** 2026-08-25 ONE-CLICK MERGE: write approved translations into the served app. */
+  async mergeApproved(): Promise<void> {
+    if (this.busyId) return;
+    this.busyId = '__merge__';
+    try {
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/translations/merge`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang: this.lang }),
+      });
+      if (res && res.ok) {
+        this.flash = true;
+        setTimeout(() => (this.flash = false), 2400);
+      }
+    } finally {
+      this.busyId = '';
+    }
+  }
 }

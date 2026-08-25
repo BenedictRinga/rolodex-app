@@ -379,6 +379,8 @@
     "review.copied": "Copied ✓",
     "review.approve": "Approve",
     "review.reject": "Reject",
-    "review.empty": "Nothing here yet."
+    "review.empty": "Nothing here yet.",
+    "review.merge": "Merge into app",
+    "review.merged": "Merged ✓"
   }
 }
