@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Chat",
+    "tab.loops": "Loops",
+    "tab.reminders": "Reminders",
+    "capture.placeholder": "One sentence: who + what…",
+    "capture.button": "Loop",
+    "sendDraft": "Send draft",
+    "waitUntil": "Wait until…",
+    "drop": "Drop",
+    "empty.title": "Nothing sitting. Nothing gnawing.",
+    "empty.body": "Capture one sentence above — the agent digs up context, drafts it, and you decide."
   }
 }

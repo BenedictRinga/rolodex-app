@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "ውይይት",
+    "tab.loops": "ቀለበቶች",
+    "tab.reminders": "ማስታወሻዎች",
+    "capture.placeholder": "አንድ ዓረፍተ ነገር፡ ማን + ምን…",
+    "capture.button": "ቀለበት",
+    "sendDraft": "ረቂቅ ላክ",
+    "waitUntil": "እስከ… ጠብቅ",
+    "drop": "ጣል",
+    "empty.title": "ምንም አልተቀመጠም። ምንም አያሳስብም።",
+    "empty.body": "ከላይ አንድ ዓረፍተ ነገር ይያዙ — ወኪሉ አውድ ያገኛል፣ ረቂቅ ያዘጋጃል፣ እርስዎ ይወስናሉ።"
   }
 }

@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Taɗi",
+    "tab.loops": "Madaukai",
+    "tab.reminders": "Tunatarwa",
+    "capture.placeholder": "Jumla ɗaya: wane + menene…",
+    "capture.button": "Madauki",
+    "sendDraft": "Aika daftari",
+    "waitUntil": "Jira har…",
+    "drop": "Fitar",
+    "empty.title": "Babu wani abu a zaune. Babu abin damuwa.",
+    "empty.body": "Rubuta jumla ɗaya a sama — wakilin ya tattara mahallin, ya tsara, kai ka yanke shawara."
   }
 }

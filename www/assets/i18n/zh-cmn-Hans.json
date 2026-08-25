@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "聊天",
+    "tab.loops": "循环",
+    "tab.reminders": "提醒",
+    "capture.placeholder": "一句话：谁 + 什么…",
+    "capture.button": "循环",
+    "sendDraft": "发送草稿",
+    "waitUntil": "等到…",
+    "drop": "放弃",
+    "empty.title": "没有待办。没有内耗。",
+    "empty.body": "在上面输入一句话 — 助手会整理背景、起草内容，由你做决定。"
   }
 }

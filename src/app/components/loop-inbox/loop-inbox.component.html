@@ -1,7 +1,7 @@
 <div class="li-shell">
   <!-- Head: brand line + language + close -->
   <div class="li-head">
-    <strong class="li-title">LoopKeeper Inbox</strong>
+    <strong class="li-title">{{ 'loopkeeper.title' | translate }}</strong>
     <div class="li-head-right">
       <ion-select [(ngModel)]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" class="li-lang">
         <ion-select-option *ngFor="let l of languages" [value]="l.code">{{ l.label }}</ion-select-option>
@@ -13,11 +13,11 @@
   </div>
 
   <ion-segment [(ngModel)]="tab" class="li-segment" mode="ios">
-    <ion-segment-button value="chat"><ion-label>Chat</ion-label></ion-segment-button>
+    <ion-segment-button value="chat"><ion-label>{{ 'loopkeeper.tab.chat' | translate }}</ion-label></ion-segment-button>
     <ion-segment-button value="loops">
-      <ion-label>Loops <span class="li-badge">{{ counts.mine }}</span></ion-label>
+      <ion-label>{{ 'loopkeeper.tab.loops' | translate }} <span class="li-badge">{{ counts.mine }}</span></ion-label>
     </ion-segment-button>
-    <ion-segment-button value="reminders"><ion-label>Reminders</ion-label></ion-segment-button>
+    <ion-segment-button value="reminders"><ion-label>{{ 'loopkeeper.tab.reminders' | translate }}</ion-label></ion-segment-button>
   </ion-segment>
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
@@ -27,11 +27,11 @@
     <div class="li-capture">
       <ion-input
         [(ngModel)]="captureInput"
-        placeholder="One sentence: who + what…"
+        [placeholder]="'loopkeeper.capture.placeholder' | translate"
         (keyup.enter)="addCapture()"
       ></ion-input>
       <ion-button size="small" (click)="addCapture()" [disabled]="busy || !captureInput.trim()">
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon> Loop
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon> {{ 'loopkeeper.capture.button' | translate }}
       </ion-button>
     </div>
     <div class="li-samples">
@@ -62,8 +62,8 @@
 
     <!-- Empty state → first-session win -->
     <div *ngIf="!todaysThree.length && !mine.length" class="li-empty">
-      <div class="li-empty-big">Nothing sitting. Nothing gnawing.</div>
-      <p>Capture one sentence above — the agent digs up context, drafts it, and you decide.</p>
+      <div class="li-empty-big">{{ 'loopkeeper.empty.title' | translate }}</div>
+      <p>{{ 'loopkeeper.empty.body' | translate }}</p>
     </div>
 
     <!-- Waiting on THEM (17) — no guilt nudges here -->
@@ -168,10 +168,10 @@
       <!-- THREE BUTTONS ONLY — force the decision (4) -->
       <div class="li-decide">
         <ion-button size="small" (click)="send(l)">
-          <ion-icon name="paper-plane-outline" slot="start"></ion-icon> Send draft
+          <ion-icon name="paper-plane-outline" slot="start"></ion-icon> {{ 'loopkeeper.sendDraft' | translate }}
         </ion-button>
-        <ion-button size="small" fill="outline" (click)="openWait(l)">Wait until…</ion-button>
-        <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">Drop</ion-button>
+        <ion-button size="small" fill="outline" (click)="openWait(l)">{{ 'loopkeeper.waitUntil' | translate }}</ion-button>
+        <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">{{ 'loopkeeper.drop' | translate }}</ion-button>
       </div>
 
       <div *ngIf="waitEditingId === l.id" class="li-subform">

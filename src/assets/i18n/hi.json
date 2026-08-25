@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "चैट",
+    "tab.loops": "लूप्स",
+    "tab.reminders": "रिमाइंडर",
+    "capture.placeholder": "एक वाक्य: कौन + क्या…",
+    "capture.button": "लूप",
+    "sendDraft": "ड्राफ्ट भेजें",
+    "waitUntil": "तब तक प्रतीक्षा करें…",
+    "drop": "छोड़ें",
+    "empty.title": "कुछ भी लंबित नहीं। कोई चिंता नहीं।",
+    "empty.body": "ऊपर एक वाक्य लिखें — एजेंट संदर्भ जुटाता है, ड्राफ्ट बनाता है, और आप निर्णय लेते हैं।"
   }
 }

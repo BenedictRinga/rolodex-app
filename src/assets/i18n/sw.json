@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Mazungumzo",
+    "tab.loops": "Vitanzi",
+    "tab.reminders": "Vikumbusho",
+    "capture.placeholder": "Sentensi moja: nani + nini…",
+    "capture.button": "Kitanzi",
+    "sendDraft": "Tuma rasimu",
+    "waitUntil": "Subiri hadi…",
+    "drop": "Achana",
+    "empty.title": "Hakuna kinachosubiri. Hakuna kinachosumbua.",
+    "empty.body": "Nasa sentensi moja hapo juu — wakala huchota muktadha, huandaa, na wewe uamue."
   }
 }

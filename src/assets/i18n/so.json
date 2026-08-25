@@ -98,5 +98,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Fur Grok bilaash",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Fur DeepSeek bilaash",
     "FREE_CHAT_402_DASHBOARD": "Dashboard ZU"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Wada hadal",
+    "tab.loops": "Loobiyada",
+    "tab.reminders": "Xusuusin",
+    "capture.placeholder": "Hal jumlad: yaa + maxay…",
+    "capture.button": "Loop",
+    "sendDraft": "Dir qabyo",
+    "waitUntil": "Sug ilaa…",
+    "drop": "Ka daa",
+    "empty.title": "Waxba ma fadhiyaan. Waxba kama cabsid.",
+    "empty.body": "Qor hal jumlad kor — wakiilku wuxuu helaa macnaha, wuxuu diyaariyaa qabyada, adigaa go'aamiya."
   }
 }

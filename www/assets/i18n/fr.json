@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Discussion",
+    "tab.loops": "Boucles",
+    "tab.reminders": "Rappels",
+    "capture.placeholder": "Une phrase : qui + quoi…",
+    "capture.button": "Boucle",
+    "sendDraft": "Envoyer le brouillon",
+    "waitUntil": "Attendre jusqu'à…",
+    "drop": "Abandonner",
+    "empty.title": "Rien en attente. Rien qui ronge.",
+    "empty.body": "Capturez une phrase ci-dessus — l'agent rassemble le contexte, rédige, et vous décidez."
   }
 }

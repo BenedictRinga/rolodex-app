@@ -176,5 +176,18 @@
     "FREE_CHAT_402_OPEN_GROK": "Open free Grok",
     "FREE_CHAT_402_OPEN_DEEPSEEK": "Open free DeepSeek",
     "FREE_CHAT_402_DASHBOARD": "ZU Dashboard"
+  },
+  "loopkeeper": {
+    "title": "LoopKeeper Inbox",
+    "tab.chat": "Chat",
+    "tab.loops": "Loops",
+    "tab.reminders": "Erinnerungen",
+    "capture.placeholder": "Ein Satz: wer + was…",
+    "capture.button": "Loop",
+    "sendDraft": "Entwurf senden",
+    "waitUntil": "Warten bis…",
+    "drop": "Verwerfen",
+    "empty.title": "Nichts sitzt fest. Nichts nagt.",
+    "empty.body": "Erfassen Sie oben einen Satz — der Agent holt den Kontext, entwirft die Nachricht, und Sie entscheiden."
   }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { RolodexComponent } from './rolodex/rolodex.component';
 import { ContactCardComponent } from './contact-card/contact-card.component';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
@@ -53,6 +54,7 @@ import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateModule,
   ],
   exports: [
     RolodexComponent,
