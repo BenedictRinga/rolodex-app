@@ -27,10 +27,11 @@
     </ion-button> -->
   </div>
 
-  <!-- 2026-08-21 OPENLOOP CHAT: RolodexAI lives above the deck so the user
-       always knows what/how to engage. Every assistant reply carries a copy
-       button as the counterweight to the send button. -->
-  <div class="openloop-chat" *ngIf="rolodexAiChatOpen">
+  <!-- 2026-08-24 LOOPKEEPER INBOX: Loops | Chat | Soon — the Isenberg wedge
+       first take. The AI Assistant chat below is PROJECTED content under the
+       Chat tab: every binding here still resolves in HomePage, untouched. -->
+  <app-loop-inbox *ngIf="rolodexAiChatOpen">
+  <div class="openloop-chat" chat-tab>
     <div class="openloop-chat-head">
       <strong>AI Assistant</strong>
       <ion-button fill="clear" size="small" (click)="rolodexAiChatOpen = false" appTooltip="Hide chat">
@@ -72,6 +73,7 @@
       </ion-button>
     </div>
   </div>
+  </app-loop-inbox>
 
   <app-rolodex
     #rolodex

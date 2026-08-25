@@ -22,6 +22,7 @@ import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rol
 import { SearchModalComponent } from './search-modal/search-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
+import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ShareAppModalComponent } from './share-app-modal/share-app-modal.compon
     SearchModalComponent,
     HelpModalComponent,
     ShareAppModalComponent,
+    LoopInboxComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { ShareAppModalComponent } from './share-app-modal/share-app-modal.compon
     TooltipDirective,
     CardChatModalComponent,
     PodsModalComponent,
+    LoopInboxComponent,
   ],
 })
 export class RolodexModule {}
