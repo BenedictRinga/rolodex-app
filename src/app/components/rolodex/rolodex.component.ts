@@ -465,11 +465,7 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-19 INSTALL: automated Zyppar-style PWA installer. */
   installPwa(): void {
-    void this.appInstall.encourageAppInstall('LoopKeeper', {
-      forcePrompt: true,
-      context: 'enhanced_experience',
-      customMessage: 'Install LoopKeeper on your home screen so it opens like an app — faster launches, offline-ready, and one tap from your loop.',
-    });
+    void this.appInstall.promptInstallNow('LoopKeeper');
   }
 
   /** 2026-08-19 INSTALL: Google Play is INCOMING - no store link yet. */
@@ -738,11 +734,7 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-20: the web install path — delegated to the Zyppar-style
    *  AppInstallService (metrics, cooldown, native prompt, iOS/Android guides). */
   private async offerAppInstall(): Promise<void> {
-    await this.appInstall.encourageAppInstall('LoopKeeper', {
-      forcePrompt: true,
-      context: 'enhanced_experience',
-      customMessage: 'Install LoopKeeper on your home screen so it opens like an app — faster launches, offline-ready, and one tap from your loop.',
-    });
+    await this.appInstall.promptInstallNow('LoopKeeper');
   }
 
   showSearchView() { this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false; }

@@ -127,6 +127,43 @@ export class AppInstallService {
   }
 
   /**
+   * 2026-08-25 ONE-CLICK INSTALL: when the user explicitly taps an install
+   * button, skip the intermediate alert and fire the native browser prompt
+   * immediately. This is the "just click, and it is done" path.
+   */
+  async promptInstallNow(featureName: string = 'LoopKeeper'): Promise<boolean> {
+    if (this.isStandalone) {
+      return true;
+    }
+
+    if (this.deferredPrompt) {
+      try {
+        await this.deferredPrompt.prompt();
+        const choice = await this.deferredPrompt.userChoice;
+        const outcome = choice.outcome === 'accepted' ? 'accepted' : 'dismissed';
+        this.recordPromptOutcome(featureName, outcome);
+
+        if (choice.outcome === 'accepted') {
+          this.handleAppInstalled();
+        }
+
+        return choice.outcome === 'accepted';
+      } catch (error) {
+        console.error('Install prompt failed:', error);
+        await this.showManualInstallInstructions(featureName);
+        return false;
+      } finally {
+        this.deferredPrompt = null;
+      }
+    }
+
+    // No native prompt available (e.g. iOS Safari) — one-tap isn't possible.
+    // Keep the fallback to a single concise line, never a numbered essay.
+    await this.showManualInstallInstructions(featureName);
+    return false;
+  }
+
+  /**
    * Web app installation flow
    */
   private async showWebAppPrompt(
