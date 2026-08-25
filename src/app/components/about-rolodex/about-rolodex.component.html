@@ -494,6 +494,7 @@
             <button class="index-chip" (click)="scrollToSection('inv-activation')">Activation</button>
             <button class="index-chip" (click)="scrollToSection('inv-events')">Events</button>
             <button class="index-chip" (click)="scrollToSection('inv-rooms')">Rooms</button>
+            <button class="index-chip" (click)="scrollToSection('inv-translations')">Translations</button>
           </div>
 
           <!-- 2026-08-24 WHAT CHANGED: snapshot comparison from the last exit. -->
@@ -660,6 +661,30 @@
               <span class="room-meta">{{ r.deviceCount }} device(s) · {{ r.contacts }} contacts</span>
             </div>
             <p class="investor-chart-note">Rooms are the shared demo-space codes. Devices without a code are grouped under "(no room)".</p>
+          </div>
+
+          <!-- 2026-08-25 COMMUNITY TRANSLATIONS: anonymous portal contributions. -->
+          <div class="investor-section sec-translations" id="inv-translations" *ngIf="investorStats.translations">
+            <div class="section-head">
+              <span class="section-num">09</span>
+              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.translationsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.translationsStrong' | translate }}</strong></div>
+            </div>
+            <div class="room-row">
+              <span class="room-name">{{ 'loopkeeper.about.translationsTotal' | translate:{ n: investorStats.translations.total || 0 } }}</span>
+            </div>
+            <div *ngIf="investorStats.translations.byLang?.length">
+              <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsByLang' | translate }}</span><span></span></div>
+              <div class="retention-row" *ngFor="let l of investorStats.translations.byLang">
+                <span>{{ l._id }}</span><span>{{ l.count }}</span>
+              </div>
+            </div>
+            <div *ngIf="investorStats.translations.latest?.length">
+              <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsLatest' | translate }}</span><span></span></div>
+              <div class="retention-row" *ngFor="let t of investorStats.translations.latest">
+                <span>{{ t.lang }} · {{ keysCount(t) }} keys</span><span>{{ formatTime(t.createdAt) }}</span>
+              </div>
+            </div>
+            <p class="investor-chart-note" *ngIf="!investorStats.translations.total">{{ 'loopkeeper.about.translationsEmpty' | translate }}</p>
           </div>
 
           <p class="investor-live-note">

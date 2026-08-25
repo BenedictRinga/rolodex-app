@@ -278,6 +278,12 @@
     "settings.translate": "Help translate",
     "portal.send": "Send to community",
     "portal.sending": "Sending…",
-    "portal.sent": "Sent — thank you!"
+    "portal.sent": "Sent — thank you!",
+    "about.translationsKicker": "Community",
+    "about.translationsStrong": "Translations",
+    "about.translationsTotal": "{{ n }} total contributions",
+    "about.translationsByLang": "By language",
+    "about.translationsLatest": "Latest",
+    "about.translationsEmpty": "No community translations yet — users can submit from Settings → Help translate."
   }
 }

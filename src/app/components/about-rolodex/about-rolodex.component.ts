@@ -201,6 +201,15 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     return this.time.format(iso, 'time') || '—';
   }
 
+  /** 2026-08-25 Community translations helpers. */
+  keysCount(t: any): number {
+    return t?.keys && typeof t.keys === 'object' ? Object.keys(t.keys).length : 0;
+  }
+
+  formatTime(v: any): string {
+    return this.time.format(v, 'datetime') || '—';
+  }
+
   /** Bar width as a percentage of the busiest hour in the timeline. */
   barWidth(count: number): number {
     const counts = (this.investorStats?.timeline || []).map((b: any) => Number(b?.count) || 0);
