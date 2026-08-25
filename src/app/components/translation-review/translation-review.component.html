@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.review.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="rv-filters">
+    <ion-segment [value]="status" (ionChange)="setStatus($event.detail.value)" mode="ios">
+      <ion-segment-button value="pending">{{ 'loopkeeper.review.pending' | translate }}</ion-segment-button>
+      <ion-segment-button value="approved">{{ 'loopkeeper.review.approved' | translate }}</ion-segment-button>
+      <ion-segment-button value="rejected">{{ 'loopkeeper.review.rejected' | translate }}</ion-segment-button>
+    </ion-segment>
+    <ion-item lines="none" class="rv-lang">
+      <ion-label>{{ 'loopkeeper.review.lang' | translate }}</ion-label>
+      <ion-select [value]="lang" (ionChange)="setLang($event.detail.value)" interface="popover">
+        <ion-select-option value="">{{ 'loopkeeper.review.allLangs' | translate }}</ion-select-option>
+        <ion-select-option *ngFor="let l of languages" [value]="l.code">{{ l.label }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="rv-actions">
+    <ion-button size="small" fill="outline" (click)="exportLang()" [disabled]="loading">
+      {{ flash ? ('loopkeeper.review.copied' | translate) : ('loopkeeper.review.export' | translate) }}
+    </ion-button>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div class="rv-card" *ngFor="let item of items">
+      <div class="rv-head">
+        <span class="rv-lang">{{ item.lang }}</span>
+        <span class="rv-date">{{ item.createdAt | date: 'MMM d, HH:mm' }}</span>
+      </div>
+      <div class="rv-key" *ngFor="let kv of keysOf(item)">
+        <code>{{ kv[0] }}</code>
+        <p>{{ kv[1] }}</p>
+      </div>
+      <div class="rv-buttons">
+        <ion-button size="small" color="success" (click)="approve(item._id)" [disabled]="busyId === item._id">
+          {{ 'loopkeeper.review.approve' | translate }}
+        </ion-button>
+        <ion-button size="small" fill="outline" color="danger" (click)="reject(item._id)" [disabled]="busyId === item._id">
+          {{ 'loopkeeper.review.reject' | translate }}
+        </ion-button>
+      </div>
+    </div>
+    <div *ngIf="!items.length" class="rv-empty">{{ 'loopkeeper.review.empty' | translate }}</div>
+  </ng-container>
+
+  <div *ngIf="loading" class="rv-empty">{{ 'loopkeeper.portal.loading' | translate }}</div>
+</ion-content>

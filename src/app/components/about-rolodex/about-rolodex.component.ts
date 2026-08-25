@@ -7,6 +7,7 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { NetworkService } from '../../services/network/network.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { TranslationReviewComponent } from '../translation-review/translation-review.component';
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -208,6 +209,17 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
 
   formatTime(v: any): string {
     return this.time.format(v, 'datetime') || '—';
+  }
+
+  /** 2026-08-25 REVIEW VIEW: maintainer approves/rejects community translations. */
+  async openTranslationReview(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: TranslationReviewComponent,
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.6, 0.85, 0.95],
+      initialBreakpoint: 0.85,
+    });
+    await modal.present();
   }
 
   /** Bar width as a percentage of the busiest hour in the timeline. */

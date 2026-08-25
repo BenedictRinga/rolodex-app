@@ -1,0 +1,75 @@
+.rv-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  ion-segment {
+    max-width: 420px;
+  }
+}
+
+.rv-lang {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  font-size: 13px;
+}
+
+.rv-actions {
+  margin-bottom: 10px;
+}
+
+.rv-card {
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.rv-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.rv-lang {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--rolodex-primary, #00a896);
+}
+
+.rv-date {
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+}
+
+.rv-key {
+  margin: 6px 0;
+
+  code {
+    font-size: 10px;
+    color: var(--rolodex-text-secondary);
+    word-break: break-all;
+  }
+
+  p {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--rolodex-text);
+  }
+}
+
+.rv-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rv-empty {
+  text-align: center;
+  color: var(--rolodex-text-secondary);
+  padding: 30px 0;
+  font-size: 13px;
+}

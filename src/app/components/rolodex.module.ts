@@ -25,6 +25,7 @@ import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
 import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
 import { TranslatePortalComponent } from './translate-portal/translate-portal.component';
+import { TranslationReviewComponent } from './translation-review/translation-review.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { TranslatePortalComponent } from './translate-portal/translate-portal.co
     ShareAppModalComponent,
     LoopInboxComponent,
     TranslatePortalComponent,
+    TranslationReviewComponent,
   ],
   imports: [
     CommonModule,

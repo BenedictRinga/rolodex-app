@@ -368,6 +368,17 @@
     "about.translationsTotal": "{{ n }} total contributions",
     "about.translationsByLang": "By language",
     "about.translationsLatest": "Latest",
-    "about.translationsEmpty": "No community translations yet — users can submit from Settings → Help translate."
+    "about.translationsEmpty": "No community translations yet — users can submit from Settings → Help translate.",
+    "review.title": "Review translations",
+    "review.pending": "Pending",
+    "review.approved": "Approved",
+    "review.rejected": "Rejected",
+    "review.lang": "Language",
+    "review.allLangs": "All languages",
+    "review.export": "Export approved",
+    "review.copied": "Copied ✓",
+    "review.approve": "Approve",
+    "review.reject": "Reject",
+    "review.empty": "Nothing here yet."
   }
 }

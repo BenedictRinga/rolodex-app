@@ -685,6 +685,9 @@
               </div>
             </div>
             <p class="investor-chart-note" *ngIf="!investorStats.translations.total">{{ 'loopkeeper.about.translationsEmpty' | translate }}</p>
+            <ion-button size="small" fill="outline" (click)="openTranslationReview()" style="margin-top: 8px;">
+              {{ 'loopkeeper.review.title' | translate }}
+            </ion-button>
           </div>
 
           <p class="investor-live-note">
