@@ -255,6 +255,7 @@
           <ion-chip (click)="scrollTo('settings-privacy')">Privacy</ion-chip>
           <ion-chip (click)="scrollTo('settings-cloudsync')">Cloud Sync</ion-chip>
           <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
+          <ion-chip (click)="scrollTo('settings-install')">Install</ion-chip>
           <ion-chip (click)="scrollTo('settings-share')">Share</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
@@ -382,7 +383,7 @@
         <ion-item-divider>
           <ion-label color="medium">Install LoopKeeper</ion-label>
         </ion-item-divider>
-        <ion-item lines="none" class="elegant-item" (click)="installPwa()">
+        <ion-item lines="none" class="elegant-item" id="settings-install" (click)="installPwa()">
           <ion-icon name="download-outline" slot="start" color="primary"></ion-icon>
           <ion-label>
             Install this app (PWA)

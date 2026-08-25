@@ -230,11 +230,7 @@ export class AppInstallService {
     featureName: string,
     message: { header: string; message: string; cta: string }
   ): Promise<boolean> {
-    const instructions = `
-1. Tap the Share icon (📤) at the bottom of Safari
-2. Scroll down and tap "Add to Home Screen"
-3. Tap "Add" in the top right corner
-4. Enjoy ${featureName} and other features from your home screen!`;
+    const instructions = `To add ${featureName} to your home screen: tap the Share icon in Safari, then choose "Add to Home Screen".`;
 
     const alert = await this.alertController.create({
       header: message.header,
@@ -242,14 +238,6 @@ export class AppInstallService {
       cssClass: 'install-instructions-alert ios-install',
       backdropDismiss: false,
       buttons: [
-        {
-          text: 'Watch Demo',
-          cssClass: 'demo-button',
-          handler: () => {
-            this.showIOSDemo(featureName);
-            return false; // Keep alert open
-          }
-        },
         {
           text: 'Got It',
           role: 'cancel',
@@ -281,11 +269,7 @@ export class AppInstallService {
     featureName: string,
     message: { header: string; message: string; cta: string }
   ): Promise<boolean> {
-    const instructions = `
-1. Tap the menu button (⋮) in the top right corner of Chrome
-2. Select "Install app" or "Add to Home screen"
-3. Tap "Install" to confirm
-4. Launch ${featureName} directly from your home screen!`;
+    const instructions = `In Chrome, open the menu (⋮) and choose "Install app" or "Add to Home Screen".`;
 
     const alert = await this.alertController.create({
       header: message.header,
@@ -323,8 +307,8 @@ export class AppInstallService {
   private async showManualInstallInstructions(featureName: string): Promise<void> {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const instructions = isIOS
-      ? 'Tap the Share icon in Safari, then select "Add to Home Screen" and tap "Add".'
-      : 'Tap the menu (three dots) in Chrome, select "Add to Home Screen", and follow the prompts.';
+      ? 'Tap the Share icon in Safari, then choose "Add to Home Screen".'
+      : 'In Chrome, open the menu and choose "Install app".';
 
     const alert = await this.alertController.create({
       header: 'Manual Installation Required',
@@ -333,13 +317,6 @@ export class AppInstallService {
     });
 
     await alert.present();
-  }
-
-  /**
-   * Show iOS installation demo animation
-   */
-  private showIOSDemo(featureName: string): void {
-    console.log('Showing iOS installation demo for', featureName);
   }
 
   /**
