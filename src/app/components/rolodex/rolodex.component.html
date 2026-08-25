@@ -255,6 +255,7 @@
           <ion-chip (click)="scrollTo('settings-privacy')">Privacy</ion-chip>
           <ion-chip (click)="scrollTo('settings-cloudsync')">Cloud Sync</ion-chip>
           <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
+          <ion-chip (click)="scrollTo('settings-share')">Share</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
 
@@ -407,7 +408,7 @@
         </ion-item>
 
         <!-- 2026-08-19 SHARE OPENLOOP: the standard share sheet. -->
-        <ion-item lines="none" class="elegant-item" (click)="shareApp()">
+        <ion-item lines="none" class="elegant-item" id="settings-share" (click)="shareApp()">
           <ion-icon name="share-social-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
             Share LoopKeeper

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ShareAppService } from '../../services/share-app/share-app.service';
-import { LinkPreviewService, LinkPreview } from '../../services/link-preview/link-preview.service';
 
 /**
  * 2026-08-22 LOOPKEEPER SHAREAPP — the branded share sheet, modeled on
@@ -15,25 +14,15 @@ import { LinkPreviewService, LinkPreview } from '../../services/link-preview/lin
   templateUrl: './share-app-modal.component.html',
   styleUrls: ['./share-app-modal.component.scss'],
 })
-export class ShareAppModalComponent implements OnInit {
+export class ShareAppModalComponent {
   readonly shareUrl = 'https://zyppar.com/loopkeeper/';
   readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/`;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
-  preview: LinkPreview | null = null;
 
   constructor(
     private readonly modalController: ModalController,
     private readonly shareApp: ShareAppService,
-    private readonly linkPreview: LinkPreviewService,
   ) {}
-
-  ngOnInit(): void {
-    // 2026-08-22 LINK PREVIEW: show what the recipient will actually see when
-    // the link unfurls — the LoopKeeper OG card, not a Zyppar favicon.
-    void this.linkPreview.fetchPreview(this.shareUrl).then((p) => {
-      if (p?.image || p?.title) this.preview = p;
-    });
-  }
 
   close(): void {
     void this.modalController.dismiss();
