@@ -631,8 +631,12 @@ export class AppInstallService {
    * Utility methods
    */
   private getStoreUrl(): string {
+    // 2026-08-25 NEVER channel to Zyppar's store/package. LoopKeeper's listings
+    // are INCOMING; keep these as LoopKeeper-specific placeholders until live.
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    return isIOS ? 'https://apps.apple.com/app/idYOUR_APP_ID' : 'https://play.google.com/store/apps/details?id=com.zyppar.openloop';
+    return isIOS
+      ? 'https://apps.apple.com/app/idLOOPKEEPER_APP_ID'
+      : 'https://play.google.com/store/apps/details?id=com.zyppar.loopkeeper';
   }
 
   public isAppInstalled(): boolean {
