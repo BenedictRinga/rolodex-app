@@ -48,7 +48,9 @@
     "@capacitor/android": "^6.1.1",
     "@ffmpeg/core": "0.12.10",
     "@ffmpeg/ffmpeg": "0.12.10",
-    "@ffmpeg/util": "^0.12.2"
+    "@ffmpeg/util": "^0.12.2",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.0",

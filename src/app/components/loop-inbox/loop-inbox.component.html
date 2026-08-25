@@ -1,10 +1,15 @@
 <div class="li-shell">
-  <!-- Head: brand line + segment -->
+  <!-- Head: brand line + language + close -->
   <div class="li-head">
     <strong class="li-title">LoopKeeper Inbox</strong>
-    <ion-button fill="clear" size="small">
-      <ion-icon name="chevron-up-outline"></ion-icon>
-    </ion-button>
+    <div class="li-head-right">
+      <ion-select [(ngModel)]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" class="li-lang">
+        <ion-select-option *ngFor="let l of languages" [value]="l.code">{{ l.label }}</ion-select-option>
+      </ion-select>
+      <ion-button fill="clear" size="small" (click)="requestClose()" appTooltip="Hide inbox">
+        <ion-icon name="chevron-up-outline"></ion-icon>
+      </ion-button>
+    </div>
   </div>
 
   <ion-segment [(ngModel)]="tab" class="li-segment" mode="ios">
@@ -97,16 +102,9 @@
     <ng-content select="[chat-tab]"></ng-content>
   </div>
 
-  <!-- ═══════════ REMINDERS TAB (same feature as Settings -> Reminders) ═══════════ -->
-  <div *ngIf="tab === 'reminders'" class="li-body li-reminders">
-    <div class="li-reminders-card">
-      <p><strong>Reminders &amp; follow-ups</strong></p>
-      <p>Same feature as Settings → Reminders — alarms, follow-ups, birthdays. It stays there too.</p>
-      <ion-button expand="block" (click)="openReminders()">
-        <ion-icon name="alarm-outline" slot="start"></ion-icon>
-        Open Reminders
-      </ion-button>
-    </div>
+  <!-- ═══════════ REMINDERS TAB (poured in directly) ═══════════ -->
+  <div *ngIf="tab === 'reminders'" class="li-reminders">
+    <app-reminders-modal [contacts]="contacts"></app-reminders-modal>
   </div>
 </div>
 

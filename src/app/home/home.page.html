@@ -30,11 +30,11 @@
   <!-- 2026-08-24 LOOPKEEPER INBOX: Loops | Chat | Soon — the Isenberg wedge
        first take. The AI Assistant chat below is PROJECTED content under the
        Chat tab: every binding here still resolves in HomePage, untouched. -->
-  <app-loop-inbox *ngIf="rolodexAiChatOpen">
+  <app-loop-inbox *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false">
   <div class="openloop-chat" chat-tab>
     <div class="openloop-chat-head">
       <strong>AI Assistant</strong>
-      <ion-button fill="clear" size="small" (click)="rolodexAiChatOpen = false" appTooltip="Hide chat">
+      <ion-button fill="clear" size="small" (click)="closeRolodexAiChat()" appTooltip="Hide chat">
         <ion-icon name="chevron-up-outline"></ion-icon>
       </ion-button>
     </div>

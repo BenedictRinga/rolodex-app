@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import {
   LoopsService, Loop, LoopTone, LoopChannel,
 } from '../../services/loops/loops.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
-import { RemindersModalComponent } from '../reminders-modal/reminders-modal.component';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
  * One row = one closeable thing. Decision chips force the decision.
  * The Chat tab is PROJECTED content from home.page.html — untouched legacy.
- * The Reminders tab opens the same Settings -> Reminders modal (which remains there).
+ * The Reminders tab POURS the Settings -> Reminders content directly in.
  */
 @Component({
   selector: 'app-loop-inbox',
@@ -20,7 +20,25 @@ import { RemindersModalComponent } from '../reminders-modal/reminders-modal.comp
   standalone: false,
 })
 export class LoopInboxComponent implements OnInit {
+  @Input() contacts: any[] = [];
+  @Output() closeRequest = new EventEmitter<void>();
+
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
+
+  readonly languages: { code: string; label: string }[] = [
+    { code: 'en', label: 'English' },
+    { code: 'sw', label: 'Swahili' },
+    { code: 'am', label: 'Amharic' },
+    { code: 'so', label: 'Somali' },
+    { code: 'ar', label: 'Arabic' },
+    { code: 'ha', label: 'Hausa' },
+    { code: 'fr', label: 'French' },
+    { code: 'zh-cmn-Hans', label: 'Chinese' },
+    { code: 'hi', label: 'Hindi' },
+    { code: 'pt-PT', label: 'Portuguese' },
+    { code: 'de', label: 'German' },
+  ];
+  currentLang = 'en';
 
   todaysThree: Loop[] = [];
   mine: Loop[] = [];
@@ -65,15 +83,18 @@ export class LoopInboxComponent implements OnInit {
     private alerts: AlertsService,
     private analytics: AnalyticsService,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController,
-  ) {}
+    private translate: TranslateService,
+  ) {
+    this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+  }
 
-  /** Reminders tab: same modal as Settings -> Reminders (which stays there). */
-  async openReminders(): Promise<void> {
-    const modal = await this.modalCtrl.create({
-      component: RemindersModalComponent,
-    });
-    await modal.present();
+  setLanguage(code: string): void {
+    this.currentLang = code;
+    void this.translate.use(code);
+  }
+
+  requestClose(): void {
+    this.closeRequest.emit();
   }
 
   async ngOnInit(): Promise<void> {

@@ -1228,8 +1228,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
   openRolodexAiChat(): void {
-    // this.rolodexAiChatOpen = true;
     this.rolodexAiChatOpen ? this.rolodexAiChatOpen = false : this.rolodexAiChatOpen = true;
+  }
+
+  closeRolodexAiChat(): void {
+    this.rolodexAiChatOpen = false;
   }
 
   /** 2026-08-22 THE ROLODEX THAT REMEMBERS: after any send, update the card on

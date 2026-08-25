@@ -1,6 +1,8 @@
 .li-shell { display:flex; flex-direction:column; height:50vh; min-height:50vh; max-height:50vh;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014); }
 .li-head { display:flex; justify-content:space-between; align-items:center; padding:6px 10px 0 12px; }
+.li-head-right { display:flex; align-items:center; gap:2px; }
+.li-lang { --padding-top:0; --padding-bottom:0; font-size:11px; max-width:120px; }
 .li-title { font-size:13px; letter-spacing:.02em; }
 .li-segment { margin:6px 10px 0; --background:transparent; font-size:11px; }
 .li-badge { background:#14b8a6; color:#04201c; border-radius:999px; padding:0 6px; font-size:10px; font-weight:700; }
@@ -53,5 +55,8 @@
 .li-receipt { display:flex; gap:8px; font-size:12px; align-items:center; padding:4px 2px; opacity:.85; }
 .li-check { color:#14b8a6; font-weight:800; }
 .li-chat-slot { display:flex; flex-direction:column; overflow-y:auto; flex:1; }
-.li-reminders { display:flex; align-items:center; justify-content:center; }
-.li-reminders-card { max-width:420px; width:100%; background:rgba(128,128,128,.08); border:1px solid rgba(128,128,128,.22); border-radius:14px; padding:18px 16px; text-align:center; font-size:13px; }
+.li-reminders { display:flex; flex-direction:column; overflow-y:auto; flex:1; padding:4px 10px 12px; }
+.li-reminders app-reminders-modal { display:flex; flex-direction:column; flex:1; width:100%; }
+/* Embedded reminders: hide the modal header — the content IS the tab. */
+.li-reminders ::ng-deep app-reminders-modal ion-header { display:none; }
+.li-reminders ::ng-deep app-reminders-modal ion-content { --padding-start:0; --padding-end:0; }
