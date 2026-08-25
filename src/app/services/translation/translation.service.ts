@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 /**
  * 2026-08-25 TRANSLATION SERVICE — device-language auto-detect + user-owned
@@ -111,6 +112,24 @@ export class TranslationService {
     if (base === 'en') return 'en';
     const hit = this.languages.find(l => l.code.toLowerCase().startsWith(base));
     return hit ? hit.code : 'en';
+  }
+
+  // ── Community aggregation ─────────────────────────────────────────────────
+
+  /** Anonymous submission to the LoopKeeper translation aggregator. */
+  async submitCommunity(lang: string, keys: Record<string, string>): Promise<boolean> {
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/translations/contribute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang, keys }),
+      });
+      if (!res.ok) return false;
+      const data = await res.json().catch(() => ({}));
+      return !!data?.ok;
+    } catch {
+      return false;
+    }
   }
 
   // ── User-owned overrides ──────────────────────────────────────────────────

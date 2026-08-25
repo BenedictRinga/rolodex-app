@@ -22,6 +22,7 @@ export class TranslatePortalComponent {
   search = '';
   loading = false;
   savedFlash = false;
+  submitting = false;
 
   en: Record<string, string> = {};
   file: Record<string, string> = {};
@@ -136,6 +137,33 @@ export class TranslatePortalComponent {
       setTimeout(() => (this.savedFlash = false), 2200);
     } catch {
       /* clipboard unavailable */
+    }
+  }
+
+  /** 2026-08-25 COMMUNITY AGGREGATION: save locally, then send anonymously. */
+  async submitCommunity(): Promise<void> {
+    if (this.submitting) return;
+    const payload: Record<string, string> = {};
+    for (const r of this.rows) {
+      if (this.draft[r.key]?.trim()) payload[r.key] = this.draft[r.key].trim();
+    }
+    if (!Object.keys(payload).length) return;
+    // The user's own take always applies on this device first.
+    for (const [k, v] of Object.entries(payload)) {
+      this.translation.saveOverride(this.lang, k, v);
+    }
+    this.submitting = true;
+    try {
+      const ok = await this.translation.submitCommunity(this.lang, payload);
+      if (ok) {
+        this.savedFlash = true;
+        setTimeout(() => (this.savedFlash = false), 2400);
+      } else {
+        // Offline or rejected — fall back to copy so the effort is never lost.
+        await this.copyShare();
+      }
+    } finally {
+      this.submitting = false;
     }
   }
 }

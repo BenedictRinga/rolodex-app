@@ -65,10 +65,10 @@
   <div *ngIf="loading" class="tp-loading">{{ 'loopkeeper.portal.loading' | translate }}</div>
 
   <div class="tp-actions">
-    <ion-button expand="block" color="success" (click)="saveAll()" [disabled]="loading">
-      {{ savedFlash ? ('loopkeeper.portal.saved' | translate) : ('loopkeeper.portal.save' | translate) }}
+    <ion-button expand="block" color="success" (click)="submitCommunity()" [disabled]="loading || submitting">
+      {{ submitting ? ('loopkeeper.portal.sending' | translate) : (savedFlash ? ('loopkeeper.portal.sent' | translate) : ('loopkeeper.portal.send' | translate)) }}
     </ion-button>
-    <ion-button expand="block" fill="outline" (click)="copyShare()" [disabled]="loading">
+    <ion-button expand="block" fill="outline" (click)="copyShare()" [disabled]="loading || submitting">
       {{ 'loopkeeper.portal.share' | translate }}
     </ion-button>
   </div>

@@ -352,7 +352,10 @@
     "portal.loading": "Loading…",
     "portal.save": "Save my changes",
     "portal.saved": "Saved ✓",
-    "portal.share": "Share my translations",
-    "settings.translate": "Help translate"
+    "portal.share": "Copy my translations",
+    "settings.translate": "Help translate",
+    "portal.send": "Send to community",
+    "portal.sending": "Sending…",
+    "portal.sent": "Sent — thank you!"
   }
 }
