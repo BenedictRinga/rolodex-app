@@ -19,6 +19,16 @@ export class ShareAppModalComponent {
   readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/`;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
 
+  // 2026-08-25 STATIC LOOPKEEPER PREVIEW: always shows the branded card.
+  // No server fetch — the OG data is known and must never resolve to Zyppar.
+  readonly preview = {
+    url: this.shareUrl,
+    host: 'zyppar.com',
+    title: 'LoopKeeper — Close the loop you keep meaning to close',
+    image: 'https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png',
+    description: 'Follow-through for the few who matter — nudge, draft, send, streak.',
+  };
+
   constructor(
     private readonly modalController: ModalController,
     private readonly shareApp: ShareAppService,

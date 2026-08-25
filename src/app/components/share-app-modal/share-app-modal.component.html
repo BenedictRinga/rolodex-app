@@ -19,6 +19,14 @@
 
   <div class="share-message">{{ shareText }}</div>
 
+  <div class="share-fetch-preview">
+    <img [src]="preview.image" alt="Link preview" />
+    <div class="share-fetch-text">
+      <div class="share-fetch-title">{{ preview.title }}</div>
+      <div class="share-fetch-desc">{{ preview.description }}</div>
+    </div>
+  </div>
+
   <div class="share-actions">
     <ion-button expand="block" color="success" (click)="whatsapp()">
       <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
