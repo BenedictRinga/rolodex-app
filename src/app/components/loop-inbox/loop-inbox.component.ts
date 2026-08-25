@@ -6,6 +6,7 @@ import {
 } from '../../services/loops/loops.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
+import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
@@ -84,6 +85,7 @@ export class LoopInboxComponent implements OnInit {
     private analytics: AnalyticsService,
     private alertCtrl: AlertController,
     private translate: TranslateService,
+    private keeper: KeeperAgentService,
   ) {
     this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   }
@@ -118,8 +120,12 @@ export class LoopInboxComponent implements OnInit {
     if (!sentence || this.busy) return;
     this.busy = true;
     try {
-      const parsed = this.loops.parseCapture(sentence);
-      const loop = this.loops.create(parsed);
+      const envelope = this.keeper.capture(sentence);
+      if (!envelope.ok || !envelope.output) {
+        void this.alerts.showToast('Could not open that loop — try again.', 2200);
+        return;
+      }
+      const loop = envelope.output;
       this.captureInput = '';
       this.selectedId = loop.id;
       await this.refresh();
@@ -149,7 +155,8 @@ export class LoopInboxComponent implements OnInit {
 
   async polishAi(l: Loop): Promise<void> {
     void this.analytics.track('loop_draft_ai_polish');
-    const better = await this.loops.polishWithAi(l);
+    const env = await this.keeper.polish(l);
+    const better = env.output ?? null;
     if (better) this.loops.update(l.id, { draft: better });
     else void this.alerts.showToast('AI polish unavailable — local draft stands.', 2200);
   }
@@ -193,10 +200,9 @@ export class LoopInboxComponent implements OnInit {
       if (!handle) return;
       this.loops.update(l.id, { handle });
     }
-    const bundle = this.loops.buildSend(channel, l);
+    const bundle = this.keeper.send(l);
     try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* clipboard denied — url still carries text */ }
     const doneMeans: 'reply-needed' | 'closed' = (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed';
-    this.loops.markSent(l.id, channel, l.draft, doneMeans);
     if (bundle.url) window.open(bundle.url, '_blank', 'noopener');
     await this.refresh();
     const left = this.counts.mine;
