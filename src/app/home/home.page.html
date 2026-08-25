@@ -10,7 +10,7 @@
       <div style="display:flex; align-items:center; gap:6px;">
         <ion-label style="font-size: 12px; color: #8b93b0;">{{ headerLine }}</ion-label>
         <span class="ai-live-dot" [class.live]="aiLive" title="AI status"></span>
-        <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">AI Assistant</span>
+        <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">{{ 'loopkeeper.chat.aiAssistant' | translate }}</span>
       </div>
       <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
         <ion-segment-button value="device">Device</ion-segment-button>
@@ -33,8 +33,8 @@
   <app-loop-inbox *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false">
   <div class="openloop-chat" chat-tab>
     <div class="openloop-chat-head">
-      <strong>AI Assistant</strong>
-      <ion-button fill="clear" size="small" (click)="closeRolodexAiChat()" appTooltip="Hide chat">
+      <strong>{{ 'loopkeeper.chat.aiAssistant' | translate }}</strong>
+      <ion-button fill="clear" size="small" (click)="closeRolodexAiChat()" [appTooltip]="'loopkeeper.chat.hideChat' | translate">
         <ion-icon name="chevron-up-outline"></ion-icon>
       </ion-button>
     </div>
@@ -42,25 +42,25 @@
       <div *ngFor="let m of rolodexAiMessages" class="openloop-msg" [class.user]="m.from === 'user'">
         <div *ngIf="m.text" class="openloop-bubble">{{ m.text }}</div>
         <div *ngIf="m.from === 'assistant'" class="openloop-actions">
-          <ion-button fill="clear" size="small" class="openloop-action" (click)="copyRolodexAi(m.text)" appTooltip="Copy whole reply">
+          <ion-button fill="clear" size="small" class="openloop-action" (click)="copyRolodexAi(m.text)" [appTooltip]="'loopkeeper.chat.copy' | translate">
             <ion-icon name="copy-outline" slot="start"></ion-icon>
-            Copy
+            {{ 'loopkeeper.chat.copy' | translate }}
           </ion-button>
-          <ion-button fill="clear" size="small" class="openloop-action" (click)="sendRolodexAiToCard(m.text)" appTooltip="Attach this reply to a card">
+          <ion-button fill="clear" size="small" class="openloop-action" (click)="sendRolodexAiToCard(m.text)" [appTooltip]="'loopkeeper.chat.card' | translate">
             <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-            Card
+            {{ 'loopkeeper.chat.card' | translate }}
           </ion-button>
         </div>
       </div>
       <div *ngIf="rolodexAiTyping" class="openloop-typing">
         <span class="openloop-typing-dot"></span>
-        AI Assistant is writing…
+        {{ 'loopkeeper.chat.writing' | translate }}
       </div>
     </div>
     <div class="openloop-chat-input">
       <ion-textarea
         [(ngModel)]="rolodexAiInput"
-        placeholder="Where is that open loop?"
+        [placeholder]="'loopkeeper.chat.placeholder' | translate"
         auto-grow
         rows="1"
         maxlength="500"

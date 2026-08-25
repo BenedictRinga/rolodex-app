@@ -40,13 +40,13 @@
 
     <!-- Rising nudges banner (7) — silence after close is the reward -->
     <div *ngIf="nudgesDue > 0" class="li-nudgebar">
-      🔔 {{ nudgesDue }} loop{{ nudgesDue === 1 ? '' : 's' }} nudging.
-      <button class="li-linkbtn" (click)="dismissNudges()">Snooze all</button>
+      {{ 'loopkeeper.nudgeBar' | translate:{ n: nudgesDue } }}
+      <button class="li-linkbtn" (click)="dismissNudges()">{{ 'loopkeeper.snoozeAll' | translate }}</button>
     </div>
 
     <!-- TODAY'S 3 — the hard cap (9) -->
     <div class="li-section" *ngIf="todaysThree.length">
-      <div class="li-section-title">Today's {{ todaysThree.length }}</div>
+      <div class="li-section-title">{{ 'loopkeeper.section.todays3' | translate:{ n: todaysThree.length } }}</div>
       <ng-container *ngFor="let l of todaysThree">
         <ng-container *ngTemplateOutlet="loopRow; context: { $implicit: l, starred: true }"></ng-container>
       </ng-container>
@@ -54,7 +54,7 @@
 
     <!-- Waiting on YOU (17) -->
     <div class="li-section" *ngIf="mine.length">
-      <div class="li-section-title">Waiting on you · {{ mine.length }}</div>
+      <div class="li-section-title">{{ 'loopkeeper.section.waitingOnYou' | translate:{ n: mine.length } }}</div>
       <ng-container *ngFor="let l of mine">
         <ng-container *ngTemplateOutlet="loopRow; context: { $implicit: l }"></ng-container>
       </ng-container>
@@ -68,7 +68,7 @@
 
     <!-- Waiting on THEM (17) — no guilt nudges here -->
     <div class="li-section" *ngIf="theirs.length">
-      <div class="li-section-title">Waiting on them · {{ theirs.length }}</div>
+      <div class="li-section-title">{{ 'loopkeeper.section.waitingOnThem' | translate:{ n: theirs.length } }}</div>
       <div *ngFor="let l of theirs" class="li-row theirs">
         <div class="li-row-main" (click)="toggle(l.id)">
           <span class="li-person">{{ l.person }}</span>
@@ -77,20 +77,20 @@
           <div class="li-summary">{{ l.summary }}</div>
         </div>
         <div class="li-their-actions">
-          <ion-button size="small" fill="outline" (click)="markThemReplied(l)">They replied ✓</ion-button>
-          <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">Drop</ion-button>
+          <ion-button size="small" fill="outline" (click)="markThemReplied(l)">{{ 'loopkeeper.theyReplied' | translate }}</ion-button>
+          <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">{{ 'loopkeeper.drop' | translate }}</ion-button>
         </div>
       </div>
     </div>
 
     <!-- Receipts (8) -->
     <div class="li-section" *ngIf="closed.length">
-      <div class="li-section-title">Recently closed · {{ counts.closedThisWeek }} this week</div>
+      <div class="li-section-title">{{ 'loopkeeper.section.recentlyClosed' | translate:{ n: counts.closedThisWeek } }}</div>
       <div *ngFor="let l of closed" class="li-receipt">
         <span class="li-check">✓</span>
         <span><b>{{ l.person }}</b> · {{ l.receipt?.channel || kindLabel(l.kind) }}
           <span class="li-meta">{{ rel(l.receipt?.sentAt || l.closedAt) }}</span>
-          <ng-container *ngIf="l.receipt">· done = {{ l.receipt.doneMeans === 'closed' ? 'done' : 'their reply' }}</ng-container>
+          <ng-container *ngIf="l.receipt">· {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.doneClosed' | translate) : ('loopkeeper.receipt.doneReply' | translate) }}</ng-container>
           <ng-container *ngIf="l.closeReason"> · {{ l.closeReason }}</ng-container>
         </span>
       </div>
@@ -115,11 +115,11 @@
       <span *ngIf="starred" class="li-star">⭐</span>
       <span class="li-person">{{ l.person }}</span>
       <span class="li-kind">{{ kindLabel(l.kind) }}</span>
-      <span class="li-meta">{{ sitting(l) }}d · nudged {{ l.nudgesSent }}×</span>
+      <span class="li-meta">{{ 'loopkeeper.sittingDays' | translate:{ n: sitting(l), m: l.nudgesSent } }}</span>
       <div class="li-summary">{{ l.summary }}</div>
-      <div class="li-why" *ngIf="l.whySitting">sitting because {{ l.whySitting }}</div>
+      <div class="li-why" *ngIf="l.whySitting">{{ 'loopkeeper.sittingBecause' | translate:{ reason: l.whySitting } }}</div>
       <div class="li-receipt-inline" *ngIf="l.receipt && l.status !== 'closed'">
-        📤 {{ rel(l.receipt.sentAt) }} via {{ l.receipt.channel }} · awaiting {{ l.receipt.doneMeans === 'closed' ? 'nothing — close it?' : 'reply' }}
+        {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.closeIt' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) : ('loopkeeper.receipt.awaitingReply' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) }}
       </div>
     </div>
 
@@ -127,21 +127,21 @@
     <div *ngIf="selectedId === l.id" class="li-detail">
 
       <div class="li-packet">
-        <div class="li-packet-row"><label>Who</label><span>{{ l.person }}<ng-container *ngIf="l.secondPerson"> ↔ {{ l.secondPerson }}</ng-container></span></div>
-        <div class="li-packet-row" *ngIf="l.relation"><label>How you know them</label><input [ngModel]="l.relation" (blur)="saveRelation($event, l)"></div>
-        <div class="li-packet-row"><label>Last touch</label><span>{{ rel(l.lastTouchAt) }}</span></div>
-        <div class="li-packet-row" *ngIf="l.promise"><label>Open promise</label><span>{{ l.promise }}</span></div>
-        <div class="li-packet-row"><label>Why sitting</label><input placeholder="name the friction…" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}<ng-container *ngIf="l.secondPerson"> ↔ {{ l.secondPerson }}</ng-container></span></div>
+        <div class="li-packet-row" *ngIf="l.relation"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><input [ngModel]="l.relation" (blur)="saveRelation($event, l)"></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span>{{ rel(l.lastTouchAt) }}</span></div>
+        <div class="li-packet-row" *ngIf="l.promise"><label>{{ 'loopkeeper.ctx.openPromise' | translate }}</label><span>{{ l.promise }}</span></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }}</label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
         <div class="li-packet-row">
-          <label>Stance</label>
+          <label>{{ 'loopkeeper.ctx.stance' | translate }}</label>
           <span class="li-chips">
             <button *ngFor="let s of ['warm','brief','overdue-apology']"
               class="li-chip" [class.on]="l.stance === s"
-              (click)="setStance(l, s)">{{ s === 'overdue-apology' ? 'apology' : s }}</button>
+              (click)="setStance(l, s)">{{ s === 'overdue-apology' ? ('loopkeeper.ctx.apology' | translate) : s }}</button>
           </span>
         </div>
         <div class="li-pretext">
-          Hook: {{ l.pretext }}
+          {{ 'loopkeeper.ctx.hook' | translate }}: {{ l.pretext }}
           <button class="li-linkbtn" (click)="newPretext(l)">↻</button>
         </div>
       </div>
@@ -152,9 +152,9 @@
         </ion-segment>
         <ion-textarea [(ngModel)]="l.draft" auto-grow rows="4" class="li-draft"></ion-textarea>
         <div class="li-draft-actions">
-          <button class="li-linkbtn" (click)="regenerate(l)">↻ Redraft</button>
-          <button class="li-linkbtn" (click)="polishAi(l)">✨ Polish with AI</button>
-          <button class="li-linkbtn" (click)="toggleVoice(l)">🎙 Voice outline</button>
+          <button class="li-linkbtn" (click)="regenerate(l)">{{ 'loopkeeper.draft.redraft' | translate }}</button>
+          <button class="li-linkbtn" (click)="polishAi(l)">{{ 'loopkeeper.draft.polishAi' | translate }}</button>
+          <button class="li-linkbtn" (click)="toggleVoice(l)">{{ 'loopkeeper.draft.voiceOutline' | translate }}</button>
         </div>
         <pre *ngIf="showVoiceFor === l.id" class="li-voice">{{ l.voiceOutline }}</pre>
       </div>
@@ -177,7 +177,7 @@
       <div *ngIf="waitEditingId === l.id" class="li-subform">
         <input type="date" [(ngModel)]="waitDate">
         <input placeholder="condition — e.g. after their launch; escalate Friday" [(ngModel)]="waitCond">
-        <ion-button size="small" (click)="saveWait(l)">Park it</ion-button>
+        <ion-button size="small" (click)="saveWait(l)">{{ 'loopkeeper.parkIt' | translate }}</ion-button>
       </div>
       <div *ngIf="dropEditingId === l.id" class="li-subform">
         <button *ngFor="let r of dropReasons" class="li-dropreason" (click)="confirmDrop(l, r)">{{ r }}</button>

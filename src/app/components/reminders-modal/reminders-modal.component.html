@@ -5,7 +5,7 @@
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 15px;">Reminders & follow-ups</ion-title>
+    <ion-title style="font-size: 15px;">{{ 'loopkeeper.reminders.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -18,14 +18,14 @@
   <!-- 2026-08-16 THE SET-FORM: always visible, no alert quirks — pick the
        contact, write the note, choose the date, tap Set. -->
   <div class="add-reminder-form">
-    <ion-select class="arm-select" placeholder="Contact" [(ngModel)]="formContactId">
+    <ion-select class="arm-select" [placeholder]="'loopkeeper.reminders.contactPlaceholder' | translate" [(ngModel)]="formContactId">
       <ion-select-option *ngFor="let c of contacts" [value]="c?.contactId">{{ c?.name?.display }}</ion-select-option>
     </ion-select>
-    <ion-input class="arm-note" placeholder="Remind me to…" [(ngModel)]="formNote"></ion-input>
+    <ion-input class="arm-note" [placeholder]="'loopkeeper.reminders.notePlaceholder' | translate" [(ngModel)]="formNote"></ion-input>
     <div class="arm-row">
       <ion-input class="arm-date" type="date" [(ngModel)]="formDate"></ion-input>
       <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim() || !formContactId">
-        Set
+        {{ 'loopkeeper.reminders.set' | translate }}
       </ion-button>
     </div>
   </div>
@@ -35,7 +35,7 @@
          then a DEMO REMINDERS line before any demo rows. -->
     <ng-container *ngFor="let s of reminderSegments()">
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
-        <ion-label class="demo-label">DEMO REMINDERS</ion-label>
+        <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
       <ion-item *ngIf="s.type === 'row'">
         <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
@@ -74,6 +74,6 @@
   </ion-list>
   <div *ngIf="!reminders.length && !followUps.length && !birthdays.length"
     style="padding: 40px 20px; text-align: center; color: var(--rolodex-text-secondary); font-size: 13px;">
-    Nothing scheduled yet — use the form above to set your first reminder.
+    {{ 'loopkeeper.reminders.empty' | translate }}
   </div>
 </ion-content>
