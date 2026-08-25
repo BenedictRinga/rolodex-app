@@ -242,21 +242,24 @@
              left scrolling in ignorance. Tapping a chip jumps to the item
              (or opens the section's modal directly). -->
         <div class="settings-quicknav">
-          <ion-chip (click)="scrollTo('settings-updates')">Updates</ion-chip>
-          <ion-chip (click)="scrollTo('settings-faq')">FAQ</ion-chip>
-          <ion-chip (click)="scrollTo('settings-cardview')">Card View</ion-chip>
-          <ion-chip (click)="scrollTo('settings-demo')">Demo</ion-chip>
-          <ion-chip (click)="scrollTo('settings-reminders')">Reminders</ion-chip>
-          <ion-chip (click)="scrollTo('settings-welcome')">Welcome</ion-chip>
-          <ion-chip (click)="scrollTo('settings-ai')">AI</ion-chip>
-          <ion-chip (click)="scrollTo('settings-billing')">Billing</ion-chip>
-          <ion-chip (click)="scrollTo('settings-about')">About</ion-chip>
-          <ion-chip (click)="scrollTo('settings-investors')">Investors</ion-chip>
-          <ion-chip (click)="scrollTo('settings-privacy')">Privacy</ion-chip>
-          <ion-chip (click)="scrollTo('settings-cloudsync')">Cloud Sync</ion-chip>
-          <ion-chip (click)="scrollTo('settings-backup')">Backup</ion-chip>
-          <ion-chip (click)="scrollTo('settings-install')">Install</ion-chip>
-          <ion-chip (click)="scrollTo('settings-share')">Share</ion-chip>
+          <ion-select class="settings-lang" [value]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" style="max-width: 120px; font-size: 12px;">
+            <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
+          </ion-select>
+          <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-reminders')">{{ 'loopkeeper.settings.reminders' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-welcome')">{{ 'loopkeeper.settings.welcome' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-ai')">{{ 'loopkeeper.settings.ai' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-billing')">{{ 'loopkeeper.settings.billing' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-about')">{{ 'loopkeeper.settings.about' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-investors')">{{ 'loopkeeper.settings.investors' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-privacy')">{{ 'loopkeeper.settings.privacy' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-cloudsync')">{{ 'loopkeeper.settings.cloudsync' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-backup')">{{ 'loopkeeper.settings.backup' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-share')">{{ 'loopkeeper.settings.share' | translate }}</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
 
@@ -266,7 +269,7 @@
           <ion-icon name="cloud-download-outline" slot="start" [color]="updateAvailable ? 'warning' : 'tertiary'"></ion-icon>
           <ion-label>
             <span class="update-title">
-              Updates
+              {{ 'loopkeeper.settings.updates' | translate }}
               <span class="update-dot" [class.live]="updateAvailable" *ngIf="updateChecked"></span>
             </span>
             <p class="update-versions">
@@ -287,7 +290,7 @@
              lock PIN, forgot sync passphrase, app URL). -->
         <ion-item lines="none" class="elegant-item" id="settings-faq" (click)="openFaqHelp()">
           <ion-icon name="help-circle-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>FAQ & Help</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.faqhelp' | translate }}</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
@@ -316,7 +319,7 @@
         <!-- 2026-08-16 REMINDERS: the section button — alarms, follow-ups, birthdays. -->
         <ion-item lines="none" class="elegant-item" id="settings-reminders" (click)="openReminders()">
           <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Reminders & follow-ups</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.remindersfull' | translate }}</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
@@ -338,20 +341,20 @@
         <!-- 2026-08-16 BILLING: the two tiers + Stripe. -->
         <ion-item lines="none" class="elegant-item" id="settings-billing" (click)="openBilling()">
           <ion-icon name="card-outline" slot="start" color="success"></ion-icon>
-          <ion-label>Billing</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.billing' | translate }}</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- 2026-08-19 INVESTORS: the full portal, opened directly and unlocked. -->
         <ion-item lines="none" class="elegant-item" id="settings-investors" (click)="openInvestors()">
           <ion-icon name="briefcase-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Investors</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.investors' | translate }}</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <ion-item lines="none" class="elegant-item" id="settings-privacy">
           <ion-icon name="shield-checkmark-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>Privacy</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.privacy' | translate }}</ion-label>
           <ion-button slot="end" fill="clear" (click)="onGoToPrivacySettings()">Manage</ion-button>
         </ion-item>
 
@@ -364,7 +367,7 @@
 
         <ion-item lines="none" class="elegant-item" id="settings-welcome">
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Welcome Again</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.welcomefull' | translate }}</ion-label>
           <ion-button slot="end" fill="clear" (click)="onShowWelcome()">Show</ion-button>
           <ion-button slot="end" fill="clear" (click)="onToggleWelcome()">Stop</ion-button>
         </ion-item>
@@ -420,7 +423,7 @@
 
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Card View</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.cardview' | translate }}</ion-label>
           <ion-select slot="end" [(ngModel)]="pageManager.currentViewMode" (ngModelChange)="saveViewMode($event)">
             <ion-select-option *ngFor="let mode of pageManager.contactCardModes | keyvalue" [value]="mode.key">{{
               mode.value }}</ion-select-option>
@@ -429,7 +432,7 @@
 
         <ion-item lines="none" class="elegant-item" id="settings-demo">
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Demo Contacts</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.demofull' | translate }}</ion-label>
           <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">Show/Stop</ion-button>
         </ion-item>
 
@@ -468,7 +471,7 @@
         </ion-item> -->
 
         <ion-item-divider id="settings-cloudsync">
-          <ion-label color="medium">Cloud Sync</ion-label>
+          <ion-label color="medium">{{ 'loopkeeper.settings.cloudsync' | translate }}</ion-label>
         </ion-item-divider>
 
         <!-- 2026-08-20 PRIVACY GATE: default OFF. Nothing leaves the device
@@ -557,7 +560,7 @@
         </ng-container>
 
         <ion-item-divider id="settings-backup">
-          <ion-label color="medium">Local Backup</ion-label>
+          <ion-label color="medium">{{ 'loopkeeper.settings.backupfull' | translate }}</ion-label>
         </ion-item-divider>
 
         <ion-item lines="none" class="elegant-item">
@@ -574,7 +577,7 @@
 
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="information-circle-outline" slot="start" color="medium"></ion-icon>
-          <ion-label>About</ion-label>
+          <ion-label>{{ 'loopkeeper.settings.about' | translate }}</ion-label>
           <ion-button slot="end" fill="clear" (click)="onShowAbout()">Details</ion-button>
         </ion-item>
 

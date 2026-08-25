@@ -238,6 +238,27 @@
     "chat.placeholder": "Where is that open loop?",
     "chat.writing": "AI Assistant is writing…",
     "chat.copy": "Copy",
-    "chat.card": "Card"
+    "chat.card": "Card",
+    "settings.language": "Language",
+    "settings.updates": "Updates",
+    "settings.faq": "FAQ",
+    "settings.cardview": "Card View",
+    "settings.demo": "Demo",
+    "settings.reminders": "Reminders",
+    "settings.welcome": "Welcome",
+    "settings.ai": "AI",
+    "settings.billing": "Billing",
+    "settings.about": "About",
+    "settings.investors": "Investors",
+    "settings.privacy": "Privacy",
+    "settings.cloudsync": "Cloud Sync",
+    "settings.backup": "Backup",
+    "settings.faqhelp": "FAQ & Help",
+    "settings.remindersfull": "Reminders & follow-ups",
+    "settings.welcomefull": "Welcome Again",
+    "settings.demofull": "Demo Contacts",
+    "settings.backupfull": "Local Backup",
+    "settings.install": "Install",
+    "settings.share": "Share"
   }
 }

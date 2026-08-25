@@ -10,6 +10,7 @@ import { Capacitor } from '@capacitor/core';
 import type { CloudProvider } from '../../services/cloud-sync/sync.types';
 import { ModalController, AlertController } from '@ionic/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
 import { RolodexSyncService } from '../../services/rolodex-sync/rolodex-sync.service';
@@ -155,7 +156,31 @@ export class RolodexComponent implements OnInit {
     private voiceOptions: VoiceOptionsService,
     private readonly time: TimeNormalizerService,
     private readonly shareAppService: ShareAppService,
-  ) { }
+    private readonly translate: TranslateService,
+  ) {
+    this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+  }
+
+  /** 2026-08-25 SETTINGS LANGUAGE SWITCH — same selector as the Inbox header. */
+  readonly languages: { code: string; label: string }[] = [
+    { code: 'en', label: 'English' },
+    { code: 'sw', label: 'Swahili' },
+    { code: 'am', label: 'Amharic' },
+    { code: 'so', label: 'Somali' },
+    { code: 'ar', label: 'Arabic' },
+    { code: 'ha', label: 'Hausa' },
+    { code: 'fr', label: 'French' },
+    { code: 'zh-cmn-Hans', label: 'Chinese' },
+    { code: 'hi', label: 'Hindi' },
+    { code: 'pt-PT', label: 'Portuguese' },
+    { code: 'de', label: 'German' },
+  ];
+  currentLang = 'en';
+
+  setLanguage(code: string): void {
+    this.currentLang = code;
+    void this.translate.use(code);
+  }
 
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
   async openAiSettings(): Promise<void> {
