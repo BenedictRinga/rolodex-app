@@ -777,10 +777,12 @@ export class RolodexComponent implements OnInit {
       if (action === 'install') {
         await this.offerAppInstall();
       } else if (action === 'sample') {
+        this.leaveSettingsIfNeeded();
         this.currentView = RolodexView.AutoSort; this.autoSortStarted = true; this.searchResultsVisible = false; this.autoSort.emit();
       }
       return;
     }
+    this.leaveSettingsIfNeeded();
     this.currentView = RolodexView.AutoSort; this.autoSortStarted = true; this.searchResultsVisible = false; this.autoSort.emit();
   }
 
@@ -794,7 +796,11 @@ export class RolodexComponent implements OnInit {
     this.leaveSettingsIfNeeded();
     this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false;
   }
-  toggleFilters() { this.currentView = this.currentView === RolodexView.Filters ? RolodexView.Regular : RolodexView.Filters; this.filterState = this.filterState === 'closed' ? 'open' : 'closed'; }
+  toggleFilters() {
+    this.leaveSettingsIfNeeded();
+    this.currentView = this.currentView === RolodexView.Filters ? RolodexView.Regular : RolodexView.Filters;
+    this.filterState = this.filterState === 'closed' ? 'open' : 'closed';
+  }
   showLocationsView() {
     this.leaveSettingsIfNeeded();
     this.currentView = RolodexView.Locations; this.autoSortStarted = true; this.searchResultsVisible = false; this.initMap.emit(this.mapElement.nativeElement);
