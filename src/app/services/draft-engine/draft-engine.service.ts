@@ -65,6 +65,75 @@ export class DraftEngineService {
     return this._currentFilter;
   }
 
+  /**
+   * 2026-08-26 DRAFT SHAPE: strip the Assistant's framing/commentary away from
+   * the promised draft so Copy / Card / composer always get the message itself,
+   * never the chatter around it. Heuristic, conservative: when no obvious draft
+   * framing is present the original reply is returned untouched.
+   */
+  extractDraftText(reply: string): string {
+    let text = String(reply || '').replace(/\r\n/g, '\n').trim();
+    if (!text) return '';
+
+    // Remove markdown code fences that models sometimes wrap drafts in.
+    text = text.replace(/^```[a-z]*\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+
+    // Drop the common leading draft markers, e.g. "Draft:" / "Here is your draft:".
+    const markers = [
+      /^draft\s*[:：]\s*/i,
+      /^here(?:'s| is)?\s+(?:a |the )?draft\s*[:：]?\s*/i,
+      /^here(?:'s| is)?\s+(?:a |the )?message\s*[:：]?\s*/i,
+      /^here(?:'s| is)?\s+the\s+composed\s+message\s*[:：]?\s*/i,
+      /^this\s+is\s+(?:your )?draft\s*[:：]?\s*/i,
+      /^your\s+draft\s*[:：]\s*/i,
+      /^message\s*[:：]\s*/i,
+    ];
+    for (const re of markers) {
+      if (re.test(text)) text = text.replace(re, '').trimStart();
+    }
+
+    // Remove obvious scaffolding lines before the real message begins.
+    const scaffolding = [
+      /^sure[,!]?$/i,
+      /^absolutely[,!]?$/i,
+      /^of course[,!]?$/i,
+      /^here(?:'s| is).*(?:draft|message|idea).*[:—:-]?\s*$/i,
+      /^(?:(?:i'|i )?ve|i have) (?:put|written|composed|made).*draft.*$/i,
+      /^(?:i\s+)?hope this (?:helps|finds you well).*$/i,
+      /^hope (?:that )?this (?:helps|finds you well).*$/i,
+      /^feel free to (?:adjust|edit|tweak|change).*$/i,
+      /^if you(?:'d like| would like) (?:me to|to).*$/i,
+      /^let me know if.*$/i,
+      /^happy to (?:adjust|change|tweak).*$/i,
+      /^you can (?:adjust|edit|tweak|change).*$/i,
+      /^i (?:can|could) (?:adjust|change|tweak|refine).*$/i,
+    ];
+    const lines = text.split('\n');
+    const kept: string[] = [];
+    let startedDraft = false;
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        if (kept.length) kept.push(''); // keep blank lines between real paragraphs
+        continue;
+      }
+      if (!startedDraft && scaffolding.some((re) => re.test(trimmed))) {
+        continue; // this line is assistant chat, not the message
+      }
+      startedDraft = true;
+      kept.push(line);
+    }
+    text = kept.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+
+    // Drop trailing "Hope that helps…" / "Let me know…" commentary if present.
+    text = text.replace(
+      /\n?(?:(?:i\s+)?hope (?:that )?this (?:helps|finds you well)|let me know if.*|if you(?:'d| would).*|feel free to.*|happy to.*)[.!]?\s*$/i,
+      ''
+    ).trim();
+
+    return text || String(reply || '').trim();
+  }
+
   /** 2026-08-18 DEEPSEEK FIRST: the demo defaults to DeepSeek (server proxy
    *  holds the key); if the server has no key yet it falls back to on-device. */
   provider: AiProvider = 'deepseek';

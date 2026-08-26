@@ -133,6 +133,12 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
   @Output() openAiChat = new EventEmitter<void>();
 
+  /** 2026-08-26 SETTINGS/INBOX SWAP: Settings tells HomePage it is opening so
+   *  the Inbox can close (remembered), and when Settings closes the Inbox can
+   *  be restored if it was open before. */
+  @Output() settingsWillOpen = new EventEmitter<void>();
+  @Output() settingsClosed = new EventEmitter<void>();
+
   public RolodexView = RolodexView;
   currentView: string = RolodexView.Regular;
   filterState = 'closed';
@@ -742,7 +748,17 @@ export class RolodexComponent implements OnInit {
     this.showRegularView();
   }
 
-  showRegularView() { this.currentView = RolodexView.Regular; this.autoSortStarted = false; this.searchResultsVisible = false; }
+  /** 2026-08-26 leave Settings VIEWPOINT: tell HomePage Settings closed so any
+   *  remembered Inbox can be restored. Called by every path that leaves the
+   *  Settings switch. */
+  private leaveSettingsIfNeeded(): void {
+    if (this.currentView === RolodexView.Settings) this.settingsClosed.emit();
+  }
+
+  showRegularView() {
+    this.leaveSettingsIfNeeded();
+    this.currentView = RolodexView.Regular; this.autoSortStarted = false; this.searchResultsVisible = false;
+  }
 
   async showAutoSortView() {
     if (!Capacitor.isNativePlatform()) {
@@ -774,10 +790,19 @@ export class RolodexComponent implements OnInit {
     await this.appInstall.promptInstallNow('LoopKeeper');
   }
 
-  showSearchView() { this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false; }
+  showSearchView() {
+    this.leaveSettingsIfNeeded();
+    this.currentView = RolodexView.Search; this.searchResultsVisible = true; this.autoSortStarted = false;
+  }
   toggleFilters() { this.currentView = this.currentView === RolodexView.Filters ? RolodexView.Regular : RolodexView.Filters; this.filterState = this.filterState === 'closed' ? 'open' : 'closed'; }
-  showLocationsView() { this.currentView = RolodexView.Locations; this.autoSortStarted = true; this.searchResultsVisible = false; this.initMap.emit(this.mapElement.nativeElement); }
-  showSettingsView() { this.currentView = RolodexView.Settings; this.autoSortStarted = true; this.searchResultsVisible = false; }
+  showLocationsView() {
+    this.leaveSettingsIfNeeded();
+    this.currentView = RolodexView.Locations; this.autoSortStarted = true; this.searchResultsVisible = false; this.initMap.emit(this.mapElement.nativeElement);
+  }
+  showSettingsView() {
+    this.settingsWillOpen.emit();
+    this.currentView = RolodexView.Settings; this.autoSortStarted = true; this.searchResultsVisible = false;
+  }
   closeSearchView() { this.pageManager.finderQuery = ''; this.showRegularView(); }
   // 2026-08-26 FIX: must target the HIDDEN card-mode select specifically —
   // document.querySelector('ion-select') was grabbing the first language
@@ -792,6 +817,7 @@ export class RolodexComponent implements OnInit {
    *  Where, When - the whole deck through the relationship story. */
   onApplyFilter() {
     if (this.selectedFilter === 'fourws') {
+      this.leaveSettingsIfNeeded();
       this.currentView = RolodexView.FourWs;
       this.autoSortStarted = false;
       this.searchResultsVisible = false;

@@ -36,6 +36,10 @@ export class ChatWithRolodexModalComponent implements OnInit {
   input = '';
   mode: ChatMode = '';
   chatReady = false;
+  /** 2026-08-26: true while the Assistant is composing — the chat shows a
+   *  clear "writing" indicator instead of silent waiting (especially the
+   *  draft-compose call after "that's enough context"). */
+  thinking = false;
 
   // Situation mode state
   situationCount = 0;
@@ -129,32 +133,34 @@ export class ChatWithRolodexModalComponent implements OnInit {
     this.messages.push({ from: 'user', text });
     this.history.push({ role: 'user', content: text });
     this.userMessageCount++;
-    this.messages.push({ from: 'system', text: '…' });
+    this.thinking = true;
 
     void (async () => {
-      const res = await this.chat(this.history);
-      const reply = res.reply || 'The live Assistant did not reply. Try again, or open a free AI chat below.';
-      const idx = this.messages.findIndex((m) => m.text === '…' && m.from === 'system');
-      if (idx >= 0) this.messages[idx] = { from: 'system', text: reply };
-      else this.messages.push({ from: 'system', text: reply });
-      this.history.push({ role: 'assistant', content: reply });
+      try {
+        const res = await this.chat(this.history);
+        const reply = res.reply || 'The live Assistant did not reply. Try again, or open a free AI chat below.';
+        this.messages.push({ from: 'system', text: reply });
+        this.history.push({ role: 'assistant', content: reply });
 
-      if (this.handedOff) return;
+        if (this.handedOff) return;
 
-      if (this.mode === 'situation') {
-        await this.maybeSituationStep();
-        return;
-      }
+        if (this.mode === 'situation') {
+          await this.maybeSituationStep();
+          return;
+        }
 
-      if (this.mode === 'feedback' && this.userMessageCount >= this.MIN_FEEDBACK_EXCHANGES) {
-        this.handedOff = true;
-        await this.gleanAndOffer();
-      } else if (this.mode === 'help' && this.userMessageCount >= this.MAX_HELP_EXCHANGES) {
-        this.handedOff = true;
-        await this.offerFreeChats('You’ve got the essentials — for deeper help, continue in a free AI chat.');
-      } else if (this.userMessageCount >= this.MAX_TOTAL_EXCHANGES) {
-        this.handedOff = true;
-        await this.offerFreeChats('This chat window is intentionally short — the free AI chats below can go as deep as you like.');
+        if (this.mode === 'feedback' && this.userMessageCount >= this.MIN_FEEDBACK_EXCHANGES) {
+          this.handedOff = true;
+          await this.gleanAndOffer();
+        } else if (this.mode === 'help' && this.userMessageCount >= this.MAX_HELP_EXCHANGES) {
+          this.handedOff = true;
+          await this.offerFreeChats('You’ve got the essentials — for deeper help, continue in a free AI chat.');
+        } else if (this.userMessageCount >= this.MAX_TOTAL_EXCHANGES) {
+          this.handedOff = true;
+          await this.offerFreeChats('This chat window is intentionally short — the free AI chats below can go as deep as you like.');
+        }
+      } finally {
+        this.thinking = false;
       }
     })();
   }
@@ -168,17 +174,25 @@ export class ChatWithRolodexModalComponent implements OnInit {
         from: 'system',
         text: 'That’s enough context for now — when you’re ready, tap the card below to pick the person from your phone.',
       });
-      const draftRes = await this.chat([
-        ...this.history,
-        {
-          role: 'user',
-          content: 'Now compose the message to this person using the context gathered. Keep it one warm, human paragraph.',
-        },
-      ]);
-      if (draftRes.reply) {
-        this.situationDraft = draftRes.reply;
-        this.messages.push({ from: 'system', text: draftRes.reply });
-        this.history.push({ role: 'assistant', content: draftRes.reply });
+      // 2026-08-26: the draft compose below is the long silent gap the user
+      // reported. Show a visible "writing" indicator while it runs.
+      this.thinking = true;
+      try {
+        const draftRes = await this.chat([
+          ...this.history,
+          {
+            role: 'user',
+            content: 'Now compose the message to this person using the context gathered. Keep it one warm, human paragraph. Return only the message itself — no commentary, no "Here is your draft".',
+          },
+        ]);
+        if (draftRes.reply) {
+          const cleanDraft = this.draftEngine.extractDraftText(draftRes.reply);
+          this.situationDraft = cleanDraft;
+          this.messages.push({ from: 'system', text: cleanDraft });
+          this.history.push({ role: 'assistant', content: cleanDraft });
+        }
+      } finally {
+        this.thinking = false;
       }
     }
   }

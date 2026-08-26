@@ -47,6 +47,17 @@
         <div class="bubble">{{ m.text }}</div>
       </div>
 
+      <!-- 2026-08-26: a clear “Assistant is writing” indicator while the
+           model is composing, including the draft after enough context. -->
+      <div *ngIf="thinking" class="chat-message system">
+        <div class="bubble typing-bubble">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-label">Assistant is writing…</span>
+        </div>
+      </div>
+
       <!-- 2026-08-19 THE TASTE: the phone-picker card appears once enough
            context is gathered — no name/number typed by the user. -->
       <div class="picker-card" *ngIf="mode === 'situation' && pickContactCard && !situationPicked">

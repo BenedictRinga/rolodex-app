@@ -22,6 +22,7 @@ import { RemindersModalComponent } from '../components/reminders-modal/reminders
 import { SearchModalComponent } from '../components/search-modal/search-modal.component';
 import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../components/welcome-modal/welcome-modal.component';
 import { ChatWithRolodexModalComponent } from '../components/chat-with-rolodex/chat-with-rolodex.component';
+import { ConfidanteComposerModalComponent } from '../components/confidante-composer-modal/confidante-composer-modal.component';
 import { InviteLandingComponent } from '../components/invite-landing/invite-landing.component';
 import { InviteService } from '../services/invite/invite.service';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
@@ -55,6 +56,9 @@ export class HomePage implements OnInit, OnDestroy {
   loading: boolean = false;
   /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
+  /** 2026-08-26 SETTINGS/INBOX SWAP: remember the Inbox was open so it can be
+   *  restored the moment Settings closes. */
+  private inboxWasOpenBeforeSettings = false;
   rolodexAiBusy = false;
   rolodexAiTyping = false;
   rolodexAiInput = '';
@@ -1134,13 +1138,16 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** 2026-08-23: send a good reply to a card — LoopKeeper search, device, or copy. */
-  async sendRolodexAiToCard(text: string): Promise<void> {
+  async sendRolodexAiToCard(rawText: string): Promise<void> {
+    // 2026-08-26 DRAFT SHAPE: the copy/card path must never carry the
+    // Assistant's framing — only the promised message.
+    const text = this.draftEngine.extractDraftText(rawText);
     if (!text?.trim()) {
       void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
       return;
     }
     const sheet = await this.actionSheet.create({
-      header: 'Send this reply?',
+      header: 'Send this draft?',
       subHeader: 'To a LoopKeeper card, your device contacts, or copy it into another app.',
       buttons: [
         { text: 'COPY', icon: 'copy-outline', handler: () => this.copyRolodexAi(text) },
@@ -1168,7 +1175,7 @@ export class HomePage implements OnInit, OnDestroy {
     });
     await modal.present();
     const res = await modal.onDidDismiss();
-    if (res?.data?.contact) this.attachAiReplyToContact(res.data.contact, text);
+    if (res?.data?.contact) this.openComposerForAiDraft(res.data.contact, text);
   }
 
   /** 2026-08-23: DEVICE path — the browser contact picker chooses the person. */
@@ -1200,31 +1207,53 @@ export class HomePage implements OnInit, OnDestroy {
       }
       this.contacts = [c, ...this.contacts];
       this.onContactsChange(this.contacts);
-      this.attachAiReplyToContact(c, text);
+      this.openComposerForAiDraft(c, text);
     } catch { /* user cancelled the picker */ }
   }
 
-  private attachAiReplyToContact(contact: any, text: string): void {
+  /** 2026-08-26 PICK CARD → READY TO SEND: opens the chosen contact in the
+   *  Confidante composer with the clean draft preloaded. The user can edit it,
+   *  tap SEND (SMS / Email / WhatsApp / in-app), or copy it. The draft is also
+   *  parked on the card so the card itself knows it was promised. */
+  private openComposerForAiDraft(contact: any, text: string): void {
+    const clean = this.draftEngine.extractDraftText(text);
+    if (!clean?.trim()) {
+      void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
+      return;
+    }
     const idx = this.contacts.findIndex((c) => c.contactId === contact.contactId);
     if (idx >= 0) {
       const updated: any = {
         ...this.contacts[idx],
-        rolodex: { ...(this.contacts[idx].rolodex || {}), draftMessage: text, draftAt: new Date().toISOString() },
+        rolodex: { ...(this.contacts[idx].rolodex || {}), draftMessage: clean, draftAt: new Date().toISOString() },
       };
       this.contacts[idx] = updated;
     }
-    void this.alertsService.showToast(`Attached to ${contact.name || 'card'} — send from their card`, 2200);
+    void this.modalController.create({
+      component: ConfidanteComposerModalComponent,
+      componentProps: {
+        contact,
+        occasion: 'follow-up',
+        initialDraft: clean,
+        initialInstruction: 'Refine it if you like — then choose how to send it.',
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    }).then((m) => m.present());
   }
 
-  /** Copy the WHOLE AI reply — the counterweight to the send button. */
-  async copyRolodexAi(text: string): Promise<void> {
+  /** Copy the draft (never the Assistant commentary around it). */
+  async copyRolodexAi(rawText: string): Promise<void> {
+    const text = this.draftEngine.extractDraftText(rawText);
     if (!text?.trim()) {
       void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
       return;
     }
     try {
       await navigator.clipboard.writeText(text);
-      await this.alertsService.showToast('AI Assistant reply copied', 1800);
+      await this.alertsService.showToast('Draft copied', 1800);
     } catch {
       await this.alertsService.showToast('Could not copy — select the text manually', 2500);
     }
@@ -1233,6 +1262,22 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
   openRolodexAiChat(): void {
     this.rolodexAiChatOpen ? this.rolodexAiChatOpen = false : this.rolodexAiChatOpen = true;
+  }
+
+  /** 2026-08-26 SETTINGS/INBOX SWAP: Settings is about to open. If the Inbox is
+   *  open, remember that and close it so Settings gets an unimpeded viewport. */
+  onRolodexSettingsWillOpen(): void {
+    this.inboxWasOpenBeforeSettings = this.rolodexAiChatOpen;
+    if (this.rolodexAiChatOpen) this.rolodexAiChatOpen = false;
+  }
+
+  /** 2026-08-26 SETTINGS/INBOX SWAP: Settings closed. Restore the Inbox if it
+   *  was open before Settings interrupted it. */
+  onRolodexSettingsClosed(): void {
+    if (this.inboxWasOpenBeforeSettings) {
+      this.rolodexAiChatOpen = true;
+    }
+    this.inboxWasOpenBeforeSettings = false;
   }
 
   closeRolodexAiChat(): void {
