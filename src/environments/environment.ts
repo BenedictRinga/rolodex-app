@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 104, // 2026-08-26 Fix card-type selector: openCardSelect targets hidden ion-select, not language picker
+  build: 105, // 2026-08-26 Channel completion (Ox Alpha): on-device voice recorder + LinkedIn smart landing
 };
 
 /*

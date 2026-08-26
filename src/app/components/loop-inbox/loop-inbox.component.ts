@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -20,7 +20,7 @@ import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
   styleUrls: ['./loop-inbox.component.scss'],
   standalone: false,
 })
-export class LoopInboxComponent implements OnInit {
+export class LoopInboxComponent implements OnInit, OnDestroy {
   @Input() contacts: any[] = [];
   @Output() closeRequest = new EventEmitter<void>();
 
@@ -57,6 +57,19 @@ export class LoopInboxComponent implements OnInit {
   waitDate = '';
   waitCond = '';
   dropEditingId: string | null = null;
+
+  // ── 2026-08-25 VOICE NOTE STUDIO (F16 completion) — MediaRecorder, fully
+  // on-device: the clip lives in memory/object-URLs until shared or discarded.
+  // Nothing uploads anywhere; the share sheet hands the file to the REAL app.
+  recordingFor: string | null = null;
+  recordingSeconds = 0;
+  lastClipByLoop: Record<string, { url: string; blob: Blob; ext: string; seconds: number }> = {};
+  private recorder: MediaRecorder | null = null;
+  private recStream: MediaStream | null = null;
+  private recTimer: any = null;
+  private recChunks: Blob[] = [];
+  private recMime = '';
+  private recCancelled = false;
 
   // REVEAL-LATER: intro B-note — data model + drafts ship NOW; flip to surface.
   readonly INTRO_B_NOTE_REVEALED = false;
@@ -220,11 +233,50 @@ export class LoopInboxComponent implements OnInit {
     void this.alerts.showToast('Dropped with dignity. Closing by dropping is still closing.', 2800);
   }
 
-  // ── One-tap send (6) → receipt (8) ─────────────────────────────────────────
+  /** One-tap send (6) → receipt (8) */
   async send(l: Loop): Promise<void> {
     const channel = l.channel || 'sms';
+
+    // ═══ VOICE: the recorder owns this path — never a fake-send. ═══
+    if (channel === 'voice') {
+      if (this.lastClipByLoop[l.id]) {
+        this.showVoiceFor = l.id; // clip already recorded — finish it in the studio
+        void this.alerts.showToast('Your take is ready below — play it, then Send.', 2400);
+        return;
+      }
+      await this.startRecording(l);
+      return;
+    }
+
+    // ═══ LINKEDIN: resolve the right landing surface FIRST. ═══
+    if (channel === 'linkedin') {
+      let target = l.handle || '';
+      const ask = await this.alertCtrl.create({
+        header: `LinkedIn · ${l.person}`,
+        message: 'Paste their profile link to land straight on them — or search by name.',
+        inputs: [{ name: 'u', type: 'url', placeholder: 'https://www.linkedin.com/in/…' }],
+        buttons: [
+          { text: 'Cancel', role: 'cancel', handler: () => { target = '__cancel__'; return true; } },
+          { text: 'Search by name', handler: () => { target = ''; return true; } },
+          { text: 'Open', handler: (d: any) => { target = String(d?.u || '').trim(); return true; } },
+        ],
+      });
+      await ask.present();
+      if (target === '__cancel__') return;
+      if (target && target !== l.handle) this.loops.update(l.id, { handle: target }); // remembered for next time
+      const bundle = this.loops.buildSend('linkedin', l);
+      try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* belt-and-suspenders */ }
+      window.open(bundle.url!, '_blank', 'noopener');
+      this.loops.markSent(l.id, 'linkedin', l.draft,
+        (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed');
+      await this.refresh();
+      void this.alerts.showToast(
+        `🔗 Draft copied — ${bundle.label === 'LinkedIn · profile' ? 'tap Message and paste.' : 'open their chat and paste once found.'}`, 3600);
+      return;
+    }
+
     let handle = l.handle || '';
-    if (channel !== 'linkedin' && channel !== 'voice' && !handle) {
+    if (!handle) {
       const ask = await this.alertCtrl.create({
         header: `${channel === 'email' ? 'Email' : 'Phone'} for ${l.person}`,
         message: 'Stored on this device only — used to open the right app.',
@@ -253,6 +305,121 @@ export class LoopInboxComponent implements OnInit {
     this.loops.closeFully(l.id);
     void this.refresh();
     void this.alerts.showToast(`✅ ${l.person} replied — loop closed. ${this.counts.mine} open left.`, 3000);
+  }
+
+  // ═══ 2026-08-25 VOICE NOTE STUDIO ═══════════════════════════════════════════
+
+  private pickVoiceMime(): string {
+    const candidates = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg'];
+    for (const m of candidates) {
+      try { if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(m)) return m; } catch { /* keep probing */ }
+    }
+    return '';
+  }
+
+  /** Arm + start the mic. Outline is ensured first so the speaker plan is visible. */
+  async startRecording(l: Loop): Promise<void> {
+    if (this.recordingFor) return;
+    if (!this.loops.getLoop(l.id)?.voiceOutline) {
+      this.loops.update(l.id, { voiceOutline: this.loops.voiceOutline(l) });
+    }
+    this.showVoiceFor = l.id;
+    const md = (navigator as any)?.mediaDevices;
+    if (!md?.getUserMedia || typeof MediaRecorder === 'undefined') {
+      // Graceful degradation: outline to clipboard, loop stays open, nothing faked.
+      try { await navigator.clipboard.writeText(this.loops.getLoop(l.id)?.voiceOutline || ''); } catch { /* ignore */ }
+      void this.alerts.showToast('This browser can\'t record — speaking points copied instead.', 3400);
+      return;
+    }
+    try {
+      const stream = await md.getUserMedia({ audio: true });
+      this.recStream = stream;
+      this.recMime = this.pickVoiceMime();
+      this.recorder = new MediaRecorder(stream, this.recMime ? { mimeType: this.recMime } : undefined);
+      this.recChunks = [];
+      this.recCancelled = false;
+      this.recorder.ondataavailable = (e) => { if (e.data?.size) this.recChunks.push(e.data); };
+      this.recorder.onstop = () => this.finalizeRecording();
+      this.recorder.start();
+      this.recordingFor = l.id;
+      this.recordingSeconds = 0;
+      this.recTimer = setInterval(() => { this.recordingSeconds++; }, 1000);
+    } catch {
+      void this.alerts.showToast('Microphone declined — the outline path stands.', 2800);
+    }
+  }
+
+  stopRecording(): void {
+    if (!this.recorder || this.recorder.state === 'inactive') return;
+    try { this.recorder.stop(); } catch { /* finalize guards */ }
+    clearInterval(this.recTimer);
+  }
+
+  cancelRecording(): void {
+    this.recCancelled = true;
+    this.stopRecording();
+  }
+
+  private finalizeRecording(): void {
+    const loopId = this.recordingFor;
+    const seconds = this.recordingSeconds;
+    this.recordingFor = null;
+    this.recordingSeconds = 0;
+    clearInterval(this.recTimer);
+    this.recStream?.getTracks().forEach(t => t.stop());
+    this.recStream = null;
+    this.recorder = null;
+    if (this.recCancelled || !loopId || !this.recChunks.length) {
+      this.recChunks = []; this.recCancelled = false;
+      return; // cancelled takes are NEVER kept
+    }
+    const type = this.recMime || 'audio/webm';
+    const blob = new Blob(this.recChunks, { type });
+    this.recChunks = [];
+    const ext = type.includes('mp4') ? 'm4a' : type.includes('ogg') ? 'ogg' : 'webm';
+    const old = this.lastClipByLoop[loopId];
+    if (old) URL.revokeObjectURL(old.url);
+    this.lastClipByLoop[loopId] = { url: URL.createObjectURL(blob), blob, ext, seconds };
+    void this.alerts.showToast(`🎧 ${seconds}s captured — preview it, then send.`, 2400);
+  }
+
+  discardClip(l: Loop): void {
+    const clip = this.lastClipByLoop[l.id];
+    if (clip) { URL.revokeObjectURL(clip.url); delete this.lastClipByLoop[l.id]; }
+  }
+
+  /** Share the take into the REAL app (WhatsApp/Mail/… via the OS share sheet).
+   *  Receipt fires ONLY on a genuine share — a mere download never marks sent. */
+  async sendVoiceNote(l: Loop): Promise<void> {
+    const clip = this.lastClipByLoop[l.id];
+    if (!clip) return;
+    const filename = `loopkeeper-${(l.person || 'note').replace(/\W+/g, '-').toLowerCase()}.${clip.ext}`;
+    const file = new File([clip.blob], filename, { type: clip.blob.type });
+    const nav: any = navigator;
+    if (nav.canShare?.files && nav.canShare({ files: [file] })) {
+      try {
+        await nav.share({ files: [file], title: `For ${l.person}` });
+        const doneMeans = (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed';
+        this.loops.markSent(l.id, 'voice', `Voice note (${clip.seconds}s)`, doneMeans as any);
+        this.discardClip(l);
+        await this.refresh();
+        void this.alerts.showToast(doneMeans === 'closed'
+          ? `✅ Voice note delivered — loop CLOSED with ${l.person}.`
+          : `📤 Voice note sent — done means ${l.person}'s reply.`, 3200);
+        return;
+      } catch { return; /* user dismissed the share sheet — nothing sent */ }
+    }
+    // Share-API-less browsers: save locally, attach manually. Loop stays OPEN.
+    const a = document.createElement('a');
+    a.href = clip.url; a.download = filename; a.click();
+    void this.alerts.showToast('⬇ Saved — attach it in your chat app, then mark it sent.', 3600);
+  }
+
+  ngOnDestroy(): void {
+    // Mid-recording navigation: stop cleanly, release the mic, drop the take.
+    if (this.recordingFor) this.cancelRecording();
+    this.recStream?.getTracks().forEach(t => t.stop());
+    Object.values(this.lastClipByLoop).forEach(c => URL.revokeObjectURL(c.url));
   }
 
   dismissNudges(): void {

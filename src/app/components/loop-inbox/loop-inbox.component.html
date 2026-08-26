@@ -184,7 +184,37 @@
           <button class="li-linkbtn" (click)="polishAi(l)">{{ 'loopkeeper.draft.polishAi' | translate }}</button>
           <button class="li-linkbtn" (click)="toggleVoice(l)">{{ 'loopkeeper.draft.voiceOutline' | translate }}</button>
         </div>
-        <pre *ngIf="showVoiceFor === l.id" class="li-voice">{{ l.voiceOutline }}</pre>
+        <!-- 2026-08-25 VOICE NOTE STUDIO: outline → record → preview → share -->
+        <div *ngIf="showVoiceFor === l.id" class="li-voice-studio">
+          <pre class="li-voice">{{ l.voiceOutline }}</pre>
+
+          <!-- Idle: arm the mic -->
+          <div *ngIf="recordingFor !== l.id && !lastClipByLoop[l.id]" class="li-rec-row">
+            <ion-button size="small" (click)="startRecording(l)">
+              <ion-icon name="mic-outline" slot="start"></ion-icon> Record ~20s
+            </ion-button>
+            <span class="li-meta">stays on this device until you send</span>
+          </div>
+
+          <!-- Live: pulse + timer + stop/cancel -->
+          <div *ngIf="recordingFor === l.id" class="li-rec-row live">
+            <span class="li-rec-dot"></span>
+            <span class="li-rec-time">{{ recordingSeconds }}s</span>
+            <ion-button size="small" color="danger" (click)="stopRecording()">
+              <ion-icon name="stop-outline" slot="start"></ion-icon> Stop
+            </ion-button>
+            <ion-button size="small" fill="clear" color="medium" (click)="cancelRecording()">Cancel</ion-button>
+          </div>
+
+          <!-- Take ready: listen → send → retake -->
+          <div *ngIf="lastClipByLoop[l.id]" class="li-rec-row">
+            <audio controls [src]="lastClipByLoop[l.id].url" class="li-rec-audio"></audio>
+            <ion-button size="small" (click)="sendVoiceNote(l)">
+              <ion-icon name="share-social-outline" slot="start"></ion-icon> Send voice note
+            </ion-button>
+            <ion-button size="small" fill="clear" color="medium" (click)="discardClip(l)">Retake</ion-button>
+          </div>
+        </div>
       </div>
 
       <div class="li-channel-picker">

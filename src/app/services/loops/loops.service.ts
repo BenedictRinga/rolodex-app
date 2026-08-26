@@ -619,16 +619,41 @@ No pressure either way — replying here connects you directly.`;
     this.analytics.track('loop_closed');
   }
 
-  /** Deep-link builders (6). Draft ALWAYS lands on the clipboard too. */
+  /**
+   * Deep-link builders (6). Draft ALWAYS lands on the clipboard too.
+   * 2026-08-25 CHANNEL COMPLETION: per-channel handle handling — the old
+   * global digits-strip corrupted LinkedIn profile URLs before use.
+   */
   buildSend(channel: LoopChannel, l: Loop): { url?: string; copyText: string; label: string } {
-    const handle = (l.handle || '').replace(/[^\d+@.\-]/g, '');
     const enc = encodeURIComponent(l.draft);
+    const raw = (l.handle || '').trim();
     switch (channel) {
-      case 'whatsapp': return { url: `https://wa.me/${handle.replace(/\D/g, '')}?text=${enc}`, copyText: l.draft, label: 'WhatsApp' };
-      case 'sms': return { url: `sms:${handle}?body=${enc}`, copyText: l.draft, label: 'SMS' };
-      case 'email': return { url: `mailto:${handle}?subject=${encodeURIComponent('Re: ' + (l.summary || 'Hello'))}&body=${enc}`, copyText: l.draft, label: 'Email' };
-      case 'linkedin': return { url: 'https://www.linkedin.com/messaging/thread/new/', copyText: l.draft, label: 'LinkedIn' };
-      case 'voice': return { url: undefined, copyText: l.voiceOutline || this.voiceOutline(l), label: 'Voice note' };
+      case 'whatsapp': {
+        const digits = raw.replace(/\D/g, '');
+        // Known number -> wa.me deep link; none -> share-style link that STILL carries the text.
+        return { url: digits ? `https://wa.me/${digits}?text=${enc}` : `https://api.whatsapp.com/send?text=${enc}`, copyText: l.draft, label: 'WhatsApp' };
+      }
+      case 'sms':
+        return { url: `sms:${raw.replace(/[^\d+]/g, '')}?body=${enc}`, copyText: l.draft, label: 'SMS' };
+      case 'email':
+        return { url: `mailto:${raw}?subject=${encodeURIComponent('Re: ' + (l.summary || 'Hello'))}&body=${enc}`, copyText: l.draft, label: 'Email' };
+      case 'linkedin': {
+        // LinkedIn exposes NO prefilled-message URL scheme. Honest best path:
+        // land on the RIGHT surface with the draft already clipped.
+        //   stored profile URL -> open it (Message is one tap away)
+        //   otherwise          -> people-search preloaded with the person's name
+        const isUrl = /^https?:\/\//i.test(raw);
+        return {
+          url: isUrl ? raw : `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(l.person || '')}`,
+          copyText: l.draft,
+          label: isUrl ? 'LinkedIn · profile' : 'LinkedIn · find them',
+        };
+      }
+      case 'voice': {
+        // Real voice sends go through the RECORDER (component layer). This
+        // branch is only ever the outline fallback for the clipboard.
+        return { url: undefined, copyText: l.voiceOutline || this.voiceOutline(l), label: 'Voice note' };
+      }
     }
   }
 }
