@@ -779,7 +779,10 @@ export class RolodexComponent implements OnInit {
   showLocationsView() { this.currentView = RolodexView.Locations; this.autoSortStarted = true; this.searchResultsVisible = false; this.initMap.emit(this.mapElement.nativeElement); }
   showSettingsView() { this.currentView = RolodexView.Settings; this.autoSortStarted = true; this.searchResultsVisible = false; }
   closeSearchView() { this.pageManager.finderQuery = ''; this.showRegularView(); }
-  openCardSelect() { const select = document.querySelector('ion-select'); if (select) { (select as any).open(); } }
+  // 2026-08-26 FIX: must target the HIDDEN card-mode select specifically —
+  // document.querySelector('ion-select') was grabbing the first language
+  // selector (Inbox/Settings) and opening that instead of card display modes.
+  openCardSelect() { const select = document.querySelector('ion-select.hidden-select'); if (select) { (select as any).open(); } }
   onToggleDetails(contact: ContactInfo) { this.toggleDetails.emit(contact); }
   onEditContact(contact: ContactInfo) { this.editContact.emit(contact); }
   onRemoveContact(contact: ContactInfo) { this.removeContact.emit(contact); }
