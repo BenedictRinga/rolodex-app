@@ -26,6 +26,13 @@ const MONTHLY_QUOTA = 5;
 const CONTEXT_CAP = 8;
 
 /**
+ * 2026-08-26 PRE-RELEASE RENEWAL — while payments are not yet wired, an expired
+ * trial is silently renewed on the next visit with a visible thank-you. Flip to
+ * false the day real billing goes live.
+ */
+const PRE_RELEASE_RENEWAL = true;
+
+/**
  * 2026-08-16 THE CONFIDANTE v2 — the confidential secretary that PROFfers
  * the message; the user only hits Send.
  *
@@ -109,6 +116,14 @@ export class DraftEngineService {
   /** 2026-08-17 FREE TRIAL — epoch ms the trial runs until (0 = none). */
   private trialUntilMs = 0;
   private trialStartedAtMs = 0;
+  private renewedPreRelease = false;
+
+  /** 2026-08-26 True once when an expired trial was renewed on this launch. */
+  consumePreReleaseRenewal(): boolean {
+    const v = this.renewedPreRelease;
+    this.renewedPreRelease = false;
+    return v;
+  }
 
   trialUntil(): number {
     return this.trialUntilMs;
@@ -136,11 +151,27 @@ export class DraftEngineService {
   /** 2026-08-19 ONE-TIME GRANT: first use starts the 7-day Assistant trial.
    *  Once started (even after expiry) it is never auto-renewed — only
    *  reopenTrial() can reset it, deliberately. The existence of the until-key
-   *  also covers devices that started under the older client (no start key). */
+   *  also covers devices that started under the older client (no start key).
+   *  2026-08-26 PRE-RELEASE: while PRE_RELEASE_RENEWAL is true, an EXPIRED trial
+   *  is renewed on the next visit with a visible thank-you (see HomePage). */
   async ensureTrial(): Promise<void> {
     await this.hydrateReady;
     if (this.plan === 'confidante') return;
-    if (this.trialUntil() > 0) return; // granted before — active or expired
+    if (this.trialUntil() > 0) {
+      // Granted before. If it has expired and pre-release renewal is on, reset
+      // it NOW so the user lands on a fresh 7 days with the thank-you toast.
+      if (PRE_RELEASE_RENEWAL && this.trialUntil() <= Date.now()) {
+        const now = Date.now();
+        this.trialStartedAtMs = now;
+        this.trialUntilMs = now + TRIAL_DAYS * DAY_MS;
+        await this.storage.set(TRIAL_START_KEY, this.trialStartedAtMs);
+        await this.storage.set(TRIAL_KEY, this.trialUntilMs);
+        this.renewedPreRelease = true;
+        // Best-effort server sync so the device record matches.
+        void this.reopenTrial();
+      }
+      return;
+    }
     const now = Date.now();
     this.trialStartedAtMs = now;
     this.trialUntilMs = now + TRIAL_DAYS * DAY_MS;

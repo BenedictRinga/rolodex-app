@@ -230,7 +230,11 @@ export class HomePage implements OnInit, OnDestroy {
     void this.enforceAppLock();
     // 2026-08-19 THE 7-DAY TRIAL: first use starts it on the client too (the
     // server starts it on the first sync). One-time; reopenTrial() resets it.
-    this.draftEngine.ensureTrial();
+    // 2026-08-26 PRE-RELEASE: expired trials auto-renew with a visible thanks.
+    await this.draftEngine.ensureTrial();
+    if (this.draftEngine.consumePreReleaseRenewal()) {
+      void this.alertsService.showToast('Thank you for supporting LoopKeeper during pre-release — your 7-day trial has been renewed.', 5200);
+    }
     // 2026-08-23 ANONYMOUS ANALYTICS: app_launch + session_start + visibility tracking.
     void this.analytics.init();
     // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.

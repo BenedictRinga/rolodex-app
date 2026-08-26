@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 102, // 2026-08-25 One-click merge: review view writes approved translations into served app
+  build: 103, // 2026-08-26 Pre-release trial renewal: expired trials auto-renew with visible thank-you
 };
 
 /*
