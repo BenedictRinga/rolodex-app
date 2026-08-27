@@ -576,6 +576,12 @@
     "meter.card.hint2": "Capturez une boucle avec eux — le moteur prend le relais.",
     "meter.card.hint3": "Pilote automatique : le Gardien tient cette carte à jour grâce à vos échanges.",
     "meter.card.aria": "Jauge de vitalité de la carte",
-    "t.closedCard": "Vous l’avez fait — une boucle fermée avec {{person}}. Sa carte vient de s’enrichir."
+    "t.closedCard": "Vous l’avez fait — une boucle fermée avec {{person}}. Sa carte vient de s’enrichir.",
+    "cal.agendaTitle": "7 prochains jours — depuis votre agenda",
+    "cal.agendaLoading": "Lecture de votre agenda…",
+    "cal.agendaEmpty": "Rien à votre agenda cette semaine.",
+    "cal.agendaDenied": "L'accès à l'agenda est désactivé — autorisez-le dans les réglages de l'appareil pour voir votre semaine ici.",
+    "cal.icsToast": "Fichier d'agenda téléchargé — ouvrez-le pour ajouter l'événement à votre agenda.",
+    "cal.today": "Aujourd'hui"
   }
 }

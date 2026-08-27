@@ -19,3 +19,5 @@ export { StudioPlaybackService } from './studio-playback/studio-playback.service
 export { StudioAudioBridgeService, StudioBridgeService } from './studio-bridge/studio-bridge.service';
 export { StudioQwenTtsService } from './studio-qwen-tts/studio-qwen-tts.service';
 export { CrashReporterService } from './crash/crash.service';
+export { CalendarService } from './calendar/calendar.service';
+export type { AgendaEvent, CalendarWriteResult } from './calendar/calendar.service';

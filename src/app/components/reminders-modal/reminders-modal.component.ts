@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { CalendarService, AgendaEvent } from '../../services/calendar/calendar.service';
 
 interface ReminderRow {
   note: string;
@@ -40,8 +42,52 @@ export class RemindersModalComponent {
   formNote = '';
   formDate: string = new Date().toISOString().slice(0, 10);
 
+  // ═══ 2026-08-27 WEEK AGENDA — read side of the device-calendar sync ═══
+  /** The next 7 days straight from the phone's calendar (native only).
+   *  null state = not native; 'denied' = user refused read access. */
+  agenda: AgendaEvent[] | 'denied' = [];
+  agendaState: 'off' | 'loading' | 'ready' | 'empty' | 'denied' = 'off';
+
   ngOnInit() {
     this.buildRows();
+    // 2026-08-27 CALENDAR SYNC: the agenda appears only on native — the
+    // device provider is the one true calendar there.
+    if (this.calendar.nativeAvailable()) {
+      this.agendaState = 'loading';
+      void this.refreshAgenda();
+    }
+  }
+
+  async refreshAgenda(): Promise<void> {
+    const res = await this.calendar.weekAgenda();
+    if (res === null) { this.agendaState = 'off'; return; }
+    if (res === 'denied') { this.agenda = 'denied'; this.agendaState = 'denied'; return; }
+    this.agenda = res;
+    this.agendaState = res.length ? 'ready' : 'empty';
+  }
+
+  /** Day-grouped agenda for the template (ready state only). */
+  agendaGroups(): Array<{ day: Date; items: AgendaEvent[] }> {
+    if (!Array.isArray(this.agenda)) return [];
+    const out: Array<{ day: Date; items: AgendaEvent[] }> = [];
+    for (const e of this.agenda) {
+      const d = new Date(e.start);
+      const key = d.toDateString();
+      let g = out.find((x) => x.day.toDateString() === key);
+      if (!g) { g = { day: d, items: [] }; out.push(g); }
+      g.items.push(e);
+    }
+    return out;
+  }
+
+  dayName(d: Date): string {
+    const today = new Date().toDateString();
+    if (d.toDateString() === today) return d.toLocaleDateString(undefined, { weekday: 'short' }) + ' · ' + this.translate.instant('loopkeeper.cal.today');
+    return d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  timeOf(ts: number): string {
+    return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   private buildRows(): void {
@@ -97,6 +143,15 @@ export class RemindersModalComponent {
     const when = this.formDate ? new Date(this.formDate + 'T09:00:00') : new Date();
     contact.reminders = [...(contact.reminders || []), { note, date: when }];
     contact.updatedAt = new Date();
+    // 2026-08-27 CALENDAR SYNC: the reminder also becomes a device event
+    // (native) or .ics download (web) — write-through, same as the card path.
+    void this.calendar.addEvent({
+      title: note,
+      person: contact?.name?.display || 'this contact',
+      start: when,
+      durationMin: 30,
+      localKey: 'rem:' + String(contact?.contactId || '') + ':' + when.getTime(),
+    });
     this.buildRows();
     this.formContactId = '';
     this.formNote = '';
@@ -122,5 +177,8 @@ export class RemindersModalComponent {
   constructor(
     private readonly modalController: ModalController,
     private readonly alertCtrl: AlertController,
+    // 2026-08-27 CALENDAR SYNC: write-through + week agenda.
+    private readonly calendar: CalendarService,
+    private readonly translate: TranslateService,
   ) {}
 }

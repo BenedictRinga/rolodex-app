@@ -576,6 +576,12 @@
     "meter.card.hint2": "Kamata kitanzi kimoja naye — enjini inachukua kutoka hapo.",
     "meter.card.hint3": "Inajiendesha yenyewe: Keeper anabainisha kadi hii kutoka mwingiliano wako.",
     "meter.card.aria": "Kipimo cha uhai wa kadi",
-    "t.closedCard": "Wewe ndiye ulifanya hili — umefunga kitanzi na {{person}}. Kadi yake imeongeza uzito."
+    "t.closedCard": "Wewe ndiye ulifanya hili — umefunga kitanzi na {{person}}. Kadi yake imeongeza uzito.",
+    "cal.agendaTitle": "Siku 7 zijazo — kutoka kalenda yako",
+    "cal.agendaLoading": "Inasoma kalenda yako…",
+    "cal.agendaEmpty": "Hakuna kilichopangwa kalendani wiki hii.",
+    "cal.agendaDenied": "Ruhusa ya kalenda imezimwa — idhinisha kwenye mipangilio ya simu ili kuona wiki yako hapa.",
+    "cal.icsToast": "Faili la kalenda limepakuliwa — lifungue ili kuongeza tukio kwenye kalenda yako.",
+    "cal.today": "Leo"
   }
 }

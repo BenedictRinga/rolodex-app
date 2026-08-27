@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 114, // 2026-08-27 CHAT CHAT-STRING GUARD + FULL-SCREEN EDIT: [object Object] killed at every ingress + self-healing thread scrub; contact edit/create is a true full-screen modal (no sheet-drag jerk); empty three-dots commented out; meter hint0 wording; card-back row rhythm
+  build: 115, // 2026-08-27 CALENDAR SYNC: appointments + reminders write through to the device calendar (Android=Google via the phone's account sync; web gets .ics download); week agenda (next 7 days) in Reminders; received card-to-card invites finally land on card + calendar (appointment$ consumed); 6 cal.* keys x 39 locales
 };

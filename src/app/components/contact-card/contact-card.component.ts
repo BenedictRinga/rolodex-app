@@ -15,6 +15,7 @@ import { ShareAppService, ShareMoment } from '../../services/share-app/share-app
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
 import { LoopsService, Loop } from '../../services/loops/loops.service';
+import { CalendarService } from '../../services/calendar/calendar.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
@@ -157,6 +158,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private socketChat: SocketChatService,
     private photoService: PhotoService,
     private loops: LoopsService,
+    // 2026-08-27 CALENDAR SYNC: appointments + reminders write through to the
+    // device calendar (Android → Google via the phone's account sync).
+    private calendar: CalendarService,
   ) {
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -793,6 +797,14 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
             const appts = Array.isArray(contact.appointments) ? contact.appointments : [];
             contact.appointments = [...appts, { title, when, from: 'Me' }];
             try { this.cardChat.sendAppointment(String(contact.contactId || ''), title, when); } catch { /* offline */ }
+            // 2026-08-27 CALENDAR SYNC: my appointment also lands on the device
+            // calendar (native) or downloads as .ics (web) — write-through.
+            void this.calendar.addEvent({
+              title,
+              person: name,
+              start: new Date(when),
+              localKey: 'appt:' + String(contact.contactId || '') + ':' + when,
+            });
             this.editContact.emit(contact);
             void this.alertCtrl.create({ header: 'Invite sent', message: name + "'s card will catch it when their device is online.", buttons: ['OK'] }).then((a) => a.present());
             return true;
@@ -971,6 +983,15 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
             (clone as any).updatedAt = new Date();
             this.editContact.emit(clone);
             void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
+            // 2026-08-27 CALENDAR SYNC: the reminder also becomes a device
+            // event at 09:00 local (native) or .ics download (web).
+            void this.calendar.addEvent({
+              title: note,
+              person: name,
+              start: when,
+              durationMin: 30,
+              localKey: 'rem:' + String(contact.contactId || '') + ':' + when.getTime(),
+            });
             return true;
           },
         },

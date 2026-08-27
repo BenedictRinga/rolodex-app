@@ -576,6 +576,12 @@
     "meter.card.hint2": "Captura un loop con esta persona — el motor sigue desde ahí.",
     "meter.card.hint3": "Piloto automático: el Guardián mantiene esta tarjeta al día con tus interacciones.",
     "meter.card.aria": "Medidor de vitalidad de la tarjeta",
-    "t.closedCard": "Lo hiciste tú — cerraste un loop con {{person}}. Su tarjeta acaba de enriquecerse."
+    "t.closedCard": "Lo hiciste tú — cerraste un loop con {{person}}. Su tarjeta acaba de enriquecerse.",
+    "cal.agendaTitle": "Próximos 7 días — desde tu calendario",
+    "cal.agendaLoading": "Leyendo tu calendario…",
+    "cal.agendaEmpty": "Nada en tu calendario esta semana.",
+    "cal.agendaDenied": "El acceso al calendario está desactivado — permítelo en los ajustes del dispositivo para ver tu semana aquí.",
+    "cal.icsToast": "Archivo de calendario descargado — ábrelo para añadir el evento a tu calendario.",
+    "cal.today": "Hoy"
   }
 }

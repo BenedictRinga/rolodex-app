@@ -31,6 +31,27 @@
   </div>
 
   <ion-list lines="full">
+    <!-- 2026-08-27 WEEK AGENDA — the read side of the device-calendar sync.
+         The next 7 days straight from the phone's calendar (native only). -->
+    <div class="cal-agenda" *ngIf="agendaState !== 'off'">
+      <div class="cal-agenda-head">
+        <ion-icon name="calendar-clear-outline"></ion-icon>
+        <span>{{ 'loopkeeper.cal.agendaTitle' | translate }}</span>
+      </div>
+      <div *ngIf="agendaState === 'loading'" class="cal-note">{{ 'loopkeeper.cal.agendaLoading' | translate }}</div>
+      <div *ngIf="agendaState === 'denied'" class="cal-note">{{ 'loopkeeper.cal.agendaDenied' | translate }}</div>
+      <div *ngIf="agendaState === 'empty'" class="cal-note">{{ 'loopkeeper.cal.agendaEmpty' | translate }}</div>
+      <ng-container *ngIf="agendaState === 'ready'">
+        <div class="cal-day" *ngFor="let g of agendaGroups()">
+          <div class="cal-dayname">{{ dayName(g.day) }}</div>
+          <div class="cal-row" *ngFor="let e of g.items">
+            <span class="cal-time">{{ timeOf(e.start) }}</span>
+            <span class="cal-title" [class.ours]="e.ours">{{ e.title }}</span>
+            <span class="cal-loc" *ngIf="e.location">{{ e.location }}</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
     <!-- 2026-08-19 DEMO REMINDERS MARKER: each list keeps real rows first,
          then a DEMO REMINDERS line before any demo rows. -->
     <ng-container *ngFor="let s of reminderSegments()">

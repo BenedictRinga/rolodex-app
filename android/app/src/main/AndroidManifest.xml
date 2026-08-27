@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 2026-08-27 CALENDAR SYNC (@ebarooni/capacitor-calendar): the plugin's
+         own manifest declares NOTHING, so the app must ask for the calendar
+         provider permissions itself. readCalendar powers the week agenda;
+         writeCalendar powers appointment/reminder write-through. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

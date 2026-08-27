@@ -13,6 +13,7 @@ import { AlertsService } from '../services/alerts/alerts.service';
 import { RolodexSyncService } from '../services/rolodex-sync/rolodex-sync.service';
 import { SocketChatService } from '../services/socket-chat/socket-chat.service';
 import { CardChatService } from '../services/card-chat/card-chat.service';
+import { CalendarService } from '../services/calendar/calendar.service';
 import { HelpModalComponent } from '../components/help-modal/help-modal.component';
 import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
 import { ContactSurfaceModalComponent } from '../components/contact-surface-modal/contact-surface-modal.component';
@@ -123,6 +124,10 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly assistantCard: AssistantCardService,
     private readonly sound: SoundService,
     private readonly analytics: AnalyticsService,
+    // 2026-08-27 CALENDAR SYNC: received appointment invites write through
+    // to the device calendar too (appointment$ had NO consumers before —
+    // invites only toasted, never landed on the card or calendar).
+    private readonly calendar: CalendarService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -253,6 +258,11 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentWelcome();
     // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
     this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
+    // 2026-08-27 CALENDAR SYNC: a received card-to-card appointment invite
+    // lands ON THE CARD (appointments[]) and on the device calendar. This
+    // subscription is the only consumer appointment$ ever had — before it,
+    // invites arrived, toasted, and evaporated.
+    this.cardChat.appointment$.subscribe((inv) => this.landIncomingAppointment(inv));
     // Wire passphrase prompt callback for CloudSyncService
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();
@@ -880,6 +890,34 @@ export class HomePage implements OnInit, OnDestroy {
     this.rolodexSync.push(this.contacts);
     this.analytics.track('card_edited');
     void this.alertsService.showToast('Card updated — loop intact.', 1800);
+  }
+
+  /** 2026-08-27 CALENDAR SYNC — the receiver's side of the card-to-card
+   *  appointment. The invite (key=contactId, title, when, from) lands on the
+   *  matching card (appointments[]) and on the device calendar. Persists
+   *  inline (not via onEditContact) so the arrival never toasts "Card
+   *  updated" — the user didn't edit anything. */
+  private landIncomingAppointment(inv: { key?: string; title?: string; when?: string; from?: string }): void {
+    const key = String(inv?.key || '');
+    const title = String(inv?.title || '').trim();
+    if (!key || !title) return;
+    const when = String(inv?.when || '');
+    const c: any = this.contacts.find((x: any) => String(x?.contactId) === key);
+    if (!c) return; // no local card for that thread — nothing to land on
+    const appts = Array.isArray(c.appointments) ? c.appointments : [];
+    // Dedupe: same title+when already caught (socket reconnects re-emit).
+    if (appts.some((a: any) => a?.title === title && String(a?.when) === when)) return;
+    c.appointments = [...appts, { title, when, from: String(inv?.from || 'Them') }];
+    c.updatedAt = new Date();
+    void this.persistContacts(this.contacts);
+    this.rolodexSync.push(this.contacts);
+    // And it becomes a real device event — their calendar, their Google.
+    void this.calendar.addEvent({
+      title,
+      person: c?.name?.display || 'them',
+      start: when ? new Date(when) : new Date(),
+      localKey: 'appt:' + key + ':' + when,
+    });
   }
 
   async onRemoveContact(contact: ContactInfo) {

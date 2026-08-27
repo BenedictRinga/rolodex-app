@@ -498,6 +498,12 @@
     "meter.card.hint2": "Capture one loop with them — the engine takes it from there.",
     "meter.card.hint3": "Autopilot: the Keeper keeps this card current from your interactions.",
     "meter.card.aria": "Card vitality meter",
-    "t.closedCard": "You did this — closed a loop with {{person}}. Their card just got richer."
+    "t.closedCard": "You did this — closed a loop with {{person}}. Their card just got richer.",
+    "cal.agendaTitle": "Next 7 days — from your calendar",
+    "cal.agendaLoading": "Reading your calendar…",
+    "cal.agendaEmpty": "Nothing on your calendar this week.",
+    "cal.agendaDenied": "Calendar access is off — allow it in your device settings to see your week here.",
+    "cal.icsToast": "Calendar file downloaded — open it to add the event to your calendar.",
+    "cal.today": "Today"
   }
 }

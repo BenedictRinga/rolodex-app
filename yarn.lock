@@ -1360,6 +1360,11 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.6.1.tgz#593da7a17a31a72a874e313677183334a49b01c9"
   integrity sha512-boghen8F0Q8D+0/Q1/1r6DUEieUJ8w2a1gIknExMSHBsJFOr2+0KUfHiVYBvucPwl3+RU5PFBK833FjFCh3BhA==
 
+"@ebarooni/capacitor-calendar@~6.7.2":
+  version "6.7.2"
+  resolved "https://registry.npmjs.org/@ebarooni/capacitor-calendar/-/capacitor-calendar-6.7.2.tgz#e6c8c2abf535804abe4f4a409c4e16d6ca2e26dd"
+  integrity sha512-W/xLRwdyzTsVtWNz/zvcXa4DyJyYHvAYIMZjMxc0Iy+Aw6r7Fc/gi6waomefOaDd+C6ENG9OmoIkrCg9l+Iwdw==
+
 "@emnapi/core@^1.1.0":
   version "1.11.3"
   resolved "https://registry.npmjs.org/@emnapi/core/-/core-1.11.3.tgz#5e95348a42cd1e06f0b9aa380cd74091daa4d520"
