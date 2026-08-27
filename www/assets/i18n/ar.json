@@ -543,6 +543,17 @@
     "consult.yourDraft": "Your draft",
     "consult.makeBetter": "Ask AI to make it better",
     "consult.thinking": "Thinking…",
-    "consult.openToSend": "Open row to send"
+    "consult.openToSend": "Open row to send",
+    "chat.offline": "المساعد المباشر غير متاح الآن — تبقى كلماتك على هذا الجهاز. حاول بعد قليل، أو افتح محادثة DeepSeek/Grok مجانية.",
+    "meter.title": "Loop-O-meter",
+    "meter.aria": "مقياس جهوزية الحلقات",
+    "meter.l0": "مدير جهات الاتصال",
+    "meter.l1": "متتبع الحلقات",
+    "meter.l2": "مغلق الحلقات",
+    "meter.l3": "قيادة آلية",
+    "meter.hint0": "التقط حلقة واحدة — جملة واحدة تشغّل المحرك.",
+    "meter.hint1": "أضف مكانته عندك أو سبب انتظاره — وزامن دفترك ليجد الحلقات نفسها.",
+    "meter.hint2": "أرسل وأغلق — الإيصالات تبني السلسلة.",
+    "meter.hint3": "خطوة كاملة. واصل الالتقاط — الحارس يتكفل بالباقي."
   }
 }

@@ -7,6 +7,10 @@ import { DraftEngineService } from '../../services/draft-engine/draft-engine.ser
 import { StorageService } from '../../services/storage/storage.service';
 import { ContactInfo } from '../../models/contacts';
 import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
+import { TranslateService } from '@ngx-translate/core';
+// 2026-08-27 CHAT LANGUAGE: every Confidante call carries the user's language
+// so the backend replies in it (never auto-English).
+import { userLang } from '../../services/lang/user-lang';
 
 type ChatMode = '' | 'feedback' | 'help' | 'situation';
 
@@ -66,6 +70,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
     private readonly alerts: AlertsService,
     private readonly draftEngine: DraftEngineService,
     private readonly storage: StorageService,
+    private readonly translate: TranslateService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -138,7 +143,12 @@ export class ChatWithRolodexModalComponent implements OnInit {
     void (async () => {
       try {
         const res = await this.chat(this.history);
-        const reply = res.reply || 'The live Assistant did not reply. Try again, or open a free AI chat below.';
+        // 2026-08-27 CHAT LANGUAGE: offline/fallback notices are OURS to
+        // translate — the server's English fallback text must never surface
+        // to an Arabic or Russian user.
+        const reply = res.reply && !res.fallback
+          ? res.reply
+          : this.translate.instant('loopkeeper.chat.offline');
         this.messages.push({ from: 'system', text: reply });
         this.history.push({ role: 'assistant', content: reply });
 
@@ -308,7 +318,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
       const res = await fetch(`${environment.rolodexApiBase}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ engine: this.engine, messages }),
+        body: JSON.stringify({ engine: this.engine, messages, lang: userLang(this.translate) }),
       });
       if (!res.ok) return { reply: '', fallback: true };
       const data = await res.json();

@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 110, // 2026-08-27 HOTFIX: www/ must ALWAYS come from yarn build:prod (base-href /loopkeeper/) — 109 accidentally shipped the dev-config bundle and blanked the home page
+  build: 111, // 2026-08-27 LANGUAGE + LOOP-O-METER: AI (Confidante/polish) replies in the user's language end-to-end; Loop-O-meter readiness strip on the Loops tab; localized offline notice
 };
 
 /*

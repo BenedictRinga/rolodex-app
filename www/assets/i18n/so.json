@@ -465,6 +465,17 @@
     "consult.yourDraft": "Your draft",
     "consult.makeBetter": "Ask AI to make it better",
     "consult.thinking": "Thinking…",
-    "consult.openToSend": "Open row to send"
+    "consult.openToSend": "Open row to send",
+    "chat.offline": "The live Assistant isn't reachable right now — your words stay on this device. Try again shortly, or open a free DeepSeek/Grok chat.",
+    "meter.title": "Loop-O-meter",
+    "meter.aria": "Loop readiness meter",
+    "meter.l0": "Contacts manager",
+    "meter.l1": "Loop tracker",
+    "meter.l2": "Loop closer",
+    "meter.l3": "Autopilot",
+    "meter.hint0": "Capture one loop — a single sentence starts the engine.",
+    "meter.hint1": "Add who they are to you, or why it's sitting — and sync your deck so loops find themselves.",
+    "meter.hint2": "Send and close — receipts build the streak.",
+    "meter.hint3": "Full stride. Keep capturing — the Keeper handles the rest."
   }
 }

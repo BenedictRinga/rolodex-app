@@ -543,6 +543,17 @@
     "consult.yourDraft": "Rasimu yako",
     "consult.makeBetter": "Omba AI kuboresha",
     "consult.thinking": "Inafikiri…",
-    "consult.openToSend": "Fungua mstari kutuma"
+    "consult.openToSend": "Fungua mstari kutuma",
+    "chat.offline": "Msaidizi Hai hayupo kwa sasa — maneno yako yamebaki kwenye kifaa chako. Jaribu tena baadaye, au fungua chat ya DeepSeek/Grok bila malipo.",
+    "meter.title": "Loop-O-meter",
+    "meter.aria": "Kipimo cha utayari wa vitanzi",
+    "meter.l0": "Meneja wa anwani",
+    "meter.l1": "Mfuatiliaji wa vitanzi",
+    "meter.l2": "Mfungaji wa vitanzi",
+    "meter.l3": "Inajiendesha yenyewe",
+    "meter.hint0": "Kamata kitanzi kimoja — sentensi moja tu inawasha enjini.",
+    "meter.hint1": "Onyesha alama yao kwako, au kwa nini kimekaa — na sawazisha deck yako ili vitanzi vijipate vyenyewe.",
+    "meter.hint2": "Tuma na ufunge — risiti hujenga mfuatano.",
+    "meter.hint3": "Hatua kamili. Endelea kukamata — Keeper anashughulikia mengineyo."
   }
 }

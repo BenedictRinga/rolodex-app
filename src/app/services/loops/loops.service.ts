@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../storage/storage.service';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { environment } from '../../../environments/environment';
+import { userLang } from '../lang/user-lang';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX (Isenberg wedge first take) — the open-loops
@@ -84,6 +86,7 @@ export class LoopsService {
   constructor(
     private storage: StorageService,
     private analytics: AnalyticsService,
+    private translate: TranslateService,
   ) {}
 
   // ===== Persistence ========================================================
@@ -559,6 +562,8 @@ No pressure either way — replying here connects you directly.`;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           engine: 'deepseek',
+          // 2026-08-27 CHAT LANGUAGE: polish must return the user's language.
+          lang: userLang(this.translate),
           messages: [{
             role: 'user',
             content: `Rewrite this message in a ${l.tone} tone. Keep it under 80 words, human, no corporate filler. Message:\n"""${l.draft}"""`,

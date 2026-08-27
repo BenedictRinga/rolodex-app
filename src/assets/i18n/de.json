@@ -543,6 +543,17 @@
     "consult.yourDraft": "Dein Entwurf",
     "consult.makeBetter": "KI verbessern lassen",
     "consult.thinking": "Denkt nach…",
-    "consult.openToSend": "Zeile zum Senden öffnen"
+    "consult.openToSend": "Zeile zum Senden öffnen",
+    "chat.offline": "Der live Assistent ist gerade nicht erreichbar — deine Worte bleiben auf diesem Gerät. Versuch es gleich noch einmal, oder öffne einen kostenlosen DeepSeek/Grok-Chat.",
+    "meter.title": "Loop-O-meter",
+    "meter.aria": "Anzeige der Schleifen-Bereitschaft",
+    "meter.l0": "Kontakte-Verwalter",
+    "meter.l1": "Schleifen-Verfolger",
+    "meter.l2": "Schleifen-Schließer",
+    "meter.l3": "Autopilot",
+    "meter.hint0": "Halte eine Schleife fest — ein einziger Satz startet den Motor.",
+    "meter.hint1": "Ergänze, wer sie dir ist oder warum sie wartet — und synchronisiere dein Verzeichnis, damit Schleifen sich selbst finden.",
+    "meter.hint2": "Senden und abschließen — Quittungen bauen die Serie auf.",
+    "meter.hint3": "Voller Fahrt. Weiter festhalten — der Hüter erledigt den Rest."
   }
 }

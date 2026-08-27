@@ -55,6 +55,39 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   selectedId: string | null = null;
   showVoiceFor: string | null = null;
 
+  // ── 2026-08-27 LOOP-O-METER ────────────────────────────────────────────
+  // Answers the founder's question with live evidence instead of hope: "is
+  // this still a dumb contacts manager?" The score is computed from the SAME
+  // signals the engine itself consumes, so it can never disagree with reality.
+  //   ≤24  → contacts manager (deck synced, engine asleep)
+  //   25-49 → loop tracker (captures flowing, drafts ready)
+  //   50-74 → loop closer (sends + receipts accumulating)
+  //   75+  → autopilot (context-rich loops + recent momentum)
+  // It re-renders on every refresh(), so every significant action moves it.
+  get meterScore(): number {
+    const active = this.mine.length + this.theirs.length + this.todaysThree.length;
+    const realContacts = (this.contacts || []).filter((c: any) => !c?.isMockData).length;
+    const rich = active
+      ? this.mine.filter(l => l.promise || l.whySitting || l.relation).length
+      : 0;
+    const everClosed = this.closed.length + (this.counts?.closedThisWeek || 0);
+    const weekAgo = Date.now() - 7 * 86_400_000;
+    const recent = this.mine.concat(this.theirs).some(l => (l.updatedAt || l.createdAt || 0) > weekAgo);
+    let s = 0;
+    if (active >= 1) s += 30;                      // the engine has something to keep
+    if (realContacts >= 1) s += 10;                // deck exists → loops can find themselves
+    if (realContacts >= 5) s += 10;
+    if (active && rich / active >= 0.4) s += 15;   // drafts are personal, not generic
+    if (everClosed >= 1) s += 20;                  // the loop actually CLOSES sometimes
+    if (recent) s += 15;                           // alive in the last week
+    return Math.min(100, s);
+  }
+  get meterLevel(): 0 | 1 | 2 | 3 {
+    const s = this.meterScore;
+    return s < 25 ? 0 : s < 50 ? 1 : s < 75 ? 2 : 3;
+  }
+  readonly meterSegs = [0, 1, 2, 3];
+
   waitEditingId: string | null = null;
   waitDate = '';
   waitCond = '';

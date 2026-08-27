@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
 import { LoopsService, Loop, LoopTone, LoopChannel } from '../loops/loops.service';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { AgentEnvelope, AgentSource, LoopAgentEvent, LoopDecision } from './agents.types';
 import { AGENT_DIRECTIVES } from './directives';
 import { LoopSignalsService } from '../loops/loop-signals.service';
+import { userLang } from '../lang/user-lang';
 
 /**
  * 2026-08-25 THE KEEPER — orchestrator of the LoopKeeper agent hierarchy.
@@ -22,6 +24,7 @@ export class KeeperAgentService {
     private loops: LoopsService,
     private analytics: AnalyticsService,
     private signals: LoopSignalsService,
+    private translate: TranslateService,
   ) {}
 
   /** STAGE 1 — capture. intake → owed-reply → promise-extract, now enriched
@@ -69,6 +72,9 @@ export class KeeperAgentService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           engine: 'deepseek',
+          // 2026-08-27 CHAT LANGUAGE: the polished draft must come back in the
+          // user's language — even when the device draft started English.
+          lang: userLang(this.translate),
           messages: [{
             role: 'user',
             content: `${d.role} Rules: ${d.toneGuardrails.join('; ')}. `

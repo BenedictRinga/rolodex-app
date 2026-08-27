@@ -543,6 +543,17 @@
     "consult.yourDraft": "Votre brouillon",
     "consult.makeBetter": "Demander à l'IA d'améliorer",
     "consult.thinking": "Réflexion…",
-    "consult.openToSend": "Ouvrir la ligne pour envoyer"
+    "consult.openToSend": "Ouvrir la ligne pour envoyer",
+    "chat.offline": "L'Assistant en direct est injoignable pour l'instant — vos mots restent sur cet appareil. Réessayez d'ici peu, ou ouvrez une discussion DeepSeek/Grok gratuite.",
+    "meter.title": "Loop-O-meter",
+    "meter.aria": "Jauge de préparation des boucles",
+    "meter.l0": "Gestionnaire de contacts",
+    "meter.l1": "Suivi des boucles",
+    "meter.l2": "Clôture de boucles",
+    "meter.l3": "Pilote automatique",
+    "meter.hint0": "Capturez une boucle — une seule phrase démarre le moteur.",
+    "meter.hint1": "Précisez qui elle est pour vous, ou pourquoi elle attend — et synchronisez votre répertoire pour que les boucles se trouvent toutes seules.",
+    "meter.hint2": "Envoyez et clôturez — les reçus construisent la série.",
+    "meter.hint3": "Plein régime. Continuez à capturer — le Gardien s'occupe du reste."
   }
 }
