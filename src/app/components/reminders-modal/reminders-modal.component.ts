@@ -41,6 +41,9 @@ export class RemindersModalComponent {
   formContactId = '';
   formNote = '';
   formDate: string = new Date().toISOString().slice(0, 10);
+  // 2026-08-27 CHOICE-FIRST CALENDAR: the form carries the push choice
+  // itself — pre-seeded with the user's remembered default (off = discrete).
+  formAlsoCal = false;
 
   // ═══ 2026-08-27 WEEK AGENDA — read side of the device-calendar sync ═══
   /** The next 7 days straight from the phone's calendar (native only).
@@ -56,6 +59,9 @@ export class RemindersModalComponent {
       this.agendaState = 'loading';
       void this.refreshAgenda();
     }
+    // 2026-08-27 CHOICE-FIRST CALENDAR: pre-seed the push checkbox with the
+    // user's remembered choice (default OFF — discrete until they opt in).
+    void this.calendar.defaultPushChoice().then((on) => (this.formAlsoCal = on));
   }
 
   async refreshAgenda(): Promise<void> {
@@ -143,19 +149,26 @@ export class RemindersModalComponent {
     const when = this.formDate ? new Date(this.formDate + 'T09:00:00') : new Date();
     contact.reminders = [...(contact.reminders || []), { note, date: when }];
     contact.updatedAt = new Date();
-    // 2026-08-27 CALENDAR SYNC: the reminder also becomes a device event
-    // (native) or .ics download (web) — write-through, same as the card path.
-    void this.calendar.addEvent({
-      title: note,
-      person: contact?.name?.display || 'this contact',
-      start: when,
-      durationMin: 30,
-      localKey: 'rem:' + String(contact?.contactId || '') + ':' + when.getTime(),
-    });
+    // 2026-08-27 CHOICE-FIRST CALENDAR: push only when the checkbox says so —
+    // the executor of an explicit choice, never an automatic write. The
+    // remembered default follows the checkbox too.
+    if (this.formAlsoCal) {
+      void this.calendar.addEvent({
+        title: note,
+        person: contact?.name?.display || 'this contact',
+        start: when,
+        durationMin: 30,
+        localKey: 'rem:' + String(contact?.contactId || '') + ':' + when.getTime(),
+      });
+      void this.calendar.rememberPushChoice(true);
+    } else {
+      void this.calendar.rememberPushChoice(false);
+    }
     this.buildRows();
     this.formContactId = '';
     this.formNote = '';
     this.formDate = new Date().toISOString().slice(0, 10);
+    this.formAlsoCal = false;
     void this.alertCtrl
       .create({ header: 'Reminder set', message: `"${note}" for ${contact?.name?.display || 'this contact'}.`, buttons: ['OK'] })
       .then((a) => a.present());

@@ -582,6 +582,13 @@
     "cal.agendaEmpty": "Diese Woche steht nichts in deinem Kalender.",
     "cal.agendaDenied": "Kalenderzugriff ist aus — erlaube ihn in den Geräteeinstellungen, um deine Woche hier zu sehen.",
     "cal.icsToast": "Kalenderdatei geladen — öffne sie, um den Termin in deinen Kalender zu übernehmen.",
-    "cal.today": "Heute"
+    "cal.today": "Heute",
+    "cal.pushBtn": "Speichern + Kalender",
+    "cal.pushChoice": "Auch in deinen Kalender eintragen",
+    "cal.pushAction": "In den Kalender",
+    "cal.keepAction": "Nur in LoopKeeper",
+    "cal.pushed": "In deinen Kalender eingetragen",
+    "cal.pushAsk": "Auch in deinen Kalender eintragen?",
+    "cal.inviteAsk": "{{from}} lädt dich ein: {{title}}"
   }
 }

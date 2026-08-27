@@ -582,6 +582,13 @@
     "cal.agendaEmpty": "Rien à votre agenda cette semaine.",
     "cal.agendaDenied": "L'accès à l'agenda est désactivé — autorisez-le dans les réglages de l'appareil pour voir votre semaine ici.",
     "cal.icsToast": "Fichier d'agenda téléchargé — ouvrez-le pour ajouter l'événement à votre agenda.",
-    "cal.today": "Aujourd'hui"
+    "cal.today": "Aujourd'hui",
+    "cal.pushBtn": "Enregistrer + agenda",
+    "cal.pushChoice": "Ajouter aussi à votre agenda",
+    "cal.pushAction": "Ajouter à l’agenda",
+    "cal.keepAction": "Garder dans LoopKeeper",
+    "cal.pushed": "Ajouté à votre agenda",
+    "cal.pushAsk": "L’ajouter aussi à votre agenda ?",
+    "cal.inviteAsk": "{{from}} vous invite : {{title}}"
   }
 }

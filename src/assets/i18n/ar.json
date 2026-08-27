@@ -582,6 +582,13 @@
     "cal.agendaEmpty": "لا شيء في تقويمك هذا الأسبوع.",
     "cal.agendaDenied": "الوصول إلى التقويم متوقف — اسمح به من إعدادات جهازك لرؤية أسبوعك هنا.",
     "cal.icsToast": "تم تنزيل ملف التقويم — افتحه لإضافة الموعد إلى تقويمك.",
-    "cal.today": "اليوم"
+    "cal.today": "اليوم",
+    "cal.pushBtn": "حفظ + التقويم",
+    "cal.pushChoice": "أضفه أيضاً إلى تقويم جهازك",
+    "cal.pushAction": "أضف إلى التقويم",
+    "cal.keepAction": "إبقاءه في LoopKeeper",
+    "cal.pushed": "أُضيف إلى تقويم جهازك",
+    "cal.pushAsk": "إضافته أيضاً إلى تقويم جهازك؟",
+    "cal.inviteAsk": "{{from}} دعاك: {{title}}"
   }
 }

@@ -588,6 +588,13 @@
     "cal.agendaEmpty": "Nothing on your calendar this week.",
     "cal.agendaDenied": "Calendar access is off — allow it in your device settings to see your week here.",
     "cal.icsToast": "Calendar file downloaded — open it to add the event to your calendar.",
-    "cal.today": "Today"
+    "cal.today": "Today",
+    "cal.pushBtn": "Save + calendar",
+    "cal.pushChoice": "Also add to your device calendar",
+    "cal.pushAction": "Add to calendar",
+    "cal.keepAction": "Keep in LoopKeeper",
+    "cal.pushed": "Added to your device calendar",
+    "cal.pushAsk": "Add to your device calendar too?",
+    "cal.inviteAsk": "{{from}} invited you: {{title}}"
   }
 }

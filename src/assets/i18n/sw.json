@@ -582,6 +582,13 @@
     "cal.agendaEmpty": "Hakuna kilichopangwa kalendani wiki hii.",
     "cal.agendaDenied": "Ruhusa ya kalenda imezimwa — idhinisha kwenye mipangilio ya simu ili kuona wiki yako hapa.",
     "cal.icsToast": "Faili la kalenda limepakuliwa — lifungue ili kuongeza tukio kwenye kalenda yako.",
-    "cal.today": "Leo"
+    "cal.today": "Leo",
+    "cal.pushBtn": "Hifadhi + kalenda",
+    "cal.pushChoice": "Ongeza pia kwenye kalenda ya kifaa chako",
+    "cal.pushAction": "Ongeza kwenye kalenda",
+    "cal.keepAction": "Iweke LoopKeeper pekee",
+    "cal.pushed": "Imeongezwa kwenye kalenda ya kifaa chako",
+    "cal.pushAsk": "Uongeze pia kwenye kalenda ya kifaa chako?",
+    "cal.inviteAsk": "{{from}} amekualika: {{title}}"
   }
 }

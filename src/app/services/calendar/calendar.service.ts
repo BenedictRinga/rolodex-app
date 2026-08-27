@@ -16,15 +16,19 @@ import { StorageService } from '../storage/storage.service';
  * back into an agenda. On web/PWA there is no calendar provider, so writes
  * fall back to a one-event .ics download the user can import.
  *
- * Write-through (this wave): appointments (created + received card-to-card
- * invites) and reminders become real device events; the week agenda (read)
- * lives in the Reminders tab. Loop park-dates and birthdays stay
- * LoopKeeper-side for now (founder scope decision).
+ * 2026-08-27 DOCTRINE REFINED (founder): design choices belong to the USER.
+ * Nothing is auto-written to the device calendar anymore — every calendar-
+ * worthy item offers the choice at its point of creation (push button /
+ * checkbox / arrival confirm). LoopKeeper-side storage is always ours;
+ * the device calendar is joined ONLY when the user says so. This keeps
+ * OEM apps within reach without spamming them, and the user always knows
+ * we are discrete and respectful. addEvent() is therefore the EXECUTOR of
+ * an explicit choice — call it only after the user opted in. On web/PWA
+ * the executor is the .ics download (no silent downloads either).
  *
  * Two-way bookkeeping: localKey→deviceId mappings are persisted
  * (loopkeeper_cal_map_v1) so a future wave can update/delete events when the
- * in-app entities change; event creation itself is silent-fail by design —
- * the permission prompt already carries the consent story.
+ * in-app entities change.
  */
 
 export interface AgendaEvent {
@@ -37,9 +41,9 @@ export interface AgendaEvent {
   ours: boolean;
 }
 
-export type CalendarWriteResult = 'created' | 'ics' | 'off' | 'failed';
+export type CalendarWriteResult = 'created' | 'ics' | 'failed';
 
-const SYNC_FLAG = 'loopkeeper_calendar_sync';
+const DEFAULT_KEY = 'loopkeeper_cal_default';
 const CAL_MAP_KEY = 'loopkeeper_cal_map_v1';
 const OURS_MARKER = 'LoopKeeper ·';
 
@@ -56,9 +60,18 @@ export class CalendarService {
     return Capacitor.isNativePlatform();
   }
 
-  /** User-level switch — ON unless explicitly disabled (Settings toggle later). */
-  private async syncEnabled(): Promise<boolean> {
-    return (await this.storage.get<boolean>(SYNC_FLAG)) !== false;
+  /** The user's remembered push choice — the checkbox/preselect default.
+   *  Default OFF: discrete until they say otherwise (founder doctrine). */
+  async defaultPushChoice(): Promise<boolean> {
+    return (await this.storage.get<boolean>(DEFAULT_KEY)) === true;
+  }
+
+  async rememberPushChoice(on: boolean): Promise<void> {
+    try {
+      await this.storage.set(DEFAULT_KEY, on);
+    } catch {
+      /* best-effort */
+    }
   }
 
   /** Ask once when needed; never nag after an OS-level refusal. */
@@ -76,9 +89,10 @@ export class CalendarService {
     }
   }
 
-  /** Write-through: an appointment/reminder becomes a REAL device-calendar
-   *  event (Android → Google via the phone's account sync). Web/PWA falls
-   *  back to a single-event .ics download + localized toast. */
+  /** Executor of an EXPLICIT push choice (see the doctrine header): the item
+   *  becomes a REAL device-calendar event. Call only after the user opted in
+   *  at the point of creation. Web/PWA falls back to a single-event .ics
+   *  download + localized toast — never a silent download anymore. */
   async addEvent(opts: {
     title: string;
     person: string;
@@ -99,7 +113,7 @@ export class CalendarService {
       });
       return 'ics';
     }
-    if (!(await this.syncEnabled()) || !(await this.ensurePermissions())) return 'off';
+    if (!(await this.ensurePermissions())) return 'failed';
     try {
       const { result: cal } = await CapacitorCalendar.getDefaultCalendar();
       const { result: id } = await CapacitorCalendar.createEvent({
@@ -110,7 +124,12 @@ export class CalendarService {
         notes: OURS_MARKER + ' ' + opts.person + (opts.location ? ' · ' + opts.location : ''),
       });
       if (opts.localKey && id) await this.mapEvent(opts.localKey, id);
-      return id ? 'created' : 'failed';
+      if (id) {
+        // The user chose push — confirm the choice was honored.
+        void this.alerts.showToast(this.translate.instant('loopkeeper.cal.pushed'), 2200);
+        return 'created';
+      }
+      return 'failed';
     } catch {
       return 'failed';
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AlertController, ModalController, ActionSheetController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { SecurityService } from '../services/security/security.service';
 import { SoundService } from '../services/sound/sound.service';
 import { ContactInfo } from '../models/contacts';
@@ -115,6 +116,8 @@ export class HomePage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private alertController: AlertController,
     private actionSheet: ActionSheetController,
+    // 2026-08-27 CHOICE-FIRST CALENDAR: received invites ask before pushing.
+    private translate: TranslateService,
     private socketChat: SocketChatService,
     private draftEngine: DraftEngineService,
     private inviteService: InviteService,
@@ -911,13 +914,32 @@ export class HomePage implements OnInit, OnDestroy {
     c.updatedAt = new Date();
     void this.persistContacts(this.contacts);
     this.rolodexSync.push(this.contacts);
-    // And it becomes a real device event — their calendar, their Google.
-    void this.calendar.addEvent({
-      title,
-      person: c?.name?.display || 'them',
-      start: when ? new Date(when) : new Date(),
-      localKey: 'appt:' + key + ':' + when,
-    });
+    // 2026-08-27 CHOICE-FIRST CALENDAR (founder): the invite lands on the
+    // CARD always (LoopKeeper-side storage is ours) — but the device calendar
+    // is joined only if the user says so, right here at arrival. Dismissal
+    // and "Keep" mean the same thing: LoopKeeper only. Nothing auto-writes.
+    const from = String(inv?.from || 'Them');
+    void this.alertController
+      .create({
+        header: this.translate.instant('loopkeeper.cal.pushAsk'),
+        message: this.translate.instant('loopkeeper.cal.inviteAsk', { from, title }),
+        buttons: [
+          { text: this.translate.instant('loopkeeper.cal.keepAction'), role: 'cancel' },
+          {
+            text: this.translate.instant('loopkeeper.cal.pushAction'),
+            handler: () => {
+              void this.calendar.addEvent({
+                title,
+                person: c?.name?.display || 'them',
+                start: when ? new Date(when) : new Date(),
+                localKey: 'appt:' + key + ':' + when,
+              });
+              void this.calendar.rememberPushChoice(true);
+            },
+          },
+        ],
+      })
+      .then((a) => a.present());
   }
 
   async onRemoveContact(contact: ContactInfo) {

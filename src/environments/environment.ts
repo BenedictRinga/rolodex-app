@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 115, // 2026-08-27 CALENDAR SYNC: appointments + reminders write through to the device calendar (Android=Google via the phone's account sync; web gets .ics download); week agenda (next 7 days) in Reminders; received card-to-card invites finally land on card + calendar (appointment$ consumed); 6 cal.* keys x 39 locales
+  build: 116, // 2026-08-27 CHOICE-FIRST CALENDAR (founder doctrine): nothing auto-writes to the device calendar - appointments/reminders offer Save + calendar at creation (three-button alerts + form checkbox, remembered default), received invites ask at arrival; discrete default = LoopKeeper only; 7 cal.* keys x 39 locales
 };
 
 /*

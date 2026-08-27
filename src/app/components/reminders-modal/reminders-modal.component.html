@@ -28,6 +28,11 @@
         {{ 'loopkeeper.reminders.set' | translate }}
       </ion-button>
     </div>
+    <!-- 2026-08-27 CHOICE-FIRST CALENDAR: the push choice lives ON the form —
+         the user decides per reminder; remembered default follows the box. -->
+    <ion-checkbox class="arm-cal" [(ngModel)]="formAlsoCal">
+      {{ 'loopkeeper.cal.pushChoice' | translate }}
+    </ion-checkbox>
   </div>
 
   <ion-list lines="full">

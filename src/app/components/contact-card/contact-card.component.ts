@@ -16,6 +16,7 @@ import { SocketChatService } from '../../services/socket-chat/socket-chat.servic
 import { PhotoService } from '../../services/photo/photo.service';
 import { LoopsService, Loop } from '../../services/loops/loops.service';
 import { CalendarService } from '../../services/calendar/calendar.service';
+import { TranslateService } from '@ngx-translate/core';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
@@ -159,8 +160,12 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private photoService: PhotoService,
     private loops: LoopsService,
     // 2026-08-27 CALENDAR SYNC: appointments + reminders write through to the
-    // device calendar (Android → Google via the phone's account sync).
+    // device calendar (Android → Google via the phone's account sync) — only
+    // when the user chooses push (choice-first doctrine).
     private calendar: CalendarService,
+    // 2026-08-27 CHOICE-FIRST CALENDAR: the push button on the creation
+    // alerts is localized.
+    private translate: TranslateService,
   ) {
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -780,6 +785,32 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 2026-08-17 THE INVITE: fix an appointment — the other party's card catches it. */
   async setAppointment(contact: any): Promise<void> {
     const name = this.draftEngine.contactName(contact) || 'this contact';
+    const calBtn = this.translate.instant('loopkeeper.cal.pushBtn');
+    // 2026-08-27 CHOICE-FIRST CALENDAR (founder): nothing is auto-written to
+    // the device calendar. The choice travels ON the alert — [Invite + calendar]
+    // pushes, [Invite] keeps it LoopKeeper-side. Same item either way.
+    const save = (v: any, alsoCalendar: boolean): boolean => {
+      const title = String(v?.title || '').trim();
+      if (!title) return false;
+      const when = String(v?.when || '');
+      const appts = Array.isArray(contact.appointments) ? contact.appointments : [];
+      contact.appointments = [...appts, { title, when, from: 'Me' }];
+      try { this.cardChat.sendAppointment(String(contact.contactId || ''), title, when); } catch { /* offline */ }
+      if (alsoCalendar) {
+        void this.calendar.addEvent({
+          title,
+          person: name,
+          start: new Date(when),
+          localKey: 'appt:' + String(contact.contactId || '') + ':' + when,
+        });
+        void this.calendar.rememberPushChoice(true);
+      } else {
+        void this.calendar.rememberPushChoice(false);
+      }
+      this.editContact.emit(contact);
+      void this.alertCtrl.create({ header: 'Invite sent', message: name + "'s card will catch it when their device is online.", buttons: ['OK'] }).then((a) => a.present());
+      return true;
+    };
     const alert = await this.alertCtrl.create({
       header: 'Appointment with ' + name,
       inputs: [
@@ -788,28 +819,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Invite',
-          handler: (v: any) => {
-            const title = String(v?.title || '').trim();
-            if (!title) return false;
-            const when = String(v?.when || '');
-            const appts = Array.isArray(contact.appointments) ? contact.appointments : [];
-            contact.appointments = [...appts, { title, when, from: 'Me' }];
-            try { this.cardChat.sendAppointment(String(contact.contactId || ''), title, when); } catch { /* offline */ }
-            // 2026-08-27 CALENDAR SYNC: my appointment also lands on the device
-            // calendar (native) or downloads as .ics (web) — write-through.
-            void this.calendar.addEvent({
-              title,
-              person: name,
-              start: new Date(when),
-              localKey: 'appt:' + String(contact.contactId || '') + ':' + when,
-            });
-            this.editContact.emit(contact);
-            void this.alertCtrl.create({ header: 'Invite sent', message: name + "'s card will catch it when their device is online.", buttons: ['OK'] }).then((a) => a.present());
-            return true;
-          },
-        },
+        { text: calBtn, handler: (v: any) => save(v, true) },
+        { text: 'Invite', handler: (v: any) => save(v, false) },
       ],
     });
     await alert.present();
@@ -965,6 +976,31 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
    *  saved into the contact's reminders list (persisted via editContact). */
   async setReminder(contact: any): Promise<void> {
     const name = this.draftEngine.contactName(contact) || 'this contact';
+    const calBtn = this.translate.instant('loopkeeper.cal.pushBtn');
+    // 2026-08-27 CHOICE-FIRST CALENDAR (founder): same as appointments —
+    // [Set + calendar] pushes to the device, [Set reminder] keeps it here.
+    const save = (data: any, alsoCalendar: boolean): boolean => {
+      const note = String(data?.note || '').trim();
+      if (!note) { void this.alertService.showToast('A note is needed for the reminder'); return false; }
+      const when = data?.date ? new Date(data.date + 'T09:00:00') : new Date();
+      const clone = { ...contact, reminders: [...(contact.reminders || []), { note, date: when }] };
+      (clone as any).updatedAt = new Date();
+      this.editContact.emit(clone);
+      void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
+      if (alsoCalendar) {
+        void this.calendar.addEvent({
+          title: note,
+          person: name,
+          start: when,
+          durationMin: 30,
+          localKey: 'rem:' + String(contact.contactId || '') + ':' + when.getTime(),
+        });
+        void this.calendar.rememberPushChoice(true);
+      } else {
+        void this.calendar.rememberPushChoice(false);
+      }
+      return true;
+    };
     const alert = await this.alertCtrl.create({
       header: `Reminder for ${name}`,
       inputs: [
@@ -973,28 +1009,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Set reminder',
-          handler: (data: any) => {
-            const note = String(data?.note || '').trim();
-            if (!note) { void this.alertService.showToast('A note is needed for the reminder'); return false; }
-            const when = data?.date ? new Date(data.date + 'T09:00:00') : new Date();
-            const clone = { ...contact, reminders: [...(contact.reminders || []), { note, date: when }] };
-            (clone as any).updatedAt = new Date();
-            this.editContact.emit(clone);
-            void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
-            // 2026-08-27 CALENDAR SYNC: the reminder also becomes a device
-            // event at 09:00 local (native) or .ics download (web).
-            void this.calendar.addEvent({
-              title: note,
-              person: name,
-              start: when,
-              durationMin: 30,
-              localKey: 'rem:' + String(contact.contactId || '') + ':' + when.getTime(),
-            });
-            return true;
-          },
-        },
+        { text: calBtn, handler: (data: any) => save(data, true) },
+        { text: 'Set reminder', handler: (data: any) => save(data, false) },
       ],
     });
     await alert.present();

@@ -582,6 +582,13 @@
     "cal.agendaEmpty": "Nada en tu calendario esta semana.",
     "cal.agendaDenied": "El acceso al calendario está desactivado — permítelo en los ajustes del dispositivo para ver tu semana aquí.",
     "cal.icsToast": "Archivo de calendario descargado — ábrelo para añadir el evento a tu calendario.",
-    "cal.today": "Hoy"
+    "cal.today": "Hoy",
+    "cal.pushBtn": "Guardar + calendario",
+    "cal.pushChoice": "Añadir también a tu calendario",
+    "cal.pushAction": "Añadir al calendario",
+    "cal.keepAction": "Guardar solo en LoopKeeper",
+    "cal.pushed": "Añadido a tu calendario",
+    "cal.pushAsk": "¿Añadirlo también a tu calendario?",
+    "cal.inviteAsk": "{{from}} te invita: {{title}}"
   }
 }

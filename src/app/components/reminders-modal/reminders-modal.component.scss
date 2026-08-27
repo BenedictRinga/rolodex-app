@@ -28,6 +28,15 @@ ion-content {
   gap: 8px;
 }
 
+/* 2026-08-27 CHOICE-FIRST CALENDAR: the per-reminder push checkbox. */
+.arm-cal {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--rolodex-text-secondary);
+  --checkbox-background-checked: #00a896;
+  --border-color-checked: #00a896;
+}
+
 .arm-date {
   flex: 1;
   --background: var(--rolodex-surface-alt);
