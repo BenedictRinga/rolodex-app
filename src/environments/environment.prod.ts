@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 116, // 2026-08-27 CHOICE-FIRST CALENDAR (founder doctrine): nothing auto-writes to the device calendar - appointments/reminders offer Save + calendar at creation (three-button alerts + form checkbox, remembered default), received invites ask at arrival; discrete default = LoopKeeper only; 7 cal.* keys x 39 locales
+  build: 117, // 2026-08-27 HONEST STORAGE TABS: Device/Cloud/Server tabs show real state - real cards only sync, demo never copies; 30 storage.* keys x 39 locales
 };

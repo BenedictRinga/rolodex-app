@@ -104,6 +104,15 @@ export class HomePage implements OnInit, OnDestroy {
   syncLastPulled: string | null = null;
   syncBusy: boolean = false;
 
+  // 2026-08-27 HONEST STORAGE TABS: the LoopKeeper Server pane shows REAL
+  // state - the same consent the Settings toggle writes, the device's sync
+  // slot, and evidence-backed last push/pull times (persisted, never faked).
+  serverSyncEnabled: boolean = false;
+  serverDeviceId: string = '';
+  serverLastPushed: string | null = null;
+  serverLastPulled: string | null = null;
+  serverBusy: boolean = false;
+
   constructor(
     private contactsSyncService: ContactsSyncService,
     private followUpEngine: FollowUpEngine,
@@ -269,6 +278,9 @@ export class HomePage implements OnInit, OnDestroy {
     // Wire passphrase prompt callback for CloudSyncService
     this.cloudSync.promptPassphrase = () => this.promptForPassphrase();
     this.refreshSyncState();
+    // 2026-08-27 HONEST STORAGE TABS: read the real consent + device slot so
+    // the Server pane opens truthful, never assumed.
+    void this.refreshServerTabState();
 
     // 2026-08-18 AI LIVE LIGHT + THE AGENT SPEAKS FIRST.
     void this.refreshAiStatus();
@@ -329,18 +341,21 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  /** B2B-style storage picker — where the user keeps their contacts. */
+  /** B2B-style storage picker — where the user keeps their contacts.
+   *  2026-08-27 HONEST STORAGE TABS: every switch re-reads the real backend
+   *  consent + slot so a pane can never show stale truth. */
   async onStorageChange(event: any): Promise<void> {
     const loc = event?.detail?.value as 'device' | 'cloud' | 'rolodex-server';
     if (!loc) return;
     this.storageLocation = loc;
     try { await this.storageService.set('rolodex_storage', loc); } catch { /* ignore */ }
+    void this.refreshServerTabState();
     if (loc === 'rolodex-server') {
       const restored = await this.rolodexSync.restore();
       if (restored && restored.length) {
         this.contacts = restored;
         this.loading = false;
-        this.rolodexSync.push(this.contacts);
+        this.rolodexSync.push(this.realContacts());
       }
     }
   }
@@ -608,7 +623,9 @@ export class HomePage implements OnInit, OnDestroy {
     this.loading = false;
     // 2026-08-16 DEMO SYNC: the moment contacts are ready, talk to the fresh
     // rolodex database — the investor peek view shows this device LIVE.
-    this.rolodexSync.push(this.contacts);
+    // 2026-08-27 HONEST STORAGE TABS: real cards only — demo filler never
+    // leaves the device, matching the pane's promise verbatim.
+    this.rolodexSync.push(this.realContacts());
   }
 
   /** Run the full automation pipeline — follow-ups, birthdays, health scoring. */
@@ -656,6 +673,114 @@ export class HomePage implements OnInit, OnDestroy {
     this.syncHasPassphrase = this.cloudSync.isPassphraseSet();
     this.syncLastPushed = state.lastPushedAt;
     this.syncLastPulled = state.lastPulledAt;
+  }
+
+  // ===== Honest storage tabs (2026-08-27) ==================================
+  // Every path a pane offers is the REAL path - the same handlers Settings
+  // uses (onSyncSetPassphrase/onSyncConnect/onSyncPush/onSyncPull and the
+  // consent toggle's service call). No dummies for testers to meet.
+
+  /** The deck only rides a tab when that tab's storage is genuinely live. */
+  get deckHiddenForTab(): boolean {
+    if (this.storageLocation === 'cloud') return !this.syncConnected;
+    if (this.storageLocation === 'rolodex-server') return !this.serverSyncEnabled;
+    return false;
+  }
+
+  /** Display name of the connected provider ('Google Drive', ...). */
+  get syncProviderLabel(): string {
+    const p = this.syncProviders.find((x) => x.name === this.syncProviderName);
+    return p?.displayName || this.syncProviderName || '';
+  }
+
+  /** Real (non-demo) card count for the Device strip. */
+  realContactCount(): number {
+    return this.realContacts().length;
+  }
+
+  get syncLastPushedShort(): string {
+    return this.syncLastPushed ? this.fmtTime(this.syncLastPushed) : '';
+  }
+  get serverLastPushedShort(): string {
+    return this.serverLastPushed ? this.fmtTime(this.serverLastPushed) : '';
+  }
+  get serverLastPulledShort(): string {
+    return this.serverLastPulled ? this.fmtTime(this.serverLastPulled) : '';
+  }
+
+  /** Locale-aware short timestamp for the status strips. */
+  private fmtTime(iso: string): string {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' ' +
+        d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    } catch { return iso || ''; }
+  }
+
+  /** Read the REAL server-sync state: consent, device slot, last push/pull. */
+  async refreshServerTabState(): Promise<void> {
+    this.serverSyncEnabled = await this.rolodexSync.isBackendSyncEnabled();
+    this.serverDeviceId = this.rolodexSync.getDeviceId();
+    try {
+      this.serverLastPushed = await this.storageService.get<string>('loopkeeper_server_last_push');
+      this.serverLastPulled = await this.storageService.get<string>('loopkeeper_server_last_pull');
+    } catch { /* fresh device - no evidence yet, and the pane says so */ }
+  }
+
+  /** The Server pane's enable action - flips the SAME consent the Settings
+   *  toggle writes, then optionally pushes immediately. Real cards only. */
+  async enableServerSync(pushToo: boolean): Promise<void> {
+    await this.rolodexSync.setBackendSyncEnabled(true);
+    this.serverSyncEnabled = true;
+    await this.alertsService.showToast('Backend sync on — real cards sync; demo cards never leave.', 3600);
+    if (pushToo) await this.serverPush();
+  }
+
+  /** Push the real deck to the LoopKeeper server and record the evidence. */
+  async serverPush(): Promise<void> {
+    this.serverBusy = true;
+    try {
+      await this.rolodexSync.push(this.realContacts());
+      const now = new Date().toISOString();
+      this.serverLastPushed = now;
+      try { await this.storageService.set('loopkeeper_server_last_push', now); } catch { /* best effort */ }
+      await this.alertsService.showToast('Pushed to the LoopKeeper server', 2800);
+    } finally {
+      this.serverBusy = false;
+    }
+  }
+
+  /** Pull this device's list back from the server (or say plainly there is
+   *  nothing there - never silently pretend). */
+  async serverPull(): Promise<void> {
+    this.serverBusy = true;
+    try {
+      const restored = await this.rolodexSync.restore();
+      if (restored && restored.length) {
+        this.contacts = restored;
+        const now = new Date().toISOString();
+        this.serverLastPulled = now;
+        try { await this.storageService.set('loopkeeper_server_last_pull', now); } catch { /* best effort */ }
+        await this.alertsService.showToast('Restored ' + restored.length + ' cards from the server', 3200);
+        await this.runAutomation();
+      } else {
+        await this.alertsService.showToast('The server has nothing for this device yet — push first', 3200);
+      }
+    } finally {
+      this.serverBusy = false;
+    }
+  }
+
+  /** Deep link into Settings > Cloud Sync (the full control surface).
+   *  2026-08-27: Settings lives inside the deck surface — if the current tab
+   *  hides it (un-setup Cloud/Server pane), return to Device first so the
+   *  jump is never into a display:none component. */
+  openStorageSettings(): void {
+    if (this.deckHiddenForTab) {
+      this.storageLocation = 'device';
+      void this.storageService.set('rolodex_storage', 'device');
+    }
+    this.rolodexComp?.openSettingsSection('settings-cloudsync');
   }
 
   /** Connect to a cloud provider by name (e.g. 'google-drive', 'dropbox'). */

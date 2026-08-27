@@ -573,6 +573,17 @@
           <ion-label color="medium">{{ 'loopkeeper.settings.backupfull' | translate }}</ion-label>
         </ion-item-divider>
 
+        <!-- 2026-08-27 HONEST STORAGE TIE-IN: the file backup IS the Device
+             tab's path (same handlers as the home Device strip). Cloud and
+             LoopKeeper Server carry their own fully-wired paths on their home
+             tabs - Settings stays the deep control surface, not a duplicate. -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="git-branch-outline" slot="start" color="medium"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <p style="font-size: 11.5px;">{{ 'loopkeeper.storage.backupTie' | translate }}</p>
+          </ion-label>
+        </ion-item>
+
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="download-outline" slot="start" color="secondary"></ion-icon>
           <ion-label>Export .rolodex file</ion-label>

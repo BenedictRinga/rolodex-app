@@ -12,10 +12,12 @@
         <span class="ai-live-dot" [class.live]="aiLive" title="AI status"></span>
         <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">{{ 'loopkeeper.chat.aiAssistant' | translate }}</span>
       </div>
+      <!-- 2026-08-27 HONEST STORAGE TABS: labels now localized, and each tab
+           below shows REAL state - no more identical-deck stub. -->
       <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
-        <ion-segment-button value="device">Device</ion-segment-button>
-        <ion-segment-button value="cloud">Cloud</ion-segment-button>
-        <ion-segment-button value="rolodex-server">LoopKeeper Server</ion-segment-button>
+        <ion-segment-button value="device">{{ 'loopkeeper.storage.tabDevice' | translate }}</ion-segment-button>
+        <ion-segment-button value="cloud">{{ 'loopkeeper.storage.tabCloud' | translate }}</ion-segment-button>
+        <ion-segment-button value="rolodex-server">{{ 'loopkeeper.storage.tabServer' | translate }}</ion-segment-button>
       </ion-segment>
       <!-- <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
         <ion-input placeholder="Demo room code — link devices live" [ngModel]="demoRoom" style="font-size: 11px;" (ionChange)="onRoomInput($event)"></ion-input>
@@ -26,6 +28,109 @@
       Features
     </ion-button> -->
   </div>
+
+  <!-- 2026-08-27 HONEST STORAGE TABS: each tab tells the truth about where the
+       cards live. Device = the deck + its .rolodex file backup (the SAME
+       export/import handlers as Settings > Backup). Cloud and LoopKeeper
+       Server show a REAL state panel until genuinely set up - the full path is
+       wired inline (passphrase, provider, push; consent + push/pull), so no
+       tester ever meets a dummy. Once truly connected, a truthful status strip
+       rides above the same deck instead of faking a second copy. -->
+  <ng-container [ngSwitch]="storageLocation">
+    <!-- DEVICE: the deck lives here; the file backup is one tap away. -->
+    <div *ngSwitchCase="'device'" class="storage-strip device-strip">
+      <ion-icon name="phone-portrait-outline" class="strip-icon" color="primary"></ion-icon>
+      <span class="strip-text">
+        {{ 'loopkeeper.storage.deviceCount' | translate: { n: realContactCount() } }}
+        <small class="strip-sub">{{ 'loopkeeper.storage.deviceNote' | translate }}</small>
+      </span>
+      <ion-button fill="clear" size="small" (click)="onSyncExportLocal()" [appTooltip]="'loopkeeper.storage.deviceExport' | translate">
+        {{ 'loopkeeper.storage.deviceExport' | translate }}
+      </ion-button>
+      <ion-button fill="clear" size="small" (click)="onSyncImportLocal()" [appTooltip]="'loopkeeper.storage.deviceImport' | translate">
+        {{ 'loopkeeper.storage.deviceImport' | translate }}
+      </ion-button>
+    </div>
+
+    <!-- CLOUD: truthful until a provider is truly connected; then strip + deck. -->
+    <div *ngSwitchCase="'cloud'" class="storage-pane">
+      <div *ngIf="!syncConnected" class="storage-card">
+        <div class="storage-head">
+          <ion-icon name="cloud-offline-outline" color="medium"></ion-icon>
+          <strong>{{ 'loopkeeper.storage.cloudTitle' | translate }}</strong>
+        </div>
+        <p class="storage-truth">{{ 'loopkeeper.storage.cloudOffBody' | translate }}</p>
+        <div class="storage-step" [class.done]="syncHasPassphrase">
+          <span class="step-dot">1</span>
+          <span class="step-label">{{ 'loopkeeper.storage.stepPassphrase' | translate }}</span>
+          <ion-button fill="outline" size="small" (click)="onSyncSetPassphrase()">
+            {{ (syncHasPassphrase ? 'loopkeeper.storage.stepDone' : 'loopkeeper.storage.stepSet') | translate }}
+          </ion-button>
+        </div>
+        <div class="storage-step" [class.done]="syncConnected">
+          <span class="step-dot">2</span>
+          <span class="step-label">{{ 'loopkeeper.storage.stepProvider' | translate }}</span>
+          <span class="step-actions">
+            <ion-button *ngFor="let p of syncProviders" fill="outline" size="small"
+              [disabled]="!syncHasPassphrase || syncBusy" (click)="onSyncConnect(p.name)">
+              {{ p.displayName }}
+            </ion-button>
+          </span>
+        </div>
+        <div class="storage-step" [class.done]="!!syncLastPushed">
+          <span class="step-dot">3</span>
+          <span class="step-label">{{ 'loopkeeper.storage.stepPushLabel' | translate }}</span>
+          <ion-button size="small" [disabled]="!syncHasPassphrase || !syncConnected || syncBusy" (click)="onSyncPush()">
+            {{ 'loopkeeper.storage.stepPush' | translate }}
+          </ion-button>
+        </div>
+        <p class="storage-note">{{ 'loopkeeper.storage.encryptedNote' | translate }}</p>
+        <ion-button fill="clear" size="small" (click)="openStorageSettings()">
+          {{ 'loopkeeper.storage.manageSettings' | translate }}
+        </ion-button>
+      </div>
+      <div *ngIf="syncConnected" class="storage-strip">
+        <ion-icon name="cloud-outline" class="strip-icon" color="success"></ion-icon>
+        <span class="strip-text">
+          {{ 'loopkeeper.storage.cloudOn' | translate: { name: syncProviderLabel } }}
+          <small class="strip-sub" *ngIf="syncLastPushed">{{ 'loopkeeper.storage.lastPush' | translate: { time: syncLastPushedShort } }}</small>
+        </span>
+        <ion-button fill="clear" size="small" [disabled]="syncBusy" (click)="onSyncPush()">{{ 'loopkeeper.storage.stepPush' | translate }}</ion-button>
+        <ion-button fill="clear" size="small" [disabled]="syncBusy" (click)="onSyncPull()">{{ 'loopkeeper.storage.pull' | translate }}</ion-button>
+      </div>
+    </div>
+
+    <!-- LOOPKEEPER SERVER: truthful until consent is explicitly given; then
+         strip + deck. Real cards only - demo cards never copy. -->
+    <div *ngSwitchCase="'rolodex-server'" class="storage-pane">
+      <div *ngIf="!serverSyncEnabled" class="storage-card">
+        <div class="storage-head">
+          <ion-icon name="server-outline" color="medium"></ion-icon>
+          <strong>{{ 'loopkeeper.storage.serverTitle' | translate }}</strong>
+        </div>
+        <p class="storage-truth">{{ 'loopkeeper.storage.serverOffBody' | translate }}</p>
+        <p class="storage-note">{{ 'loopkeeper.storage.serverDeviceId' | translate }}: <code>{{ serverDeviceId }}</code></p>
+        <p class="storage-note">{{ 'loopkeeper.storage.serverExplain' | translate }}</p>
+        <div class="storage-step-actions">
+          <ion-button size="small" (click)="enableServerSync(true)">{{ 'loopkeeper.storage.serverEnablePush' | translate }}</ion-button>
+          <ion-button fill="outline" size="small" (click)="enableServerSync(false)">{{ 'loopkeeper.storage.serverEnableOnly' | translate }}</ion-button>
+        </div>
+        <ion-button fill="clear" size="small" (click)="openStorageSettings()">
+          {{ 'loopkeeper.storage.manageSettings' | translate }}
+        </ion-button>
+      </div>
+      <div *ngIf="serverSyncEnabled" class="storage-strip">
+        <ion-icon name="server-outline" class="strip-icon" color="success"></ion-icon>
+        <span class="strip-text">
+          {{ 'loopkeeper.storage.serverOn' | translate }}
+          <small class="strip-sub" *ngIf="serverLastPushed">{{ 'loopkeeper.storage.lastPush' | translate: { time: serverLastPushedShort } }}</small>
+          <small class="strip-sub" *ngIf="serverLastPulled">{{ 'loopkeeper.storage.lastPull' | translate: { time: serverLastPulledShort } }}</small>
+        </span>
+        <ion-button fill="clear" size="small" [disabled]="serverBusy" (click)="serverPush()">{{ 'loopkeeper.storage.pushNow' | translate }}</ion-button>
+        <ion-button fill="clear" size="small" [disabled]="serverBusy" (click)="serverPull()">{{ 'loopkeeper.storage.pull' | translate }}</ion-button>
+      </div>
+    </div>
+  </ng-container>
 
   <!-- 2026-08-24 LOOPKEEPER INBOX: Loops | Chat | Soon — the Isenberg wedge
        first take. The AI Assistant chat below is PROJECTED content under the
@@ -77,6 +182,7 @@
 
   <app-rolodex
     #rolodex
+    [class.tab-hidden]="deckHiddenForTab"
     [contacts]="contacts"
     [displayedContacts]="displayedContacts"
     [sortedcontacts]="sortedContacts"
@@ -144,8 +250,10 @@
   </app-rolodex>
   </div>
 
-  <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet. -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab">
+  <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet.
+       2026-08-27: hidden while an un-setup Cloud/Server panel owns the tab —
+       searching the deck there would be dishonest. -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab" [class.tab-hidden]="deckHiddenForTab">
     <ion-fab-button (click)="openSearchModal()" color="primary" aria-label="Search contacts">
       <ion-icon name="search-outline"></ion-icon>
     </ion-fab-button>
