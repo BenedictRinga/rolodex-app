@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-critters-container>
 
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8">
   <title>LoopKeeper</title>
 
-  <base href="/"/>
+  <base href="/loopkeeper/">
 
-  <meta name="color-scheme" content="light dark"/>
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="format-detection" content="telephone=no"/>
-  <meta name="msapplication-tap-highlight" content="no"/>
+  <meta name="color-scheme" content="light dark">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
 
   <!-- 2026-08-18 THE SHAREAPP MOMENT: the base PWA previews branded even when
        the link has no invite token. The per-invite dynamic OG card is served
        from the backend at /api/loopkeeper/invites/:token/og (the share URL;
        legacy /api/openloop/... links still resolve via the server alias). -->
-  <meta property="og:site_name" content="LoopKeeper"/>
-  <meta property="og:title" content="LoopKeeper — Close the loop you keep meaning to close"/>
-  <meta property="og:description" content="Follow-through for the few who matter — nudge, draft, send, streak."/>
-  <meta property="og:image" content="https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png"/>
-  <meta property="og:url" content="https://zyppar.com/loopkeeper/"/>
-  <meta property="og:type" content="website"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="LoopKeeper — Close the loop you keep meaning to close"/>
-  <meta name="twitter:description" content="Follow-through for the few who matter — nudge, draft, send, streak."/>
-  <meta name="twitter:image" content="https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png"/>
+  <meta property="og:site_name" content="LoopKeeper">
+  <meta property="og:title" content="LoopKeeper — Close the loop you keep meaning to close">
+  <meta property="og:description" content="Follow-through for the few who matter — nudge, draft, send, streak.">
+  <meta property="og:image" content="https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png">
+  <meta property="og:url" content="https://zyppar.com/loopkeeper/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LoopKeeper — Close the loop you keep meaning to close">
+  <meta name="twitter:description" content="Follow-through for the few who matter — nudge, draft, send, streak.">
+  <meta name="twitter:image" content="https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png">
 
-  <link rel="manifest" href="manifest.webmanifest"/>
-  <meta name="theme-color" content="#FF5A36"/>
-  <link rel="icon" type="image/png" href="assets/loopkeeper/tile.svg"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/loopkeeper/tile.svg"/>
-  <link rel="apple-touch-icon" href="assets/loopkeeper/apple-touch-icon.png"/>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#FF5A36">
+  <link rel="icon" type="image/png" href="assets/loopkeeper/tile.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/loopkeeper/tile.svg">
+  <link rel="apple-touch-icon" href="assets/loopkeeper/apple-touch-icon.png">
 
   <!-- add to homescreen for ios -->
-  <meta name="mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-  <meta name="apple-mobile-web-app-title" content="LoopKeeper"/>
-<link rel="stylesheet" href="styles.css"></head>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="LoopKeeper">
+<style>:root{--ion-color-primary:#0054e9;--ion-color-primary-rgb:0, 84, 233;--ion-color-primary-contrast:#fff;--ion-color-primary-contrast-rgb:255, 255, 255;--ion-color-primary-shade:#004acd;--ion-color-primary-tint:#1a65eb;--ion-color-secondary:#0163aa;--ion-color-secondary-rgb:1, 99, 170;--ion-color-secondary-contrast:#fff;--ion-color-secondary-contrast-rgb:255, 255, 255;--ion-color-secondary-shade:#015796;--ion-color-secondary-tint:#1a73b3;--ion-color-tertiary:#6030ff;--ion-color-tertiary-rgb:96, 48, 255;--ion-color-tertiary-contrast:#fff;--ion-color-tertiary-contrast-rgb:255, 255, 255;--ion-color-tertiary-shade:#542ae0;--ion-color-tertiary-tint:#7045ff;--ion-color-success:#2dd55b;--ion-color-success-rgb:45, 213, 91;--ion-color-success-contrast:#000;--ion-color-success-contrast-rgb:0, 0, 0;--ion-color-success-shade:#28bb50;--ion-color-success-tint:#42d96b;--ion-color-warning:#ffc409;--ion-color-warning-rgb:255, 196, 9;--ion-color-warning-contrast:#000;--ion-color-warning-contrast-rgb:0, 0, 0;--ion-color-warning-shade:#e0ac08;--ion-color-warning-tint:#ffca22;--ion-color-danger:#c5000f;--ion-color-danger-rgb:197, 0, 15;--ion-color-danger-contrast:#fff;--ion-color-danger-contrast-rgb:255, 255, 255;--ion-color-danger-shade:#ad000d;--ion-color-danger-tint:#cb1a27;--ion-color-light:#f4f5f8;--ion-color-light-rgb:244, 245, 248;--ion-color-light-contrast:#000;--ion-color-light-contrast-rgb:0, 0, 0;--ion-color-light-shade:#d7d8da;--ion-color-light-tint:#f5f6f9;--ion-color-medium:#636469;--ion-color-medium-rgb:99, 100, 105;--ion-color-medium-contrast:#fff;--ion-color-medium-contrast-rgb:255, 255, 255;--ion-color-medium-shade:#57585c;--ion-color-medium-tint:#737478;--ion-color-dark:#222428;--ion-color-dark-rgb:34, 36, 40;--ion-color-dark-contrast:#fff;--ion-color-dark-contrast-rgb:255, 255, 255;--ion-color-dark-shade:#1e2023;--ion-color-dark-tint:#383a3e}html{--ion-dynamic-font:-apple-system-body;--ion-font-family:var(--ion-default-font)}body{background:var(--ion-background-color);color:var(--ion-text-color)}@supports (padding-top: 20px){html{--ion-safe-area-top:var(--ion-statusbar-padding)}}@supports (padding-top: env(safe-area-inset-top)){html{--ion-safe-area-top:var(--safe-area-inset-top, env(safe-area-inset-top));--ion-safe-area-bottom:var(--safe-area-inset-bottom, env(safe-area-inset-bottom));--ion-safe-area-left:var(--safe-area-inset-left, env(safe-area-inset-left));--ion-safe-area-right:var(--safe-area-inset-right, env(safe-area-inset-right))}}*{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}html{width:100%;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;margin:0;padding:0;position:fixed;width:100%;max-width:100%;height:100%;max-height:100%;transform:translateZ(0);text-rendering:optimizeLegibility;overflow:hidden;touch-action:manipulation;-webkit-user-drag:none;-ms-content-zooming:none;word-wrap:break-word;overscroll-behavior-y:none;-webkit-text-size-adjust:none;text-size-adjust:none}html{font-family:var(--ion-font-family)}@supports (-webkit-touch-callout: none){html{font:var(--ion-dynamic-font, 16px var(--ion-font-family))}}@media (prefers-color-scheme: dark){:root{--ion-color-primary:#4d8dff;--ion-color-primary-rgb:77, 141, 255;--ion-color-primary-contrast:#000;--ion-color-primary-contrast-rgb:0, 0, 0;--ion-color-primary-shade:#447ce0;--ion-color-primary-tint:#5f98ff;--ion-color-secondary:#46b1ff;--ion-color-secondary-rgb:70, 177, 255;--ion-color-secondary-contrast:#000;--ion-color-secondary-contrast-rgb:0, 0, 0;--ion-color-secondary-shade:#3e9ce0;--ion-color-secondary-tint:#59b9ff;--ion-color-tertiary:#8482fb;--ion-color-tertiary-rgb:132, 130, 251;--ion-color-tertiary-contrast:#000;--ion-color-tertiary-contrast-rgb:0, 0, 0;--ion-color-tertiary-shade:#7472dd;--ion-color-tertiary-tint:#908ffb;--ion-color-success:#2dd55b;--ion-color-success-rgb:45, 213, 91;--ion-color-success-contrast:#000;--ion-color-success-contrast-rgb:0, 0, 0;--ion-color-success-shade:#28bb50;--ion-color-success-tint:#42d96b;--ion-color-warning:#ffce31;--ion-color-warning-rgb:255, 206, 49;--ion-color-warning-contrast:#000;--ion-color-warning-contrast-rgb:0, 0, 0;--ion-color-warning-shade:#e0b52b;--ion-color-warning-tint:#ffd346;--ion-color-danger:#f24c58;--ion-color-danger-rgb:242, 76, 88;--ion-color-danger-contrast:#000;--ion-color-danger-contrast-rgb:0, 0, 0;--ion-color-danger-shade:#d5434d;--ion-color-danger-tint:#f35e69;--ion-color-light:#222428;--ion-color-light-rgb:34, 36, 40;--ion-color-light-contrast:#fff;--ion-color-light-contrast-rgb:255, 255, 255;--ion-color-light-shade:#1e2023;--ion-color-light-tint:#383a3e;--ion-color-medium:#989aa2;--ion-color-medium-rgb:152, 154, 162;--ion-color-medium-contrast:#000;--ion-color-medium-contrast-rgb:0, 0, 0;--ion-color-medium-shade:#86888f;--ion-color-medium-tint:#a2a4ab;--ion-color-dark:#f4f5f8;--ion-color-dark-rgb:244, 245, 248;--ion-color-dark-contrast:#000;--ion-color-dark-contrast-rgb:0, 0, 0;--ion-color-dark-shade:#d7d8da;--ion-color-dark-tint:#f5f6f9}}*,*:before,*:after{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}html{font-family:var(--rolodex-font);font-size:16px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}body{font-family:var(--rolodex-font);font-size:var(--rolodex-text-base);line-height:var(--rolodex-leading-normal);color:var(--rolodex-text);background:var(--rolodex-bg);letter-spacing:-.01em}@media (prefers-reduced-motion: reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}:root{--rolodex-primary:#00A896;--rolodex-primary-rgb:0, 168, 150;--rolodex-primary-light:#26C3B0;--rolodex-primary-dark:#00897B;--rolodex-primary-contrast:#FFFFFF;--rolodex-accent:#FFD93D;--rolodex-accent-rgb:255, 217, 61;--rolodex-accent-light:#FFE670;--rolodex-accent-dark:#E6C235;--rolodex-bg:#FAF8F5;--rolodex-bg-rgb:250, 248, 245;--rolodex-surface:#FFFFFF;--rolodex-surface-alt:#F5F1EC;--rolodex-surface-alt-rgb:245, 241, 236;--rolodex-text:#1E2328;--rolodex-text-rgb:30, 35, 40;--rolodex-text-secondary:#70757A;--rolodex-text-tertiary:#9BA1A6;--rolodex-border:#E8E3DE;--rolodex-border-light:#F2EFEB;--rolodex-success:#00C853;--rolodex-success-rgb:0, 200, 83;--rolodex-warning:#FFB300;--rolodex-warning-rgb:255, 179, 0;--rolodex-danger:#EF476F;--rolodex-danger-rgb:239, 71, 111;--rolodex-info:#4f6df5;--rolodex-info-rgb:79, 109, 245;--rolodex-gradient-brand:linear-gradient(135deg, #00A896, #26C3B0);--rolodex-gradient-warm:linear-gradient(135deg, #00A896, #FFD93D);--rolodex-gradient-cool:linear-gradient(135deg, #5BA4FC, #7C5CFC);--rolodex-gradient-success:linear-gradient(135deg, #00C853, #64DD17);--rolodex-font:"Segoe UI", system-ui, -apple-system, sans-serif;--rolodex-font-display:"Segoe UI", system-ui, -apple-system, sans-serif;--rolodex-font-mono:"Cascadia Code", "Fira Code", "Consolas", monospace;--rolodex-text-xs:.7rem;--rolodex-text-sm:.8125rem;--rolodex-text-base:.9375rem;--rolodex-text-md:1.0625rem;--rolodex-text-lg:1.25rem;--rolodex-text-xl:1.5rem;--rolodex-text-2xl:1.875rem;--rolodex-text-3xl:2.25rem;--rolodex-font-normal:400;--rolodex-font-medium:500;--rolodex-font-semibold:600;--rolodex-font-bold:700;--rolodex-leading-tight:1.15;--rolodex-leading-normal:1.5;--rolodex-leading-relaxed:1.65;--rolodex-space-1:4px;--rolodex-space-2:8px;--rolodex-space-3:12px;--rolodex-space-4:16px;--rolodex-space-5:20px;--rolodex-space-6:24px;--rolodex-space-8:32px;--rolodex-space-10:40px;--rolodex-space-12:48px;--rolodex-radius-sm:8px;--rolodex-radius-md:12px;--rolodex-radius-lg:16px;--rolodex-radius-xl:24px;--rolodex-radius-pill:9999px;--rolodex-shadow-xs:0 1px 2px rgba(0, 0, 0, .04);--rolodex-shadow-sm:0 2px 8px rgba(0, 0, 0, .06);--rolodex-shadow-md:0 4px 16px rgba(0, 0, 0, .08);--rolodex-shadow-lg:0 8px 32px rgba(0, 0, 0, .1);--rolodex-shadow-xl:0 16px 48px rgba(0, 0, 0, .12);--rolodex-shadow-glow:0 0 24px rgba(0, 168, 150, .15);--rolodex-ease-out:cubic-bezier(.16, 1, .3, 1);--rolodex-ease-in-out:cubic-bezier(.65, 0, .35, 1);--rolodex-spring:cubic-bezier(.34, 1.56, .64, 1);--rolodex-duration-fast:.15s;--rolodex-duration-normal:.25s;--rolodex-duration-slow:.4s;--ion-color-primary:var(--rolodex-primary);--ion-color-primary-rgb:var(--rolodex-primary-rgb);--ion-color-primary-contrast:var(--rolodex-primary-contrast);--ion-color-primary-contrast-rgb:255, 255, 255;--ion-color-primary-shade:var(--rolodex-primary-dark);--ion-color-primary-tint:var(--rolodex-primary-light);--ion-color-secondary:#5BA4FC;--ion-color-secondary-rgb:91, 164, 252;--ion-color-secondary-contrast:#FFFFFF;--ion-color-secondary-contrast-rgb:255, 255, 255;--ion-color-secondary-shade:#5090DE;--ion-color-secondary-tint:#6BB0FD;--ion-color-tertiary:#7C5CFC;--ion-color-tertiary-rgb:124, 92, 252;--ion-color-tertiary-contrast:#FFFFFF;--ion-color-tertiary-contrast-rgb:255, 255, 255;--ion-color-tertiary-shade:#6D51DE;--ion-color-tertiary-tint:#896DFD;--ion-color-success:var(--rolodex-success);--ion-color-success-rgb:var(--rolodex-success-rgb);--ion-color-success-contrast:#FFFFFF;--ion-color-success-contrast-rgb:255, 255, 255;--ion-color-success-shade:#00B049;--ion-color-success-tint:#1AD264;--ion-color-warning:var(--rolodex-warning);--ion-color-warning-rgb:var(--rolodex-warning-rgb);--ion-color-warning-contrast:#000000;--ion-color-warning-contrast-rgb:0, 0, 0;--ion-color-warning-shade:#E09D00;--ion-color-warning-tint:#FFBB1A;--ion-color-danger:var(--rolodex-danger);--ion-color-danger-rgb:var(--rolodex-danger-rgb);--ion-color-danger-contrast:#FFFFFF;--ion-color-danger-contrast-rgb:255, 255, 255;--ion-color-danger-shade:#D23E62;--ion-color-danger-tint:#F16283;--ion-color-dark:#1E2328;--ion-color-dark-rgb:30, 35, 40;--ion-color-dark-contrast:#FFFFFF;--ion-color-dark-contrast-rgb:255, 255, 255;--ion-color-dark-shade:#1A1F23;--ion-color-dark-tint:#34393E;--ion-color-medium:#9BA1A6;--ion-color-medium-rgb:155, 161, 166;--ion-color-medium-contrast:#FFFFFF;--ion-color-medium-contrast-rgb:255, 255, 255;--ion-color-medium-shade:#888E92;--ion-color-medium-tint:#A5AAB0;--ion-color-light:#F5F1EC;--ion-color-light-rgb:245, 241, 236;--ion-color-light-contrast:#1E2328;--ion-color-light-contrast-rgb:30, 35, 40;--ion-color-light-shade:#D8D4D0;--ion-color-light-tint:#F6F3EE;--ion-background-color:var(--rolodex-bg);--ion-background-color-rgb:var(--rolodex-bg-rgb);--ion-text-color:var(--rolodex-text);--ion-text-color-rgb:var(--rolodex-text-rgb);--ion-item-background:var(--rolodex-surface);--ion-border-color:var(--rolodex-border);--ion-toolbar-background:var(--rolodex-surface);--ion-tab-bar-background:var(--rolodex-surface);--ion-input-custom-color:var(--rolodex-text)}</style><link rel="stylesheet" href="styles.7c5f5788b3e8bdc6.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.7c5f5788b3e8bdc6.css"></noscript></head>
 
 <body>
   <!-- 2026-08-22 SPLASH: OxAlpha's animated mark — the ring draws itself, the
@@ -90,6 +90,6 @@
   </div>
 
   <app-root></app-root>
-<script src="runtime.js" type="module"></script><script src="polyfills.js" type="module"></script><script src="vendor.js" type="module"></script><script src="main.js" type="module"></script></body>
+<script src="runtime.b326cf3186138450.js" type="module"></script><script src="polyfills.94c5bb18b50b1d90.js" type="module"></script><script src="main.aeac655290d46bb1.js" type="module"></script></body>
 
 </html>
