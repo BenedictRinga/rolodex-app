@@ -554,6 +554,18 @@
     "meter.hint0": "Kamata kitanzi kimoja — sentensi moja tu inawasha enjini.",
     "meter.hint1": "Onyesha alama yao kwako, au kwa nini kimekaa — na sawazisha deck yako ili vitanzi vijipate vyenyewe.",
     "meter.hint2": "Tuma na ufunge — risiti hujenga mfuatano.",
-    "meter.hint3": "Hatua kamili. Endelea kukamata — Keeper anashughulikia mengineyo."
+    "meter.hint3": "Hatua kamili. Endelea kukamata — Keeper anashughulikia mengineyo.",
+    "welcome.meter.kicker": "Kipimo cha kweli",
+    "welcome.meter.title": "Sentensi moja inakutenganisha na autopiloti",
+    "welcome.meter.copy": "Bila kukamata kwako, LoopKeeper ni app nyingine tu ya anwani — ile simu yako inayoipata. Kipimo-kitanzi kinaonyesha hivyo kwa kweli. Kamata kitanzi kimoja na enjini inaamka: rasimu, vikumbusho, risiti — linapanda kutoka Meneja wa anwani hadi Mfuatiliaji wa vitanzi, Mfungaji wa vitanzi, na hatimaye Inajiendesha yenyewe.",
+    "welcome.meter.emphasis": "Sentensi moja huanza kila kitu.",
+    "welcome.meter.dumb": "Anwani za simu yako",
+    "welcome.meter.verdict": "Kitanzi kimoja kilichokamatwa kikifanya kuwa Keeper.",
+    "draft.owedReply.why": "Habari {{person}} — samahani kwa kuchelewa kujibu “{{topic}}”. Kimekaa kwa sababu {{why}}. Hapa ndipo nilivyofika:\n\n",
+    "draft.owedReply.plain": "Habari {{person}} — samahani kwa kuchelewa kujibu “{{topic}}”. Hauna sababu nzuri — nilikuwa nazidi kuahidi kujibu. Hapa ndipo nilivyofika:\n\n",
+    "draft.checkIn.pretext": "Habari {{person}} — {{pretext}}. Vipi, uko poa?\n\n",
+    "draft.checkIn.plain": "Habari {{person}} — ulinikumbuka leo. Vipi, uko poa?\n\n",
+    "draft.promise": "Habari {{person}} — nitimiza nilichosema: {{promise}}. Yako hapo:\n\n",
+    "draft.coffee": "Habari {{person}} — tunajadili kahawa tangu juzi, tuifungue: je {{day}} inafaa? Mimi nitaandaa."
   }
 }

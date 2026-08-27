@@ -554,6 +554,18 @@
     "meter.hint0": "Capturez une boucle — une seule phrase démarre le moteur.",
     "meter.hint1": "Précisez qui elle est pour vous, ou pourquoi elle attend — et synchronisez votre répertoire pour que les boucles se trouvent toutes seules.",
     "meter.hint2": "Envoyez et clôturez — les reçus construisent la série.",
-    "meter.hint3": "Plein régime. Continuez à capturer — le Gardien s'occupe du reste."
+    "meter.hint3": "Plein régime. Continuez à capturer — le Gardien s'occupe du reste.",
+    "welcome.meter.kicker": "La jauge honnête",
+    "welcome.meter.title": "Une phrase vous sépare du pilote automatique",
+    "welcome.meter.copy": "Sans vos captures, LoopKeeper n'est qu'un énième carnet d'adresses — celui que votre téléphone a déjà. La jauge le montre honnêtement. Capturez une seule boucle et le moteur s'éveille : brouillons, rappels, reçus — de Gestionnaire de contacts à Suivi des boucles, Clôture de boucles, puis Pilote automatique.",
+    "welcome.meter.emphasis": "Une seule phrase, et tout démarre.",
+    "welcome.meter.dumb": "L'app Contacts de votre téléphone",
+    "welcome.meter.verdict": "Une boucle capturée, et il devient un Gardien.",
+    "draft.owedReply.why": "Salut {{person}} — désolé pour ma réponse tardive à « {{topic}} ». C'est resté en attente car {{why}}. Voici où j'en suis :\n\n",
+    "draft.owedReply.plain": "Salut {{person}} — désolé pour ma réponse tardive à « {{topic}} ». Aucune bonne excuse — je n'ai cessé de remettre à plus tard. Voici où j'en suis :\n\n",
+    "draft.checkIn.pretext": "Salut {{person}} — {{pretext}}. Comment vas-tu ?\n\n",
+    "draft.checkIn.plain": "Salut {{person}} — tu m'as traversé l'esprit aujourd'hui. Comment vas-tu ?\n\n",
+    "draft.promise": "Salut {{person}} — je tiens ce que j'ai dit : {{promise}}. Le voici :\n\n",
+    "draft.coffee": "Salut {{person}} — on dit toujours « on prend un café », tranchons : {{day}} te va ? Je réserve."
   }
 }

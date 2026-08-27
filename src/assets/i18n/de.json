@@ -554,6 +554,18 @@
     "meter.hint0": "Halte eine Schleife fest — ein einziger Satz startet den Motor.",
     "meter.hint1": "Ergänze, wer sie dir ist oder warum sie wartet — und synchronisiere dein Verzeichnis, damit Schleifen sich selbst finden.",
     "meter.hint2": "Senden und abschließen — Quittungen bauen die Serie auf.",
-    "meter.hint3": "Voller Fahrt. Weiter festhalten — der Hüter erledigt den Rest."
+    "meter.hint3": "Voller Fahrt. Weiter festhalten — der Hüter erledigt den Rest.",
+    "welcome.meter.kicker": "Die ehrliche Anzeige",
+    "welcome.meter.title": "Ein Satz trennt dich vom Autopiloten",
+    "welcome.meter.copy": "Ohne deine Aufzeichnungen ist LoopKeeper nur eine weitere Kontakte-App — die dein Handy schon hat. Die Anzeige zeigt es ehrlich. Halte eine einzige Schleife fest und der Motor erwacht: Entwürfe, Erinnerungen, Quittungen — von Kontakte-Verwalter zu Schleifen-Verfolger, Schleifen-Schließer und schließlich Autopilot.",
+    "welcome.meter.emphasis": "Ein Satz — und alles startet.",
+    "welcome.meter.dumb": "Die Kontakte-App deines Handys",
+    "welcome.meter.verdict": "Eine festgehaltene Schleife macht daraus einen Hüter.",
+    "draft.owedReply.why": "Hi {{person}} — sorry für die späte Antwort zu „{{topic}}“. Es hat gelegen, weil {{why}}. Hier, wo ich stehe:\n\n",
+    "draft.owedReply.plain": "Hi {{person}} — sorry für die späte Antwort zu „{{topic}}“. Keine gute Ausrede — ich hab's ständig aufgeschoben. Hier, wo ich stehe:\n\n",
+    "draft.checkIn.pretext": "Hi {{person}} — {{pretext}}. Wie geht's dir?\n\n",
+    "draft.checkIn.plain": "Hi {{person}} — du bist mir heute in den Sinn gekommen. Wie geht's dir?\n\n",
+    "draft.promise": "Hi {{person}} — ich halte, was ich sagte: {{promise}}. Hier ist es:\n\n",
+    "draft.coffee": "Hi {{person}} — wir sagen schon ewig Kaffee, machen wir es ernst: passt {{day}}? Ich buche."
   }
 }

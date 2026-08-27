@@ -560,6 +560,18 @@
     "meter.hint0": "Capture one loop — a single sentence starts the engine.",
     "meter.hint1": "Add who they are to you, or why it's sitting — and sync your deck so loops find themselves.",
     "meter.hint2": "Send and close — receipts build the streak.",
-    "meter.hint3": "Full stride. Keep capturing — the Keeper handles the rest."
+    "meter.hint3": "Full stride. Keep capturing — the Keeper handles the rest.",
+    "welcome.meter.kicker": "The honest gauge",
+    "welcome.meter.title": "One sentence separates you from autopilot",
+    "welcome.meter.copy": "Without your captures, LoopKeeper is just another contacts app — the one your phone already has. The Loop-O-meter shows this honestly. Capture a single loop and the engine wakes: drafts, nudges, receipts — climbing from Contacts manager to Loop tracker, Loop closer, and finally Autopilot.",
+    "welcome.meter.emphasis": "One sentence starts everything.",
+    "welcome.meter.dumb": "Your phone's contacts app",
+    "welcome.meter.verdict": "One captured loop flips it into a Keeper.",
+    "draft.owedReply.why": "Hi {{person}} — sorry for the slow reply on “{{topic}}”. It sat because {{why}}. Here's where I've landed:\n\n",
+    "draft.owedReply.plain": "Hi {{person}} — sorry for the slow reply on “{{topic}}”. No good excuse — I kept meaning to get back to you. Here's where I've landed:\n\n",
+    "draft.checkIn.pretext": "Hi {{person}} — {{pretext}}. How have you been?\n\n",
+    "draft.checkIn.plain": "Hi {{person}} — crossed my mind today. How have you been?\n\n",
+    "draft.promise": "Hi {{person}} — following through on what I said: {{promise}}. Here it is:\n\n",
+    "draft.coffee": "Hi {{person}} — we keep saying coffee, so let's kill the maybe: does {{day}} work? I'll book it."
   }
 }

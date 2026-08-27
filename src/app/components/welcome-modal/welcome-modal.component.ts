@@ -88,6 +88,16 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       emphasis: 'loopkeeper.welcome.followup.emphasis',
     },
     {
+      // 2026-08-27 THE HONEST GAUGE: prepare the user for the Loop-O-meter —
+      // and for the truth that absent their input, the app is just another
+      // contacts app (the one their phone already has).
+      id: 'meter',
+      kicker: 'loopkeeper.welcome.meter.kicker',
+      title: 'loopkeeper.welcome.meter.title',
+      copy: 'loopkeeper.welcome.meter.copy',
+      emphasis: 'loopkeeper.welcome.meter.emphasis',
+    },
+    {
       id: 'confidante',
       kicker: 'loopkeeper.welcome.confidante.kicker',
       title: 'loopkeeper.welcome.confidante.title',

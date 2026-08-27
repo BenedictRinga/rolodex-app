@@ -93,6 +93,29 @@
               <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> {{ 'loopkeeper.welcome.st.fuCatch' | translate }}</div>
             </div>
 
+            <!-- THE HONEST GAUGE: OEM contacts app (dead end) vs one capture (engine alive) -->
+            <div class="ladder" *ngSwitchCase="'meter'">
+              <div class="lad-dumb">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>{{ 'loopkeeper.welcome.meter.dumb' | translate }}</span>
+                <span class="lad-x">✕</span>
+              </div>
+              <div class="lad-drop">↓</div>
+              <div class="lad-meter">
+                <div class="lm-head">
+                  <span class="lm-title">{{ 'loopkeeper.meter.title' | translate }}</span>
+                  <span class="lm-level">{{ 'loopkeeper.meter.l3' | translate }}</span>
+                </div>
+                <div class="lm-bar">
+                  <span class="lm-seg on s1"></span>
+                  <span class="lm-seg on s2"></span>
+                  <span class="lm-seg on s3"></span>
+                  <span class="lm-seg on s4"></span>
+                </div>
+              </div>
+              <div class="lad-verdict"><ion-icon name="sparkles-outline"></ion-icon> {{ 'loopkeeper.welcome.meter.verdict' | translate }}</div>
+            </div>
+
             <!-- SIGNAL: they always know - badge, toast, receipts, live update -->
             <div class="signal" *ngSwitchCase="'signal'">
               <div class="sig-row">

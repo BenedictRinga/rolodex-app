@@ -554,6 +554,18 @@
     "meter.hint0": "Captura un loop — una sola frase arranca el motor.",
     "meter.hint1": "Añade quién es para ti, o por qué espera — y sincroniza tu agenda para que los loops se encuentren solos.",
     "meter.hint2": "Envía y cierra — los recibos construyen la racha.",
-    "meter.hint3": "Todo a pleno ritmo. Sigue capturando — el Guardián se encarga del resto."
+    "meter.hint3": "Todo a pleno ritmo. Sigue capturando — el Guardián se encarga del resto.",
+    "welcome.meter.kicker": "El medidor honesto",
+    "welcome.meter.title": "Una frase te separa del piloto automático",
+    "welcome.meter.copy": "Sin tus capturas, LoopKeeper es solo otra app de contactos — la que tu teléfono ya tiene. El Loop-O-meter lo muestra con honestidad. Captura un solo loop y el motor despierta: borradores, recordatorios, recibos — subiendo de Gestor de contactos a Seguimiento de loops, Cierre de loops y por fin Piloto automático.",
+    "welcome.meter.emphasis": "Una frase lo enciende todo.",
+    "welcome.meter.dumb": "La app de contactos de tu teléfono",
+    "welcome.meter.verdict": "Un loop capturado lo convierte en Guardián.",
+    "draft.owedReply.why": "Hola {{person}} — perdón por tardar en responder “{{topic}}”. Quedó pendiente porque {{why}}. Esto es donde estoy:\n\n",
+    "draft.owedReply.plain": "Hola {{person}} — perdón por tardar en responder “{{topic}}”. Sin buena excusa — seguí posponiéndolo. Esto es donde estoy:\n\n",
+    "draft.checkIn.pretext": "Hola {{person}} — {{pretext}}. ¿Cómo estás?\n\n",
+    "draft.checkIn.plain": "Hola {{person}} — se me cruzó hoy. ¿Cómo estás?\n\n",
+    "draft.promise": "Hola {{person}} — cumplo lo que dije: {{promise}}. Aquí está:\n\n",
+    "draft.coffee": "Hola {{person}} — siempre decimos café, matémoslo: ¿va {{day}}? Yo reservo."
   }
 }

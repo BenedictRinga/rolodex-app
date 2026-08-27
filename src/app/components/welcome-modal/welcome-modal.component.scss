@@ -1377,3 +1377,104 @@ ion-content {
   .demo-stage { height: 196px; }        /* was 240 — pledge needs the room */
   .demo-copy { padding-top: 10px; }
 }
+
+/* ═══ 2026-08-27 THE HONEST GAUGE (meter slide) ═════════════════════════
+   OEM contacts app = dead end (grayed, ✕). One capture → the meter fills
+   segment by segment to Autopilot. Pure CSS, mirrors .li-meter in the inbox. */
+.ladder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+.lad-dumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .05);
+  border: 1px dashed rgba(0, 0, 0, .18);
+  color: var(--rolodex-text-tertiary, #8a9a98);
+  font-size: 12.5px;
+  font-weight: 600;
+  ion-icon { font-size: 16px; }
+  position: relative;
+}
+.lad-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(176, 104, 92, .15);
+  color: #b0685c;
+  font-size: 11px;
+  font-weight: 800;
+}
+.lad-drop {
+  color: var(--rolodex-text-tertiary, #8a9a98);
+  font-size: 14px;
+  line-height: 1;
+  animation: lad-drop-bob 1.6s ease-in-out infinite;
+}
+@keyframes lad-drop-bob {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50% { transform: translateY(3px); opacity: 1; }
+}
+.lad-meter {
+  width: min(280px, 88%);
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(0, 168, 150, .07);
+  border: 1px solid rgba(0, 168, 150, .3);
+}
+.lm-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.lm-title {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(0, 168, 150, .95);
+}
+.lm-level {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0b7a55;
+}
+.lm-bar {
+  display: flex;
+  gap: 4px;
+  margin-top: 7px;
+}
+.lm-seg {
+  height: 6px;
+  flex: 1;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, .1);
+  &.on { background: #00A896; animation: lm-fill .55s ease-out both; }
+  &.s2 { animation-delay: .25s; }
+  &.s3 { animation-delay: .5s; }
+  &.s4 { animation-delay: .75s; }
+}
+@keyframes lm-fill {
+  from { transform: scaleX(.2); opacity: .25; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+.lad-verdict {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #00897B;
+  ion-icon { font-size: 15px; }
+}

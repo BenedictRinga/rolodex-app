@@ -488,8 +488,48 @@ No pressure either way — replying here connects you directly.`;
 
   // ===== Uncomfortable-message drafter (feature 5) ===========================
 
+  /**
+   * 2026-08-27 DRAFT LANGUAGES: the deterministic engine was English-only —
+   * an Arabic-UI user's first draft arrived in English. The wedge kinds now
+   * draft in the user's language via loopkeeper.draft.* keys (hand-translated
+   * for the major locales; every other locale carries the EN value as a safe
+   * fallback, so instant() NEVER leaks a raw key). Returns null → English
+   * template below. En route: missing key → instant returns the key → null.
+   */
+  private localizedShort(l: Loop): string | null {
+    const lang = this.translate?.currentLang;
+    if (!lang || lang === 'en' || lang.startsWith('en-')) return null;
+    const f = l.person.split(' ')[0];
+    const topic = (l.summary || 'our last thread').replace(/^about\s+/i, '');
+    const t = (k: string, params: Record<string, unknown>): string | null => {
+      const s = this.translate.instant(k, params);
+      return s === k ? null : s;
+    };
+    switch (l.kind) {
+      case 'owed-reply':
+        return l.whySitting
+          ? t('loopkeeper.draft.owedReply.why', { person: f, topic, why: l.whySitting })
+          : t('loopkeeper.draft.owedReply.plain', { person: f, topic });
+      case 'check-in':
+        return l.pretext
+          ? t('loopkeeper.draft.checkIn.pretext', { person: f, pretext: l.pretext })
+          : t('loopkeeper.draft.checkIn.plain', { person: f });
+      case 'promise':
+        return t('loopkeeper.draft.promise', { person: f, promise: l.promise || topic });
+      case 'coffee':
+        return t('loopkeeper.draft.coffee', { person: f, day: '[day]' });
+      default:
+        return null;
+    }
+  }
+
   generateDraft(l: Loop, tone: LoopTone = l.tone || 'short'): string {
     l.tone = tone;
+    // Localized wedge drafts first (short tone only) — see localizedShort.
+    if (tone === 'short') {
+      const loc = this.localizedShort(l);
+      if (loc) return loc;
+    }
     const f = l.person.split(' ')[0];
     const topic = (l.summary || 'our last thread').replace(/^about\s+/i, '');
     const why = l.whySitting ? `It sat because ${l.whySitting}.` : '';
