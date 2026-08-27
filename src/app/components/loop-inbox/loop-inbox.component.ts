@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {
   LoopsService, Loop, LoopTone, LoopChannel,
@@ -8,6 +8,7 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { LoopConsultComponent } from '../loop-consult/loop-consult.component';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
@@ -114,8 +115,30 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private keeper: KeeperAgentService,
     private storage: StorageService,
+    // 2026-08-27 APEX CONSULT: presents the GP-style distilled card per loop.
+    private modalCtrl: ModalController,
   ) {
     this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+  }
+
+  /** 2026-08-27 THE LOOP CONSULT — apex distilled format (USE_NOW.txt).
+   *  One tap = who/what/where/when vitals + verdict + ONE draft. When the
+   *  card hands back 'open-row', expand that row so the send machinery
+   *  (the only channel path) is right there with the fresh draft. */
+  async openConsult(l: Loop): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: LoopConsultComponent,
+      componentProps: { c: l },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.9],
+      initialBreakpoint: 0.9,
+      keyboardClose: false,
+    });
+    await modal.present();
+    const res = await modal.onDidDismiss();
+    if (res?.data?.action === 'open-row' && res.data.loopId) {
+      this.selectedId = res.data.loopId;
+    }
   }
 
   setLanguage(code: string): void {

@@ -68,3 +68,34 @@
 /* Embedded reminders: hide the modal header — the content IS the tab. */
 .li-reminders ::ng-deep app-reminders-modal ion-header { display:none; }
 .li-reminders ::ng-deep app-reminders-modal ion-content { --padding-start:0; --padding-end:0; }
+
+/* ═══ 2026-08-27 APEX CONSULT + who/what/where/when highlighting ═══
+   The row's WHO (person) and WHEN (sitting-days) now carry the same
+   accents the consult card uses, so both surfaces read as one system. */
+.li-consult-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 168, 150, .1);
+  border: 1px solid rgba(0, 168, 150, .35);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+
+  &:active { transform: scale(.92); }
+  &:hover { background: rgba(0, 168, 150, .2); }
+}
+
+.li-row { position: relative; }
+
+.li-person {
+  color: #00897B;
+}
+
+.li-summary {
+  font-weight: 600;
+}

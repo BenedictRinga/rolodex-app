@@ -524,10 +524,25 @@
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
     "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
-    "capture": {
-      "sample1": "Je dois répondre à Priya au sujet du créneau de jeudi",
-      "sample2": "J'ai promis à Tunde d'envoyer la présentation",
-      "sample3": "On devrait prendre un café avec Amara"
-    }
+    "consult.title": "Consultation",
+    "consult.kWho": "Qui",
+    "consult.kWhat": "Quoi",
+    "consult.kWhen": "Quand",
+    "consult.kWhere": "Canal",
+    "consult.chVoice": "Note vocale",
+    "consult.whenParked": "En pause jusqu'au {{date}}",
+    "consult.whenToday": "Contact aujourd'hui",
+    "consult.whenQuiet": "Silencieux depuis {{n}} jours",
+    "consult.verdictParked": "Repose par votre choix — LoopKeeper le réveillera.",
+    "consult.verdictParkedCond": "En attente de : {{cond}}",
+    "consult.verdictDone": "Fermé avec dignité — terminé.",
+    "consult.verdictAwaiting": "Envoyé via {{channel}}. Fini = leur réponse.",
+    "consult.verdictOwed": "Vous devez une réponse à {{person}} — les mots à un geste.",
+    "consult.verdictOpen": "{{person}} — fermons celui-ci aujourd'hui.",
+    "consult.draftIt": "Rédigez pour moi",
+    "consult.yourDraft": "Votre brouillon",
+    "consult.makeBetter": "Demander à l'IA d'améliorer",
+    "consult.thinking": "Réflexion…",
+    "consult.openToSend": "Ouvrir la ligne pour envoyer"
   }
 }

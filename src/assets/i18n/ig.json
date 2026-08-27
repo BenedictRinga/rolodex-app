@@ -524,10 +524,25 @@
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
     "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
-    "capture": {
-      "sample1": "M ga-agwa Priya okwu maka oge Tọzdee",
-      "sample2": "Kwaram Tunde m na m ziga ya ngosi ahụ",
-      "sample3": "Anyị kwesiri ịṅụ kọfị na Amara"
-    }
+    "consult.title": "Consultation",
+    "consult.kWho": "Who",
+    "consult.kWhat": "What",
+    "consult.kWhen": "When",
+    "consult.kWhere": "Channel",
+    "consult.chVoice": "Voice note",
+    "consult.whenParked": "Parked until {{date}}",
+    "consult.whenToday": "Touched today",
+    "consult.whenQuiet": "Quiet {{n}} days",
+    "consult.verdictParked": "Resting by your choice — LoopKeeper wakes it.",
+    "consult.verdictParkedCond": "Waiting on: {{cond}}",
+    "consult.verdictDone": "Closed with dignity — done.",
+    "consult.verdictAwaiting": "Sent via {{channel}}. Done means their reply.",
+    "consult.verdictOwed": "You owe {{person}} — the words are one tap away.",
+    "consult.verdictOpen": "{{person}} — let's close this one today.",
+    "consult.draftIt": "Draft it for me",
+    "consult.yourDraft": "Your draft",
+    "consult.makeBetter": "Ask AI to make it better",
+    "consult.thinking": "Thinking…",
+    "consult.openToSend": "Open row to send"
   }
 }

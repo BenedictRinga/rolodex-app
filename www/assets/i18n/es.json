@@ -419,7 +419,7 @@
     "t.recDenied": "Micrófono rechazado — queda el esquema.",
     "t.recCaptured": "🎧 {{s}}s capturados — previsualiza y envía.",
     "t.voiceClosed": "✅ Nota de voz entregada — bucle CERRADO con {{person}}.",
-    "t.voiceSent": "📤 Nota de voz enviada — hecho significa su respuesta.",
+    "t.voiceSent": "📤 Nota de voz enviada — listo significa la respuesta de {{person}}.",
     "t.attachSaved": "⬇ Guardado — adjúntalo en tu app de chat y márcalo enviado.",
     "welcome.intro.kicker": "¡Karibu sana!",
     "welcome.intro.kickerReplay": "Bienvenido de nuevo",
@@ -524,10 +524,25 @@
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
     "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
-    "capture": {
-      "sample1": "Debo responderle a Priya por el hueco del jueves",
-      "sample2": "Le prometí a Tunde enviar la presentación",
-      "sample3": "Deberíamos tomar un café con Amara"
-    }
+    "consult.title": "Consulta",
+    "consult.kWho": "Quién",
+    "consult.kWhat": "Qué",
+    "consult.kWhen": "Cuándo",
+    "consult.kWhere": "Canal",
+    "consult.chVoice": "Nota de voz",
+    "consult.whenParked": "En pausa hasta el {{date}}",
+    "consult.whenToday": "Contacto hoy",
+    "consult.whenQuiet": "{{n}} días en silencio",
+    "consult.verdictParked": "Descansa por tu elección — LoopKeeper lo despertará.",
+    "consult.verdictParkedCond": "Esperando: {{cond}}",
+    "consult.verdictDone": "Cerrado con dignidad — listo.",
+    "consult.verdictAwaiting": "Enviado por {{channel}}. Listo = su respuesta.",
+    "consult.verdictOwed": "Le debes una respuesta a {{person}} — las palabras a un toque.",
+    "consult.verdictOpen": "{{person}} — cerremos este hoy.",
+    "consult.draftIt": "Redáctalo por mí",
+    "consult.yourDraft": "Tu borrador",
+    "consult.makeBetter": "Pedir a la IA que lo mejore",
+    "consult.thinking": "Pensando…",
+    "consult.openToSend": "Abrir la fila para enviar"
   }
 }

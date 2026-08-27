@@ -524,10 +524,25 @@
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
     "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
-    "capture": {
-      "sample1": "Muss Priya wegen des Donnerstagstermins antworten",
-      "sample2": "Habe Tunde versprochen, das Deck zu schicken",
-      "sample3": "Wir sollten mal wieder einen Kaffee mit Amara trinken"
-    }
+    "consult.title": "Sprechstunde",
+    "consult.kWho": "Wer",
+    "consult.kWhat": "Was",
+    "consult.kWhen": "Wann",
+    "consult.kWhere": "Kanal",
+    "consult.chVoice": "Sprachnachricht",
+    "consult.whenParked": "Pausiert bis {{date}}",
+    "consult.whenToday": "Heute Kontakt",
+    "consult.whenQuiet": "{{n}} Tage still",
+    "consult.verdictParked": "Ruhet nach deinem Wunsch — LoopKeeper weckt es.",
+    "consult.verdictParkedCond": "Warte auf: {{cond}}",
+    "consult.verdictDone": "Würdevoll geschlossen — erledigt.",
+    "consult.verdictAwaiting": "Gesendet über {{channel}}. Erledigt = ihre Antwort.",
+    "consult.verdictOwed": "{{person}} wartet auf dich — die Worte sind einen Tipp entfernt.",
+    "consult.verdictOpen": "{{person}} — schließen wir das heute.",
+    "consult.draftIt": "Schreib es für mich",
+    "consult.yourDraft": "Dein Entwurf",
+    "consult.makeBetter": "KI verbessern lassen",
+    "consult.thinking": "Denkt nach…",
+    "consult.openToSend": "Zeile zum Senden öffnen"
   }
 }

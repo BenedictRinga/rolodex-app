@@ -388,7 +388,7 @@
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "未能打开该回路——请重试。",
     "t.opened": "与 {{person}} 的新回路已开启——草稿就绪。",
-    "t.firstLoop": "第一条回路已开启——这就是习惯：捕捉、发送、闭环。🎉",
+    "t.firstLoop": "与 {{person}} 的第一个事项已开启 — 草稿在下方。习惯就是这样：记下、发送、完成。 🎉",
     "t.them": "对方",
     "t.introDrafted": "Both intro notes drafted — A is live below.",
     "t.introErr": "Could not draft the pair — try again.",
@@ -524,10 +524,25 @@
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
     "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
-    "capture": {
-      "sample1": "得回复 Priya 周四那个时间的事",
-      "sample2": "答应了 Tunde 要把资料发过去",
-      "sample3": "该和 Amara 喝杯咖啡了"
-    }
+    "consult.title": "Consultation",
+    "consult.kWho": "Who",
+    "consult.kWhat": "What",
+    "consult.kWhen": "When",
+    "consult.kWhere": "Channel",
+    "consult.chVoice": "Voice note",
+    "consult.whenParked": "Parked until {{date}}",
+    "consult.whenToday": "Touched today",
+    "consult.whenQuiet": "Quiet {{n}} days",
+    "consult.verdictParked": "Resting by your choice — LoopKeeper wakes it.",
+    "consult.verdictParkedCond": "Waiting on: {{cond}}",
+    "consult.verdictDone": "Closed with dignity — done.",
+    "consult.verdictAwaiting": "Sent via {{channel}}. Done means their reply.",
+    "consult.verdictOwed": "You owe {{person}} — the words are one tap away.",
+    "consult.verdictOpen": "{{person}} — let's close this one today.",
+    "consult.draftIt": "Draft it for me",
+    "consult.yourDraft": "Your draft",
+    "consult.makeBetter": "Ask AI to make it better",
+    "consult.thinking": "Thinking…",
+    "consult.openToSend": "Open row to send"
   }
 }

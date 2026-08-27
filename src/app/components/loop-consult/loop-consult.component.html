@@ -1,0 +1,71 @@
+<!-- ══════════════════════════════════════════════════════════════════
+     2026-08-27 LOOP CONSULT — the GP first-consultation card.
+     Everything crucial is bolded and color-flagged: who/what/where/when
+     at one glance, one verdict line, ONE draft — never an A/B menu.
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="lc-card">
+
+  <div class="lc-head">
+    <span class="lc-pulse" aria-hidden="true">🩺</span>
+    <div class="lc-head-text">
+      <div class="lc-title">{{ 'loopkeeper.consult.title' | translate }}</div>
+      <div class="lc-sub">
+        <b>{{ c.person }}</b><ng-container *ngIf="c.relation"> · {{ c.relation }}</ng-container>
+      </div>
+    </div>
+    <button class="lc-x" (click)="close()" [attr.aria-label]="'loopkeeper.t.btnCancel' | translate">✕</button>
+  </div>
+
+  <!-- ── VITALS: the four harness properties, bolded + flagged ── -->
+  <div class="lc-vitals">
+
+    <div class="lc-vital lc-who">
+      <span class="lc-k">{{ 'loopkeeper.consult.kWho' | translate }}</span>
+      <b class="lc-v">{{ c.person }}</b>
+      <span class="lc-tail" *ngIf="c.kind">· {{ kindOf() }}</span>
+    </div>
+
+    <div class="lc-vital lc-what" *ngIf="whatText">
+      <span class="lc-k">{{ 'loopkeeper.consult.kWhat' | translate }}</span>
+      <b class="lc-v">{{ whatText }}</b>
+    </div>
+
+    <div class="lc-vital lc-when">
+      <span class="lc-k">{{ 'loopkeeper.consult.kWhen' | translate }}</span>
+      <b class="lc-v">{{ whenKey | translate:whenParams }}</b>
+    </div>
+
+    <div class="lc-vital lc-where" *ngIf="whereLabel">
+      <span class="lc-k">{{ 'loopkeeper.consult.kWhere' | translate }}</span>
+      <b class="lc-v">{{ whereLabel }}</b>
+    </div>
+
+  </div>
+
+  <!-- ── THE VERDICT — the GP's one-liner ── -->
+  <div class="lc-verdict">{{ verdictKey | translate:verdictParams }}</div>
+
+  <!-- ── WHY IT SITS (13) — user words win over suggestions ── -->
+  <div class="lc-why" *ngIf="c.whySitting">{{ 'loopkeeper.sittingBecause' | translate:{ reason: c.whySitting } }}</div>
+
+  <!-- ── THE ONE DRAFT (never A/B) ── -->
+  <div class="lc-draft-zone">
+    <ion-button expand="block" class="lc-draft-btn" [disabled]="busy" (click)="draftIt()" *ngIf="!c.draft">
+      <ion-icon name="create-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.consult.draftIt' | translate }}
+    </ion-button>
+
+    <ng-container *ngIf="c.draft">
+      <div class="lc-draft-label">{{ 'loopkeeper.consult.yourDraft' | translate }}</div>
+      <div class="lc-draft">{{ c.draft }}</div>
+      <button class="lc-better" (click)="makeBetter()" [disabled]="polishing">
+        {{ polishing ? ('loopkeeper.consult.thinking' | translate) : ('loopkeeper.consult.makeBetter' | translate) }}
+      </button>
+      <ion-button expand="block" class="lc-send-btn" (click)="openRowToSend()">
+        <ion-icon name="send-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.consult.openToSend' | translate }}
+      </ion-button>
+    </ng-container>
+  </div>
+
+</div>

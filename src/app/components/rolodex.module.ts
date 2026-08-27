@@ -24,6 +24,7 @@ import { SearchModalComponent } from './search-modal/search-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
 import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
+import { LoopConsultComponent } from './loop-consult/loop-consult.component';
 import { TranslatePortalComponent } from './translate-portal/translate-portal.component';
 import { TranslationReviewComponent } from './translation-review/translation-review.component';
 
@@ -50,6 +51,7 @@ import { TranslationReviewComponent } from './translation-review/translation-rev
     HelpModalComponent,
     ShareAppModalComponent,
     LoopInboxComponent,
+    LoopConsultComponent,
     TranslatePortalComponent,
     TranslationReviewComponent,
   ],

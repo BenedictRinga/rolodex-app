@@ -76,6 +76,7 @@
           <span class="li-meta">{{ rel(l.lastTouchAt || l.createdAt) }}</span>
           <div class="li-summary">{{ l.summary }}</div>
         </div>
+        <button class="li-consult-btn" (click)="openConsult(l)" [attr.aria-label]="'loopkeeper.consult.title' | translate">🩺</button>
         <div class="li-their-actions">
           <ion-button size="small" fill="outline" (click)="markThemReplied(l)">{{ 'loopkeeper.theyReplied' | translate }}</ion-button>
           <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">{{ 'loopkeeper.drop' | translate }}</ion-button>
@@ -134,6 +135,9 @@
         {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.closeIt' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) : ('loopkeeper.receipt.awaitingReply' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) }}
       </div>
     </div>
+
+    <!-- 2026-08-27 APEX CONSULT — the GP card, one tap away on every row -->
+    <button class="li-consult-btn" (click)="openConsult(l)" [title]="'loopkeeper.consult.title' | translate" [attr.aria-label]="'loopkeeper.consult.title' | translate">🩺</button>
 
     <!-- Expanded: CONTEXT PACKET (3) → DRAFT (5) → DECISION (4) -->
     <div *ngIf="selectedId === l.id" class="li-detail">

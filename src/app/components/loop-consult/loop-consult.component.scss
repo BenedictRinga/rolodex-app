@@ -1,0 +1,152 @@
+/* ═════════════════════════════════════════════════════════════════════
+   2026-08-27 LOOP CONSULT — "GP first consultation" styling.
+   Fun, calm, prescription-pad energy. WHO/WHAT/WHERE/WHEN are the four
+   vitals: each gets its own accent border so they read as flagged zones.
+   ═════════════════════════════════════════════════════════════════════ */
+
+.lc-card {
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+}
+
+.lc-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lc-pulse {
+  font-size: 26px;
+  flex: none;
+}
+
+.lc-head-text { flex: 1; min-width: 0; }
+
+.lc-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rolodex-primary);
+}
+
+.lc-sub {
+  font-size: 15px;
+  color: var(--rolodex-text-secondary);
+
+  b { color: var(--rolodex-text); }
+}
+
+.lc-x {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--rolodex-text-tertiary);
+  padding: 6px;
+  cursor: pointer;
+}
+
+/* ── Vitals grid — every zone carries its accent ────────────────────── */
+.lc-vitals {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lc-vital {
+  --accent: var(--rolodex-border);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--rolodex-surface-alt);
+  border: 1px solid var(--rolodex-border-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 9px 12px;
+
+  &.lc-who   { --accent: #00A896; }
+  &.lc-what  { --accent: #FFD93D; }
+  &.lc-when  { --accent: #7C5CFC; }
+  &.lc-where { --accent: #4f6df5; }
+}
+
+.lc-k {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-tertiary);
+  min-width: 52px;
+}
+
+.lc-v {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--rolodex-text);
+}
+
+.lc-tail {
+  font-size: 11.5px;
+  color: var(--rolodex-text-tertiary);
+  margin-left: auto;
+}
+
+/* ── Verdict — the GP's line, chart-paper feel ──────────────────────── */
+.lc-verdict {
+  background: rgba(0, 168, 150, .07);
+  border: 1px dashed rgba(0, 168, 150, .4);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--rolodex-text);
+  margin-bottom: 8px;
+}
+
+.lc-why {
+  font-size: 12px;
+  color: var(--rolodex-text-secondary);
+  margin: 0 2px 8px;
+}
+
+/* ── Draft zone — ONE draft, in place ───────────────────────────────── */
+.lc-draft-zone { margin-top: 6px; }
+
+.lc-draft-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-tertiary);
+  margin-bottom: 4px;
+}
+
+.lc-draft {
+  background: #FFFDF5;
+  border: 1px solid rgba(255, 217, 61, .55);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: var(--rolodex-text);
+}
+
+.lc-better {
+  background: none;
+  border: none;
+  padding: 8px 2px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--rolodex-primary);
+  cursor: pointer;
+
+  &:disabled { opacity: .5; }
+}
+
+.lc-send-btn {
+  margin-top: 8px;
+
+  --background: var(--rolodex-primary);
+}

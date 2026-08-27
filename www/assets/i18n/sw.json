@@ -523,6 +523,26 @@
     "welcome.aria.play": "Cheza demo",
     "welcome.aria.pause": "Simamisha demo",
     "welcome.ttsHiccup": "Sauti imepata hitilafu — tunajaribu sauti ya kifaa…",
-    "welcome.ttsFailed": "Sauti ya masimulizi imeshindikana — bonyeza Cheza kujaribu tena"
+    "welcome.ttsFailed": "Sauti ya masimulizi imeshindikana — bonyeza Cheza kujaribu tena",
+    "consult.title": "Ushauri",
+    "consult.kWho": "Nani",
+    "consult.kWhat": "Nini",
+    "consult.kWhen": "Lini",
+    "consult.kWhere": "Njia",
+    "consult.chVoice": "Sauti",
+    "consult.whenParked": "Imesimamishwa hadi {{date}}",
+    "consult.whenToday": "Mawasiliano leo",
+    "consult.whenQuiet": "Kimya siku {{n}}",
+    "consult.verdictParked": "Iko pumziko kwa uamuzi wako — LoopKeeper itaamsha.",
+    "consult.verdictParkedCond": "Tunasubiri: {{cond}}",
+    "consult.verdictDone": "Imefungwa kwa heshima — imekamilika.",
+    "consult.verdictAwaiting": "Imetumwa kupitia {{channel}}. Kufaulu = jibu lao.",
+    "consult.verdictOwed": "Unadaiwa kumjibu {{person}} — maneno ni mbali ya kugusa kidogo.",
+    "consult.verdictOpen": "{{person}} — tuifunge leo.",
+    "consult.draftIt": "Niandikie",
+    "consult.yourDraft": "Rasimu yako",
+    "consult.makeBetter": "Omba AI kuboresha",
+    "consult.thinking": "Inafikiri…",
+    "consult.openToSend": "Fungua mstari kutuma"
   }
 }
