@@ -5,8 +5,13 @@ This file tells AI assistants working on this repo what to keep consistent.
 ## Repo rules
 - YARN ONLY. Never use npm here.
 - Build hygiene:
-  - `yarn build` (dev) before commits.
-  - `yarn build:prod` before committing `www/` — commit only the production `www/` output.
+  - `yarn build` (dev) before commits — TYPECHECK ONLY. Its output is NEVER
+    commit-eligible.
+  - `yarn build:prod` before committing `www/` — commit only the production
+    `www/` output. PROOF OF THE RULE (2026-08-27, build 109 regression): dev
+    `www/` carries `<base href="/">`, so on the droplet every chunk/i18n fetch
+    resolved to site root and users got splash-then-blank-home. Always check
+    `grep base-href www/index.html` shows `/loopkeeper/` before staging `www/`.
 - Bump `src/environments/environment.ts` AND `src/environments/environment.prod.ts`
   `build` counter together with every user-visible frontend change, and keep it
   equal to the backend `package.json` `build` when both are released together.
