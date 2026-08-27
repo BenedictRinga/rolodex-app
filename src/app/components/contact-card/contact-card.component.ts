@@ -14,6 +14,7 @@ import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { ShareAppService, ShareMoment } from '../../services/share-app/share-app.service';
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { PhotoService } from '../../services/photo/photo.service';
+import { LoopsService, Loop } from '../../services/loops/loops.service';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/confidante-composer-modal.component';
@@ -149,8 +150,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private cardChat: CardChatService,
     private shareApp: ShareAppService,
     private socketChat: SocketChatService,
-    private photoService: PhotoService
-  ) { 
+    private photoService: PhotoService,
+    private loops: LoopsService,
+  ) {
     
       if (this.pageManager.currentViewMode === 'grid') {
       this.screenWidth = window.innerWidth;
@@ -162,6 +164,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.applySearchFilter();
     this.updateDisplayedContacts();
+    // 2026-08-27 CARD-BACK METER: seed the loop cache so the first flip
+    // already shows true vitality (flip also resyncs — cheap, async).
+    void this.syncLoops();
 
     if (this.pageManager.currentViewMode === 'grid') {
       this.updateDisplayedContacts();
@@ -1700,6 +1705,48 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // Toggle the isFlipped property on the contact object.
     // Ensure that each contact object in pageManager.displayedContacts has an `isFlipped` property.
     contact.isFlipped = !contact.isFlipped;
+    // 2026-08-27 CARD-BACK METER: the back is where the user looks — resync
+    // loops so the meter reflects the latest captures/sends/receipts.
+    if (contact.isFlipped) void this.syncLoops();
+  }
+
+  // ═══ 2026-08-27 CARD-BACK LOOP-O-METER ═══════════════════════════════════
+  // The founder's relocation: the meter does NOT belong in the inbox (one more
+  // panel in an already-dense screen) — it belongs on the back of every card,
+  // as the conscious reminder that filling the card is the USER'S power:
+  // update manually, or interact and let the Keeper glean the fields.
+  private loopsCache: Loop[] = [];
+
+  private async syncLoops(): Promise<void> {
+    try { this.loopsCache = await this.loops.all(); } catch { /* keep last cache */ }
+  }
+
+  /** Loose person match: exact, or containment both ways (Dr. Jane Doe ↔ Jane Doe). */
+  private personMatches(loopPerson: string, cardName: string): boolean {
+    const p = String(loopPerson || '').trim().toLowerCase();
+    const n = String(cardName || '').trim().toLowerCase();
+    if (!p || !n) return false;
+    return p === n || p.includes(n) || n.includes(p);
+  }
+
+  /** Card vitality: gleaned/manual fields (60) + open loop (15) + loop context
+   *  (10) + receipts (15). Levels: <30 l0 Just a name · <55 l1 Sketch ·
+   *  <80 l2 Living card · else l3 Autopilot. */
+  meterFor(contact: ContactInfo): { score: number; level: number } {
+    const r: any = (contact as any)?.rolodex || {};
+    let s = 0;
+    if (r.who) s += 12;
+    if (r.when) s += 12;
+    if (r.followUp) s += 12;
+    if (r.topic) s += 12;
+    if ((contact as any).note) s += 12;
+    const name = contact?.name?.display || '';
+    const mine = this.loopsCache.filter(l => this.personMatches(l.person, name));
+    if (mine.some(l => l.status !== 'closed' && l.status !== 'dropped')) s += 15;
+    if (mine.some(l => l.promise || l.whySitting)) s += 10;
+    if (mine.some(l => l.status === 'closed' || !!l.receipt)) s += 15;
+    const score = Math.min(100, s);
+    return { score, level: score < 30 ? 0 : score < 55 ? 1 : score < 80 ? 2 : 3 };
   }
 
   // Function to toggle details for each contact or close flipModal if same contact clicked

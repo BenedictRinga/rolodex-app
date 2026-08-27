@@ -566,6 +566,16 @@
     "draft.checkIn.pretext": "Salut {{person}} — {{pretext}}. Comment vas-tu ?\n\n",
     "draft.checkIn.plain": "Salut {{person}} — tu m'as traversé l'esprit aujourd'hui. Comment vas-tu ?\n\n",
     "draft.promise": "Salut {{person}} — je tiens ce que j'ai dit : {{promise}}. Le voici :\n\n",
-    "draft.coffee": "Salut {{person}} — on dit toujours « on prend un café », tranchons : {{day}} te va ? Je réserve."
+    "draft.coffee": "Salut {{person}} — on dit toujours « on prend un café », tranchons : {{day}} te va ? Je réserve.",
+    "meter.card.l0": "Un simple nom",
+    "meter.card.l1": "Esquisse",
+    "meter.card.l2": "Carte vivante",
+    "meter.card.l3": "Pilote automatique",
+    "meter.card.hint0": "C'est votre pouvoir : ajoutez qui elle est pour vous ou ce que vous avez évoqué — une ligne réveille cette carte.",
+    "meter.card.hint1": "Remplissez les 4 W — qui, quand, sujet, relance — le Gardien s’en nourrit.",
+    "meter.card.hint2": "Capturez une boucle avec eux — le moteur prend le relais.",
+    "meter.card.hint3": "Pilote automatique : le Gardien tient cette carte à jour grâce à vos échanges.",
+    "meter.card.aria": "Jauge de vitalité de la carte",
+    "t.closedCard": "Vous l’avez fait — une boucle fermée avec {{person}}. Sa carte vient de s’enrichir."
   }
 }

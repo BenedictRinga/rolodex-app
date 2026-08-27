@@ -120,6 +120,27 @@
                     <strong>Note:</strong> {{ contact.note }}
                   </p>
                 </div>
+                <!-- 2026-08-27 CARD-BACK LOOP-O-METER: whose power? Yours —
+                     update manually, or interact and the Keeper gleans the
+                     fields. One glance, no data dump (founder relocation
+                     out of the inbox). -->
+                <div class="back-meter" (click)="$event.stopPropagation()">
+                  <div class="bm-top">
+                    <span class="bm-title">{{ 'loopkeeper.meter.title' | translate }}</span>
+                    <span class="bm-level" [ngClass]="'lv' + meterFor(contact).level"
+                      [attr.aria-label]="'loopkeeper.meter.card.aria' | translate">
+                      {{ 'loopkeeper.meter.card.l' + meterFor(contact).level | translate }}
+                    </span>
+                  </div>
+                  <div class="bm-bar" role="meter" [attr.aria-valuenow]="meterFor(contact).score"
+                    [attr.aria-valuemin]="0" [attr.aria-valuemax]="100">
+                    <span class="bm-seg" [class.on]="meterFor(contact).score > 0"></span>
+                    <span class="bm-seg" [class.on]="meterFor(contact).score > 25"></span>
+                    <span class="bm-seg" [class.on]="meterFor(contact).score > 50"></span>
+                    <span class="bm-seg" [class.on]="meterFor(contact).score > 75"></span>
+                  </div>
+                  <div class="bm-hint">{{ 'loopkeeper.meter.card.hint' + meterFor(contact).level | translate }}</div>
+                </div>
                 <div class="card-actions" (click)="$event.stopPropagation()">
                   <ion-button fill="outline" size="small" (click)="onEditContact(contact)">
                     <ion-icon name="create-outline"></ion-icon>

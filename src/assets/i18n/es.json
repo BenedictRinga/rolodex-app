@@ -566,6 +566,16 @@
     "draft.checkIn.pretext": "Hola {{person}} — {{pretext}}. ¿Cómo estás?\n\n",
     "draft.checkIn.plain": "Hola {{person}} — se me cruzó hoy. ¿Cómo estás?\n\n",
     "draft.promise": "Hola {{person}} — cumplo lo que dije: {{promise}}. Aquí está:\n\n",
-    "draft.coffee": "Hola {{person}} — siempre decimos café, matémoslo: ¿va {{day}}? Yo reservo."
+    "draft.coffee": "Hola {{person}} — siempre decimos café, matémoslo: ¿va {{day}}? Yo reservo.",
+    "meter.card.l0": "Solo un nombre",
+    "meter.card.l1": "Boceto",
+    "meter.card.l2": "Tarjeta viva",
+    "meter.card.l3": "Piloto automático",
+    "meter.card.hint0": "Es tu poder: añade quién es para ti o de qué hablaron — una línea despierta esta tarjeta.",
+    "meter.card.hint1": "Llena las 4 W — quién, cuándo, tema, seguimiento — el Guardián se alimenta de ellas.",
+    "meter.card.hint2": "Captura un loop con esta persona — el motor sigue desde ahí.",
+    "meter.card.hint3": "Piloto automático: el Guardián mantiene esta tarjeta al día con tus interacciones.",
+    "meter.card.aria": "Medidor de vitalidad de la tarjeta",
+    "t.closedCard": "Lo hiciste tú — cerraste un loop con {{person}}. Su tarjeta acaba de enriquecerse."
   }
 }

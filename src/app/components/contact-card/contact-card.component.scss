@@ -1088,3 +1088,58 @@ button.confidante-hit img {
   pointer-events: none;
 }
 
+/* ═══ 2026-08-27 CARD-BACK LOOP-O-METER ═══════════════════════════════════
+   Compact strip on the back of every deck card. Not another data panel —
+   one glance: title, level, 4 segments, one-line hint of the next power move. */
+.back-meter {
+  margin: 8px 12px 4px;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 168, 150, .25);
+  border-radius: 10px;
+  background: rgba(0, 168, 150, .06);
+
+  .bm-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .bm-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--rolodex-text-tertiary, #7a8a88);
+  }
+  .bm-level {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: #b0685c;
+    &.lv1 { color: #8a7a2f; }
+    &.lv2 { color: #00897B; }
+    &.lv3 { color: #0b7a55; }
+  }
+  .bm-bar {
+    display: flex;
+    gap: 4px;
+    margin: 5px 0 4px;
+  }
+  .bm-seg {
+    flex: 1;
+    height: 4px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, .1);
+    &.on { background: #00A896; }
+    &:nth-child(2).on { background: #33b3a0; }
+    &:nth-child(3).on { background: #0b9e7d; }
+    &:nth-child(4).on { background: #0b7a55; }
+  }
+  .bm-hint {
+    font-size: 10.5px;
+    line-height: 1.35;
+    color: var(--rolodex-text-secondary, #55645f);
+  }
+}
+
+

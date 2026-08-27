@@ -38,21 +38,11 @@
       <span *ngFor="let s of sampleCaptureKeys" class="li-sample" (click)="addCapture(tr(s))">“{{ tr(s) }}”</span>
     </div>
 
-    <!-- 2026-08-27 LOOP-O-METER — live readiness: is the engine doing its job
-         yet, or is this still just a contacts manager? Re-renders on every
-         refresh, so each capture/send/close moves it in front of the user. -->
-    <div class="li-meter" [attr.aria-label]="'loopkeeper.meter.aria' | translate">
-      <div class="li-meter-top">
-        <span class="li-meter-title">{{ 'loopkeeper.meter.title' | translate }}</span>
-        <span class="li-meter-level" [class]="'li-meter-level lv' + meterLevel">
-          {{ 'loopkeeper.meter.l' + meterLevel | translate }}
-        </span>
-      </div>
-      <div class="li-meter-bar">
-        <span *ngFor="let s of meterSegs" class="li-meter-seg" [class.on]="meterScore > s * 25"></span>
-      </div>
-      <div class="li-meter-hint">{{ 'loopkeeper.meter.hint' + meterLevel | translate }}</div>
-    </div>
+    <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the
+         inbox — one more panel here was "just another increase in data points".
+         It now shows on the BACK of every contact card (contact-card.component)
+         where filling the card is the visible user power, plus the timed
+         celebration on loop completion. -->
 
     <!-- Rising nudges banner (7) — silence after close is the reward -->
     <div *ngIf="nudgesDue > 0" class="li-nudgebar">

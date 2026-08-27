@@ -566,6 +566,16 @@
     "draft.checkIn.pretext": "Hi {{person}} — {{pretext}}. Wie geht's dir?\n\n",
     "draft.checkIn.plain": "Hi {{person}} — du bist mir heute in den Sinn gekommen. Wie geht's dir?\n\n",
     "draft.promise": "Hi {{person}} — ich halte, was ich sagte: {{promise}}. Hier ist es:\n\n",
-    "draft.coffee": "Hi {{person}} — wir sagen schon ewig Kaffee, machen wir es ernst: passt {{day}}? Ich buche."
+    "draft.coffee": "Hi {{person}} — wir sagen schon ewig Kaffee, machen wir es ernst: passt {{day}}? Ich buche.",
+    "meter.card.l0": "Nur ein Name",
+    "meter.card.l1": "Skizze",
+    "meter.card.l2": "Lebendige Karte",
+    "meter.card.l3": "Autopilot",
+    "meter.card.hint0": "Es ist deine Macht: ergänze, wer sie dir ist oder worüber ihr sprecht — eine Zeile weckt diese Karte.",
+    "meter.card.hint1": "Fülle die 4 W — wer, wann, Thema, Folge — der Hüter speist daraus.",
+    "meter.card.hint2": "Halte eine Schleife mit ihr fest — der Motor übernimmt.",
+    "meter.card.hint3": "Autopilot: der Hüter hält diese Karte durch deine Kontakte aktuell.",
+    "meter.card.aria": "Anzeige der Karten-Vitalität",
+    "t.closedCard": "Du hast das geschafft — eine Schleife mit {{person}} geschlossen. Die Karte ist gerade reicher geworden."
   }
 }

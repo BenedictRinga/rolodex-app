@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 112, // 2026-08-27 HONEST GAUGE: welcome storyboard meter slide (OEM dead-end vs one capture); wedge drafts now in the user's language (owed-reply/check-in/promise/coffee, short tone)
+  build: 113, // 2026-08-27 METER ON CARD BACKS: founder relocation out of the inbox; timed closer celebration on receipt-closed loops (deck-matched); 10 i18n keys x39
 };

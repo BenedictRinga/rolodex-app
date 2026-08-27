@@ -566,6 +566,16 @@
     "draft.checkIn.pretext": "Habari {{person}} — {{pretext}}. Vipi, uko poa?\n\n",
     "draft.checkIn.plain": "Habari {{person}} — ulinikumbuka leo. Vipi, uko poa?\n\n",
     "draft.promise": "Habari {{person}} — nitimiza nilichosema: {{promise}}. Yako hapo:\n\n",
-    "draft.coffee": "Habari {{person}} — tunajadili kahawa tangu juzi, tuifungue: je {{day}} inafaa? Mimi nitaandaa."
+    "draft.coffee": "Habari {{person}} — tunajadili kahawa tangu juzi, tuifungue: je {{day}} inafaa? Mimi nitaandaa.",
+    "meter.card.l0": "Jina tu",
+    "meter.card.l1": "Picha inaanza",
+    "meter.card.l2": "Kadi hai",
+    "meter.card.l3": "Inajiendesha yenyewe",
+    "meter.card.hint0": "Nguvu iko mikononi mwako: andika alama yao kwako au mlichojadili — mstari mmoja unaamsha kadi hii.",
+    "meter.card.hint1": "Jaza W nne — nani, lini, mada, ukaririaji — Keeper analishwa nayo.",
+    "meter.card.hint2": "Kamata kitanzi kimoja naye — enjini inachukua kutoka hapo.",
+    "meter.card.hint3": "Inajiendesha yenyewe: Keeper anabainisha kadi hii kutoka mwingiliano wako.",
+    "meter.card.aria": "Kipimo cha uhai wa kadi",
+    "t.closedCard": "Wewe ndiye ulifanya hili — umefunga kitanzi na {{person}}. Kadi yake imeongeza uzito."
   }
 }
