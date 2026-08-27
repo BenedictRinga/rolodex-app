@@ -258,6 +258,12 @@ ion-content {
     margin: var(--rolodex-space-1) 0;
     display: flex;
     align-items: center;
+    /* 2026-08-27 SPACING (founder, card back): in flex layout the whitespace
+       between <strong>Label:</strong> and the following text node is trimmed,
+       so rows rendered as "Chat:in-app thread" and the icon hugged the label.
+       A deterministic column gap gives every row the same rhythm:
+       icon | label | text. */
+    column-gap: 6px;
     color: var(--rolodex-text-secondary);
   }
 

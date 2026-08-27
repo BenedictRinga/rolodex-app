@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 113, // 2026-08-27 METER ON CARD BACKS: founder relocation out of the inbox; timed closer celebration on receipt-closed loops (deck-matched); 10 i18n keys x39
+  build: 114, // 2026-08-27 CHAT CHAT-STRING GUARD + FULL-SCREEN EDIT: [object Object] killed at every ingress + self-healing thread scrub; contact edit/create is a true full-screen modal (no sheet-drag jerk); empty three-dots commented out; meter hint0 wording; card-back row rhythm
 };
 
 /*

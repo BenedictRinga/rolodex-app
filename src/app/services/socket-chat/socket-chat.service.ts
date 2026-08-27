@@ -98,9 +98,19 @@ export class SocketChatService implements OnDestroy {
       this.typing$.next({ room: payload?.room || '', name: payload?.name || '' });
     });
     this.socket.on('chat:message', (payload: SocketChatMessage) => {
+      // 2026-08-27 [object Object] FIX: the wire is untrusted. Any sender (or an
+      // older build) that emitted an object as `text` used to surface the
+      // literal string "[object Object]" in every peer's thread — the server's
+      // String(data.text) baked the corruption in. Coerce HERE so the app only
+      // ever renders real strings, regardless of what crosses the socket.
+      const safe: SocketChatMessage = {
+        ...payload,
+        text: String(payload?.text ?? ''),
+        name: String(payload?.name ?? ''),
+      };
       for (const cb of this.listeners) {
         try {
-          cb(payload);
+          cb(safe);
         } catch {
           /* listener isolation */
         }

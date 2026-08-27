@@ -24,4 +24,12 @@ export class ContactSurfaceModalComponent {
   onRemoved(c: any): void {
     void this.modalController.dismiss({ action: 'remove', contact: c }, 'remove');
   }
+
+  // 2026-08-27 FULL-SCREEN EDIT: the embedded card no longer swaps into the
+  // inline form (jerky inside a draggable breakpoint sheet) — it raises
+  // editRequested and we relay it up so the page opens a true full-screen
+  // edit modal instead.
+  onEditRequested(c: any): void {
+    void this.modalController.dismiss({ action: 'request-edit', contact: c }, 'request-edit');
+  }
 }

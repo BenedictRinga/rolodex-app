@@ -220,7 +220,9 @@ export class HomePage implements OnInit, OnDestroy {
         this.onContactsChange(this.contacts);
         if (inv.kind === 'message') {
           const thread = await this.cardChat.seedThread(c as any);
-          thread.messages = [...thread.messages, { id: 'inv' + Date.now(), from: 'them', text: inv.text, at: new Date().toISOString(), status: 'read' as any }];
+          // 2026-08-27 [object Object] FIX: coerce the invite text — a non-string
+          // payload from any server vintage must never seed a thread bubble.
+          thread.messages = [...thread.messages, { id: 'inv' + Date.now(), from: 'them', text: String(inv?.text ?? ''), at: new Date().toISOString(), status: 'read' as any }];
           await this.cardChat.saveThread(thread);
         }
         void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
@@ -842,6 +844,29 @@ export class HomePage implements OnInit, OnDestroy {
     contact.showDetails = !contact.showDetails;
   }
 
+  /** 2026-08-27 FULL-SCREEN EDIT: the edit form is the ONE place where a
+   *  draggable sheet actively fights the user (long form + keyboard + footer
+   *  inside breakpoint-drag). Present it as a true full-screen modal instead.
+   *  ContactCardComponent's ngOnInit editContact path prefills the form from
+   *  the `contact` prop, and onSubmit dismisses with {mode, contact} — the
+   *  same contract the create modal already relies on. */
+  async openEditContact(contact: ContactInfo): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ContactCardComponent,
+      componentProps: {
+        selectedMode: 'editContact',
+        contact,
+      },
+      cssClass: 'contact-edit-fullscreen',
+      keyboardClose: false,
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data?.mode === 'editContact' && data?.contact) {
+      this.onEditContact(data.contact);
+    }
+  }
+
   onEditContact(contact: ContactInfo) {
     // 2026-08-18 CRUD: persist the edited contact back into the deck + the server
     if (!contact?.contactId) return;
@@ -932,6 +957,10 @@ export class HomePage implements OnInit, OnDestroy {
         const data = res?.data;
         if (data?.action === 'edit' && data?.contact) this.onEditContact(data.contact);
         else if (data?.action === 'remove' && data?.contact) this.onRemoveContact(data.contact);
+        // 2026-08-27 FULL-SCREEN EDIT: the embedded card's pencil now comes up
+        // as a request — dismiss the sheet, then open the dedicated full-screen
+        // edit modal (no breakpoints, no drag-vs-scroll fight while typing).
+        else if (data?.action === 'request-edit' && data?.contact) void this.openEditContact(data.contact);
       });
       void m.present();
     });
@@ -1019,9 +1048,9 @@ export class HomePage implements OnInit, OnDestroy {
         selectedMode: 'createContact',
         contact: {} as ContactInfo,
       },
-      cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.95, 1],
-      initialBreakpoint: 0.95,
+      // 2026-08-27 FULL-SCREEN EDIT: same treatment as edit — typing into a
+      // long form inside a draggable sheet is jerky; go full screen.
+      cssClass: 'contact-edit-fullscreen',
       keyboardClose: false,
     });
     await modal.present();

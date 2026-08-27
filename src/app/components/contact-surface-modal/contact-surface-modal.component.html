@@ -17,13 +17,14 @@
 <ion-content class="surface-body">
   <!-- 2026-08-16: the full card surface — flip it: chat, reminders, the
        confidante, edit, call, email, map, remove. Everything lives here. -->
-  <div class="surface-hint">Tap the card to flip it — chat, reminders, confidante and more live on the back.</div>
+  <div class="surface-hint">Tap the card to flip it — chat, video call, reminders, confidante and more live on the back.</div>
   <app-contact-card
     [contacts]="[contact]"
     [viewMode]="'rolodex'"
     [displayedContacts]="[contact]"
     [embedded]="true"
     (editContact)="onEdited($event)"
+    (editRequested)="onEditRequested($event)"
     (removeContact)="onRemoved($event)"
   ></app-contact-card>
 </ion-content>

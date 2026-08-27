@@ -419,3 +419,33 @@ ion-modal {
   height: 100%;
   min-height: 0;
 }
+
+/* 2026-08-27 FULL-SCREEN EDIT: edit/create the contact in a TRUE full-screen
+   modal — no breakpoints, no sheet-drag. A long form plus keyboard inside a
+   draggable sheet made every scroll fight the drag (the founder's "jerky").
+   Same pinned footer + scrollable body contract as the old sheet layout. */
+ion-modal.contact-edit-fullscreen {
+  --height: 100%;
+  --width: 100%;
+  --border-radius: 0;
+  --max-height: 100%;
+  --max-width: 100%;
+}
+
+.contact-edit-fullscreen app-contact-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.contact-edit-fullscreen .contact-edit-body {
+  --overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.contact-edit-fullscreen .contact-edit-footer {
+  flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

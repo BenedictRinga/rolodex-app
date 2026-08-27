@@ -171,10 +171,14 @@
                   <ion-button fill="outline" size="small" color="tertiary" (click)="setAppointment(contact)" appTooltip="Invite to appointment">
                     <ion-icon name="calendar-outline"></ion-icon>
                   </ion-button>
-                  <!-- Add a button to trigger onContactTap -->
-                  <ion-button fill="outline" size="small" (click)="onContactTap(contact, $event)">
-                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-                  </ion-button>
+                  <!-- 2026-08-27 THE EMPTY THREE-DOTS (founder): on the embedded
+                       card this emitted contactTap, which NO parent binds — the
+                       control did nothing. Commented out, NOT deleted; revive
+                       it when a real destination (e.g. a per-contact menu)
+                       exists. -->
+<!--                  <ion-button fill="outline" size="small" (click)="onContactTap(contact, $event)">-->
+<!--                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>-->
+<!--                  </ion-button>-->
                 </div>
               </div>
             </div>

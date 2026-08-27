@@ -202,9 +202,13 @@ export class CardChatService {
 
   private async appendRemote(key: string, name: string, text: string, at: string): Promise<void> {
     try {
+      // 2026-08-27 [object Object] FIX: never persist or render a non-string
+      // text — coerce at the last line of defense before storage.
+      const safe = String(text ?? '');
+      if (!safe) return;
       const thread = await this.loadThread(key);
       if (!thread) return;
-      thread.messages = [...thread.messages, { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6), from: 'them', text, at, status: 'read' as const }];
+      thread.messages = [...thread.messages, { id: 'r' + Date.now() + Math.random().toString(36).slice(2, 6), from: 'them', text: safe, at, status: 'read' as const }];
       await this.saveThread(thread);
       // 2026-08-17 AWARENESS: bump the badge + announce the arrival.
       this.unread[key] = (this.unread[key] || 0) + 1;
@@ -217,7 +221,18 @@ export class CardChatService {
 
   async loadThread(key: string): Promise<ChatThread | null> {
     try {
-      return await this.storage.get<ChatThread>(PREFIX + key);
+      const t = await this.storage.get<ChatThread>(PREFIX + key);
+      if (!t) return null;
+      // 2026-08-27 [object Object] SELF-HEAL: threads persisted by older builds
+      // may carry object-text messages (rendered as "[object Object]"). Scrub
+      // them at READ time — the thread heals itself on first open, no migration.
+      const msgs = Array.isArray(t.messages) ? t.messages : [];
+      const cleanMsgs = msgs.filter((m: any) => typeof m?.text === 'string' && m.text.length > 0);
+      if (cleanMsgs.length !== msgs.length) {
+        t.messages = cleanMsgs;
+        await this.saveThread(t);
+      }
+      return t;
     } catch {
       return null;
     }
@@ -281,7 +296,10 @@ export class CardChatService {
    * is told { pendingExternal: true } so the share/invite path is offered.
    */
   async send(thread: ChatThread, text: string, sendeePhone?: string): Promise<ChatThread & { pendingExternal?: boolean; sendeePhone?: string }> {
-    const clean = text.trim();
+    // 2026-08-27 [object Object] FIX: the composer must never ship an object —
+    // the server's String() coercion would turn it into the literal
+    // "[object Object]" for every peer. Coerce before anything else.
+    const clean = String(text ?? '').trim();
     if (!clean) return thread;
     const me: ChatMessage = {
       id: 'm' + Date.now(),

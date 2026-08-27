@@ -39,6 +39,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() searchQuery: string = '';
 
   @Output() editContact = new EventEmitter<ContactInfo>();
+  // 2026-08-27 FULL-SCREEN EDIT: inside the surface modal (embedded), Edit no
+  // longer swaps the card into the inline form — that put a long form inside a
+  // draggable breakpoint sheet and every scroll fought the drag (jerky). The
+  // request now travels to the page, which opens a dedicated FULL-SCREEN modal.
+  @Output() editRequested = new EventEmitter<ContactInfo>();
   @Output() removeContact = new EventEmitter<ContactInfo>();
   @Output() createContact = new EventEmitter<ContactInfo>();
   @Output() toggleDetails = new EventEmitter<ContactInfo>();
@@ -1816,78 +1821,16 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // 2026-08-18 FULL-FLEDGED COMPONENT: outside the surface modal the edit
     // access opens the WHOLE card surface (chat, reminders, confidante, edit,
     // call, email, map, remove) - one consistent entry on every card type.
-    // Inside the surface (embedded=true) the pencil keeps opening the inline
-    // edit form so the modal is not recursive.
     if (!this.embedded) {
       this.contactTap.emit(target);
       return;
     }
-    // 2026-08-18 CRUD: open the built-in edit form pre-filled with the TAPPED
-    // contact (the old code emitted this.contact - wrong in a multi-contact deck).
-    this.selectedMode = 'editContact';
-    this.editedContact = { ...target };
-    this.initializeForm();
-    const f = this.contactForm;
-    if (f) {
-      f.patchValue({
-        contactId: target.contactId || '',
-        name: {
-          display: target.name?.display || '',
-          given: target.name?.given || '',
-          middle: target.name?.middle || '',
-          family: target.name?.family || '',
-          prefix: target.name?.prefix || '',
-          suffix: target.name?.suffix || '',
-        },
-        organization: {
-          company: target.organization?.company || '',
-          jobTitle: target.organization?.jobTitle || '',
-          department: target.organization?.department || '',
-        },
-        note: target.note || '',
-        image: { base64String: target.image?.base64String || target.imageData || '' },
-      });
-      const phonesArr = f.get('phones') as FormArray;
-      if (phonesArr) { phonesArr.clear(); (target.phones || []).forEach((ph: any) => this.addPhone(ph)); }
-      const emailsArr = f.get('emails') as FormArray;
-      if (emailsArr) { emailsArr.clear(); (target.emails || []).forEach((em: any) => this.addEmail(em)); }
-      const addrArr = f.get('postalAddresses') as FormArray;
-      if (addrArr) { addrArr.clear(); (target.postalAddresses || []).forEach((ad: any) => this.addPostalAddress(ad)); }
-      // 2026-08-18 FIX: EVERY editable collection is populated - previously
-      // reminders/urls/references/sharedBy/social/tags/groups were left empty,
-      // so a save silently wiped them and the next edit opened a ghost.
-      const urlsArr = f.get('urls') as FormArray;
-      if (urlsArr) { urlsArr.clear(); (target.urls || []).forEach((u: any) => urlsArr.push(this.fb.control(String(u || '')))); }
-      const remindersArr = f.get('reminders') as FormArray;
-      if (remindersArr) { remindersArr.clear(); (target.reminders || []).forEach((r: any) => this.addReminder(r)); }
-      const sharedByArr = f.get('sharedBy') as FormArray;
-      if (sharedByArr) { sharedByArr.clear(); (target.sharedBy || []).forEach((s: any) => this.addSharedByEntry(s)); }
-      const refArr = f.get('rolodex.references') as FormArray;
-      if (refArr) { refArr.clear(); ((target.rolodex as any)?.references || []).forEach((r: any) => refArr.push(this.fb.control(String(r || '')))); }
-      f.patchValue({
-        socialProfiles: target.socialProfiles || {},
-        tags: Array.isArray(target.tags) ? target.tags.join(', ') : (target.tags || ''),
-        groups: Array.isArray(target.groups) ? target.groups.join(', ') : (target.groups || ''),
-        privacy: target.privacy || { level: 'private', sharedWith: [] },
-        preferences: target.preferences || {},
-        lastInteraction: target.lastInteraction || null,
-        nextInteraction: target.nextInteraction || null,
-        rolodex: {
-          when: target.rolodex?.when || '',
-          where: target.rolodex?.where || '',
-          who: target.rolodex?.who || '',
-          why: target.rolodex?.why || '',
-          how: target.rolodex?.how || '',
-          topic: target.rolodex?.topic || '',
-          followUp: target.rolodex?.followUp || '',
-          personalTidbits: target.rolodex?.personalTidbits || '',
-          outcome: target.rolodex?.outcome || '',
-          priority: target.rolodex?.priority || 'medium',
-          contactFrequency: target.rolodex?.contactFrequency || 'monthly',
-        },
-      });
-      this.updateSaveEnabled();
-    }
+    // 2026-08-27 FULL-SCREEN EDIT (founder: the inline form inside the
+    // draggable breakpoint sheet was jerky — every scroll fought the sheet
+    // drag). The request travels up: the surface modal dismisses with
+    // 'request-edit' and the page opens the dedicated full-screen edit modal,
+    // where ngOnInit's editContact path prefills the same form, fully.
+    this.editRequested.emit(target);
   }
 
   onRemoveContact(contact?: ContactInfo) {
