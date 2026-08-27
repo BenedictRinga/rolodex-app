@@ -376,13 +376,13 @@
     "review.empty": "Nothing here yet.",
     "review.merge": "Merge into app",
     "review.merged": "Merged ✓",
-    "capture.sample1": "Need to reply to Priya about the Thursday slot",
-    "capture.sample2": "Promised Tunde I'd send the deck",
-    "capture.sample3": "We should grab coffee with Amara",
-    "drop.reason1": "Wrong time — revisit later",
-    "drop.reason2": "Not worth it, honestly",
-    "drop.reason3": "The relationship cooled",
-    "drop.reason4": "Handled outside the app",
+    "capture.sample1": "Måste svara Priya om torsdagstiden",
+    "capture.sample2": "Lovade Tunde att skicka presentationen",
+    "capture.sample3": "Vi borde ta en kaffe med Amara",
+    "drop.reason1": "Fel tillfälle — återkommer senare",
+    "drop.reason2": "Inte värt det, ärligt talat",
+    "drop.reason3": "Relationen har svalnat",
+    "drop.reason4": "Uppklarat utanför appen",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
@@ -523,6 +523,11 @@
     "welcome.aria.play": "Play demo",
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
-    "welcome.ttsFailed": "Narration audio failed — tap Play to retry"
+    "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
+    "capture": {
+      "sample1": "Måste svara Priya om torsdagstiden",
+      "sample2": "Lovade Tunde att skicka presentationen",
+      "sample3": "Vi borde ta en kaffe med Amara"
+    }
   }
 }

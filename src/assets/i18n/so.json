@@ -299,12 +299,12 @@
     "review.merge": "Merge into app",
     "review.merged": "Merged ✓",
     "capture.sample1": "Waxaan u baahanahay inaan ka jawaabo Priya waqtiga Khamiista",
-    "capture.sample2": "Promised Tunde I'd send the deck",
-    "capture.sample3": "We should grab coffee with Amara",
-    "drop.reason1": "Wrong time — revisit later",
-    "drop.reason2": "Not worth it, honestly",
-    "drop.reason3": "The relationship cooled",
-    "drop.reason4": "Handled outside the app",
+    "capture.sample2": "Tunde ayaan ballan qaaday inaan soo diro bandhigga",
+    "capture.sample3": "Waa inaan quraarro la cabnaa Amara",
+    "drop.reason1": "Waqtigu ma habboona — dib ayaan ugu noqonayaa",
+    "drop.reason2": "Xaqiiqda ah, ma laha qiimo",
+    "drop.reason3": "Xiriirku wuu diiray",
+    "drop.reason4": "Waa la dhammeeyay ka baxsan app-ka",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
@@ -445,6 +445,11 @@
     "welcome.aria.play": "Play demo",
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
-    "welcome.ttsFailed": "Narration audio failed — tap Play to retry"
+    "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
+    "capture": {
+      "sample1": "Waa inaan Priya ugu jawaabo waqtiga Khamiista",
+      "sample2": "Tunde ayaan ballan qaaday inaan soo diro bandhigga",
+      "sample3": "Waa inaan quraarro la cabnaa Amara"
+    }
   }
 }

@@ -256,26 +256,28 @@
     </div>
   </div>
 
-  <!-- ── CONTROLS ───────────────────────────────────────────────────── -->
-  <div class="demo-controls">
-    <div class="demo-dots">
-      <button
-        *ngFor="let s of steps; let i = index"
-        class="demo-dot"
-        [class.on]="i === stepIndex"
-        [class.done]="i < stepIndex"
-        (click)="goTo(i)"
-        [attr.aria-label]="'loopkeeper.welcome.aria.step' | translate:{ n: i + 1, total: steps.length }"
-      ></button>
+  <!-- 2026-08-27 SHEET-FIT FIX: controls + actions ride in one sticky footer —
+       the last rows can never slide out of viewport again. -->
+  <div class="demo-foot">
+    <div class="demo-controls">
+      <div class="demo-dots">
+        <button
+          *ngFor="let s of steps; let i = index"
+          class="demo-dot"
+          [class.on]="i === stepIndex"
+          [class.done]="i < stepIndex"
+          (click)="goTo(i)"
+          [attr.aria-label]="'loopkeeper.welcome.aria.step' | translate:{ n: i + 1, total: steps.length }"
+        ></button>
+      </div>
+      <div class="demo-nav">
+        <button class="nav-btn" [disabled]="isFirst" (click)="prev()" [attr.aria-label]="'loopkeeper.welcome.aria.prev' | translate">‹</button>
+        <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay
+          ? ('loopkeeper.welcome.aria.pause' | translate)
+          : ('loopkeeper.welcome.aria.play' | translate)">{{ autoPlay ? '❚❚' : '▶' }}</button>
+        <button class="nav-btn" [disabled]="isLast" (click)="next()" [attr.aria-label]="'loopkeeper.welcome.aria.next' | translate">›</button>
+      </div>
     </div>
-    <div class="demo-nav">
-      <button class="nav-btn" [disabled]="isFirst" (click)="prev()" [attr.aria-label]="'loopkeeper.welcome.aria.prev' | translate">‹</button>
-      <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay
-        ? ('loopkeeper.welcome.aria.pause' | translate)
-        : ('loopkeeper.welcome.aria.play' | translate)">{{ autoPlay ? '❚❚' : '▶' }}</button>
-      <button class="nav-btn" [disabled]="isLast" (click)="next()" [attr.aria-label]="'loopkeeper.welcome.aria.next' | translate">›</button>
-    </div>
-  </div>
 
   <!-- ── ACTIONS ────────────────────────────────────────────────────── -->
   <div class="demo-actions">
@@ -288,4 +290,5 @@
       <ion-button expand="block" class="demo-start" (click)="start()">{{ 'loopkeeper.welcome.explore' | translate }}</ion-button>
     </ng-template>
   </div>
+  </div><!-- /demo-foot -->
 </ion-content>

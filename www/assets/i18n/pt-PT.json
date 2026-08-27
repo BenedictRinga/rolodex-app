@@ -377,12 +377,12 @@
     "review.merge": "Merge into app",
     "review.merged": "Merged ✓",
     "capture.sample1": "Preciso de responder à Priya sobre a vaga de quinta",
-    "capture.sample2": "Promised Tunde I'd send the deck",
-    "capture.sample3": "We should grab coffee with Amara",
+    "capture.sample2": "Prometi ao Tunde enviar a apresentação",
+    "capture.sample3": "Devíamos tomar um café com a Amara",
     "drop.reason1": "Má altura — volto mais tarde",
-    "drop.reason2": "Not worth it, honestly",
-    "drop.reason3": "The relationship cooled",
-    "drop.reason4": "Handled outside the app",
+    "drop.reason2": "Não vale a pena, sinceramente",
+    "drop.reason3": "A relação arrefeceu",
+    "drop.reason4": "Resolvido fora da app",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
@@ -523,6 +523,11 @@
     "welcome.aria.play": "Play demo",
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
-    "welcome.ttsFailed": "Narration audio failed — tap Play to retry"
+    "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
+    "capture": {
+      "sample1": "Tenho de responder à Priya sobre a vaga de quinta",
+      "sample2": "Prometi ao Tunde enviar a apresentação",
+      "sample3": "Devíamos tomar um café com a Amara"
+    }
   }
 }

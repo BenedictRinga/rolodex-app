@@ -1110,13 +1110,17 @@ ion-content::part(scroll) {
   margin: 10px 0 4px;
 }
 
+/* 2026-08-27 MOBILE-FIX: this block originally redefined .investor-kpis as a
+   flex row — it OVERRODE the canonical 2×2 grid above (line ~130) and squeezed
+   four KPI cards into "three columns + a sliver of the fourth" on phones.
+   Layout now matches the original grid; only margins/gap stay enhanced. */
 .investor-kpis {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin: 14px 0;
 }
 .kpi-card {
-  flex: 1;
   background: var(--rolodex-surface, #fff);
   border: 1px solid rgba(0, 168, 150, .25);
   border-radius: 12px;
@@ -1171,3 +1175,33 @@ details.inv-details {
     padding-top: 10px;
   }
 }
+
+/* ═══ 2026-08-27 MOBILE-FIX — wide graphs slide horizontally ═════════════
+   The snapshot table had NO styles (four bare spans wrapping at will) and the
+   deep-dive bodies could not scroll sideways. Phones now swipe the columns:
+   the row keeps a readable minimum width and the container slides it. */
+.retention-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.retention-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.5fr) repeat(2, minmax(76px, 1fr)) minmax(128px, 1.3fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 440px;          /* ← narrower phones SLIDE to see Change col */
+  padding: 9px 10px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--rolodex-border-light);
+}
+
+.retention-row.retention-head {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--rolodex-text-tertiary);
+}
+
+.inv-details-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }

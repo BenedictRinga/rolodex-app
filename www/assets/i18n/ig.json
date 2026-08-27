@@ -377,12 +377,12 @@
     "review.merge": "Merge into app",
     "review.merged": "Merged ✓",
     "capture.sample1": "M ga-aza Priya okwu maka ohere Thursday",
-    "capture.sample2": "Promised Tunde I'd send the deck",
-    "capture.sample3": "We should grab coffee with Amara",
-    "drop.reason1": "Wrong time — revisit later",
-    "drop.reason2": "Not worth it, honestly",
-    "drop.reason3": "The relationship cooled",
-    "drop.reason4": "Handled outside the app",
+    "capture.sample2": "Kwaram Tunde m na m ziga ya ngosi ahụ",
+    "capture.sample3": "Anyị kwesiri ịṅụ kọfị na Amara",
+    "drop.reason1": "Oge adịghị mma — m ga-alaghachi ma emesịa",
+    "drop.reason2": "N'eziokwu, ọ dịghị uru",
+    "drop.reason3": "Mmekọrịta ahụ jụrụ oyi",
+    "drop.reason4": "E doziri ya na mpụga app",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
@@ -523,6 +523,11 @@
     "welcome.aria.play": "Play demo",
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
-    "welcome.ttsFailed": "Narration audio failed — tap Play to retry"
+    "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
+    "capture": {
+      "sample1": "M ga-agwa Priya okwu maka oge Tọzdee",
+      "sample2": "Kwaram Tunde m na m ziga ya ngosi ahụ",
+      "sample3": "Anyị kwesiri ịṅụ kọfị na Amara"
+    }
   }
 }

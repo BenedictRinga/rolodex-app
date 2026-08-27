@@ -1351,3 +1351,29 @@ ion-content {
   font-weight: 800;
   color: var(--rolodex-text);
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   2026-08-27 SHEET-FIT FIX — "the last three rows slide out of viewport".
+   The privacy pledge pushed total content past the 0.95 sheet fold, and
+   the sheet had no breakpoint above it, so the dots/arrows/actions lived
+   below the fold and the drag gesture fought the scroll. Three moves:
+   (1) sticky footer keeps controls+actions pinned; (2) compact stage and
+   copy reclaim the pledge's height on short screens; (3) home.page.ts now
+   allows expanding to full height (breakpoint 1).
+   ═════════════════════════════════════════════════════════════════════ */
+.demo-foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin-top: auto;
+  background: linear-gradient(to top, var(--rolodex-bg) 82%, transparent);
+}
+
+.demo-foot .demo-actions {
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+@media (max-height: 759px) {
+  .demo-stage { height: 196px; }        /* was 240 — pledge needs the room */
+  .demo-copy { padding-top: 10px; }
+}

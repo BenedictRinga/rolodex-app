@@ -523,6 +523,11 @@
     "welcome.aria.play": "Play demo",
     "welcome.aria.pause": "Pause demo",
     "welcome.ttsHiccup": "Audio hiccup — trying device voice…",
-    "welcome.ttsFailed": "Narration audio failed — tap Play to retry"
+    "welcome.ttsFailed": "Narration audio failed — tap Play to retry",
+    "capture": {
+      "sample1": "Debo responderle a Priya por el hueco del jueves",
+      "sample2": "Le prometí a Tunde enviar la presentación",
+      "sample3": "Deberíamos tomar un café con Amara"
+    }
   }
 }

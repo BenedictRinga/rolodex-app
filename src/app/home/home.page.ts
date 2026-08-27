@@ -145,7 +145,10 @@ export class HomePage implements OnInit, OnDestroy {
         component: WelcomeModalComponent,
         componentProps: { isReplay },
         cssClass: 'card-chat-modal-sheet',
-        breakpoints: [0, 0.7, 0.95],
+        // 2026-08-27 SHEET-FIT FIX: add breakpoint 1 — the pledge+copy outgrew
+        // the 0.95 fold, so users need a way to expand fully instead of
+        // fighting the drag gesture against an unreachable bottom edge.
+        breakpoints: [0, 0.7, 0.95, 1],
         initialBreakpoint: 0.95,
         keyboardClose: false,
       });
