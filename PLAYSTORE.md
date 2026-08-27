@@ -1,9 +1,9 @@
-# OpenLoop — Play Store Release (2026-08-17)
+# LoopKeeper — Play Store Release (2026-08-17; identity migrated to LoopKeeper 2026-08-26)
 
 ## Already done (this repo)
 - **Android platform**: Capacitor 6 android added (`android/`), `@capacitor/android` vendored + in deps.
-- **Identity**: applicationId `com.zyppar.openloop` · appName **OpenLoop** · versionCode 1 · versionName `1.0.0`.
-- **Native build**: `yarn build:native` = prod web build with `--base-href /` (the PWA `/openloop/` base is web-only) + the static-block fix + `npx cap sync android`. **Always use this for Android** — never the `/openloop/` build.
+- **Identity** (2026-08-26 brand migration): applicationId `com.zyppar.loopkeeper` · appName **LoopKeeper** · versionCode 1 · versionName `1.0.0`.
+- **Native build**: `yarn build:native` = prod web build with `--base-href /` (the PWA `/loopkeeper/` base is web-only) + the static-block fix + `npx cap sync android`. **Always use this for Android** — never the `/loopkeeper/` web build.
 - **Icons**: branded union-palette icon set (legacy mipmaps mdpi→xxxhdpi, adaptive foreground + `#FF6B35` background, round icon), splash = cream layer + the mark (`drawable/splash.xml`, `colors.xml`).
 - **Play Store listing assets**: `playstore/icon-512.png`, `playstore/feature-graphic-1024x500.png`.
 - **Verified**: `assembleDebug` builds clean (6.4 MB APK).
@@ -11,7 +11,7 @@
 ## One-time: create the upload keystore (you — keep it secret, never commit)
 ```
 mkdir D:\MacBook\noGoogle\rolodex-release && cd D:\MacBook\noGoogle\rolodex-release
-keytool -genkeypair -v -keystore openloop-upload.keystore -alias openloop \
+keytool -genkeypair -v -keystore loopkeeper-upload.keystore -alias loopkeeper \
   -keyalg RSA -keysize 2048 -validity 10000
 ```
 Save the **keystore path + password + alias** in your password manager.
@@ -22,10 +22,10 @@ In `android/app/build.gradle`, under `android { signingConfigs { } }` add:
 ```gradle
 signingConfigs {
     release {
-        storeFile file(System.getenv("OPENLOOP_STORE_FILE") ?: "D:/MacBook/noGoogle/rolodex-release/openloop-upload.keystore")
-        storePassword System.getenv("OPENLOOP_STORE_PASS")
-        keyAlias System.getenv("OPENLOOP_KEY_ALIAS")
-        keyPassword System.getenv("OPENLOOP_KEY_PASS")
+        storeFile file(System.getenv("LOOPKEEPER_STORE_FILE") ?: "D:/MacBook/noGoogle/rolodex-release/loopkeeper-upload.keystore")
+        storePassword System.getenv("LOOPKEEPER_STORE_PASS")
+        keyAlias System.getenv("LOOPKEEPER_KEY_ALIAS")
+        keyPassword System.getenv("LOOPKEEPER_KEY_PASS")
     }
 }
 buildTypes { release { signingConfig signingConfigs.release } }
@@ -36,17 +36,18 @@ buildTypes { release { signingConfig signingConfigs.release } }
 ```
 yarn build:native
 cd android
-set OPENLOOP_STORE_FILE=...  & set OPENLOOP_STORE_PASS=... & set OPENLOOP_KEY_ALIAS=openloop & set OPENLOOP_KEY_PASS=...
+set LOOPKEEPER_STORE_FILE=...  & set LOOPKEEPER_STORE_PASS=... & set LOOPKEEPER_KEY_ALIAS=loopkeeper & set LOOPKEEPER_KEY_PASS=...
 gradlew.bat bundleRelease
 ```
 The uploadable file: `android/app/build/outputs/bundle/release/app-release.aab`.
 
 ## Play Console checklist
-1. Create the app — package name `com.zyppar.openloop`.
+0. **THE GATE (personal accounts created after Nov 2023): production access requires a closed test with at least 12 testers opted-in continuously for the last 14 days.** Plan around this from day one: set up the closed track early, recruit 15+ testers so dropouts never pull you below 12, keep them engaged daily.
+1. Create the app — package name `com.zyppar.loopkeeper`.
 2. **App content**: declare your privacy policy URL; content rating questionnaire; ads declaration (none); target audience (13+).
-3. **Data safety**: what's collected — contacts are stored per user's choice (Device / Cloud / OpenLoop server); the app transmits contacts only when the user enables OpenLoop-server or Cloud storage. Declare data sharing honestly per your actual storage choices.
-4. **Store listing**: upload `playstore/icon-512.png` + `playstore/feature-graphic-1024x500.png` + screenshots (take real phone shots of: the card list, the flipped card with chat/reminders, the confidante draft, pods, billing).
-5. **Release**: upload the `.aab` → review → start rollout (closed testing → production).
+3. **Data safety**: what's collected — contacts are stored per user's choice (Device / Cloud / LoopKeeper server); the app transmits contacts only when the user enables LoopKeeper-server or Cloud storage. Declare data sharing honestly per your actual storage choices.
+4. **Store listing**: upload `playstore/icon-512.png` + `playstore/feature-graphic-1024x500.png` + screenshots (take real phone shots of: the card list, the flipped card with chat/reminders, the confidante draft, the loops inbox, billing).
+5. **Release**: upload the `.aab` → review → start rollout (closed testing → apply for production access after meeting the gate above).
 6. **Play App Signing** is used by default for AABs — the upload key you generated is safe to keep local.
 
 ## Version bumps (every release)
@@ -54,6 +55,6 @@ The uploadable file: `android/app/build/outputs/bundle/release/app-release.aab`.
 - Rebuild via `yarn build:native` → `gradlew.bat bundleRelease`.
 
 ## Gotchas
-- Never run the `/openloop/` PWA build into Android — the WebView needs `/`.
-- The app talks to `https://zyppar.com/api/openloop` + `/socket-openloop/` — INTERNET permission is auto-added by Capacitor; no cleartext needed (https only).
+- Never run the `/loopkeeper/` PWA web build into Android — the WebView needs `/`.
+- The app talks to `https://zyppar.com/api/loopkeeper` + `/socket-rolodex/` — INTERNET permission is auto-added by Capacitor; no cleartext needed (https only). Legacy `/api/openloop` still resolves server-side.
 - The demo room + live chat work from the app exactly like the web.

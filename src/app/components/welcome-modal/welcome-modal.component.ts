@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../services/storage/storage.service';
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
 import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
@@ -13,6 +14,12 @@ export const WELCOME_DISMISSED_KEY = 'rolodex_welcome_dismissed';
 
 export interface WelcomeDemoStep {
   id: string;
+  /**
+   * 2026-08-27 i18n: the four copy fields now hold TRANSLATE KEYS
+   * (loopkeeper.welcome.<id>.*), not English text. The template pipes them;
+   * stepTexts() resolves them for dwell-sizing and TTS narration so the
+   * storyboard translates like every other user-facing comms surface.
+   */
   kicker: string;
   title: string;
   copy: string;
@@ -50,65 +57,65 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   steps: WelcomeDemoStep[] = [
     {
       id: 'intro',
-      kicker: 'Karibu sana!',
-      title: 'LoopKeeper — close the loop you keep meaning to close',
-      copy: 'Start with one person you keep meaning to contact. Set the rhythm. Close the loop.',
-      surprise: 'Stay to the end — we’ll close one real loop together.',
+      kicker: 'loopkeeper.welcome.intro.kicker',
+      title: 'loopkeeper.welcome.intro.title',
+      copy: 'loopkeeper.welcome.intro.copy',
+      surprise: 'loopkeeper.welcome.intro.surprise',
     },
     {
       id: 'card',
-      kicker: '01 · The card',
-      title: 'The card is everything',
-      copy: 'Every person you keep meaning to reach is a card. Tap it — everything for that one person lives there. Start with the few who matter most; add more as you close the current.',
+      kicker: 'loopkeeper.welcome.card.kicker',
+      title: 'loopkeeper.welcome.card.title',
+      copy: 'loopkeeper.welcome.card.copy',
     },
     {
       id: 'loopmotto',
-      kicker: '02 · The promise',
-      title: 'No more "I keep meaning to"',
-      copy: 'Every missed reply starts the same way: "I keep meaning to." LoopKeeper catches that thought before it cools — it reads the deep context, surfaces the person you owe, and hands you the words while the moment is still warm. The loop closes before the fire goes cold.',
+      kicker: 'loopkeeper.welcome.loopmotto.kicker',
+      title: 'loopkeeper.welcome.loopmotto.title',
+      copy: 'loopkeeper.welcome.loopmotto.copy',
     },
     {
       id: 'fourws',
-      kicker: '03 · The 4 W\u2019s',
-      title: 'The deep context',
-      copy: 'Who, What, Where, When — the story behind every card, the briefing that powers everything after this: the follow-ups, the signals, the drafts.',
+      kicker: 'loopkeeper.welcome.fourws.kicker',
+      title: 'loopkeeper.welcome.fourws.title',
+      copy: 'loopkeeper.welcome.fourws.copy',
     },
     {
       id: 'followup',
-      kicker: '04 · The loop',
-      title: 'The follow-up engine',
-      copy: 'It reads the deep context and schedules the check-ins you keep meaning to make, surfacing who you owe a reply — the small loops caught before they go cold.',
-      emphasis: 'You no longer forget. You no longer delay. You no longer postpone.',
+      kicker: 'loopkeeper.welcome.followup.kicker',
+      title: 'loopkeeper.welcome.followup.title',
+      copy: 'loopkeeper.welcome.followup.copy',
+      emphasis: 'loopkeeper.welcome.followup.emphasis',
     },
     {
       id: 'confidante',
-      kicker: '05 · The assistant',
-      title: 'The AI drafts — you hit Send',
-      copy: 'The Assistant reads your card and writes the message in your own voice — no more drafting at midnight, no more wondering what to say.',
+      kicker: 'loopkeeper.welcome.confidante.kicker',
+      title: 'loopkeeper.welcome.confidante.title',
+      copy: 'loopkeeper.welcome.confidante.copy',
     },
     {
       id: 'storage',
-      kicker: '06 · Your data',
-      title: 'Where your essentials live',
-      copy: 'Your cards stay where you put them.',
+      kicker: 'loopkeeper.welcome.storage.kicker',
+      title: 'loopkeeper.welcome.storage.title',
+      copy: 'loopkeeper.welcome.storage.copy',
     },
     {
       id: 'pricing',
-      kicker: '07 · The tiers',
-      title: 'Basic $1 · Assistant $5',
-      copy: 'Seven days free with the Assistant at full strength. Basic catches five loops a month — enough to clear what’s owed. Assistant catches them all. Billing lives in Settings.',
+      kicker: 'loopkeeper.welcome.pricing.kicker',
+      title: 'loopkeeper.welcome.pricing.title',
+      copy: 'loopkeeper.welcome.pricing.copy',
     },
     {
       id: 'outro',
-      kicker: 'You\u2019re set',
-      title: 'That\u2019s the tour — it\u2019s all live',
-      copy: "You're set. Pick your first person — we'll start there. Replay this demo any time from Settings → Welcome Again.",
+      kicker: 'loopkeeper.welcome.outro.kicker',
+      title: 'loopkeeper.welcome.outro.title',
+      copy: 'loopkeeper.welcome.outro.copy',
     },
     {
       id: 'taste',
-      kicker: 'The surprise',
-      title: 'Let’s close one real loop — right now',
-      copy: 'Pick the person you keep meaning to text. We’ll work through that one together: compose the message, then you send.',
+      kicker: 'loopkeeper.welcome.taste.kicker',
+      title: 'loopkeeper.welcome.taste.title',
+      copy: 'loopkeeper.welcome.taste.copy',
     },
   ];
 
@@ -149,7 +156,25 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     private readonly textsplitter: TextsplitterService,
     private readonly alerts: AlertsService,
     private readonly voiceOptions: VoiceOptionsService,
+    private readonly translate: TranslateService,
     ) {}
+
+  /**
+   * 2026-08-27 i18n: resolve a step's key fields into display/narration text.
+   * Dwell sizing and TTS both consume this — they must narrate WORDS, never
+   * the raw loopkeeper.welcome.* keys.
+   */
+  private stepTexts(step: WelcomeDemoStep): WelcomeDemoStep {
+    const t = (k?: string) => (k ? this.translate.instant(k) : k);
+    return {
+      ...step,
+      kicker: t(step.kicker) as string,
+      title: t(step.title) as string,
+      copy: t(step.copy) as string,
+      emphasis: t(step.emphasis),
+      surprise: t(step.surprise),
+    };
+  }
 
   get isFirst(): boolean {
     return this.stepIndex === 0;
@@ -166,7 +191,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // 2026-08-17: first visit greets Karibu sana!; the replay says Welcome Again.
-    if (this.isReplay) this.steps[0].kicker = 'Welcome Again';
+    // 2026-08-27 i18n: both greetings are keys now.
+    if (this.isReplay) this.steps[0].kicker = 'loopkeeper.welcome.intro.kickerReplay';
     // 2026-08-21: listen for the browser demanding a tap before audio — that is
     // when the floating audio button appears (off state) in the animation window.
     this.unsubscribeUserInteraction = this.playback.onUserInteractionRequired(() => {
@@ -226,7 +252,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.clearTimer();
     if (!this.autoPlay) return;
     const step = this.steps[this.stepIndex];
-    this.currentStepMs = this.stepMsFor(step);
+    this.currentStepMs = this.stepMsFor(this.stepTexts(step));
     void this.speakStep(step, allowDeviceFallback);
     this.timer = setTimeout(() => {
       if (this.isLast) {
@@ -260,7 +286,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
    *  so the MP3 can play after the network round-trip. */
   private async speakStep(step: WelcomeDemoStep, allowDeviceFallback = false): Promise<void> {
     if (!this.narrate || !this.speechSupported) return;
-    const raw = `${step.kicker}. ${step.title}. ${step.copy}${step.emphasis ? ' ' + step.emphasis : ''}`;
+    const s = this.stepTexts(step); // 2026-08-27 i18n: narrate words, never keys
+    const raw = `${s.kicker}. ${s.title}. ${s.copy}${s.emphasis ? ' ' + s.emphasis : ''}`;
     const text = this.textsplitter.preprocessForTTS(raw, 'All');
     if (this.backendTtsOk !== false) {
       try {
@@ -284,12 +311,16 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     if (this.backendTtsOk === false && !this.ttsErrorNotified) {
       this.ttsErrorNotified = true;
       void this.alerts.showToast(
-        allowDeviceFallback ? 'Audio hiccup — trying device voice…' : 'Narration audio failed — tap Play to retry',
+        this.translate.instant(allowDeviceFallback
+          ? 'loopkeeper.welcome.ttsHiccup'
+          : 'loopkeeper.welcome.ttsFailed'),
         3500
       );
     }
     if (this.backendTtsOk === false && allowDeviceFallback) {
-      await this.playback.speakDeviceFirst(text, 'en-US');
+      // 2026-08-27 i18n: the device voice follows the interface language when a
+      // matching voice exists; en-US stays the safety net.
+      await this.playback.speakDeviceFirst(text, this.translate.currentLang || 'en-US');
     }
   }
 

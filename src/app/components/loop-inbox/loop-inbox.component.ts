@@ -7,6 +7,7 @@ import {
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
@@ -86,18 +87,24 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     { id: 'linkedin', icon: 'logo-linkedin', label: 'LinkedIn' },
     { id: 'voice', icon: 'mic-outline', label: 'Voice' },
   ];
-  readonly dropReasons = [
-    'Wrong time — revisit later',
-    'Not worth it, honestly',
-    'The relationship cooled',
-    'Handled outside the app',
+  // 2026-08-27 i18n: every user-facing string now flows through the locale
+  // files (loopkeeper.* keys) — the presets were English-only and defeated the
+  // multi-language platforming. Templates render via | translate.
+  readonly sampleCaptureKeys = [
+    'loopkeeper.capture.sample1',
+    'loopkeeper.capture.sample2',
+    'loopkeeper.capture.sample3',
   ];
-
-  readonly sampleCaptures = [
-    'Need to reply to Priya about the Thursday slot',
-    'Promised Tunde I\'d send the deck',
-    'We should grab coffee with Amara',
+  readonly dropReasonKeys = [
+    'loopkeeper.drop.reason1',
+    'loopkeeper.drop.reason2',
+    'loopkeeper.drop.reason3',
+    'loopkeeper.drop.reason4',
   ];
+  /** Text for template iterations that also feed actions with the string. */
+  tr(key: string, params?: Record<string, unknown>): string {
+    return this.translate.instant(key, params);
+  }
 
   constructor(
     private loops: LoopsService,
@@ -106,6 +113,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private translate: TranslateService,
     private keeper: KeeperAgentService,
+    private storage: StorageService,
   ) {
     this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   }
@@ -145,14 +153,22 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     try {
       const envelope = this.keeper.capture(sentence, this.contacts);
       if (!envelope.ok || !envelope.output) {
-        void this.alerts.showToast('Could not open that loop — try again.', 2200);
+        void this.alerts.showToast(this.tr('loopkeeper.t.openErr'), 2200);
         return;
       }
       const loop = envelope.output;
       this.captureInput = '';
       this.selectedId = loop.id;
       await this.refresh();
-      void this.alerts.showToast(`Loop opened with ${loop.person} — draft ready.`, 2600);
+      // 2026-08-27 FIRST-LOOP ONBOARDING: the product wins the moment loop #1
+      // is open — celebrate it once, then keep receipts ordinary.
+      const firstDone = await this.storage.get<boolean>('loopkeeper_first_loop_done');
+      if (!firstDone) {
+        await this.storage.set('loopkeeper_first_loop_done', true);
+        void this.alerts.showToast(this.tr('loopkeeper.t.firstLoop', { person: loop.person }), 3600);
+      } else {
+        void this.alerts.showToast(this.tr('loopkeeper.t.opened', { person: loop.person }), 2600);
+      }
     } finally {
       this.busy = false;
     }
@@ -181,19 +197,19 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
   makeIntroB(l: Loop): void {
     const env = this.keeper.draftIntroNotes(l);
-    if (env.ok) { this.showIntroBFor = l.id; void this.alerts.showToast('Both intro notes drafted — A is live below.', 2600); }
-    else void this.alerts.showToast('Could not draft the pair — try again.', 2200);
+    if (env.ok) { this.showIntroBFor = l.id; void this.alerts.showToast(this.tr('loopkeeper.t.introDrafted'), 2600); }
+    else void this.alerts.showToast(this.tr('loopkeeper.t.introErr'), 2200);
   }
   async copyIntroB(l: Loop): Promise<void> {
     try {
       await navigator.clipboard.writeText(l.introNoteB || '');
-      void this.alerts.showToast('B-note copied — send it to ' + (l.secondPerson || 'them'), 2400);
-    } catch { void this.alerts.showToast('Could not copy — select the text manually', 2500); }
+      void this.alerts.showToast(this.tr('loopkeeper.t.introCopied', { who: l.secondPerson || this.tr('loopkeeper.t.them') }), 2400);
+    } catch { void this.alerts.showToast(this.tr('loopkeeper.t.copyErr'), 2500); }
   }
   markIntroDone(l: Loop): void {
     this.loops.closeFully(l.id); // the intro HAPPENED — one loop, celebrated once
     void this.refresh();
-    void this.alerts.showToast(`✅ Intro made: ${l.person} ↔ ${l.secondPerson || 'them'}. Closed.`, 3000);
+    void this.alerts.showToast(this.tr('loopkeeper.t.introMade', { a: l.person, b: l.secondPerson || this.tr('loopkeeper.t.them') }), 3000);
   }
   toggleVoice(l: Loop): void {
     this.showVoiceFor = this.showVoiceFor === l.id ? null : l.id;
@@ -206,7 +222,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const env = await this.keeper.polish(l);
     const better = env.output ?? null;
     if (better) this.loops.update(l.id, { draft: better });
-    else void this.alerts.showToast('AI polish unavailable — local draft stands.', 2200);
+    else void this.alerts.showToast(this.tr('loopkeeper.t.polishErr'), 2200);
   }
 
   // ── Decision chips (4) ──────────────────────────────────────────────────────
@@ -222,7 +238,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.loops.waitUntil(l.id, this.waitDate, this.waitCond);
     this.waitEditingId = null;
     void this.refresh();
-    void this.alerts.showToast(`Parked until ${this.waitDate}${this.waitCond ? ' — ' + this.waitCond : ''}`, 2400);
+    void this.alerts.showToast(this.waitCond
+      ? this.tr('loopkeeper.t.parkedCond', { date: this.waitDate, cond: this.waitCond })
+      : this.tr('loopkeeper.t.parked', { date: this.waitDate }), 2400);
   }
 
   openDrop(l: Loop): void { this.waitEditingId = null; this.dropEditingId = l.id; }
@@ -230,7 +248,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.loops.dropWithDignity(l.id, reason);
     this.dropEditingId = null;
     void this.refresh();
-    void this.alerts.showToast('Dropped with dignity. Closing by dropping is still closing.', 2800);
+    void this.alerts.showToast(this.tr('loopkeeper.t.dropped'), 2800);
   }
 
   /** One-tap send (6) → receipt (8) */
@@ -241,7 +259,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     if (channel === 'voice') {
       if (this.lastClipByLoop[l.id]) {
         this.showVoiceFor = l.id; // clip already recorded — finish it in the studio
-        void this.alerts.showToast('Your take is ready below — play it, then Send.', 2400);
+        void this.alerts.showToast(this.tr('loopkeeper.t.takeReady'), 2400);
         return;
       }
       await this.startRecording(l);
@@ -252,13 +270,13 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     if (channel === 'linkedin') {
       let target = l.handle || '';
       const ask = await this.alertCtrl.create({
-        header: `LinkedIn · ${l.person}`,
-        message: 'Paste their profile link to land straight on them — or search by name.',
+        header: this.tr('loopkeeper.t.liTitle', { person: l.person }),
+        message: this.tr('loopkeeper.t.liMsg'),
         inputs: [{ name: 'u', type: 'url', placeholder: 'https://www.linkedin.com/in/…' }],
         buttons: [
-          { text: 'Cancel', role: 'cancel', handler: () => { target = '__cancel__'; return true; } },
-          { text: 'Search by name', handler: () => { target = ''; return true; } },
-          { text: 'Open', handler: (d: any) => { target = String(d?.u || '').trim(); return true; } },
+          { text: this.tr('loopkeeper.t.btnCancel'), role: 'cancel', handler: () => { target = '__cancel__'; return true; } },
+          { text: this.tr('loopkeeper.t.liSearch'), handler: () => { target = ''; return true; } },
+          { text: this.tr('loopkeeper.t.btnOpen'), handler: (d: any) => { target = String(d?.u || '').trim(); return true; } },
         ],
       });
       await ask.present();
@@ -271,17 +289,25 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
         (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed');
       await this.refresh();
       void this.alerts.showToast(
-        `🔗 Draft copied — ${bundle.label === 'LinkedIn · profile' ? 'tap Message and paste.' : 'open their chat and paste once found.'}`, 3600);
+        bundle.label === 'LinkedIn · profile'
+          ? this.tr('loopkeeper.t.liCopiedProfile')
+          : this.tr('loopkeeper.t.liCopiedOther'), 3600);
       return;
     }
 
     let handle = l.handle || '';
     if (!handle) {
       const ask = await this.alertCtrl.create({
-        header: `${channel === 'email' ? 'Email' : 'Phone'} for ${l.person}`,
-        message: 'Stored on this device only — used to open the right app.',
+        header: this.tr('loopkeeper.t.contactTitle', {
+          ch: this.tr(channel === 'email' ? 'loopkeeper.t.chEmail' : 'loopkeeper.t.chPhone'),
+          person: l.person,
+        }),
+        message: this.tr('loopkeeper.t.contactMsg'),
         inputs: [{ name: 'h', type: channel === 'email' ? 'email' : 'tel', placeholder: channel === 'email' ? 'name@example.com' : '+234…' }],
-        buttons: [{ text: 'Cancel', role: 'cancel' }, { text: 'Save & send', handler: (d: any) => { handle = String(d?.h || '').trim(); return !!handle; } }],
+        buttons: [
+          { text: this.tr('loopkeeper.t.btnCancel'), role: 'cancel' },
+          { text: this.tr('loopkeeper.t.btnSaveSend'), handler: (d: any) => { handle = String(d?.h || '').trim(); return !!handle; } },
+        ],
       });
       await ask.present();
       if (!handle) return;
@@ -295,8 +321,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const left = this.counts.mine;
     void this.alerts.showToast(
       doneMeans === 'closed'
-        ? `✅ Loop CLOSED with ${l.person}. ${left} open left.`
-        : `📤 Sent via ${bundle.label}. Done means: their reply. Mark closed when it lands.`,
+        ? this.tr('loopkeeper.t.sentClosed', { person: l.person, n: left })
+        : this.tr('loopkeeper.t.sentOut', { label: bundle.label }),
       3400,
     );
   }
@@ -304,7 +330,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   markThemReplied(l: Loop): void {
     this.loops.closeFully(l.id);
     void this.refresh();
-    void this.alerts.showToast(`✅ ${l.person} replied — loop closed. ${this.counts.mine} open left.`, 3000);
+    void this.alerts.showToast(this.tr('loopkeeper.t.replied', { person: l.person, n: this.counts.mine }), 3000);
   }
 
   // ═══ 2026-08-25 VOICE NOTE STUDIO ═══════════════════════════════════════════
@@ -328,7 +354,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     if (!md?.getUserMedia || typeof MediaRecorder === 'undefined') {
       // Graceful degradation: outline to clipboard, loop stays open, nothing faked.
       try { await navigator.clipboard.writeText(this.loops.getLoop(l.id)?.voiceOutline || ''); } catch { /* ignore */ }
-      void this.alerts.showToast('This browser can\'t record — speaking points copied instead.', 3400);
+      void this.alerts.showToast(this.tr('loopkeeper.t.recUnsupported'), 3400);
       return;
     }
     try {
@@ -345,7 +371,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       this.recordingSeconds = 0;
       this.recTimer = setInterval(() => { this.recordingSeconds++; }, 1000);
     } catch {
-      void this.alerts.showToast('Microphone declined — the outline path stands.', 2800);
+      void this.alerts.showToast(this.tr('loopkeeper.t.recDenied'), 2800);
     }
   }
 
@@ -380,7 +406,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const old = this.lastClipByLoop[loopId];
     if (old) URL.revokeObjectURL(old.url);
     this.lastClipByLoop[loopId] = { url: URL.createObjectURL(blob), blob, ext, seconds };
-    void this.alerts.showToast(`🎧 ${seconds}s captured — preview it, then send.`, 2400);
+    void this.alerts.showToast(this.tr('loopkeeper.t.recCaptured', { s: seconds }), 2400);
   }
 
   discardClip(l: Loop): void {
@@ -404,15 +430,15 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
         this.discardClip(l);
         await this.refresh();
         void this.alerts.showToast(doneMeans === 'closed'
-          ? `✅ Voice note delivered — loop CLOSED with ${l.person}.`
-          : `📤 Voice note sent — done means ${l.person}'s reply.`, 3200);
+          ? this.tr('loopkeeper.t.voiceClosed', { person: l.person })
+          : this.tr('loopkeeper.t.voiceSent', { person: l.person }), 3200);
         return;
       } catch { return; /* user dismissed the share sheet — nothing sent */ }
     }
     // Share-API-less browsers: save locally, attach manually. Loop stays OPEN.
     const a = document.createElement('a');
     a.href = clip.url; a.download = filename; a.click();
-    void this.alerts.showToast('⬇ Saved — attach it in your chat app, then mark it sent.', 3600);
+    void this.alerts.showToast(this.tr('loopkeeper.t.attachSaved'), 3600);
   }
 
   ngOnDestroy(): void {

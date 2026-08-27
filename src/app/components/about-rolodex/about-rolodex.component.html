@@ -392,16 +392,47 @@
     </p>
     <ng-container *ngIf="unlocked">
       <div class="investor-content">
-        <p><strong>Thesis:</strong> "The biggest consumer AI opportunity is
-          helping people close the tiny loops they keep avoiding. Emailing back
-          the person you owe a reply… an agent that does the hard 90% of each
-          loop, finds the context, makes the call, drafts the message, so all
-          you do is hit send. The wedge is going after one loop first and
-          nailing it."</p>
-        <p><strong>Our wedge:</strong> the owed-reply loop — the person you
-          keep meaning to write back. The most universal tiny loop there is.
-          The Assistant does the hard 90%: context, call, draft — you hit
+        <!-- 2026-08-27 TRIMMED TO PURPOSE: a first-time investor reads the whole
+             story in three beats — what it is, live proof, how it makes money —
+             then every deep-dive is one collapsed tap away. NOTHING deleted. -->
+        <p class="inv-hero-line"><strong>LoopKeeper closes the tiny loops people keep avoiding.</strong>
+          The reply you owe, the birthday about to slip, the friend going quiet:
+          capture one sentence and the Assistant does the hard 90% — finds the
+          context, drafts the words, picks the moment — so all you do is hit
           Send.</p>
+
+        <p><strong>Our wedge:</strong> the owed-reply loop — the most universal
+          tiny loop there is. Nail it first, then take the adjacent loops.</p>
+
+        <div class="investor-kpis" *ngIf="investorStats">
+          <div class="kpi-card">
+            <div class="kpi-value">{{ investorStats.totals.devices }}</div>
+            <div class="kpi-label">Devices synced</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">{{ investorStats.totals.contacts }}</div>
+            <div class="kpi-label">Contacts recorded</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">{{ investorStats.totals.activeLast24h }}</div>
+            <div class="kpi-label">Active in last 24h</div>
+          </div>
+        </div>
+
+        <ion-button expand="block" fill="solid" color="success" (click)="openLive()">
+          <ion-icon name="pulse-outline" slot="start"></ion-icon>
+          Live record — full dashboard, new tab
+        </ion-button>
+        <p class="investor-live-note">
+          Read-only peek at <code>zyppar.com/api/loopkeeper/live</code>, refreshing every 5 seconds.
+        </p>
+
+        <p class="inv-priceline"><strong>Pricing:</strong> Basic $1/month — five
+          Assistant nudges · Full $5/month — every loop, all month.</p>
+
+        <details class="inv-details">
+          <summary>The human case — blight, questions, the map</summary>
+          <div class="inv-details-body">
 
         <p><strong>The universal blight:</strong> every one of us carries the
           same quiet debt — a reply owed, a birthday missed, a congratulations
@@ -435,9 +466,14 @@
           user's kept relationships into the most valuable graph a consumer AI
           company could build — earned one tiny loop at a time.</p>
 
+          </div>
+        </details>
+
         <!-- 2026-08-16 THE YARDSTICK: the retention curve, drawn + explained —
              the chart an investor wakes up to. -->
-        <p class="investor-chart-title"><strong>The yardstick — the curve that decides everything</strong></p>
+        <details class="inv-details">
+          <summary>The yardstick — the curve that decides everything</summary>
+          <div class="inv-details-body">
         <svg class="investor-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Retention curve">
           <line x1="24" y1="8" x2="24" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
           <line x1="24" y1="104" x2="292" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
@@ -460,7 +496,12 @@
           be closed. Every feature we ship is judged against this chart —
           does it flatten it? That is the whole job.
         </p>
+          </div>
+        </details>
 
+        <details class="inv-details">
+          <summary>Pricing &amp; roadmap</summary>
+          <div class="inv-details-body">
         <p><strong>Pricing — Basic ($1): the follow-through assistant with five Assistant nudges a month. Assistant ($5): every loop, all month.</strong></p>
         <p>· <strong>Basic — $1/month.</strong> LoopKeeper the follow-through assistant —
           cards, groups, reminders, follow-ups, birthdays, sync, pods, in-app
@@ -479,7 +520,15 @@
           one user's Assistant communicating with another's · native
           Android/iOS (Play Store next) · licensing the loop-closing engine to
           OEMs and telcos.</p>
+          </div>
+        </details>
 
+        <!-- 2026-08-27: the whole nine-view live analysis is ONE collapsed tap —
+             a first read never wades through it; the hero button carries the
+             full 5s dashboard instead. -->
+        <details class="inv-details">
+          <summary>The live record — nine views of the real numbers</summary>
+          <div class="inv-details-body">
         <!-- 2026-08-19 LIVE RECORD ANALYSIS: charts inside the Investor page,
              refreshed hourly (not every 5s), so investors see the live record
              without leaving the app. -->
@@ -698,20 +747,8 @@
           </p>
           <p class="investor-live-note" *ngIf="statsError">Live record could not be refreshed: {{ statsError }}</p>
         </div>
-
-        <!-- 2026-08-18 THE GATEWAY RESTORED: the live performance peek that
-             used to be bundled with something else and got lost.
-             2026-08-19 EXPLICIT: the button names the new tab, so the switch
-             is never a surprise. -->
-        <ion-button expand="block" fill="outline" color="success" (click)="openLive()">
-          <ion-icon name="pulse-outline" slot="start"></ion-icon>
-          Open full live dashboard — new tab
-        </ion-button>
-        <p class="investor-live-note">
-          This opens a separate browser tab so you don't lose your place here.
-          It shows the read-only peek at <code>zyppar.com/api/openloop/live</code>,
-          refreshing every 5 seconds.
-        </p>
+          </div>
+        </details>
 
         <!-- 2026-08-19 THE EXTENDED ROOM: suggestions from Chat with LoopKeeper,
              locked behind northstar-x2. Also hosts the trial re-open control. -->
@@ -730,7 +767,9 @@
               <ion-button size="small" fill="outline" color="warning" (click)="reopenTrial()">Re-open 7-day trial</ion-button>
             </p>
 
-            <p class="investor-chart-title"><strong>What users are asking for — and what frustrates them</strong></p>
+            <details class="inv-details">
+              <summary>What users are asking for — and what frustrates them</summary>
+              <div class="inv-details-body">
             <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with LoopKeeper is the intake.</div>
             <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
             <div class="feedback-card" *ngFor="let f of feedbackList">
@@ -740,8 +779,12 @@
             <ion-button size="small" fill="clear" (click)="loadFeedback()" [disabled]="feedbackLoading">
               {{ feedbackLoading ? 'Loading…' : 'Refresh suggestions' }}
             </ion-button>
+              </div>
+            </details>
 
-            <p class="investor-chart-title" style="margin-top:16px;"><strong>Ox Alpha analyses — inner vault</strong></p>
+            <details class="inv-details" style="margin-top:10px;">
+              <summary>Ox Alpha analyses — inner vault</summary>
+              <div class="inv-details-body">
             <p class="investor-live-note">The full strategy/engineering analyses behind the decisions, preserved here.</p>
             <div *ngIf="analysesLoading" class="investor-live-note">Loading analyses…</div>
             <div class="feedback-card" *ngFor="let a of analyses; let i = index">
@@ -753,6 +796,8 @@
             <ion-button size="small" fill="clear" (click)="loadAnalyses()" [disabled]="analysesLoading">
               {{ analysesLoading ? 'Loading…' : 'Reload analyses' }}
             </ion-button>
+              </div>
+            </details>
           </ng-container>
         </div>
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { InviteService, RolodexInvite } from '../invite/invite.service';
 import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 
@@ -46,10 +47,35 @@ export interface ShareAppContext {
   providedIn: 'root',
 })
 export class ShareAppService {
+  /** 2026-08-27 SHARE VOICES: three i18n'd share messages — the single
+   * hardcoded English line ("the 'I should really reach out' list") read as
+   * off-target and defeated the multi-language platforming. One of the three
+   * is picked at random per send, so the same user's shares vary naturally.
+   * Keys live in assets/i18n/*.json under loopkeeper.share.voiceA/B/C with a
+   * {{url}} parameter. */
+  private readonly shareVoices = [
+    'loopkeeper.share.voiceA',
+    'loopkeeper.share.voiceB',
+    'loopkeeper.share.voiceC',
+  ];
+
   constructor(
     private readonly inviteService: InviteService,
     private readonly rolodexSync: RolodexSyncService,
+    private readonly translate: TranslateService,
   ) {}
+
+  /** 2026-08-27 GENERIC APP SHARE TEXT (three voices, localized). */
+  async buildAppShareText(url: string): Promise<string> {
+    const key = this.shareVoices[Math.floor(Math.random() * this.shareVoices.length)];
+    try {
+      const text = await this.translate.get(key, { url }).toPromise();
+      // ngx-translate returns the KEY itself when missing in every language —
+      // fall back to English so a broken locale file never shares garbage.
+      if (text && text !== key) return text;
+    } catch { /* fall through to English default */ }
+    return `LoopKeeper drafts the message you keep meaning to send — context found, words chosen, you hit Send: ${url}`;
+  }
 
   /** 2026-08-18 REAL SENDER: prefer the caller's explicit `from`, else the
    *  user's My Profile name (async IndexedDB read - never a premature 'Me'). */
@@ -195,7 +221,8 @@ export class ShareAppService {
     // 2026-08-25 CACHE-BUSTING: distinct URL so social platforms don't serve the
     // old cached Zyppar preview for the bare /loopkeeper/ path.
     const url = 'https://zyppar.com/loopkeeper/?src=settings';
-    const text = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: ${url}`;
+    // 2026-08-27 SHARE VOICES: one of three localized messages, picked per send.
+    const text = await this.buildAppShareText(url);
     const nav: any = navigator;
     try {
       if (nav.share) {

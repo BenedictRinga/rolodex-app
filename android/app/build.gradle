@@ -1,10 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.zyppar.openloop"
+    // 2026-08-26 BRAND MIGRATION: com.zyppar.openloop -> com.zyppar.loopkeeper.
+    // Done pre-store, the only window where this is free: once published, the
+    // applicationId is permanently locked to the Play listing.
+    namespace "com.zyppar.loopkeeper"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.zyppar.openloop"
+        applicationId "com.zyppar.loopkeeper"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -82,7 +82,7 @@ export class UpdatesService {
     }
   }
 
-  /** 2026-08-20 THE ZYPPAR CHECK — /api/openloop/updates/check?clientVersion=... */
+  /** 2026-08-20 THE ZYPPAR CHECK — /api/loopkeeper/updates/check?clientVersion=... */
   async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string; gate: 'offline' | 'ok' }> {
     if (!navigator.onLine) {
       return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };

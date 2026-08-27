@@ -1,7 +1,7 @@
 {
-  "name": "openloop-app",
+  "name": "loopkeeper-app",
   "version": "0.3.0",
-  "author": "OpenLoop",
+  "author": "LoopKeeper",
   "homepage": "",
   "scripts": {
     "ng": "node node_modules/@angular/cli/bin/ng.js",
@@ -65,6 +65,7 @@
     "@capacitor/cli": "^6.1.1",
     "@ionic/angular-toolkit": "^11.0.0",
     "@types/jasmine": "~5.1.0",
+    "ajv": "8.16.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.0.0",
@@ -77,5 +78,13 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.0"
   },
-  "description": "OpenLoop - The contacts app that remembers why you know someone and helps you nurture every relationship"
+  "resolutions": {
+    "**/nx": "19.8.14",
+    "**/@nx/devkit": "19.8.14",
+    "**/@nrwl/devkit": "19.8.14",
+    "**/@nrwl/tao": "19.8.14"
+  },
+  "_resolutionsNote": "2026-08-26 DEPENDENCY REPAIR: nx/@nx/@nrwl 19.8.15 was a partially-published release — @nrwl/tao and @nrwl/devkit 19.8.15 were never uploaded to the registry — which hard-broke fresh `yarn install` (npm only 'worked' because its stale lockfile predated the broken release). Pinning the whole family to the last complete release (19.8.14). Do not remove unless you re-verify @nrwl/* publishes.",
+  "_ajvNote": "2026-08-26 DEPENDENCY REPAIR: ajv is a deliberate DIRECT devDependency. @angular-devkit/core pins ajv 8.16.0 exactly, but eslint's ajv ^6.12.4 won the yarn-1 root hoist — the Angular CLI schema registry then crashed with 'Cannot read properties of undefined (reading code)' inside ajv-formats/addFormats. Declaring ajv 8.16.0 directly forces it to win the root slot; ajv@6 nests under eslint. Do not remove or downgrade.",
+  "description": "LoopKeeper - The contacts app that remembers why you know someone and helps you nurture every relationship"
 }

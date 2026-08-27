@@ -18,3 +18,4 @@ export type { SyncBundle, EncryptedBundle, CloudProvider, SyncState } from './cl
 export { StudioPlaybackService } from './studio-playback/studio-playback.service';
 export { StudioAudioBridgeService, StudioBridgeService } from './studio-bridge/studio-bridge.service';
 export { StudioQwenTtsService } from './studio-qwen-tts/studio-qwen-tts.service';
+export { CrashReporterService } from './crash/crash.service';

@@ -35,7 +35,7 @@
       </ion-button>
     </div>
     <div class="li-samples">
-      <span *ngFor="let s of sampleCaptures" class="li-sample" (click)="addCapture(s)">“{{ s }}”</span>
+      <span *ngFor="let s of sampleCaptureKeys" class="li-sample" (click)="addCapture(tr(s))">“{{ tr(s) }}”</span>
     </div>
 
     <!-- Rising nudges banner (7) — silence after close is the reward -->
@@ -238,7 +238,7 @@
         <ion-button size="small" (click)="saveWait(l)">{{ 'loopkeeper.parkIt' | translate }}</ion-button>
       </div>
       <div *ngIf="dropEditingId === l.id" class="li-subform">
-        <button *ngFor="let r of dropReasons" class="li-dropreason" (click)="confirmDrop(l, r)">{{ r }}</button>
+        <button *ngFor="let r of dropReasonKeys" class="li-dropreason" (click)="confirmDrop(l, tr(r))">{{ tr(r) }}</button>
       </div>
     </div>
   </div>

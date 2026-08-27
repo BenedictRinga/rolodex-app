@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  rolodexApiBase: 'https://zyppar.com/api/openloop', // dev builds must type-check too (IDE-caught TS2339)
+  // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
+  rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 105, // 2026-08-26 Channel completion (Ox Alpha): on-device voice recorder + LinkedIn smart landing
+  build: 107, // 2026-08-27 WAVE2: crash reporter, invite persistence, i18n loop-inbox+share, investor trim
 };
 
 /*

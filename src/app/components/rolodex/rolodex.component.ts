@@ -550,8 +550,11 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-21 MAKE AI ASSISTANT YOUR OWN: Coming Soon + curiosity counter. */
   async makeAiAssistantYourOwn(): Promise<void> {
-    const KEY = 'openloop_ai_own_counter';
-    let count = Number(await this.storageService.get<number>(KEY)) || 0;
+    // 2026-08-26 brand migration: key renamed openloop_ -> loopkeeper_; the
+    // legacy value is read once so no user's counter resets.
+    const KEY = 'loopkeeper_ai_own_counter';
+    const LEGACY_KEY = 'openloop_ai_own_counter';
+    let count = Number(await this.storageService.get<number>(KEY)) || Number(await this.storageService.get<number>(LEGACY_KEY)) || 0;
     count += 1;
     await this.storageService.set(KEY, count);
     const alert = await this.alertController.create({

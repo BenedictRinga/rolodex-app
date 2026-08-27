@@ -1093,3 +1093,81 @@ ion-content::part(scroll) {
 .sec-timeline    { border-left-color: #00A896; .section-num { background: #00A896; } }
 .sec-rooms       { border-left-color: #9BA1A6; .section-num { background: #9BA1A6; } }
 .sec-translations{ border-left-color: #00A896; .section-num { background: #00A896; } }
+
+/* ═══ 2026-08-27 INVESTOR TRIM — lean hero + collapsed deep-dives ═════════
+   A first-time investor reads thesis -> live proof -> money in one screen;
+   the deep material stays one tap away inside native <details>. */
+.inv-hero-line {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--rolodex-text);
+  margin-bottom: 10px;
+}
+
+.inv-priceline {
+  font-size: 14px;
+  color: var(--rolodex-text-secondary);
+  margin: 10px 0 4px;
+}
+
+.investor-kpis {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+}
+.kpi-card {
+  flex: 1;
+  background: var(--rolodex-surface, #fff);
+  border: 1px solid rgba(0, 168, 150, .25);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  .kpi-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--rolodex-primary, #00A896);
+    line-height: 1.1;
+  }
+  .kpi-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--rolodex-text-tertiary);
+    margin-top: 3px;
+  }
+}
+
+details.inv-details {
+  margin: 10px 0;
+  border: 1px solid var(--rolodex-border, rgba(0, 0, 0, .08));
+  border-radius: 12px;
+  background: var(--rolodex-surface, #fff);
+  overflow: hidden;
+
+  summary {
+    cursor: pointer;
+    padding: 11px 14px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--rolodex-primary, #00A896);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px; /* touch target */
+    &::-webkit-details-marker { display: none; }
+    &::before {
+      content: '▸';
+      margin-right: 8px;
+      transition: transform var(--rolodex-ease, .2s) ease;
+      color: var(--rolodex-text-tertiary);
+    }
+  }
+  &[open] summary::before { transform: rotate(90deg); }
+
+  .inv-details-body {
+    padding: 0 14px 12px;
+    border-top: 1px solid var(--rolodex-border, rgba(0, 0, 0, .06));
+    padding-top: 10px;
+  }
+}

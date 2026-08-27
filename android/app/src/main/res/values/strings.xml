@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">OpenLoop</string>
-    <string name="title_activity_main">OpenLoop</string>
-    <string name="package_name">com.zyppar.openloop</string>
-    <string name="custom_url_scheme">com.zyppar.openloop</string>
+    <string name="app_name">LoopKeeper</string>
+    <string name="title_activity_main">LoopKeeper</string>
+    <string name="package_name">com.zyppar.loopkeeper</string>
+    <string name="custom_url_scheme">com.zyppar.loopkeeper</string>
 </resources>

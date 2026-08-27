@@ -11,6 +11,18 @@ This file tells AI assistants working on this repo what to keep consistent.
   `build` counter together with every user-visible frontend change, and keep it
   equal to the backend `package.json` `build` when both are released together.
 
+## Brand canonicality (2026-08-26 LOOPKEEPER MIGRATION)
+- The product brand is **LoopKeeper**. The package/dir/service names may keep the
+  historical `rolodex` prefix (they are internal), but **user-visible strings,
+  store ids, share URLs and API paths must say loopkeeper**.
+- API canonical path: `/api/loopkeeper` (environment.rolodexApiBase). Legacy
+  `/api/openloop` and `/api/rolodex` remain server-side aliases — do not use
+  them in new code.
+- Android identity: `com.zyppar.loopkeeper` (see PLAYSTORE.md).
+- See `_resolutionsNote` / `_ajvNote` in package.json for the 2026-08-26
+  dependency-tree repairs (nx 19.8.14 pins + direct ajv 8.16.0). `yarn.lock`
+  now exists — commit it; never run `npm install` here.
+
 ## Chat with LoopKeeper copy — MUST stay fresh
 The Chat with LoopKeeper modal lives in:
 

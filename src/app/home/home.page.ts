@@ -222,7 +222,8 @@ export class HomePage implements OnInit, OnDestroy {
         }
         void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
       } else if (role === 'get-app') {
-        window.open('https://play.google.com/store/apps/details?id=com.zyppar.openloop', '_blank');
+        // 2026-08-26: store id follows the brand migration (com.zyppar.loopkeeper).
+        window.open('https://play.google.com/store/apps/details?id=com.zyppar.loopkeeper', '_blank');
       } else if (role === 'pick-unavailable') {
         void this.alertsService.showToast('Pick from your phone needs Android Chrome — or add the one person manually.', 4500);
       }

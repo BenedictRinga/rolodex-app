@@ -27,16 +27,16 @@
             <div class="fan" *ngSwitchCase="'intro'">
               <div class="fan-card fc1">
                 <div class="fc-avatar grad-cool">AW</div>
-                <div class="fc-meta"><b>Amina</b><span>Assistant</span></div>
+                <div class="fc-meta"><b>Amina</b><span>{{ 'loopkeeper.welcome.st.roleAssistant' | translate }}</span></div>
               </div>
               <div class="fan-card fc2 fan-mid">
                 <div class="fc-avatar grad-brand">DP</div>
-                <div class="fc-meta"><b>Daniel</b><span>Business</span></div>
+                <div class="fc-meta"><b>Daniel</b><span>{{ 'loopkeeper.welcome.st.roleBusiness' | translate }}</span></div>
                 <span class="tap-ring"></span>
               </div>
               <div class="fan-card fc3">
                 <div class="fc-avatar grad-warm">SO</div>
-                <div class="fc-meta"><b>Sofia</b><span>Family</span></div>
+                <div class="fc-meta"><b>Sofia</b><span>{{ 'loopkeeper.welcome.st.roleFamily' | translate }}</span></div>
               </div>
             </div>
 
@@ -46,7 +46,7 @@
                 <div class="face face-front">
                   <div class="fc-avatar grad-brand big">AW</div>
                   <div class="face-name">Amina Wanjiru</div>
-                  <div class="face-sub">Assistant · Nairobi</div>
+                  <div class="face-sub">{{ 'loopkeeper.welcome.st.cardSub' | translate }}</div>
                   <div class="face-actions">
                     <span class="mini-act"><ion-icon name="call-outline"></ion-icon></span>
                     <span class="mini-act"><ion-icon name="mail-outline"></ion-icon></span>
@@ -55,42 +55,42 @@
                 </div>
                 <div class="face face-back">
                   <div class="back-actions">
-                    <span class="back-act"><ion-icon name="chatbubble-outline"></ion-icon><em>Chat</em></span>
-                    <span class="back-act"><ion-icon name="alarm-outline"></ion-icon><em>Remind</em></span>
-                    <span class="back-act hot"><ion-icon name="sparkles-outline"></ion-icon><em>Assistant</em></span>
-                    <span class="back-act"><ion-icon name="call-outline"></ion-icon><em>Call</em></span>
+                    <span class="back-act"><ion-icon name="chatbubble-outline"></ion-icon><em>{{ 'loopkeeper.welcome.st.actChat' | translate }}</em></span>
+                    <span class="back-act"><ion-icon name="alarm-outline"></ion-icon><em>{{ 'loopkeeper.welcome.st.actRemind' | translate }}</em></span>
+                    <span class="back-act hot"><ion-icon name="sparkles-outline"></ion-icon><em>{{ 'loopkeeper.welcome.st.roleAssistant' | translate }}</em></span>
+                    <span class="back-act"><ion-icon name="call-outline"></ion-icon><em>{{ 'loopkeeper.welcome.st.actCall' | translate }}</em></span>
                   </div>
                 </div>
               </div>
-              <div class="flip-hint">tap to flip</div>
+              <div class="flip-hint">{{ 'loopkeeper.welcome.st.tapToFlip' | translate }}</div>
             </div>
 
             <!-- THE PROMISE: "No more I keep meaning to" — a thought caught -->
             <div class="loop-motto" *ngSwitchCase="'loopmotto'">
-              <div class="motto-thought">“I keep meaning to…”</div>
+              <div class="motto-thought">“{{ 'loopkeeper.welcome.st.mottoThought' | translate }}”</div>
               <div class="motto-strike"></div>
-              <div class="motto-answer"><ion-icon name="checkmark-circle"></ion-icon> No more.</div>
-              <div class="motto-catch">The loop closes before the fire goes cold.</div>
+              <div class="motto-answer"><ion-icon name="checkmark-circle"></ion-icon> {{ 'loopkeeper.welcome.st.mottoAnswer' | translate }}</div>
+              <div class="motto-catch">{{ 'loopkeeper.welcome.st.mottoCatch' | translate }}</div>
             </div>
 
             <!-- FOLLOW-UP ENGINE: the loop list -->
             <div class="loop" *ngSwitchCase="'followup'">
               <div class="loop-row row-overdue">
                 <div class="loop-avatar grad-brand">J</div>
-                <div class="loop-meta"><b>Juma — reply about the loan</b><span>owed since Tue</span></div>
-                <span class="loop-badge bad">OVERDUE</span>
+                <div class="loop-meta"><b>{{ 'loopkeeper.welcome.st.fuLoan' | translate }}</b><span>{{ 'loopkeeper.welcome.st.fuLoanWhen' | translate }}</span></div>
+                <span class="loop-badge bad">{{ 'loopkeeper.welcome.st.badgeOverdue' | translate }}</span>
               </div>
               <div class="loop-row row-today">
                 <div class="loop-avatar grad-cool">P</div>
-                <div class="loop-meta"><b>Priya — how did the interview go?</b><span>due today</span></div>
-                <span class="loop-badge ok">TODAY</span>
+                <div class="loop-meta"><b>{{ 'loopkeeper.welcome.st.fuPriya' | translate }}</b><span>{{ 'loopkeeper.welcome.st.fuPriyaWhen' | translate }}</span></div>
+                <span class="loop-badge ok">{{ 'loopkeeper.welcome.st.badgeToday' | translate }}</span>
               </div>
               <div class="loop-row row-later">
                 <div class="loop-avatar grad-warm">S</div>
-                <div class="loop-meta"><b>Sam — thank-you note</b><span>scheduled · in 3 days</span></div>
+                <div class="loop-meta"><b>{{ 'loopkeeper.welcome.st.fuSam' | translate }}</b><span>{{ 'loopkeeper.welcome.st.fuSamWhen' | translate }}</span></div>
                 <span class="loop-badge info">3d</span>
               </div>
-              <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> caught before it goes cold</div>
+              <div class="loop-catch"><ion-icon name="checkmark-circle"></ion-icon> {{ 'loopkeeper.welcome.st.fuCatch' | translate }}</div>
             </div>
 
             <!-- SIGNAL: they always know - badge, toast, receipts, live update -->
@@ -108,18 +108,18 @@
                   <span class="sig-dot"></span>
                 </div>
               </div>
-              <div class="sig-toast"><ion-icon name="notifications-outline"></ion-icon> New message from Emeka</div>
+              <div class="sig-toast"><ion-icon name="notifications-outline"></ion-icon> {{ 'loopkeeper.welcome.st.sigToast' | translate }}</div>
               <div class="sig-receipts">
                 <span class="rcpt sent"><ion-icon name="checkmark-outline"></ion-icon></span>
                 <span class="rcpt deliv"><ion-icon name="checkmark-done-outline"></ion-icon></span>
                 <span class="rcpt read"><ion-icon name="checkmark-done-outline"></ion-icon></span>
-                <span class="rcpt-label">sent · delivered · read</span>
+                <span class="rcpt-label">{{ 'loopkeeper.welcome.st.rcptLabel' | translate }}</span>
               </div>
               <div class="sig-update">
                 <div class="sig-update-icon"><ion-icon name="calendar-outline"></ion-icon></div>
                 <div class="sig-update-txt">
-                  <b>Appointment fixed with Amina</b>
-                  <span>her card caught it too — live across devices</span>
+                  <b>{{ 'loopkeeper.welcome.st.sigUpdateTitle' | translate }}</b>
+                  <span>{{ 'loopkeeper.welcome.st.sigUpdateSub' | translate }}</span>
                 </div>
                 <span class="sig-update-check"><ion-icon name="checkmark-circle"></ion-icon></span>
               </div>
@@ -128,45 +128,45 @@
             <!-- THE 4 W'S: four plates, arriving separately, skewed like a fan -->
             <div class="fourws-fan" *ngSwitchCase="'fourws'">
               <div class="w-plate wp1">
-                <span class="w-tag who">Who</span>
-                <span class="w-txt">Amina, Creative Director</span>
+                <span class="w-tag who">{{ 'loopkeeper.welcome.st.wWho' | translate }}</span>
+                <span class="w-txt">{{ 'loopkeeper.welcome.st.wWhoTxt' | translate }}</span>
               </div>
               <div class="w-plate wp2">
-                <span class="w-tag what">What</span>
-                <span class="w-txt">Fashion line — collab opportunity</span>
+                <span class="w-tag what">{{ 'loopkeeper.welcome.st.wWhat' | translate }}</span>
+                <span class="w-txt">{{ 'loopkeeper.welcome.st.wWhatTxt' | translate }}</span>
               </div>
               <div class="w-plate wp3">
-                <span class="w-tag where">Where</span>
-                <span class="w-txt">Met at the Lagos showroom</span>
+                <span class="w-tag where">{{ 'loopkeeper.welcome.st.wWhere' | translate }}</span>
+                <span class="w-txt">{{ 'loopkeeper.welcome.st.wWhereTxt' | translate }}</span>
               </div>
               <div class="w-plate wp4">
-                <span class="w-tag when">When</span>
-                <span class="w-txt">Mar 2024 · next Fri</span>
+                <span class="w-tag when">{{ 'loopkeeper.welcome.st.wWhen' | translate }}</span>
+                <span class="w-txt">{{ 'loopkeeper.welcome.st.wWhenTxt' | translate }}</span>
               </div>
-              <div class="w-foot">the Assistant reads the story, finds the words, and hands them to you</div>
+              <div class="w-foot">{{ 'loopkeeper.welcome.st.wFoot' | translate }}</div>
             </div>
 
             <!-- CONFIDANTE: the AI drafts, you hit Send -->
             <div class="chat" *ngSwitchCase="'confidante'">
-              <div class="msg msg-me">What do I say to Priya about the interview?</div>
+              <div class="msg msg-me">{{ 'loopkeeper.welcome.st.ask' | translate }}</div>
               <div class="msg typing">
                 <span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>
               </div>
-              <div class="msg msg-ai">Hey Priya — huge congrats on getting to the interview. How did it go? Rooting for you. 💛</div>
-              <div class="send-pill"><ion-icon name="paper-plane-outline"></ion-icon> Hit Send</div>
+              <div class="msg msg-ai">{{ 'loopkeeper.welcome.st.reply' | translate }}</div>
+              <div class="send-pill"><ion-icon name="paper-plane-outline"></ion-icon> {{ 'loopkeeper.welcome.st.hitSend' | translate }}</div>
             </div>
 
             <!-- PODS: groups grow into shared threads -->
             <div class="pods" *ngSwitchCase="'pods'">
               <div class="pod-circles">
-                <div class="pod-circle pc1 grad-brand">Fam</div>
-                <div class="pod-circle pc2 grad-cool">Biz</div>
-                <div class="pod-circle pc3 grad-warm">Fri</div>
+                <div class="pod-circle pc1 grad-brand">{{ 'loopkeeper.welcome.st.podFam' | translate }}</div>
+                <div class="pod-circle pc2 grad-cool">{{ 'loopkeeper.welcome.st.podBiz' | translate }}</div>
+                <div class="pod-circle pc3 grad-warm">{{ 'loopkeeper.welcome.st.podFri' | translate }}</div>
               </div>
               <div class="pod-down"><ion-icon name="chevron-down-outline"></ion-icon></div>
               <div class="pod-bubble">
-                <b>One pod per group</b>
-                <div class="pod-chips"><span>shared schedule</span><span>shared reminders</span></div>
+                <b>{{ 'loopkeeper.welcome.st.podOne' | translate }}</b>
+                <div class="pod-chips"><span>{{ 'loopkeeper.welcome.st.chipSchedule' | translate }}</span><span>{{ 'loopkeeper.welcome.st.chipReminders' | translate }}</span></div>
               </div>
             </div>
 
@@ -174,45 +174,45 @@
             <div class="storage" *ngSwitchCase="'storage'">
               <div class="st-row">
                 <span class="st-focus"></span>
-                <span class="st-chip">Device</span>
-                <span class="st-chip">Cloud</span>
-                <span class="st-chip">LoopKeeper Server</span>
+                <span class="st-chip">{{ 'loopkeeper.welcome.st.devDevice' | translate }}</span>
+                <span class="st-chip">{{ 'loopkeeper.welcome.st.devCloud' | translate }}</span>
+                <span class="st-chip">{{ 'loopkeeper.welcome.st.devServer' | translate }}</span>
               </div>
-              <div class="room-pill"><span class="live-dot"></span> demo room · zyppar-demo — devices link live</div>
+              <div class="room-pill"><span class="live-dot"></span> {{ 'loopkeeper.welcome.st.roomPill' | translate }}</div>
             </div>
 
             <!-- PRICING: Basic vs Assistant -->
             <div class="tiers" *ngSwitchCase="'pricing'">
               <div class="tier tier-basic">
-                <div class="tier-name">Basic</div>
-                <div class="tier-price">$1<small>/mo</small></div>
-                <div class="tier-line">Five loops caught a month</div>
+                <div class="tier-name">{{ 'loopkeeper.welcome.st.tierBasic' | translate }}</div>
+                <div class="tier-price">$1<small>{{ 'loopkeeper.welcome.st.perMo' | translate }}</small></div>
+                <div class="tier-line">{{ 'loopkeeper.welcome.st.tierLineBasic' | translate }}</div>
               </div>
               <div class="tier tier-conf">
-                <div class="tier-flag">The loop-closer</div>
-                <div class="tier-name">Assistant</div>
-                <div class="tier-price">$5<small>/mo</small></div>
-                <div class="tier-line">The AI works all month</div>
+                <div class="tier-flag">{{ 'loopkeeper.welcome.st.tierFlag' | translate }}</div>
+                <div class="tier-name">{{ 'loopkeeper.welcome.st.roleAssistant' | translate }}</div>
+                <div class="tier-price">$5<small>{{ 'loopkeeper.welcome.st.perMo' | translate }}</small></div>
+                <div class="tier-line">{{ 'loopkeeper.welcome.st.tierLineAssist' | translate }}</div>
               </div>
             </div>
 
             <!-- OUTRO: the recap -->
             <div class="recap" *ngSwitchCase="'outro'">
-              <div class="recap-chip c1">The card <b>✓</b></div>
-              <div class="recap-chip c2">The loop <b>✓</b></div>
-              <div class="recap-chip c3">The confidante <b>✓</b></div>
-              <div class="recap-done">You’re set — everything above is live.</div>
+              <div class="recap-chip c1">{{ 'loopkeeper.welcome.st.recapCard' | translate }} <b>✓</b></div>
+              <div class="recap-chip c2">{{ 'loopkeeper.welcome.st.recapLoop' | translate }} <b>✓</b></div>
+              <div class="recap-chip c3">{{ 'loopkeeper.welcome.st.recapConfidante' | translate }} <b>✓</b></div>
+              <div class="recap-done">{{ 'loopkeeper.welcome.st.recapDone' | translate }}</div>
             </div>
 
             <!-- THE TASTE: the surprise — three postponed loops, one real close. -->
             <div class="taste" *ngSwitchCase="'taste'">
               <div class="taste-gift"><ion-icon name="gift-outline"></ion-icon></div>
               <div class="taste-list">
-                <div class="taste-row"><span class="taste-num">1</span><strong>The reply you owe</strong></div>
-                <div class="taste-row"><span class="taste-num">2</span><strong>The catch-up you keep delaying</strong></div>
-                <div class="taste-row"><span class="taste-num">3</span><strong>The thank-you that died in drafts</strong></div>
+                <div class="taste-row"><span class="taste-num">1</span><strong>{{ 'loopkeeper.welcome.st.taste1' | translate }}</strong></div>
+                <div class="taste-row"><span class="taste-num">2</span><strong>{{ 'loopkeeper.welcome.st.taste2' | translate }}</strong></div>
+                <div class="taste-row"><span class="taste-num">3</span><strong>{{ 'loopkeeper.welcome.st.taste3' | translate }}</strong></div>
               </div>
-              <div class="taste-hint">No names, no numbers — you pick the person from your phone at the end.</div>
+              <div class="taste-hint">{{ 'loopkeeper.welcome.st.tasteHint' | translate }}</div>
             </div>
 
           </ng-container>
@@ -223,32 +223,35 @@
              with the tap, then it fades away until the next such error. -->
         <button type="button" class="demo-audio-unlock" *ngIf="audioUnlockVisible"
           [class.on]="audioUnlockActive" (click)="tapAudioUnlock()"
-          [attr.aria-label]="audioUnlockActive ? 'Audio on' : 'Tap for sound'">
+          [attr.aria-label]="audioUnlockActive
+            ? ('loopkeeper.welcome.aria.audioOn' | translate)
+            : ('loopkeeper.welcome.aria.tapForSound' | translate)">
           <ion-icon [name]="audioUnlockActive ? 'volume-high-outline' : 'volume-mute-outline'"></ion-icon>
         </button>
       </div>
 
       <!-- ── COPY ───────────────────────────────────────────────────── -->
+      <!-- 2026-08-27 i18n: step fields hold keys; pipes resolve them here. -->
       <div class="demo-copy">
-        <div class="demo-kicker">{{ s.kicker }}</div>
-        <h2 class="demo-title">{{ s.title }}</h2>
-        <p class="demo-text">{{ s.copy }}</p>
+        <div class="demo-kicker">{{ s.kicker | translate }}</div>
+        <h2 class="demo-title">{{ s.title | translate }}</h2>
+        <p class="demo-text">{{ s.copy | translate }}</p>
         <!-- 2026-08-20 EMPHASIS: detached, bold, slightly larger — a recapture line. -->
-        <p class="demo-emphasis" *ngIf="s.emphasis">{{ s.emphasis }}</p>
+        <p class="demo-emphasis" *ngIf="s.emphasis">{{ s.emphasis | translate }}</p>
         <!-- 2026-08-19 SURPRISE: separate paragraph, larger, bold, all-caps. -->
-        <p class="demo-surprise" *ngIf="s.surprise">{{ s.surprise }}</p>
+        <p class="demo-surprise" *ngIf="s.surprise">{{ s.surprise | translate }}</p>
       </div>
     </div>
   </ng-container>
 
   <!-- 2026-08-24 PRIVACY PLEDGE: the thing we crow about — no PII to mine. -->
+  <!-- 2026-08-27 i18n: the pledge is comms — it translates too. -->
   <div style="margin:14px 4px 4px;padding:14px 16px;border:1px solid rgba(0,200,83,.35);border-radius:14px;background:rgba(0,200,83,.06);display:flex;gap:12px;align-items:flex-start;">
     <ion-icon name="shield-checkmark-outline" style="font-size:22px;color:#00C853;flex:none;margin-top:2px;"></ion-icon>
     <div style="font-size:13px;line-height:1.5;">
-      <b style="font-size:14px;">Privacy is the product.</b>
+      <b style="font-size:14px;">{{ 'loopkeeper.welcome.privacyTitle' | translate }}</b>
       <p style="margin:4px 0 0;color:var(--rolodex-text-secondary);">
-        LoopKeeper requires <b>no phone number, no email, no identity</b>. LoopKeeper does not need your personal data to serve you.
-        So even if an external AI or forensic scan successfully digs into us, there is no identity trove to find.
+        {{ 'loopkeeper.welcome.privacyBody' | translate }}
       </p>
     </div>
   </div>
@@ -262,13 +265,15 @@
         [class.on]="i === stepIndex"
         [class.done]="i < stepIndex"
         (click)="goTo(i)"
-        [attr.aria-label]="'Step ' + (i + 1) + ' of ' + steps.length"
+        [attr.aria-label]="'loopkeeper.welcome.aria.step' | translate:{ n: i + 1, total: steps.length }"
       ></button>
     </div>
     <div class="demo-nav">
-      <button class="nav-btn" [disabled]="isFirst" (click)="prev()" aria-label="Previous step">‹</button>
-      <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay ? 'Pause demo' : 'Play demo'">{{ autoPlay ? '❚❚' : '▶' }}</button>
-      <button class="nav-btn" [disabled]="isLast" (click)="next()" aria-label="Next step">›</button>
+      <button class="nav-btn" [disabled]="isFirst" (click)="prev()" [attr.aria-label]="'loopkeeper.welcome.aria.prev' | translate">‹</button>
+      <button class="nav-btn play" (click)="toggleAuto()" [attr.aria-label]="autoPlay
+        ? ('loopkeeper.welcome.aria.pause' | translate)
+        : ('loopkeeper.welcome.aria.play' | translate)">{{ autoPlay ? '❚❚' : '▶' }}</button>
+      <button class="nav-btn" [disabled]="isLast" (click)="next()" [attr.aria-label]="'loopkeeper.welcome.aria.next' | translate">›</button>
     </div>
   </div>
 

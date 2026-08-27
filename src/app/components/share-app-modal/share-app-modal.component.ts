@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ShareAppService } from '../../services/share-app/share-app.service';
 
@@ -14,12 +14,15 @@ import { ShareAppService } from '../../services/share-app/share-app.service';
   templateUrl: './share-app-modal.component.html',
   styleUrls: ['./share-app-modal.component.scss'],
 })
-export class ShareAppModalComponent {
+export class ShareAppModalComponent implements OnInit {
   // 2026-08-25 CACHE-BUSTING URL: the bare /loopkeeper/ URL is cached by social
   // platforms with the old Zyppar preview. ?src=settings is a distinct stable URL
   // so WhatsApp/Telegram fetch the current LoopKeeper OG card (same PWA, same OG tags).
   readonly shareUrl = 'https://zyppar.com/loopkeeper/?src=settings';
-  readonly shareText = `I use LoopKeeper for one thing: the 'I should really reach out' list. It nudges me until I actually do. Worth a look if you have the same list: https://zyppar.com/loopkeeper/?src=settings`;
+  // 2026-08-27 SHARE VOICES: no more hardcoded English line — one of three
+  // localized messages (loopkeeper.share.voiceA/B/C), resolved async and
+  // refined from this instant English fallback once translations arrive.
+  shareText = 'LoopKeeper drafts the message you keep meaning to send: ' + this.shareUrl;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
 
   // 2026-08-25 STATIC LOOPKEEPER PREVIEW: always shows the branded card.
@@ -36,6 +39,11 @@ export class ShareAppModalComponent {
     private readonly modalController: ModalController,
     private readonly shareApp: ShareAppService,
   ) {}
+
+  ngOnInit(): void {
+    // Resolve the localized share voice (three rotating messages).
+    void this.shareApp.buildAppShareText(this.shareUrl).then((t) => { if (t) this.shareText = t; });
+  }
 
   close(): void {
     void this.modalController.dismiss();
