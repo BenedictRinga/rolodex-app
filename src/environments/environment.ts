@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 117, // 2026-08-27 HONEST STORAGE TABS: Device/Cloud/Server tabs show real state - real cards only sync, demo never copies; 30 storage.* keys x 39 locales
+  build: 118, // 2026-08-27 STORAGE BEHIND AN ICON (founder): storage panel (tabs+panes) collapses behind a top-right storage icon - LoopKeeper Inbox becomes first panel; CLOUD | DEVICE | SERVER order, DEVICE middle; Settings > Cloud Sync opens panel temporarily; storage.toggle key x 39 locales
 };
 
 /*

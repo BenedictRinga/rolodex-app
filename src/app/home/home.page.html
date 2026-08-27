@@ -6,37 +6,46 @@
   <!-- 2026-08-16 THE DEMO: a help button that opens the features tour — every
        feature, a guide, one tap transports the user to that section. -->
   <div style="padding: 8px 12px 4px; border-bottom: 1px solid #333; display:flex; align-items:center; justify-content:space-between;">
-    <div style="flex:1;">
+    <div style="flex:1; min-width:0;">
       <div style="display:flex; align-items:center; gap:6px;">
         <ion-label style="font-size: 12px; color: #8b93b0;">{{ headerLine }}</ion-label>
         <span class="ai-live-dot" [class.live]="aiLive" title="AI status"></span>
         <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">{{ 'loopkeeper.chat.aiAssistant' | translate }}</span>
       </div>
-      <!-- 2026-08-27 HONEST STORAGE TABS: labels now localized, and each tab
-           below shows REAL state - no more identical-deck stub. -->
-      <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin-top: 6px; max-width: 340px;">
-        <ion-segment-button value="device">{{ 'loopkeeper.storage.tabDevice' | translate }}</ion-segment-button>
-        <ion-segment-button value="cloud">{{ 'loopkeeper.storage.tabCloud' | translate }}</ion-segment-button>
-        <ion-segment-button value="rolodex-server">{{ 'loopkeeper.storage.tabServer' | translate }}</ion-segment-button>
-      </ion-segment>
-      <!-- <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
-        <ion-input placeholder="Demo room code — link devices live" [ngModel]="demoRoom" style="font-size: 11px;" (ionChange)="onRoomInput($event)"></ion-input>
-      </ion-item> -->
     </div>
+    <!-- 2026-08-27 FOUNDER: the whole storage panel (tabs + panes) hides behind
+         this icon — first sight is the LoopKeeper Inbox, not three panels.
+         Settings → Cloud Sync also opens it, temporarily. -->
+    <ion-button fill="clear" size="small" class="storage-toggle" [class.open]="storagePanelOpen"
+      (click)="toggleStoragePanel()" [appTooltip]="'loopkeeper.storage.toggle' | translate">
+      <ion-icon slot="icon-only" name="server-outline"></ion-icon>
+    </ion-button>
     <!-- <ion-button fill="clear" (click)="openHelp()" style="font-size: 11px; --padding-start: 6px; --padding-end: 6px; min-height: 30px; margin-left: 6px; flex-shrink: 0;">
       <ion-icon name="help-circle-outline" slot="start"></ion-icon>
       Features
     </ion-button> -->
   </div>
 
-  <!-- 2026-08-27 HONEST STORAGE TABS: each tab tells the truth about where the
-       cards live. Device = the deck + its .rolodex file backup (the SAME
-       export/import handlers as Settings > Backup). Cloud and LoopKeeper
-       Server show a REAL state panel until genuinely set up - the full path is
-       wired inline (passphrase, provider, push; consent + push/pull), so no
-       tester ever meets a dummy. Once truly connected, a truthful status strip
-       rides above the same deck instead of faking a second copy. -->
-  <ng-container [ngSwitch]="storageLocation">
+  <!-- 2026-08-27 HONEST STORAGE TABS (founder-collapsed): only on screen while
+       the top-right storage icon is toggled open. Tabs run
+       CLOUD | DEVICE | LOOPKEEPER SERVER — DEVICE in the middle. Each tab
+       tells the truth about where the cards live. Device = the deck + its
+       .rolodex file backup (the SAME export/import handlers as Settings >
+       Backup). Cloud and LoopKeeper Server show a REAL state panel until
+       genuinely set up - the full path is wired inline (passphrase, provider,
+       push; consent + push/pull), so no tester ever meets a dummy. Once truly
+       connected, a truthful status strip rides above the same deck instead of
+       faking a second copy. -->
+  <div class="storage-panel" *ngIf="storagePanelOpen">
+    <ion-segment class="storage-segment" [(ngModel)]="storageLocation" (ionChange)="onStorageChange($event)" style="margin: 8px 10px 0; max-width: 340px;">
+      <ion-segment-button value="cloud">{{ 'loopkeeper.storage.tabCloud' | translate }}</ion-segment-button>
+      <ion-segment-button value="device">{{ 'loopkeeper.storage.tabDevice' | translate }}</ion-segment-button>
+      <ion-segment-button value="rolodex-server">{{ 'loopkeeper.storage.tabServer' | translate }}</ion-segment-button>
+    </ion-segment>
+    <!-- <ion-item lines="none" *ngIf="storageLocation === 'rolodex-server'" style="--padding-start:0;">
+      <ion-input placeholder="Demo room code — link devices live" [ngModel]="demoRoom" style="font-size: 11px;" (ionChange)="onRoomInput($event)"></ion-input>
+    </ion-item> -->
+    <ng-container [ngSwitch]="storageLocation">
     <!-- DEVICE: the deck lives here; the file backup is one tap away. -->
     <div *ngSwitchCase="'device'" class="storage-strip device-strip">
       <ion-icon name="phone-portrait-outline" class="strip-icon" color="primary"></ion-icon>
@@ -131,6 +140,7 @@
       </div>
     </div>
   </ng-container>
+  </div>
 
   <!-- 2026-08-24 LOOPKEEPER INBOX: Loops | Chat | Soon — the Isenberg wedge
        first take. The AI Assistant chat below is PROJECTED content under the

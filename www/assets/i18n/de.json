@@ -590,6 +590,7 @@
     "cal.pushed": "In deinen Kalender eingetragen",
     "cal.pushAsk": "Auch in deinen Kalender eintragen?",
     "cal.inviteAsk": "{{from}} lädt dich ein: {{title}}",
+    "storage.toggle": "Speicher",
     "storage.tabDevice": "Gerät",
     "storage.tabCloud": "Cloud",
     "storage.tabServer": "LoopKeeper-Server",

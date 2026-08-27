@@ -596,6 +596,7 @@
     "cal.pushed": "Added to your device calendar",
     "cal.pushAsk": "Add to your device calendar too?",
     "cal.inviteAsk": "{{from}} invited you: {{title}}",
+    "storage.toggle": "Storage",
     "storage.tabDevice": "Device",
     "storage.tabCloud": "Cloud",
     "storage.tabServer": "LoopKeeper Server",

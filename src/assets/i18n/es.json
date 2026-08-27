@@ -590,6 +590,7 @@
     "cal.pushed": "Añadido a tu calendario",
     "cal.pushAsk": "¿Añadirlo también a tu calendario?",
     "cal.inviteAsk": "{{from}} te invita: {{title}}",
+    "storage.toggle": "Almacenamiento",
     "storage.tabDevice": "Dispositivo",
     "storage.tabCloud": "Nube",
     "storage.tabServer": "Servidor LoopKeeper",

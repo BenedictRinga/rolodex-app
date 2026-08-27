@@ -590,6 +590,7 @@
     "cal.pushed": "נוסף ליומן המכשיר",
     "cal.pushAsk": "להוסיף גם ליומן המכשיר?",
     "cal.inviteAsk": "{{from}} הזמין/ה אתכם: {{title}}",
+    "storage.toggle": "אחסון",
     "storage.tabDevice": "מכשיר",
     "storage.tabCloud": "ענן",
     "storage.tabServer": "שרת LoopKeeper",

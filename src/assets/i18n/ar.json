@@ -590,6 +590,7 @@
     "cal.pushed": "أُضيف إلى تقويم جهازك",
     "cal.pushAsk": "إضافته أيضاً إلى تقويم جهازك؟",
     "cal.inviteAsk": "{{from}} دعاك: {{title}}",
+    "storage.toggle": "Storage",
     "storage.tabDevice": "الجهاز",
     "storage.tabCloud": "السحابة",
     "storage.tabServer": "خادم LoopKeeper",

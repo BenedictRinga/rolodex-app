@@ -590,6 +590,7 @@
     "cal.pushed": "Ajouté à votre agenda",
     "cal.pushAsk": "L’ajouter aussi à votre agenda ?",
     "cal.inviteAsk": "{{from}} vous invite : {{title}}",
+    "storage.toggle": "Stockage",
     "storage.tabDevice": "Appareil",
     "storage.tabCloud": "Cloud",
     "storage.tabServer": "Serveur LoopKeeper",

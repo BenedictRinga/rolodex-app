@@ -94,6 +94,11 @@ export class HomePage implements OnInit, OnDestroy {
   // 'device' | 'cloud' | 'rolodex-server' — where the user keeps contacts.
   storageLocation: 'device' | 'cloud' | 'rolodex-server' = 'device';
   demoRoom: string = '';
+  // 2026-08-27 FOUNDER COLLAPSE: the whole storage panel (tabs + panes) hides
+  // behind a top-right storage icon — first sight is the LoopKeeper Inbox,
+  // not three panels. Ephemeral by design: every fresh session starts
+  // collapsed; Settings → Cloud Sync may open it temporarily.
+  storagePanelOpen: boolean = false;
   // 2026-08-18 AI LIVE LIGHT: always green (on-device engine is always ready),
   // but the label tells whether DeepSeek is live on the server too.
   aiLive = true;
@@ -680,8 +685,12 @@ export class HomePage implements OnInit, OnDestroy {
   // uses (onSyncSetPassphrase/onSyncConnect/onSyncPush/onSyncPull and the
   // consent toggle's service call). No dummies for testers to meet.
 
-  /** The deck only rides a tab when that tab's storage is genuinely live. */
+  /** The deck only ducks when a storage pane that EXPLAINS the absence is on
+   *  screen (un-setup Cloud/Server). Panel collapsed = deck always visible —
+   *  the Inbox leads, the deck follows, nothing hides without a word.
+   *  2026-08-27 FOUNDER COLLAPSE. */
   get deckHiddenForTab(): boolean {
+    if (!this.storagePanelOpen) return false;
     if (this.storageLocation === 'cloud') return !this.syncConnected;
     if (this.storageLocation === 'rolodex-server') return !this.serverSyncEnabled;
     return false;
@@ -771,11 +780,23 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  /** 2026-08-27 FOUNDER: one storage icon (top right of the viewport) owns
+   *  the storage chrome. Collapsed at the start of every session — the
+   *  LoopKeeper Inbox becomes the first panel; the deck follows. Toggling it
+   *  open brings back the CLOUD | DEVICE | LOOPKEEPER SERVER tabs and their
+   *  honest panes. */
+  toggleStoragePanel(): void {
+    this.storagePanelOpen = !this.storagePanelOpen;
+  }
+
   /** Deep link into Settings > Cloud Sync (the full control surface).
    *  2026-08-27: Settings lives inside the deck surface — if the current tab
    *  hides it (un-setup Cloud/Server pane), return to Device first so the
-   *  jump is never into a display:none component. */
+   *  jump is never into a display:none component. Also reveals the storage
+   *  panel TEMPORARILY (not persisted) — Settings may surface it, and it
+   *  collapses again next session. */
   openStorageSettings(): void {
+    this.storagePanelOpen = true;
     if (this.deckHiddenForTab) {
       this.storageLocation = 'device';
       void this.storageService.set('rolodex_storage', 'device');

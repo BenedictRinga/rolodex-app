@@ -590,6 +590,7 @@
     "cal.pushed": "Imeongezwa kwenye kalenda ya kifaa chako",
     "cal.pushAsk": "Uongeze pia kwenye kalenda ya kifaa chako?",
     "cal.inviteAsk": "{{from}} amekualika: {{title}}",
+    "storage.toggle": "Storage",
     "storage.tabDevice": "Kifaa",
     "storage.tabCloud": "Wingu",
     "storage.tabServer": "Seva ya LoopKeeper",

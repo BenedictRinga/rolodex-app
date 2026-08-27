@@ -590,6 +590,7 @@
     "cal.pushed": "Добавлено в календарь устройства",
     "cal.pushAsk": "Добавить также в календарь устройства?",
     "cal.inviteAsk": "{{from}} приглашает вас: {{title}}",
+    "storage.toggle": "Хранилище",
     "storage.tabDevice": "Устройство",
     "storage.tabCloud": "Облако",
     "storage.tabServer": "Сервер LoopKeeper",
