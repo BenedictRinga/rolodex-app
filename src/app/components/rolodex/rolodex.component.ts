@@ -296,15 +296,25 @@ export class RolodexComponent implements OnInit {
       if (!el) return;
       const container = el.closest('.rolodex-scroll') || document.scrollingElement;
       if (!container) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-      // 2026-08-28 BUILD 138: the whole floating unit (Settings label + Home
-      // + quicknav chips) is sticky now — offset by its full height.
-      const sticky = container.querySelector('.settings-float') || container.querySelector('.settings-quicknav');
+      // 2026-08-28 BUILD 140: only the slim float (Settings label + Home) is
+      // sticky now — offset by its (small) height; measured at tap time.
+      const sticky = container.querySelector('.settings-float');
       const stickyH = sticky ? Math.ceil(sticky.getBoundingClientRect().height) : 0;
       const offset = stickyH + 16; // sticky unit + breathing room
       const rect = el.getBoundingClientRect();
       const cRect = container.getBoundingClientRect();
       const top = rect.top - cRect.top + container.scrollTop - offset;
       container.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    } catch { /* ignore */ }
+  }
+
+  /** 2026-08-28 BUILD 140 (founder): tapping the sticky "Settings" label pulls
+   *  the page back to the top — which is exactly where the nav map lives now,
+   *  so the map reappears anyway. The label IS the way home to the map. */
+  scrollToTop(): void {
+    try {
+      const container = document.querySelector('.rolodex-scroll') || document.scrollingElement;
+      if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
     } catch { /* ignore */ }
   }
 

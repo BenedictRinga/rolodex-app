@@ -205,45 +205,48 @@
 
     <ng-container *ngSwitchCase="RolodexView.Settings">
       <ion-list class="settings-list">
-        <!-- 2026-08-28 BUILD 138 (founder): the Settings label + Home icon now
-             FLOAT with the quicknav — one sticky unit docked at the top of the
-             scroller for the whole settings scroll, so the user deep in the
-             list is never lost ("where am I?") and never stranded ("how do I
-             get back home?"). The map hint below stays static. -->
+        <!-- 2026-08-28 BUILD 140 (founder): the float keeps ONLY the Settings
+             label + Home icon — always visible, whatever the scroll position.
+             The nav map (quicknav chips + language) is released to scroll with
+             the Profile and the rest of the page: it lives at the top, so
+             tapping the Settings label — which now pulls the page back to the
+             top — reveals it anyway. -->
         <div class="settings-float">
           <ion-list-header>
-            <ion-label class="fabcolor">Settings</ion-label>
+            <ion-label class="fabcolor settings-home-btn" (click)="scrollToTop()" role="button" [attr.aria-label]="'Settings — back to top'">Settings</ion-label>
             <ion-buttons>
               <ion-button (click)="showRegularView()" fill="clear">
                 <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
               </ion-button>
             </ion-buttons>
           </ion-list-header>
+        </div>
 
-          <!-- 2026-08-16 SETTINGS MAP: every section at a glance - nobody is
-               left scrolling in ignorance. Tapping a chip jumps to the item
-               (or opens the section's modal directly). -->
-          <div class="settings-quicknav">
-            <ion-select class="settings-lang" [value]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" [interfaceOptions]="langPopoverOpts" style="max-width: 120px; font-size: 12px;">
-              <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
-            </ion-select>
-            <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-reminders')">{{ 'loopkeeper.settings.reminders' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-welcome')">{{ 'loopkeeper.settings.welcome' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-ai')">{{ 'loopkeeper.settings.ai' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-billing')">{{ 'loopkeeper.settings.billing' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-about')">{{ 'loopkeeper.settings.about' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-investors')">{{ 'loopkeeper.settings.investors' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-privacy')">{{ 'loopkeeper.settings.privacy' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-cloudsync')">{{ 'loopkeeper.settings.cloudsync' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-backup')">{{ 'loopkeeper.settings.backup' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-share')">{{ 'loopkeeper.settings.share' | translate }}</ion-chip>
-            <ion-chip (click)="scrollTo('settings-translate')">{{ 'loopkeeper.settings.translate' | translate }}</ion-chip>
-          </div>
+        <!-- 2026-08-16 SETTINGS MAP: every section at a glance - nobody is
+             left scrolling in ignorance. Tapping a chip jumps to the item
+             (or opens the section's modal directly).
+             2026-08-28 BUILD 140: back in the flow — it scrolls away with the
+             content; the sticky Settings label above is the way back to it. -->
+        <div class="settings-quicknav">
+          <ion-select class="settings-lang" [value]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" [interfaceOptions]="langPopoverOpts" style="max-width: 120px; font-size: 12px;">
+            <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
+          </ion-select>
+          <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-reminders')">{{ 'loopkeeper.settings.reminders' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-welcome')">{{ 'loopkeeper.settings.welcome' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-ai')">{{ 'loopkeeper.settings.ai' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-billing')">{{ 'loopkeeper.settings.billing' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-about')">{{ 'loopkeeper.settings.about' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-investors')">{{ 'loopkeeper.settings.investors' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-privacy')">{{ 'loopkeeper.settings.privacy' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-cloudsync')">{{ 'loopkeeper.settings.cloudsync' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-backup')">{{ 'loopkeeper.settings.backup' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-share')">{{ 'loopkeeper.settings.share' | translate }}</ion-chip>
+          <ion-chip (click)="scrollTo('settings-translate')">{{ 'loopkeeper.settings.translate' | translate }}</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
 
@@ -274,9 +277,10 @@
           </ion-label>
         </ion-item>
 
-        <!-- 2026-08-28 BUILD 138: the quicknav moved up into .settings-float
-             (sticky with the Settings label + Home icon); only the hint stays
-             here, static, as the bridge into the sections. -->
+        <!-- 2026-08-28 BUILD 140: the quicknav is back in the flow (it sits
+             above the profile card now) — it scrolls away with the content;
+             the sticky Settings label is the one-tap way back to the top,
+             where the map lives. -->
 
         <!-- 2026-08-18 UPDATES AT THE TOP: the lightning indicator + contrasting
              numbers make an available update impossible to miss. -->

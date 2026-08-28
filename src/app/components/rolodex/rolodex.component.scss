@@ -284,10 +284,13 @@ app-contact-card {
    ═══════════════════════════════════════════════════════ */
 
 
-/* 2026-08-28 BUILD 138 (founder): the Settings label + Home icon FLOAT with
-   the quicknav — one sticky unit docked at the top of .rolodex-scroll for the
-   whole settings scroll. Deep in the list, the user is never lost (where am
-   I?) and never stranded (how do I get home?). */
+/* 2026-08-28 BUILD 140 (founder): the float slims to ONLY the Settings label
+   + Home icon — a whisper-thin sticky strip docked at the top of
+   .rolodex-scroll for the whole settings scroll. The nav map it used to carry
+   is released to scroll with the Profile and the rest of the page; tapping
+   the Settings label pulls the page back to the top, which reveals the map
+   anyway. Deep in the list you are never lost (where am I?) and never
+   stranded (how do I get home? and now: back to the map). */
 .settings-float {
   position: sticky;
   top: 0;
@@ -298,10 +301,21 @@ app-contact-card {
   ion-list-header {
     border-bottom: 1px solid var(--rolodex-border-light);
   }
+
+  /* the label is a control now — it pulls the page back to the top */
+  .settings-home-btn {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: opacity .15s ease;
+
+    &:active { opacity: .55; }
+  }
 }
 
-/* 2026-08-28 BUILD 138: the quicknav rides inside .settings-float now —
-   no sticky of its own. */
+/* 2026-08-28 BUILD 140: the quicknav is BACK IN THE FLOW — it scrolls away
+   with the Profile and the rest of the content, exactly as the founder
+   ordered. The sticky Settings label above is the way back to it. */
 .settings-quicknav {
   display: flex;
   flex-wrap: wrap;
@@ -341,11 +355,12 @@ app-contact-card {
 /* 2026-08-24 SETTINGS NAV PRECISION: the sticky quicknav + filter bar were
    covering the target after scrollIntoView. Give every anchor enough
    scroll-margin so the pill lands ON the item, not on the whitespace under
-   the sticky row. 2026-08-28 BUILD 138: the float now carries the Settings
-   header too (label + Home) — margin grows by its height. */
+   the sticky row. 2026-08-28 BUILD 140: only the slim float (Settings label
+   + Home) is sticky — scrollTo measures its small height at tap time; this
+   static margin stays as a safe floor. */
 .settings-list [id^="settings-"],
 .settings-list ion-item-divider[id^="settings-"] {
-  scroll-margin-top: 180px;
+  scroll-margin-top: 72px;
   scroll-margin-bottom: 12px;
 }
 
