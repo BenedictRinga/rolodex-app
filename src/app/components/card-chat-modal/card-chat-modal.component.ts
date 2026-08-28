@@ -4,6 +4,7 @@ import { CardChatService, ChatThread } from '../../services/card-chat/card-chat.
 import { SocketChatService } from '../../services/socket-chat/socket-chat.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { ShareAppService } from '../../services/share-app/share-app.service';
+import { capSentences } from '../../util/cap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -75,6 +76,26 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     if (this.draft?.trim()) this.socketChat.emitTyping();
     // 2026-08-19 LINK PREVIEW: the first URL in the draft gets a card.
     this.previewUrl = this.draft?.match(/https?:\/\/[^\s]+/i)?.[0] || '';
+  }
+
+  /** 2026-08-28 BUILD 137: sentence starts cap themselves — no more painfully
+   *  pressing CAPS at the start of every intended message. ASCII-only, length-
+   *  preserving, caret-restoring; caseless scripts pass through untouched. */
+  capDraft(ev: CustomEvent): void {
+    const comp = ev.target as unknown as { value?: string; getInputElement?: () => Promise<HTMLInputElement | HTMLTextAreaElement> };
+    const raw = comp?.value || '';
+    const capped = capSentences(raw);
+    if (capped === raw) return;
+    this.draft = capped;
+    comp.value = capped;
+    const fix = (): Promise<void> | undefined => comp.getInputElement?.().then((native) => {
+      const pos = native.selectionStart ?? capped.length;
+      native.value = capped;
+      const p = Math.min(pos, capped.length);
+      native.setSelectionRange(p, p);
+    }).catch(() => { /* native not ready — the next keystroke retries */ });
+    void fix();
+    setTimeout(() => { void fix(); }, 0); // after Angular's writeValue settles
   }
 
   /** 2026-08-28 BUILD 125: the ✕ clears the whole composer in one tap. */

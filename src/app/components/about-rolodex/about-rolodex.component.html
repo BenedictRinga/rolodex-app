@@ -26,29 +26,27 @@
   </div>
   <div class="about-hero" *ngIf="portalMode !== 'investors'">
     <div class="about-logo">LoopKeeper</div>
-    <div class="about-tagline">The end of 'I keep meaning to.'</div>
+    <div class="about-tagline">{{ 'loopkeeper.aboutTxt.tagline' | translate }}</div>
   </div>
 
   <!-- 2026-08-24 PRIVACY PLEDGE: the thing we crow about. -->
   <div class="about-section" *ngIf="portalMode !== 'investors'" style="border:1px solid rgba(0,200,83,.35); border-radius:14px; background:rgba(0,200,83,.06);">
-    <h3 style="display:flex; align-items:center; gap:8px; margin-top:0;"><ion-icon name="shield-checkmark-outline" style="color:#00C853;"></ion-icon> Privacy is the product</h3>
-    <p style="margin:0 0 8px;">
-      LoopKeeper requires <strong>no phone number, no email, no identity</strong>. Anything you add is voluntary and stays yours.
-    </p>
+    <h3 style="display:flex; align-items:center; gap:8px; margin-top:0;"><ion-icon name="shield-checkmark-outline" style="color:#00C853;"></ion-icon> {{ 'loopkeeper.aboutTxt.privacyTitle' | translate }}</h3>
+    <p style="margin:0 0 8px;" [innerHTML]="'loopkeeper.aboutTxt.privacy1' | translate"></p>
     <p style="margin:0; color:var(--rolodex-text-secondary);">
-      We don't collect personal data — so even if an external AI or forensic scan digs into us, there is no identity trove to find.
+      {{ 'loopkeeper.aboutTxt.privacy2' | translate }}
     </p>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>What is LoopKeeper?</h3>
+    <h3>{{ 'loopkeeper.aboutTxt.whatTitle' | translate }}</h3>
     <p>
-      LoopKeeper is a <strong>relationship follow-through assistant</strong> — the antidote to “I keep meaning to.” Choose one person who matters and set a rhythm — lunch every month, a call now and then — and when the moment comes, LoopKeeper nudges you, helps you close the loop, and lights the streak so the care becomes something you can see. One person at a time, never the whole address book: one small, finished win, then the next. The idea at its heart is older than any app — wind the wheel back to 1958.
+      {{ 'loopkeeper.aboutTxt.what' | translate }}
     </p>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>The original Rolodex — 1958</h3>
+    <h3>{{ 'loopkeeper.aboutTxt.historyTitle' | translate }}</h3>
     <div class="rolodex-history">
       <div class="history-image rk-cinema">
         <!-- ERA PHOTO LAYER (2026-08-23 stock-photo carousel) -->
@@ -175,36 +173,13 @@
         <div class="rk-lockup" aria-hidden="true"></div>
       </div>
       <div class="history-copy">
-        <!-- 2026-08-23 BEAT A: the secretary stakes (user-approved) -->
-        <p>
-          Young'uns today may not know how crucial it was that a treasured secretary
-          kept the records — connections, relationships, dates, appointments — for
-          the best executives. Nothing forgotten, everything moving smoothly, always.
-        </p>
-        <p>
-          Before software, the remembering lived on a desk. The <strong>Rolodex</strong> —
-          Arnold Neustadter's rolling index, patented 1956 and on desks everywhere
-          by 1958 — sat beside the telephone of every capable secretary. One card
-          per person: a name, a number, a penciled note — <em>prefers mornings</em>,
-          <em>ask about the daughter</em>. Flip the wheel, find the face, make the
-          call. The card carried the details so the person at the desk could carry
-          the relationship.
-        </p>
+        <!-- 2026-08-23 BEAT A: the secretary stakes (user-approved).
+             2026-08-28 BUILD 137: prose is i18n now (sw + so hand-translated). -->
+        <p>{{ 'loopkeeper.aboutTxt.hist1' | translate }}</p>
+        <p [innerHTML]="'loopkeeper.aboutTxt.hist2' | translate"></p>
         <!-- 2026-08-23 BEAT B: pocket folders spread -->
-        <p>
-          What came next were plastic pocket folders with card slots — the Rolodex
-          name survived across countless iterations. At first they lived on the
-          secretary's desk, the quiet center of the executive suite. Then they
-          became smaller and handier, and every businessperson kept one or several
-          of their own — or synced theirs with an assistant's.
-        </p>
-        <p>
-          LoopKeeper is that idea, still working: one card per person, holding
-          their story. What's new is that the card answers back — after every
-          send, the Assistant writes what happened onto it, so the next nudge
-          arrives already knowing. A Rolodex that writes back. You supply the
-          caring; the card does the remembering.
-        </p>
+        <p>{{ 'loopkeeper.aboutTxt.hist3' | translate }}</p>
+        <p>{{ 'loopkeeper.aboutTxt.hist4' | translate }}</p>
       </div>
     </div>
 
@@ -212,7 +187,7 @@
          horizontal >=720px / vertical rail below. Photos fail soft to inline
          SVG glyphs (also shown under prefers-reduced-data). -->
     <div class="era-timeline-block">
-      <h4 class="era-timeline-title">From the desk to the loop — five eras of keeping track</h4>
+      <h4 class="era-timeline-title">{{ 'loopkeeper.aboutTxt.timelineTitle' | translate }}</h4>
 
       <ol class="era-timeline" role="list">
 
@@ -236,7 +211,7 @@
             <div class="era-meta">
               <span class="era-year">Before 1958</span>
               <span class="era-name">Paper card trays</span>
-              <p class="era-line">Every desk kept its own little archive.</p>
+              <p class="era-line">{{ 'loopkeeper.aboutTxt.era1' | translate }}</p>
             </div>
           </div>
         </li>
@@ -265,7 +240,7 @@
             <div class="era-meta">
               <span class="era-year">1958</span>
               <span class="era-name">The rotary wheel</span>
-              <p class="era-line">Flip, find, call — one card per person.</p>
+              <p class="era-line">{{ 'loopkeeper.aboutTxt.era2' | translate }}</p>
             </div>
           </div>
         </li>
@@ -291,7 +266,7 @@
             <div class="era-meta">
               <span class="era-year">1960s–'80s</span>
               <span class="era-name">Pocket folders</span>
-              <p class="era-line">The name survived; the wheel left her desk.</p>
+              <p class="era-line">{{ 'loopkeeper.aboutTxt.era3' | translate }}</p>
             </div>
           </div>
         </li>
@@ -317,7 +292,7 @@
             <div class="era-meta">
               <span class="era-year">1996–2010s</span>
               <span class="era-name">Goes electronic</span>
-              <p class="era-line">The Rolodex shrinks into a pocket organizer.</p>
+              <p class="era-line">{{ 'loopkeeper.aboutTxt.era4' | translate }}</p>
             </div>
           </div>
         </li>
@@ -340,7 +315,7 @@
             <div class="era-meta">
               <span class="era-chip">Today</span>
               <span class="era-name">AI Assistant + LoopKeeper</span>
-              <p class="era-line">The card writes back — the AI is the new secretary.</p>
+              <p class="era-line">{{ 'loopkeeper.aboutTxt.era5' | translate }}</p>
             </div>
           </div>
         </li>
@@ -348,18 +323,15 @@
       </ol>
 
       <!-- the arc, closed -->
-      <p class="era-close">
-        The wheel became the loop. The card writes back.
-        <strong>LoopKeeper is that secretary, digitized.</strong>
-      </p>
+      <p class="era-close" [innerHTML]="'loopkeeper.aboutTxt.eraClose' | translate"></p>
     </div>
 
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>Why it exists</h3>
+    <h3>{{ 'loopkeeper.aboutTxt.whyTitle' | translate }}</h3>
     <p>
-      Nearly everyone carries the same quiet debt: the friend you keep meaning to call back, the thank-you that died in drafts, the birthday that slipped while you meant to notice. Nobody stopped caring — life got loud, and somewhere between intending and doing, the fire went cold. An unfinished thing nags at the mind until it's done; psychology has known that since Zeigarnik, 1927. LoopKeeper exists to finish the small ones before they cost anything: a rhythm set once, a nudge when it's due, a message ready the minute you finally have two free minutes. The resolve it offers is simple — the people you mean to keep will hear from you while it still counts.
+      {{ 'loopkeeper.aboutTxt.why' | translate }}
     </p>
   </div>
 
@@ -371,47 +343,39 @@
     <button class="cohorts-pill" (click)="cohortsOpen = !cohortsOpen" [attr.aria-expanded]="cohortsOpen">
       <span class="cohorts-pill-emoji">🧩</span>
       <span class="cohorts-pill-text">
-        <strong>Who leans on LoopKeeper hardest?</strong>
-        <span>Ten kinds of people who lose real money or real affection to unclosed loops</span>
+        <strong>{{ 'loopkeeper.aboutTxt.pillTitle' | translate }}</strong>
+        <span>{{ 'loopkeeper.aboutTxt.pillSub' | translate }}</span>
       </span>
       <ion-icon [name]="cohortsOpen ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
     </button>
     <div class="cohorts-panel" *ngIf="cohortsOpen">
       <p class="cohorts-intro">
-        Each of these loses something every week they leave loops open — an invoice, a vote of trust, a place in someone's memory. Find yourself, and LoopKeeper was tuned for your week. Find someone you love, and it's one send away.
+        {{ 'loopkeeper.aboutTxt.cohortsIntro' | translate }}
       </p>
-      <div class="cohort-row"><span class="cohort-emoji">💼</span><span><strong>Freelancers &amp; consultants</strong> — the pipeline is relationships; a forgotten follow-up is a lost invoice</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🏪</span><span><strong>Small-business founders &amp; solopreneurs</strong> — leads, suppliers and mentors gone quiet</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🤝</span><span><strong>Sales &amp; business-development people</strong> — "let's circle back next quarter" is an open loop by definition</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🧭</span><span><strong>Recruiters &amp; career coaches</strong> — candidates expect replies that slip</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🕊️</span><span><strong>Community &amp; faith leaders</strong> — dozens of small promises made every week ("I'll call you this week")</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🌍</span><span><strong>NGO &amp; volunteer coordinators</strong> — donors and volunteers waiting on words</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">📰</span><span><strong>Journalists &amp; PR professionals</strong> — sources and pitches that must not go cold</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🏠</span><span><strong>Real-estate agents</strong> — clients who vanish for months, then reappear ready to buy</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">✈️</span><span><strong>Diaspora families</strong> — cousins, parents, "we should talk" across time zones</span></div>
-      <div class="cohort-row"><span class="cohort-emoji">🎤</span><span><strong>Coaches, mentors &amp; event organizers</strong> — networks built on one-line promises</span></div>
-      <p class="cohorts-share">
-        See yourself here? Start with one loop you actually owe. See a friend, a sibling, a colleague in one of these ten? Hand them LoopKeeper — <strong>Settings → Share LoopKeeper</strong>.
-      </p>
+      <!-- 2026-08-28 BUILD 137: cohort lines are i18n (sw + so hand-translated). -->
+      <div class="cohort-row"><span class="cohort-emoji">💼</span><span [innerHTML]="'loopkeeper.aboutTxt.c1' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🏪</span><span [innerHTML]="'loopkeeper.aboutTxt.c2' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🤝</span><span [innerHTML]="'loopkeeper.aboutTxt.c3' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🧭</span><span [innerHTML]="'loopkeeper.aboutTxt.c4' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🕊️</span><span [innerHTML]="'loopkeeper.aboutTxt.c5' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🌍</span><span [innerHTML]="'loopkeeper.aboutTxt.c6' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">📰</span><span [innerHTML]="'loopkeeper.aboutTxt.c7' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🏠</span><span [innerHTML]="'loopkeeper.aboutTxt.c8' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">✈️</span><span [innerHTML]="'loopkeeper.aboutTxt.c9' | translate"></span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🎤</span><span [innerHTML]="'loopkeeper.aboutTxt.c10' | translate"></span></div>
+      <p class="cohorts-share" [innerHTML]="'loopkeeper.aboutTxt.cohortsShare' | translate"></p>
     </div>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
-    <h3>Basic × Assistant</h3>
-    <p>
-      <strong>LoopKeeper (Basic · $1/month):</strong> cards for the people who matter,
-      groups, reminders, the follow-up engine, birthdays, sync, pods, in-app chat.
-    </p>
-    <p>
-      <strong>LoopKeeper (Assistant · $5/month):</strong> everything in Basic, plus the
-      Assistant — messages composed in your own voice, spoken aloud before
-      you send, with preset guides, suggested follow-ups and timing.
-    </p>
+    <h3>{{ 'loopkeeper.aboutTxt.plansTitle' | translate }}</h3>
+    <p [innerHTML]="'loopkeeper.aboutTxt.plan1' | translate"></p>
+    <p [innerHTML]="'loopkeeper.aboutTxt.plan2' | translate"></p>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Version</h3>
-    <p>LoopKeeper v{{ version }} · runs in your browser at zyppar.com/loopkeeper/</p>
+    <p>{{ 'loopkeeper.aboutTxt.version' | translate: { v: version } }}</p>
   </div>
 
   <!-- 2026-08-16 THE PADLOCK: investors only — exclusive, mysterious. -->

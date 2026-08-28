@@ -70,7 +70,8 @@
 
     <div class="chat-composer">
       <ion-input
-        [(ngModel)]="input"
+        [ngModel]="input"
+        (ionInput)="capInput($event)"
         placeholder="Tell the Assistant…"
         (keyup.enter)="send()"
         class="chat-input"

@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 // 2026-08-27 CHAT LANGUAGE: every Confidante call carries the user's language
 // so the backend replies in it (never auto-English).
 import { userLang } from '../../services/lang/user-lang';
+import { capSentences } from '../../util/cap';
 
 type ChatMode = '' | 'feedback' | 'help' | 'situation';
 
@@ -141,6 +142,26 @@ export class ChatWithRolodexModalComponent implements OnInit {
   /** 2026-08-28 BUILD 125: the ✕ clears the whole composer in one tap. */
   clearInput(): void {
     this.input = '';
+  }
+
+  /** 2026-08-28 BUILD 137: sentence starts cap themselves — no more painfully
+   *  pressing CAPS at the start of every intended message. ASCII-only, length-
+   *  preserving, caret-restoring; caseless scripts pass through untouched. */
+  capInput(ev: CustomEvent): void {
+    const comp = ev.target as unknown as { value?: string; getInputElement?: () => Promise<HTMLInputElement | HTMLTextAreaElement> };
+    const raw = comp?.value || '';
+    const capped = capSentences(raw);
+    if (capped === raw) return;
+    this.input = capped;
+    comp.value = capped;
+    const fix = (): Promise<void> | undefined => comp.getInputElement?.().then((native) => {
+      const pos = native.selectionStart ?? capped.length;
+      native.value = capped;
+      const p = Math.min(pos, capped.length);
+      native.setSelectionRange(p, p);
+    }).catch(() => { /* native not ready — the next keystroke retries */ });
+    void fix();
+    setTimeout(() => { void fix(); }, 0); // after Angular's writeValue settles
   }
 
   send(): void {

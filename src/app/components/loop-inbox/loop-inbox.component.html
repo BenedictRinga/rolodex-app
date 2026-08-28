@@ -73,7 +73,8 @@
          LOOP button (no more boxy gray slab), and the ✕ clear-all. -->
     <div class="li-capture">
       <ion-textarea
-        [(ngModel)]="captureInput"
+        [ngModel]="captureInput"
+        (ionInput)="capCapture($event)"
         [placeholder]="composerPlaceholder"
         auto-grow
         rows="1"

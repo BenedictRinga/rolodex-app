@@ -49,9 +49,9 @@
   <div class="chat-input-bar">
     <ion-input
       placeholder="Message…"
-      [(ngModel)]="draft"
+      [ngModel]="draft"
       (keyup.enter)="send()"
-      (ionInput)="onTyping()"
+      (ionInput)="onTyping(); capDraft($event)"
       class="chat-input"
     ></ion-input>
     <!-- 2026-08-28 BUILD 125: ✕ clears the whole composer in one tap. -->

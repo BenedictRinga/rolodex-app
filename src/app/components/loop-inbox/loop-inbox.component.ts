@@ -16,6 +16,7 @@ import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.compo
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
+import { capSentences } from '../../util/cap';
 // 2026-08-28 BUILD 124: ONE language list for the whole app — the Inbox had
 // drifted to an 11-entry copy (Russian/Hebrew/Spanish/pt-BR missing) and its
 // popover never received the scroll-cap class. See app-languages.ts.
@@ -313,6 +314,26 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** 2026-08-28 BUILD 127: the ✕ clears the whole capture box in one tap. */
   clearCapture(): void {
     this.captureInput = '';
+  }
+
+  /** 2026-08-28 BUILD 137: sentence starts cap themselves — no more painfully
+   *  pressing CAPS at the start of every intended sentence. ASCII-only, length-
+   *  preserving, caret-restoring; caseless scripts pass through untouched. */
+  capCapture(ev: CustomEvent): void {
+    const comp = ev.target as unknown as { value?: string; getInputElement?: () => Promise<HTMLInputElement | HTMLTextAreaElement> };
+    const raw = comp?.value || '';
+    const capped = capSentences(raw);
+    if (capped === raw) return;
+    this.captureInput = capped;
+    comp.value = capped;
+    const fix = (): Promise<void> | undefined => comp.getInputElement?.().then((native) => {
+      const pos = native.selectionStart ?? capped.length;
+      native.value = capped;
+      const p = Math.min(pos, capped.length);
+      native.setSelectionRange(p, p);
+    }).catch(() => { /* native not ready — the next keystroke retries */ });
+    void fix();
+    setTimeout(() => { void fix(); }, 0); // after Angular's writeValue settles
   }
 
   async addCapture(text?: string): Promise<void> {

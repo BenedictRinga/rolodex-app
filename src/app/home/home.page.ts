@@ -36,6 +36,7 @@ import { AssistantCardService, AssistantCardUpdate } from '../services/assistant
 import { environment } from 'src/environments/environment';
 // 2026-08-28 BUILD 125: view on/off for every password/passphrase alert input.
 import { attachPasswordPeek } from '../services/alerts/alert-peek';
+import { capSentences } from '../util/cap';
 
 
 @Component({
@@ -1339,6 +1340,26 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-28 BUILD 126: the ✕ clears the whole Assistant composer in one tap. */
   clearRolodexAiInput(): void {
     this.rolodexAiInput = '';
+  }
+
+  /** 2026-08-28 BUILD 137: sentence starts cap themselves — no more painfully
+   *  pressing CAPS at the start of every intended message. ASCII-only, length-
+   *  preserving, caret-restoring; caseless scripts pass through untouched. */
+  capRolodexAi(ev: CustomEvent): void {
+    const comp = ev.target as unknown as { value?: string; getInputElement?: () => Promise<HTMLInputElement | HTMLTextAreaElement> };
+    const raw = comp?.value || '';
+    const capped = capSentences(raw);
+    if (capped === raw) return;
+    this.rolodexAiInput = capped;
+    comp.value = capped;
+    const fix = (): Promise<void> | undefined => comp.getInputElement?.().then((native) => {
+      const pos = native.selectionStart ?? capped.length;
+      native.value = capped;
+      const p = Math.min(pos, capped.length);
+      native.setSelectionRange(p, p);
+    }).catch(() => { /* native not ready — the next keystroke retries */ });
+    void fix();
+    setTimeout(() => { void fix(); }, 0); // after Angular's writeValue settles
   }
 
   /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */
