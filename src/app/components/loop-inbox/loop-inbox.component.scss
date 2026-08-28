@@ -28,13 +28,23 @@
 .li-capture { display:flex; gap:6px; align-items:center;
   /* 2026-08-28 BUILD 127 (founder): fill="outline" + a 16px radius that
      echoes the round add-icon LOOP button — no more boxy gray MS-DOS slab.
-     The resting box still visibly offers ~3 lines, then auto-grows. */
-  ion-textarea { --border-radius:16px; --border-width:1px; --border-color:var(--rolodex-border-light, rgba(128,128,128,.35)); --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
+     The resting box still visibly offers ~3 lines, then auto-grows.
+     2026-08-28 BUILD 133 (founder): DOUBLE the border visibility — 1px/.35
+     was too feint. 2px + .7 alpha reads clearly at arm's length. */
+  ion-textarea { --border-radius:16px; --border-width:2px; --border-color:var(--rolodex-border-light, rgba(128,128,128,.7)); --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
 /* 2026-08-28 BUILD 127: the ✕ that clears the whole capture box. */
 .li-capture .chat-clear { --padding-start:4px; --padding-end:4px; margin:0; --color:var(--rolodex-text-secondary, #8a9a94); }
 /* 2026-08-28 BUILD 127: pills now lead the tab — the visual tether ABOVE the
    fulcrum. No tap, no transfer; they undergird the rotating placeholder. */
-.li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
+.li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; align-items:center; }
+/* 2026-08-28 BUILD 133 (founder): the glowing teal orb — an unmistakable
+   fullstop flagging the three sample sentences as the referent of the
+   fulcrum's "Start a sentence like those three". Gentle pulse; decorative. */
+.li-orb { flex:0 0 auto; width:9px; height:9px; border-radius:999px; background:#14b8a6;
+  box-shadow:0 0 2px #14b8a6, 0 0 9px rgba(20,184,166,.75); margin-right:2px;
+  animation:lkOrbPulse 2.4s ease-in-out infinite; }
+@keyframes lkOrbPulse { 0%,100% { box-shadow:0 0 2px #14b8a6, 0 0 9px rgba(20,184,166,.75); }
+  50% { box-shadow:0 0 3px #14b8a6, 0 0 14px rgba(20,184,166,.95); } }
 .li-sample { font-size:11px; opacity:.65; border:1px dashed rgba(128,128,128,.4); border-radius:999px; padding:2px 8px; cursor:default; }
 /* 2026-08-28 BUILD 128: the bar is tappable — it is the POINTER to the first
    still-nudging loop. Snooze all is the batch escape hatch beside it. */

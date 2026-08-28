@@ -188,7 +188,7 @@
     "waitUntil": "Jira har…",
     "drop": "Fitar",
     "empty.title": "Babu abin da ke jira. Babu abin damuwa.",
-    "empty.body": "Start a sentence like the above — the agent digs up context, drafts it, and you decide.",
+    "empty.body": "Start a sentence like those three — the agent digs up context, drafts it, and you decide.",
     "section.todays3": "Yau {{n}}",
     "section.waitingOnYou": "Yana jiran kai · {{n}}",
     "section.waitingOnThem": "Yana jiran su · {{n}}",
