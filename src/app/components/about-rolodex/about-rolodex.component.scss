@@ -286,6 +286,16 @@ ion-content::part(scroll) {
   margin-top: 4px;
 }
 
+/* 2026-08-28 BUILD 139: shown ONLY under prefers-reduced-motion (see the
+   media block near the era photos) - the scene explains its own stillness. */
+.history-rmnote {
+  display: none;
+  font-size: 10.5px;
+  color: var(--rolodex-text-tertiary);
+  margin-top: 2px;
+  font-style: italic;
+}
+
 .history-copy p {
   font-size: 13px;
   line-height: 1.55;
@@ -615,9 +625,33 @@ ion-content::part(scroll) {
 }
 
 
+/* 2026-08-28 BUILD 139: THE STAGE NOW KEEPS TIME WITH THE STORY.
+   The founder reported the scene "no longer animates to writing". Nothing in
+   the animation chain broke — the photo carousel was burying it: the photos
+   faded on a 36s clock against the story's 7.5s loop (36/7.5 = 4.8, never in
+   phase), and their pre-delay base opacity held them over the SVG for most of
+   every cycle, so the pen's 1.2s write beat was almost never on stage. Fix:
+   one 37.5s master cycle = exactly 5 story loops. The SVG stage opens at
+   t=0 for two full story tellings, then the three photos take 7.5s each.
+   Because 37.5 = 5 x 7.5, the stage REOPENS at story-beat zero — the pen
+   starts writing the moment the scene returns. Every cycle, guaranteed. */
+.history-image__fallback {
+  animation: era-svg-stage 37.5s linear infinite both;
+}
+
+@keyframes era-svg-stage {
+  0%   { opacity: 1; }                 /* stage opens on the write beat */
+  38%  { opacity: 1; }                 /* 15s: two full story tellings */
+  42%  { opacity: 0; }                 /* hand over to the photos */
+  96%  { opacity: 0; }
+  100% { opacity: 1; }                 /* reopens exactly on beat zero */
+}
+
 /* ============ ERA PHOTO LAYER (2026-08-23 stock-photo carousel) ============
    Real Library of Congress era photos layered above the SVG; SVG remains the
-   permanent fallback (reduced motion / data saver / image error). */
+   permanent fallback (reduced motion / data saver / image error).
+   2026-08-28 BUILD 139: fades re-timed to the 37.5s master cycle, delays
+   removed (pre-delay base opacity was the photo-over-SVG culprit). */
 .history-image {
   position: relative;
   aspect-ratio: 3 / 2;
@@ -649,23 +683,34 @@ ion-content::part(scroll) {
   &--1 { z-index: 1;
     img { transform-origin: 30% 40%; animation-delay: -4s; } }
 
-  &--2, &--3 { z-index: 2; animation: era-fade 36s linear infinite; }
+  /* BUILD 139: no animation-delay here — a positive delay left the slide at
+     base opacity 1 (covering the SVG) before its cycle ever started. Each
+     photo owns one 7.5s window of the 37.5s master, after the SVG stage. */
+  &--2, &--3 { z-index: 2; }
 
-  &--2 { animation-delay: 12s;
+  &--2 { animation: era-fade-2 37.5s linear infinite;
     img { transform-origin: 70% 60%; animation-delay: -16s; } }
 
-  &--3 { animation-delay: 24s;
+  &--3 { animation: era-fade-3 37.5s linear infinite;
     img { transform-origin: 50% 30%; animation-delay: -28s; } }
 
   &.is-broken { display: none; }
 }
 
-@keyframes era-fade {
-  0%      { opacity: 0; }
-  6.67%   { opacity: 1; }
-  26.67%  { opacity: 1; }
-  33.33%  { opacity: 0; }
-  100%    { opacity: 0; }
+/* photo 2 owns ~[17s, 22.5s] of the master cycle */
+@keyframes era-fade-2 {
+  0%, 42%   { opacity: 0; }
+  46%       { opacity: 1; }
+  60%       { opacity: 1; }
+  64%, 100% { opacity: 0; }
+}
+
+/* photo 3 owns ~[25.5s, 30s] */
+@keyframes era-fade-3 {
+  0%, 64%   { opacity: 0; }
+  68%       { opacity: 1; }
+  80%       { opacity: 1; }
+  84%, 100% { opacity: 0; }
 }
 
 @keyframes era-kenburns {
@@ -709,12 +754,17 @@ ion-content::part(scroll) {
 @media (prefers-reduced-motion: reduce) {
   .history-image__slide { animation: none !important;
     img { animation: none !important; transform: none; } }
+  .history-image__fallback { animation: none !important; }
   .history-image__slide--2,
   .history-image__slide--3 { display: none; }
+  /* BUILD 139: say why the scene holds still - the state is no longer a mystery */
+  .history-rmnote { display: block; }
 }
 
 @media (prefers-reduced-data: reduce) {
   .history-image__frame { display: none; }
+  .history-image__fallback { animation: none !important; }
+  .history-rmnote { display: none !important; }
 }
 
 

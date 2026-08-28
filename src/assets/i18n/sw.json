@@ -671,6 +671,7 @@
     "aboutTxt.plansTitle": "Basic × Assistant",
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/mwezi):</strong> kadi za watu wanaokuhusu, makundi, vikumbusho, injini ya kufuatilia, siku za kuzaliwa, usawazishaji, pods, soga ndani ya programu.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/mwezi):</strong> kila kitu katika Basic, pamoja na Msaidizi — ujumbe unaoundwa kwa sauti yako mwenyewe, unasomwa kwa sauti kabla ya kutuma, na nyongozi, mapendekezo ya kufuatilia na muda.",
-    "aboutTxt.version": "LoopKeeper v{{v}} · inaendesha kwenye kivinjari chako kwa zyppar.com/loopkeeper/"
+    "aboutTxt.version": "LoopKeeper v{{v}} · inaendesha kwenye kivinjari chako kwa zyppar.com/loopkeeper/",
+    "aboutTxt.rmNote": "Imesimama tulivu — kifaa chako kipenda mwendo mdogo."
   }
 }
