@@ -78,6 +78,12 @@ export interface CustomContactInfo {
   lastInteraction: Date | null;
   nextInteraction: Date | null;
 
+  /** 2026-08-28 BUILD 131 DEEP FIELDS: the rolling story — one dated line per
+   *  interaction (sent WhatsApp, their reply, met at X), written by the card
+   *  and the Loops engine, capped by the draft engine, carried in every AI
+   *  briefing, persisted with the deck, synced when the user enables cloud. */
+  contextRotation?: string[];
+
   reminders: {
     note: string;
     date: Date;

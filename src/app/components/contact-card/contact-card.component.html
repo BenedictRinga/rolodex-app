@@ -845,6 +845,14 @@
                 </div>
               </ion-accordion>
 
+              <!-- 2026-08-28 BUILD 131 DEEP FIELDS: nickname was model-only —
+                   now the card can carry what they're actually called (the
+                   deck already reads it; the AI briefing now carries it). -->
+              <ion-item formControlName="nickname">
+                <ion-label position="stacked">Nickname</ion-label>
+                <ion-input formControlName="nickname" placeholder="What they're actually called"></ion-input>
+              </ion-item>
+
               <!-- Phones Section -->
               <ion-accordion value="phonesSection">
                 <ion-item slot="header" color="light">
@@ -1113,6 +1121,25 @@
                     <ion-item>
                       <ion-label position="stacked">Instagram</ion-label>
                       <ion-input formControlName="instagram" placeholder="Enter Instagram Handle"></ion-input>
+                    </ion-item>
+                    <!-- 2026-08-28 BUILD 131 DEEP FIELDS: these four existed in
+                         the model all along, uneditable — now every handle the
+                         user knows can sit on the card and feed the briefing. -->
+                    <ion-item>
+                      <ion-label position="stacked">X</ion-label>
+                      <ion-input formControlName="x" placeholder="Enter X Handle"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Telegram</ion-label>
+                      <ion-input formControlName="telegram" placeholder="Enter Telegram Handle"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">Snapchat</ion-label>
+                      <ion-input formControlName="snapchat" placeholder="Enter Snapchat Handle"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="stacked">TikTok</ion-label>
+                      <ion-input formControlName="tiktok" placeholder="Enter TikTok Handle"></ion-input>
                     </ion-item>
                   </div>
 

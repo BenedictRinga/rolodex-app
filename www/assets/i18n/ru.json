@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — сделано. Закрыто за неделю: {{n}}.",
     "act.chat": "Чат",
     "act.video": "Видео",
-    "act.call": "Позвонить"
+    "act.call": "Позвонить",
+    "consult.tidbits": "Стоит вплести"
   }
 }

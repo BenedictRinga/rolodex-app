@@ -48,6 +48,14 @@
       <b class="lc-v">{{ whereMet }}</b>
     </div>
 
+    <!-- 2026-08-28 BUILD 131 DEEP FIELDS: the card's taste — what it knows
+         about THEM. A whisper, not a field; surfacing it at the draft moment
+         is how deep context becomes better interventions. -->
+    <div class="lc-vital lc-tidbits" *ngIf="tidbits">
+      <span class="lc-k">{{ 'loopkeeper.consult.tidbits' | translate }}</span>
+      <b class="lc-v">{{ tidbits }}</b>
+    </div>
+
   </div>
 
   <!-- ── THE VERDICT — the GP's one-liner ── -->

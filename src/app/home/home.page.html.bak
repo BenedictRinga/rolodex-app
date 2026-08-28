@@ -233,7 +233,6 @@
     (removeContact)="onRemoveContact($event)"
     (contactTap)="onContactTap($event)"
     (contactsChange)="onContactsChange($event)"
-    (contactsDirty)="onContactsDirty()"
     (autoSort)="onAutoSort()"
     (loadMoreAutoSort)="onLoadMoreAutoSort()"
     (applyFilter)="onApplyFilter()"

@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — c’est réglé. {{n}} bouclée(s) cette semaine.",
     "act.chat": "Discuter",
     "act.video": "Vidéo",
-    "act.call": "Appeler"
+    "act.call": "Appeler",
+    "consult.tidbits": "À glisser dans le message"
   }
 }

@@ -103,6 +103,14 @@ export class LoopConsultComponent {
     return raw;
   }
 
+  /** 2026-08-28 BUILD 131 DEEP FIELDS: what the card knows about THEM —
+   *  the personalTidbits whisper. The consult is the intervention surface;
+   *  when the deck holds taste (jazz, kids' names, the allergy), the draft
+   *  moment is where it should surface. */
+  get tidbits(): string {
+    return String(this.card?.rolodex?.personalTidbits || '').trim();
+  }
+
   /** The GP's one-line verdict — matches the loop's real state machine. */
   get verdictKey(): string {
     if (this.c.status === 'waiting') {

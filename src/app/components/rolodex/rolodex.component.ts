@@ -80,6 +80,11 @@ export class RolodexComponent implements OnInit {
   @Output() removeContact = new EventEmitter<ContactInfo>();
   @Output() contactTap = new EventEmitter<ContactInfo>();
   @Output() contactsChange = new EventEmitter<ContactInfo[]>();
+  /** 2026-08-28 BUILD 131 DEEP FIELDS: cards dispatch from here (SMS/WhatsApp/
+   *  Email) and stamp lastInteraction + context on the contact — the deck
+   *  relays the flush so home persists + sync-pushes, exactly like a save. */
+  @Output() contactsDirty = new EventEmitter<void>();
+  onContactsDirty(): void { this.contactsChange.emit(this.contacts); }
   @Output() autoSort = new EventEmitter<void>();
   @Output() loadMoreAutoSort = new EventEmitter<void>();
   @Output() applyFilter = new EventEmitter<void>();

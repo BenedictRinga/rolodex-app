@@ -50,6 +50,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() createContact = new EventEmitter<ContactInfo>();
   @Output() toggleDetails = new EventEmitter<ContactInfo>();
   @Output() contactTap = new EventEmitter<ContactInfo>();
+  /** 2026-08-28 BUILD 131 DEEP FIELDS: dispatches from the card (SMS/WhatsApp/
+   *  Email) write lastInteraction + context straight onto the contact object;
+   *  this tells the page to flush persist + sync + nudge, exactly like a save. */
+  @Output() contactsDirty = new EventEmitter<void>();
 
   trackById(index: number, contact: ContactInfo): string {
     return contact.contactId || index.toString();
@@ -693,12 +697,16 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       const chosen = await this.choosePhone(contact, 'SMS');
       if (!chosen) return;
       this.draftEngine.pushContext(contact, 'Sent an SMS follow-up (' + new Date().toLocaleDateString() + ')');
+      contact.lastInteraction = new Date(); // 2026-08-28 BUILD 131: the deck's "Last" finally ticks
+      this.contactsDirty.emit(); // persist + sync + nudge, like a save
       void this.shareApp.shareViaSms('chat-message', { from, to: name, text: draft, room }, chosen);
     };
     const sendWhatsApp = async (): Promise<void> => {
       const chosen = await this.choosePhone(contact, 'WhatsApp');
       if (!chosen) return;
       this.draftEngine.pushContext(contact, 'Sent a WhatsApp follow-up (' + new Date().toLocaleDateString() + ')');
+      contact.lastInteraction = new Date(); // 2026-08-28 BUILD 131: structured, persisted, synced
+      this.contactsDirty.emit(); // persist + sync + nudge, like a save
       void this.shareApp.shareViaWhatsApp('chat-message', { from, to: name, text: draft, room }, chosen);
     };
 
@@ -709,7 +717,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         buttons: [
           ...(nums.length ? [{ text: 'Send via WhatsApp', handler: () => { void sendWhatsApp(); } }] : []),
           ...(nums.length ? [{ text: 'Send via SMS', handler: () => { void sendSms(); } }] : []),
-          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
+          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },
         ],
@@ -1244,6 +1252,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // Contact ID (required for editing)
       contactId: [this.editedContact?.contactId || ''], // 1 // is this error??? Doubt its uility here
 
+      // 2026-08-28 BUILD 131 DEEP FIELDS: nickname was in the model (and read
+      // by the deck) but never editable — the algo can now learn what the
+      // person is actually called.
+      nickname: [''],
+
       // Name group
       name: this.fb.group({
         display: ['', [Validators.required, Validators.minLength(2)]],
@@ -1308,11 +1321,18 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       }), // 12g
 
       // Social profiles group
+      // 2026-08-28 BUILD 131 DEEP FIELDS: x/telegram/snapchat/tiktok existed in
+      // the model but were uneditable — every handle is context the briefing
+      // and the backend AI can now taste.
       socialProfiles: this.fb.group({
+        x: [''],
         twitter: [''],
         linkedin: [''],
         facebook: [''],
         instagram: [''],
+        telegram: [''],
+        snapchat: [''],
+        tiktok: [''],
       }), // 13g
 
       // Tags (FormArray)

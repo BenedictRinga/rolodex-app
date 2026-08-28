@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — انتهى الأمر. تم إغلاق {{n}} هذا الأسبوع.",
     "act.chat": "دردشة",
     "act.video": "فيديو",
-    "act.call": "اتصال"
+    "act.call": "اتصال",
+    "consult.tidbits": "جدير بالذكر"
   }
 }

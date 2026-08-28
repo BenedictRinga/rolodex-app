@@ -69,6 +69,9 @@
   &.lc-what  { --accent: #FFD93D; }
   &.lc-when  { --accent: #7C5CFC; }
   &.lc-where { --accent: #4f6df5; }
+  /* 2026-08-28 BUILD 131 DEEP FIELDS: the tidbits whisper — warmer tone,
+     set apart from the W's (it is taste, not chronology). */
+  &.lc-tidbits { --accent: #FF8A5C; }
 }
 
 .lc-k {

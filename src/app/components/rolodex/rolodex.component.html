@@ -39,6 +39,7 @@
             (toggleDetails)="onToggleDetails($event)"
             (editContact)="onEditContact($event)" 
             (removeContact)="onRemoveContact($event)"
+            (contactsDirty)="onContactsDirty()"
             (contactTap)="onContactTap($event)"
           >
         </app-contact-card>
@@ -74,7 +75,8 @@
             [viewMode]="RolodexView.AutoSort"
             (toggleDetails)="onToggleDetails($event)" 
             (editContact)="onEditContact($event)"
-            (removeContact)="onRemoveContact($event)" 
+            (removeContact)="onRemoveContact($event)"
+            (contactsDirty)="onContactsDirty()" 
             (contactTap)="onContactTap($event)"
           >
         </app-contact-card>
@@ -108,6 +110,7 @@
             (toggleDetails)="onToggleDetails($event)"
             (editContact)="onEditContact($event)" 
             (removeContact)="onRemoveContact($event)"
+            (contactsDirty)="onContactsDirty()"
             (contactTap)="onContactTap($event)"
           >
         </app-contact-card>

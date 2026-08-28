@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — erledigt. {{n}} diese Woche geschlossen.",
     "act.chat": "Chatten",
     "act.video": "Video",
-    "act.call": "Anrufen"
+    "act.call": "Anrufen",
+    "consult.tidbits": "Gut zu erwähnen"
   }
 }

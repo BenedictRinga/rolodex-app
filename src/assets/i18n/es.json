@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — resuelto. {{n}} cerrado(s) esta semana.",
     "act.chat": "Chatear",
     "act.video": "Vídeo",
-    "act.call": "Llamar"
+    "act.call": "Llamar",
+    "consult.tidbits": "Merece mencionarse"
   }
 }

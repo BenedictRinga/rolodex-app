@@ -533,6 +533,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const card = this.cardFor(l);
     if (!card) return;
     this.draftEngine.pushContext(card, `${line} (${new Date().toLocaleDateString()})`);
+    card.lastInteraction = new Date(); // 2026-08-28 BUILD 131: the structured field, not just the story
     this.contactsDirty.emit();
   }
 

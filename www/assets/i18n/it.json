@@ -629,6 +629,7 @@
     "celebrate.line": "{{name}} — done. {{n}} loops closed this week.",
     "act.chat": "Chat",
     "act.video": "Video",
-    "act.call": "Call"
+    "act.call": "Call",
+    "consult.tidbits": "Worth weaving in"
   }
 }

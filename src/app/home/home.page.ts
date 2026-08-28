@@ -587,7 +587,9 @@ export class HomePage implements OnInit, OnDestroy {
    *  the contact object in place; persist the deck so the relationship data
    *  survives. Fired-and-forgotten for the user, remembered for the app. */
   onContactsDirty(): void {
-    void this.persistContacts(this.contacts);
+    // 2026-08-28 BUILD 131: upgrade the flush — persist AND sync-push AND
+    // nudge, via the same full path a card save takes (onContactsChange).
+    this.onContactsChange(this.contacts);
   }
 
   private async readPersistedContacts(): Promise<ContactInfo[] | null> {

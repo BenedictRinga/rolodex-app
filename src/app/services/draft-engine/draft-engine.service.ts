@@ -350,13 +350,44 @@ export class DraftEngineService {
       : guide?.guide
         ? `Style guidance from the user: "${guide.guide}"`
         : '';
+
+    // 2026-08-28 BUILD 131 DEEP FIELDS: the briefing used to carry only
+    // where/when/topic/followUp — the rest of the card sat unread. Now every
+    // gleaned field travels: who/why/how, personalTidbits, outcome, role,
+    // cadence, birthday, nickname, tags. The backend AI reasons over the
+    // whole card, not a sliver of it.
+    const org = (c as any)?.organization || {};
+    const roleBits = [org.jobTitle, org.company, org.department].filter(Boolean).join(' at ');
+    const last = c?.lastInteraction
+      ? `last touched ${new Date(c.lastInteraction).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}`
+      : '';
+    const socials = Object.entries((c as any)?.socialProfiles || {})
+      .filter(([, v]: any) => v && String(v).trim())
+      .map(([k, v]: any) => `${k}:${v}`)
+      .slice(0, 4)
+      .join(' · ');
+    const dossier = [
+      `Called: ${name}${c?.nickname && c.nickname !== name ? ` (goes by ${c.nickname})` : ''}`,
+      roleBits ? `Role: ${roleBits}` : '',
+      `How they met: ${r.where || 'unknown'} (${r.when || 'unknown'})` +
+        `${r.who ? ` · introduced/shared by ${r.who}` : ''}` +
+        `${r.how ? ` · via ${r.how}` : ''}`,
+      `Why they matter: ${r.why || '-'}`,
+      `Thread: topic ${r.topic || '-'} · follow-up ${r.followUp || '-'}` +
+        `${r.outcome ? ` · last outcome: ${r.outcome}` : ''}`,
+      r.personalTidbits ? `Personal: ${r.personalTidbits}` : '',
+      `Cadence: wants ${r.contactFrequency || 'unspecified'} touch · priority ${r.priority || 'medium'}${last ? ` · ${last}` : ''}`,
+      c?.birthday ? `Birthday: ${JSON.stringify(c.birthday)}` : '',
+      socials ? `Reachable: ${socials}` : '',
+      Array.isArray((c as any)?.tags) && (c as any).tags.length ? `Tags: ${(c as any).tags.join(', ')}` : '',
+    ].filter(Boolean).join('\n');
+
     return [
       filterLine,
-      `Contact: ${name}`,
-      `Context: ${r.where || 'unknown'} (${r.when || 'unknown'}) · topic: ${r.topic || '-'} · follow-up: ${r.followUp || '-'}`,
+      `Contact dossier:\n${dossier}`,
       `Relationship history:\n${this.contextBlock(c)}`,
       guideLine,
-      `Occasion: ${occasion}. Draft a warm, human, one-paragraph message in the user's voice. No emojis unless natural.`,
+      `Occasion: ${occasion}. Draft a warm, human, one-paragraph message in the user's voice. Use the dossier and history — reference only what feels natural, never dump it. No emojis unless natural.`,
     ].filter(Boolean).join('\n');
   }
 
