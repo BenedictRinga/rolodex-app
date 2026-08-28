@@ -78,10 +78,14 @@
          where filling the card is the visible user power, plus the timed
          celebration on loop completion. -->
 
-    <!-- Rising nudges banner (7) — silence after close is the reward -->
-    <div *ngIf="nudgesDue > 0" class="li-nudgebar">
+    <!-- Rising nudges banner (7) — silence after close is the reward.
+         2026-08-28 BUILD 128 (founder: "what happens when they tap?"): the bar
+         is now the POINTER — tap it and the view travels to the first loop
+         still nudging and flashes it. The glowing rows themselves answer
+         "which ones?"; opening one is the answer to the prompt. -->
+    <div *ngIf="nudgesDue > 0" class="li-nudgebar" role="button" (click)="revealNudges()">
       {{ 'loopkeeper.nudgeBar' | translate:{ n: nudgesDue } }}
-      <button class="li-linkbtn" (click)="dismissNudges()">{{ 'loopkeeper.snoozeAll' | translate }}</button>
+      <button class="li-linkbtn" (click)="dismissNudges(); $event.stopPropagation()">{{ 'loopkeeper.snoozeAll' | translate }}</button>
     </div>
 
     <!-- TODAY'S 3 — the hard cap (9) -->
@@ -160,8 +164,14 @@
 
 <!-- ════════ Shared row + expanded detail ════════ -->
 <ng-template #loopRow let-l let-starred="starred">
-  <div class="li-row" [class.starred]="starred" [class.open]="selectedId === l.id">
+  <!-- 2026-08-28 BUILD 128: a due loop GLOWS amber and wears the bell — the
+       user can see exactly which loops the algo is prompting. Opening the row
+       (toggle) acknowledges the nudge; the glow calms and the bar count drops.
+       data-loop-id is the target for the nudge bar's tap-to-reveal scroll. -->
+  <div class="li-row" [class.starred]="starred" [class.open]="selectedId === l.id"
+    [class.nudge]="isDue(l)" [class.flash]="flashId === l.id" [attr.data-loop-id]="l.id">
     <div class="li-row-main" (click)="toggle(l.id)">
+      <span *ngIf="isDue(l)" class="li-nudge-bell">🔔</span>
       <span *ngIf="starred" class="li-star">⭐</span>
       <span class="li-person">{{ l.person }}</span>
       <span class="li-kind">{{ kindLabel(l.kind) }}</span>

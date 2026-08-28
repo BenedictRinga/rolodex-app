@@ -20,13 +20,28 @@
    fulcrum. No tap, no transfer; they undergird the rotating placeholder. */
 .li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
 .li-sample { font-size:11px; opacity:.65; border:1px dashed rgba(128,128,128,.4); border-radius:999px; padding:2px 8px; cursor:default; }
-.li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; }
+/* 2026-08-28 BUILD 128: the bar is tappable — it is the POINTER to the first
+   still-nudging loop. Snooze all is the batch escape hatch beside it. */
+.li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; cursor:pointer; }
+.li-nudgebar:active { background:rgba(255,178,92,.25); }
 .li-section { margin-top:14px; }
 .li-section-title { font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.6; margin-bottom:6px; }
 .li-row { border:1px solid rgba(128,128,128,.22); border-radius:12px; padding:8px 10px; margin-bottom:8px; cursor:pointer; transition:border-color .2s; }
 .li-row.starred { border-color:rgba(20,184,166,.55); }
 .li-row.open { border-color:#14b8a6; }
 .li-row.theirs { opacity:.8; }
+/* 2026-08-28 BUILD 128: a loop the algo is prompting RIGHT NOW glows amber
+   (the nudgebar's own tone) and wears the bell — "which ones?" is answered at
+   a glance. Opening the row calms it: the glow goes with the nudgeIds set. */
+.li-row.nudge { border-color:rgba(255,178,92,.6); background:rgba(255,178,92,.07); }
+.li-row.nudge .li-kind { background:rgba(255,178,92,.16); color:#ffb25c; }
+.li-nudge-bell { margin-right:4px; font-size:11px; }
+/* Tap the nudgebar → the view scrolls here and flashes once. */
+@keyframes lkNudgeFlash {
+  0%, 100% { box-shadow:0 0 0 0 rgba(255,178,92,0); }
+  25%, 65% { box-shadow:0 0 0 4px rgba(255,178,92,.45); }
+}
+.li-row.flash { animation:lkNudgeFlash 1.4s ease; }
 .li-row-main { display:block; }
 .li-star { margin-right:4px; font-size:11px; }
 .li-person { font-weight:700; font-size:14px; margin-right:8px; }

@@ -45,6 +45,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   closed: Loop[] = [];
   counts = { mine: 0, theirs: 0, closedThisWeek: 0 };
   nudgesDue = 0;
+  /** 2026-08-28 BUILD 128: the ids of loops the algo is prompting RIGHT NOW —
+   *  rows glow, the bar counts them, and opening one is the answer. */
+  nudgeIds = new Set<string>();
+  flashId: string | null = null;
+  private flashTimer: ReturnType<typeof setTimeout> | null = null;
 
   captureInput = '';
   busy = false;
@@ -196,10 +201,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     // F11/F12: sweep the deck silently — owed replies + stale promises become
     // loops BEFORE the lists paint. No toast unless something was created.
     if (this.contacts?.length) void this.keeper.scanInboxSignals(this.contacts);
+    // 2026-08-28 BUILD 128: wake expired snoozes FIRST, then one census —
+    // woken loops arm nextNudgeAt = now and are already inside dueNudges(),
+    // so the old `due.length + woke.length` double-counted them.
+    await this.loops.resumeExpiredWaits();
     await this.refresh();
-    const woke = await this.loops.resumeExpiredWaits();
-    const due = this.loops.dueNudges();
-    this.nudgesDue = due.length + woke.length;
   }
 
   private async refresh(): Promise<void> {
@@ -208,6 +214,43 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.theirs = this.loops.waitingOnThem();
     this.closed = this.loops.recentlyClosed();
     this.counts = this.loops.counts();
+    // 2026-08-28 BUILD 128: one truthful nudge census — which loops are the
+    // algo prompting right now (woken snoozes included; they arm
+    // nextNudgeAt = now and land here naturally). The bar counts prompts not
+    // yet heard, the rows glow, and opening one is the answer.
+    const due = this.loops.dueNudges();
+    this.nudgeIds = new Set(due.map(l => l.id));
+    this.nudgesDue = this.nudgeIds.size;
+  }
+
+  /** 2026-08-28 BUILD 128: is this loop one the algo is prompting right now? */
+  isDue(l: Loop): boolean {
+    return this.nudgeIds.has(l.id);
+  }
+
+  /** 2026-08-28 BUILD 128: opening a nudged loop IS the answer — the user
+   *  heard the prompt, so its escalation advances (2d → 4d → 7d, never spam),
+   *  the amber glow calms, and the bar count drops live. */
+  toggle(id: string): void {
+    const opening = this.selectedId !== id;
+    this.selectedId = opening ? id : null;
+    if (opening && this.nudgeIds.has(id)) {
+      this.loops.registerNudgeSent(id);
+      this.nudgeIds.delete(id);
+      this.nudgesDue = this.nudgeIds.size;
+    }
+  }
+
+  /** 2026-08-28 BUILD 128: the nudge bar is now the POINTER — tap it and the
+   *  view travels to the first loop still nudging, flashing it once. */
+  revealNudges(): void {
+    const first = this.nudgeIds.values().next();
+    if (first.done) return;
+    this.flashId = first.value;
+    document.querySelector(`[data-loop-id="${first.value}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (this.flashTimer) clearTimeout(this.flashTimer);
+    this.flashTimer = setTimeout(() => { this.flashId = null; }, 1600);
   }
 
   // ── Capture (10) ────────────────────────────────────────────────────────────
@@ -286,7 +329,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   // ── Selection / editing ────────────────────────────────────────────────────
-  toggle(id: string): void { this.selectedId = this.selectedId === id ? null : id; }
+  // 2026-08-28 BUILD 128: toggle() moved up next to the nudge engine — opening
+  // a nudged loop is the answer, so selection and acknowledgment are one act.
   sel(): Loop | null { return this.selectedId ? this.loops.getLoop(this.selectedId) ?? null : null; }
 
   setTone(l: Loop, t: LoopTone): void {
@@ -578,14 +622,19 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // 2026-08-28 BUILD 125: stop the placeholder rotation with the tab.
     if (this.phTimer) { clearInterval(this.phTimer); this.phTimer = null; }
+    // 2026-08-28 BUILD 128: stop the reveal flash with the tab.
+    if (this.flashTimer) { clearTimeout(this.flashTimer); this.flashTimer = null; }
     // Mid-recording navigation: stop cleanly, release the mic, drop the take.
     if (this.recordingFor) this.cancelRecording();
     this.recStream?.getTracks().forEach(t => t.stop());
     Object.values(this.lastClipByLoop).forEach(c => URL.revokeObjectURL(c.url));
   }
 
+  /** 2026-08-28 BUILD 128: batch escape hatch — snooze every prompt at once.
+   *  The glow calms and the bar drops to zero with the refresh below. */
   dismissNudges(): void {
     for (const l of this.loops.dueNudges()) this.loops.registerNudgeSent(l.id);
+    this.nudgeIds.clear();
     this.nudgesDue = 0;
     void this.refresh();
   }
