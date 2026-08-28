@@ -44,11 +44,11 @@
          "Nothing sitting. Nothing gnawing." fulcrum, and the capture box sits
          BELOW it — the eye travels examples → promise → the place to act. -->
     <div class="li-samples">
-      <!-- 2026-08-28 BUILD 133 (founder): the glowing teal orb — a big fullstop
-           that flags these three as THE sentences the fulcrum's body refers to
-           ("Start a sentence like those three"). No more pointing at the
-           heading by accident of placement. -->
-      <span class="li-orb" aria-hidden="true"></span>
+      <!-- 2026-08-28 BUILD 133/134 (founder): each pill carries its own glowing
+           teal orb (::before in SCSS) — a big fullstop flagging each sentence
+           as one of THE three the fulcrum's body refers to ("Start a sentence
+           like those three"). On mobile the pills stack vertically, so every
+           sentence needs its own flag. -->
       <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
     </div>
 

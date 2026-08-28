@@ -29,23 +29,31 @@
   /* 2026-08-28 BUILD 127 (founder): fill="outline" + a 16px radius that
      echoes the round add-icon LOOP button — no more boxy gray MS-DOS slab.
      The resting box still visibly offers ~3 lines, then auto-grows.
-     2026-08-28 BUILD 133 (founder): DOUBLE the border visibility — 1px/.35
-     was too feint. 2px + .7 alpha reads clearly at arm's length. */
-  ion-textarea { --border-radius:16px; --border-width:2px; --border-color:var(--rolodex-border-light, rgba(128,128,128,.7)); --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
+     2026-08-28 BUILD 134 (founder): the better reference for the border is
+     the ASSISTANT's — a clean, distinct line. That border is simply Ionic's
+     DEFAULT outline; the build-133 doubling never showed because the
+     --rolodex-border-light fallback never fired (the var IS defined
+     globally: #252830 in dark mode ≈ invisible). Override removed — Loops
+     now inherits the exact same border as the Assistant composer. */
+  ion-textarea { --border-radius:16px; --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
 /* 2026-08-28 BUILD 127: the ✕ that clears the whole capture box. */
 .li-capture .chat-clear { --padding-start:4px; --padding-end:4px; margin:0; --color:var(--rolodex-text-secondary, #8a9a94); }
 /* 2026-08-28 BUILD 127: pills now lead the tab — the visual tether ABOVE the
    fulcrum. No tap, no transfer; they undergird the rotating placeholder. */
 .li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; align-items:center; }
 /* 2026-08-28 BUILD 133 (founder): the glowing teal orb — an unmistakable
-   fullstop flagging the three sample sentences as the referent of the
-   fulcrum's "Start a sentence like those three". Gentle pulse; decorative. */
-.li-orb { flex:0 0 auto; width:9px; height:9px; border-radius:999px; background:#14b8a6;
-  box-shadow:0 0 2px #14b8a6, 0 0 9px rgba(20,184,166,.75); margin-right:2px;
-  animation:lkOrbPulse 2.4s ease-in-out infinite; }
-@keyframes lkOrbPulse { 0%,100% { box-shadow:0 0 2px #14b8a6, 0 0 9px rgba(20,184,166,.75); }
-  50% { box-shadow:0 0 3px #14b8a6, 0 0 14px rgba(20,184,166,.95); } }
+   fullstop flagging the sample sentences as the referent of the fulcrum's
+   "Start a sentence like those three". Gentle pulse; decorative.
+   2026-08-28 BUILD 134 (founder): the pills STACK VERTICALLY on mobile, so
+   the single row-leading orb only ever flagged one sentence — EACH pill now
+   carries its own orb, drawn as a ::before (no extra markup; screen readers
+   still see one clean sentence per pill). */
 .li-sample { font-size:11px; opacity:.65; border:1px dashed rgba(128,128,128,.4); border-radius:999px; padding:2px 8px; cursor:default; }
+.li-sample::before { content:''; display:inline-block; width:7px; height:7px; border-radius:999px;
+  background:#14b8a6; box-shadow:0 0 2px #14b8a6, 0 0 8px rgba(20,184,166,.75);
+  margin-right:5px; vertical-align:middle; animation:lkOrbPulse 2.4s ease-in-out infinite; }
+@keyframes lkOrbPulse { 0%,100% { box-shadow:0 0 2px #14b8a6, 0 0 8px rgba(20,184,166,.75); }
+  50% { box-shadow:0 0 3px #14b8a6, 0 0 12px rgba(20,184,166,.95); } }
 /* 2026-08-28 BUILD 128: the bar is tappable — it is the POINTER to the first
    still-nudging loop. Snooze all is the batch escape hatch beside it. */
 .li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; cursor:pointer; }

@@ -188,7 +188,7 @@
     "waitUntil": "Esperar até…",
     "drop": "Largar",
     "empty.title": "Nada pendente. Nada a pesar.",
-    "empty.body": "Start a sentence like those three — the agent digs up context, drafts it, and you decide.",
+    "empty.body": "Comece com uma frase como estas três — o agente reúne o contexto, redige, e você decide.",
     "section.todays3": "Hoje {{n}}",
     "section.waitingOnYou": "À sua espera · {{n}}",
     "section.waitingOnThem": "À espera deles · {{n}}",

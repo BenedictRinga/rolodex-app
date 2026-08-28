@@ -188,7 +188,7 @@
     "waitUntil": "तब तक प्रतीक्षा करें…",
     "drop": "छोड़ें",
     "empty.title": "कुछ लंबित नहीं। कुछ परेशान नहीं।",
-    "empty.body": "Start a sentence like those three — the agent digs up context, drafts it, and you decide.",
+    "empty.body": "इन तीन वाक्यों जैसा एक वाक्य लिखकर शुरू करें — एजेंट संदर्भ जुटाता है, ड्राफ्ट तैयार करता है, और फ़ैसला आपका।",
     "section.todays3": "आज {{n}}",
     "section.waitingOnYou": "आपकी प्रतीक्षा में · {{n}}",
     "section.waitingOnThem": "उनकी प्रतीक्षा में · {{n}}",
