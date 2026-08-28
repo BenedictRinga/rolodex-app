@@ -1205,3 +1205,28 @@ details.inv-details {
 }
 
 .inv-details-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* 2026-08-28 BUILD 136: THE TEN COHORTS - a page-wide pill (collapsed by
+   default) hiding who bleeds most from unclosed loops, ending in the share
+   whisper. Visual kinship with the Loops sample pills: soft, dashed, inviting. */
+.cohorts-pill {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  margin: 10px 0 2px; padding: 12px 14px; text-align: left;
+  background: rgba(0, 200, 83, .06); border: 1px dashed rgba(0, 200, 83, .45);
+  border-radius: 999px; cursor: pointer; color: inherit;
+  ion-icon { flex: 0 0 auto; font-size: 16px; color: var(--rolodex-text-secondary, #8a9a94); }
+}
+.cohorts-pill-emoji { flex: 0 0 auto; font-size: 17px; }
+.cohorts-pill-text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  strong { font-size: 13.5px; }
+  span { font-size: 11px; color: var(--rolodex-text-secondary, #8a9a94); } }
+.cohorts-panel { margin-top: 10px; padding: 12px 4px 2px; }
+.cohorts-intro { margin: 0 0 10px; font-size: 12.5px; line-height: 1.5; color: var(--rolodex-text-secondary, #8a9a94); }
+.cohort-row { display: flex; align-items: flex-start; gap: 9px; padding: 6px 0;
+  font-size: 12.5px; line-height: 1.45; border-bottom: 1px solid rgba(128, 128, 128, .14);
+  &:last-of-type { border-bottom: none; }
+  strong { font-weight: 700; } }
+.cohort-emoji { flex: 0 0 auto; font-size: 14px; line-height: 1.45; }
+.cohorts-share { margin: 10px 0 0; padding: 9px 12px; font-size: 12.5px; line-height: 1.5;
+  background: rgba(0, 200, 83, .07); border-radius: 10px;
+  strong { font-weight: 700; } }

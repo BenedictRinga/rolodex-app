@@ -363,6 +363,39 @@
     </p>
   </div>
 
+  <!-- 2026-08-28 BUILD 136: THE TEN COHORTS — who bleeds most from unclosed
+       loops. Collapsed behind a page-wide pill so current comms servings stay
+       lean; only the curious tap and pay the scroll. Well-worded, it also
+       whispers the share: see someone you love in the list, send it to them. -->
+  <div class="about-section" *ngIf="portalMode !== 'investors'" style="padding:0;">
+    <button class="cohorts-pill" (click)="cohortsOpen = !cohortsOpen" [attr.aria-expanded]="cohortsOpen">
+      <span class="cohorts-pill-emoji">🧩</span>
+      <span class="cohorts-pill-text">
+        <strong>Who leans on LoopKeeper hardest?</strong>
+        <span>Ten kinds of people who lose real money or real affection to unclosed loops</span>
+      </span>
+      <ion-icon [name]="cohortsOpen ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+    </button>
+    <div class="cohorts-panel" *ngIf="cohortsOpen">
+      <p class="cohorts-intro">
+        Each of these loses something every week they leave loops open — an invoice, a vote of trust, a place in someone's memory. Find yourself, and LoopKeeper was tuned for your week. Find someone you love, and it's one send away.
+      </p>
+      <div class="cohort-row"><span class="cohort-emoji">💼</span><span><strong>Freelancers &amp; consultants</strong> — the pipeline is relationships; a forgotten follow-up is a lost invoice</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🏪</span><span><strong>Small-business founders &amp; solopreneurs</strong> — leads, suppliers and mentors gone quiet</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🤝</span><span><strong>Sales &amp; business-development people</strong> — "let's circle back next quarter" is an open loop by definition</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🧭</span><span><strong>Recruiters &amp; career coaches</strong> — candidates expect replies that slip</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🕊️</span><span><strong>Community &amp; faith leaders</strong> — dozens of small promises made every week ("I'll call you this week")</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🌍</span><span><strong>NGO &amp; volunteer coordinators</strong> — donors and volunteers waiting on words</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">📰</span><span><strong>Journalists &amp; PR professionals</strong> — sources and pitches that must not go cold</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🏠</span><span><strong>Real-estate agents</strong> — clients who vanish for months, then reappear ready to buy</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">✈️</span><span><strong>Diaspora families</strong> — cousins, parents, "we should talk" across time zones</span></div>
+      <div class="cohort-row"><span class="cohort-emoji">🎤</span><span><strong>Coaches, mentors &amp; event organizers</strong> — networks built on one-line promises</span></div>
+      <p class="cohorts-share">
+        See yourself here? Start with one loop you actually owe. See a friend, a sibling, a colleague in one of these ten? Hand them LoopKeeper — <strong>Settings → Share LoopKeeper</strong>.
+      </p>
+    </div>
+  </div>
+
   <div class="about-section" *ngIf="portalMode !== 'investors'">
     <h3>Basic × Assistant</h3>
     <p>

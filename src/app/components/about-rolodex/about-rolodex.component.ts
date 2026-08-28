@@ -62,6 +62,10 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   readerMode = false;
   readerSoft = false;
 
+  // 2026-08-28 BUILD 136: the ten cohorts — collapsed behind a page-wide pill;
+  // only the curious pay the scroll. See about-rolodex.component.html.
+  cohortsOpen = false;
+
   // 2026-08-19 THE EXTENDED ROOM: user suggestions from Chat with LoopKeeper,
   // locked behind the regular password extended with "-x2" (northstar-x2).
   x2Unlocked = false;
