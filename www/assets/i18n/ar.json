@@ -624,6 +624,8 @@
     "storage.deviceImport": "استيراد ملف",
     "storage.backupTie": "النسخ بالملف هو مسار تبويب الجهاز. السحابة وخادم LoopKeeper لكلٍّ منهما مساره في تبويبه.",
     "welcome.fourws.emphasis": "كلما عرف أكثر، كتب لك بشكل أفضل.",
-    "chat.aiTagline": "اجعل الذكاء الاصطناعي يعمل لأجلك…"
+    "chat.aiTagline": "اجعل الذكاء الاصطناعي يعمل لأجلك…",
+    "receipt.doneTap": "إغلاق ✓",
+    "celebrate.line": "{{name}} — انتهى الأمر. تم إغلاق {{n}} هذا الأسبوع."
   }
 }

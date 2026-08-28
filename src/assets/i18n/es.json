@@ -624,6 +624,8 @@
     "storage.deviceImport": "Importar archivo",
     "storage.backupTie": "La copia por archivo es el camino de la pestaña Dispositivo. La nube y el servidor LoopKeeper tienen su propio camino en sus pestañas.",
     "welcome.fourws.emphasis": "Cuanto más sabe, mejor escribe para ti.",
-    "chat.aiTagline": "hacer que la IA trabaje para ti…"
+    "chat.aiTagline": "hacer que la IA trabaje para ti…",
+    "receipt.doneTap": "cerrar ✓",
+    "celebrate.line": "{{name}} — resuelto. {{n}} cerrado(s) esta semana."
   }
 }

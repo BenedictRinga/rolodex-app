@@ -624,6 +624,8 @@
     "storage.deviceImport": "Ingiza faili",
     "storage.backupTie": "Hifadhi ya faili ni njia ya kichupo cha Kifaa. Wingu na Seva ya LoopKeeper zina njia zao kwenye vichupo vyao.",
     "welcome.fourws.emphasis": "Kadiri inayojua zaidi, ndivyo inavyokuandikia vizuri zaidi.",
-    "chat.aiTagline": "kuifanya AI ikufanye kazi kwako…"
+    "chat.aiTagline": "kuifanya AI ikufanye kazi kwako…",
+    "receipt.doneTap": "funga ✓",
+    "celebrate.line": "{{name}} — imemekamilika. {{n}} zimefungwa wiki hii."
   }
 }

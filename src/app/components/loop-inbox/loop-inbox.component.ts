@@ -50,6 +50,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   nudgeIds = new Set<string>();
   flashId: string | null = null;
   private flashTimer: ReturnType<typeof setTimeout> | null = null;
+  /** 2026-08-28 BUILD 129: the CULMINATION — when a loop truly closes, the
+   *  inbox pauses for one breath: big ✓, the person freed, and the freed
+   *  count counting UP. This is the dopamine beat the whole arc earns. */
+  celebrating: { name: string; count: number; cardLine: boolean } | null = null;
+  private celebrateTimer: ReturnType<typeof setTimeout> | null = null;
 
   captureInput = '';
   busy = false;
@@ -364,7 +369,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   markIntroDone(l: Loop): void {
     this.loops.closeFully(l.id); // the intro HAPPENED — one loop, celebrated once
     void this.refresh();
-    void this.alerts.showToast(this.tr('loopkeeper.t.introMade', { a: l.person, b: l.secondPerson || this.tr('loopkeeper.t.them') }), 3000);
+    // 2026-08-28 BUILD 129: the intro made two strangers into one story —
+    // that is a true close, so it earns the culmination too.
+    this.celebrate(l);
   }
   toggleVoice(l: Loop): void {
     this.showVoiceFor = this.showVoiceFor === l.id ? null : l.id;
@@ -473,15 +480,14 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const doneMeans: 'reply-needed' | 'closed' = (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed';
     if (bundle.url) window.open(bundle.url, '_blank', 'noopener');
     await this.refresh();
-    const left = this.counts.mine;
-    void this.alerts.showToast(
-      doneMeans === 'closed'
-        ? (this.cardFor(l)
-          ? this.tr('loopkeeper.t.closedCard', { person: l.person })
-          : this.tr('loopkeeper.t.sentClosed', { person: l.person, n: left }))
-        : this.tr('loopkeeper.t.sentOut', { label: bundle.label }),
-      doneMeans === 'closed' && this.cardFor(l) ? 4200 : 3400,
-    );
+    // 2026-08-28 BUILD 129: a send that IS the deed (coffee, social) closes the
+    // loop for real — that earns the culmination overlay, not a toast. A send
+    // that waits on their reply keeps the honest receipt toast.
+    if (doneMeans === 'closed') {
+      this.celebrate(l);
+    } else {
+      void this.alerts.showToast(this.tr('loopkeeper.t.sentOut', { label: bundle.label }), 3400);
+    }
   }
 
   // ═══ 2026-08-27 TIMED CLOSER — the pat on the back ═══════════════════════
@@ -500,15 +506,32 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     }) || null;
   }
 
+  /** 2026-08-28 BUILD 129: the reply landed — the receipt line becomes the
+   *  close tap. This is the step "Mark closed when it lands" always promised
+   *  (t.sentOut) but never offered. The reply-needed loop — the majority kind
+   *  — finally has its way out that is NOT drop. */
+  closeFromReceipt(l: Loop): void {
+    this.loops.closeFully(l.id);
+    void this.refresh();
+    this.celebrate(l);
+  }
+
+  /** 2026-08-28 BUILD 129: the culmination, shown on EVERY true close —
+   *  reply landed, intro happened, coffee taken, their reply arrived. One
+   *  breath: the ✓ pops, the person is named, the freed count counts UP.
+   *  Card matches add the pat on the back (data gleaned back into LoopKeeper). */
+  private celebrate(l: Loop): void {
+    this.celebrating = { name: l.person, count: this.counts.closedThisWeek, cardLine: !!this.cardFor(l) };
+    if (this.celebrateTimer) clearTimeout(this.celebrateTimer);
+    this.celebrateTimer = setTimeout(() => { this.celebrating = null; }, 3600);
+  }
+
   markThemReplied(l: Loop): void {
     this.loops.closeFully(l.id);
     void this.refresh();
-    void this.alerts.showToast(
-      this.cardFor(l)
-        ? this.tr('loopkeeper.t.closedCard', { person: l.person })
-        : this.tr('loopkeeper.t.replied', { person: l.person, n: this.counts.mine }),
-      this.cardFor(l) ? 4200 : 3000,
-    );
+    // 2026-08-28 BUILD 129: the overlay IS the celebration now — one moment,
+    // not a toast racing the refresh.
+    this.celebrate(l);
   }
 
   // ═══ 2026-08-25 VOICE NOTE STUDIO ═══════════════════════════════════════════
@@ -607,9 +630,13 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
         this.loops.markSent(l.id, 'voice', `Voice note (${clip.seconds}s)`, doneMeans as any);
         this.discardClip(l);
         await this.refresh();
-        void this.alerts.showToast(doneMeans === 'closed'
-          ? this.tr('loopkeeper.t.voiceClosed', { person: l.person })
-          : this.tr('loopkeeper.t.voiceSent', { person: l.person }), 3200);
+        // 2026-08-28 BUILD 129: a voice note that IS the deed earns the
+        // culmination; one that waits on the reply keeps its toast.
+        if (doneMeans === 'closed') {
+          this.celebrate(l);
+        } else {
+          void this.alerts.showToast(this.tr('loopkeeper.t.voiceSent', { person: l.person }), 3200);
+        }
         return;
       } catch { return; /* user dismissed the share sheet — nothing sent */ }
     }
@@ -624,6 +651,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     if (this.phTimer) { clearInterval(this.phTimer); this.phTimer = null; }
     // 2026-08-28 BUILD 128: stop the reveal flash with the tab.
     if (this.flashTimer) { clearTimeout(this.flashTimer); this.flashTimer = null; }
+    // 2026-08-28 BUILD 129: stop the culmination overlay with the tab.
+    if (this.celebrateTimer) { clearTimeout(this.celebrateTimer); this.celebrateTimer = null; }
     // Mid-recording navigation: stop cleanly, release the mic, drop the take.
     if (this.recordingFor) this.cancelRecording();
     this.recStream?.getTracks().forEach(t => t.stop());

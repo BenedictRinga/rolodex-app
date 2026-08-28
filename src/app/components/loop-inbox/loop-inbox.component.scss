@@ -1,7 +1,23 @@
 /* 2026-08-28 BUILD 124 (founder): the Inbox grows by 15% — 50vh was too short
    for Today's 3 + Waiting-on-you to breathe. 50 × 1.15 = 57.5vh. */
-.li-shell { display:flex; flex-direction:column; height:57.5vh; min-height:57.5vh; max-height:57.5vh;
+.li-shell { display:flex; flex-direction:column; height:57.5vh; min-height:57.5vh; max-height:57.5vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014); }
+/* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
+   whole tab pauses for one breath. The check pops with a spring, the person is
+   named freed, and the freed-this-week count counts UP. The arc finally lands:
+   nudge → open → act → CLOSED → seen. */
+.li-celebrate { position:absolute; inset:0; z-index:40; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:24px; text-align:center; cursor:pointer;
+  background:rgba(6,22,18,.88); backdrop-filter:blur(3px); animation:lkCelebIn .28s ease; }
+.li-celebrate-check { width:64px; height:64px; border-radius:999px; background:#14b8a6; color:#04201c; font-size:34px; font-weight:900;
+  display:flex; align-items:center; justify-content:center; box-shadow:0 0 28px rgba(20,184,166,.55); animation:lkCelebPop .5s cubic-bezier(.2,1.6,.4,1); }
+.li-celebrate-line { font-size:16px; font-weight:800; color:#eafffa; letter-spacing:.01em; }
+.li-celebrate-card { font-size:12.5px; line-height:1.45; color:#2dd4bf; max-width:300px; }
+@keyframes lkCelebPop { 0% { transform:scale(.3); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+@keyframes lkCelebIn { from { opacity:0; } to { opacity:1; } }
+/* 2026-08-28 BUILD 129: the close tap on a sent-loop receipt — the reply
+   landed, the user says so, the loop dies with honors. */
+.li-closeit { font-size:11px; font-weight:700; color:#2dd4bf; background:rgba(20,184,166,.15); border:1px solid rgba(20,184,166,.4); border-radius:999px; padding:2px 10px; margin-left:8px; cursor:pointer; }
+.li-closeit:active { background:rgba(20,184,166,.32); }
 .li-head { display:flex; justify-content:space-between; align-items:center; padding:6px 10px 0 12px; }
 .li-head-right { display:flex; align-items:center; gap:2px; }
 .li-lang { --padding-top:0; --padding-bottom:0; font-size:11px; max-width:120px; }

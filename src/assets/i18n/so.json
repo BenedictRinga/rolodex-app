@@ -546,6 +546,8 @@
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
     "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
-    "chat.aiTagline": "making AI work for you…"
+    "chat.aiTagline": "making AI work for you…",
+    "receipt.doneTap": "close it ✓",
+    "celebrate.line": "{{name}} — done. {{n}} loops closed this week."
   }
 }

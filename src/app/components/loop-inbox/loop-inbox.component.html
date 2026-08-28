@@ -1,4 +1,16 @@
 <div class="li-shell">
+  <!-- 2026-08-28 BUILD 129: THE CULMINATION. When a loop truly closes — their
+       reply lands and you tap close it, the coffee happens, the intro is made,
+       a voice note seals the deed — the inbox pauses for one breath: the check
+       pops, the person is named freed, and the freed-this-week count rises.
+       This is the dopamine beat the whole arc earns: nudge → open → act →
+       CLOSED. Tap anywhere or wait; it dissolves on its own. -->
+  <div *ngIf="celebrating" class="li-celebrate" (click)="celebrating = null">
+    <div class="li-celebrate-check">✓</div>
+    <div class="li-celebrate-line">{{ 'loopkeeper.celebrate.line' | translate:{ name: celebrating.name, n: celebrating.count } }}</div>
+    <div *ngIf="celebrating.cardLine" class="li-celebrate-card">{{ 'loopkeeper.t.closedCard' | translate:{ person: celebrating.name } }}</div>
+  </div>
+
   <!-- Head: brand line + language + close -->
   <div class="li-head">
     <strong class="li-title">{{ 'loopkeeper.title' | translate }}</strong>
@@ -180,6 +192,10 @@
       <div class="li-why" *ngIf="l.whySitting">{{ 'loopkeeper.sittingBecause' | translate:{ reason: l.whySitting } }}</div>
       <div class="li-receipt-inline" *ngIf="l.receipt && l.status !== 'closed'">
         {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.closeIt' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) : ('loopkeeper.receipt.awaitingReply' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) }}
+        <!-- 2026-08-28 BUILD 129: the reply landed — THIS is the close tap the
+             "mark closed when it lands" promise always needed. One tap: the
+             loop closes, the culmination plays, the freed count rises. -->
+        <button class="li-closeit" (click)="closeFromReceipt(l); $event.stopPropagation()">{{ 'loopkeeper.receipt.doneTap' | translate }}</button>
       </div>
     </div>
 

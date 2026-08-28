@@ -624,6 +624,8 @@
     "storage.deviceImport": "Importer le fichier",
     "storage.backupTie": "La sauvegarde par fichier est la voie de l'onglet Appareil. Le Cloud et le serveur LoopKeeper ont leurs propres voies sur leurs onglets.",
     "welcome.fourws.emphasis": "Plus il en sait, mieux il écrit pour vous.",
-    "chat.aiTagline": "faire travailler l'IA pour vous…"
+    "chat.aiTagline": "faire travailler l'IA pour vous…",
+    "receipt.doneTap": "clôturer ✓",
+    "celebrate.line": "{{name}} — c’est réglé. {{n}} bouclée(s) cette semaine."
   }
 }

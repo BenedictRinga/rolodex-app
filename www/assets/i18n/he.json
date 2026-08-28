@@ -624,6 +624,8 @@
     "storage.deviceImport": "ייבוא קובץ",
     "storage.backupTie": "גיבוי לקובץ הוא הדרך של כרטיסיית המכשיר. לענן ולשרת LoopKeeper יש דרכים משלהם בכרטיסיות שלהם.",
     "welcome.fourws.emphasis": "ככל שהוא יודע יותר, הוא כותב לכם טוב יותר.",
-    "chat.aiTagline": "לגרום ל-AI לעבוד בשבילכם…"
+    "chat.aiTagline": "לגרום ל-AI לעבוד בשבילכם…",
+    "receipt.doneTap": "לסגור ✓",
+    "celebrate.line": "{{name}} — זה נסגר. {{n}} נסגרו השבוע."
   }
 }
