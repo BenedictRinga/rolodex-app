@@ -288,6 +288,7 @@
     "ai.engineRolodex": "Injin LoopKeeper (a kan na'ura)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "Yi amfani da {{ provider }}",
     "ai.saved": "An ajiye. Mataimakin yanzu yana bayarwa ta {{ provider }}.",
     "ai.tier": "Matakin mataimakinka",

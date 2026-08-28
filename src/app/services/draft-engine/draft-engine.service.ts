@@ -6,7 +6,7 @@ import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 import { NetworkService } from '../network/network.service';
 
 export type Occasion = 'first-meeting' | 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
-export type AiProvider = 'rolodex' | 'deepseek' | 'grok';
+export type AiProvider = 'rolodex' | 'deepseek' | 'grok' | 'glm';
 
 export interface MessageGuide {
   guide: string;   // the user's directive (like bot directives) — may contain {name}/{occasion}
@@ -151,7 +151,8 @@ export class DraftEngineService {
     this.hydrateReady = (async () => {
       try {
         const stored = await this.storage.get<AiProvider>(AI_PROVIDER_KEY);
-        if (stored === 'deepseek' || stored === 'grok' || stored === 'rolodex') this.provider = stored;
+        // 2026-08-28 GLM (build 120): third cloud engine via OpenRouter.
+        if (stored === 'deepseek' || stored === 'grok' || stored === 'glm' || stored === 'rolodex') this.provider = stored;
         this.plan = (await this.storage.get<'basic' | 'confidante' | ''>(PLAN_KEY)) || '';
         this.interventionsRecord = (await this.storage.get<Record<string, number>>(INTERVENTIONS_KEY)) || {};
         this.trialUntilMs = (await this.storage.get<number>(TRIAL_KEY)) || 0;
@@ -378,7 +379,7 @@ export class DraftEngineService {
     }
     this.consumeIntervention();
 
-    if (this.provider === 'deepseek' || this.provider === 'grok') {
+    if (this.provider === 'deepseek' || this.provider === 'grok' || this.provider === 'glm') {
       try {
         const draft = await this.callProvider(c, occasion, guide);
         if (draft) return draft;
@@ -407,19 +408,20 @@ export class DraftEngineService {
   }
 
   /** 2026-08-18 AI LIVE LIGHT: what the Rolodex server can actually deliver.
-   *  The on-device engine always works; DeepSeek/Grok depend on server keys. */
-  async aiStatus(): Promise<{ onDevice: boolean; deepseekConfigured: boolean; grokConfigured: boolean }> {
+   *  The on-device engine always works; DeepSeek/Grok/GLM depend on server keys. */
+  async aiStatus(): Promise<{ onDevice: boolean; deepseekConfigured: boolean; grokConfigured: boolean; glmConfigured: boolean }> {
     try {
       const res = await this.network.safeFetch(`${environment.rolodexApiBase}/ai/status`, { cache: 'no-store' });
-      if (!res) return { onDevice: true, deepseekConfigured: false, grokConfigured: false };
+      if (!res) return { onDevice: true, deepseekConfigured: false, grokConfigured: false, glmConfigured: false };
       const data = await res.json();
       return {
         onDevice: data?.onDevice !== false,
         deepseekConfigured: !!data?.deepseekConfigured,
         grokConfigured: !!data?.grokConfigured,
+        glmConfigured: !!data?.glmConfigured,
       };
     } catch {
-      return { onDevice: true, deepseekConfigured: false, grokConfigured: false };
+      return { onDevice: true, deepseekConfigured: false, grokConfigured: false, glmConfigured: false };
     }
   }
 
@@ -427,7 +429,7 @@ export class DraftEngineService {
    *  user's instruction + current draft to the chosen engine; falls back to
    *  the current draft on failure (the on-device engine cannot refine yet). */
   async refine(instruction: string, current: string): Promise<string> {
-    if (this.provider === 'deepseek' || this.provider === 'grok') {
+    if (this.provider === 'deepseek' || this.provider === 'grok' || this.provider === 'glm') {
       try {
         const res = await fetch(`${environment.rolodexApiBase}/ai/compose`, {
           method: 'POST',

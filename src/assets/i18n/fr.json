@@ -288,6 +288,7 @@
     "ai.engineRolodex": "Moteur LoopKeeper (sur l'appareil)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "Utiliser {{ provider }}",
     "ai.saved": "Enregistré. L'Assistant répond désormais via {{ provider }}.",
     "ai.tier": "Votre niveau Assistant",

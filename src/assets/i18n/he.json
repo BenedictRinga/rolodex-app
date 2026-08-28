@@ -288,6 +288,7 @@
     "ai.engineRolodex": "המנוע של LoopKeeper (במכשיר)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "השתמשו ב{{ provider }}",
     "ai.saved": "נשמר. העוזר עובד כעת דרך {{ provider }}.",
     "ai.tier": "הדרגה שלכם",

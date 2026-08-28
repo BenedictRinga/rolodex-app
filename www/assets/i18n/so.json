@@ -210,6 +210,7 @@
     "ai.engineRolodex": "Mashiinka LoopKeeper (qalabka)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "Isticmaal {{ provider }}",
     "ai.saved": "Waa la kaydiyay. Kaaliyuhu hadda wuxuu u adeegayaa {{ provider }}.",
     "ai.tier": "Heerka kaaliyahaaga",

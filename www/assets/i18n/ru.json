@@ -288,6 +288,7 @@
     "ai.engineRolodex": "Движок LoopKeeper (на устройстве)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "Использовать {{ provider }}",
     "ai.saved": "Сохранено. Помощник теперь работает через {{ provider }}.",
     "ai.tier": "Ваш уровень помощника",

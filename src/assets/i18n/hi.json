@@ -288,6 +288,7 @@
     "ai.engineRolodex": "LoopKeeper इंजन (डिवाइस पर)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "{{ provider }} उपयोग करें",
     "ai.saved": "सहेजा गया। असिस्टेंट अब {{ provider }} के माध्यम से देता है।",
     "ai.tier": "आपका असिस्टेंट स्तर",

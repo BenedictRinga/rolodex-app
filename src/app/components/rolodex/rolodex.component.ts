@@ -175,11 +175,17 @@ export class RolodexComponent implements OnInit {
     { code: 'am', label: 'Amharic' },
     { code: 'so', label: 'Somali' },
     { code: 'ar', label: 'Arabic' },
+    // 2026-08-28 BUILD 120: hand-verified majors that shipped unlisted —
+    // Hebrew, Spanish, Russian, Portuguese-Brazil now join the dropdown.
+    { code: 'he', label: 'Hebrew' },
     { code: 'ha', label: 'Hausa' },
     { code: 'fr', label: 'French' },
+    { code: 'es', label: 'Spanish' },
     { code: 'zh-cmn-Hans', label: 'Chinese' },
     { code: 'hi', label: 'Hindi' },
+    { code: 'ru', label: 'Russian' },
     { code: 'pt-PT', label: 'Portuguese' },
+    { code: 'pt-br', label: 'Portuguese (Brazil)' },
     { code: 'de', label: 'German' },
   ];
   currentLang = 'en';

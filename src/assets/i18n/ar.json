@@ -288,6 +288,7 @@
     "ai.engineRolodex": "محرك LoopKeeper (على الجهاز)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "استخدم {{ provider }}",
     "ai.saved": "تم الحفظ. المساعد الآن يقدّم عبر {{ provider }}.",
     "ai.tier": "مستوى مساعدك",

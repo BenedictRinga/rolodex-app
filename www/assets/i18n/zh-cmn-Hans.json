@@ -288,6 +288,7 @@
     "ai.engineRolodex": "LoopKeeper 引擎（设备端）",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "使用 {{ provider }}",
     "ai.saved": "已保存。助手现在通过 {{ provider }} 提供服务。",
     "ai.tier": "你的助手等级",

@@ -288,6 +288,7 @@
     "ai.engineRolodex": "Injini ya LoopKeeper (kwenye kifaa)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "Tumia {{ provider }}",
     "ai.saved": "Imehifadhiwa. Msaidizi sasa anatoa kupitia {{ provider }}.",
     "ai.tier": "Kiwango chako cha Msaidizi",

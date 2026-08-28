@@ -288,6 +288,7 @@
     "ai.engineRolodex": "የLoopKeeper ሞተር (በመሣሪያ)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "{{ provider }} ተጠቀም",
     "ai.saved": "ተቀምጧል። ረዳቱ አሁን በ{{ provider }} ያቀርባል።",
     "ai.tier": "የረዳት ደረጃዎ",

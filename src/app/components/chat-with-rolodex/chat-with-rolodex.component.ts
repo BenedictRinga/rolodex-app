@@ -102,7 +102,11 @@ export class ChatWithRolodexModalComponent implements OnInit {
 
     try {
       const status = await this.draftEngine.aiStatus();
-      this.engine = status.grokConfigured && !status.deepseekConfigured ? 'grok' : 'deepseek';
+      // 2026-08-28 GLM (build 120): prefer the classic ladder DeepSeek → Grok,
+      // then GLM; the backend walks the full ladder anyway when one is down.
+      this.engine = status.deepseekConfigured ? 'deepseek'
+        : status.grokConfigured ? 'grok'
+        : status.glmConfigured ? 'glm' : 'deepseek';
     } catch { /* default deepseek; backend falls back */ }
 
     this.messages.push({ from: 'system', text: 'Connecting to the Assistant…' });

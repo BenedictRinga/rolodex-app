@@ -288,6 +288,7 @@
     "ai.engineRolodex": "LoopKeeper-Engine (auf dem Gerät)",
     "ai.engineDeepseek": "DeepSeek",
     "ai.engineGrok": "Grok",
+    "ai.engineGlm": "GLM",
     "ai.use": "{{ provider }} verwenden",
     "ai.saved": "Gespeichert. Der Assistent liefert jetzt über {{ provider }}.",
     "ai.tier": "Ihr Assistenten-Tarif",

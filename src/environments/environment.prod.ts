@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 119, // 2026-08-28 TESTER RECRUITING (founder): deeplink tester.html + dashboard shipped as static assets; app absorbs ?t=<6-digit code> and tags every analytics event with the numeric testerId; new events loop_captured + confidante_message + feedback_sent; feedback POST carries testerId
+  build: 120, // 2026-08-28 GLM ENGINE + LANGUAGE DROPDOWN: third AI engine via OpenRouter (ai-settings gains GLM; chat ladder DeepSeek > Grok > GLM); Russian, Hebrew, Spanish, Portuguese-Brazil join the language dropdown; ai.engineGlm key x 39 locales
 };
