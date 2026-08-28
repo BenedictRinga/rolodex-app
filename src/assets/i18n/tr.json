@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "Bu döngü açılamadı — tekrar deneyin.",
+    "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "{{person}} ile döngü açıldı — taslak hazır.",
     "t.firstLoop": "First loop open with {{person}} — the draft is ready below. This is the habit: capture, send, closed. 🎉",
     "t.them": "kendisi",

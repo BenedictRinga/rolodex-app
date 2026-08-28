@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 120, // 2026-08-28 GLM ENGINE + LANGUAGE DROPDOWN: third AI engine via OpenRouter (ai-settings gains GLM; chat ladder DeepSeek > Grok > GLM); Russian, Hebrew, Spanish, Portuguese-Brazil join the language dropdown; ai.engineGlm key x 39 locales
+  build: 121, // 2026-08-28 SAMPLE GUARD + SCROLLABLE LANG POPOVER: the three capture samples ("Promised Tunde...") now FAIL when present verbatim - no loop, no event, no nudges; tapping a sample prefills the box for editing instead of capturing; language popover (15 entries) caps height and scrolls
 };

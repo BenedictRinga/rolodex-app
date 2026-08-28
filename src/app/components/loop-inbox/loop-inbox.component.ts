@@ -177,9 +177,39 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   // ── Capture (10) ────────────────────────────────────────────────────────────
+  /** 2026-08-28 BUILD 121 SAMPLE GUARD (founder): the three demo lines
+   *  ("Promised Tunde I'd send the deck"…) are inspiration, never activity.
+   *  If the capture text still contains one verbatim (current language,
+   *  case/punctuation-tolerant), the capture FAILS with a hint and nothing is
+   *  registered — no loop, no loop_captured event, no nudges downstream. */
+  private isSampleText(sentence: string): boolean {
+    const norm = (s: string): string => s
+      .toLowerCase()
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201c\u201d]/g, '"')
+      .replace(/\u2026/g, '...')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const target = norm(sentence);
+    if (!target) return false;
+    return this.sampleCaptureKeys.some((k) => {
+      const sample = norm(this.tr(k));
+      return sample.length > 0 && target.includes(sample);
+    });
+  }
+
+  /** Tapping a sample fills the capture box for editing — it never captures. */
+  prefillSample(key: string): void {
+    this.captureInput = this.tr(key);
+  }
+
   async addCapture(text?: string): Promise<void> {
     const sentence = (text ?? this.captureInput).trim();
     if (!sentence || this.busy) return;
+    if (this.isSampleText(sentence)) {
+      void this.alerts.showToast(this.tr('loopkeeper.t.sampleBlocked'), 2800);
+      return;
+    }
     this.busy = true;
     try {
       const envelope = this.keeper.capture(sentence, this.contacts);

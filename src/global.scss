@@ -449,3 +449,21 @@ ion-modal.contact-edit-fullscreen {
   flex-shrink: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* 2026-08-28 BUILD 121 SCROLLABLE LANGUAGE POPOVER: the language dropdown now
+   carries 15 entries and a full-height popover clips the bottom of the list
+   (Russian/Hebrew/Spanish/Portuguese-Brazil were unreachable). Cap the
+   popover and force its content to scroll instead. */
+.settings-lang-popover {
+  --max-height: min(420px, 70vh);
+}
+
+.settings-lang-popover::part(content) {
+  max-height: min(420px, 70vh);
+  overflow-y: auto;
+}
+
+.settings-lang-popover .select-popover {
+  max-height: min(420px, 70vh);
+  overflow-y: auto;
+}

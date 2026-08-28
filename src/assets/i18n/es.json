@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper es la secretaria de tus amistades — recuerda, redacta y elige el momento: {{url}}",
     "share.voiceC": "Capturé la frase antes de que se enfriara el café — LoopKeeper hizo el resto: {{url}}",
     "t.openErr": "No se pudo abrir ese bucle — inténtalo otra vez.",
+    "t.sampleBlocked": "Ese es el texto de ejemplo — escribe una promesa real tuya para capturarla.",
     "t.opened": "Bucle abierto con {{person}} — borrador listo.",
     "t.firstLoop": "¡Primer bucle abierto con {{person}}! Captura una frase, envía, cierra — ese es el hábito. 🎉",
     "t.them": "esa persona",

@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper ni karani wa marafiki zako — anakumbuka unachodaiwa, anaandika maneno, anachagua wakati: {{url}}",
     "share.voiceC": "Nilinasa mstari kabla ya kahawa kupoa — LoopKeeper akaufanya ujumbe kamili: {{url}}",
     "t.openErr": "Haiwezi kufungua loop hiyo — jaribu tena.",
+    "t.sampleBlocked": "Hiyo ni mfano tu — andika ahadi yako halisi ili hifadhiwe.",
     "t.opened": "Loop imefunguliwa na {{person}} — rasimu iko tayari.",
     "t.firstLoop": "Loop ya kwanza imefunguliwa na {{person}} — rasimu iko tayari hapa chini. Hii ndiyo tabia: nasa, tuma, funga. 🎉",
     "t.them": "yeye",

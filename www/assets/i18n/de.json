@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper ist die Sekretärin deiner Freundschaften — Kontext gefunden, Worte gewählt, du sendest: {{url}}",
     "share.voiceC": "Ein Satz erfasst, bevor der Kaffee kalt wurde — LoopKeeper machte die fertige Nachricht daraus: {{url}}",
     "t.openErr": "Loop konnte nicht geöffnet werden — noch einmal versuchen.",
+    "t.sampleBlocked": "Das ist der Beispieltext — schreib eine eigene echte Zusage, um sie festzuhalten.",
     "t.opened": "Loop mit {{person}} geöffnet — Entwurf bereit.",
     "t.firstLoop": "Erste Schleife mit {{person}} offen — der Entwurf ist unten fertig. Genau das ist die Gewohnheit. 🎉",
     "t.them": "ihr/ihm",

@@ -242,7 +242,7 @@
              left scrolling in ignorance. Tapping a chip jumps to the item
              (or opens the section's modal directly). -->
         <div class="settings-quicknav">
-          <ion-select class="settings-lang" [value]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" style="max-width: 120px; font-size: 12px;">
+          <ion-select class="settings-lang" [value]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" [interfaceOptions]="langPopoverOpts" style="max-width: 120px; font-size: 12px;">
             <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
           </ion-select>
           <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>

@@ -195,6 +195,11 @@ export class RolodexComponent implements OnInit {
     void this.translate.use(code);
   }
 
+  /** 2026-08-28 BUILD 121 SCROLLABLE LANG POPOVER: 15 languages no longer fit
+   *  a screenful — cap the popover height so the list scrolls instead of
+   *  clipping Russian/Hebrew/Spanish/Portuguese-Brazil off the bottom. */
+  readonly langPopoverOpts = { cssClass: 'settings-lang-popover' };
+
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
   async openAiSettings(): Promise<void> {
     const modal = await this.modalController.create({

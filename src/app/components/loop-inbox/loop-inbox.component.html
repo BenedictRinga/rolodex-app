@@ -35,7 +35,9 @@
       </ion-button>
     </div>
     <div class="li-samples">
-      <span *ngFor="let s of sampleCaptureKeys" class="li-sample" (click)="addCapture(tr(s))">“{{ tr(s) }}”</span>
+      <!-- 2026-08-28 BUILD 121: samples are templates — tap fills the box for
+           editing; addCapture() still refuses an unedited sample verbatim. -->
+      <span *ngFor="let s of sampleCaptureKeys" class="li-sample" (click)="prefillSample(s)">“{{ tr(s) }}”</span>
     </div>
 
     <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the

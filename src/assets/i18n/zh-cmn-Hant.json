@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "未能開啟該迴路——請重試。",
+    "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "與 {{person}} 的新迴路已開啟——草稿就緒。",
     "t.firstLoop": "與 {{person}} 的第一個事項已開啟 — 草稿在下方。習慣就是這樣：記下、傳送、完成。 🎉",
     "t.them": "對方",

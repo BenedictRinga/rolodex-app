@@ -388,6 +388,7 @@
     "share.voiceB": "LoopKeeper, c'est la secrétaire de tes amitiés — le contexte retrouvé, les mots choisis, ton seul travail : appuyer sur Envoyer : {{url}}",
     "share.voiceC": "J'ai capturé la ligne avant que le café refroidisse — LoopKeeper l'a transformée en message prêt : {{url}}",
     "t.openErr": "Impossible d'ouvrir cette boucle — réessayez.",
+    "t.sampleBlocked": "C'est le texte d'exemple — remplace-le par une vraie promesse pour la capturer.",
     "t.opened": "Boucle ouverte avec {{person}} — le brouillon est prêt.",
     "t.firstLoop": "Première boucle ouverte avec {{person}} — le brouillon est prêt ci-dessous. C'est l'habitude : capturer, envoyer, fermer. 🎉",
     "t.them": "cette personne",
