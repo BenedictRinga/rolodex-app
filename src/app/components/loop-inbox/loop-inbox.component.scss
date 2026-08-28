@@ -1,4 +1,6 @@
-.li-shell { display:flex; flex-direction:column; height:50vh; min-height:50vh; max-height:50vh;
+/* 2026-08-28 BUILD 124 (founder): the Inbox grows by 15% — 50vh was too short
+   for Today's 3 + Waiting-on-you to breathe. 50 × 1.15 = 57.5vh. */
+.li-shell { display:flex; flex-direction:column; height:57.5vh; min-height:57.5vh; max-height:57.5vh;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014); }
 .li-head { display:flex; justify-content:space-between; align-items:center; padding:6px 10px 0 12px; }
 .li-head-right { display:flex; align-items:center; gap:2px; }
@@ -58,8 +60,12 @@
   input { background:rgba(128,128,128,.12); border:none; border-radius:8px; padding:6px 10px; color:inherit; font-size:12px; } }
 .li-dropreason { text-align:left; font-size:12px; background:rgba(128,128,128,.1); border:none; color:inherit; border-radius:10px; padding:8px 10px; cursor:pointer;
   &:hover { background:rgba(255,90,54,.15); } }
-.li-empty { text-align:center; padding:22px 16px; opacity:.75; p { font-size:12px; } }
-.li-empty-big { font-size:16px; font-weight:600; margin-bottom:4px; }
+/* 2026-08-28 BUILD 124 (founder): the Loops-tab viewport had no focusing core —
+   the empty-state passage ("Nothing sitting … and you decide.") is now ALL BOLD
+   so it anchors the screen when the deck has nothing open. */
+.li-empty { text-align:center; padding:22px 16px; opacity:.92;
+  p { font-size:12px; font-weight:700; } }
+.li-empty-big { font-size:16px; font-weight:800; margin-bottom:4px; }
 .li-receipt { display:flex; gap:8px; font-size:12px; align-items:center; padding:4px 2px; opacity:.85; }
 .li-check { color:#14b8a6; font-weight:800; }
 .li-chat-slot { display:flex; flex-direction:column; overflow-y:auto; flex:1; }

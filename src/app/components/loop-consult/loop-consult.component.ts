@@ -14,6 +14,15 @@ import { TranslateService } from '@ngx-translate/core';
  * WHO / WHAT / WHERE / WHEN are bolded and visually flagged so both the
  * deterministic engine and a tapped-in AI polish can harness them at a
  * glance for exactly ONE draft — never an A/B menu (the founder's rule).
+ *
+ * 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE: the WHERE and WHEN of the
+ * 4 W's are RECOLLECTIVE — where and under what circumstances the user
+ * FIRST met this person — never appointive. The consult therefore reads
+ * them from the matched deck card's Memory-Joggers (rolodex.where/when)
+ * when the loop maps to a card, and falls back to loop-state timing
+ * (quiet days / parked) only when no recollection exists. The channel
+ * (prospectively "where the send lands") keeps its honest place in the
+ * verdict line — it is no longer dressed up as the WHERE vital.
  * ═════════════════════════════════════════════════════════════════════
  */
 @Component({
@@ -24,6 +33,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class LoopConsultComponent {
   /** The persisted loop under consultation (injected via componentProps). */
   c!: Loop;
+  /** 2026-08-28 BUILD 124: the matched deck card (optional) — carries the
+   *  recollective ground zero (rolodex.where / rolodex.when). */
+  card?: any;
 
   busy = false;
   polishing = false;
@@ -69,6 +81,25 @@ export class LoopConsultComponent {
       case 'voice': return this.tr('loopkeeper.consult.chVoice');
       default: return '';
     }
+  }
+
+  // ── 2026-08-28 BUILD 124 GROUND ZERO (recollective W's) ──────────────
+  /** WHERE the user FIRST met this person — from the deck card's W's. */
+  get whereMet(): string {
+    return String(this.card?.rolodex?.where || '').trim();
+  }
+
+  /** WHEN the user FIRST met this person — circumstances welcome. Legacy
+   *  ISO timestamps (old date-picker values) are softened to a readable
+   *  date; free text like "Mar 2024 · her book launch" shows verbatim. */
+  get whenMet(): string {
+    const raw = String(this.card?.rolodex?.when || '').trim();
+    if (!raw) return '';
+    if (/^\d{4}-\d{2}-\d{2}/.test(raw)) {
+      const d = new Date(raw);
+      if (!isNaN(d.getTime())) return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    return raw;
   }
 
   /** The GP's one-line verdict — matches the loop's real state machine. */

@@ -40,6 +40,11 @@
     border-radius: 9px; padding: 11px;
   }
   .gate .err { color: #ff9d9d; font-size: 12.5px; margin-top: 8px; }
+  /* 2026-08-28 BUILD 124: key row with peek toggle + secondary forget button. */
+  .keyrow { display: flex; gap: 8px; }
+  .keyrow input { flex: 1; }
+  .keyrow #peek { width: 46px; flex: 0 0 46px; padding: 0; background: rgba(255,255,255,.08); color: #b7c0d8; font-weight: 400; }
+  .gate #forget { margin-top: 8px; background: transparent; color: #8b93b0; font-weight: 400; border: 1px solid rgba(255,255,255,.16); }
   table { width: 100%; border-collapse: collapse; margin-top: 6px; }
   th { text-align: left; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #8b93b0; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.1); white-space: nowrap; }
   td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: middle; }
@@ -70,13 +75,24 @@
 <body>
 <div class="wrap">
   <div class="brand"><div class="name">LoopKeeper</div><div class="sub">closed beta · tester roster</div></div>
-  <h1>15 seats — who's in, who's practicing</h1>
+  <h1>15 rewards — who's in, who's practicing</h1>
   <div class="gen" id="gen"></div>
 
+  <!-- 2026-08-28 BUILD 124 MOBILE HARDENING (founder report: first mobile login
+       failed while desktop kept working). There is NO per-device account — the
+       gate is one shared key that works on ANY device. Hardening: the key field
+       now shows what you typed (toggle), mobile keyboards can't mangle it
+       (autocapitalize/autocorrect/spellcheck off), a wrong key is NOT stored,
+       errors say exactly what failed, and a stored key can be forgotten. -->
   <div id="gate" class="gate">
-    <p>Founder key only. Set <b>TESTER_ADMIN_KEY</b> on the droplet, then paste it here. It stays in this browser.</p>
-    <input id="key" type="password" placeholder="roster key" autocomplete="off">
+    <p>Founder key only. It is the same key on every device — desktop, mobile, anywhere. Set <b>TESTER_ADMIN_KEY</b> on the droplet, paste it here.</p>
+    <div class="keyrow">
+      <input id="key" type="password" placeholder="roster key" autocomplete="off"
+        autocapitalize="off" autocorrect="off" spellcheck="false">
+      <button id="peek" type="button" title="Show / hide key">👁</button>
+    </div>
     <button id="go">Open roster</button>
+    <button id="forget" type="button" style="display:none">Forget the key on this device</button>
     <div class="err" id="err"></div>
   </div>
 
@@ -121,20 +137,28 @@
     return isNaN(d) ? String(s) : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   }
 
-  function load() {
+  function load(remember) {
     var err = document.getElementById('err');
     err.textContent = '';
     fetch('/api/loopkeeper/tester/roster?key=' + encodeURIComponent(key), { cache: 'no-store' })
       .then(function (r) {
-        if (r.status === 401) throw new Error('Wrong key (or TESTER_ADMIN_KEY not set on the server).');
-        if (!r.ok) throw new Error('Server error ' + r.status);
+        // 2026-08-28 BUILD 124: distinct, actionable messages. A 401 means the
+        // KEY is off — the same key works on every device (no device accounts).
+        if (r.status === 401) throw new Error('Key rejected (401). Re-type it carefully — it is the SAME key that works on your other devices (or TESTER_ADMIN_KEY is not set on the server).');
+        if (!r.ok) throw new Error('Server error ' + r.status + ' — try again in a moment.');
         return r.json();
       })
-      .then(render)
+      .then(function (data) {
+        // Store only a PROVEN key — a failed attempt never latches.
+        if (remember) { try { localStorage.setItem(KEY_STORE, key); } catch (e) { /* private mode */ } }
+        render(data);
+      })
       .catch(function (e) {
         document.getElementById('gate').style.display = '';
         document.getElementById('roster').style.display = 'none';
-        err.textContent = e.message || 'Could not load roster.';
+        err.textContent = (e && e.message) || 'Could not load the roster — check your connection (use https://zyppar.com/loopkeeper/tester-dashboard.html).';
+        if (navigator.onLine === false) err.textContent = 'You appear to be offline — reconnect and retry.';
+        document.getElementById('forget').style.display = key ? '' : 'none';
       });
   }
 
@@ -143,8 +167,10 @@
     document.getElementById('roster').style.display = '';
     document.getElementById('gen').textContent = 'generated ' + new Date(data.generatedAt).toLocaleString();
     var s = data.summary || {};
+    // 2026-08-28 BUILD 124: drop the hardcoded /15 — the cohort is 20 invites
+    // for 15 rewards (server build 39); a bare count cannot misread as full.
     document.getElementById('chips').innerHTML =
-      '<div class="chip"><div class="v">' + (s.claimed || 0) + '/15</div><div class="k">accepted</div></div>' +
+      '<div class="chip"><div class="v">' + (s.claimed || 0) + '</div><div class="k">accepted</div></div>' +
       '<div class="chip"><div class="v">' + (s.installed || 0) + '</div><div class="k">installed</div></div>' +
       '<div class="chip"><div class="v">' + (s.practicing || 0) + '</div><div class="k">practicing</div></div>' +
       '<div class="chip' + ((s.nudges || 0) > 0 ? ' warn' : '') + '"><div class="v">' + (s.nudges || 0) + '</div><div class="k">need a nudge</div></div>';
@@ -171,19 +197,40 @@
     document.getElementById('rows').innerHTML = rows;
   }
 
+  // 2026-08-28 BUILD 124: store AFTER a successful check, never before —
+  // a mistyped mobile attempt must not latch into localStorage.
   document.getElementById('go').addEventListener('click', function () {
     key = document.getElementById('key').value.trim();
     if (!key) return;
-    localStorage.setItem(KEY_STORE, key);
-    load();
+    load(true);
   });
   document.getElementById('key').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') document.getElementById('go').click();
   });
-  document.getElementById('refresh').addEventListener('click', load);
+  // 2026-08-28 BUILD 124: peek toggle (mobile keyboards hide the dots) and
+  // forget button (drop the stored key from THIS device only).
+  document.getElementById('peek').addEventListener('click', function () {
+    var input = document.getElementById('key');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    input.focus();
+  });
+  document.getElementById('forget').addEventListener('click', function () {
+    try { localStorage.removeItem(KEY_STORE); } catch (e) { /* ignore */ }
+    key = '';
+    document.getElementById('key').value = '';
+    document.getElementById('forget').style.display = 'none';
+    document.getElementById('gate').style.display = '';
+    document.getElementById('roster').style.display = 'none';
+    document.getElementById('key').focus();
+  });
+  document.getElementById('refresh').addEventListener('click', function () { load(false); });
 
-  if (key) { document.getElementById('gate').style.display = 'none'; load(); }
-  setInterval(function () { if (key) load(); }, 60000);
+  if (key) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('forget').style.display = '';
+    load(false);
+  }
+  setInterval(function () { if (key) load(false); }, 60000);
 })();
 </script>
 </body>

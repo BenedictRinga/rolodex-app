@@ -54,7 +54,9 @@
                 <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p class="card-subtitle">{{ contact.organization?.company || 'No Company Info' }}</p>
                 <p class="card-job">{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
-                <ion-icon *ngIf="contact.rolodex?.who" name="people-outline" title="Last Interaction With"></ion-icon>
+                <!-- 2026-08-28 BUILD 124: WHO = who introduced you / who else was
+                     at the first meeting — never a "last interaction" label. -->
+                <ion-icon *ngIf="contact.rolodex?.who" name="people-outline" title="Who introduced you / who else was there"></ion-icon>
                 <span *ngIf="contact.rolodex?.who" class="card-extra">{{ contact.rolodex?.who }}</span>
                 <!-- 2026-08-21 CONFIDANTE R: only on the OPENED card front
                      (contact-surface-modal passes embedded=true), bottom-center. -->
@@ -93,7 +95,9 @@
                   </p>
                   <p *ngIf="contact.rolodex?.when">
                     <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
-                    <strong>Last:</strong> {{ contact.rolodex?.when }}
+                    <!-- 2026-08-28 BUILD 124: rolodex.when is the FIRST meeting
+                         (ground-zero doctrine), not a last-contact stamp. -->
+                    <strong>First met:</strong> {{ contact.rolodex?.when }}
                   </p>
                   <p *ngIf="contact.rolodex?.followUp">
                     <ion-icon name="time-outline" class="detail-icon"></ion-icon>
@@ -505,7 +509,8 @@
       
             <!-- Social Content -->
             <div class="social-content">
-              <p><strong>Last Interaction:</strong> {{ contact.rolodex?.when || 'No Interaction' }}</p>
+              <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
+              <p><strong>First met:</strong> {{ contact.rolodex?.when || 'Not captured yet' }}</p>
               <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
               <!-- Social Profiles -->
               <div class="social-profiles">
@@ -582,7 +587,9 @@
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
+                  <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
+                       it was mislabeled "Last Interaction". True label restored. -->
+                  <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </div>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -606,7 +613,9 @@
                   <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p><strong>Last Interaction:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
+                  <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
+                       it was mislabeled "Last Interaction". True label restored. -->
+                  <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
                 </div>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
@@ -689,7 +698,8 @@
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address Info' }}
             </p>
             <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
-            <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
+            <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
+            <p><strong>First met:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
             <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
       
             <!-- Social Activation (if needed, you can add further social details here) -->
@@ -896,17 +906,22 @@
                   </div>
                   <div class="confidante-context">
 
+                  <!-- 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE: WHERE and WHEN of
+                       the 4 W's are RECOLLECTIVE — where and under what
+                       circumstances you FIRST met — never appointments. WHEN is
+                       free text now (circumstances are words, not timestamps);
+                       appointments live separately in Appointments/Follow-Up. -->
                   <!-- 'when' -->
                   <ion-item>
                     <ion-label position="stacked">When</ion-label>
-                    <ion-datetime formControlName="when" displayFormat="DD MMM YYYY"
-                      placeholder="When did you connect?"></ion-datetime>
+                    <ion-input formControlName="when" type="text"
+                      placeholder="When did you first meet? (e.g. Mar 2024 · her book launch)"></ion-input>
                   </ion-item>
 
                   <!-- 'where' -->
                   <ion-item>
                     <ion-label position="stacked">Where</ion-label>
-                    <ion-input formControlName="where" placeholder="Where did you meet or take note?"></ion-input>
+                    <ion-input formControlName="where" placeholder="Where did you FIRST meet? (e.g. the Lagos showroom)"></ion-input>
                   </ion-item>
 
                   <!-- 'who' -->
@@ -1327,16 +1342,18 @@
                 </div>
               </div>
               <div class="confidante-context">
+              <!-- 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE (same as the other
+                   edit form): WHEN/WHERE recollect the FIRST meeting. -->
               <!-- 'when' -->
               <ion-item>
                 <ion-label position="stacked">When</ion-label>
-                <ion-datetime formControlName="when" displayFormat="DD MMM YYYY" placeholder="When did you connect?"></ion-datetime>
+                <ion-input formControlName="when" type="text" placeholder="When did you first meet? (e.g. Mar 2024 · her book launch)"></ion-input>
               </ion-item>
             
               <!-- 'where' -->
               <ion-item>
                 <ion-label position="stacked">Where</ion-label>
-                <ion-input formControlName="where" placeholder="Where did you meet or take note?"></ion-input>
+                <ion-input formControlName="where" placeholder="Where did you FIRST meet? (e.g. the Lagos showroom)"></ion-input>
               </ion-item>
             
               <!-- 'who' -->
@@ -1653,7 +1670,8 @@
               <ion-icon name="location-outline" class="detail-icon"></ion-icon>
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address' }}
             </p>
-            <p><strong>Last Interaction:</strong> {{ activeContact.rolodex?.when || 'No Interaction' }}</p>
+            <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
+            <p><strong>First met:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
             <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
             <div class="modal-buttons">
               <ion-button fill="outline" (click)="onEditContact(activeContact)" expand="block">

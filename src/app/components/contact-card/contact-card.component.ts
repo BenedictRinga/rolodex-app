@@ -626,7 +626,8 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 2026-08-18 THE CONFIDANTE INTERVIEW: a top-notch secretary asks, the
    *  user answers, the card gets its story. Starts with the question every
-   *  relationship hinges on: when did you last contact this person? */
+   *  relationship hinges on: where and under what circumstances did you
+   *  FIRST meet? (2026-08-28 BUILD 124 ground-zero doctrine.) */
   private askConfidanteQuestion(header: string, placeholder: string, value = ''): Promise<string> {
     return new Promise(async (resolve) => {
       const a = await this.alertCtrl.create({
@@ -644,8 +645,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   async startConfidanteInterview(): Promise<void> {
     const f = this.contactForm;
     if (!f) return;
-    const when = await this.askConfidanteQuestion('When did you last contact this person?', 'e.g. last month, 3 weeks ago');
-    const where = await this.askConfidanteQuestion('Where did you meet?', 'e.g. Nairobi Innovation Week, clinic, a friend\'s party');
+    // 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE: WHEN/WHERE of the 4 W's are
+    // recollective — the FIRST meeting and its circumstances — never
+    // appointments ("next Fri" thinking lives in Appointments/Follow-Up).
+    const when = await this.askConfidanteQuestion('When did you first meet this person?', 'e.g. March 2024 · during her book launch');
+    const where = await this.askConfidanteQuestion('Where did you FIRST meet?', 'e.g. Lagos showroom, Nairobi Innovation Week, a friend\'s party');
     const who = await this.askConfidanteQuestion('Who introduced you, or who else was involved?', 'e.g. Jane, the accelerator lead');
     const why = await this.askConfidanteQuestion('Why do they matter to you?', 'e.g. key business partner, family, old friend');
     const how = await this.askConfidanteQuestion('How did you connect?', 'e.g. conference, referral, school');

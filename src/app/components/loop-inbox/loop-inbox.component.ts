@@ -9,6 +9,10 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { LoopConsultComponent } from '../loop-consult/loop-consult.component';
+// 2026-08-28 BUILD 124: ONE language list for the whole app — the Inbox had
+// drifted to an 11-entry copy (Russian/Hebrew/Spanish/pt-BR missing) and its
+// popover never received the scroll-cap class. See app-languages.ts.
+import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-languages';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
@@ -28,19 +32,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
-  readonly languages: { code: string; label: string }[] = [
-    { code: 'en', label: 'English' },
-    { code: 'sw', label: 'Swahili' },
-    { code: 'am', label: 'Amharic' },
-    { code: 'so', label: 'Somali' },
-    { code: 'ar', label: 'Arabic' },
-    { code: 'ha', label: 'Hausa' },
-    { code: 'fr', label: 'French' },
-    { code: 'zh-cmn-Hans', label: 'Chinese' },
-    { code: 'hi', label: 'Hindi' },
-    { code: 'pt-PT', label: 'Portuguese' },
-    { code: 'de', label: 'German' },
-  ];
+  // 2026-08-28 BUILD 124: shared 15-entry list (was a private 11-entry copy —
+  // the drift that hid Russian/Hebrew/Spanish/Portuguese-Brazil here).
+  readonly languages = APP_LANGUAGES;
+  /** Cap + internally scroll the language popover (same as Settings). */
+  readonly langPopoverOpts = LANG_POPOVER_OPTS;
   currentLang = 'en';
 
   todaysThree: Loop[] = [];
@@ -132,11 +128,13 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** 2026-08-27 THE LOOP CONSULT — apex distilled format (USE_NOW.txt).
    *  One tap = who/what/where/when vitals + verdict + ONE draft. When the
    *  card hands back 'open-row', expand that row so the send machinery
-   *  (the only channel path) is right there with the fresh draft. */
+   *  (the only channel path) is right there with the fresh draft.
+   *  2026-08-28 BUILD 124: the matched deck card rides along so the WHERE /
+   *  WHEN vitals can recollect the FIRST meeting (ground-zero doctrine). */
   async openConsult(l: Loop): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: LoopConsultComponent,
-      componentProps: { c: l },
+      componentProps: { c: l, card: this.cardFor(l) },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.9],
       initialBreakpoint: 0.9,

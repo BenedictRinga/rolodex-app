@@ -3,7 +3,11 @@
   <div class="li-head">
     <strong class="li-title">{{ 'loopkeeper.title' | translate }}</strong>
     <div class="li-head-right">
-      <ion-select [(ngModel)]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover" class="li-lang">
+      <!-- 2026-08-28 BUILD 124: [interfaceOptions] carries the scroll-cap cssClass
+           (settings-lang-popover) — build 121 wired it into Settings only, so
+           this popover clipped at German instead of scrolling to the rest. -->
+      <ion-select [(ngModel)]="currentLang" (ionChange)="setLanguage($event.detail.value)" interface="popover"
+        [interfaceOptions]="langPopoverOpts" class="li-lang">
         <ion-select-option *ngFor="let l of languages" [value]="l.code">{{ l.label }}</ion-select-option>
       </ion-select>
       <ion-button fill="clear" size="small" (click)="requestClose()" appTooltip="Hide inbox">

@@ -28,6 +28,8 @@ import { TimeNormalizerService } from '../../services/time-normalizer/time-norma
 import { ShareAppService } from '../../services/share-app/share-app.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
+// 2026-08-28 BUILD 124: the ONE language list + popover opts (see app-languages.ts).
+import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-languages';
 import { ShareAppModalComponent } from '../share-app-modal/share-app-modal.component';
 import { TranslatePortalComponent } from '../translate-portal/translate-portal.component';
 import { environment } from 'src/environments/environment';
@@ -168,26 +170,10 @@ export class RolodexComponent implements OnInit {
     this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   }
 
-  /** 2026-08-25 SETTINGS LANGUAGE SWITCH — same selector as the Inbox header. */
-  readonly languages: { code: string; label: string }[] = [
-    { code: 'en', label: 'English' },
-    { code: 'sw', label: 'Swahili' },
-    { code: 'am', label: 'Amharic' },
-    { code: 'so', label: 'Somali' },
-    { code: 'ar', label: 'Arabic' },
-    // 2026-08-28 BUILD 120: hand-verified majors that shipped unlisted —
-    // Hebrew, Spanish, Russian, Portuguese-Brazil now join the dropdown.
-    { code: 'he', label: 'Hebrew' },
-    { code: 'ha', label: 'Hausa' },
-    { code: 'fr', label: 'French' },
-    { code: 'es', label: 'Spanish' },
-    { code: 'zh-cmn-Hans', label: 'Chinese' },
-    { code: 'hi', label: 'Hindi' },
-    { code: 'ru', label: 'Russian' },
-    { code: 'pt-PT', label: 'Portuguese' },
-    { code: 'pt-br', label: 'Portuguese (Brazil)' },
-    { code: 'de', label: 'German' },
-  ];
+  /** 2026-08-25 SETTINGS LANGUAGE SWITCH — same selector as the Inbox header.
+   *  2026-08-28 BUILD 124: now imported from app-languages.ts (the ONE list) —
+   *  private copies drifted once already (the Inbox lost 4 languages that way). */
+  readonly languages = APP_LANGUAGES;
   currentLang = 'en';
 
   setLanguage(code: string): void {
@@ -197,8 +183,9 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-28 BUILD 121 SCROLLABLE LANG POPOVER: 15 languages no longer fit
    *  a screenful — cap the popover height so the list scrolls instead of
-   *  clipping Russian/Hebrew/Spanish/Portuguese-Brazil off the bottom. */
-  readonly langPopoverOpts = { cssClass: 'settings-lang-popover' };
+   *  clipping Russian/Hebrew/Spanish/Portuguese-Brazil off the bottom.
+   *  2026-08-28 BUILD 124: opts also shared from app-languages.ts. */
+  readonly langPopoverOpts = LANG_POPOVER_OPTS;
 
   /** 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. */
   async openAiSettings(): Promise<void> {

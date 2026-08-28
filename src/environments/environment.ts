@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 123, // 2026-08-28 FALLBACK REWARD: tester deal gains the approved consolation line (everyone past the first 15 finishers earns 3 months) so a 20-invite cohort can never leave a finisher empty-handed
+  build: 124, // 2026-08-28 GROUND ZERO: the 4 W's of a card are recollective — WHEN/WHERE now mean the FIRST meeting ("Mar 2024 · her book launch"), never an appointment; card labels ("Last Interaction"→"First met"), Confidante interview, consult card WHERE/WHEN, welcome storyboard, tester-dashboard mobile hardening (same key on every device, peek, forget, store-only-on-success)
 };
 
 /*

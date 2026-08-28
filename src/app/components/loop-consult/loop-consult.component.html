@@ -30,14 +30,21 @@
       <b class="lc-v">{{ whatText }}</b>
     </div>
 
+    <!-- 2026-08-28 BUILD 124: WHEN prefers the recollective ground zero
+         (first meeting + circumstances); loop-state timing (quiet days /
+         parked) is the fallback when the deck holds no recollection. -->
     <div class="lc-vital lc-when">
       <span class="lc-k">{{ 'loopkeeper.consult.kWhen' | translate }}</span>
-      <b class="lc-v">{{ whenKey | translate:whenParams }}</b>
+      <b class="lc-v" *ngIf="whenMet">{{ whenMet }}</b>
+      <b class="lc-v" *ngIf="!whenMet">{{ whenKey | translate:whenParams }}</b>
     </div>
 
-    <div class="lc-vital lc-where" *ngIf="whereLabel">
+    <!-- 2026-08-28 BUILD 124: WHERE is now the RECOLLECTIVE first-meeting spot
+         (never the channel — the channel stays in the verdict line). Hidden
+         when the deck has no recollection yet. -->
+    <div class="lc-vital lc-where" *ngIf="whereMet">
       <span class="lc-k">{{ 'loopkeeper.consult.kWhere' | translate }}</span>
-      <b class="lc-v">{{ whereLabel }}</b>
+      <b class="lc-v">{{ whereMet }}</b>
     </div>
 
   </div>
