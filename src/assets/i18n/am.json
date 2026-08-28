@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper መግቢያ",
-    "tab.chat": "ውይይት",
+    "tab.chat": "Assistant",
     "tab.loops": "ቀለበቶች",
     "tab.reminders": "ማስታወሻዎች",
     "capture.placeholder": "አንድ ዓረፍተ ነገር፡ ማን + ምን…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "AI ረዳት",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "ውይይት ደብቅ",
     "chat.placeholder": "ክፍት ቀለበት የት ነው?",
     "chat.writing": "AI ረዳት እየጻፈ ነው…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

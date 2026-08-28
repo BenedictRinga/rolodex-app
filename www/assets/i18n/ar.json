@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "صندوق LoopKeeper",
-    "tab.chat": "الدردشة",
+    "tab.chat": "المساعد",
     "tab.loops": "الحلقات",
     "tab.reminders": "التذكيرات",
     "capture.placeholder": "جملة واحدة: من + ماذا…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "مساعد الذكاء الاصطناعي",
+    "chat.aiAssistant": "المساعد",
     "chat.hideChat": "إخفاء الدردشة",
     "chat.placeholder": "أين الحلقة المفتوحة؟",
     "chat.writing": "المساعد يكتب…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "تصدير ملف",
     "storage.deviceImport": "استيراد ملف",
     "storage.backupTie": "النسخ بالملف هو مسار تبويب الجهاز. السحابة وخادم LoopKeeper لكلٍّ منهما مساره في تبويبه.",
-    "welcome.fourws.emphasis": "كلما عرف أكثر، كتب لك بشكل أفضل."
+    "welcome.fourws.emphasis": "كلما عرف أكثر، كتب لك بشكل أفضل.",
+    "chat.aiTagline": "اجعل الذكاء الاصطناعي يعمل لأجلك…"
   }
 }

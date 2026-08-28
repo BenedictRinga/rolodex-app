@@ -361,7 +361,7 @@ export class ChatWithRolodexModalComponent implements OnInit {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           deviceId: this.rolodexSync.getDeviceId(),
-          deviceName: 'Chat with AI Assistant',
+          deviceName: 'Assistant', // 2026-08-28 BUILD 126: surface renamed from "Chat with AI Assistant"
           // 2026-08-24 PRIVACY: only the AI-gleaned summary is sent to the
           // Investors portal. Raw conversation text stays on this device.
           // 2026-08-28 CLOSED BETA: tester devices add their numeric invite

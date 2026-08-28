@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper 收件箱",
-    "tab.chat": "聊天",
+    "tab.chat": "Assistant",
     "tab.loops": "循环",
     "tab.reminders": "提醒",
     "capture.placeholder": "一句话：谁 + 什么…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "AI 助手",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "隐藏聊天",
     "chat.placeholder": "那个未完成的循环在哪？",
     "chat.writing": "AI 助手正在输入…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper Inbox",
-    "tab.chat": "Chat",
+    "tab.chat": "Asistente",
     "tab.loops": "Loops",
     "tab.reminders": "Reminders",
     "capture.placeholder": "One sentence: who + what…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "AI Assistant",
+    "chat.aiAssistant": "Asistente",
     "chat.hideChat": "Hide chat",
     "chat.placeholder": "Where is that open loop?",
     "chat.writing": "AI Assistant is writing…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Exportar archivo",
     "storage.deviceImport": "Importar archivo",
     "storage.backupTie": "La copia por archivo es el camino de la pestaña Dispositivo. La nube y el servidor LoopKeeper tienen su propio camino en sus pestañas.",
-    "welcome.fourws.emphasis": "Cuanto más sabe, mejor escribe para ti."
+    "welcome.fourws.emphasis": "Cuanto más sabe, mejor escribe para ti.",
+    "chat.aiTagline": "hacer que la IA trabaje para ti…"
   }
 }

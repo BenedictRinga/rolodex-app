@@ -752,16 +752,17 @@
           </div>
         </details>
 
-        <!-- 2026-08-19 THE EXTENDED ROOM: suggestions from Chat with LoopKeeper,
-             locked behind northstar-x2. Also hosts the trial re-open control. -->
+        <!-- 2026-08-28 BUILD 126 RENAME: the surface is "Assistant" now
+             (was Chat with LoopKeeper), locked behind northstar-x2. Also hosts
+             the trial re-open control. -->
         <div class="about-section investors-section investor-x2-section">
           <h3 (click)="promptX2()" class="investors-title">
             <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
             Investor suggestions room
           </h3>
           <p class="investors-hint" *ngIf="!x2Unlocked">
-            A word with a twist. The summaries users send through Chat with
-            LoopKeeper live here.
+            A word with a twist. The summaries users send through the
+            Assistant live here.
           </p>
           <ng-container *ngIf="x2Unlocked">
             <p class="investor-chart-title"><strong>Trial control</strong></p>
@@ -772,7 +773,7 @@
             <details class="inv-details">
               <summary>What users are asking for — and what frustrates them</summary>
               <div class="inv-details-body">
-            <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — Chat with LoopKeeper is the intake.</div>
+            <div *ngIf="feedbackList.length === 0 && !feedbackLoading" class="investor-live-note">No suggestions yet — the Assistant is the intake.</div>
             <div *ngIf="feedbackLoading" class="investor-live-note">Loading suggestions…</div>
             <div class="feedback-card" *ngFor="let f of feedbackList">
               <div class="feedback-summary">{{ f.summary }}</div>

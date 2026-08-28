@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "Caixa LoopKeeper",
-    "tab.chat": "Conversa",
+    "tab.chat": "Assistant",
     "tab.loops": "Loops",
     "tab.reminders": "Lembretes",
     "capture.placeholder": "Uma frase: quem + o quê…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "Assistente de IA",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "Ocultar conversa",
     "chat.placeholder": "Onde está esse loop aberto?",
     "chat.writing": "O assistente de IA está a escrever…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

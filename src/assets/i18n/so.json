@@ -101,7 +101,7 @@
   },
   "loopkeeper": {
     "title": "Sanduuqa LoopKeeper",
-    "tab.chat": "Wadaal",
+    "tab.chat": "Assistant",
     "tab.loops": "Loobiyo",
     "tab.reminders": "Xusuusin",
     "capture.placeholder": "Hal jumlo: yaa + maxay…",
@@ -149,7 +149,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "Kaaliye AI",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "Qari wadaalka",
     "chat.placeholder": "Waa kee loop-ka furan?",
     "chat.writing": "Kaaliyaha AI wuxuu qorayaa…",
@@ -545,6 +545,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

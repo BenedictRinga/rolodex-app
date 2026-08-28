@@ -232,10 +232,18 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** 2026-08-28 BUILD 125: the tap-to-fill pill row is gone — sample sentences
-   *  live only in the rotating placeholder and can never enter the input. The
-   *  isSampleText() guard above stays as the safety net for a user who retypes
-   *  a sample verbatim. */
+  /** 2026-08-28 BUILD 125/126: sample sentences live in the rotating placeholder
+   *  AND in the visual-only pill row — they can never enter the input from a
+   *  tap. The isSampleText() guard above stays as the safety net for a user who
+   *  retypes a sample verbatim. */
+
+  /** 2026-08-28 BUILD 126: Enter captures in the 3-line textarea; Shift+Enter
+   *  keeps its default (a second line of room). */
+  onCaptureEnter(ev: KeyboardEvent): void {
+    if (ev.shiftKey) return;
+    ev.preventDefault();
+    void this.addCapture();
+  }
 
   async addCapture(text?: string): Promise<void> {
     const sentence = (text ?? this.captureInput).trim();

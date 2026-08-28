@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "Boîte LoopKeeper",
-    "tab.chat": "Discussion",
+    "tab.chat": "Assistant",
     "tab.loops": "Boucles",
     "tab.reminders": "Rappels",
     "capture.placeholder": "Une phrase : qui + quoi…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "Assistant IA",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "Masquer la discussion",
     "chat.placeholder": "Où est cette boucle ouverte ?",
     "chat.writing": "L'assistant IA écrit…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Exporter le fichier",
     "storage.deviceImport": "Importer le fichier",
     "storage.backupTie": "La sauvegarde par fichier est la voie de l'onglet Appareil. Le Cloud et le serveur LoopKeeper ont leurs propres voies sur leurs onglets.",
-    "welcome.fourws.emphasis": "Plus il en sait, mieux il écrit pour vous."
+    "welcome.fourws.emphasis": "Plus il en sait, mieux il écrit pour vous.",
+    "chat.aiTagline": "faire travailler l'IA pour vous…"
   }
 }

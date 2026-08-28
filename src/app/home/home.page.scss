@@ -44,6 +44,21 @@ app-rolodex {
   border-radius: 16px 16px 0 0; /* 2026-08-23: continuous radii */
 }
 
+/* 2026-08-28 BUILD 126 (founder): "Assistant" + the promise "making AI work
+   for you…" — the legacy chevron hide button is gone (the tab segment and the
+   inbox close already own show/hide). */
+.lk-chat-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--rolodex-text-secondary, #8a9a94);
+  }
+}
+
 .loopkeeper-chat-thread {
   flex: 1;
   min-height: 140px;
@@ -137,6 +152,14 @@ app-rolodex {
   /* 2026-08-23: keep continuous radii with the chat frame (no corner gaps) */
   border-radius: 0 0 16px 16px;
   overflow: hidden;
+}
+
+/* 2026-08-28 BUILD 126: the ✕ that clears the whole Assistant composer. */
+.loopkeeper-chat-input .chat-clear {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  margin: 0;
+  --color: var(--rolodex-text-secondary, #8a9a94);
 }
 
 .loopkeeper-input {

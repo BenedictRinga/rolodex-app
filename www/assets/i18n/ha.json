@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "Akwatin LoopKeeper",
-    "tab.chat": "Hira",
+    "tab.chat": "Assistant",
     "tab.loops": "Madaukai",
     "tab.reminders": "Tunatarwa",
     "capture.placeholder": "Jumla ɗaya: wa + me…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "Mataimakin AI",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "Boye hira",
     "chat.placeholder": "Ina madaukin da yake buɗe?",
     "chat.writing": "Mataimakin AI yana rubutu…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper-Posteingang",
-    "tab.chat": "Chat",
+    "tab.chat": "Assistent",
     "tab.loops": "Schleifen",
     "tab.reminders": "Erinnerungen",
     "capture.placeholder": "Ein Satz: wer + was…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "KI-Assistent",
+    "chat.aiAssistant": "Assistent",
     "chat.hideChat": "Chat ausblenden",
     "chat.placeholder": "Wo ist diese offene Schleife?",
     "chat.writing": "KI-Assistent schreibt…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Datei exportieren",
     "storage.deviceImport": "Datei importieren",
     "storage.backupTie": "Datei-Backup ist der Weg des Geräte-Tabs. Cloud und LoopKeeper-Server haben ihre eigenen Wege auf ihren Tabs.",
-    "welcome.fourws.emphasis": "Je mehr es weiß, desto besser schreibt es für Sie."
+    "welcome.fourws.emphasis": "Je mehr es weiß, desto besser schreibt es für Sie.",
+    "chat.aiTagline": "KI für Sie arbeiten lassen…"
   }
 }

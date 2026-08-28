@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "Входящие LoopKeeper",
-    "tab.chat": "Чат",
+    "tab.chat": "Ассистент",
     "tab.loops": "Дела",
     "tab.reminders": "Напоминания",
     "capture.placeholder": "Одно предложение: кто + что…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "Что должно быть в напоминании?",
     "reminders.setTitle": "Напоминание поставлено",
     "reminders.setMsg": "«{{note}}» — для {{contact}}.",
-    "chat.aiAssistant": "ИИ-помощник",
+    "chat.aiAssistant": "Ассистент",
     "chat.hideChat": "Скрыть чат",
     "chat.placeholder": "Какое дело осталось открытым?",
     "chat.writing": "ИИ-помощник пишет…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Экспортировать файл",
     "storage.deviceImport": "Импортировать файл",
     "storage.backupTie": "Резервная копия файлом — путь вкладки «Устройство». У Облака и сервера LoopKeeper свои пути на своих вкладках.",
-    "welcome.fourws.emphasis": "Чем больше он знает, тем лучше пишет для вас."
+    "welcome.fourws.emphasis": "Чем больше он знает, тем лучше пишет для вас.",
+    "chat.aiTagline": "заставьте ИИ работать на вас…"
   }
 }

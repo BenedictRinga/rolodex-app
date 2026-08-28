@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper इनबॉक्स",
-    "tab.chat": "चैट",
+    "tab.chat": "Assistant",
     "tab.loops": "लूप्स",
     "tab.reminders": "रिमाइंडर",
     "capture.placeholder": "एक वाक्य: कौन + क्या…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "AI सहायक",
+    "chat.aiAssistant": "Assistant",
     "chat.hideChat": "चैट छिपाएँ",
     "chat.placeholder": "वह खुला लूप कहाँ है?",
     "chat.writing": "AI सहायक लिख रहा है…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Export file",
     "storage.deviceImport": "Import file",
     "storage.backupTie": "File backup is the Device tab's path. Cloud and LoopKeeper Server carry their own paths on their home tabs.",
-    "welcome.fourws.emphasis": "The more it knows, the better it writes for you."
+    "welcome.fourws.emphasis": "The more it knows, the better it writes for you.",
+    "chat.aiTagline": "making AI work for you…"
   }
 }

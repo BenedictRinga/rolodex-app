@@ -1326,6 +1326,11 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-23: no auto-injected message on focus — the placeholder intro
    *  already greets; typing is the user's move. */
 
+  /** 2026-08-28 BUILD 126: the ✕ clears the whole Assistant composer in one tap. */
+  clearRolodexAiInput(): void {
+    this.rolodexAiInput = '';
+  }
+
   /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */
   async sendRolodexAi(): Promise<void> {
     const text = this.rolodexAiInput.trim();

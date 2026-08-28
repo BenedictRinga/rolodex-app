@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "LoopKeeper Inbox",
-    "tab.chat": "Mazungumzo",
+    "tab.chat": "Msaidizi",
     "tab.loops": "Vitanzi",
     "tab.reminders": "Vikumbusho",
     "capture.placeholder": "Sentensi moja: nani + nini…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "What should the reminder say?",
     "reminders.setTitle": "Reminder set",
     "reminders.setMsg": "\"{{note}}\" for {{contact}}.",
-    "chat.aiAssistant": "Msaidizi AI",
+    "chat.aiAssistant": "Msaidizi",
     "chat.hideChat": "Ficha mazungumzo",
     "chat.placeholder": "Kitanzi kipi kiko wazi?",
     "chat.writing": "Msaidizi AI anaandika…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "Hamisha faili",
     "storage.deviceImport": "Ingiza faili",
     "storage.backupTie": "Hifadhi ya faili ni njia ya kichupo cha Kifaa. Wingu na Seva ya LoopKeeper zina njia zao kwenye vichupo vyao.",
-    "welcome.fourws.emphasis": "Kadiri inayojua zaidi, ndivyo inavyokuandikia vizuri zaidi."
+    "welcome.fourws.emphasis": "Kadiri inayojua zaidi, ndivyo inavyokuandikia vizuri zaidi.",
+    "chat.aiTagline": "kuifanya AI ikufanye kazi kwako…"
   }
 }

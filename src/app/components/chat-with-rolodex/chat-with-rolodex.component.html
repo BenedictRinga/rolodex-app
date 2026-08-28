@@ -1,11 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title style="font-size: 15px;">Chat with AI Assistant</ion-title>
+    <!-- 2026-08-28 BUILD 126 (founder): the surface is "Assistant" now and the
+         heading carries the promise "making AI work for you…". The legacy
+         chevron-back close is gone — it duplicated the ✕ beside it. -->
+    <ion-title style="font-size: 15px;">Assistant — making AI work for you…</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -73,7 +71,7 @@
     <div class="chat-composer">
       <ion-input
         [(ngModel)]="input"
-        placeholder="Tell the AI Assistant…"
+        placeholder="Tell the Assistant…"
         (keyup.enter)="send()"
         class="chat-input"
         fill="outline"

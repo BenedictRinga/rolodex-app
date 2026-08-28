@@ -179,7 +179,7 @@
   },
   "loopkeeper": {
     "title": "תיבת LoopKeeper",
-    "tab.chat": "צ׳אט",
+    "tab.chat": "עוזר",
     "tab.loops": "לולאות",
     "tab.reminders": "תזכורות",
     "capture.placeholder": "משפט אחד: מי + מה…",
@@ -227,7 +227,7 @@
     "reminders.writeNoteMsg": "מה תכתבו בתזכורת?",
     "reminders.setTitle": "התזכורת נקבעה",
     "reminders.setMsg": "\"{{note}}\" — ל{{contact}}.",
-    "chat.aiAssistant": "עוזר AI",
+    "chat.aiAssistant": "עוזר",
     "chat.hideChat": "הסתר צ׳אט",
     "chat.placeholder": "איזו לולאה נשארה פתוחה?",
     "chat.writing": "העוזר כותב…",
@@ -623,6 +623,7 @@
     "storage.deviceExport": "ייצוא קובץ",
     "storage.deviceImport": "ייבוא קובץ",
     "storage.backupTie": "גיבוי לקובץ הוא הדרך של כרטיסיית המכשיר. לענן ולשרת LoopKeeper יש דרכים משלהם בכרטיסיות שלהם.",
-    "welcome.fourws.emphasis": "ככל שהוא יודע יותר, הוא כותב לכם טוב יותר."
+    "welcome.fourws.emphasis": "ככל שהוא יודע יותר, הוא כותב לכם טוב יותר.",
+    "chat.aiTagline": "לגרום ל-AI לעבוד בשבילכם…"
   }
 }

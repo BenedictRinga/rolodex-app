@@ -148,10 +148,14 @@
   <app-loop-inbox *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
-      <strong>{{ 'loopkeeper.chat.aiAssistant' | translate }}</strong>
-      <ion-button fill="clear" size="small" (click)="closeRolodexAiChat()" [appTooltip]="'loopkeeper.chat.hideChat' | translate">
-        <ion-icon name="chevron-up-outline"></ion-icon>
-      </ion-button>
+      <!-- 2026-08-28 BUILD 126 (founder): the surface is "Assistant" now, its
+           heading carries the promise "making AI work for you…". The legacy
+           chevron-up hide button is gone — showing/hiding is already served by
+           the tab segment and the inbox close. -->
+      <div class="lk-chat-head-text">
+        <strong>{{ 'loopkeeper.chat.aiAssistant' | translate }}</strong>
+        <span>{{ 'loopkeeper.chat.aiTagline' | translate }}</span>
+      </div>
     </div>
     <div class="loopkeeper-chat-thread" #chatThread>
       <div *ngFor="let m of rolodexAiMessages" class="loopkeeper-msg" [class.user]="m.from === 'user'">
@@ -183,6 +187,12 @@
         fill="outline"
         class="loopkeeper-input"
       ></ion-textarea>
+      <!-- 2026-08-28 BUILD 126: the ✕ clears the whole composer in one tap
+           (visible only when there is text to clear). -->
+      <ion-button *ngIf="rolodexAiInput.trim()" fill="clear" class="chat-clear"
+        (click)="clearRolodexAiInput()" aria-label="Clear message">
+        <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button (click)="sendRolodexAi()" [disabled]="!rolodexAiInput.trim() || rolodexAiBusy">
         <ion-icon name="send-outline"></ion-icon>
       </ion-button>

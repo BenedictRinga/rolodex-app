@@ -28,22 +28,36 @@
   <div *ngIf="tab === 'loops'" class="li-body">
 
     <!-- Capture in one sentence -->
-    <!-- 2026-08-28 BUILD 125 ROTATING PLACEHOLDER (founder): the box cycles
+    <!-- 2026-08-28 BUILD 125/126 ROTATING PLACEHOLDER (founder): the box cycles
          four example sentences as PLACEHOLDERS ONLY — the primary instruction
          holds the largest dwell, then the three samples rotate through as
          complementary / substitute / intermittent whispers. They are never
          tappable, never transfer into the input, never survive the first
          keystroke, and only resume once the box has sat blank for an
-         interval (see composerPlaceholder / tickPh in the component). -->
+         interval (see composerPlaceholder / tickPh in the component).
+         BUILD 126: ion-textarea so the resting box visibly offers ~3 lines
+         (parity with the Assistant composer), Enter captures, Shift+Enter
+         makes room for a second line. -->
     <div class="li-capture">
-      <ion-input
+      <ion-textarea
         [(ngModel)]="captureInput"
         [placeholder]="composerPlaceholder"
-        (keyup.enter)="addCapture()"
-      ></ion-input>
+        auto-grow
+        rows="1"
+        (keydown.enter)="onCaptureEnter($event)"
+      ></ion-textarea>
       <ion-button size="small" (click)="addCapture()" [disabled]="busy || !captureInput.trim()">
         <ion-icon name="add-circle-outline" slot="start"></ion-icon> {{ 'loopkeeper.capture.button' | translate }}
       </ion-button>
+    </div>
+
+    <!-- 2026-08-28 BUILD 126 (founder): the three sample sentences return as a
+         VISUAL-ONLY row — never tappable, nothing transfers into the input.
+         They show the three approaches that undergird the rotating bedrock
+         placeholder above, and act as the upper tether for the
+         "Nothing sitting. Nothing gnawing." fulcrum below. -->
+    <div class="li-samples">
+      <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
     </div>
 
     <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the
