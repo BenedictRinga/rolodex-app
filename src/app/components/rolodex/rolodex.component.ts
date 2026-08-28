@@ -876,7 +876,31 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-16: the Show side of Welcome Again re-runs the demo tour. */
   onShowWelcome() { this.showWelcome.emit(); }
-  onMockDataRepeat() { this.mockDataRepeat.emit(); this.showRegularView(); }
+
+  /** 2026-08-28 BUILD 141 (founder: "instead of showing, it just closes
+   *  Settings"): the old one-liner emitted a BLIND toggle and exited — the
+   *  demo cards live at the END of the deck, so nothing visibly changed and
+   *  tapping Show while the demo was already on silently STOPPED it. Now the
+   *  tap proves itself: it exits to the deck, then scrolls straight to the
+   *  DEMO CONTACTS section (or back home when stopping) and says what it did. */
+  onMockDataRepeat() {
+    const willShow = !this.mockEnabled; // the parent flips it during the emit
+    this.mockDataRepeat.emit();
+    this.showRegularView();
+    setTimeout(() => {
+      if (willShow) {
+        const demo = document.querySelector('.demo-separator')
+          || document.querySelector('app-contact-card'); // demo cards are last in every view mode
+        if (demo) demo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        void this.alertService.showToast('Demo cards are on the deck', 2200);
+      } else {
+        const top = document.querySelector('.rolodex-scroll');
+        if (top) top.scrollTo({ top: 0, behavior: 'smooth' });
+        void this.alertService.showToast('Demo cards removed from the deck', 2200);
+      }
+    }, 420); // after the view switch has rendered
+  }
+
   onCreateContact() { this.createContact.emit(); }
   onToggleTheme(event: any) { this.toggleTheme.emit(event.detail.checked); }
   onToggleNotifications(event: any) { this.toggleNotifications.emit(event.detail.checked); }

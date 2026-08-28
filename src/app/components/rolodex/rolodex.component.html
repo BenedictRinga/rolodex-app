@@ -453,7 +453,10 @@
         <ion-item lines="none" class="elegant-item" id="settings-demo">
           <ion-icon name="list-outline" slot="start" color="primary"></ion-icon>
           <ion-label>{{ 'loopkeeper.settings.demofull' | translate }}</ion-label>
-          <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">Show/Stop</ion-button>
+          <!-- 2026-08-28 BUILD 141: the button tells the truth — it used to be a
+               blind "Show/Stop" toggle, so tapping Show while the demo was
+               already on silently STOPPED it and nothing appeared to happen. -->
+          <ion-button slot="end" fill="clear" (click)="onMockDataRepeat()">{{ mockEnabled ? 'Stop demo' : 'Show demo' }}</ion-button>
         </ion-item>
 
         <!-- <ion-item lines="none" class="elegant-item">

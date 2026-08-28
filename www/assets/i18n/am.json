@@ -188,7 +188,7 @@
     "waitUntil": "እስከ… ይጠብቅ",
     "drop": "ጣል",
     "empty.title": "ምንም አልተንጠለጠለም። ምንም አያሳስብም።",
-    "empty.body": "Start any sentence like those three — the agent digs up context, drafts it, and you decide.",
+    "empty.body": "እነዚህን ሦስት ሐረጎች የሚመስል ማንኛውም ዓረፍተ ነገር ጀምሩ — ኤጀንቱ ዳራውን ያገኛል፣ ረቂሑን ያዘጋጃል፣ ውሳኔው ግን የእርስዎ ነው።",
     "section.todays3": "የዛሬ {{n}}",
     "section.waitingOnYou": "እርስዎን የሚጠብቁ · {{n}}",
     "section.waitingOnThem": "እነርሱን የሚጠብቁ · {{n}}",
