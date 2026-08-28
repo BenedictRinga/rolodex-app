@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 121, // 2026-08-28 SAMPLE GUARD + SCROLLABLE LANG POPOVER: the three capture samples ("Promised Tunde...") now FAIL when present verbatim - no loop, no event, no nudges; tapping a sample prefills the box for editing instead of capturing; language popover (15 entries) caps height and scrolls
+  build: 122, // 2026-08-28 TESTER LINK OG PREVIEW: tester.html carries the full OG/Twitter block (same 1200x630 logo card as the SPA shares) so tester invites no longer share as a bare URL; surface hint wording (WhatsApp, email)
 };
 
 /*
