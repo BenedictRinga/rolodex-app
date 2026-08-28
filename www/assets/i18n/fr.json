@@ -188,7 +188,7 @@
     "waitUntil": "Attendre jusqu'à…",
     "drop": "Abandonner",
     "empty.title": "Rien en suspens. Rien qui pèse.",
-    "empty.body": "Commencez par une phrase comme ces trois-là — l'agent rassemble le contexte, rédige, et vous décidez.",
+    "empty.body": "Commencez par n'importe quelle phrase, comme ces trois-là — l'agent rassemble le contexte, rédige, et vous décidez.",
     "section.todays3": "Aujourd'hui {{n}}",
     "section.waitingOnYou": "En attente de vous · {{n}}",
     "section.waitingOnThem": "En attente d'eux · {{n}}",

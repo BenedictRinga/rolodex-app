@@ -188,7 +188,7 @@
     "waitUntil": "等到…",
     "drop": "放弃",
     "empty.title": "没有悬而未决的事。没有困扰。",
-    "empty.body": "用这样三句话开头 — 助理会整理背景、拟好草稿，由你来决定。",
+    "empty.body": "Start any sentence like those three — the agent digs up context, drafts it, and you decide.",
     "section.todays3": "今日 {{n}}",
     "section.waitingOnYou": "等你处理 · {{n}}",
     "section.waitingOnThem": "等他们回复 · {{n}}",

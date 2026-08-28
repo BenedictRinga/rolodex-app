@@ -188,7 +188,7 @@
     "waitUntil": "Warten bis…",
     "drop": "Verwerfen",
     "empty.title": "Nichts schwebt. Nichts drückt.",
-    "empty.body": "Beginnen Sie mit einem Satz wie diese drei — der Agent sammelt Kontext, schreibt den Entwurf, und Sie entscheiden.",
+    "empty.body": "Beginnen Sie mit einem beliebigen Satz wie diese drei — der Agent sammelt Kontext, schreibt den Entwurf, und Sie entscheiden.",
     "section.todays3": "Heute {{n}}",
     "section.waitingOnYou": "Wartet auf Sie · {{n}}",
     "section.waitingOnThem": "Wartet auf sie · {{n}}",
