@@ -36,6 +36,12 @@ const PRE_RELEASE_RENEWAL = true;
  * 2026-08-16 THE CONFIDANTE v2 — the confidential secretary that PROFfers
  * the message; the user only hits Send.
  *
+ * ⛔ FORBIDDEN LEXICON (2026-08-28, founder — BUILD 132): "Confidante" is an
+ * INTERNAL name only (this service's heritage; the paid plan id). It must
+ * NEVER surface in user-facing copy — the surface is the ASSISTANT. The
+ * aspiration is that USERS come to call LoopKeeper their confidante; we
+ * never say it for them. New strings say "Assistant" (or nothing).
+ *
  * CONTEXT BANGER: the confidante opens every composition with the user's
  * current view context (the filter select) PLUS the contact's rotating
  * context (a rolling, cycle-augmented property capped at the most recent

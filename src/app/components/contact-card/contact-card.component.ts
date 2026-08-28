@@ -710,14 +710,36 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       void this.shareApp.shareViaWhatsApp('chat-message', { from, to: name, text: draft, room }, chosen);
     };
 
+    // 2026-08-28 BUILD 132 COMMS PALETTE: the newly surfaced social handles
+    // (X, Telegram, Snapchat, TikTok) join the send menu. Telegram/X/Snap/
+    // TikTok expose no prefilled web send, so the honest path is: copy the
+    // draft, open their surface, paste. A "Copy draft" button anchors it.
+    // FORBIDDEN LEXICON (2026-08-28, founder): "Confidante" must never appear
+    // in user-facing copy — the surface is the Assistant. The ASPIRATION is
+    // that USERS come to call LoopKeeper their confidante; we never say it.
+    const sp = (contact?.socialProfiles || {}) as Record<string, string>;
+    const clean = (h?: string): string => String(h || '').trim().replace(/^@/, '');
+    const tg = clean(sp['telegram']);
+    const xh = clean(sp['x'] || sp['twitter']);
+    const snap = clean(sp['snapchat']);
+    const tok = clean(sp['tiktok']);
+    const socialButtons = [
+      ...(tg ? [{ text: 'Telegram', handler: () => { this.draftEngine.pushContext(contact, 'Sent via Telegram (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); window.open('https://t.me/' + tg, '_blank', 'noopener'); } }] : []),
+      ...(xh ? [{ text: 'X', handler: () => { this.draftEngine.pushContext(contact, 'Sent via X (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); window.open('https://x.com/' + xh, '_blank', 'noopener'); } }] : []),
+      ...(snap ? [{ text: 'Snapchat', handler: () => { window.open('https://www.snapchat.com/add/' + snap, '_blank', 'noopener'); } }] : []),
+      ...(tok ? [{ text: 'TikTok', handler: () => { window.open('https://www.tiktok.com/@' + tok, '_blank', 'noopener'); } }] : []),
+    ];
+
     void this.alertCtrl
       .create({
-        header: 'Message proffered by your confidante',
+        header: 'Message proffered by your Assistant',
         message: draft,
         buttons: [
           ...(nums.length ? [{ text: 'Send via WhatsApp', handler: () => { void sendWhatsApp(); } }] : []),
           ...(nums.length ? [{ text: 'Send via SMS', handler: () => { void sendSms(); } }] : []),
           ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
+          { text: 'Copy draft', handler: () => { void navigator.clipboard.writeText(draft); return false; } },
+          ...socialButtons,
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },
         ],

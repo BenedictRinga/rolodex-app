@@ -630,6 +630,9 @@
     "act.chat": "Chatear",
     "act.video": "Vídeo",
     "act.call": "Llamar",
-    "consult.tidbits": "Merece mencionarse"
+    "consult.tidbits": "Merece mencionarse",
+    "welcome.loopmotto.emphasis": "Las respuestas sin enviar dejan una pestaña abierta en la mente — la psicología lo llama efecto Zeigarnik. Cierra una y siéntela cerrarse.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "Su @usuario abre su chat — el borrador ya está en el portapapeles, listo para pegar."
   }
 }

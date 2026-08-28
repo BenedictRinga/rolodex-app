@@ -630,6 +630,9 @@
     "act.chat": "Piga soga",
     "act.video": "Video",
     "act.call": "Piga simu",
-    "consult.tidbits": "Yafaa kutajwa"
+    "consult.tidbits": "Yafaa kutajwa",
+    "welcome.loopmotto.emphasis": "Kila jumlo lisilofungwa linafungua kichwa kichwa — saikolojia huiita athari ya Zeigarnik. Funga moja, uhisi kikafunga.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "Jina lao la @hufungua soga yao — rasimu ipo kwenye ubao wako wa kunakili, tayari kubandikwa."
   }
 }

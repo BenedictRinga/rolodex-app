@@ -630,6 +630,9 @@
     "act.chat": "Chat",
     "act.video": "Video",
     "act.call": "Call",
-    "consult.tidbits": "Worth weaving in"
+    "consult.tidbits": "Worth weaving in",
+    "welcome.loopmotto.emphasis": "Unfinished replies hold a tab open in the mind — psychology calls it the Zeigarnik effect. Close one and feel it shut.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "Their @handle opens their chat — the draft is already on your clipboard, ready to paste."
   }
 }

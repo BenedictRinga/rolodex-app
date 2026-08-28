@@ -630,6 +630,9 @@
     "act.chat": "Chatten",
     "act.video": "Video",
     "act.call": "Anrufen",
-    "consult.tidbits": "Gut zu erwähnen"
+    "consult.tidbits": "Gut zu erwähnen",
+    "welcome.loopmotto.emphasis": "Ungeantwortete Nachrichten halten einen Tab im Kopf offen — die Psychologie nennt es den Zeigarnik-Effekt. Schließen Sie einen und spüren Sie das Klicken.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "Der @Name öffnet den Chat — der Entwurf liegt bereits in der Zwischenablage, bereit zum Einfügen."
   }
 }

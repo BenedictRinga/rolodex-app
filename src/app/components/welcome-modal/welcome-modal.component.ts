@@ -73,6 +73,10 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: 'loopkeeper.welcome.loopmotto.kicker',
       title: 'loopkeeper.welcome.loopmotto.title',
       copy: 'loopkeeper.welcome.loopmotto.copy',
+      // 2026-08-28 BUILD 132 THE ZEIGARNIK WHISPER: psychology's honest word
+      // for what open loops do to a mind — and the quiet promise that closing
+      // them is health, relationships, business. Not a lecture. One breath.
+      emphasis: 'loopkeeper.welcome.loopmotto.emphasis',
     },
     {
       id: 'fourws',

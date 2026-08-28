@@ -110,6 +110,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     { id: 'sms', icon: 'phone-portrait-outline', label: 'SMS' },
     { id: 'email', icon: 'mail-outline', label: 'Email' },
     { id: 'linkedin', icon: 'logo-linkedin', label: 'LinkedIn' },
+    // 2026-08-28 BUILD 132: telegram joins — the send flow asks for the
+    // handle if the card never held one, exactly like the other channels.
+    { id: 'telegram', icon: 'paper-plane-outline', label: 'Telegram' },
     { id: 'voice', icon: 'mic-outline', label: 'Voice' },
   ];
   // 2026-08-27 i18n: every user-facing string now flows through the locale
@@ -472,6 +475,25 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
           ? this.tr('loopkeeper.t.liCopiedProfile')
           : this.tr('loopkeeper.t.liCopiedOther'), 3600);
       return;
+    }
+
+    // ═══ TELEGRAM: same honesty as LinkedIn — no prefilled web URL, so ask
+    // for the @handle once (remembered on the loop), draft rides the
+    // clipboard into the chat that opens. ═══
+    if (channel === 'telegram' && !l.handle) {
+      let target = '';
+      const ask = await this.alertCtrl.create({
+        header: this.tr('loopkeeper.t.tgTitle', { person: l.person }),
+        message: this.tr('loopkeeper.t.tgMsg'),
+        inputs: [{ name: 'u', type: 'text', placeholder: '@handle' }],
+        buttons: [
+          { text: this.tr('loopkeeper.t.btnCancel'), role: 'cancel', handler: () => { target = '__cancel__'; return true; } },
+          { text: this.tr('loopkeeper.t.btnSaveSend'), handler: (d: any) => { target = String(d?.u || '').trim(); return !!target; } },
+        ],
+      });
+      await ask.present();
+      if (target === '__cancel__') return;
+      if (target) this.loops.update(l.id, { handle: target }); // remembered for next time
     }
 
     let handle = l.handle || '';

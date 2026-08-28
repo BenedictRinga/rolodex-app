@@ -19,7 +19,7 @@ export type LoopKind =
   | 'social' | 'meeting' | 'birthday' | 'coffee';
 
 export type LoopTone = 'short' | 'honest' | 'light' | 'formal';
-export type LoopChannel = 'whatsapp' | 'sms' | 'email' | 'linkedin' | 'voice';
+export type LoopChannel = 'whatsapp' | 'sms' | 'email' | 'linkedin' | 'telegram' | 'voice'; // 2026-08-28 BUILD 132: telegram joins the palette
 export type LoopStance = 'warm' | 'brief' | 'overdue-apology';
 export type LoopDirection = 'mine' | 'theirs'; // waiting-on-you vs waiting-on-them
 export type LoopStatus = 'open' | 'waiting' | 'closed' | 'dropped';
@@ -704,6 +704,18 @@ No pressure either way — replying here connects you directly.`;
         // Real voice sends go through the RECORDER (component layer). This
         // branch is only ever the outline fallback for the clipboard.
         return { url: undefined, copyText: l.voiceOutline || this.voiceOutline(l), label: 'Voice note' };
+      }
+      case 'telegram': {
+        // 2026-08-28 BUILD 132: Telegram exposes no prefilled-web URL either.
+        // Handle stored (strip a leading @) -> open their chat; draft rides
+        // on the clipboard as always, paste is one long-press away.
+        // No handle -> land on the compose-less profile search instead.
+        const tg = raw.replace(/^@/, '');
+        return {
+          url: tg ? `https://t.me/${tg}` : undefined,
+          copyText: l.draft,
+          label: tg ? 'Telegram' : 'Telegram · add their handle',
+        };
       }
     }
   }

@@ -630,6 +630,9 @@
     "act.chat": "Discuter",
     "act.video": "Vidéo",
     "act.call": "Appeler",
-    "consult.tidbits": "À glisser dans le message"
+    "consult.tidbits": "À glisser dans le message",
+    "welcome.loopmotto.emphasis": "Les messages non envoyés gardent un onglet ouvert dans la tête — la psychologie l'appelle l'effet Zeigarnik. Fermez-en un, sentez-le se refermer.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "Leur @pseudo ouvre la discussion — l'ébauche est déjà dans le presse-papiers, prête à coller."
   }
 }

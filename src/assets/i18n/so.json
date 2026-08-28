@@ -552,6 +552,9 @@
     "act.chat": "Chat",
     "act.video": "Video",
     "act.call": "Call",
-    "consult.tidbits": "Worth weaving in"
+    "consult.tidbits": "Worth weaving in",
+    "welcome.loopmotto.emphasis": "Jawaabaha aan la dirin waxay maskaxda ku furaan meel aan la xirin — sayniska maskaxdu wuxuu u yaqaan Zeigarnik. Mid xir, oo xiritaankiisa ku dareemi.",
+    "t.tgTitle": "Telegram · {{person}}",
+    "t.tgMsg": "@magacoodu wuxuu furaa wadahadalka — qoralka waa clipboard-ka hore, diyaar u ahWareejin."
   }
 }
