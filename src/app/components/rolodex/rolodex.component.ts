@@ -296,9 +296,11 @@ export class RolodexComponent implements OnInit {
       if (!el) return;
       const container = el.closest('.rolodex-scroll') || document.scrollingElement;
       if (!container) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-      const sticky = container.querySelector('.settings-quicknav');
+      // 2026-08-28 BUILD 138: the whole floating unit (Settings label + Home
+      // + quicknav chips) is sticky now — offset by its full height.
+      const sticky = container.querySelector('.settings-float') || container.querySelector('.settings-quicknav');
       const stickyH = sticky ? Math.ceil(sticky.getBoundingClientRect().height) : 0;
-      const offset = stickyH + 16; // sticky row + breathing room
+      const offset = stickyH + 16; // sticky unit + breathing room
       const rect = el.getBoundingClientRect();
       const cRect = container.getBoundingClientRect();
       const top = rect.top - cRect.top + container.scrollTop - offset;

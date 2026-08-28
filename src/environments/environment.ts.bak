@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 138, // 2026-08-28 SETTINGS FLOAT: Settings label + Home icon float with the quicknav as one sticky unit docked for the whole settings scroll - user deep in Settings is never lost and always one tap from home; scrollTo + scroll-margin offset the taller float
+  build: 137, // 2026-08-28 ABOUT I18N + AUTO-CAPS: About prose becomes aboutTxt.* keys hand-translated into Swahili and Somali (38 new keys, i18n x39 at 494 keys/file); all four chat composers auto-capitalize sentence starts (ASCII, caret-safe) - no more painfully pressing CAPS; Assistant/Loops border parity + per-pill orbs (134) retained
 };
 
 /*
