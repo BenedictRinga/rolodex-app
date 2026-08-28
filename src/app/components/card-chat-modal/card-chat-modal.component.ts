@@ -20,6 +20,9 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   /** 2026-08-18 MULTI-WHATSAPP: ALL of the sendee's numbers - the external
    *  delivery asks which one to use when there are several. */
   @Input() sendeePhones: string[] = [];
+  /** 2026-08-28 BUILD 130: PAYLOAD EMBRACE — a loop opened this chat with its
+   *  draft in hand; the composer starts carrying it, ready to send or edit. */
+  @Input() prefill = '';
   draft = '';
   previewUrl = '';
   typingName = '';
@@ -39,6 +42,8 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // 2026-08-28 BUILD 130: the loop's draft lands in the composer, ready.
+    if (this.prefill && !this.draft) this.draft = this.prefill;
     // 2026-08-17 READ RECEIPTS: opening the thread tells the peer I read it.
     this.chatService.markRead(this.thread.key);
     // 2026-08-17 REACTIONS: refresh the open thread when a reaction lands.

@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "Kadiri inayojua zaidi, ndivyo inavyokuandikia vizuri zaidi.",
     "chat.aiTagline": "kuifanya AI ikufanye kazi kwako…",
     "receipt.doneTap": "funga ✓",
-    "celebrate.line": "{{name}} — imemekamilika. {{n}} zimefungwa wiki hii."
+    "celebrate.line": "{{name}} — imemekamilika. {{n}} zimefungwa wiki hii.",
+    "act.chat": "Piga soga",
+    "act.video": "Video",
+    "act.call": "Piga simu"
   }
 }

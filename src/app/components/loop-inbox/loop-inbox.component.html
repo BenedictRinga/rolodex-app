@@ -205,6 +205,20 @@
     <!-- Expanded: CONTEXT PACKET (3) → DRAFT (5) → DECISION (4) -->
     <div *ngIf="selectedId === l.id" class="li-detail">
 
+      <!-- 2026-08-28 BUILD 130: THE LOOP MEETS THE CARD. When the person is on
+           the deck, their card's own comms ride right here: in-app chat (the
+           thread, seeded, carrying the loop's draft), the video embed, and the
+           plain phone call. The nudge opens into the relationship, not just
+           the sentence. -->
+      <div *ngIf="cardFor(l)" class="li-cardstrip">
+        <span class="li-cardstrip-name">{{ cardFor(l)?.name?.display || l.person }}</span>
+        <div class="li-cardstrip-actions">
+          <button class="li-cardchip" (click)="openLoopChat(l); $event.stopPropagation()">💬 {{ 'loopkeeper.act.chat' | translate }}</button>
+          <button class="li-cardchip" (click)="openLoopVideo(l); $event.stopPropagation()">🎥 {{ 'loopkeeper.act.video' | translate }}</button>
+          <button *ngIf="loopPhone(l)" class="li-cardchip" (click)="callContact(l); $event.stopPropagation()">📞 {{ 'loopkeeper.act.call' | translate }}</button>
+        </div>
+      </div>
+
       <div class="li-packet">
         <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}</span></div>
         <!-- F21: name the B side here; both drafts regenerate from it -->

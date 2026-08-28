@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "Cuanto más sabe, mejor escribe para ti.",
     "chat.aiTagline": "hacer que la IA trabaje para ti…",
     "receipt.doneTap": "cerrar ✓",
-    "celebrate.line": "{{name}} — resuelto. {{n}} cerrado(s) esta semana."
+    "celebrate.line": "{{name}} — resuelto. {{n}} cerrado(s) esta semana.",
+    "act.chat": "Chatear",
+    "act.video": "Vídeo",
+    "act.call": "Llamar"
   }
 }

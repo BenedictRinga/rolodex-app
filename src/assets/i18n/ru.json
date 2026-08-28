@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "Чем больше он знает, тем лучше пишет для вас.",
     "chat.aiTagline": "заставьте ИИ работать на вас…",
     "receipt.doneTap": "закрыть ✓",
-    "celebrate.line": "{{name}} — сделано. Закрыто за неделю: {{n}}."
+    "celebrate.line": "{{name}} — сделано. Закрыто за неделю: {{n}}.",
+    "act.chat": "Чат",
+    "act.video": "Видео",
+    "act.call": "Позвонить"
   }
 }

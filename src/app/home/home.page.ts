@@ -582,6 +582,14 @@ export class HomePage implements OnInit, OnDestroy {
     } catch { /* storage unavailable - the in-memory list still works */ }
   }
 
+  /** 2026-08-28 BUILD 130: a loop dispatch wrote into a matched card's rolling
+   *  context (Sent via WhatsApp / voice note / their reply). The Inbox mutated
+   *  the contact object in place; persist the deck so the relationship data
+   *  survives. Fired-and-forgotten for the user, remembered for the app. */
+  onContactsDirty(): void {
+    void this.persistContacts(this.contacts);
+  }
+
   private async readPersistedContacts(): Promise<ContactInfo[] | null> {
     try {
       const parsed = await this.storageService.get<ContactInfo[]>('rolodex_contacts');

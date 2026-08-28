@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "ככל שהוא יודע יותר, הוא כותב לכם טוב יותר.",
     "chat.aiTagline": "לגרום ל-AI לעבוד בשבילכם…",
     "receipt.doneTap": "לסגור ✓",
-    "celebrate.line": "{{name}} — זה נסגר. {{n}} נסגרו השבוע."
+    "celebrate.line": "{{name}} — זה נסגר. {{n}} נסגרו השבוע.",
+    "act.chat": "צ’אט",
+    "act.video": "וידאו",
+    "act.call": "התקשרות"
   }
 }

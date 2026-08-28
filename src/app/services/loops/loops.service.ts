@@ -640,16 +640,22 @@ No pressure either way — replying here connects you directly.`;
     this.analytics.track('loop_closed', { mode: 'dropped' });
   }
 
-  /** One-tap send → receipt. "Sent" ≠ "closed": reply-needed is tracked. */
-  markSent(id: string, channel: LoopChannel, snippet: string, doneMeans: 'reply-needed' | 'closed'): void {
+  /** 2026-08-28 BUILD 130 (founder: ZEITGARNIK RESOLUTION — "fired and
+   *  forgotten, mind free"): SENDING IS THE CLOSE. The moment the user
+   *  dispatches — any channel — the loop closes. No "awaiting reply" limbo
+   *  keeping the mind on a dynamic outside their control. If their reply
+   *  lands, the signal sweep raises a FRESH loop (the next prompt); this one
+   *  rests, silent, with its receipt. */
+  markSent(id: string, channel: LoopChannel, snippet: string, doneMeans?: 'reply-needed' | 'closed'): void {
     const l = this.cache?.find(x => x.id === id);
     if (!l) return;
-    l.receipt = { sentAt: Date.now(), channel, snippet: snippet.slice(0, 160), doneMeans };
+    l.receipt = { sentAt: Date.now(), channel, snippet: snippet.slice(0, 160), doneMeans: 'closed' };
     l.nextNudgeAt = undefined;
-    if (doneMeans === 'closed') { l.status = 'closed'; l.closedAt = Date.now(); }
+    if (l.status !== 'closed') { l.status = 'closed'; l.closedAt = Date.now(); }
     this.touch(l);
     void this.persist();
     this.analytics.track('message_sent');
+    this.analytics.track('loop_closed', { mode: 'sent' });
   }
 
   /** Reply arrived / thing truly done → THE celebration moment. */

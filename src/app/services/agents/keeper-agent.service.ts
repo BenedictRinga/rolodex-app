@@ -115,10 +115,11 @@ export class KeeperAgentService {
   send(loop: Loop): { envelope: AgentEnvelope<boolean>; url?: string; copyText: string; label: string } {
     const channel = (loop.channel || 'sms') as LoopChannel;
     const bundle = this.loops.buildSend(channel, loop);
-    const doneMeans: 'reply-needed' | 'closed' = (loop.kind === 'coffee' || loop.kind === 'social') ? 'closed' : 'reply-needed';
-    this.loops.markSent(loop.id, channel, loop.draft, doneMeans);
+    // 2026-08-28 BUILD 130: SENDING IS THE CLOSE — every dispatch closes its
+    // loop (fired and forgotten); no doneMeans branching anymore.
+    this.loops.markSent(loop.id, channel, loop.draft);
     this.emit('loop:sent', loop.id, 'device');
-    if (doneMeans === 'closed') this.emit('loop:closed', loop.id, 'device');
+    this.emit('loop:closed', loop.id, 'device');
     return {
       envelope: { agent: 'receipt', at: Date.now(), source: 'device', ok: true },
       url: bundle.url, copyText: bundle.copyText, label: bundle.label,

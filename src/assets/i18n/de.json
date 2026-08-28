@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "Je mehr es weiß, desto besser schreibt es für Sie.",
     "chat.aiTagline": "KI für Sie arbeiten lassen…",
     "receipt.doneTap": "abschließen ✓",
-    "celebrate.line": "{{name}} — erledigt. {{n}} diese Woche geschlossen."
+    "celebrate.line": "{{name}} — erledigt. {{n}} diese Woche geschlossen.",
+    "act.chat": "Chatten",
+    "act.video": "Video",
+    "act.call": "Anrufen"
   }
 }

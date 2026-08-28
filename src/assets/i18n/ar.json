@@ -626,6 +626,9 @@
     "welcome.fourws.emphasis": "كلما عرف أكثر، كتب لك بشكل أفضل.",
     "chat.aiTagline": "اجعل الذكاء الاصطناعي يعمل لأجلك…",
     "receipt.doneTap": "إغلاق ✓",
-    "celebrate.line": "{{name}} — انتهى الأمر. تم إغلاق {{n}} هذا الأسبوع."
+    "celebrate.line": "{{name}} — انتهى الأمر. تم إغلاق {{n}} هذا الأسبوع.",
+    "act.chat": "دردشة",
+    "act.video": "فيديو",
+    "act.call": "اتصال"
   }
 }

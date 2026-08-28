@@ -9,6 +9,13 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { LoopConsultComponent } from '../loop-consult/loop-consult.component';
+// 2026-08-28 BUILD 130: the loop meets the card — in-app chat + video embeds
+// that already live on every contact, and the rolling-context writer so a
+// dispatch leaves the relationship richer than it found it.
+import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
+import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
+import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
+import { CardChatService } from '../../services/card-chat/card-chat.service';
 // 2026-08-28 BUILD 124: ONE language list for the whole app — the Inbox had
 // drifted to an 11-entry copy (Russian/Hebrew/Spanish/pt-BR missing) and its
 // popover never received the scroll-cap class. See app-languages.ts.
@@ -29,6 +36,9 @@ import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-langua
 export class LoopInboxComponent implements OnInit, OnDestroy {
   @Input() contacts: any[] = [];
   @Output() closeRequest = new EventEmitter<void>();
+  // 2026-08-28 BUILD 130: dispatch persists the relationship — the inbox
+  // writes the contact's rolling context and asks HomePage to persist the deck.
+  @Output() contactsDirty = new EventEmitter<void>();
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
@@ -165,6 +175,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     private storage: StorageService,
     // 2026-08-27 APEX CONSULT: presents the GP-style distilled card per loop.
     private modalCtrl: ModalController,
+    // 2026-08-28 BUILD 130: card tie-in — the rolling-context writer plus the
+    // card's own chat/video comms, opened straight from a loop.
+    private draftEngine: DraftEngineService,
+    private cardChat: CardChatService,
   ) {
     this.currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   }
@@ -447,9 +461,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       const bundle = this.loops.buildSend('linkedin', l);
       try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* belt-and-suspenders */ }
       window.open(bundle.url!, '_blank', 'noopener');
-      this.loops.markSent(l.id, 'linkedin', l.draft,
-        (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed');
+      this.loops.markSent(l.id, 'linkedin', l.draft);
+      // 2026-08-28 BUILD 130: the LinkedIn handoff closes its loop too —
+      // fired and forgotten; the card's story gains the line.
+      this.noteCard(l, 'Sent via LinkedIn');
       await this.refresh();
+      this.celebrate(l);
       void this.alerts.showToast(
         bundle.label === 'LinkedIn · profile'
           ? this.tr('loopkeeper.t.liCopiedProfile')
@@ -477,17 +494,16 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     }
     const bundle = this.keeper.send(l);
     try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* clipboard denied — url still carries text */ }
-    const doneMeans: 'reply-needed' | 'closed' = (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed';
     if (bundle.url) window.open(bundle.url, '_blank', 'noopener');
+    // 2026-08-28 BUILD 130: SENDING IS THE CLOSE. Dispatch = deed done = mind
+    // free. The loop closes with its receipt, the card's story gains the line,
+    // and the culmination plays — no "awaiting reply" limbo, no anxiety held
+    // on a dynamic outside the user's control. A reply arriving later raises
+    // a FRESH loop (the next autonomous prompt).
+    this.loops.markSent(l.id, channel, l.draft || '');
+    this.noteCard(l, `Sent via ${bundle.label}`);
     await this.refresh();
-    // 2026-08-28 BUILD 129: a send that IS the deed (coffee, social) closes the
-    // loop for real — that earns the culmination overlay, not a toast. A send
-    // that waits on their reply keeps the honest receipt toast.
-    if (doneMeans === 'closed') {
-      this.celebrate(l);
-    } else {
-      void this.alerts.showToast(this.tr('loopkeeper.t.sentOut', { label: bundle.label }), 3400);
-    }
+    this.celebrate(l);
   }
 
   // ═══ 2026-08-27 TIMED CLOSER — the pat on the back ═══════════════════════
@@ -506,12 +522,79 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     }) || null;
   }
 
+  // ═══ 2026-08-28 BUILD 130: THE LOOP MEETS THE CARD ════════════════════════
+  // A nudge is never an orphan prompt — every expanded loop that matches a
+  // deck card shows that card's own comms (in-app chat, video, phone) and
+  // every dispatch writes back into the relationship's rolling context.
+
+  /** Write a line into the matched card's rolling story and ask HomePage to
+   *  persist the deck. Same channel as the card's own follow-ups use. */
+  private noteCard(l: Loop, line: string): void {
+    const card = this.cardFor(l);
+    if (!card) return;
+    this.draftEngine.pushContext(card, `${line} (${new Date().toLocaleDateString()})`);
+    this.contactsDirty.emit();
+  }
+
+  /** The matched card's first phone, if the deck knows one. */
+  loopPhone(l: Loop): string {
+    const card = this.cardFor(l);
+    return card?.phones?.[0]?.number || card?.phone || '';
+  }
+
+  /** In-app chat, straight from the loop — the card's own thread, seeded and
+   *  carrying the loop's draft as the opening composer payload. */
+  async openLoopChat(l: Loop): Promise<void> {
+    const card = this.cardFor(l);
+    if (!card) return;
+    const thread = await this.cardChat.seedThread(card);
+    const modal = await this.modalCtrl.create({
+      component: CardChatModalComponent,
+      componentProps: {
+        thread,
+        sendeePhone: card?.phones?.[0]?.number || '',
+        sendeePhones: (card?.phones || []).map((p: any) => p.number).filter(Boolean),
+        prefill: l.draft || '',
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 1,
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
+  /** WebRTC video call + clip, straight from the loop — the card's own embed. */
+  async openLoopVideo(l: Loop): Promise<void> {
+    const card = this.cardFor(l);
+    if (!card) return;
+    const modal = await this.modalCtrl.create({
+      component: VideoCallModalComponent,
+      componentProps: {
+        contact: card,
+        contactName: card?.name?.display || l.person,
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
+  /** Plain phone call — the most human channel, one tap from the loop. */
+  callContact(l: Loop): void {
+    const phone = this.loopPhone(l);
+    if (phone) window.open(`tel:${phone}`, '_self');
+  }
+
   /** 2026-08-28 BUILD 129: the reply landed — the receipt line becomes the
    *  close tap. This is the step "Mark closed when it lands" always promised
-   *  (t.sentOut) but never offered. The reply-needed loop — the majority kind
-   *  — finally has its way out that is NOT drop. */
+   *  (t.sentOut) but never offered. Kept for legacy open rows that still
+   *  carry a receipt; fresh sends now close on dispatch (build 130). */
   closeFromReceipt(l: Loop): void {
     this.loops.closeFully(l.id);
+    this.noteCard(l, 'Their reply came in');
     void this.refresh();
     this.celebrate(l);
   }
@@ -528,6 +611,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
 
   markThemReplied(l: Loop): void {
     this.loops.closeFully(l.id);
+    // 2026-08-28 BUILD 130: their reply is relationship data — the card learns.
+    this.noteCard(l, 'They replied');
     void this.refresh();
     // 2026-08-28 BUILD 129: the overlay IS the celebration now — one moment,
     // not a toast racing the refresh.
@@ -626,17 +711,13 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     if (nav.canShare?.files && nav.canShare({ files: [file] })) {
       try {
         await nav.share({ files: [file], title: `For ${l.person}` });
-        const doneMeans = (l.kind === 'coffee' || l.kind === 'social') ? 'closed' : 'reply-needed';
-        this.loops.markSent(l.id, 'voice', `Voice note (${clip.seconds}s)`, doneMeans as any);
+        // 2026-08-28 BUILD 130: a voice note DISPATCHED is a loop closed —
+        // fired and forgotten, the card's story gains the line.
+        this.loops.markSent(l.id, 'voice', `Voice note (${clip.seconds}s)`);
+        this.noteCard(l, 'Sent a voice note');
         this.discardClip(l);
         await this.refresh();
-        // 2026-08-28 BUILD 129: a voice note that IS the deed earns the
-        // culmination; one that waits on the reply keeps its toast.
-        if (doneMeans === 'closed') {
-          this.celebrate(l);
-        } else {
-          void this.alerts.showToast(this.tr('loopkeeper.t.voiceSent', { person: l.person }), 3200);
-        }
+        this.celebrate(l);
         return;
       } catch { return; /* user dismissed the share sheet — nothing sent */ }
     }
