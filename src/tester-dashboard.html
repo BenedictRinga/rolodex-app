@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>LoopKeeper — tester roster</title>
+<link rel="icon" href="assets/icon/favicon.png" type="image/png">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 700px at 50% -10%, #131c33 0%, #0a0e1a 55%);
+    color: #e8ecf6; min-height: 100vh; line-height: 1.5; font-size: 14px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 34px 20px 70px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .brand .name { font-weight: 700; font-size: 19px; }
+  .brand .sub { color: #8b93b0; font-size: 13px; }
+  h1 { font-size: 22px; margin: 14px 0 2px; }
+  .gen { color: #6d7590; font-size: 12px; margin-bottom: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+  .chip {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px; padding: 10px 16px; min-width: 110px;
+  }
+  .chip .v { font-size: 22px; font-weight: 700; color: #7ab8ff; }
+  .chip .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8b93b0; }
+  .chip.warn .v { color: #ffb66b; }
+  .gate { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 18px; max-width: 420px; }
+  .gate p { color: #b7c0d8; margin-bottom: 12px; font-size: 13.5px; }
+  .gate input {
+    width: 100%; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.16);
+    border-radius: 9px; color: #e8ecf6; font: inherit; padding: 10px 12px; margin-bottom: 10px;
+  }
+  .gate button {
+    width: 100%; border: 0; cursor: pointer; font: inherit; font-weight: 700;
+    color: #071021; background: linear-gradient(135deg, #7ab8ff, #9db8ff);
+    border-radius: 9px; padding: 11px;
+  }
+  .gate .err { color: #ff9d9d; font-size: 12.5px; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  th { text-align: left; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #8b93b0; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.1); white-space: nowrap; }
+  td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: middle; }
+  tr.nudge td { background: rgba(255,182,107,.07); }
+  .slotno { font-weight: 700; color: #7ab8ff; }
+  .code { font-family: ui-monospace, Menlo, Consolas, monospace; color: #b7c0d8; }
+  .status { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; border-radius: 999px; padding: 3px 10px; }
+  .status.awaiting { background: rgba(255,255,255,.08); color: #8b93b0; }
+  .status.accepted { background: rgba(122,184,255,.15); color: #7ab8ff; }
+  .status.installed { background: rgba(157,255,184,.14); color: #8fe6ab; }
+  .status.practicing { background: rgba(140,255,170,.22); color: #a4f7bb; }
+  .nudgetag { display: inline-block; font-size: 11px; color: #ffb66b; margin-left: 6px; }
+  .grid { display: flex; gap: 3px; }
+  .cell { width: 13px; height: 13px; border-radius: 3px; background: rgba(255,255,255,.07); }
+  .cell.active { background: rgba(122,184,255,.45); }
+  .cell.practiced { background: #6fdc8f; }
+  .nums { color: #b7c0d8; white-space: nowrap; }
+  .nums b { color: #e8ecf6; }
+  .refresh {
+    border: 1px solid rgba(122,184,255,.4); background: transparent; color: #7ab8ff;
+    font: inherit; font-size: 13px; border-radius: 9px; padding: 8px 14px; cursor: pointer; margin-bottom: 14px;
+  }
+  .legend { color: #6d7590; font-size: 12px; margin: 10px 0 0; }
+  .legend .cell { display: inline-block; vertical-align: -2px; margin-right: 4px; }
+  .legend span { margin-right: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><div class="name">LoopKeeper</div><div class="sub">closed beta · tester roster</div></div>
+  <h1>15 seats — who's in, who's practicing</h1>
+  <div class="gen" id="gen"></div>
+
+  <div id="gate" class="gate">
+    <p>Founder key only. Set <b>TESTER_ADMIN_KEY</b> on the droplet, then paste it here. It stays in this browser.</p>
+    <input id="key" type="password" placeholder="roster key" autocomplete="off">
+    <button id="go">Open roster</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div id="roster" style="display:none">
+    <button class="refresh" id="refresh">↻ Refresh</button>
+    <div class="chips" id="chips"></div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Code</th><th>Status</th><th>Accepted</th>
+            <th>Last 14 days</th>
+            <th>Practice</th><th>Loops</th><th>Chat</th><th>Last seen</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="legend">
+      <span><i class="cell practiced"></i> practiced (capture → send → close)</span>
+      <span><i class="cell active"></i> opened app only</span>
+      <span><i class="cell"></i> silent</span>
+    </p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY_STORE = 'loopkeeper_tester_admin_key';
+  var key = localStorage.getItem(KEY_STORE) || '';
+  document.getElementById('key').value = key;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function fmtDay(s) {
+    if (!s) return '—';
+    var d = new Date(s);
+    return isNaN(d) ? String(s) : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  function load() {
+    var err = document.getElementById('err');
+    err.textContent = '';
+    fetch('/api/loopkeeper/tester/roster?key=' + encodeURIComponent(key), { cache: 'no-store' })
+      .then(function (r) {
+        if (r.status === 401) throw new Error('Wrong key (or TESTER_ADMIN_KEY not set on the server).');
+        if (!r.ok) throw new Error('Server error ' + r.status);
+        return r.json();
+      })
+      .then(render)
+      .catch(function (e) {
+        document.getElementById('gate').style.display = '';
+        document.getElementById('roster').style.display = 'none';
+        err.textContent = e.message || 'Could not load roster.';
+      });
+  }
+
+  function render(data) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('roster').style.display = '';
+    document.getElementById('gen').textContent = 'generated ' + new Date(data.generatedAt).toLocaleString();
+    var s = data.summary || {};
+    document.getElementById('chips').innerHTML =
+      '<div class="chip"><div class="v">' + (s.claimed || 0) + '/15</div><div class="k">accepted</div></div>' +
+      '<div class="chip"><div class="v">' + (s.installed || 0) + '</div><div class="k">installed</div></div>' +
+      '<div class="chip"><div class="v">' + (s.practicing || 0) + '</div><div class="k">practicing</div></div>' +
+      '<div class="chip' + ((s.nudges || 0) > 0 ? ' warn' : '') + '"><div class="v">' + (s.nudges || 0) + '</div><div class="k">need a nudge</div></div>';
+
+    var rows = (data.testers || []).map(function (t) {
+      var cells = (t.grid || []).map(function (g) {
+        return '<i class="cell' + (g.practiced ? ' practiced' : g.active ? ' active' : '') + '" title="' + esc(g.day) + '"></i>';
+      }).join('');
+      var statusTag = '<span class="status ' + esc(t.status) + '">' + esc(t.status) + '</span>' +
+        (t.nudge ? '<span class="nudgetag">⚑ ' + (t.nudge === 'install' ? 'never installed' : 'silent ≥3d') + '</span>' : '');
+      return '<tr class="' + (t.nudge ? 'nudge' : '') + '">' +
+        '<td class="slotno">' + t.slot + '</td>' +
+        '<td class="code">' + esc(t.code) + '</td>' +
+        '<td>' + statusTag + '</td>' +
+        '<td class="nums">' + fmtDay(t.acceptedAt) + '</td>' +
+        '<td><div class="grid">' + cells + '</div></td>' +
+        '<td class="nums"><b>' + t.practiceDays + '</b> days</td>' +
+        '<td class="nums"><b>' + t.totals.captures + '</b> cap · <b>' + t.totals.sends + '</b> sent · <b>' + t.totals.closes + '</b> closed' +
+          (t.totals.videos ? ' · <b>' + t.totals.videos + '</b> 🎥' : '') + '</td>' +
+        '<td class="nums"><b>' + t.totals.confidante + '</b> msgs' + (t.feedbackNotes ? ' · <b>' + t.feedbackNotes + '</b> notes' : '') + '</td>' +
+        '<td class="nums">' + (t.lastSeenDay ? esc(t.lastSeenDay) + (t.daysSinceLastSeen ? ' (' + t.daysSinceLastSeen + 'd ago)' : ' (today)') : '—') + '</td>' +
+        '</tr>';
+    }).join('');
+    document.getElementById('rows').innerHTML = rows;
+  }
+
+  document.getElementById('go').addEventListener('click', function () {
+    key = document.getElementById('key').value.trim();
+    if (!key) return;
+    localStorage.setItem(KEY_STORE, key);
+    load();
+  });
+  document.getElementById('key').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('go').click();
+  });
+  document.getElementById('refresh').addEventListener('click', load);
+
+  if (key) { document.getElementById('gate').style.display = 'none'; load(); }
+  setInterval(function () { if (key) load(); }, 60000);
+})();
+</script>
+</body>
+</html>

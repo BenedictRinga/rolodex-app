@@ -188,6 +188,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
         return;
       }
       const loop = envelope.output;
+      // 2026-08-28 CLOSED BETA: the daily habit starts with a capture — track
+      // it (tester devices carry their numeric code automatically).
+      this.analytics.track('loop_captured');
       this.captureInput = '';
       this.selectedId = loop.id;
       await this.refresh();

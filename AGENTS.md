@@ -83,8 +83,9 @@ across all of these, or the Confidante will answer from stale facts.
   `POST /api/rolodex/analytics/events`, consent key
   `loopkeeper_analytics_enabled` (default ON, toggle in Settings → Privacy).
 - Track meaningful actions: `app_launch`, `session_start/end` (duration),
-  `card_added`, `card_edited`, `card_removed`, `message_sent`, `loop_closed`,
-  `invite_created`, `billing_started`, `billing_succeeded`, `video_clip_sent`.
+  `card_added`, `card_edited`, `card_removed`, `loop_captured`, `message_sent`,
+  `loop_closed`, `confidante_message`, `feedback_sent`, `invite_created`,
+  `billing_started`, `billing_succeeded`, `video_clip_sent`.
 - Investors portal (`about-rolodex.component.html`) renders the backend
   analytics summary: DAU/WAU/MAU, sessions, avg session, retention cohorts,
   activation, top events. Keep the portal fields in sync with
@@ -92,6 +93,20 @@ across all of these, or the Confidante will answer from stale facts.
 - Self-report fields (build 77+): `visitNumber`, `isReturning`,
   `daysSinceFirstUse`, `totalTimeSpentSeconds` are computed locally and sent
   as numeric props — never as identities.
+
+## Closed-beta tester system (build 119+)
+- Deeplink invite: **`src/tester.html`** → deployed at `/loopkeeper/tester.html?t=<6-digit code>`;
+  Accept → `POST /api/loopkeeper/tester/accept` (server build 36+, rolodex-server).
+- Founder console: **`src/tester-dashboard.html`** (same-origin, key-gated by
+  `TESTER_ADMIN_KEY` env on the server). Both pages ship via the
+  `tester*.html` glob in angular.json assets (both build configs).
+- App side: analytics service absorbs `?t=` once (stored
+  `loopkeeper_tester_id`), then tags EVERY analytics event with the numeric
+  `testerId` prop; feedback POST carries the same number. Numeric code only —
+  never a name/phone/email. Server rolls events into `TesterDay` and the
+  roster reports accept/install/practice/nudge states.
+- Keep tester facts (reward: 6 months paid Assistant for first 15 finishers)
+  mirrored in `rolodex-server/src/chat-directive.js` if they change.
 
 ## NetworkService — quiet background fetches (build 77+)
 - **`src/app/services/network/network.service.ts`** — `safeFetch()` returns

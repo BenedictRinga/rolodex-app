@@ -3,6 +3,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { RolodexSyncService } from '../../services/rolodex-sync/rolodex-sync.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { ContactInfo } from '../../models/contacts';
@@ -71,6 +72,8 @@ export class ChatWithRolodexModalComponent implements OnInit {
     private readonly draftEngine: DraftEngineService,
     private readonly storage: StorageService,
     private readonly translate: TranslateService,
+    // 2026-08-28 CLOSED BETA: confidante/feedback usage lands in the roster.
+    private readonly analytics: AnalyticsService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -138,6 +141,9 @@ export class ChatWithRolodexModalComponent implements OnInit {
     this.messages.push({ from: 'user', text });
     this.history.push({ role: 'user', content: text });
     this.userMessageCount++;
+    // 2026-08-28 CLOSED BETA: Confidante usage is a compliance signal for the
+    // tester roster (numeric code attached automatically for tester devices).
+    this.analytics.track('confidante_message');
     this.thinking = true;
 
     void (async () => {
@@ -349,10 +355,14 @@ export class ChatWithRolodexModalComponent implements OnInit {
           deviceName: 'Chat with AI Assistant',
           // 2026-08-24 PRIVACY: only the AI-gleaned summary is sent to the
           // Investors portal. Raw conversation text stays on this device.
+          // 2026-08-28 CLOSED BETA: tester devices add their numeric invite
+          // code so the founder knows whose direction this is.
+          testerId: this.analytics.getTesterId() || undefined,
           summary,
         }),
       });
       if (res.ok) {
+        this.analytics.track('feedback_sent');
         await this.alerts.showToast('Thank you — your suggestion is in the investors’ room.', 3500);
       } else {
         await this.alerts.showToast('Could not send the suggestion — it stayed on this device.', 3000);

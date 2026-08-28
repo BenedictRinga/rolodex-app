@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 118, // 2026-08-27 STORAGE BEHIND AN ICON (founder): storage panel (tabs+panes) collapses behind a top-right storage icon - LoopKeeper Inbox becomes first panel; CLOUD | DEVICE | SERVER order, DEVICE middle; Settings > Cloud Sync opens panel temporarily; storage.toggle key x 39 locales
+  build: 119, // 2026-08-28 TESTER RECRUITING (founder): deeplink tester.html + dashboard shipped as static assets; app absorbs ?t=<6-digit code> and tags every analytics event with the numeric testerId; new events loop_captured + confidante_message + feedback_sent; feedback POST carries testerId
 };
 
 /*
