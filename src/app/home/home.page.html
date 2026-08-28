@@ -148,14 +148,11 @@
   <app-loop-inbox *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
-      <!-- 2026-08-28 BUILD 126 (founder): the surface is "Assistant" now, its
-           heading carries the promise "making AI work for you…". The legacy
-           chevron-up hide button is gone — showing/hiding is already served by
-           the tab segment and the inbox close. -->
-      <div class="lk-chat-head-text">
-        <strong>{{ 'loopkeeper.chat.aiAssistant' | translate }}</strong>
-        <span>{{ 'loopkeeper.chat.aiTagline' | translate }}</span>
-      </div>
+      <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
+           the tab already says it. The head carries only the promise
+           "making AI work for you…". The legacy chevron-up hide button is gone
+           (tab segment + inbox close own show/hide). -->
+      <span class="lk-chat-head-tagline">{{ 'loopkeeper.chat.aiTagline' | translate }}</span>
     </div>
     <div class="loopkeeper-chat-thread" #chatThread>
       <div *ngFor="let m of rolodexAiMessages" class="loopkeeper-msg" [class.user]="m.from === 'user'">

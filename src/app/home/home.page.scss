@@ -44,19 +44,15 @@ app-rolodex {
   border-radius: 16px 16px 0 0; /* 2026-08-23: continuous radii */
 }
 
-/* 2026-08-28 BUILD 126 (founder): "Assistant" + the promise "making AI work
-   for you…" — the legacy chevron hide button is gone (the tab segment and the
-   inbox close already own show/hide). */
-.lk-chat-head-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-
-  span {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--rolodex-text-secondary, #8a9a94);
-  }
+/* 2026-08-28 BUILD 127 (founder): the head carries only the promise
+   "making AI work for you…" — no "Assistant" repeat (the tab already names
+   it). The legacy chevron hide button is gone (tab segment + inbox close own
+   show/hide). */
+.lk-chat-head-tagline {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--rolodex-primary, #4f6df5);
 }
 
 .loopkeeper-chat-thread {

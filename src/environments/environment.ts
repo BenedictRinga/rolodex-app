@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 126, // 2026-08-28 SUBLIMINAL BEDROCK II: visual-only sample pills return (upper tether for the fulcrum), Loops capture is a 3-line textarea with Enter-to-capture, clear-X added to the projected Assistant composer (modals already had it), surface renamed Chat -> Assistant ("making AI work for you..."), legacy chevrons dropped, i18n x39: softened build 124's interrogation — rotating capture placeholders (tap-to-fill pills gone, primary holds the larger dwell), plain "When/Where did you meet?" with whispering hints, first-letter-bolded W labels + commentary, empty-state heft, welcome secretary-emphasis, 👁 on every password alert, ✕ clears chat composers, i18n ×39
+  build: 127, // 2026-08-28 SUBLIMINAL BEDROCK III: visual-only sample pills return (upper tether for the fulcrum), Loops capture is a 3-line textarea with Enter-to-capture, clear-X added to the projected Assistant composer (modals already had it), surface renamed Chat -> Assistant ("making AI work for you..."), legacy chevrons dropped, i18n x39: softened build 124's interrogation — rotating capture placeholders (tap-to-fill pills gone, primary holds the larger dwell), plain "When/Where did you meet?" with whispering hints, first-letter-bolded W labels + commentary, empty-state heft, welcome secretary-emphasis, 👁 on every password alert, ✕ clears chat composers, i18n ×39
 };
 
 /*

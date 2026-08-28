@@ -27,6 +27,20 @@
   <!-- ═══════════ LOOPS TAB ═══════════ -->
   <div *ngIf="tab === 'loops'" class="li-body">
 
+    <!-- 2026-08-28 BUILD 127 (founder): the Loops tab now reads pills →
+         fulcrum → input. The three sample sentences (visual only) tether the
+         "Nothing sitting. Nothing gnawing." fulcrum, and the capture box sits
+         BELOW it — the eye travels examples → promise → the place to act. -->
+    <div class="li-samples">
+      <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
+    </div>
+
+    <!-- Empty state → first-session win (the fulcrum, now between pills and input) -->
+    <div *ngIf="!todaysThree.length && !mine.length" class="li-empty">
+      <div class="li-empty-big">{{ 'loopkeeper.empty.title' | translate }}</div>
+      <p>{{ 'loopkeeper.empty.body' | translate }}</p>
+    </div>
+
     <!-- Capture in one sentence -->
     <!-- 2026-08-28 BUILD 125/126 ROTATING PLACEHOLDER (founder): the box cycles
          four example sentences as PLACEHOLDERS ONLY — the primary instruction
@@ -37,27 +51,25 @@
          interval (see composerPlaceholder / tickPh in the component).
          BUILD 126: ion-textarea so the resting box visibly offers ~3 lines
          (parity with the Assistant composer), Enter captures, Shift+Enter
-         makes room for a second line. -->
+         makes room for a second line.
+         BUILD 127: fill="outline" + a radius that echoes the round add-icon
+         LOOP button (no more boxy gray slab), and the ✕ clear-all. -->
     <div class="li-capture">
       <ion-textarea
         [(ngModel)]="captureInput"
         [placeholder]="composerPlaceholder"
         auto-grow
         rows="1"
+        fill="outline"
         (keydown.enter)="onCaptureEnter($event)"
       ></ion-textarea>
+      <ion-button *ngIf="captureInput.trim()" fill="clear" class="chat-clear"
+        (click)="clearCapture()" aria-label="Clear sentence">
+        <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button size="small" (click)="addCapture()" [disabled]="busy || !captureInput.trim()">
         <ion-icon name="add-circle-outline" slot="start"></ion-icon> {{ 'loopkeeper.capture.button' | translate }}
       </ion-button>
-    </div>
-
-    <!-- 2026-08-28 BUILD 126 (founder): the three sample sentences return as a
-         VISUAL-ONLY row — never tappable, nothing transfers into the input.
-         They show the three approaches that undergird the rotating bedrock
-         placeholder above, and act as the upper tether for the
-         "Nothing sitting. Nothing gnawing." fulcrum below. -->
-    <div class="li-samples">
-      <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
     </div>
 
     <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the
@@ -88,11 +100,8 @@
       </ng-container>
     </div>
 
-    <!-- Empty state → first-session win -->
-    <div *ngIf="!todaysThree.length && !mine.length" class="li-empty">
-      <div class="li-empty-big">{{ 'loopkeeper.empty.title' | translate }}</div>
-      <p>{{ 'loopkeeper.empty.body' | translate }}</p>
-    </div>
+    <!-- 2026-08-28 BUILD 127: the fulcrum moved UP — it now sits between the
+         sample pills and the capture box (first-session order of the eye). -->
 
     <!-- Waiting on THEM (17) — no guilt nudges here -->
     <div class="li-section" *ngIf="theirs.length">

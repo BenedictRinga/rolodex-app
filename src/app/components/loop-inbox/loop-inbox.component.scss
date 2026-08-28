@@ -10,13 +10,15 @@
 .li-badge { background:#14b8a6; color:#04201c; border-radius:999px; padding:0 6px; font-size:10px; font-weight:700; }
 .li-body { overflow-y:auto; padding:8px 10px 12px; flex:1; }
 .li-capture { display:flex; gap:6px; align-items:center;
-  /* 2026-08-28 BUILD 126: ion-textarea — the resting box visibly offers ~3
-     lines of input (parity with the Assistant composer), then auto-grows. */
-  ion-textarea { --background:rgba(128,128,128,.12); border-radius:10px; padding:8px 10px; font-size:13px; min-height:74px; } }
-/* 2026-08-28 BUILD 126 (founder): the three approaches return as a VISUAL-ONLY
-   row — no tap, no transfer. They undergird the rotating bedrock placeholder
-   above and act as the upper tether for the fulcrum below. */
-.li-samples { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  /* 2026-08-28 BUILD 127 (founder): fill="outline" + a 16px radius that
+     echoes the round add-icon LOOP button — no more boxy gray MS-DOS slab.
+     The resting box still visibly offers ~3 lines, then auto-grows. */
+  ion-textarea { --border-radius:16px; --border-width:1px; --border-color:var(--rolodex-border-light, rgba(128,128,128,.35)); --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
+/* 2026-08-28 BUILD 127: the ✕ that clears the whole capture box. */
+.li-capture .chat-clear { --padding-start:4px; --padding-end:4px; margin:0; --color:var(--rolodex-text-secondary, #8a9a94); }
+/* 2026-08-28 BUILD 127: pills now lead the tab — the visual tether ABOVE the
+   fulcrum. No tap, no transfer; they undergird the rotating placeholder. */
+.li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
 .li-sample { font-size:11px; opacity:.65; border:1px dashed rgba(128,128,128,.4); border-radius:999px; padding:2px 8px; cursor:default; }
 .li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; }
 .li-section { margin-top:14px; }

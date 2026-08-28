@@ -245,6 +245,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     void this.addCapture();
   }
 
+  /** 2026-08-28 BUILD 127: the ✕ clears the whole capture box in one tap. */
+  clearCapture(): void {
+    this.captureInput = '';
+  }
+
   async addCapture(text?: string): Promise<void> {
     const sentence = (text ?? this.captureInput).trim();
     if (!sentence || this.busy) return;
