@@ -34,6 +34,8 @@ import { StorageService } from '../services/storage/storage.service';
 import { AnalyticsService } from '../services/analytics/analytics.service';
 import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
 import { environment } from 'src/environments/environment';
+// 2026-08-28 BUILD 125: view on/off for every password/passphrase alert input.
+import { attachPasswordPeek } from '../services/alerts/alert-peek';
 
 
 @Component({
@@ -871,6 +873,7 @@ export class HomePage implements OnInit, OnDestroy {
         },
       ],
     });
+    attachPasswordPeek(alert); // 2026-08-28 BUILD 125: view on/off
     await alert.present();
   }
 
@@ -977,7 +980,7 @@ export class HomePage implements OnInit, OnDestroy {
           { text: 'Cancel', role: 'cancel', handler: () => resolve(null) },
           { text: 'OK', handler: (data: any) => resolve(data.passphrase ?? null) },
         ],
-      }).then(alert => alert.present());
+      }).then(alert => { attachPasswordPeek(alert); alert.present(); }); // BUILD 125: view on/off
     });
   }
 
@@ -1130,6 +1133,7 @@ export class HomePage implements OnInit, OnDestroy {
           },
         ],
       });
+      attachPasswordPeek(alert); // 2026-08-28 BUILD 125: view on/off
       await alert.present();
     } catch { /* lock is best-effort */ }
   }

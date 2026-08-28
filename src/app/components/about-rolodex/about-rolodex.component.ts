@@ -1,6 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
+// 2026-08-28 BUILD 125: view on/off for password alert inputs.
+import { attachPasswordPeek } from '../../services/alerts/alert-peek';
 import { UsersApiService } from '../../services/users-api/users-api.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
@@ -260,6 +262,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
         },
       ],
     });
+    attachPasswordPeek(alert); // 2026-08-28 BUILD 125: view on/off
     await alert.present();
   }
 
@@ -356,6 +359,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
         },
       ],
     });
+    attachPasswordPeek(alert); // 2026-08-28 BUILD 125: view on/off
     await alert.present();
   }
 

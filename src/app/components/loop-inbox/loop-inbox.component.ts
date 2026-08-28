@@ -100,6 +100,40 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     'loopkeeper.capture.sample2',
     'loopkeeper.capture.sample3',
   ];
+  // ── 2026-08-28 BUILD 125 ROTATING PLACEHOLDER (founder) ────────────────────
+  // The capture placeholder cycles: the primary instruction holds the LARGER
+  // dwell (two ticks), then the three samples pass through as complementary /
+  // substitute / intermittent whispers (one tick each). Placeholders are
+  // display-only — no tap path can move them into the input, they never
+  // survive the first keystroke, and rotation only resumes after the box has
+  // REMAINED blank for a full quiet interval.
+  private static readonly PH_TICK_MS = 3500;
+  private phTimer: ReturnType<typeof setInterval> | null = null;
+  private phIdx = 0;        // current slot in the sequence
+  private phHold = 0;       // ticks served in the current slot
+  private phQuiet = 0;      // blank intervals since the box last emptied
+  private get phSequence(): string[] {
+    return ['loopkeeper.capture.placeholder', ...this.sampleCaptureKeys];
+  }
+  get composerPlaceholder(): string {
+    return this.tr(this.phSequence[this.phIdx]);
+  }
+  private startPhRotation(): void {
+    if (this.phTimer) return;
+    this.phTimer = setInterval(() => this.tickPh(), LoopInboxComponent.PH_TICK_MS);
+  }
+  private tickPh(): void {
+    // Non-blank box: the placeholder is hidden natively; freeze and forget
+    // the quiet count so resumption always costs one full blank interval.
+    if (this.captureInput.trim()) { this.phQuiet = 0; return; }
+    this.phQuiet++;
+    if (this.phQuiet === 1) return; // just (re)blanked — sit quiet one interval
+    const holds = this.phIdx === 0 ? 2 : 1; // primary keeps the larger slot
+    this.phHold++;
+    if (this.phHold < holds) return;
+    this.phHold = 0;
+    this.phIdx = (this.phIdx + 1) % this.phSequence.length;
+  }
   readonly dropReasonKeys = [
     'loopkeeper.drop.reason1',
     'loopkeeper.drop.reason2',
@@ -157,6 +191,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
+    this.startPhRotation();
     // F11/F12: sweep the deck silently — owed replies + stale promises become
     // loops BEFORE the lists paint. No toast unless something was created.
     if (this.contacts?.length) void this.keeper.scanInboxSignals(this.contacts);
@@ -196,10 +232,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Tapping a sample fills the capture box for editing — it never captures. */
-  prefillSample(key: string): void {
-    this.captureInput = this.tr(key);
-  }
+  /** 2026-08-28 BUILD 125: the tap-to-fill pill row is gone — sample sentences
+   *  live only in the rotating placeholder and can never enter the input. The
+   *  isSampleText() guard above stays as the safety net for a user who retypes
+   *  a sample verbatim. */
 
   async addCapture(text?: string): Promise<void> {
     const sentence = (text ?? this.captureInput).trim();
@@ -527,6 +563,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // 2026-08-28 BUILD 125: stop the placeholder rotation with the tab.
+    if (this.phTimer) { clearInterval(this.phTimer); this.phTimer = null; }
     // Mid-recording navigation: stop cleanly, release the mic, drop the take.
     if (this.recordingFor) this.cancelRecording();
     this.recStream?.getTracks().forEach(t => t.stop());

@@ -146,6 +146,14 @@
   border-top: 1px solid var(--rolodex-border-light);
 }
 
+/* 2026-08-28 BUILD 125: the ✕ that clears the whole composer. */
+.chat-clear {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  margin: 0;
+  --color: var(--rolodex-text-secondary, #8a9a94);
+}
+
 .chat-input {
   flex: 1;
   --padding-start: 12px;

@@ -188,7 +188,7 @@
     "waitUntil": "Subiri hadi…",
     "drop": "Achana",
     "empty.title": "Hakuna kinachosubiri. Hakuna kinachosumbua.",
-    "empty.body": "Nasa sentensi moja hapo juu — wakala huchota muktadha, huandaa, na wewe uamue.",
+    "empty.body": "Anza kwa sentensi kama iliyo hapo juu — wakala huchota muktadha, huandaa, na wewe uamue.",
     "section.todays3": "Leo {{n}}",
     "section.waitingOnYou": "Inakusubiri wewe · {{n}}",
     "section.waitingOnThem": "Inasubiri wao · {{n}}",
@@ -436,7 +436,7 @@
     "welcome.loopmotto.copy": "Kila jibu ulilokosa linaanza vivyo hivyo: “nimekuwa nikimaanisha.” LoopKeeper inanasa wazo hilo kabla halijapoa — inasoma muktadha wa kina, inakuonyesha mtu unayedaiwa, na kukupa maneno wakati bado ni moto. Mzunguko unafungwa kabla moto haujazimia.",
     "welcome.fourws.kicker": "03 · Nani-Nini-Wapi-Lini",
     "welcome.fourws.title": "Muktadha wa kina",
-    "welcome.fourws.copy": "Nani, Nini, Wapi, Lini — hadithi nyuma ya kila kadi, taarifa inayowezesha yote yanayofuata: ukumbusho, ishara, rasimu.",
+    "welcome.fourws.copy": "Nani, Nini, Wapi, Lini — hadithi nyuma ya kila kadi. Makarani bora daima walijua: kufahamu nyuma ya mahusiano na biashara ndiyo kunafanya kila ukumbusho, ishara na rasimu kufika sawa.",
     "welcome.followup.kicker": "04 · Mzunguko",
     "welcome.followup.title": "Injini ya ukumbusho",
     "welcome.followup.copy": "Inasoma muktadha wa kina na kupanga ukumbusho uliokuwa ukimaanisha kufanya, ukionyesha anayekudeni jibu — mizunguko midogo inanaswa kabla haijapoa.",
@@ -485,7 +485,7 @@
     "welcome.st.wWhat": "Nini",
     "welcome.st.wWhatTxt": "Mavazi — fursa ya ushirikiano",
     "welcome.st.wWhere": "Wapi",
-    "welcome.st.wWhereTxt": "Tulikutana mara ya kwanza kwenye onyesho la Lagos",
+    "welcome.st.wWhereTxt": "Tulikutana kwenye onyesho la Lagos",
     "welcome.st.wWhen": "Lini",
     "welcome.st.wWhenTxt": "Machi 2024 · Lagos Fashion Week",
     "welcome.st.wFoot": "Msaidizi anasoma hadithi, anaandika maneno, akakabidhi kwako",
@@ -622,6 +622,7 @@
     "storage.deviceNote": "Faili la .rolodex unalolitunza wewe — hakuna kitu kinachopakiwa.",
     "storage.deviceExport": "Hamisha faili",
     "storage.deviceImport": "Ingiza faili",
-    "storage.backupTie": "Hifadhi ya faili ni njia ya kichupo cha Kifaa. Wingu na Seva ya LoopKeeper zina njia zao kwenye vichupo vyao."
+    "storage.backupTie": "Hifadhi ya faili ni njia ya kichupo cha Kifaa. Wingu na Seva ya LoopKeeper zina njia zao kwenye vichupo vyao.",
+    "welcome.fourws.emphasis": "Kadiri inayojua zaidi, ndivyo inavyokuandikia vizuri zaidi."
   }
 }

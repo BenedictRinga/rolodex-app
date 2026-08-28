@@ -188,7 +188,7 @@
     "waitUntil": "Warten bis…",
     "drop": "Verwerfen",
     "empty.title": "Nichts schwebt. Nichts drückt.",
-    "empty.body": "Erfassen Sie oben einen Satz — der Agent sammelt Kontext, schreibt den Entwurf, und Sie entscheiden.",
+    "empty.body": "Beginnen Sie mit einem Satz wie oben — der Agent sammelt Kontext, schreibt den Entwurf, und Sie entscheiden.",
     "section.todays3": "Heute {{n}}",
     "section.waitingOnYou": "Wartet auf Sie · {{n}}",
     "section.waitingOnThem": "Wartet auf sie · {{n}}",
@@ -436,7 +436,7 @@
     "welcome.loopmotto.copy": "Jede verpasste Antwort beginnt gleich: „Ich muss mal antworten.“ LoopKeeper fängt diesen Gedanken ein, bevor er kalt wird — liest den tiefen Kontext, zeigt dir, wem du eine Antwort schuldest, und gibt dir die Worte, solange es heiß ist. Die Schleife schließt, bevor das Feuer ausgeht.",
     "welcome.fourws.kicker": "03 · Die 4 W",
     "welcome.fourws.title": "Der tiefe Kontext",
-    "welcome.fourws.copy": "Wer, Was, Wo, Wann — die Geschichte hinter jeder Karte, das Briefing, das alles Weitere antreibt: Nachfassen, Signale, Entwürfe.",
+    "welcome.fourws.copy": "Wer, Was, Wo, Wann — die Geschichte hinter jeder Karte. Die besten Sekretäre wussten es immer: Wer den Hintergrund von Beziehungen und Geschäften kennt, trifft mit jedem Nachfassen, Signal und Entwurf.",
     "welcome.followup.kicker": "04 · Die Schleife",
     "welcome.followup.title": "Die Nachfass-Maschine",
     "welcome.followup.copy": "Sie liest den tiefen Kontext und plant die Kontakte, die du aufschiebst — und zeigt, wer auf eine Antwort wartet. Kleine Schleifen, gefangen bevor sie kalt werden.",
@@ -485,7 +485,7 @@
     "welcome.st.wWhat": "What",
     "welcome.st.wWhatTxt": "Fashion line — collab opportunity",
     "welcome.st.wWhere": "Where",
-    "welcome.st.wWhereTxt": "Erstmals getroffen im Showroom in Lagos",
+    "welcome.st.wWhereTxt": "Getroffen im Showroom in Lagos",
     "welcome.st.wWhen": "When",
     "welcome.st.wWhenTxt": "März 2024 · Lagos Fashion Week",
     "welcome.st.wFoot": "the Assistant reads the story, finds the words, and hands them to you",
@@ -622,6 +622,7 @@
     "storage.deviceNote": "Eine .rolodex-Datei, die du behältst — nichts wird hochgeladen.",
     "storage.deviceExport": "Datei exportieren",
     "storage.deviceImport": "Datei importieren",
-    "storage.backupTie": "Datei-Backup ist der Weg des Geräte-Tabs. Cloud und LoopKeeper-Server haben ihre eigenen Wege auf ihren Tabs."
+    "storage.backupTie": "Datei-Backup ist der Weg des Geräte-Tabs. Cloud und LoopKeeper-Server haben ihre eigenen Wege auf ihren Tabs.",
+    "welcome.fourws.emphasis": "Je mehr es weiß, desto besser schreibt es für Sie."
   }
 }

@@ -138,6 +138,11 @@ export class ChatWithRolodexModalComponent implements OnInit {
     }
   }
 
+  /** 2026-08-28 BUILD 125: the ✕ clears the whole composer in one tap. */
+  clearInput(): void {
+    this.input = '';
+  }
+
   send(): void {
     const text = this.input.trim();
     if (!text || !this.chatReady || !this.mode) return;

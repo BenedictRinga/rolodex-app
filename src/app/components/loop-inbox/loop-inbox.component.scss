@@ -11,9 +11,8 @@
 .li-body { overflow-y:auto; padding:8px 10px 12px; flex:1; }
 .li-capture { display:flex; gap:6px; align-items:center;
   ion-input { --background:rgba(128,128,128,.12); border-radius:10px; padding:6px 10px; font-size:13px; } }
-.li-samples { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
-.li-sample { font-size:11px; opacity:.65; border:1px dashed rgba(128,128,128,.4); border-radius:999px; padding:2px 8px; cursor:pointer; }
-.li-sample:hover { opacity:1; }
+/* 2026-08-28 BUILD 125: the pill row is gone — sample sentences rotate inside
+   the placeholder itself (complementary / substitute / intermittent whispers). */
 .li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; }
 .li-section { margin-top:14px; }
 .li-section-title { font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.6; margin-bottom:6px; }
@@ -62,10 +61,13 @@
   &:hover { background:rgba(255,90,54,.15); } }
 /* 2026-08-28 BUILD 124 (founder): the Loops-tab viewport had no focusing core —
    the empty-state passage ("Nothing sitting … and you decide.") is now ALL BOLD
-   so it anchors the screen when the deck has nothing open. */
-.li-empty { text-align:center; padding:22px 16px; opacity:.92;
-  p { font-size:12px; font-weight:700; } }
-.li-empty-big { font-size:16px; font-weight:800; margin-bottom:4px; }
+   so it anchors the screen when the deck has nothing open.
+   2026-08-28 BUILD 125 (founder): MORE HEFT — "Nothing sitting. Nothing
+   gnawing." is the fulcrum of the tab; the heading grows and the body nearly
+   matches it, so both lines land at first glance. */
+.li-empty { text-align:center; padding:26px 18px; opacity:.95;
+  p { font-size:14px; font-weight:800; line-height:1.45; } }
+.li-empty-big { font-size:19px; font-weight:900; letter-spacing:.01em; margin-bottom:6px; }
 .li-receipt { display:flex; gap:8px; font-size:12px; align-items:center; padding:4px 2px; opacity:.85; }
 .li-check { color:#14b8a6; font-weight:800; }
 .li-chat-slot { display:flex; flex-direction:column; overflow-y:auto; flex:1; }

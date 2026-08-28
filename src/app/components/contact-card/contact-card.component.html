@@ -95,9 +95,10 @@
                   </p>
                   <p *ngIf="contact.rolodex?.when">
                     <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
-                    <!-- 2026-08-28 BUILD 124: rolodex.when is the FIRST meeting
-                         (ground-zero doctrine), not a last-contact stamp. -->
-                    <strong>First met:</strong> {{ contact.rolodex?.when }}
+                    <!-- 2026-08-28 BUILD 125 (subliminal bedrock): rolodex.when
+                         holds the origin of the story — decisive in the engine,
+                         ambiguous on the surface. -->
+                    <strong>When:</strong> {{ contact.rolodex?.when }}
                   </p>
                   <p *ngIf="contact.rolodex?.followUp">
                     <ion-icon name="time-outline" class="detail-icon"></ion-icon>
@@ -509,8 +510,9 @@
       
             <!-- Social Content -->
             <div class="social-content">
-              <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
-              <p><strong>First met:</strong> {{ contact.rolodex?.when || 'Not captured yet' }}</p>
+              <!-- 2026-08-28 BUILD 125 (subliminal bedrock): the WHEN row shows
+                   the origin of the story in the user's own words. -->
+              <p><strong>When:</strong> {{ contact.rolodex?.when || 'Not captured yet' }}</p>
               <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
               <!-- Social Profiles -->
               <div class="social-profiles">
@@ -698,8 +700,9 @@
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address Info' }}
             </p>
             <p><strong>Job Title:</strong> {{ activeContact.organization?.jobTitle || 'No Job Title' }}</p>
-            <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
-            <p><strong>First met:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
+            <!-- 2026-08-28 BUILD 125 (subliminal bedrock): the WHEN row shows
+                 the origin of the story in the user's own words. -->
+            <p><strong>When:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
             <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
       
             <!-- Social Activation (if needed, you can add further social details here) -->
@@ -906,58 +909,65 @@
                   </div>
                   <div class="confidante-context">
 
-                  <!-- 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE: WHERE and WHEN of
-                       the 4 W's are RECOLLECTIVE — where and under what
-                       circumstances you FIRST met — never appointments. WHEN is
-                       free text now (circumstances are words, not timestamps);
-                       appointments live separately in Appointments/Follow-Up. -->
+                  <!-- 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK (softened from
+                       build 124's interrogation): the W's stay plain and
+                       ambiguous on the surface — no cross-examination. The
+                       hints below each field whisper toward the ORIGIN of the
+                       story (where/when it began), and the example placeholders
+                       carry the same sense. Decisiveness lives in the engine,
+                       never in the questions. -->
                   <!-- 'when' -->
                   <ion-item>
-                    <ion-label position="stacked">When</ion-label>
+                    <ion-label position="stacked"><b>W</b>hen</ion-label>
                     <ion-input formControlName="when" type="text"
-                      placeholder="When did you first meet? (e.g. Mar 2024 · her book launch)"></ion-input>
+                      placeholder="When did you meet? (e.g. Mar 2024 · her book launch)"></ion-input>
+                    <ion-note class="w-hint">the moment the story started — a month, a launch, a queue</ion-note>
                   </ion-item>
 
                   <!-- 'where' -->
                   <ion-item>
-                    <ion-label position="stacked">Where</ion-label>
-                    <ion-input formControlName="where" placeholder="Where did you FIRST meet? (e.g. the Lagos showroom)"></ion-input>
+                    <ion-label position="stacked"><b>W</b>here</ion-label>
+                    <ion-input formControlName="where" placeholder="Where did you meet? (e.g. the Lagos showroom)"></ion-input>
+                    <ion-note class="w-hint">the room it began in — a showroom, a stage, a friend's couch</ion-note>
                   </ion-item>
 
                   <!-- 'who' -->
                   <ion-item>
-                    <ion-label position="stacked">Who</ion-label>
+                    <ion-label position="stacked"><b>W</b>ho</ion-label>
                     <ion-input formControlName="who"
                       placeholder="Who introduced you or who else was involved?"></ion-input>
+                    <ion-note class="w-hint">who else was in the story</ion-note>
                   </ion-item>
 
                   <!-- 'why' -->
                   <ion-item>
-                    <ion-label position="stacked">Why</ion-label>
+                    <ion-label position="stacked"><b>W</b>hy</ion-label>
                     <ion-textarea formControlName="why" placeholder="Why is this contact important?"></ion-textarea>
+                    <ion-note class="w-hint">what this person means to you</ion-note>
                   </ion-item>
 
                   <!-- 'how' -->
                   <ion-item>
-                    <ion-label position="stacked">How</ion-label>
+                    <ion-label position="stacked"><b>H</b>ow</ion-label>
                     <ion-input formControlName="how" placeholder="Conference, referral, email, etc."></ion-input>
+                    <ion-note class="w-hint">the thread that connected you</ion-note>
                   </ion-item>
 
                   <!-- 'topic' -->
                   <ion-item>
-                    <ion-label position="stacked">Topic</ion-label>
+                    <ion-label position="stacked"><b>T</b>opic</ion-label>
                     <ion-input formControlName="topic" placeholder="Topic(s) of conversation"></ion-input>
                   </ion-item>
 
                   <!-- 'followUp' -->
                   <ion-item>
-                    <ion-label position="stacked">Follow-Up</ion-label>
+                    <ion-label position="stacked"><b>F</b>ollow-Up</ion-label>
                     <ion-textarea formControlName="followUp" placeholder="Next steps or tasks"></ion-textarea>
                   </ion-item>
 
                   <!-- 'personalTidbits' -->
                   <ion-item>
-                    <ion-label position="stacked">Personal Tidbits</ion-label>
+                    <ion-label position="stacked"><b>P</b>ersonal Tidbits</ion-label>
                     <ion-textarea formControlName="personalTidbits"
                       placeholder="Personal facts to build rapport"></ion-textarea>
                   </ion-item>
@@ -1342,53 +1352,59 @@
                 </div>
               </div>
               <div class="confidante-context">
-              <!-- 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE (same as the other
-                   edit form): WHEN/WHERE recollect the FIRST meeting. -->
+              <!-- 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK (same softening as
+                   the other edit form): plain W's, whispering hints — the
+                   origin of the story without the interrogation. -->
               <!-- 'when' -->
               <ion-item>
-                <ion-label position="stacked">When</ion-label>
-                <ion-input formControlName="when" type="text" placeholder="When did you first meet? (e.g. Mar 2024 · her book launch)"></ion-input>
+                <ion-label position="stacked"><b>W</b>hen</ion-label>
+                <ion-input formControlName="when" type="text" placeholder="When did you meet? (e.g. Mar 2024 · her book launch)"></ion-input>
+                <ion-note class="w-hint">the moment the story started — a month, a launch, a queue</ion-note>
               </ion-item>
             
               <!-- 'where' -->
               <ion-item>
-                <ion-label position="stacked">Where</ion-label>
-                <ion-input formControlName="where" placeholder="Where did you FIRST meet? (e.g. the Lagos showroom)"></ion-input>
+                <ion-label position="stacked"><b>W</b>here</ion-label>
+                <ion-input formControlName="where" placeholder="Where did you meet? (e.g. the Lagos showroom)"></ion-input>
+                <ion-note class="w-hint">the room it began in — a showroom, a stage, a friend's couch</ion-note>
               </ion-item>
             
               <!-- 'who' -->
               <ion-item>
-                <ion-label position="stacked">Who</ion-label>
+                <ion-label position="stacked"><b>W</b>ho</ion-label>
                 <ion-input formControlName="who" placeholder="Who introduced you or who else was involved?"></ion-input>
+                <ion-note class="w-hint">who else was in the story</ion-note>
               </ion-item>
             
               <!-- 'why' -->
               <ion-item>
-                <ion-label position="stacked">Why</ion-label>
+                <ion-label position="stacked"><b>W</b>hy</ion-label>
                 <ion-textarea formControlName="why" placeholder="Why is this contact important?"></ion-textarea>
+                <ion-note class="w-hint">what this person means to you</ion-note>
               </ion-item>
             
               <!-- 'how' -->
               <ion-item>
-                <ion-label position="stacked">How</ion-label>
+                <ion-label position="stacked"><b>H</b>ow</ion-label>
                 <ion-input formControlName="how" placeholder="Conference, referral, email, etc."></ion-input>
+                <ion-note class="w-hint">the thread that connected you</ion-note>
               </ion-item>
             
               <!-- 'topic' -->
               <ion-item>
-                <ion-label position="stacked">Topic</ion-label>
+                <ion-label position="stacked"><b>T</b>opic</ion-label>
                 <ion-input formControlName="topic" placeholder="Topic(s) of conversation"></ion-input>
               </ion-item>
             
               <!-- 'followUp' -->
               <ion-item>
-                <ion-label position="stacked">Follow-Up</ion-label>
+                <ion-label position="stacked"><b>F</b>ollow-Up</ion-label>
                 <ion-textarea formControlName="followUp" placeholder="Next steps or tasks"></ion-textarea>
               </ion-item>
             
               <!-- 'personalTidbits' -->
               <ion-item>
-                <ion-label position="stacked">Personal Tidbits</ion-label>
+                <ion-label position="stacked"><b>P</b>ersonal Tidbits</ion-label>
                 <ion-textarea formControlName="personalTidbits" placeholder="Personal facts to build rapport"></ion-textarea>
               </ion-item>
             
@@ -1670,8 +1686,9 @@
               <ion-icon name="location-outline" class="detail-icon"></ion-icon>
               {{ addressLabel(activeContact.postalAddresses?.[0]) || 'No Address' }}
             </p>
-            <!-- 2026-08-28 BUILD 124: rolodex.when = FIRST meeting (ground zero), not last contact. -->
-            <p><strong>First met:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
+            <!-- 2026-08-28 BUILD 125 (subliminal bedrock): the WHEN row shows
+                 the origin of the story in the user's own words. -->
+            <p><strong>When:</strong> {{ activeContact.rolodex?.when || 'Not captured yet' }}</p>
             <p><strong>Follow-Up:</strong> {{ activeContact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
             <div class="modal-buttons">
               <ion-button fill="outline" (click)="onEditContact(activeContact)" expand="block">

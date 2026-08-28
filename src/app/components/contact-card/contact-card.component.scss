@@ -1148,4 +1148,17 @@ button.confidante-hit img {
   }
 }
 
+/* ═══ 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK ═══════════════════════════════
+   The 4 W's keep plain-text labels with the first letter bolded (a visual
+   anchor without shouting), and each carries a whispering hint that leans
+   toward the ORIGIN of the story — commentary, never interrogation. */
+ion-label.stacked b { font-weight: 800; }
+.w-hint {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--rolodex-text-secondary, #55645f);
+  opacity: .85;
+  padding-top: 2px;
+}
+
 

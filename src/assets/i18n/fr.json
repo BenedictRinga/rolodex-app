@@ -188,7 +188,7 @@
     "waitUntil": "Attendre jusqu'à…",
     "drop": "Abandonner",
     "empty.title": "Rien en suspens. Rien qui pèse.",
-    "empty.body": "Capturez une phrase ci-dessus — l'agent rassemble le contexte, rédige, et vous décidez.",
+    "empty.body": "Commencez par une phrase comme celle du dessus — l'agent rassemble le contexte, rédige, et vous décidez.",
     "section.todays3": "Aujourd'hui {{n}}",
     "section.waitingOnYou": "En attente de vous · {{n}}",
     "section.waitingOnThem": "En attente d'eux · {{n}}",
@@ -436,7 +436,7 @@
     "welcome.loopmotto.copy": "Chaque réponse manquée commence pareil : « il faudrait que je réponde. » LoopKeeper attrape cette pensée avant qu’elle refroidisse — lit le contexte profond, remonte la personne à qui vous devez une réponse et vous donne les mots tant que c’est encore chaud. La boucle se ferme avant que le feu s’éteigne.",
     "welcome.fourws.kicker": "03 · Les 4 W",
     "welcome.fourws.title": "Le contexte profond",
-    "welcome.fourws.copy": "Qui, Quoi, Où, Quand — l’histoire derrière chaque carte, le briefing qui alimente tout le reste : relances, signaux, brouillons.",
+    "welcome.fourws.copy": "Qui, Quoi, Où, Quand — l'histoire derrière chaque carte. Les meilleurs secrétaires l'ont toujours su : connaître le contexte des relations et des échanges fait passer chaque relance, signal et brouillon.",
     "welcome.followup.kicker": "04 · La boucle",
     "welcome.followup.title": "Le moteur de relance",
     "welcome.followup.copy": "Il lit le contexte profond et planifie les points de contact que vous repoussez, en faisant remonter qui attend une réponse — les petites boucles prises avant de refroidir.",
@@ -485,7 +485,7 @@
     "welcome.st.wWhat": "What",
     "welcome.st.wWhatTxt": "Fashion line — collab opportunity",
     "welcome.st.wWhere": "Where",
-    "welcome.st.wWhereTxt": "Première rencontre au showroom de Lagos",
+    "welcome.st.wWhereTxt": "Rencontre au showroom de Lagos",
     "welcome.st.wWhen": "When",
     "welcome.st.wWhenTxt": "Mars 2024 · Lagos Fashion Week",
     "welcome.st.wFoot": "the Assistant reads the story, finds the words, and hands them to you",
@@ -622,6 +622,7 @@
     "storage.deviceNote": "Un fichier .rolodex que vous conservez — rien n'est téléversé.",
     "storage.deviceExport": "Exporter le fichier",
     "storage.deviceImport": "Importer le fichier",
-    "storage.backupTie": "La sauvegarde par fichier est la voie de l'onglet Appareil. Le Cloud et le serveur LoopKeeper ont leurs propres voies sur leurs onglets."
+    "storage.backupTie": "La sauvegarde par fichier est la voie de l'onglet Appareil. Le Cloud et le serveur LoopKeeper ont leurs propres voies sur leurs onglets.",
+    "welcome.fourws.emphasis": "Plus il en sait, mieux il écrit pour vous."
   }
 }

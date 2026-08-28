@@ -15,14 +15,14 @@ import { TranslateService } from '@ngx-translate/core';
  * deterministic engine and a tapped-in AI polish can harness them at a
  * glance for exactly ONE draft — never an A/B menu (the founder's rule).
  *
- * 2026-08-28 BUILD 124 GROUND-ZERO DOCTRINE: the WHERE and WHEN of the
- * 4 W's are RECOLLECTIVE — where and under what circumstances the user
- * FIRST met this person — never appointive. The consult therefore reads
- * them from the matched deck card's Memory-Joggers (rolodex.where/when)
- * when the loop maps to a card, and falls back to loop-state timing
- * (quiet days / parked) only when no recollection exists. The channel
- * (prospectively "where the send lands") keeps its honest place in the
- * verdict line — it is no longer dressed up as the WHERE vital.
+ * 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK (softened from build 124's
+ * ground-zero doctrine): the WHERE and WHEN vitals prefer the user's OWN
+ * recollection from the matched deck card (rolodex.where/when — the origin
+ * of the story, in their words) and fall back to loop-state timing (quiet
+ * days / parked) only when no recollection exists. The engine stays
+ * decisive about what these vitals MEAN; the surface stays plain and
+ * ambiguous. The channel keeps its honest place in the verdict line — it
+ * is not dressed up as the WHERE vital.
  * ═════════════════════════════════════════════════════════════════════
  */
 @Component({
@@ -33,8 +33,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class LoopConsultComponent {
   /** The persisted loop under consultation (injected via componentProps). */
   c!: Loop;
-  /** 2026-08-28 BUILD 124: the matched deck card (optional) — carries the
-   *  recollective ground zero (rolodex.where / rolodex.when). */
+  /** 2026-08-28 BUILD 125 (subliminal bedrock): the matched deck card
+   *  (optional) — carries the user's own recollection of the story's
+   *  origin (rolodex.where / rolodex.when). */
   card?: any;
 
   busy = false;
@@ -83,15 +84,15 @@ export class LoopConsultComponent {
     }
   }
 
-  // ── 2026-08-28 BUILD 124 GROUND ZERO (recollective W's) ──────────────
-  /** WHERE the user FIRST met this person — from the deck card's W's. */
+  // ── 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK (the user's own W's) ────────
+  /** WHERE the story began — from the deck card's W's, in the user's words. */
   get whereMet(): string {
     return String(this.card?.rolodex?.where || '').trim();
   }
 
-  /** WHEN the user FIRST met this person — circumstances welcome. Legacy
-   *  ISO timestamps (old date-picker values) are softened to a readable
-   *  date; free text like "Mar 2024 · her book launch" shows verbatim. */
+  /** WHEN the story began — circumstances welcome. Legacy ISO timestamps
+   *  (old date-picker values) are softened to a readable date; free text
+   *  like "Mar 2024 · her book launch" shows verbatim. */
   get whenMet(): string {
     const raw = String(this.card?.rolodex?.when || '').trim();
     if (!raw) return '';

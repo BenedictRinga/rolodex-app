@@ -188,7 +188,7 @@
     "waitUntil": "Wait until…",
     "drop": "Drop",
     "empty.title": "Nothing sitting. Nothing gnawing.",
-    "empty.body": "Capture one sentence above — the agent digs up context, drafts it, and you decide.",
+    "empty.body": "Empieza con una frase como la de arriba — el agente reúne el contexto, redacta, y tú decides.",
     "section.todays3": "Today's {{n}}",
     "section.waitingOnYou": "Waiting on you · {{n}}",
     "section.waitingOnThem": "Waiting on them · {{n}}",
@@ -436,7 +436,7 @@
     "welcome.loopmotto.copy": "Cada respuesta perdida empieza igual: «tengo que contestarle». LoopKeeper atrapa ese pensamiento antes de que se enfríe — lee el contexto profundo, saca a la persona que te debe una respuesta y te da las palabras mientras aún está caliente. El bucle se cierra antes de que el fuego se apague.",
     "welcome.fourws.kicker": "03 · Las 4 W",
     "welcome.fourws.title": "El contexto profundo",
-    "welcome.fourws.copy": "Quién, Qué, Dónde, Cuándo — la historia tras cada tarjeta, el parte que alimenta todo lo demás: seguimientos, señales, borradores.",
+    "welcome.fourws.copy": "Quién, Qué, Dónde, Cuándo — la historia tras cada tarjeta. Los mejores secretarios siempre lo supieron: conocer el trasfondo de las relaciones y los tratos hace que cada seguimiento, señal y borrador encaje.",
     "welcome.followup.kicker": "04 · El bucle",
     "welcome.followup.title": "El motor de seguimiento",
     "welcome.followup.copy": "Lee el contexto profundo y programa los contactos que vas dejando, mostrando quién espera respuesta — los bucles pequeños atrapados antes de enfriarse.",
@@ -485,7 +485,7 @@
     "welcome.st.wWhat": "What",
     "welcome.st.wWhatTxt": "Fashion line — collab opportunity",
     "welcome.st.wWhere": "Where",
-    "welcome.st.wWhereTxt": "Nos conocimos por primera vez en el showroom de Lagos",
+    "welcome.st.wWhereTxt": "Nos conocimos en el showroom de Lagos",
     "welcome.st.wWhen": "When",
     "welcome.st.wWhenTxt": "Mar 2024 · Semana de la Moda de Lagos",
     "welcome.st.wFoot": "the Assistant reads the story, finds the words, and hands them to you",
@@ -622,6 +622,7 @@
     "storage.deviceNote": "Un archivo .rolodex que tú guardas — no se sube nada.",
     "storage.deviceExport": "Exportar archivo",
     "storage.deviceImport": "Importar archivo",
-    "storage.backupTie": "La copia por archivo es el camino de la pestaña Dispositivo. La nube y el servidor LoopKeeper tienen su propio camino en sus pestañas."
+    "storage.backupTie": "La copia por archivo es el camino de la pestaña Dispositivo. La nube y el servidor LoopKeeper tienen su propio camino en sus pestañas.",
+    "welcome.fourws.emphasis": "Cuanto más sabe, mejor escribe para ti."
   }
 }

@@ -72,6 +72,12 @@ export class CardChatModalComponent implements OnInit, OnDestroy {
     this.previewUrl = this.draft?.match(/https?:\/\/[^\s]+/i)?.[0] || '';
   }
 
+  /** 2026-08-28 BUILD 125: the ✕ clears the whole composer in one tap. */
+  clearDraft(): void {
+    this.draft = '';
+    this.previewUrl = '';
+  }
+
   /** 2026-08-17 REACTIONS: tap a bubble to open the emoji row. */
   pickReaction(m: any): void {
     this.pickingId = this.pickingId === m.id ? '' : m.id;

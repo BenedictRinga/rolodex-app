@@ -28,20 +28,22 @@
   <div *ngIf="tab === 'loops'" class="li-body">
 
     <!-- Capture in one sentence -->
+    <!-- 2026-08-28 BUILD 125 ROTATING PLACEHOLDER (founder): the box cycles
+         four example sentences as PLACEHOLDERS ONLY — the primary instruction
+         holds the largest dwell, then the three samples rotate through as
+         complementary / substitute / intermittent whispers. They are never
+         tappable, never transfer into the input, never survive the first
+         keystroke, and only resume once the box has sat blank for an
+         interval (see composerPlaceholder / tickPh in the component). -->
     <div class="li-capture">
       <ion-input
         [(ngModel)]="captureInput"
-        [placeholder]="'loopkeeper.capture.placeholder' | translate"
+        [placeholder]="composerPlaceholder"
         (keyup.enter)="addCapture()"
       ></ion-input>
       <ion-button size="small" (click)="addCapture()" [disabled]="busy || !captureInput.trim()">
         <ion-icon name="add-circle-outline" slot="start"></ion-icon> {{ 'loopkeeper.capture.button' | translate }}
       </ion-button>
-    </div>
-    <div class="li-samples">
-      <!-- 2026-08-28 BUILD 121: samples are templates — tap fills the box for
-           editing; addCapture() still refuses an unedited sample verbatim. -->
-      <span *ngFor="let s of sampleCaptureKeys" class="li-sample" (click)="prefillSample(s)">“{{ tr(s) }}”</span>
     </div>
 
     <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the

@@ -79,6 +79,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: 'loopkeeper.welcome.fourws.kicker',
       title: 'loopkeeper.welcome.fourws.title',
       copy: 'loopkeeper.welcome.fourws.copy',
+      // 2026-08-28 BUILD 125 SUBLIMINAL BEDROCK: the secretary's whisper —
+      // the more background it holds, the better it writes for you.
+      emphasis: 'loopkeeper.welcome.fourws.emphasis',
     },
     {
       id: 'followup',
