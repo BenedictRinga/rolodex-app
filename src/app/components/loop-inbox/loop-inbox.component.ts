@@ -25,6 +25,9 @@ import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-langua
 // writes through this service (persist + overrides), so the Inbox and Settings
 // can never again show English in one and Hausa in the other.
 import { TranslationService } from '../../services/translation/translation.service';
+// 2026-08-29 BUILD 144 (founder): the loop conversation gets a voice — a pluck
+// on capture, a different chime when the app answers with packet + draft.
+import { SoundService } from '../../services/sound/sound.service';
 
 /**
  * 2026-08-24 LOOPKEEPER INBOX — Chat | Loops | Reminders.
@@ -192,6 +195,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     // card's own chat/video comms, opened straight from a loop.
     private draftEngine: DraftEngineService,
     private cardChat: CardChatService,
+    // 2026-08-29 BUILD 144 (founder): chimes for the loop conversation.
+    private sounds: SoundService,
   ) {
     // 2026-08-29 BUILD 142: no snapshot assignment — currentLang is a live
     // getter now, so the select can never show a stale language.
@@ -287,7 +292,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
 
   /** 2026-08-28 BUILD 128: opening a nudged loop IS the answer — the user
    *  heard the prompt, so its escalation advances (2d → 4d → 7d, never spam),
-   *  the amber glow calms, and the bar count drops live. */
+   *  the amber glow calms, and the bar count drops live.
+   *  2026-08-29 BUILD 144 (founder): opening any loop presents it — the shell
+   *  expands and the view travels to the detail, so the packet + draft are
+   *  on the screen instead of below the fold. */
   toggle(id: string): void {
     const opening = this.selectedId !== id;
     this.selectedId = opening ? id : null;
@@ -296,6 +304,16 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       this.nudgeIds.delete(id);
       this.nudgesDue = this.nudgeIds.size;
     }
+    if (opening) setTimeout(() => this.presentResponse(), 180);
+  }
+
+  /** 2026-08-29 BUILD 144 (founder): the response must present itself — glide
+   *  the open loop's detail into view inside the expanded shell. */
+  private presentResponse(): void {
+    try {
+      document.querySelector('.li-row.open')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch { /* view travel is cosmetic */ }
   }
 
   /** 2026-08-28 BUILD 128: the nudge bar is now the POINTER — tap it and the
@@ -392,9 +410,20 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       // 2026-08-28 CLOSED BETA: the daily habit starts with a capture — track
       // it (tester devices carry their numeric code automatically).
       this.analytics.track('loop_captured');
+      // 2026-08-29 BUILD 144 (founder): chime #1 — the LOOP tap landed; the
+      // sentence is held. A falling pluck, distinct from the Assistant's tick.
+      void this.sounds.playLoopCapture();
       this.captureInput = '';
       this.selectedId = loop.id;
       await this.refresh();
+      // 2026-08-29 BUILD 144 (founder): the app's ANSWER — the context packet
+      // and draft just appeared. Chime #2 (a different, warmer resolve), the
+      // shell expands to 80% of the viewport, and the view travels to the
+      // response so its features are actually reachable, not below the fold.
+      setTimeout(() => {
+        void this.sounds.playLoopReady();
+        this.presentResponse();
+      }, 420);
       // 2026-08-27 FIRST-LOOP ONBOARDING: the product wins the moment loop #1
       // is open — celebrate it once, then keep receipts ordinary.
       const firstDone = await this.storage.get<boolean>('loopkeeper_first_loop_done');
@@ -459,7 +488,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     void this.analytics.track('loop_draft_ai_polish');
     const env = await this.keeper.polish(l);
     const better = env.output ?? null;
-    if (better) this.loops.update(l.id, { draft: better });
+    if (better) {
+      this.loops.update(l.id, { draft: better });
+      // 2026-08-29 BUILD 144 (founder): the Assistant answered — same response
+      // chime the capture flow uses, so the conversation sounds like itself.
+      void this.sounds.playLoopReady();
+    }
     else void this.alerts.showToast(this.tr('loopkeeper.t.polishErr'), 2200);
   }
 

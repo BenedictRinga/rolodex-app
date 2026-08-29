@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Voice outline",
     "parkIt": "Park it",
     "sittingDays": "{{n}}d · nudged {{m}}×",
-    "sittingBecause": "sitting because {{reason}}",
+    "sittingBecause": "仍未解決，因為 {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · awaiting reply",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · nothing — close it?",
     "receipt.doneReply": "done = their reply",
@@ -683,6 +683,9 @@
     "invite.seeMore": "看更多",
     "invite.report": "有什麼地方出問題了嗎？",
     "invite.reportThanks": "謝謝 — 我們會處理。",
-    "capture.reachingOut": "正在聯絡 {{name}}"
+    "capture.reachingOut": "正在聯絡 {{name}}",
+    "ctx.relationPlaceholder": "怎麼認識的 — 同事、親戚、導師…",
+    "detail.steps": "背景 · 草稿 · 傳送 — 一口氣，就完成。",
+    "detail.afterSend": "傳送即閉環 — 對方回覆，開啟下一個。"
   }
 }

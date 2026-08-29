@@ -216,7 +216,7 @@
     "draft.voiceOutline": "🎙 Voice outline",
     "parkIt": "Park it",
     "sittingDays": "{{n}}d · nudged {{m}}×",
-    "sittingBecause": "sitting because {{reason}}",
+    "sittingBecause": "Still open because {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · awaiting reply",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · nothing — close it?",
     "receipt.doneReply": "done = their reply",
@@ -689,6 +689,9 @@
     "invite.seeMore": "See more",
     "invite.report": "Something didn't work?",
     "invite.reportThanks": "Thank you — we'll look into it.",
-    "capture.reachingOut": "Reaching out to {{name}}"
+    "capture.reachingOut": "Reaching out to {{name}}",
+    "ctx.relationPlaceholder": "how you know them — colleague, cousin, mentor…",
+    "detail.steps": "Context · Draft · Send — one breath, then done.",
+    "detail.afterSend": "Send closes the loop — a reply raises the next one."
   }
 }

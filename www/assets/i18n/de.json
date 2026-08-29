@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Sprachskizze",
     "parkIt": "Zur Seite legen",
     "sittingDays": "{{n}}T · {{m}}× erinnert",
-    "sittingBecause": "offen, weil {{reason}}",
+    "sittingBecause": "Noch offen, weil {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} über {{channel}} · auf Antwort wartend",
     "receipt.closeIt": "📤 {{when}} über {{channel}} · nichts — schließen?",
     "receipt.doneReply": "erledigt = ihre Antwort",
@@ -683,6 +683,9 @@
     "invite.seeMore": "Mehr erfahren",
     "invite.report": "Etwas hat nicht funktioniert?",
     "invite.reportThanks": "Danke — wir sehen uns das an.",
-    "capture.reachingOut": "Du meldest dich bei {{name}}"
+    "capture.reachingOut": "Du meldest dich bei {{name}}",
+    "ctx.relationPlaceholder": "wie ihr euch kennt — Kollege, Cousin, Mentor…",
+    "detail.steps": "Kontext · Entwurf · Senden — ein Atemzug, dann erledigt.",
+    "detail.afterSend": "Senden schließt die Schleife — eine Antwort öffnet die nächste."
   }
 }

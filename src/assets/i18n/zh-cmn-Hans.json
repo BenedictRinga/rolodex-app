@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 语音大纲",
     "parkIt": "搁置",
     "sittingDays": "{{n}}天 · 提醒{{m}}次",
-    "sittingBecause": "因{{reason}}而搁置",
+    "sittingBecause": "仍未解决，因为 {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} 通过{{channel}} · 等待回复",
     "receipt.closeIt": "📤 {{when}} 通过{{channel}} · 没有回复——关闭？",
     "receipt.doneReply": "完成 = 他们的回复",
@@ -683,6 +683,9 @@
     "invite.seeMore": "了解更多",
     "invite.report": "有地方出问题了吗？",
     "invite.reportThanks": "谢谢 — 我们会查看。",
-    "capture.reachingOut": "正在联系 {{name}}"
+    "capture.reachingOut": "正在联系 {{name}}",
+    "ctx.relationPlaceholder": "怎么认识的 — 同事、亲戚、导师…",
+    "detail.steps": "背景 · 草稿 · 发送 — 一口气，就完成。",
+    "detail.afterSend": "发送即闭环 — 对方回复，开启下一个。"
   }
 }

@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Voice outline",
     "parkIt": "Park it",
     "sittingDays": "{{n}}d · nudged {{m}}×",
-    "sittingBecause": "sitting because {{reason}}",
+    "sittingBecause": "まだ未解決 — {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · awaiting reply",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · nothing — close it?",
     "receipt.doneReply": "done = their reply",
@@ -683,6 +683,9 @@
     "invite.seeMore": "詳しく見る",
     "invite.report": "うまく動きませんでしたか？",
     "invite.reportThanks": "ありがとうございます — 確認します。",
-    "capture.reachingOut": "{{name}} に連絡しています"
+    "capture.reachingOut": "{{name}} に連絡しています",
+    "ctx.relationPlaceholder": "知り合ったきっかけ — 同僚、親戚、メンター…",
+    "detail.steps": "背景 · 下書き · 送信 — ひと息で完結。",
+    "detail.afterSend": "送信でループ完了 — 返信があれば次が生まれます。"
   }
 }

@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Plan vocal",
     "parkIt": "Mettre de côté",
     "sittingDays": "{{n}}j · rappel {{m}}×",
-    "sittingBecause": "en attente car {{reason}}",
+    "sittingBecause": "Encore ouvert parce que {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · en attente de réponse",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · rien — fermer ?",
     "receipt.doneReply": "fait = leur réponse",
@@ -683,6 +683,9 @@
     "invite.seeMore": "En savoir plus",
     "invite.report": "Quelque chose n'a pas marché ?",
     "invite.reportThanks": "Merci — nous allons regarder ça.",
-    "capture.reachingOut": "Vous écrivez à {{name}}"
+    "capture.reachingOut": "Vous écrivez à {{name}}",
+    "ctx.relationPlaceholder": "votre lien — collègue, cousin, mentor…",
+    "detail.steps": "Contexte · Brouillon · Envoi — un souffle, et c’est réglé.",
+    "detail.afterSend": "Envoyer clôt la boucle — une réponse en ouvre une nouvelle."
   }
 }

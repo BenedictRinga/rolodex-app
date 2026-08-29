@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 مخطط صوتي",
     "parkIt": "أجّلها",
     "sittingDays": "{{n}}ي · تذكير {{m}}×",
-    "sittingBecause": "معلقة لأن {{reason}}",
+    "sittingBecause": "لا يزال مفتوحًا لأن {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} عبر {{channel}} · بانتظار الرد",
     "receipt.closeIt": "📤 {{when}} عبر {{channel}} · لا شيء — أُغلق؟",
     "receipt.doneReply": "الإنهاء = ردّهم",
@@ -683,6 +683,9 @@
     "invite.seeMore": "اعرف المزيد",
     "invite.report": "هل لم ينجح شيء؟",
     "invite.reportThanks": "شكرًا — سنتحقق من ذلك.",
-    "capture.reachingOut": "أنت تراسل {{name}}"
+    "capture.reachingOut": "أنت تراسل {{name}}",
+    "ctx.relationPlaceholder": "كيف تعرفه — زميل، قريب، مرشد…",
+    "detail.steps": "السياق · المسودة · الإرسال — نَفَس واحد ثم انتهى.",
+    "detail.afterSend": "الإرسال يُغلق الحلقة — والردّ يفتح التالية."
   }
 }

@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 143, // 2026-08-29 NUDGE TAP ESCALATION: tapped check-in nudges escalate into an armed open loop (destination pill under the capture box); proactive Assistant drafts from the card + loop-o-meter whisper when the card is thin; dedicated investor invite-failure line; i18n x39 (506 keys)
+  build: 144, // 2026-08-29 THE LOOP CONVERSATION GETS A VOICE: capture chime + different response chime; shell expands to 80vh when a loop answers and scrolls to it; amber gap pulses; "Still open because"; steps map + after-send whisper; i18n x39 (509 keys)
 };

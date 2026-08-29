@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 143, // 2026-08-29 NUDGE TAP ESCALATION: "Check in with John Doe" notifications are no longer dead ends - native + PWA-dock taps escalate into an open loop in Loops, already armed with its destination (pill under the capture box: Reaching out to X, x disarms); Assistant turns proactive - mentions a person and it drafts from the card, thin card gets the loop-o-meter + polite I-told-ya; investors portal gets a DEDICATED invite-failure line (24h/7d/30d); backend 44; i18n x39 - 506 keys
+  build: 144, // 2026-08-29 THE LOOP CONVERSATION GETS A VOICE: LOOP tap chimes (falling pluck) and the app answers with a DIFFERENT chime (warm two-note resolve) as the packet + draft appear; the shell then expands 57.5vh to 80vh so the response is ON the viewport, and the view glides to it (toggle-open presents too, AI-polish chimes); context GAPS pulse in amber until filled (relation row now always shows, with a placeholder); "Sitting because" reworded to "Still open because"; detail gains a Context-Draft-Send orientation map and a closing whisper (send closes the loop - a reply raises the next one); i18n x39 - 509 keys
 };
 
 /*

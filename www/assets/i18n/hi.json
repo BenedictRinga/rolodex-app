@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 वॉइस रूपरेखा",
     "parkIt": "अलग रखें",
     "sittingDays": "{{n}}दिन · {{m}}× याद दिलाया",
-    "sittingBecause": "{{reason}} के कारण लंबित",
+    "sittingBecause": "अभी भी खुला है क्योंकि {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} {{channel}} से · उत्तर की प्रतीक्षा",
     "receipt.closeIt": "📤 {{when}} {{channel}} से · कुछ नहीं — बंद करें?",
     "receipt.doneReply": "पूरा = उनका उत्तर",
@@ -683,6 +683,9 @@
     "invite.seeMore": "और देखें",
     "invite.report": "कुछ काम नहीं किया?",
     "invite.reportThanks": "धन्यवाद — हम देखेंगे।",
-    "capture.reachingOut": "{{name}} को संदेश भेज रहे हैं"
+    "capture.reachingOut": "{{name}} को संदेश भेज रहे हैं",
+    "ctx.relationPlaceholder": "कैसे जानते हैं — सहकर्मी, रिश्तेदार, मार्गदर्शक…",
+    "detail.steps": "संदर्भ · मसऌूदा · भेजें — एक सांस, और हो गया।",
+    "detail.afterSend": "भेजने से लूप बंद होता है — जवाब अगला खोलेगा।"
   }
 }

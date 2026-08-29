@@ -31,6 +31,21 @@ export class SoundService {
     await this.playTone(420, 620, 0.16, volume);
   }
 
+  /** 2026-08-29 BUILD 144 (founder): the Loops conversation gets its own voice.
+   *  Chime #1 — a soft falling pluck the instant the LOOP tap lands: captured,
+   *  held, safe. Deliberately unlike the Assistant's rising send tick. */
+  async playLoopCapture(volume: number = 0.09): Promise<void> {
+    await this.playTone(300, 180, 0.14, volume);
+  }
+
+  /** 2026-08-29 BUILD 144 (founder): Chime #2 — the app's ANSWER. A warm
+   *  two-note resolve (C5 → G5) the moment the context packet + draft appear:
+   *  a different character from the capture pluck, so the conversation has a
+   *  call and a response you can hear. */
+  async playLoopReady(volume: number = 0.09): Promise<void> {
+    await this.playArpeggio([523.25, 783.99], 0.32, volume, 0.11);
+  }
+
   /** Play a celebratory ascending chime (for milestones). */
   async playMilestoneChime(volume: number = 0.6): Promise<void> {
     await this.playArpeggio(

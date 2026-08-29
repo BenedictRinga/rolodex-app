@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 የድምጽ ንድፍ",
     "parkIt": "አስቀምጠው",
     "sittingDays": "{{n}}ቀ · {{m}}× አስታውሷል",
-    "sittingBecause": "የተንጠለጠለው ምክንያቱ {{reason}}",
+    "sittingBecause": "እስካሁን ክፍት ነወ ምንይዐቱ {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} በ{{channel}} · መልስ በመጠበቅ",
     "receipt.closeIt": "📤 {{when}} በ{{channel}} · ምንም — ይዝጋ?",
     "receipt.doneReply": "ተጠናቋል = መልሳቸው",
@@ -683,6 +683,9 @@
     "invite.seeMore": "ተጨማሪ ይመልከቱ",
     "invite.report": "የሚሰራ ነገር አልነበረም?",
     "invite.reportThanks": "አመሰግናለሁ — እንመርምረዋለን።",
-    "capture.reachingOut": "ለ{{name}} እየላኩ ነወ"
+    "capture.reachingOut": "ለ{{name}} እየላኩ ነወ",
+    "ctx.relationPlaceholder": "እንዴት እንደልታዐቁ — የስራ ግደኛ፣ ዘመድ፣ አማካሪ…",
+    "detail.steps": "አውድ · ረቅቅ · መላክ — አንድ ትንፋሽ፣ ተጠናቋል።",
+    "detail.afterSend": "መላክ ዙሩን ይዘጋል — ምላሽ ቀጣኩን ይከፍታል።"
   }
 }

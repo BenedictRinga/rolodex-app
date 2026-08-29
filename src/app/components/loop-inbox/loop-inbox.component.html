@@ -1,4 +1,8 @@
-<div class="li-shell">
+<!-- 2026-08-29 BUILD 144 (founder): the shell BREATHES with the conversation —
+     57.5vh at rest, 80vh the moment a loop is open (the app has answered), so
+     the context packet + draft + send machinery are ON the viewport instead of
+     below the fold. -->
+<div class="li-shell" [class.expanded]="!!selectedId">
   <!-- 2026-08-28 BUILD 129: THE CULMINATION. When a loop truly closes — their
        reply lands and you tap close it, the coffee happens, the intro is made,
        a voice note seals the deed — the inbox pauses for one breath: the check
@@ -224,6 +228,11 @@
     <!-- Expanded: CONTEXT PACKET (3) → DRAFT (5) → DECISION (4) -->
     <div *ngIf="selectedId === l.id" class="li-detail">
 
+      <!-- 2026-08-29 BUILD 144 (founder #2, granular): a one-line map of the
+           breath the user is inside — context, draft, send. Orientation first;
+           the flow should feel completable in one sitting. -->
+      <div class="li-steps">{{ 'loopkeeper.detail.steps' | translate }}</div>
+
       <!-- 2026-08-28 BUILD 130: THE LOOP MEETS THE CARD. When the person is on
            the deck, their card's own comms ride right here: in-app chat (the
            thread, seeded, carrying the loop's draft), the video embed, and the
@@ -256,10 +265,16 @@
           </div>
         </div>
         -->
-        <div class="li-packet-row" *ngIf="l.relation"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><input [ngModel]="l.relation" (blur)="saveRelation($event, l)"></div>
+        <!-- 2026-08-29 BUILD 144 (founder): context GAPS stay visible and their
+             headings pulse — an empty row is an invitation, not a blank. The
+             relation row now always shows (it used to vanish when empty). -->
+        <div class="li-packet-row" [class.gap]="!l.relation">
+          <label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label>
+          <input [placeholder]="'loopkeeper.ctx.relationPlaceholder' | translate" [ngModel]="l.relation" (blur)="saveRelation($event, l)">
+        </div>
         <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span>{{ rel(l.lastTouchAt) }}</span></div>
         <div class="li-packet-row" *ngIf="l.promise"><label>{{ 'loopkeeper.ctx.openPromise' | translate }}</label><span>{{ l.promise }}</span></div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
+        <div class="li-packet-row" [class.gap]="!l.whySitting"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
         <div class="li-packet-row">
           <label>{{ 'loopkeeper.ctx.stance' | translate }}</label>
           <span class="li-chips">
@@ -340,6 +355,11 @@
       <div *ngIf="dropEditingId === l.id" class="li-subform">
         <button *ngFor="let r of dropReasonKeys" class="li-dropreason" (click)="confirmDrop(l, tr(r))">{{ tr(r) }}</button>
       </div>
+
+      <!-- 2026-08-29 BUILD 144 (founder #2): the flow ends by naming its own
+           loop — send closes THIS loop, and a reply raises the next one. The
+           reason to come back is built into the last line the user reads. -->
+      <div class="li-after">{{ 'loopkeeper.detail.afterSend' | translate }}</div>
     </div>
   </div>
 </ng-template>

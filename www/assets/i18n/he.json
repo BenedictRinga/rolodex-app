@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 מתווה קולי",
     "parkIt": "השה",
     "sittingDays": "{{n}} ימים · תזכורות: {{m}}",
-    "sittingBecause": "תלוי כי {{reason}}",
+    "sittingBecause": "עדיין פתוח כי {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} דרך {{channel}} · מחכים לתשובה",
     "receipt.closeIt": "📤 {{when}} דרך {{channel}} · שתיקה — לסגור?",
     "receipt.doneReply": "הסוף = התשובה שלהם",
@@ -683,6 +683,9 @@
     "invite.seeMore": "לפרטים נוספים",
     "invite.report": "משהו לא עבד?",
     "invite.reportThanks": "תודה — נבדוק את זה.",
-    "capture.reachingOut": "אתה פונה אל {{name}}"
+    "capture.reachingOut": "אתה פונה אל {{name}}",
+    "ctx.relationPlaceholder": "איך אתם מכירים — עמית, בן דוד, חונך…",
+    "detail.steps": "הקשר · טיוטה · שליחה — נשימה אחת וזה נגמר.",
+    "detail.afterSend": "שליחה סוגרת את הלופ — תשובה פותחת את הבאה."
   }
 }

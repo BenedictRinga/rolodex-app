@@ -132,7 +132,7 @@
     "draft.voiceOutline": "🎙 Qaab cod",
     "parkIt": "Dhig dhinac",
     "sittingDays": "{{n}}d · {{m}}× lagu xusuusiyay",
-    "sittingBecause": "taagan sababtoo ah {{reason}}",
+    "sittingBecause": "Weli furan sababtoo ah {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} iyadoo la adeegsanayo {{channel}} · jawaab la suga",
     "receipt.closeIt": "📤 {{when}} iyadoo la adeegsanayo {{channel}} · waxba — xidh?",
     "receipt.doneReply": "dhammaystir = jawaabtooda",
@@ -605,6 +605,9 @@
     "invite.seeMore": "Faahfaahin dheeraad ah",
     "invite.report": "Cillad ma jirta?",
     "invite.reportThanks": "Mahadsanid — waan fiirinaynaa.",
-    "capture.reachingOut": "Aad la xiriirayso {{name}}"
+    "capture.reachingOut": "Aad la xiriirayso {{name}}",
+    "ctx.relationPlaceholder": "sida aad u taqaan — shaqaale, qaraabo, la-taliye…",
+    "detail.steps": "Xaalka · Qorista · Dirista — neef, waa dhammaaday.",
+    "detail.afterSend": "Diriddu way xiraysaa — jawaabta soo cowday waxay keentaa mid cusub."
   }
 }

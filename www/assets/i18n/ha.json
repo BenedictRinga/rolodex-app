@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Tsarin murya",
     "parkIt": "Ajiye",
     "sittingDays": "{{n}}k · tunatarwa {{m}}×",
-    "sittingBecause": "yana jira saboda {{reason}}",
+    "sittingBecause": "Still open because {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} ta {{channel}} · ana jiran amsa",
     "receipt.closeIt": "📤 {{when}} ta {{channel}} · babu — rufe?",
     "receipt.doneReply": "ƙarewa = amsarsu",
@@ -683,6 +683,9 @@
     "invite.seeMore": "See more",
     "invite.report": "Something didn't work?",
     "invite.reportThanks": "Thank you — we'll look into it.",
-    "capture.reachingOut": "Reaching out to {{name}}"
+    "capture.reachingOut": "Reaching out to {{name}}",
+    "ctx.relationPlaceholder": "how you know them — colleague, cousin, mentor…",
+    "detail.steps": "Context · Draft · Send — one breath, then done.",
+    "detail.afterSend": "Send closes the loop — a reply raises the next one."
   }
 }

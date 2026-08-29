@@ -210,7 +210,7 @@
     "draft.voiceOutline": "🎙 Muhtasari wa sauti",
     "parkIt": "Weka kando",
     "sittingDays": "{{n}}d · imekumbushwa {{m}}×",
-    "sittingBecause": "inasubiri kwa sababu {{reason}}",
+    "sittingBecause": "Bado wazi kwa sababu {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} kupitia {{channel}} · nasubiri jibu",
     "receipt.closeIt": "📤 {{when}} kupitia {{channel}} · hakuna — funga?",
     "receipt.doneReply": "kumaliza = jibu lao",
@@ -683,6 +683,9 @@
     "invite.seeMore": "Tazama zaidi",
     "invite.report": "Kuna kitu hakikufanya kazi?",
     "invite.reportThanks": "Asante — tutaiangalia.",
-    "capture.reachingOut": "Unawasiliana na {{name}}"
+    "capture.reachingOut": "Unawasiliana na {{name}}",
+    "ctx.relationPlaceholder": "mnavyojua — mfanyakazi, binamu, mshauri…",
+    "detail.steps": "Muktadha · Rasimu · Tuma — pumzi moja, halafu umekamilika.",
+    "detail.afterSend": "Kutuma kunafunga mzunguko — jibu linalofika linaleta mwingine."
   }
 }
