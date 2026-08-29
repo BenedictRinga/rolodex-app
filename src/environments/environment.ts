@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 145, // 2026-08-29 ONE GAP, NOT THREE NAGS + FOOTER TOOLBAR: shell expansion 80vh to 75vh (80 pushed the deck View toolbar half out of viewport); while expanded the deck View toolbar SITS UP AS A FOOTER (sticky bottom) via inboxExpanded wiring (loop-inbox expandedChange -> home -> rolodex host class); the three gap rows are replaced by ONE pulsating tappable notification (Still open - no {{items}} yet. Tap to fill.) opening a persisted context panel (Who / Last touch / How you know / Why sitting - all save to the loop); packet row headings now bold; i18n x39 - 514 keys
+  build: 146, // 2026-08-29 ONE VOICE PER ANGLE: the Search fab hides while the inbox is expanded (it blocked the deck View footer and the Settings button); gapnote pulse fixed - it never dims now, the pulse rides on glow + background (dimming to .65 had made it FAINTER than its surroundings); de-tautology pass - gapnote now says Missing: ... (li-why owns the still-open voice), the Why-sitting display row and the em-dash rows are gone (a row only speaks when it holds a fact), detail.steps is relatable (What we know / What to say / Off it goes), engine suggests human words (the right words to start with... / they last); i18n x39 values refreshed (514 keys)
 };
 
 /*

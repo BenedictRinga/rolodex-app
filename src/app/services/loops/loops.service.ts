@@ -376,8 +376,12 @@ export class LoopsService {
     if (/(pric|cost|quote|invoice|budget|fee|pay|discount)/.test(s)) return 'it touches money — the number is unsent';
     if (/(decide|decision|choose|option|offer|approve|sign)/.test(s)) return 'it waits on a decision nobody has made yet';
     if (l.kind === 'coffee') return '“sometime” was never turned into a date';
-    if (!l.pretext || l.pretext.startsWith('a real hello')) return 'there was no natural hook to reopen with';
-    if (d >= 21) return 'long silences feel heavier the longer they sit';
+    // 2026-08-29 BUILD 146 (founder): "no natural hook" was engineer-speak —
+    // the user never wrote it, the loop did. Human words: the opener just
+    // hasn't arrived. Same for "the longer they sit" (the sitting voice is
+    // li-why's alone — one voice per angle).
+    if (!l.pretext || l.pretext.startsWith('a real hello')) return 'the right words to start with haven’t come yet';
+    if (d >= 21) return 'long silences feel heavier the longer they last';
     if (l.kind === 'social') return 'the right tone felt hard to find';
     if (d >= 10) return 'it simply slipped past the busy weeks';
     return undefined;

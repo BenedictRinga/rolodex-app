@@ -132,20 +132,24 @@
   span.unset { opacity:.5; font-style:italic; }
   input { background:rgba(128,128,128,.12); border:none; border-radius:8px; padding:4px 8px; color:inherit; font-size:12px; } }
 /* 2026-08-29 BUILD 145 (founder): ONE gap, not three nagging rows. A single
-   pulsating notification names what is missing; tapping it opens the
-   persisted context panel. The PULSE (not color) is the attention grabber. */
-.li-gapnote { width:fit-content; max-width:100%; text-align:left; border:1px dashed rgba(255,178,92,.55);
-  background:rgba(255,178,92,.08); color:#ffb25c; border-radius:999px; padding:4px 12px;
-  font-size:11px; font-weight:600; margin-bottom:8px; cursor:pointer;
-  animation:lkGapPulse 1.7s ease-in-out infinite; }
+   notification names what is missing; tapping it opens the persisted context
+   panel.
+   2026-08-29 BUILD 146 (founder): the pulse was invisible — dimming the whole
+   note to .65 made it FAINTER than its surroundings. Now the note never dims:
+   it stays at full strength and the pulse rides on glow + background, hard to
+   miss at a glance. */
+.li-gapnote { width:fit-content; max-width:100%; text-align:left; border:1px solid rgba(255,190,110,.85);
+  background:rgba(255,178,92,.16); color:#ffd9a0; border-radius:999px; padding:5px 12px;
+  font-size:11.5px; font-weight:700; margin-bottom:8px; cursor:pointer;
+  animation:lkGapPulse 1.6s ease-in-out infinite; }
 .li-gap-panel { display:flex; flex-direction:column; gap:6px; padding:8px; margin-bottom:8px;
   border:1px solid rgba(255,178,92,.35); border-radius:12px; background:rgba(255,178,92,.05); }
 .li-gap-row { display:flex; gap:8px; align-items:center; font-size:12px;
   label { width:110px; flex-shrink:0; font-size:11px; font-weight:700; opacity:.75; }
   input { flex:1; background:rgba(128,128,128,.12); border:1px solid rgba(255,178,92,.30); border-radius:8px;
     padding:5px 8px; color:inherit; font-size:12px; } }
-@keyframes lkGapPulse { 0%,100% { opacity:.65; box-shadow:0 0 0 rgba(255,178,92,0); }
-  50% { opacity:1; box-shadow:0 0 10px rgba(255,178,92,.35); } }
+@keyframes lkGapPulse { 0%,100% { background:rgba(255,178,92,.14); box-shadow:0 0 0 rgba(255,178,92,0); }
+  50% { background:rgba(255,178,92,.30); box-shadow:0 0 14px rgba(255,178,92,.50); } }
 /* 2026-08-29 BUILD 144 (founder #2, granular): the one-line map at the top of
    every open loop, and the closing whisper under the decision buttons. */
 .li-steps { font-size:10px; letter-spacing:.07em; text-transform:uppercase; opacity:.5; margin-bottom:8px; }

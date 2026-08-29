@@ -277,7 +277,10 @@
   <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet.
        2026-08-27: hidden while an un-setup Cloud/Server panel owns the tab —
        searching the deck there would be dishonest. -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab" [class.tab-hidden]="deckHiddenForTab">
+  <!-- 2026-08-29 BUILD 146 (founder): the fab also hides while the inbox is
+       expanded — it sat on top of the deck's View footer panel and blocked the
+       Settings button at the far right. -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab" [class.tab-hidden]="deckHiddenForTab || inboxExpanded">
     <ion-fab-button (click)="openSearchModal()" color="primary" aria-label="Search contacts">
       <ion-icon name="search-outline"></ion-icon>
     </ion-fab-button>

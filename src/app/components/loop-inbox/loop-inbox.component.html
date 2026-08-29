@@ -248,7 +248,11 @@
       </div>
 
       <div class="li-packet">
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}</span></div>
+        <!-- 2026-08-29 BUILD 146 (founder): the packet now speaks with ONE
+             voice per angle. Facts that exist show as quiet rows; facts that
+             are missing belong to the gapnote alone (the old "—" rows and the
+             Why-sitting repeat are gone — li-why already speaks the friction
+             at the top of the row, the panel below is the pen). -->
         <!-- F21: name the B side here; both drafts regenerate from it -->
         <div class="li-packet-row" *ngIf="l.kind === 'intro'">
           <label>Connect to</label>
@@ -265,12 +269,11 @@
           </div>
         </div>
         -->
-        <!-- 2026-08-29 BUILD 145 (founder): ONE gap, not three nagging rows.
-             A single pulsating notification names what is missing ("Still open
-             because there was no…") and opens a persisted panel with the key
-             items the algo and AI need — Who, Last touch, How you know, Why
-             sitting. The packet rows below are the display; the panel is the
-             pen. Whatever is given persists to the loop. -->
+        <!-- 2026-08-29 BUILD 145/146 (founder): ONE gap, not five nagging
+             rows. A single pulsating notification names what is missing
+             ("Missing: … — tap to fill") and opens a persisted panel with the
+             key items the algo and AI need — Who, Last touch, How you know,
+             Why sitting. Whatever is given persists to the loop. -->
         <button *ngIf="hasGaps(l)" class="li-gapnote" (click)="toggleGapPanel(l)" [attr.aria-expanded]="gapOpenId === l.id">
           {{ 'loopkeeper.ctx.gapNote' | translate: { items: gapsOf(l).join(', ') } }}
         </button>
@@ -292,10 +295,13 @@
             <input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)">
           </div>
         </div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><span [class.unset]="!l.relation">{{ l.relation || '—' }}</span></div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span [class.unset]="!l.lastTouchAt">{{ rel(l.lastTouchAt) }}</span></div>
+        <!-- 2026-08-29 BUILD 146 (founder): quiet facts, one angle each — who,
+             recency, bond, debt. A row only speaks when it holds a fact; the
+             gapnote above is the only voice for what is missing. -->
+        <div class="li-packet-row" *ngIf="l.person && l.person !== 'Unnamed' && l.person !== 'Someone'"><label>{{ 'loopkeeper.ctx.who' | translate }}</label><span>{{ l.person }}</span></div>
+        <div class="li-packet-row" *ngIf="l.lastTouchAt"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span>{{ rel(l.lastTouchAt) }}</span></div>
+        <div class="li-packet-row" *ngIf="l.relation"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><span>{{ l.relation }}</span></div>
         <div class="li-packet-row" *ngIf="l.promise"><label>{{ 'loopkeeper.ctx.openPromise' | translate }}</label><span>{{ l.promise }}</span></div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><span [class.unset]="!l.whySitting">{{ l.whySitting || '—' }}</span></div>
         <div class="li-packet-row">
           <label>{{ 'loopkeeper.ctx.stance' | translate }}</label>
           <span class="li-chips">
