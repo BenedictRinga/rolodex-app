@@ -626,15 +626,20 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       if (target) this.loops.update(l.id, { handle: target }); // remembered for next time
     }
 
-    let handle = l.handle || '';
+    // 2026-08-29 BUILD 150: the card speaks first — a loop that matches a
+    // contact sends without any typed prompt at all. The typed alert is now
+    // only for strangers (no card, no saved handle), and even then it opens
+    // prefilled when the card holds a number.
+    let handle = l.handle || this.suggestHandle(l, channel);
     if (!handle) {
+      const suggest = this.suggestHandle(l, channel); // belt-and-suspenders
       const ask = await this.alertCtrl.create({
         header: this.tr('loopkeeper.t.contactTitle', {
           ch: this.tr(channel === 'email' ? 'loopkeeper.t.chEmail' : 'loopkeeper.t.chPhone'),
           person: l.person,
         }),
         message: this.tr('loopkeeper.t.contactMsg'),
-        inputs: [{ name: 'h', type: channel === 'email' ? 'email' : 'tel', placeholder: channel === 'email' ? 'name@example.com' : '+234…' }],
+        inputs: [{ name: 'h', type: channel === 'email' ? 'email' : 'tel', value: suggest, placeholder: channel === 'email' ? 'name@example.com' : '+234…' }],
         buttons: [
           { text: this.tr('loopkeeper.t.btnCancel'), role: 'cancel' },
           { text: this.tr('loopkeeper.t.btnSaveSend'), handler: (d: any) => { handle = String(d?.h || '').trim(); return !!handle; } },
@@ -642,8 +647,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       });
       await ask.present();
       if (!handle) return;
-      this.loops.update(l.id, { handle });
     }
+    if (handle && handle !== l.handle) this.loops.update(l.id, { handle }); // remembered for next time
     const bundle = this.keeper.send(l);
     try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* clipboard denied — url still carries text */ }
     if (bundle.url) window.open(bundle.url, '_blank', 'noopener');
@@ -693,6 +698,21 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   loopPhone(l: Loop): string {
     const card = this.cardFor(l);
     return card?.phones?.[0]?.number || card?.phone || '';
+  }
+
+  /* 2026-08-29 BUILD 150 (founder: "the earlier panel of Chat, Video and Call
+   *  already have the number of my addressee. So what about this with all
+   *  these mediums… manual entry of phone number doesn't look convenient."):
+   *  the deep-link senders should NEVER ask for a number the card already
+   *  holds. Resolution order: a handle saved on the loop → the matched card's
+   *  phone (sms/whatsapp) or email (email) → only then the typed prompt, for
+   *  contacts LoopKeeper genuinely knows nothing about. */
+  private suggestHandle(l: Loop, channel: LoopChannel): string {
+    const card = this.cardFor(l);
+    if (!card) return '';
+    if (channel === 'email') return String(card?.emails?.[0]?.address || card?.email || '').trim();
+    if (channel === 'sms' || channel === 'whatsapp') return this.loopPhone(l);
+    return '';
   }
 
   /** In-app chat, straight from the loop — the card's own thread, seeded and

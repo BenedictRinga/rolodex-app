@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-build: 149, // 2026-08-29 LOCALE SIGNALS: anonymous IANA timezone + region + language subtags ride app_launch and session_start, and every deliberate language switch emits lang_switched (no IP, no geolocation, aggregate only); investors portal gains a where-in-the-world block (regions x languages table + switch count)
+build: 150, // 2026-08-29 CARD SPEAKS FIRST: deep-link sends (SMS/WhatsApp/Email) resolve the number from the matched contact card before ever prompting - the typed phone alert is now only for contacts with no card and no saved handle, and even then opens prefilled; handle is remembered on the loop either way
 };
