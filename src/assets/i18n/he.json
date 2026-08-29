@@ -682,6 +682,7 @@
     "invite.confirm": "אשרו שאתם מכירים את {{name}}",
     "invite.seeMore": "לפרטים נוספים",
     "invite.report": "משהו לא עבד?",
-    "invite.reportThanks": "תודה — נבדוק את זה."
+    "invite.reportThanks": "תודה — נבדוק את זה.",
+    "capture.reachingOut": "אתה פונה אל {{name}}"
   }
 }

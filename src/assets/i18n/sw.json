@@ -682,6 +682,7 @@
     "invite.confirm": "Thibitisha kuwa unamfahamu {{name}}",
     "invite.seeMore": "Tazama zaidi",
     "invite.report": "Kuna kitu hakikufanya kazi?",
-    "invite.reportThanks": "Asante — tutaiangalia."
+    "invite.reportThanks": "Asante — tutaiangalia.",
+    "capture.reachingOut": "Unawasiliana na {{name}}"
   }
 }

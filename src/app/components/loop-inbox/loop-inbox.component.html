@@ -93,6 +93,16 @@
       </ion-button>
     </div>
 
+    <!-- 2026-08-29 BUILD 143 (founder #2): the destination pill. A tapped
+         "Check in with..." nudge arrives here armed — the pill under the
+         input says who this sentence is reaching, and the capture goes to
+         that person's loop however it parses. The x disarms. -->
+    <div *ngIf="armedContact" class="li-destination">
+      <span class="li-dest-arrow">&rarr;</span>
+      <span class="li-dest-text">{{ 'loopkeeper.capture.reachingOut' | translate: { name: armedContact?.name?.display || '' } }}</span>
+      <button class="li-dest-x" (click)="disarmDestination()" aria-label="Clear destination">&#10005;</button>
+    </div>
+
     <!-- 2026-08-27 FOUNDER RELOCATION: the Loop-O-meter no longer lives in the
          inbox — one more panel here was "just another increase in data points".
          It now shows on the BACK of every contact card (contact-card.component)

@@ -688,6 +688,7 @@
     "invite.confirm": "Confirm you know {{name}}",
     "invite.seeMore": "See more",
     "invite.report": "Something didn't work?",
-    "invite.reportThanks": "Thank you — we'll look into it."
+    "invite.reportThanks": "Thank you — we'll look into it.",
+    "capture.reachingOut": "Reaching out to {{name}}"
   }
 }

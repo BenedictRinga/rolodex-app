@@ -39,6 +39,26 @@ export class EventService implements OnDestroy {
   private pendingNotifications: CalendarEvent[] = [];
   private notificationDebounceTimeout: any = null;
 
+  /** 2026-08-29 BUILD 143 (founder #2): native notification taps come back
+   *  HERE as `localNotificationActionPerformed`; the extra carries
+   *  { contactId, type: 'event' }. The home page subscribes and escalates
+   *  the "Check in with..." tap into an armed loop — never a dead end. */
+  readonly notificationTap$ = new Subject<any>();
+  private nativeTapWired = false;
+
+  /** Wire the native tap listener once (call from the home page on init). */
+  async wireNativeNotificationTaps(): Promise<void> {
+    if (this.nativeTapWired || !Capacitor.isNativePlatform()) return;
+    try {
+      const { LocalNotifications } = await import('@capacitor/local-notifications');
+      await LocalNotifications.addListener('localNotificationActionPerformed', (action: any) => {
+        const extra = action?.notification?.extra || {};
+        this.notificationTap$.next(extra);
+      });
+      this.nativeTapWired = true;
+    } catch { /* plugin absent — PWA path covers taps via the dock */ }
+  }
+
   constructor(
     private readonly storage: StorageService,
     private readonly inAppNotifications: InAppNotificationService,
@@ -200,9 +220,11 @@ export class EventService implements OnDestroy {
               ],
             });
           } else {
+            // 2026-08-29 BUILD 143 (founder #2): the PWA dock nudge is TAPPABLE —
+            // it carries its contact so a tap escalates into Loops (armed).
             this.inAppNotifications.notify(
               evt.title + (evt.notes ? ' — ' + evt.notes : ''),
-              { kind: 'info', duration: 5000 },
+              { kind: 'info', duration: 5000, data: { action: 'checkin', contactId: evt.contactId } },
             );
           }
 

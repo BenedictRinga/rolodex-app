@@ -28,12 +28,15 @@ export class KeeperAgentService {
   ) {}
 
   /** STAGE 1 — capture. intake → owed-reply → promise-extract, now enriched
-   *  from the resolved CARD when one matches (F11/F12/F13). */
-  capture(sentence: string, contacts: any[] = []): AgentEnvelope<Loop> {
+   *  from the resolved CARD when one matches (F11/F12/F13).
+   *  2026-08-29 BUILD 143 (founder #2): `forceContact` ARMS the capture — a
+   *  nudge tap lands in Loops with its destination already known, so the
+   *  loop goes to that person's card no matter how the sentence parses. */
+  capture(sentence: string, contacts: any[] = [], forceContact?: any): AgentEnvelope<Loop> {
     const t0 = Date.now();
     try {
       const pre = this.loops.parseCapture(sentence);
-      const contact = this.resolveContact(pre.person || '', contacts);
+      const contact = forceContact || this.resolveContact(pre.person || '', contacts);
       const loop = this.loops.create(
         contact ? this.loops.parseCapture(sentence, contact) : pre,
       );

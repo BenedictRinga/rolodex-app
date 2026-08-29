@@ -68,6 +68,15 @@
   border-top: 1px solid #262b3a;
 }
 
+/* 2026-08-29 BUILD 143: tappable nudges announce themselves — pointer + press. */
+.notify-item.tappable {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity .15s ease, transform .15s ease;
+  &:active { opacity: .7; transform: scale(.99); }
+}
+
 .notify-icon {
   flex-shrink: 0;
   color: #58a6ff;

@@ -176,6 +176,9 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       row('MAU', prev?.analytics?.mau, curr?.analytics?.mau),
       row('Sessions (7d)', prev?.analytics?.sessions?.last7d, curr?.analytics?.sessions?.last7d),
       row('Avg session (s)', prev?.analytics?.avgSessionSeconds, curr?.analytics?.avgSessionSeconds),
+      // 2026-08-29 BUILD 143 (founder #3): the funnel's leak gets its own line —
+      // invitees tapping "Something didn't work?" on the landing.
+      row('Invite issues (7d)', prev?.analytics?.inviteIssues?.last7d, curr?.analytics?.inviteIssues?.last7d),
     ].filter(Boolean);
     return items.length ? items : null;
   }

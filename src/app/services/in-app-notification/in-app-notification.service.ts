@@ -14,6 +14,10 @@ export interface InAppNotification {
   message: string;
   kind: 'info' | 'success' | 'error';
   duration: number; // ms, 0 = sticky until dismissed
+  /** 2026-08-29 BUILD 143: optional tap-through payload. A notification that
+   *  carries data.action is TAPPABLE — tapping it fires tapped$ so the page
+   *  can act (e.g. a "Check in with John Doe" nudge escalates into Loops). */
+  data?: { action?: string; contactId?: string; [k: string]: any };
 }
 
 @Injectable({
@@ -24,16 +28,24 @@ export class InAppNotificationService {
   private readonly subject = new BehaviorSubject<InAppNotification[]>([]);
   private nextId = 1;
   private readonly timers = new Map<number, ReturnType<typeof setTimeout>>();
+  /** 2026-08-29 BUILD 143: the tap-through channel — the dock emits, the
+   *  home page listens and escalates the nudge into an armed loop. */
+  private readonly tapSubject = new BehaviorSubject<InAppNotification | null>(null);
+  readonly tapped$ = this.tapSubject.asObservable();
 
   readonly notifications$ = this.subject.asObservable();
 
-  notify(message: string, opts?: { kind?: 'info' | 'success' | 'error'; duration?: number }): number {
+  notify(
+    message: string,
+    opts?: { kind?: 'info' | 'success' | 'error'; duration?: number; data?: InAppNotification['data'] },
+  ): number {
     const id = this.nextId++;
     const notification: InAppNotification = {
       id,
       message,
       kind: opts?.kind || 'info',
       duration: opts?.duration ?? 3500,
+      data: opts?.data,
     };
     this.notifications = [...this.notifications, notification];
     this.subject.next(this.notifications);
@@ -42,6 +54,13 @@ export class InAppNotificationService {
       this.timers.set(id, timer);
     }
     return id;
+  }
+
+  /** 2026-08-29 BUILD 143: the dock calls this when a tappable notification is
+   *  tapped — announce it, then take the toast away. */
+  tap(n: InAppNotification): void {
+    this.tapSubject.next(n);
+    this.dismiss(n.id);
   }
 
   dismiss(id: number): void {

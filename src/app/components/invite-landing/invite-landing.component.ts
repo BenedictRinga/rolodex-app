@@ -101,15 +101,17 @@ export class InviteLandingComponent {
    *  guest (no dismissal stored) sees 'Karibu sana!'; a returning guest sees
    *  'Welcome Again'.
    *  2026-08-29 BUILD 142: this IS the See-more door now (founder #3) — the
-   *  curious invitee is pulled deeper instead of shown a dead end. */
+   *  curious invitee is pulled deeper instead of shown a dead end.
+   *  2026-08-29 BUILD 143 (founder #1): See more hosts the SAME FULL Welcome
+   *  package as Confirm, WITHOUT interruption — always the first-time tour
+   *  (isReplay: false), never the abbreviated "Welcome Again" variant. */
   async whatIsRolodex(): Promise<void> {
     try {
-      const dismissed = await this.storageService.get<string>(WELCOME_DISMISSED_KEY);
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
-        componentProps: { isReplay: !!dismissed },
+        componentProps: { isReplay: false },
         cssClass: 'card-chat-modal-sheet',
-        breakpoints: [0, 0.7, 0.95],
+        breakpoints: [0, 0.7, 0.95, 1],
         initialBreakpoint: 0.95,
         keyboardClose: false,
       });

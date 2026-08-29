@@ -604,6 +604,7 @@
     "invite.confirm": "Xaqiiji inaad garanayso {{name}}",
     "invite.seeMore": "Faahfaahin dheeraad ah",
     "invite.report": "Cillad ma jirta?",
-    "invite.reportThanks": "Mahadsanid — waan fiirinaynaa."
+    "invite.reportThanks": "Mahadsanid — waan fiirinaynaa.",
+    "capture.reachingOut": "Aad la xiriirayso {{name}}"
   }
 }

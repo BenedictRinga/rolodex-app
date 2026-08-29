@@ -38,6 +38,25 @@
   ion-textarea { --border-radius:16px; --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
 /* 2026-08-28 BUILD 127: the ✕ that clears the whole capture box. */
 .li-capture .chat-clear { --padding-start:4px; --padding-end:4px; margin:0; --color:var(--rolodex-text-secondary, #8a9a94); }
+/* 2026-08-29 BUILD 143 (founder #2): the destination pill — a tapped nudge
+   arms the box; the pill sits UNDER the input announcing who is reached. */
+.li-destination {
+  display: flex; align-items: center; gap: 6px;
+  width: fit-content;
+  margin-top: 6px; padding: 3px 8px;
+  font-size: 12px; line-height: 1.4;
+  color: var(--rolodex-text-secondary, #55645f);
+  background: rgba(20, 184, 166, .10);
+  border: 1px dashed rgba(20, 184, 166, .45);
+  border-radius: 999px;
+  .li-dest-arrow { color: #14b8a6; font-weight: 700; }
+  .li-dest-text { font-weight: 600; }
+  .li-dest-x {
+    background: none; border: none; padding: 0 0 0 2px; cursor: pointer;
+    font-size: 12px; line-height: 1; color: inherit; opacity: .7;
+    &:active { opacity: 1; }
+  }
+}
 /* 2026-08-28 BUILD 127: pills now lead the tab — the visual tether ABOVE the
    fulcrum. No tap, no transfer; they undergird the rotating placeholder. */
 .li-samples { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; align-items:center; }

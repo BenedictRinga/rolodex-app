@@ -19,6 +19,9 @@
       class="notify-item"
       [class.error]="n.kind === 'error'"
       [class.success]="n.kind === 'success'"
+      [class.tappable]="isTappable(n)"
+      role="{{ isTappable(n) ? 'button' : null }}"
+      (click)="onTap(n)"
     >
       <ion-icon
         [name]="n.kind === 'error' ? 'alert-circle-outline' : (n.kind === 'success' ? 'checkmark-circle-outline' : 'information-circle-outline')"

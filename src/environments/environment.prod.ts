@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 142, // 2026-08-29 INVITE LANDING REDO: one language state (inbox + settings through the shared TranslationService); invite landing - Confirm you know them, See more (welcome), invite_issue failure report to the investors portal, Get-the-app commented out pending testers; landing i18n x39 (505 keys)
+  build: 143, // 2026-08-29 NUDGE TAP ESCALATION: tapped check-in nudges escalate into an armed open loop (destination pill under the capture box); proactive Assistant drafts from the card + loop-o-meter whisper when the card is thin; dedicated investor invite-failure line; i18n x39 (506 keys)
 };

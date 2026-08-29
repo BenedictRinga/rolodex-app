@@ -636,6 +636,27 @@
                 <div class="kpi-caption">Average session_end duration, last 30 days.</div>
               </div>
             </div>
+            <!-- 2026-08-29 BUILD 143 (founder #3): a DEDICATED invite-failure
+                 line — the funnel's leak, never buried in top events. An
+                 invitee tapping "Something didn't work?" on the landing fires
+                 the anonymous invite_issue event that lands here. -->
+            <div class="investor-kpis" *ngIf="investorStats.analytics.inviteIssues" style="margin-top:10px;">
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last24h }}</div>
+                <div class="kpi-label">Invite issues (24h)</div>
+                <div class="kpi-caption">"Something didn't work?" taps on invite links, last 24h.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last7d }}</div>
+                <div class="kpi-label">Invite issues (7d)</div>
+                <div class="kpi-caption">The funnel's leak, last 7 days.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last30d }}</div>
+                <div class="kpi-label">Invite issues (30d)</div>
+                <div class="kpi-caption">Last 30 days, by where it happened.</div>
+              </div>
+            </div>
           </div>
 
           <div class="investor-section sec-retention" id="inv-retention" *ngIf="investorStats.analytics?.retention?.length">

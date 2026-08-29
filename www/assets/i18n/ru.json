@@ -682,6 +682,7 @@
     "invite.confirm": "Подтвердите, что знаете {{name}}",
     "invite.seeMore": "Узнать больше",
     "invite.report": "Что-то не сработало?",
-    "invite.reportThanks": "Спасибо — разберёмся."
+    "invite.reportThanks": "Спасибо — разберёмся.",
+    "capture.reachingOut": "Вы пишете {{name}}"
   }
 }

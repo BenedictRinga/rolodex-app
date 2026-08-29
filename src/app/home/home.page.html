@@ -147,7 +147,7 @@
        Chat tab: every binding here still resolves in HomePage, untouched. -->
   <!-- 2026-08-28 BUILD 130: (contactsDirty) — a dispatch from a loop wrote into
        the matched card's rolling context; HomePage persists the deck now. -->
-  <app-loop-inbox *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false" (contactsDirty)="onContactsDirty()">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" (closeRequest)="rolodexAiChatOpen = false" (contactsDirty)="onContactsDirty()">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —

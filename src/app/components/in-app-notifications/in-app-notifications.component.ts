@@ -99,11 +99,29 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
   onDragEnd(e: PointerEvent): void {
     if (!this.drag.active) return;
     this.drag.active = false;
+    this.lastDragEnd = Date.now(); // BUILD 143: a drag release is not a tap
     try {
       (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
     } catch { /* best effort */ }
     void this.persistPosition();
   }
+
+  /** 2026-08-29 BUILD 143: a notification that carries data.action is a
+   *  TAPPABLE nudge — tapping it fires the service's tapped$ channel so the
+   *  home page can escalate (e.g. "Check in with John Doe" → armed loop in
+   *  Loops). A drag never counts as a tap. */
+  onTap(n: InAppNotification): void {
+    if (!n?.data?.action) return;
+    if (this.drag.active) return;
+    if (Date.now() - this.lastDragEnd < 200) return; // drag release, not a tap
+    this.service.tap(n);
+  }
+
+  isTappable(n: InAppNotification): boolean {
+    return !!n?.data?.action;
+  }
+
+  private lastDragEnd = 0;
 
   dismiss(n: InAppNotification): void {
     this.service.dismiss(n.id);

@@ -682,6 +682,7 @@
     "invite.confirm": "{{name}}さんをご存じですか？",
     "invite.seeMore": "詳しく見る",
     "invite.report": "うまく動きませんでしたか？",
-    "invite.reportThanks": "ありがとうございます — 確認します。"
+    "invite.reportThanks": "ありがとうございます — 確認します。",
+    "capture.reachingOut": "{{name}} に連絡しています"
   }
 }

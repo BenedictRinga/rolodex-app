@@ -682,6 +682,7 @@
     "invite.confirm": "أكّد أنك تعرف {{name}}",
     "invite.seeMore": "اعرف المزيد",
     "invite.report": "هل لم ينجح شيء؟",
-    "invite.reportThanks": "شكرًا — سنتحقق من ذلك."
+    "invite.reportThanks": "شكرًا — سنتحقق من ذلك.",
+    "capture.reachingOut": "أنت تراسل {{name}}"
   }
 }

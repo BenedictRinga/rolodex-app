@@ -37,6 +37,11 @@ import { environment } from 'src/environments/environment';
 // 2026-08-28 BUILD 125: view on/off for every password/passphrase alert input.
 import { attachPasswordPeek } from '../services/alerts/alert-peek';
 import { capSentences } from '../util/cap';
+import { Subscription } from 'rxjs'; // BUILD 143: nudge-tap channel handles
+// 2026-08-29 BUILD 143 (founder #2): tapped nudges escalate into Loops.
+import { KeeperAgentService } from '../services/agents/keeper-agent.service';
+import { InAppNotificationService } from '../services/in-app-notification/in-app-notification.service';
+import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
 
 
 @Component({
@@ -49,6 +54,9 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-19 HELP DEMO: direct access to rolodex view/settings navigation. */
   @ViewChild('rolodex') rolodexComp?: RolodexComponent;
   @ViewChild('chatThread') chatThread?: ElementRef<HTMLDivElement>;
+  /** 2026-08-29 BUILD 143 (founder #2): the inbox instance — tapped nudges
+   *  escalate THROUGH it (armed loop + destination pill + open Loops tab). */
+  @ViewChild('inboxRef') inboxRef?: LoopInboxComponent;
 
   contacts: ContactInfo[] = [];
   displayedContacts: ContactInfo[] = [];
@@ -148,6 +156,10 @@ export class HomePage implements OnInit, OnDestroy {
     // to the device calendar too (appointment$ had NO consumers before —
     // invites only toasted, never landed on the card or calendar).
     private readonly calendar: CalendarService,
+    // 2026-08-29 BUILD 143 (founder #2): tapped nudges escalate into Loops —
+    // the page creates the loop on the user's behalf and arms the capture.
+    private keeper: KeeperAgentService,
+    private inAppNotifications: InAppNotificationService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -204,6 +216,15 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentWelcome(true);
   }
 
+  /** 2026-08-29 BUILD 143 (founder #1): the invite hand-off hosts the FULL
+   *  Welcome package — the first-time tour, never the "Welcome Again" replay
+   *  variant. A brand-new invitee who CONFIRMS lands here; certainty, not a
+   *  maybe. (Settings' deliberate replay keeps showWelcomeAgain/isReplay.) */
+  async presentFullWelcome(): Promise<void> {
+    try { await this.storageService.remove(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
+    void this.presentWelcome(false);
+  }
+
   /** 2026-08-17 THE DROPBOX MOMENT: a shared invite link opened the app. */
   async presentInviteLanding(): Promise<void> {
     try {
@@ -251,10 +272,10 @@ export class HomePage implements OnInit, OnDestroy {
           await this.cardChat.saveThread(thread);
         }
         void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
-        // 2026-08-29 BUILD 142 (founder, #3): whether the invitee CONFIRMS or
-        // taps SEE MORE, the Welcome package takes over — the card-ready toast
-        // announces the pick, then the full tour shows what they just joined.
-        void this.showWelcomeAgain();
+        // 2026-08-29 BUILD 142 → 143 (founder, #1): the CONFIRM tap no longer
+        // just drops them on the home deck — the FULL Welcome package takes
+        // over immediately (the first-time tour, not the replay variant).
+        void this.presentFullWelcome();
       } else if (role === 'get-app') {
         // 2026-08-26: store id follows the brand migration (com.zyppar.loopkeeper).
         window.open('https://play.google.com/store/apps/details?id=com.zyppar.loopkeeper', '_blank');
@@ -320,6 +341,17 @@ export class HomePage implements OnInit, OnDestroy {
       if (demo !== null) this.mockEnabled = !!demo;
     } catch { /* default true */ }
 
+    // 2026-08-29 BUILD 143 (founder #2): "Check in with John Doe..." nudges
+    // are no longer dead ends. Native system-notification taps and PWA-dock
+    // taps both land HERE and escalate into an armed open loop in Loops.
+    void this.eventService.wireNativeNotificationTaps();
+    this.notifTapSub = this.eventService.notificationTap$.subscribe((extra) => {
+      if (extra?.type === 'event' || extra?.action === 'checkin') this.escalateCheckIn(extra);
+    });
+    this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
+      if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
+    });
+
     await this.loadContacts();
     await this.runAutomation();
 
@@ -337,6 +369,45 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.headerTimer) clearInterval(this.headerTimer);
+    // 2026-08-29 BUILD 143: release the nudge-tap channels.
+    this.notifTapSub?.unsubscribe();
+    this.dockTapSub?.unsubscribe();
+  }
+
+  /** 2026-08-29 BUILD 143 (founder #2): the nudge-tap subscription handles. */
+  private notifTapSub: Subscription | null = null;
+  private dockTapSub: Subscription | null = null;
+
+  /**
+   * 2026-08-29 BUILD 143 (founder #2): the TAPPED NUDGE ESCALATION.
+   * "Check in with John Doe..." is tapped → the loop arrives in Loops ALREADY
+   * OPEN and ALREADY ARMED with its destination — the pill under the capture
+   * box reads "reaching out to John Doe". The user never starts from nothing.
+   */
+  private escalateCheckIn(extra: { contactId?: string; action?: string; [k: string]: any }): void {
+    try {
+      const id = extra?.contactId;
+      const contact = (id ? this.contacts.find((c) => c.contactId === id) : null)
+        || this.contacts.find((c) => (c.name?.display || '').toLowerCase() === String(extra?.['name'] || '').toLowerCase())
+        || null;
+      // Create the open loop on the user's behalf — armed with the card when
+      // one matches, so it lands on that person's loop with history intact.
+      const name = contact?.name?.display || extra?.['name'] || '';
+      const sentence = name ? `Check in with ${name}` : 'Check in';
+      const envelope = this.keeper.capture(sentence, this.contacts, contact || undefined);
+      const loopId = envelope.ok ? envelope.output?.id : undefined;
+
+      // Open the inbox on the Loops tab, arm the destination, select the loop.
+      this.rolodexAiChatOpen = true;
+      setTimeout(() => {
+        const inbox = this.inboxRef;
+        if (!inbox) return;
+        inbox.tab = 'loops';
+        if (contact) inbox.armDestination(contact);
+        if (loopId) inbox.selectedId = loopId;
+        void inbox.refresh();
+      }, 180); // let *ngIf render the inbox first
+    } catch { /* a dead nudge is still better than a crash */ }
   }
 
   /** 2026-08-18 AI LIVE LIGHT: ask the server which engines are configured. */
@@ -1376,6 +1447,12 @@ export class HomePage implements OnInit, OnDestroy {
     this.rolodexAiBusy = true;
     this.rolodexAiTyping = true;
     this.scrollChatToBottom();
+    // 2026-08-29 BUILD 143 (founder #2): PROACTIVE ASSISTANT. The user typed a
+    // person's name — the Assistant doesn't wait for the backend: it throws up
+    // a perfunctory draft from the card, and when the card is thin it shows
+    // the loop-o-meter and a polite "I told ya". History below is built
+    // BEFORE these lines so they never leak into the backend AI's context.
+    try { this.proactiveAssist(text); } catch { /* never block the reply */ }
     try {
       let engine = 'deepseek';
       try {
@@ -1410,6 +1487,43 @@ export class HomePage implements OnInit, OnDestroy {
       kbd.preventDefault();
       void this.sendRolodexAi();
     }
+  }
+
+  /**
+   * 2026-08-29 BUILD 143 (founder #2): the PROACTIVE ASSISTANT. When the user
+   * mentions a person in the Assistant, it does not just sit waiting for the
+   * backend — it checks the card's context and throws up a few lines itself:
+   * a perfunctory starter draft when the card knows the story, and when the
+   * card is thin, the loop-o-meter plus a polite "I told ya" — the alibi is
+   * the user's own missing background. (Called before the history is built;
+   * these lines stay out of the backend AI's context.)
+   */
+  private proactiveAssist(text: string): void {
+    const needle = text.toLowerCase();
+    const mentioned = this.contacts.find((c) => {
+      if ((c as any).isMockData) return false;
+      const name = String(c?.name?.display || '').toLowerCase();
+      return name.length > 2 && needle.includes(name);
+    });
+    if (!mentioned) return;
+    const name = mentioned.name?.display || 'them';
+    const r = (mentioned as any).rolodex || {};
+    const filled = [r.where, r.when, r.who, r.why, r.topic, r.personalTidbits]
+      .filter((v: any) => v && String(v).trim()).length;
+    // The perfunctory starter — always something, per the founder.
+    const draft = this.draftEngine.compose(mentioned, 'follow-up');
+    this.rolodexAiMessages.push({ from: 'assistant', text: `${draft}` });
+    if (filled < 2) {
+      // The card is thin: show the loop-o-meter and the polite "I told ya".
+      const meter = ['where', 'when', 'who', 'why', 'topic']
+        .map((k) => `${r[k] && String(r[k]).trim() ? '\u25CF' : '\u25CB'} ${k}`)
+        .join('  ');
+      this.rolodexAiMessages.push({
+        from: 'assistant',
+        text: `Loop-o-meter for ${name}: ${meter}\nFill the card's W's and I'll write like I've actually met them. I told ya — the background was mine to ask for.`,
+      });
+    }
+    this.scrollChatToBottom();
   }
 
   /** 2026-08-23: keep the latest message in view. */

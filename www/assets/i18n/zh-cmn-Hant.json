@@ -682,6 +682,7 @@
     "invite.confirm": "確認你認識 {{name}}",
     "invite.seeMore": "看更多",
     "invite.report": "有什麼地方出問題了嗎？",
-    "invite.reportThanks": "謝謝 — 我們會處理。"
+    "invite.reportThanks": "謝謝 — 我們會處理。",
+    "capture.reachingOut": "正在聯絡 {{name}}"
   }
 }

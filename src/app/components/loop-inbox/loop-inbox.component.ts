@@ -243,7 +243,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     await this.refresh();
   }
 
-  private async refresh(): Promise<void> {
+  /** 2026-08-29 BUILD 143 (founder #2): the home page escalates a tapped
+   *  "Check in with..." nudge — refresh() goes public so the parent can
+   *  repaint after creating the loop on the user's behalf. */
+  async refresh(): Promise<void> {
     this.todaysThree = await this.loops.todaysThree();
     this.mine = this.loops.openMine().filter(l => !this.todaysThree.includes(l));
     this.theirs = this.loops.waitingOnThem();
@@ -256,6 +259,25 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const due = this.loops.dueNudges();
     this.nudgeIds = new Set(due.map(l => l.id));
     this.nudgesDue = this.nudgeIds.size;
+  }
+
+  /** 2026-08-29 BUILD 143 (founder #2): the destination pill. A tapped nudge
+   *  arms the capture box — "reaching out to {{name}}" sits under the input —
+   *  and the next capture goes to that person's loop, however the sentence
+   *  parses. The ✕ disarms; a successful capture disarms naturally. */
+  armedContact: any = null;
+
+  armDestination(contact: any): void {
+    this.armedContact = contact || null;
+    if (this.armedContact) {
+      setTimeout(() => {
+        try { (document.querySelector('.li-capture ion-textarea') as any)?.setFocus?.(); } catch { /* best effort */ }
+      }, 260);
+    }
+  }
+
+  disarmDestination(): void {
+    this.armedContact = null;
   }
 
   /** 2026-08-28 BUILD 128: is this loop one the algo is prompting right now? */
@@ -357,12 +379,16 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     }
     this.busy = true;
     try {
-      const envelope = this.keeper.capture(sentence, this.contacts);
+      // 2026-08-29 BUILD 143 (founder #2): an armed destination (nudge tap)
+      // routes the capture to that person's loop no matter how it parses;
+      // the pill has done its job, so it disarms after a successful capture.
+      const envelope = this.keeper.capture(sentence, this.contacts, this.armedContact || undefined);
       if (!envelope.ok || !envelope.output) {
         void this.alerts.showToast(this.tr('loopkeeper.t.openErr'), 2200);
         return;
       }
       const loop = envelope.output;
+      this.armedContact = null;
       // 2026-08-28 CLOSED BETA: the daily habit starts with a capture — track
       // it (tester devices carry their numeric code automatically).
       this.analytics.track('loop_captured');

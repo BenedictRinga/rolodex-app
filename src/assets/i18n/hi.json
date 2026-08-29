@@ -682,6 +682,7 @@
     "invite.confirm": "पुष्टि करें कि आप {{name}} को जानते हैं",
     "invite.seeMore": "और देखें",
     "invite.report": "कुछ काम नहीं किया?",
-    "invite.reportThanks": "धन्यवाद — हम देखेंगे।"
+    "invite.reportThanks": "धन्यवाद — हम देखेंगे।",
+    "capture.reachingOut": "{{name}} को संदेश भेज रहे हैं"
   }
 }

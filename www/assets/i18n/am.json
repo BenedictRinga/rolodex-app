@@ -682,6 +682,7 @@
     "invite.confirm": "{{name}}ን እንደሚያውቁ ያረጋግጡ",
     "invite.seeMore": "ተጨማሪ ይመልከቱ",
     "invite.report": "የሚሰራ ነገር አልነበረም?",
-    "invite.reportThanks": "አመሰግናለሁ — እንመርምረዋለን።"
+    "invite.reportThanks": "አመሰግናለሁ — እንመርምረዋለን።",
+    "capture.reachingOut": "ለ{{name}} እየላኩ ነወ"
   }
 }
