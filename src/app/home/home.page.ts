@@ -400,6 +400,15 @@ export class HomePage implements OnInit, OnDestroy {
       const envelope = this.keeper.capture(sentence, this.contacts, contact || undefined);
       const loopId = envelope.ok ? envelope.output?.id : undefined;
 
+      // 2026-08-29 BUILD 151 (founder: "I tap, and it is not evident that
+      // anything happens immediately"): the tap now ANSWERS — a chime at the
+      // instant of the tap, a toast naming the destination, and after the
+      // inbox opens the view travels to the armed loop. Silence was the bug.
+      void this.sound.playLoopCapture();
+      void this.alertsService.showToast(
+        name ? this.translate.instant('loopkeeper.capture.reachingOut', { name }) : 'Loops',
+        2600);
+
       // Open the inbox on the Loops tab, arm the destination, select the loop.
       this.rolodexAiChatOpen = true;
       setTimeout(() => {
@@ -409,6 +418,8 @@ export class HomePage implements OnInit, OnDestroy {
         if (contact) inbox.armDestination(contact);
         if (loopId) inbox.selectedId = loopId;
         void inbox.refresh();
+        inbox.presentResponse(); // travel to the armed loop — the visible proof
+        void this.sound.playLoopReady();
       }, 180); // let *ngIf render the inbox first
     } catch { /* a dead nudge is still better than a crash */ }
   }

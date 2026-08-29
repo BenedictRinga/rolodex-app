@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-build: 150, // 2026-08-29 CARD SPEAKS FIRST: deep-link sends (SMS/WhatsApp/Email) resolve the number from the matched contact card before ever prompting - the typed phone alert is now only for contacts with no card and no saved handle, and even then opens prefilled; handle is remembered on the loop either way
+build: 151, // 2026-08-29 NUDGE TAP ANSWERS: tapping a check-in prompt now audibly and visibly responds - chime at the tap, a Reaching-out toast naming the destination, and after the inbox opens the view travels to the armed loop (presentResponse made public for the home page)
 };
 
 /*

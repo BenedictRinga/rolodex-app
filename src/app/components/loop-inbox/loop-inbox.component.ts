@@ -313,8 +313,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   /** 2026-08-29 BUILD 144 (founder): the response must present itself — glide
-   *  the open loop's detail into view inside the expanded shell. */
-  private presentResponse(): void {
+   *  the open loop's detail into view inside the expanded shell.
+   *  2026-08-29 BUILD 151: public — the home page calls it after a tapped
+   *  nudge escalation, so the armed loop is the first thing on screen. */
+  presentResponse(): void {
     try {
       document.querySelector('.li-row.open')
         ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
