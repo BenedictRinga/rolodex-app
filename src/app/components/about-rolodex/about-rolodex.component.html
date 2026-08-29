@@ -657,6 +657,27 @@
                 <div class="kpi-caption">Last 30 days, by where it happened.</div>
               </div>
             </div>
+
+            <!-- 2026-08-29 BUILD 149: WHERE IN THE WORLD — coarse categorical
+                 locale signals only (IANA timezone, language subtags; no IP, no
+                 geolocation). Answers: which regions, which languages, and do
+                 users deliberately switch away from their device language. -->
+            <div class="investor-kpis" *ngIf="investorStats.analytics.locales" style="margin-top:10px;">
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.locales.langSwitches30d }}</div>
+                <div class="kpi-label">Language switches (30d)</div>
+                <div class="kpi-caption">Deliberate language changes in Settings or the inbox.</div>
+              </div>
+            </div>
+            <div class="retention-table" *ngIf="investorStats.analytics.locales?.topRegions?.length" style="margin-top:10px;">
+              <div class="retention-row retention-head">
+                <span>Region</span><span>Devices</span><span>Language</span><span>Devices</span>
+              </div>
+              <div class="retention-row" *ngFor="let row of localeRows()">
+                <span>{{ row.region }}</span><span>{{ row.regionDevices }}</span><span>{{ row.lang }}</span><span>{{ row.langDevices }}</span>
+              </div>
+            </div>
+            <p class="investor-chart-note" *ngIf="investorStats.analytics.locales">From anonymous IANA timezones + language subtags on app_launch (build 149+). Devices = distinct anonymous ids; language = the language the app actually runs in.</p>
           </div>
 
           <div class="investor-section sec-retention" id="inv-retention" *ngIf="investorStats.analytics?.retention?.length">

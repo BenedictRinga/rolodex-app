@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 148, // 2026-08-29 LEGACY WHISPER MIGRATION V2: substring sweep of whySitting+pretext+draft on load; fragment summaries fall through to the honest hello; gap panel humanized + rebuilt inputs; i18n x39
+build: 149, // 2026-08-29 LOCALE SIGNALS: anonymous IANA timezone + region + language subtags ride app_launch and session_start, and every deliberate language switch emits lang_switched (no IP, no geolocation, aggregate only); investors portal gains a where-in-the-world block (regions x languages table + switch count)
 };

@@ -17,6 +17,10 @@ export interface AnalyticsEventPayload {
  * Privacy-first by design:
  * - NO contacts, NO names, NO phone numbers, NO message text ever leave.
  * - Only a stable anonymous deviceId + event names + tiny numeric props.
+ * - 2026-08-29 BUILD 149: plus coarse categorical LOCALE signals (IANA
+ *   timezone, language subtags) — shared by millions, collected without IP
+ *   or geolocation, to answer "where in the world / which language" in
+ *   aggregate only.
  * - Separate consent flag from cloud sync (default ON for aggregate product
  *   insight; user can turn it off in Settings → Privacy).
  *
@@ -126,6 +130,7 @@ export class AnalyticsService {
       isReturning: this.visitNumber > 1,
       daysSinceFirstUse,
       totalTimeSpentSeconds: this.totalSessionSeconds,
+      ...this.localeProps(), // 2026-08-29 BUILD 149: where in the world, in language terms
     });
     this.startSession();
     this.bindVisibility();
@@ -143,7 +148,35 @@ export class AnalyticsService {
       isReturning: this.visitNumber > 1,
       daysSinceFirstUse,
       totalTimeSpentSeconds: this.totalSessionSeconds,
+      ...this.localeProps(), // 2026-08-29 BUILD 149
     });
+  }
+
+  /* 2026-08-29 BUILD 149 (founder: "Can we know what part of the world our
+   *  users are coming from, languages, culture, and if they prefer to switch
+   *  languages?"): privacy-safe locale signals — NO IP, NO geolocation API,
+   *  nothing identifying:
+   *  - tz: the IANA timezone string (e.g. "Africa/Nairobi") — shared by
+   *    millions, it pins country-level region without touching the network
+   *    stack; the standard no-IP geography proxy.
+   *  - tzRegion: its first segment ("Africa") for coarse continental views.
+   *  - deviceLang: the device UI language's primary subtag ("sw", "en").
+   *  - appLang: the language LoopKeeper is actually running in (saved choice
+   *    wins over device) — the gap between the two IS the preference signal. */
+  private localeProps(): Record<string, string> {
+    const out: Record<string, string> = {};
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      if (tz) { out['tz'] = tz; out['tzRegion'] = tz.split('/')[0]; }
+    } catch { /* no Intl — skip geography, keep language */ }
+    try {
+      out['deviceLang'] = String(navigator.language || '').split('-')[0].toLowerCase();
+    } catch { /* ignore */ }
+    try {
+      const saved = localStorage.getItem('loopkeeper_language');
+      out['appLang'] = (saved || out['deviceLang'] || '').split('-')[0].toLowerCase();
+    } catch { /* ignore */ }
+    return out;
   }
 
   endSession(): void {

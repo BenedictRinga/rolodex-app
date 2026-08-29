@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
+import { AnalyticsService } from '../analytics/analytics.service'; // 2026-08-29 BUILD 149: lang_switched
 
 /**
  * 2026-08-25 TRANSLATION SERVICE — device-language auto-detect + user-owned
@@ -59,7 +60,10 @@ export class TranslationService {
     { code: 'zh-cmn-Hant', label: 'Chinese (Traditional)' },
   ];
 
-  constructor(private readonly translate: TranslateService) {}
+  constructor(
+    private readonly translate: TranslateService,
+    private readonly analytics: AnalyticsService, // 2026-08-29 BUILD 149: lang_switched
+  ) {}
 
   /** Boot-time init: user choice wins, otherwise follow the device language. */
   init(): void {
@@ -77,6 +81,11 @@ export class TranslationService {
   }
 
   setLanguage(code: string): void {
+    // 2026-08-29 BUILD 149 (founder: "do they prefer to switch languages?"):
+    // every deliberate switch is one anonymous event — language codes only,
+    // never anything personal. The app_lang/locale props on app_launch carry
+    // the baseline; this carries the delta.
+    try { this.analytics.track('lang_switched', { to: code }); } catch { /* never block the switch */ }
     try {
       localStorage.setItem(TranslationService.LANG_KEY, code);
     } catch {

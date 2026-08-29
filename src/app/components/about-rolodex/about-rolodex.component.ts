@@ -183,6 +183,26 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     return items.length ? items : null;
   }
 
+  /* 2026-08-29 BUILD 149: pairs the top regions with the top app languages
+   * into one compact table for the portal — aggregate locale signals only. */
+  localeRows(): Array<{ region: string; regionDevices: number; lang: string; langDevices: number }> {
+    const loc = (this.investorStats as any)?.analytics?.locales;
+    if (!loc) return [];
+    const regions = (loc.topRegions || []).slice(0, 5);
+    const langs = (loc.appLanguages || []).slice(0, 5);
+    const len = Math.max(regions.length, langs.length);
+    const rows: Array<{ region: string; regionDevices: number; lang: string; langDevices: number }> = [];
+    for (let i = 0; i < len; i++) {
+      rows.push({
+        region: regions[i]?.region || '',
+        regionDevices: regions[i]?.devices ?? 0,
+        lang: langs[i]?.lang || '',
+        langDevices: langs[i]?.devices ?? 0,
+      });
+    }
+    return rows;
+  }
+
   /** 2026-08-24 READER MODE: bigger text for tired eyes. */
   increaseFont(): void {
     this.readerFontSize = Math.min(22, this.readerFontSize + 1);

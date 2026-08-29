@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 148, // 2026-08-29 LEGACY WHISPER MIGRATION V2: old persisted loops carried nerd strings the v1 migration missed (it required exact string + suggested marker) - v2 sweeps substring matches across whySitting AND pretext AND draft (natural hook -> the right words to start with; the open thread: -> the thread:; user-written reasons never match engine phrases so untouched); tiny summary fragments (the B case) no longer become the thread: B - they fall through to the honest hello; draft why-clause Still here because; gap panel field humanized (What is held it up / the honest reason it is still here) and its inputs rebuilt (12px radius, real padding, 38px min height, focus line); i18n x39 (514 keys)
+build: 149, // 2026-08-29 LOCALE SIGNALS: anonymous IANA timezone + region + language subtags ride app_launch and session_start, and every deliberate language switch emits lang_switched (no IP, no geolocation, aggregate only); investors portal gains a where-in-the-world block (regions x languages table + switch count)
 };
 
 /*
