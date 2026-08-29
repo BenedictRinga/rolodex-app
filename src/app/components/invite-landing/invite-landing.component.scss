@@ -65,6 +65,13 @@
   font-style: italic;
 }
 
+/* 2026-08-29 BUILD 142: the no-text fallback — the card speaks for itself,
+   not a quote, so it drops the italics and reads plain and warm. */
+.invite-text-empty {
+  font-style: normal;
+  color: var(--rolodex-text-secondary);
+}
+
 .invite-hook {
   background: var(--rolodex-surface-alt);
   border-radius: 12px;

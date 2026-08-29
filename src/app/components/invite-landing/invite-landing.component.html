@@ -1,7 +1,7 @@
 <div class="invite-shell">
   <div class="invite-card" [class.appointment]="invite.kind === 'appointment'">
-    <div class="invite-kicker">{{ invite.kind === 'appointment' ? 'Appointment from' : 'Message from' }}</div>
-    <div class="invite-wedge">LoopKeeper — close the loop you keep meaning to close</div>
+    <div class="invite-kicker">{{ (invite.kind === 'appointment' ? 'loopkeeper.invite.kickerAppt' : 'loopkeeper.invite.kickerMsg') | translate }}</div>
+    <div class="invite-wedge">{{ 'loopkeeper.invite.wedge' | translate }}</div>
     <h2 class="invite-from">{{ invite.from }}</h2>
 
     <div class="invite-body">
@@ -18,30 +18,51 @@
       <ng-container *ngIf="invite.kind === 'message'">
         <div class="invite-row invite-text">
           <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-          <span>&ldquo;{{ invite.text }}&rdquo;</span>
+          <!-- 2026-08-29 BUILD 142: WhatsApp and casual shares carry NO text —
+               the old empty quote used to stare back. Now the card speaks. -->
+          <span *ngIf="invite.text">&ldquo;{{ invite.text }}&rdquo;</span>
+          <span *ngIf="!invite.text" class="invite-text-empty">{{ 'loopkeeper.invite.emptyText' | translate: { name: invite.from } }}</span>
         </div>
       </ng-container>
     </div>
 
     <div class="invite-hook">
-      <div class="hook-title">It came from a LoopKeeper card.</div>
-      <div class="hook-copy">One card, no address book required. This note is waiting for you — open it in LoopKeeper.</div>
+      <div class="hook-title">{{ 'loopkeeper.invite.hookTitle' | translate }}</div>
+      <div class="hook-copy">{{ 'loopkeeper.invite.hookCopy' | translate }}</div>
     </div>
 
     <div class="invite-actions">
+      <!-- 2026-08-29 BUILD 142 (founder): "CONFIRM YOU know them" — the tap
+           opens the phone's own contacts, the pick lands on their LoopKeeper
+           deck automatically, and then the Welcome package takes over. -->
       <ion-button expand="block" color="primary" (click)="findInContacts()">
         <ion-icon name="person-add-outline" slot="start"></ion-icon>
-        Find {{ invite.from }} in my contacts
+        {{ 'loopkeeper.invite.confirm' | translate: { name: invite.from } }}
       </ion-button>
+
+      <!-- 2026-08-29 BUILD 142 (founder): GET THE APP is COMMENTED OUT, not
+           deleted — pending the tester process, still fortuitously delayed.
       <ion-button expand="block" fill="outline" (click)="getApp()">
         <ion-icon name="logo-google-playstore" slot="start"></ion-icon>
         Get the app — free on the Play Store
       </ion-button>
-      <ion-button expand="block" fill="outline" color="medium" (click)="whatIsRolodex()">
+      -->
+
+      <!-- 2026-08-29 BUILD 142 (founder): "Not now" was a dead end — a curious
+           invitee should be pulled deeper. This is now the See-more door. -->
+      <ion-button expand="block" fill="outline" (click)="whatIsRolodex()">
         <ion-icon name="sparkles-outline" slot="start"></ion-icon>
-        What is LoopKeeper?
+        {{ 'loopkeeper.invite.seeMore' | translate }}
       </ion-button>
-      <ion-button expand="block" fill="clear" size="small" (click)="close()">Not now</ion-button>
+
+      <!-- 2026-08-29 BUILD 142 (founder): the failure catch — this invitee was
+           the first to point out the clumsy UX and had nowhere to say so. The
+           tap reports anonymously and lands in the investors portal's event
+           roll-up (invite_issue). -->
+      <ion-button expand="block" fill="clear" size="small" (click)="reportIssue()">
+        <ion-icon name="warning-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.invite.report' | translate }}
+      </ion-button>
     </div>
   </div>
 </div>

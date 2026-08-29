@@ -30,8 +30,6 @@ import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-ro
 import { HelpModalComponent } from '../help-modal/help-modal.component';
 // 2026-08-28 BUILD 124: the ONE language list + popover opts (see app-languages.ts).
 import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-languages';
-// 2026-08-29 BUILD 142: the ONE language state (persist + overrides + live read).
-import { TranslationService } from '../../services/translation/translation.service';
 import { ShareAppModalComponent } from '../share-app-modal/share-app-modal.component';
 import { TranslatePortalComponent } from '../translate-portal/translate-portal.component';
 import { environment } from 'src/environments/environment';
@@ -190,10 +188,9 @@ export class RolodexComponent implements OnInit {
     return this.translate.currentLang || this.translation.getSavedLanguage() || 'en';
   }
 
-  /** 2026-08-29 BUILD 142: delegate to the ONE language service - persists,
-   *  applies overrides, and the Inbox select mirrors it instantly. */
   setLanguage(code: string): void {
-    this.translation.setLanguage(code);
+    this.currentLang = code;
+    void this.translate.use(code);
   }
 
   /** 2026-08-28 BUILD 121 SCROLLABLE LANG POPOVER: 15 languages no longer fit

@@ -672,6 +672,16 @@
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/month):</strong> cards for the people who matter, groups, reminders, the follow-up engine, birthdays, sync, pods, in-app chat.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/month):</strong> everything in Basic, plus the Assistant — messages composed in your own voice, spoken aloud before you send, with preset guides, suggested follow-ups and timing.",
     "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at zyppar.com/loopkeeper/",
-    "aboutTxt.rmNote": "Сцена замерла — ваше устройство предпочитает меньше движения."
+    "aboutTxt.rmNote": "Сцена замерла — ваше устройство предпочитает меньше движения.",
+    "invite.kickerMsg": "Сообщение от",
+    "invite.kickerAppt": "Встреча от",
+    "invite.wedge": "LoopKeeper — закрой круг, который всё никак не закрывается",
+    "invite.emptyText": "{{name}} выходит на связь с вами через карту LoopKeeper — разговор начинается здесь.",
+    "invite.hookTitle": "Это пришло из карточки LoopKeeper.",
+    "invite.hookCopy": "Одна карточка, без адресной книги. Это письмо ждёт вас — откройте его в LoopKeeper.",
+    "invite.confirm": "Подтвердите, что знаете {{name}}",
+    "invite.seeMore": "Узнать больше",
+    "invite.report": "Что-то не сработало?",
+    "invite.reportThanks": "Спасибо — разберёмся."
   }
 }

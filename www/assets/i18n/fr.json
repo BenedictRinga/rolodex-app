@@ -672,6 +672,16 @@
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/month):</strong> cards for the people who matter, groups, reminders, the follow-up engine, birthdays, sync, pods, in-app chat.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/month):</strong> everything in Basic, plus the Assistant — messages composed in your own voice, spoken aloud before you send, with preset guides, suggested follow-ups and timing.",
     "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at zyppar.com/loopkeeper/",
-    "aboutTxt.rmNote": "Scène figée — votre appareil préfère réduire les animations."
+    "aboutTxt.rmNote": "Scène figée — votre appareil préfère réduire les animations.",
+    "invite.kickerMsg": "Message de",
+    "invite.kickerAppt": "Rendez-vous de",
+    "invite.wedge": "LoopKeeper — bouclez la boucle que vous n'arrêtez pas de remettre",
+    "invite.emptyText": "{{name}} vous contacte depuis sa carte LoopKeeper — la conversation commence ici.",
+    "invite.hookTitle": "Cela vient d'une carte LoopKeeper.",
+    "invite.hookCopy": "Une seule carte, sans carnet d'adresses. Ce message vous attend — ouvrez-le dans LoopKeeper.",
+    "invite.confirm": "Confirmez que vous connaissez {{name}}",
+    "invite.seeMore": "En savoir plus",
+    "invite.report": "Quelque chose n'a pas marché ?",
+    "invite.reportThanks": "Merci — nous allons regarder ça."
   }
 }

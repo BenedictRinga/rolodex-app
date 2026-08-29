@@ -219,11 +219,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 2026-08-29 BUILD 142: delegate to the ONE language service - persists the
-   *  choice, applies the user's translation overrides, and every other
-   *  surface (Settings, next launch) sees the same language instantly. */
   setLanguage(code: string): void {
-    this.translation.setLanguage(code);
+    this.currentLang = code;
+    void this.translate.use(code);
   }
 
   requestClose(): void {

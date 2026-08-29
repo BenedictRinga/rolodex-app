@@ -251,6 +251,10 @@ export class HomePage implements OnInit, OnDestroy {
           await this.cardChat.saveThread(thread);
         }
         void this.alertsService.showToast(picked.name + "'s card is ready — " + (appt.length ? 'the appointment is on it.' : 'the message is in their thread.'), 5000);
+        // 2026-08-29 BUILD 142 (founder, #3): whether the invitee CONFIRMS or
+        // taps SEE MORE, the Welcome package takes over — the card-ready toast
+        // announces the pick, then the full tour shows what they just joined.
+        void this.showWelcomeAgain();
       } else if (role === 'get-app') {
         // 2026-08-26: store id follows the brand migration (com.zyppar.loopkeeper).
         window.open('https://play.google.com/store/apps/details?id=com.zyppar.loopkeeper', '_blank');

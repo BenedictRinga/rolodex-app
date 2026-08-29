@@ -594,6 +594,16 @@
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/bil):</strong> kaarada dadka muhiimsan, kooxaha, xasuusinayaasha, mashiinka xiriirka, dhalashooyinka, is-waafajinta, pods, wadahadal app-ka gudihiisa.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/bil):</strong> wax kasta oo Basic ah, iyo Kaaliyaha — fariimaha lagu sameeyo codkaada, kor la akhriyo ka hor intaadan dirin, iyo hagayaal, soo jeedmo xiriir iyo waqti.",
     "aboutTxt.version": "LoopKeeper v{{v}} · browser-kaaga ayuu ku shaqeeyaa zyppar.com/loopkeeper/",
-    "aboutTxt.rmNote": "Gooraysan — qalabkaagu wuxuu doorbidayaa dhaqaaq la’aan."
+    "aboutTxt.rmNote": "Gooraysan — qalabkaagu wuxuu doorbidayaa dhaqaaq la’aan.",
+    "invite.kickerMsg": "Fariin ka socota",
+    "invite.kickerAppt": "Ballan ka socda",
+    "invite.wedge": "LoopKeeper — xiriirka aad mar walba xiri jirtay u dhammaystir",
+    "invite.emptyText": "{{name}} ayaa kula xiriiraya kaarka LoopKeeper — wada sheekadaadu halkan ayay ka bilaabantaa.",
+    "invite.hookTitle": "Waxay ka timid kaarka LoopKeeper.",
+    "invite.hookCopy": "Hal kaar, buugga cinwaanka lama baahna. Fariintan ayaa kugu sugaysa — ku fur LoopKeeper.",
+    "invite.confirm": "Xaqiiji inaad garanayso {{name}}",
+    "invite.seeMore": "Faahfaahin dheeraad ah",
+    "invite.report": "Cillad ma jirta?",
+    "invite.reportThanks": "Mahadsanid — waan fiirinaynaa."
   }
 }

@@ -672,6 +672,16 @@
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/mwezi):</strong> kadi za watu wanaokuhusu, makundi, vikumbusho, injini ya kufuatilia, siku za kuzaliwa, usawazishaji, pods, soga ndani ya programu.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/mwezi):</strong> kila kitu katika Basic, pamoja na Msaidizi — ujumbe unaoundwa kwa sauti yako mwenyewe, unasomwa kwa sauti kabla ya kutuma, na nyongozi, mapendekezo ya kufuatilia na muda.",
     "aboutTxt.version": "LoopKeeper v{{v}} · inaendesha kwenye kivinjari chako kwa zyppar.com/loopkeeper/",
-    "aboutTxt.rmNote": "Imesimama tulivu — kifaa chako kipenda mwendo mdogo."
+    "aboutTxt.rmNote": "Imesimama tulivu — kifaa chako kipenda mwendo mdogo.",
+    "invite.kickerMsg": "Ujumbe kutoka kwa",
+    "invite.kickerAppt": "Miadi kutoka kwa",
+    "invite.wedge": "LoopKeeper — funga mzunguko umekuwa ukimaanisha kufunga",
+    "invite.emptyText": "{{name}} anawasiliana nawe kutoka kwenye kadi yake ya LoopKeeper — mazungumzo yanaanza hapa.",
+    "invite.hookTitle": "Ujumbe huu umetoka kwenye kadi ya LoopKeeper.",
+    "invite.hookCopy": "Kadi moja, hakuna kitabu cha anwani kinachohitajika. Ujumbe huu unakusubiri — ufungue LoopKeeper.",
+    "invite.confirm": "Thibitisha kuwa unamfahamu {{name}}",
+    "invite.seeMore": "Tazama zaidi",
+    "invite.report": "Kuna kitu hakikufanya kazi?",
+    "invite.reportThanks": "Asante — tutaiangalia."
   }
 }
