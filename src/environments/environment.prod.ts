@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 147, // 2026-08-29 HUMAN WORDS, ONE OPEN: white gapnote text on amber pulse; Still here because / The promise / Opening line; no more the open thread; legacy suggested reasons migrate on load; i18n x39 (514 keys)
+  build: 148, // 2026-08-29 LEGACY WHISPER MIGRATION V2: substring sweep of whySitting+pretext+draft on load; fragment summaries fall through to the honest hello; gap panel humanized + rebuilt inputs; i18n x39
 };

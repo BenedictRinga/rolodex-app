@@ -99,19 +99,33 @@ export class LoopsService {
     } catch {
       this.cache = [];
     }
-    // 2026-08-29 BUILD 147 (founder: "I am still seeing natural hook"): the
-    // nerd wording was FIXED in the source but OLD LOOPS STILL CARRY it in
-    // storage (whySitting was persisted when the engine suggested it). One
-    // quiet migration on load — legacy suggested strings become the human
-    // ones. User-written reasons are never touched.
-    const LEGACY_WHY: Record<string, string> = {
-      'there was no natural hook to reopen with': 'the right words to start with haven\u2019t come yet',
-      'long silences feel heavier the longer they sit': 'long silences feel heavier the longer they last',
-    };
+    // 2026-08-29 BUILD 147: the nerd wording was FIXED in the source but OLD
+    // LOOPS STILL CARRY it in storage (suggestions were persisted). One quiet
+    // migration on load — legacy suggested strings become the human ones.
+    // 2026-08-29 BUILD 148 (founder: still seeing "natural hook", and drafts
+    // reading "Hi Angela — the open thread: B"): v1 required the exact string
+    // AND the 'suggested' marker, so older persisted loops slipped through —
+    // and pretext/draft carried the old "the open thread: …" prefix baked in.
+    // v2 sweeps substring matches with NO source requirement, across
+    // whySitting + pretext + draft. User-written reasons never match these
+    // engine phrases, so they are untouched by construction.
+    const LEGACY_WHY: Array<[RegExp, string]> = [
+      [/natural hook/, 'the right words to start with haven\u2019t come yet'],
+      [/the longer they sit/, 'long silences feel heavier the longer they last'],
+    ];
     let migrated = false;
     for (const l of this.cache) {
-      if (l.whySittingSource === 'suggested' && l.whySitting && LEGACY_WHY[l.whySitting]) {
-        l.whySitting = LEGACY_WHY[l.whySitting];
+      if (l.whySitting) {
+        for (const [rx, human] of LEGACY_WHY) {
+          if (rx.test(l.whySitting)) { l.whySitting = human; migrated = true; break; }
+        }
+      }
+      if (l.pretext && l.pretext.startsWith('the open thread: ')) {
+        l.pretext = 'the thread: ' + l.pretext.slice('the open thread: '.length);
+        migrated = true;
+      }
+      if (l.draft && l.draft.includes('the open thread: ')) {
+        l.draft = l.draft.split('the open thread: ').join('the thread: ');
         migrated = true;
       }
     }
@@ -484,7 +498,10 @@ No pressure either way — replying here connects you directly.`;
   suggestPretext(l: Loop): string {
     if (l.promise) return `you promised: “${l.promise}”`;
     if (l.relation) return `how you met — ${l.relation}`;
-    if (l.summary) return `the thread: ${l.summary}`; // 2026-08-29 BUILD 147: "the open thread" carried the third OPEN
+    // 2026-08-29 BUILD 148 (founder: "Hi Angela — the open thread: B"): a
+    // one-letter summary fragment must never be quoted as "the thread: B" —
+    // fragments shorter than a phrase fall through to the honest hello.
+    if (l.summary && l.summary.trim().length >= 8) return `the thread: ${l.summary.trim()}`;
     const d = this.daysSitting(l);
     if (d > 21) return `an honest note about the ${d}-day gap`;
     return `a real hello — not “just circling back”`;
@@ -553,7 +570,7 @@ No pressure either way — replying here connects you directly.`;
     }
     const f = l.person.split(' ')[0];
     const topic = (l.summary || 'our last thread').replace(/^about\s+/i, '');
-    const why = l.whySitting ? `It sat because ${l.whySitting}.` : '';
+    const why = l.whySitting ? `Still here because ${l.whySitting}.` : ''; // 2026-08-29 BUILD 148: the row's voice, not "It sat because"
     const d = this.daysSitting(l);
 
     const P: Record<LoopKind, Record<LoopTone, string>> = {

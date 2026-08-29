@@ -146,12 +146,19 @@
   font-size:11.5px; font-weight:700; margin-bottom:8px; cursor:pointer;
   animation:lkGapPulse 1.6s ease-in-out infinite;
   text-shadow:0 1px 2px rgba(0,0,0,.55); }
-.li-gap-panel { display:flex; flex-direction:column; gap:6px; padding:8px; margin-bottom:8px;
-  border:1px solid rgba(255,178,92,.35); border-radius:12px; background:rgba(255,178,92,.05); }
-.li-gap-row { display:flex; gap:8px; align-items:center; font-size:12px;
-  label { width:110px; flex-shrink:0; font-size:11px; font-weight:700; opacity:.75; }
-  input { flex:1; background:rgba(128,128,128,.12); border:1px solid rgba(255,178,92,.30); border-radius:8px;
-    padding:5px 8px; color:inherit; font-size:12px; } }
+/* 2026-08-29 BUILD 148 (founder: "MS-Dos square, zero elegance, no margins —
+   text almost falling out of the borders"): the panel breathes now — 12px
+   inner padding, 10px row spacing, 12px-radius soft fields with real room
+   (9px vertical padding, 38px min height) and a warm focus line. Same visual
+   family as the Assistant composer, not a terminal. */
+.li-gap-panel { display:flex; flex-direction:column; gap:10px; padding:12px; margin:2px 0 10px;
+  border:1px solid rgba(255,190,110,.30); border-radius:16px; background:rgba(255,178,92,.05); }
+.li-gap-row { display:flex; gap:10px; align-items:center; font-size:12.5px;
+  label { width:112px; flex-shrink:0; font-size:11px; font-weight:700; opacity:.75; line-height:1.3; }
+  input { flex:1; min-height:38px; background:rgba(128,128,128,.10); border:1px solid rgba(255,190,110,.22);
+    border-radius:12px; padding:9px 12px; color:inherit; font-size:12.5px; line-height:1.35;
+    transition:border-color .15s ease, background .15s ease;
+    &:focus { outline:none; border-color:rgba(255,190,110,.55); background:rgba(255,178,92,.07); } } }
 @keyframes lkGapPulse { 0%,100% { background:rgba(255,178,92,.14); box-shadow:0 0 0 rgba(255,178,92,0); }
   50% { background:rgba(255,178,92,.30); box-shadow:0 0 14px rgba(255,178,92,.50); } }
 /* 2026-08-29 BUILD 144 (founder #2, granular): the one-line map at the top of
