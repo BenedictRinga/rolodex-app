@@ -1,13 +1,15 @@
 /* 2026-08-28 BUILD 124 (founder): the Inbox grows by 15% — 50vh was too short
    for Today's 3 + Waiting-on-you to breathe. 50 × 1.15 = 57.5vh.
    2026-08-29 BUILD 144 (founder): the shell BREATHES with the conversation —
-   the moment a loop is open (the app has answered), it expands to 80% of the
-   viewport so the packet + draft + send machinery are reachable without the
-   user fighting a cramped scroller. Smooth, not jumpy. */
+   the moment a loop is open (the app has answered), it expands so the packet
+   + draft + send machinery are ON the viewport instead of below the fold.
+   2026-08-29 BUILD 145 (founder): 80% pushed the deck's View toolbar half out
+   of the bottom viewport — 75% is still ample workspace. The toolbar itself
+   now sits up as a footer while expanded (see rolodex.component.scss). */
 .li-shell { display:flex; flex-direction:column; height:57.5vh; min-height:57.5vh; max-height:57.5vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
   transition:height .32s ease, min-height .32s ease, max-height .32s ease; }
-.li-shell.expanded { height:80vh; min-height:80vh; max-height:80vh; }
+.li-shell.expanded { height:75vh; min-height:75vh; max-height:75vh; }
 /* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
    whole tab pauses for one breath. The check pops with a spring, the person is
    named freed, and the freed-this-week count counts UP. The arc finally lands:
@@ -123,15 +125,27 @@
 .li-cardchip:active { background:rgba(79,109,245,.28); }
 .li-packet { display:flex; flex-direction:column; gap:4px; margin-bottom:8px; }
 .li-packet-row { display:flex; gap:8px; font-size:12px; align-items:center;
-  label { width:110px; flex-shrink:0; opacity:.55; font-size:11px; }
+  /* 2026-08-29 BUILD 145 (founder): the headings CARRY the packet — bold,
+     concerned, never indifferent. */
+  label { width:110px; flex-shrink:0; opacity:.75; font-size:11px; font-weight:700; }
   span, input { flex:1; }
+  span.unset { opacity:.5; font-style:italic; }
   input { background:rgba(128,128,128,.12); border:none; border-radius:8px; padding:4px 8px; color:inherit; font-size:12px; } }
-/* 2026-08-29 BUILD 144 (founder): a context GAP is an invitation, not a blank —
-   its heading PULSES in amber until it is filled, then the row settles into
-   the quiet rhythm of the rest of the packet. */
-.li-packet-row.gap { label { color:#ffb25c; opacity:1; font-weight:700; animation:lkGapPulse 1.7s ease-in-out infinite; }
-  input { background:rgba(255,178,92,.10); border:1px dashed rgba(255,178,92,.45); } }
-@keyframes lkGapPulse { 0%,100% { opacity:.55; } 50% { opacity:1; } }
+/* 2026-08-29 BUILD 145 (founder): ONE gap, not three nagging rows. A single
+   pulsating notification names what is missing; tapping it opens the
+   persisted context panel. The PULSE (not color) is the attention grabber. */
+.li-gapnote { width:fit-content; max-width:100%; text-align:left; border:1px dashed rgba(255,178,92,.55);
+  background:rgba(255,178,92,.08); color:#ffb25c; border-radius:999px; padding:4px 12px;
+  font-size:11px; font-weight:600; margin-bottom:8px; cursor:pointer;
+  animation:lkGapPulse 1.7s ease-in-out infinite; }
+.li-gap-panel { display:flex; flex-direction:column; gap:6px; padding:8px; margin-bottom:8px;
+  border:1px solid rgba(255,178,92,.35); border-radius:12px; background:rgba(255,178,92,.05); }
+.li-gap-row { display:flex; gap:8px; align-items:center; font-size:12px;
+  label { width:110px; flex-shrink:0; font-size:11px; font-weight:700; opacity:.75; }
+  input { flex:1; background:rgba(128,128,128,.12); border:1px solid rgba(255,178,92,.30); border-radius:8px;
+    padding:5px 8px; color:inherit; font-size:12px; } }
+@keyframes lkGapPulse { 0%,100% { opacity:.65; box-shadow:0 0 0 rgba(255,178,92,0); }
+  50% { opacity:1; box-shadow:0 0 10px rgba(255,178,92,.35); } }
 /* 2026-08-29 BUILD 144 (founder #2, granular): the one-line map at the top of
    every open loop, and the closing whisper under the decision buttons. */
 .li-steps { font-size:10px; letter-spacing:.07em; text-transform:uppercase; opacity:.5; margin-bottom:8px; }

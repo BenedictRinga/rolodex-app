@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 144, // 2026-08-29 THE LOOP CONVERSATION GETS A VOICE: LOOP tap chimes (falling pluck) and the app answers with a DIFFERENT chime (warm two-note resolve) as the packet + draft appear; the shell then expands 57.5vh to 80vh so the response is ON the viewport, and the view glides to it (toggle-open presents too, AI-polish chimes); context GAPS pulse in amber until filled (relation row now always shows, with a placeholder); "Sitting because" reworded to "Still open because"; detail gains a Context-Draft-Send orientation map and a closing whisper (send closes the loop - a reply raises the next one); i18n x39 - 509 keys
+  build: 145, // 2026-08-29 ONE GAP, NOT THREE NAGS + FOOTER TOOLBAR: shell expansion 80vh to 75vh (80 pushed the deck View toolbar half out of viewport); while expanded the deck View toolbar SITS UP AS A FOOTER (sticky bottom) via inboxExpanded wiring (loop-inbox expandedChange -> home -> rolodex host class); the three gap rows are replaced by ONE pulsating tappable notification (Still open - no {{items}} yet. Tap to fill.) opening a persisted context panel (Who / Last touch / How you know / Why sitting - all save to the loop); packet row headings now bold; i18n x39 - 514 keys
 };
 
 /*

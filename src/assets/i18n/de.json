@@ -686,6 +686,11 @@
     "capture.reachingOut": "Du meldest dich bei {{name}}",
     "ctx.relationPlaceholder": "wie ihr euch kennt — Kollege, Cousin, Mentor…",
     "detail.steps": "Kontext · Entwurf · Senden — ein Atemzug, dann erledigt.",
-    "detail.afterSend": "Senden schließt die Schleife — eine Antwort öffnet die nächste."
+    "detail.afterSend": "Senden schließt die Schleife — eine Antwort öffnet die nächste.",
+    "ctx.gapNote": "Noch offen — noch kein/e {{items}}. Zum Ausfüllen antippen.",
+    "ctx.gapWho": "Name",
+    "ctx.gapTouch": "letztem Kontakt",
+    "ctx.gapRel": "Verbindung",
+    "ctx.gapWhy": "Grund"
   }
 }

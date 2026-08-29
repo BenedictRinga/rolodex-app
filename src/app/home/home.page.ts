@@ -69,6 +69,9 @@ export class HomePage implements OnInit, OnDestroy {
   loading: boolean = false;
   /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
+  /** 2026-08-29 BUILD 145 (founder): true while the inbox shell is expanded —
+   *  the deck's View toolbar sits up as a footer for the duration. */
+  inboxExpanded = false;
   /** 2026-08-26 SETTINGS/INBOX SWAP: remember the Inbox was open so it can be
    *  restored the moment Settings closes. */
   private inboxWasOpenBeforeSettings = false;

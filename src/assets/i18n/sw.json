@@ -686,6 +686,11 @@
     "capture.reachingOut": "Unawasiliana na {{name}}",
     "ctx.relationPlaceholder": "mnavyojua — mfanyakazi, binamu, mshauri…",
     "detail.steps": "Muktadha · Rasimu · Tuma — pumzi moja, halafu umekamilika.",
-    "detail.afterSend": "Kutuma kunafunga mzunguko — jibu linalofika linaleta mwingine."
+    "detail.afterSend": "Kutuma kunafunga mzunguko — jibu linalofika linaleta mwingine.",
+    "ctx.gapNote": "Bado wazi — hakuna {{items}} bado. Gusa kujaza.",
+    "ctx.gapWho": "jina",
+    "ctx.gapTouch": "mawasiliano ya mwisho",
+    "ctx.gapRel": "uhusiano",
+    "ctx.gapWhy": "sababu"
   }
 }

@@ -4,5 +4,5 @@ export const environment = {
   // /api/openloop + /api/rolodex as backward-compatible aliases).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 144, // 2026-08-29 THE LOOP CONVERSATION GETS A VOICE: capture chime + different response chime; shell expands to 80vh when a loop answers and scrolls to it; amber gap pulses; "Still open because"; steps map + after-send whisper; i18n x39 (509 keys)
+  build: 145, // 2026-08-29 ONE GAP NOT THREE NAGS + FOOTER TOOLBAR: 80vh -> 75vh; deck View toolbar sits up as a footer while the inbox is expanded; ONE pulsating gap notification opens a persisted context panel (Who / Last touch / How you know / Why sitting); bold packet headings; i18n x39 (514 keys)
 };

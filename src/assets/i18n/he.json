@@ -686,6 +686,11 @@
     "capture.reachingOut": "אתה פונה אל {{name}}",
     "ctx.relationPlaceholder": "איך אתם מכירים — עמית, בן דוד, חונך…",
     "detail.steps": "הקשר · טיוטה · שליחה — נשימה אחת וזה נגמר.",
-    "detail.afterSend": "שליחה סוגרת את הלופ — תשובה פותחת את הבאה."
+    "detail.afterSend": "שליחה סוגרת את הלופ — תשובה פותחת את הבאה.",
+    "ctx.gapNote": "עדיין פתוח — אין עדיין {{items}}. הקישו להשלמה.",
+    "ctx.gapWho": "שם",
+    "ctx.gapTouch": "קשר אחרון",
+    "ctx.gapRel": "קשר",
+    "ctx.gapWhy": "סיבה"
   }
 }

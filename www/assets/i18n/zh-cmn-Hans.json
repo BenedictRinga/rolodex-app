@@ -686,6 +686,11 @@
     "capture.reachingOut": "正在联系 {{name}}",
     "ctx.relationPlaceholder": "怎么认识的 — 同事、亲戚、导师…",
     "detail.steps": "背景 · 草稿 · 发送 — 一口气，就完成。",
-    "detail.afterSend": "发送即闭环 — 对方回复，开启下一个。"
+    "detail.afterSend": "发送即闭环 — 对方回复，开启下一个。",
+    "ctx.gapNote": "仍未解决 — 还没有{{items}}。点击填写。",
+    "ctx.gapWho": "姓名",
+    "ctx.gapTouch": "最近联系",
+    "ctx.gapRel": "关系",
+    "ctx.gapWhy": "原因"
   }
 }

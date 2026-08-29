@@ -265,16 +265,37 @@
           </div>
         </div>
         -->
-        <!-- 2026-08-29 BUILD 144 (founder): context GAPS stay visible and their
-             headings pulse — an empty row is an invitation, not a blank. The
-             relation row now always shows (it used to vanish when empty). -->
-        <div class="li-packet-row" [class.gap]="!l.relation">
-          <label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label>
-          <input [placeholder]="'loopkeeper.ctx.relationPlaceholder' | translate" [ngModel]="l.relation" (blur)="saveRelation($event, l)">
+        <!-- 2026-08-29 BUILD 145 (founder): ONE gap, not three nagging rows.
+             A single pulsating notification names what is missing ("Still open
+             because there was no…") and opens a persisted panel with the key
+             items the algo and AI need — Who, Last touch, How you know, Why
+             sitting. The packet rows below are the display; the panel is the
+             pen. Whatever is given persists to the loop. -->
+        <button *ngIf="hasGaps(l)" class="li-gapnote" (click)="toggleGapPanel(l)" [attr.aria-expanded]="gapOpenId === l.id">
+          {{ 'loopkeeper.ctx.gapNote' | translate: { items: gapsOf(l).join(', ') } }}
+        </button>
+        <div *ngIf="gapOpenId === l.id" class="li-gap-panel">
+          <div class="li-gap-row">
+            <label>{{ 'loopkeeper.ctx.who' | translate }}</label>
+            <input [ngModel]="l.person" (blur)="savePerson(l, $event.target.value)">
+          </div>
+          <div class="li-gap-row">
+            <label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label>
+            <input type="date" [ngModel]="l.lastTouchAt ? (l.lastTouchAt | date:'yyyy-MM-dd') : ''" (blur)="saveLastTouch(l, $event.target.value)">
+          </div>
+          <div class="li-gap-row">
+            <label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label>
+            <input [placeholder]="'loopkeeper.ctx.relationPlaceholder' | translate" [ngModel]="l.relation" (blur)="saveRelation($event, l)">
+          </div>
+          <div class="li-gap-row">
+            <label>{{ 'loopkeeper.ctx.whySitting' | translate }}</label>
+            <input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)">
+          </div>
         </div>
-        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span>{{ rel(l.lastTouchAt) }}</span></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.howYouKnow' | translate }}</label><span [class.unset]="!l.relation">{{ l.relation || '—' }}</span></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.lastTouch' | translate }}</label><span [class.unset]="!l.lastTouchAt">{{ rel(l.lastTouchAt) }}</span></div>
         <div class="li-packet-row" *ngIf="l.promise"><label>{{ 'loopkeeper.ctx.openPromise' | translate }}</label><span>{{ l.promise }}</span></div>
-        <div class="li-packet-row" [class.gap]="!l.whySitting"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><input [placeholder]="'loopkeeper.ctx.whyPlaceholder' | translate" [ngModel]="l.whySitting" (blur)="saveWhy(l, $event.target.value)"></div>
+        <div class="li-packet-row"><label>{{ 'loopkeeper.ctx.whySitting' | translate }} <span *ngIf="l.whySittingSource === 'suggested'" class="li-meta">(suggested ✎)</span></label><span [class.unset]="!l.whySitting">{{ l.whySitting || '—' }}</span></div>
         <div class="li-packet-row">
           <label>{{ 'loopkeeper.ctx.stance' | translate }}</label>
           <span class="li-chips">

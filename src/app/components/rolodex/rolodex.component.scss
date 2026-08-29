@@ -147,6 +147,16 @@ app-filter-search {
   }
 }
 
+/* 2026-08-29 BUILD 145 (founder): while the Inbox is expanded (a loop is
+   open, shell at 75vh), the View toolbar SITS UP AS A FOOTER — anchored to
+   the bottom edge of the viewport instead of riding at its natural spot, so
+   the taller shell can never push it half out of view. Normal mode is
+   untouched: the toolbar keeps its natural position and top-stickiness. */
+:host(.inbox-expanded) .seriescontact ion-list-header {
+  top: auto;
+  bottom: 0;
+}
+
 /* ── Contact Card Item ───────────────────────────── */
 ion-item {
   --background: var(--rolodex-surface);

@@ -686,6 +686,11 @@
     "capture.reachingOut": "Vous écrivez à {{name}}",
     "ctx.relationPlaceholder": "votre lien — collègue, cousin, mentor…",
     "detail.steps": "Contexte · Brouillon · Envoi — un souffle, et c’est réglé.",
-    "detail.afterSend": "Envoyer clôt la boucle — une réponse en ouvre une nouvelle."
+    "detail.afterSend": "Envoyer clôt la boucle — une réponse en ouvre une nouvelle.",
+    "ctx.gapNote": "Encore ouvert — pas encore de {{items}}. Touchez pour compléter.",
+    "ctx.gapWho": "nom",
+    "ctx.gapTouch": "dernier contact",
+    "ctx.gapRel": "lien",
+    "ctx.gapWhy": "raison"
   }
 }

@@ -608,6 +608,11 @@
     "capture.reachingOut": "Aad la xiriirayso {{name}}",
     "ctx.relationPlaceholder": "sida aad u taqaan — shaqaale, qaraabo, la-taliye…",
     "detail.steps": "Xaalka · Qorista · Dirista — neef, waa dhammaaday.",
-    "detail.afterSend": "Diriddu way xiraysaa — jawaabta soo cowday waxay keentaa mid cusub."
+    "detail.afterSend": "Diriddu way xiraysaa — jawaabta soo cowday waxay keentaa mid cusub.",
+    "ctx.gapNote": "Weli furan — waxaa maqan {{items}}. Guji si aad buuxiso.",
+    "ctx.gapWho": "magac",
+    "ctx.gapTouch": "xiriirkii ugu dambeeyay",
+    "ctx.gapRel": "xiriir",
+    "ctx.gapWhy": "sabab"
   }
 }

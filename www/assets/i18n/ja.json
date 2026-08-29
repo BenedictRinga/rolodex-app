@@ -686,6 +686,11 @@
     "capture.reachingOut": "{{name}} に連絡しています",
     "ctx.relationPlaceholder": "知り合ったきっかけ — 同僚、親戚、メンター…",
     "detail.steps": "背景 · 下書き · 送信 — ひと息で完結。",
-    "detail.afterSend": "送信でループ完了 — 返信があれば次が生まれます。"
+    "detail.afterSend": "送信でループ完了 — 返信があれば次が生まれます。",
+    "ctx.gapNote": "まだ未解決 — {{items}}がないまま。タップして入力。",
+    "ctx.gapWho": "名前",
+    "ctx.gapTouch": "最後のやり取り",
+    "ctx.gapRel": "つながり",
+    "ctx.gapWhy": "理由"
   }
 }

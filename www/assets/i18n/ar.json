@@ -686,6 +686,11 @@
     "capture.reachingOut": "أنت تراسل {{name}}",
     "ctx.relationPlaceholder": "كيف تعرفه — زميل، قريب، مرشد…",
     "detail.steps": "السياق · المسودة · الإرسال — نَفَس واحد ثم انتهى.",
-    "detail.afterSend": "الإرسال يُغلق الحلقة — والردّ يفتح التالية."
+    "detail.afterSend": "الإرسال يُغلق الحلقة — والردّ يفتح التالية.",
+    "ctx.gapNote": "لا يزال مفتوحًا — لا يوجد {{items}} بعد. انقر للإكمال.",
+    "ctx.gapWho": "اسم",
+    "ctx.gapTouch": "آخر تواصل",
+    "ctx.gapRel": "صلة",
+    "ctx.gapWhy": "سبب"
   }
 }

@@ -47,6 +47,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   // 2026-08-28 BUILD 130: dispatch persists the relationship — the inbox
   // writes the contact's rolling context and asks HomePage to persist the deck.
   @Output() contactsDirty = new EventEmitter<void>();
+  /** 2026-08-29 BUILD 145 (founder): the shell's expansion is announced, so the
+   *  deck's View toolbar can sit up as a footer while the inbox leads. */
+  @Output() expandedChange = new EventEmitter<boolean>();
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
@@ -221,6 +224,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const res = await modal.onDidDismiss();
     if (res?.data?.action === 'open-row' && res.data.loopId) {
       this.selectedId = res.data.loopId;
+      this.expandedChange.emit(true); // BUILD 145: the deck follows
     }
   }
 
@@ -299,6 +303,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   toggle(id: string): void {
     const opening = this.selectedId !== id;
     this.selectedId = opening ? id : null;
+    this.expandedChange.emit(!!this.selectedId); // BUILD 145: the deck follows
     if (opening && this.nudgeIds.has(id)) {
       this.loops.registerNudgeSent(id);
       this.nudgeIds.delete(id);
@@ -415,6 +420,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       void this.sounds.playLoopCapture();
       this.captureInput = '';
       this.selectedId = loop.id;
+      this.expandedChange.emit(true); // BUILD 145: the deck follows
       await this.refresh();
       // 2026-08-29 BUILD 144 (founder): the app's ANSWER — the context packet
       // and draft just appeared. Chime #2 (a different, warmer resolve), the
@@ -454,6 +460,37 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   saveRelation(ev: any, l: Loop): void { this.loops.update(l.id, { relation: String(ev.target.value || '').trim() || undefined }); }
   setStance(l: Loop, s: Loop['stance']): void { this.loops.update(l.id, { stance: s, draft: this.loops.generateDraft({ ...l, stance: s }, l.tone) }); }
   newPretext(l: Loop): void { this.loops.update(l.id, { pretext: this.loops.suggestPretext(l) }); }
+
+  // ── 2026-08-29 BUILD 145: ONE gap, not three nagging rows (founder) ────────
+  // "Who says unnamed, but if I tap it, it is unresponsive... One notification
+  // that pulsates and when tapped, opens a panel for a few key items which
+  // algo and AI require to contextualize (must be persisted whatever is
+  // given)." The packet rows stay as display; the gaps speak with a single
+  // pulsating line that opens an editable, persisted panel.
+  gapOpenId: string | null = null;
+  toggleGapPanel(l: Loop): void { this.gapOpenId = this.gapOpenId === l.id ? null : l.id; }
+
+  /** The missing context pieces, in the founder's order: who, last touch,
+   *  how you know them, why it's still open. Translated for the gap note. */
+  gapsOf(l: Loop): string[] {
+    const nameless = !l.person || l.person === 'Unnamed' || l.person === 'Someone';
+    const gaps: string[] = [];
+    if (nameless) gaps.push(this.tr('loopkeeper.ctx.gapWho'));
+    if (!l.lastTouchAt) gaps.push(this.tr('loopkeeper.ctx.gapTouch'));
+    if (!l.relation) gaps.push(this.tr('loopkeeper.ctx.gapRel'));
+    if (!l.whySitting) gaps.push(this.tr('loopkeeper.ctx.gapWhy'));
+    return gaps;
+  }
+  hasGaps(l: Loop): boolean { return this.gapsOf(l).length > 0; }
+
+  savePerson(l: Loop, value: string): void {
+    const v = String(value || '').trim();
+    if (v) this.loops.update(l.id, { person: v });
+  }
+  saveLastTouch(l: Loop, value: string): void {
+    const ts = value ? Date.parse(String(value)) : NaN;
+    this.loops.update(l.id, { lastTouchAt: Number.isFinite(ts) ? ts : undefined });
+  }
 
   // ── Deepen-Six (F13 clear · F21 intro B) ────────────────────────────────────
   clearSuggestedWhy(l: Loop): void { this.loops.update(l.id, { whySitting: undefined, whySittingSource: undefined }); }
