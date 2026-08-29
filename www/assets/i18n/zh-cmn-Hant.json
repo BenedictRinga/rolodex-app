@@ -385,7 +385,7 @@
     "drop.reason3": "關係淡了",
     "drop.reason4": "已在應用程式外處理好了",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
+    "share.voiceB": "LoopKeeper 幫你起草欠朋友的那句話 — 措辭和時機，隨時可發。關係，常青。{{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "未能開啟該迴路——請重試。",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "姓名",
     "ctx.gapTouch": "最近聯繫",
     "ctx.gapRel": "關係",
-    "ctx.gapWhy": "原因"
+    "ctx.gapWhy": "原因",
+    "settings.shareVoice": "分享話術",
+    "settings.shareVoiceCycle": "切換",
+    "settings.shareVoiceAuto": "自動（輪替）",
+    "settings.shareVoiceDesc": "分享 LoopKeeper 時使用的一句話",
+    "empty.titleOpen": "有事懸著？有心事繆著？"
   }
 }

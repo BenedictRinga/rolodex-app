@@ -385,7 +385,7 @@
     "drop.reason3": "Relacja wystygła",
     "drop.reason4": "Załatwione poza aplikacją",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
+    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "Nie udało się otworzyć tej pętli — spróbuj ponownie.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "name",
     "ctx.gapTouch": "last touch",
     "ctx.gapRel": "connection",
-    "ctx.gapWhy": "reason"
+    "ctx.gapWhy": "reason",
+    "settings.shareVoice": "Share voice",
+    "settings.shareVoiceCycle": "Switch",
+    "settings.shareVoiceAuto": "Auto (rotates)",
+    "settings.shareVoiceDesc": "the phrasing used when you share LoopKeeper",
+    "empty.titleOpen": "Something sitting? Something gnawing?"
   }
 }

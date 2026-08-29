@@ -385,7 +385,7 @@
     "drop.reason3": "La relation s'est refroidie",
     "drop.reason4": "Réglé en dehors de l'appli",
     "share.voiceA": "Tu connais cette réponse que tu dois toujours envoyer ? LoopKeeper a trouvé le contexte et rédigé le message — tu n'as plus qu'à envoyer : {{url}}",
-    "share.voiceB": "LoopKeeper, c'est la secrétaire de tes amitiés — le contexte retrouvé, les mots choisis, ton seul travail : appuyer sur Envoyer : {{url}}",
+    "share.voiceB": "LoopKeeper rédige le message que vous devez à un proche — les mots et le moment, prêts à partir. Les liens, conservés. {{url}}",
     "share.voiceC": "J'ai capturé la ligne avant que le café refroidisse — LoopKeeper l'a transformée en message prêt : {{url}}",
     "t.openErr": "Impossible d'ouvrir cette boucle — réessayez.",
     "t.sampleBlocked": "C'est le texte d'exemple — remplace-le par une vraie promesse pour la capturer.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "nom",
     "ctx.gapTouch": "dernier contact",
     "ctx.gapRel": "lien",
-    "ctx.gapWhy": "raison"
+    "ctx.gapWhy": "raison",
+    "settings.shareVoice": "Formule de partage",
+    "settings.shareVoiceCycle": "Changer",
+    "settings.shareVoiceAuto": "Auto (rotation)",
+    "settings.shareVoiceDesc": "la formulation utilisée pour partager LoopKeeper",
+    "empty.titleOpen": "Quelque chose qui pèse ? Quelque chose qui ronge ?"
   }
 }

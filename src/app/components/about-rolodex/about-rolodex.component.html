@@ -658,6 +658,43 @@
               </div>
             </div>
 
+            <!-- 2026-08-29 BUILD 152 (founder: "a record of how often users are
+                 sending out messages or sharing the app… how soon after invite,
+                 new users respond… have comparative reporting to compare in
+                 Investors"): shares by voice/channel + the timed funnel. -->
+            <div class="investor-kpis" *ngIf="investorStats.analytics.shares || investorStats.analytics.inviteFunnel" style="margin-top:10px;">
+              <div class="kpi-card" *ngIf="investorStats.analytics.shares">
+                <div class="kpi-value">{{ investorStats.analytics.shares.total30d }}</div>
+                <div class="kpi-label">Shares (30d)</div>
+                <div class="kpi-caption">Message sends + app shares + invites created, last 30d.</div>
+              </div>
+              <div class="kpi-card" *ngIf="investorStats.analytics.inviteFunnel">
+                <div class="kpi-value">{{ investorStats.analytics.inviteFunnel.invites30d }}</div>
+                <div class="kpi-label">Invites (30d)</div>
+                <div class="kpi-caption">{{ investorStats.analytics.inviteFunnel.landed30d }} landed · {{ investorStats.analytics.inviteFunnel.accepted30d }} confirmed knowing the sender.</div>
+              </div>
+              <div class="kpi-card" *ngIf="investorStats.analytics.inviteFunnel">
+                <div class="kpi-value">{{ investorStats.analytics.inviteFunnel.medianHoursToLand != null ? (investorStats.analytics.inviteFunnel.medianHoursToLand | number: '1.0-1') + 'h' : '—' }}</div>
+                <div class="kpi-label">Median to land</div>
+                <div class="kpi-caption">How soon after the invite the invitee opens the link.</div>
+              </div>
+              <div class="kpi-card" *ngIf="investorStats.analytics.inviteFunnel">
+                <div class="kpi-value">{{ investorStats.analytics.inviteFunnel.medianHoursToAccept != null ? (investorStats.analytics.inviteFunnel.medianHoursToAccept | number: '1.0-1') + 'h' : '—' }}</div>
+                <div class="kpi-label">Median to confirm</div>
+                <div class="kpi-caption">How soon the invitee confirms they know the sender.</div>
+              </div>
+            </div>
+
+            <!-- BUILD 152 comparative: which share voice converts. -->
+            <div class="retention-table" *ngIf="voiceRows().length" style="margin-top:8px;">
+              <div class="retention-row retention-header">
+                <span>Share voice</span><span>Sends</span><span>Invites</span><span>Landed</span><span>Confirmed</span>
+              </div>
+              <div class="retention-row" *ngFor="let v of voiceRows()">
+                <span>{{ v.voice }}</span><span>{{ v.sends }}</span><span>{{ v.invites }}</span><span>{{ v.landed }}</span><span>{{ v.accepted }}</span>
+              </div>
+            </div>
+
             <!-- 2026-08-29 BUILD 149: WHERE IN THE WORLD — coarse categorical
                  locale signals only (IANA timezone, language subtags; no IP, no
                  geolocation). Answers: which regions, which languages, and do

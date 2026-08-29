@@ -26,6 +26,7 @@ import { AppInstallService } from '../../services/app-install/app-install.servic
 import { VoiceOptionsService } from '../../services/voice-options/voice-options.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { ShareAppService } from '../../services/share-app/share-app.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { ChatWithRolodexModalComponent } from '../chat-with-rolodex/chat-with-rolodex.component';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
 // 2026-08-28 BUILD 124: the ONE language list + popover opts (see app-languages.ts).
@@ -176,6 +177,8 @@ export class RolodexComponent implements OnInit {
     // 2026-08-29 BUILD 142: the ONE language state — Settings writes through
     // the shared service so the Inbox (and every reload) stays in step.
     private readonly translation: TranslationService,
+    // 2026-08-29 BUILD 152: share-voice switches are a measurable preference.
+    private readonly analytics: AnalyticsService,
   ) {
     // no snapshot assignment — currentLang is a live getter now
   }
@@ -554,6 +557,30 @@ export class RolodexComponent implements OnInit {
       cssClass: 'share-app-modal',
     });
     await modal.present();
+  }
+
+  /* 2026-08-29 BUILD 152 (founder: "do not know how to switch them"): the
+   *  share-voice setting — Auto → A → B → C, persisted in ShareAppService,
+   *  with a live preview of the message the current voice sends. */
+  async cycleShareVoice(ev?: Event): Promise<void> {
+    ev?.stopPropagation(); // the row itself opens the share sheet — this button must not
+    const order: Array<'auto' | 'A' | 'B' | 'C'> = ['auto', 'A', 'B', 'C'];
+    const cur = this.shareAppService.getShareVoice();
+    const next = order[(order.indexOf(cur) + 1) % order.length];
+    this.shareAppService.setShareVoice(next);
+    try { this.analytics.track('share_variant_switched', { to: next }); } catch { /* analytics optional */ }
+    const url = 'https://zyppar.com/loopkeeper/';
+    const preview = next === 'auto'
+      ? this.translate.instant('loopkeeper.settings.shareVoiceAuto')
+      : await this.shareAppService.buildAppShareText(url, next);
+    void this.alertService.showToast(`${this.shareVoiceLabel()} — ${preview}`, 4200);
+  }
+
+  shareVoiceLabel(): string {
+    const v = this.shareAppService.getShareVoice();
+    return v === 'auto'
+      ? `${this.translate.instant('loopkeeper.settings.shareVoiceAuto')} · ${this.translate.instant('loopkeeper.settings.shareVoiceDesc')}`
+      : this.translate.instant(`loopkeeper.share.voice${v}`, { url: 'zyppar.com/loopkeeper' });
   }
 
   /** 2026-08-19 CHAT WITH AI ASSISTANT: the suggestion channel with the banner,

@@ -441,6 +441,21 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
+        <!-- 2026-08-29 BUILD 152 (founder: "I notice you put alternative messages,
+             but do not know how to switch them"): the three share phrasings are a
+             real setting now — tap to cycle Auto → A → B → C, with a preview of
+             the message this voice sends. -->
+        <ion-item lines="none" class="elegant-item" id="settings-share-voice" (click)="cycleShareVoice($event)">
+          <ion-icon name="chatbubbles-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>
+            {{ 'loopkeeper.settings.shareVoice' | translate }}
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ shareVoiceLabel() }}</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" size="small" (click)="cycleShareVoice($event)">
+            {{ 'loopkeeper.settings.shareVoiceCycle' | translate }}
+          </ion-button>
+        </ion-item>
+
         <ion-item lines="none" class="elegant-item" id="settings-cardview">
           <ion-icon name="grid-outline" slot="start" color="primary"></ion-icon>
           <ion-label>{{ 'loopkeeper.settings.cardview' | translate }}</ion-label>

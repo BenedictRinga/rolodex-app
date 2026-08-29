@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { InviteService, RolodexInvite } from '../invite/invite.service';
 import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
+import { AnalyticsService } from '../analytics/analytics.service';
 
 /**
  * 2026-08-18 THE SHAREAPP DISTRIBUTION MECHANIC.
@@ -53,21 +54,54 @@ export class ShareAppService {
    * is picked at random per send, so the same user's shares vary naturally.
    * Keys live in assets/i18n/*.json under loopkeeper.share.voiceA/B/C with a
    * {{url}} parameter. */
-  private readonly shareVoices = [
-    'loopkeeper.share.voiceA',
-    'loopkeeper.share.voiceB',
-    'loopkeeper.share.voiceC',
-  ];
+  /* 2026-08-29 BUILD 152 (founder): the three share voices were invisible —
+   *  "I notice you put alternative messages, but do not know how to switch
+   *  them." Now the voice is a real setting: Auto (rotate per send, the old
+   *  behaviour) or a pinned voice, persisted, with a cycle button in
+   *  Settings → Share. Every send is tracked by voice + channel so Investors
+   *  can compare which phrasing actually converts. */
+  private static readonly VOICE_KEY = 'loopkeeper_share_voice'; // 'auto' | 'A' | 'B' | 'C'
+  private static readonly VOICE_IDS = ['A', 'B', 'C'] as const;
+
+  getShareVoice(): 'auto' | 'A' | 'B' | 'C' {
+    try {
+      const v = localStorage.getItem(ShareAppService.VOICE_KEY);
+      return v === 'A' || v === 'B' || v === 'C' ? v : 'auto';
+    } catch { return 'auto'; }
+  }
+
+  setShareVoice(v: 'auto' | 'A' | 'B' | 'C'): void {
+    try { localStorage.setItem(ShareAppService.VOICE_KEY, v); } catch { /* session only */ }
+  }
+
+  /** The voice for this send: the pinned one, or a rotation when Auto. */
+  private resolveVoice(): 'A' | 'B' | 'C' {
+    const pinned = this.getShareVoice();
+    if (pinned !== 'auto') return pinned;
+    return ShareAppService.VOICE_IDS[Math.floor(Math.random() * ShareAppService.VOICE_IDS.length)];
+  }
+
+  private voiceKey(id: 'A' | 'B' | 'C'): string {
+    return `loopkeeper.share.voice${id}`;
+  }
 
   constructor(
     private readonly inviteService: InviteService,
     private readonly rolodexSync: RolodexSyncService,
     private readonly translate: TranslateService,
+    private readonly analytics: AnalyticsService,
   ) {}
 
+  /** 2026-08-29 BUILD 152: every share is a recorded event — voice, channel,
+   *  moment. No names, no text, no numbers; just what converts. */
+  private trackShare(channel: string, voice: string, moment: ShareMoment): void {
+    try { this.analytics.track('app_shared', { channel, voice, moment }); } catch { /* never block a share */ }
+  }
+
   /** 2026-08-27 GENERIC APP SHARE TEXT (three voices, localized). */
-  async buildAppShareText(url: string): Promise<string> {
-    const key = this.shareVoices[Math.floor(Math.random() * this.shareVoices.length)];
+  async buildAppShareText(url: string, voice?: 'A' | 'B' | 'C'): Promise<string> {
+    const id = voice || this.resolveVoice();
+    const key = this.voiceKey(id);
     try {
       const text = await this.translate.get(key, { url }).toPromise();
       // ngx-translate returns the KEY itself when missing in every language —
@@ -120,11 +154,18 @@ export class ShareAppService {
     return { from, room, kind: 'message', text };
   }
 
-  /** Create the invite server-side (48h token) and return the RolodexInvite. */
+  /** Create the invite server-side (48h token) and return the RolodexInvite.
+   *  2026-08-29 BUILD 152: the chosen voice + moment ride into invite_created,
+   *  so the funnel can be compared per voice in Investors. */
   async createInvite(moment: ShareMoment, ctx: ShareAppContext): Promise<RolodexInvite | null> {
     const from = await this.resolveFrom(ctx);
-    return this.inviteService.create(this.invitePayload(moment, { ...ctx, from }));
+    const voice = this.resolveVoice();
+    this.lastVoice = voice;
+    return this.inviteService.create(this.invitePayload(moment, { ...ctx, from }), { voice, moment });
   }
+
+  /** The voice actually used by the most recent send (for share tracking). */
+  private lastVoice: 'A' | 'B' | 'C' = 'A';
 
   private whenLabel(when: string): string {
     try {
@@ -177,7 +218,9 @@ export class ShareAppService {
   async share(moment: ShareMoment, ctx: ShareAppContext): Promise<'shared' | 'copied' | 'failed'> {
     const inv = await this.createInvite(moment, ctx);
     if (!inv) return 'failed';
-    return this.inviteService.share(inv, await this.buildText(moment, inv, ctx));
+    const res = await this.inviteService.share(inv, await this.buildText(moment, inv, ctx));
+    if (res !== 'failed') this.trackShare(res === 'copied' ? 'clipboard' : 'native', this.lastVoice, moment);
+    return res;
   }
 
   /** Direct WhatsApp send (pre-filled with the crafted text + the OG link). */
@@ -188,6 +231,7 @@ export class ShareAppService {
     const digits = String(phone || '').replace(/[^\d]/g, '');
     const target = digits ? `https://wa.me/${digits}` : 'https://wa.me/';
     window.open(`${target}?text=${encodeURIComponent(text)}`, '_blank');
+    this.trackShare('whatsapp', this.lastVoice, moment);
   }
 
   /** Direct SMS send (pre-filled with the crafted text + the OG link). */
@@ -197,8 +241,10 @@ export class ShareAppService {
     const text = await this.buildText(moment, inv, ctx);
     if (phone) {
       window.location.href = `sms:${phone}?body=${encodeURIComponent(text)}`;
+      this.trackShare('sms', this.lastVoice, moment);
     } else {
-      await this.inviteService.share(inv, text);
+      const res = await this.inviteService.share(inv, text);
+      if (res !== 'failed') this.trackShare(res === 'copied' ? 'clipboard' : 'native', this.lastVoice, moment);
     }
   }
 
@@ -210,8 +256,10 @@ export class ShareAppService {
     const subject = 'A note for you on LoopKeeper';
     if (email) {
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+      this.trackShare('email', this.lastVoice, moment);
     } else {
-      await this.inviteService.share(inv, text);
+      const res = await this.inviteService.share(inv, text);
+      if (res !== 'failed') this.trackShare(res === 'copied' ? 'clipboard' : 'native', this.lastVoice, moment);
     }
   }
 
@@ -222,17 +270,20 @@ export class ShareAppService {
     // old cached Zyppar preview for the bare /loopkeeper/ path.
     const url = 'https://zyppar.com/loopkeeper/?src=settings';
     // 2026-08-27 SHARE VOICES: one of three localized messages, picked per send.
-    const text = await this.buildAppShareText(url);
+    const voice = this.resolveVoice();
+    const text = await this.buildAppShareText(url, voice);
     const nav: any = navigator;
     try {
       if (nav.share) {
         await nav.share({ title: 'LoopKeeper', text, url });
+        this.trackShare('native', voice, 'casual');
         return 'shared';
       }
     } catch { /* user cancelled the sheet */ }
     try {
       if (nav.clipboard?.writeText) {
         await nav.clipboard.writeText(text);
+        this.trackShare('clipboard', voice, 'casual');
         return 'copied';
       }
     } catch { /* clipboard unavailable */ }
@@ -247,6 +298,7 @@ export class ShareAppService {
     if (!navigator.clipboard?.writeText) return false;
     try {
       await navigator.clipboard.writeText(text);
+      this.trackShare('copy', this.lastVoice, moment);
       return true;
     } catch {
       return false;

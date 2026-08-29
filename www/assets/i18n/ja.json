@@ -385,7 +385,7 @@
     "drop.reason3": "関係が冷めてしまった",
     "drop.reason4": "アプリの外で対応済み",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
+    "share.voiceB": "LoopKeeper が友人に宛てたメッセージを下書き — 言葉もタイミングも、送信準備完了。関係を、保てます。{{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "名前",
     "ctx.gapTouch": "最後のやり取り",
     "ctx.gapRel": "つながり",
-    "ctx.gapWhy": "理由"
+    "ctx.gapWhy": "理由",
+    "settings.shareVoice": "シェアの言葉",
+    "settings.shareVoiceCycle": "切り替え",
+    "settings.shareVoiceAuto": "自動（ローテーション）",
+    "settings.shareVoiceDesc": "LoopKeeper をシェアするときの文面",
+    "empty.titleOpen": "引っかかっていること、ありませか？"
   }
 }

@@ -25,6 +25,10 @@ import { WelcomeModalComponent, WELCOME_DISMISSED_KEY } from '../welcome-modal/w
 })
 export class InviteLandingComponent {
   @Input() invite!: RolodexInvite;
+  /** 2026-08-29 BUILD 152 (founder: "how soon after invite new users respond"):
+   *  the raw token rides with funnel events — anonymous + 48h-ephemeral — so
+   *  Investors can time created → landed → accepted. */
+  @Input() token = '';
 
   constructor(
     private readonly modalController: ModalController,
@@ -34,6 +38,12 @@ export class InviteLandingComponent {
     private readonly translateRef: TranslateService,
     private readonly alerts: AlertsService,
   ) {}
+
+  ngOnInit(): void {
+    // 2026-08-29 BUILD 152: the funnel's second door — an invitee actually
+    // arrived. Token only; the code expires in 48h and carries no identity.
+    try { this.analytics.track('invite_landed', { token: this.token || undefined, kind: this.invite?.kind || 'message', hadText: !!this.invite?.text }); } catch { /* analytics optional */ }
+  }
 
   get whenLabel(): string {
     if (!this.invite?.when) return '';

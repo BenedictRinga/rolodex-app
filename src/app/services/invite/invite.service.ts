@@ -33,7 +33,7 @@ export interface RolodexInvite {
 export class InviteService {
   constructor(private readonly analytics: AnalyticsService) {}
 
-  create(inv: { from: string; room: string; kind: 'message' | 'appointment'; title?: string; when?: string; text?: string }): Promise<RolodexInvite | null> {
+  create(inv: { from: string; room: string; kind: 'message' | 'appointment'; title?: string; when?: string; text?: string }, via?: { voice?: string; moment?: string; channel?: string }): Promise<RolodexInvite | null> {
     return fetch(`${environment.rolodexApiBase}/invites`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -42,7 +42,12 @@ export class InviteService {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.ok) {
-          this.analytics.track('invite_created', { kind: inv.kind });
+          // 2026-08-29 BUILD 152 (founder: "a record of how often users are
+          // sending out messages or sharing the app… how soon after invite new
+          // users respond"): the token rides along — anonymous, ephemeral
+          // (48h), no identity — so the funnel can time created → landed →
+          // accepted, and `via` lets Investors compare share voices.
+          this.analytics.track('invite_created', { kind: inv.kind, token: d.token, ...(via || {}) });
           return { token: d.token, url: d.url, ogUrl: d.ogUrl, from: inv.from, room: inv.room, kind: inv.kind, title: inv.title || '', when: inv.when || '', text: inv.text || '', createdAt: Date.now() } as RolodexInvite;
         }
         return null;

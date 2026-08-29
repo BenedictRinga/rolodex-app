@@ -203,6 +203,25 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     return rows;
   }
 
+  /** 2026-08-29 BUILD 152 (founder: "have comparative reporting to compare in
+   *  Investors"): which share voice converts — sends vs invites vs funnel. */
+  voiceRows(): Array<{ voice: string; sends: number; invites: number; landed: number; accepted: number }> {
+    const shares = (this.investorStats as any)?.analytics?.shares;
+    if (!shares) return [];
+    const funnel: Record<string, any> = {};
+    for (const f of shares.funnelByVoice || []) funnel[f.voice] = f;
+    const sends: Record<string, number> = {};
+    for (const v of shares.byVoice || []) sends[v.voice] = v.count;
+    const voices = new Set<string>([...Object.keys(sends), ...Object.keys(funnel)]);
+    return Array.from(voices).sort().map((voice) => ({
+      voice,
+      sends: sends[voice] || 0,
+      invites: funnel[voice]?.invites ?? 0,
+      landed: funnel[voice]?.landed ?? 0,
+      accepted: funnel[voice]?.accepted ?? 0,
+    }));
+  }
+
   /** 2026-08-24 READER MODE: bigger text for tired eyes. */
   increaseFont(): void {
     this.readerFontSize = Math.min(22, this.readerFontSize + 1);

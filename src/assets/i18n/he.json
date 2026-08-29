@@ -385,7 +385,7 @@
     "drop.reason3": "הקשר התקרר",
     "drop.reason4": "טופל מחוץ לאפליקציה",
     "share.voiceA": "את התשובה שתמיד התכוונתם לשלוח? LoopKeeper מצא את ההקשר וכתב טיוטה — לכם נשאר ללחוץ שלח: {{url}}",
-    "share.voiceB": "LoopKeeper הוא המזכיר של החברויות שלכם — זוכר מי חייב למי מה, כותב את המילים, בוחר את הרגע: {{url}}",
+    "share.voiceB": "LoopKeeper נסח את ההודעה שאתה חייב לחבר — המילים והרגע, מוכנים לשליחה. קשרים, נשמרים. {{url}}",
     "share.voiceC": "תפסתי את השורה עוד לפני שהקפה התקררה — LoopKeeper הפך אותה להודעה מוכנה לשליחה: {{url}}",
     "t.openErr": "לא הצלחנו לפתוח את הלולאה — נסו שוב.",
     "t.sampleBlocked": "זוהי דוגמה בלבד — כתבו הבטחה אמיתית משלכם כדי לתעד אותה.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "שם",
     "ctx.gapTouch": "קשר אחרון",
     "ctx.gapRel": "קשר",
-    "ctx.gapWhy": "סיבה"
+    "ctx.gapWhy": "סיבה",
+    "settings.shareVoice": "נוסח השיתוף",
+    "settings.shareVoiceCycle": "החלף",
+    "settings.shareVoiceAuto": "אוטומטי (מתחלף)",
+    "settings.shareVoiceDesc": "הניסוח שנשלח כשמשתפים את LoopKeeper",
+    "empty.titleOpen": "משהו מונח? משהו מכרסם?"
   }
 }

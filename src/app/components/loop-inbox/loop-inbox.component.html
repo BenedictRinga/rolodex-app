@@ -59,9 +59,14 @@
       <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
     </div>
 
-    <!-- Empty state → first-session win (the fulcrum, now between pills and input) -->
-    <div *ngIf="!todaysThree.length && !mine.length" class="li-empty">
-      <div class="li-empty-big">{{ 'loopkeeper.empty.title' | translate }}</div>
+    <!-- 2026-08-29 BUILD 152 (founder: "When did we lose the Loops fulcrum?"):
+         the fulcrum is STANDING again — pills → fulcrum → input at all times,
+         as builds 126/127 described it. Since build 87 it was gated to the
+         empty state (it vanished whenever even one loop was open — which is
+         the normal state of a used inbox). When loops wait, the headline
+         flips to its question form: the fulcrum asks instead of declaring. -->
+    <div class="li-empty">
+      <div class="li-empty-big">{{ ((todaysThree.length || mine.length) ? 'loopkeeper.empty.titleOpen' : 'loopkeeper.empty.title') | translate }}</div>
       <p>{{ 'loopkeeper.empty.body' | translate }}</p>
     </div>
 

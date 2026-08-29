@@ -385,7 +385,7 @@
     "drop.reason3": "La relación se enfrió",
     "drop.reason4": "Resuelto fuera de la app",
     "share.voiceA": "¿Esa respuesta que sigues debiendo? LoopKeeper encontró el contexto y redactó el mensaje — tú solo tocas Enviar: {{url}}",
-    "share.voiceB": "LoopKeeper es la secretaria de tus amistades — recuerda, redacta y elige el momento: {{url}}",
+    "share.voiceB": "LoopKeeper redacta el mensaje que le debes a un amigo — las palabras y el momento, listos para enviar. Los lazos, cuidados. {{url}}",
     "share.voiceC": "Capturé la frase antes de que se enfriara el café — LoopKeeper hizo el resto: {{url}}",
     "t.openErr": "No se pudo abrir ese bucle — inténtalo otra vez.",
     "t.sampleBlocked": "Ese es el texto de ejemplo — escribe una promesa real tuya para capturarla.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "nombre",
     "ctx.gapTouch": "último contacto",
     "ctx.gapRel": "vínculo",
-    "ctx.gapWhy": "motivo"
+    "ctx.gapWhy": "motivo",
+    "settings.shareVoice": "Voz para compartir",
+    "settings.shareVoiceCycle": "Cambiar",
+    "settings.shareVoiceAuto": "Auto (rota)",
+    "settings.shareVoiceDesc": "la frase que se usa al compartir LoopKeeper",
+    "empty.titleOpen": "¿Algo pendiente? ¿Algo que carcome?"
   }
 }

@@ -385,7 +385,7 @@
     "drop.reason3": "रिश्ता ठंडा हो गया",
     "drop.reason4": "ऐप से बाहर निपटा लिया",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
+    "share.voiceB": "LoopKeeper वह संदेश लिखता है जो आप मित्र के लिए देना चाहते हैं — शब्द और समय, भेजने को तैयार। रिश्ते, संभाले हुए। {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "वह लूप नहीं खुला — फिर कोशिश करें।",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "नाम",
     "ctx.gapTouch": "अंतिम संपर्क",
     "ctx.gapRel": "रिश्ता",
-    "ctx.gapWhy": "कारण"
+    "ctx.gapWhy": "कारण",
+    "settings.shareVoice": "साझा करने की भाषा",
+    "settings.shareVoiceCycle": "बदलें",
+    "settings.shareVoiceAuto": "ऑटो (बारी-बारी)",
+    "settings.shareVoiceDesc": "LoopKeeper साझा करते समय प्रयुक्त वाक्य",
+    "empty.titleOpen": "कुल्ह लटक रहा है? कुल्ह खटक रहा है?"
   }
 }

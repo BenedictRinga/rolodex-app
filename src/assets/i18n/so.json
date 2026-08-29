@@ -307,7 +307,7 @@
     "drop.reason3": "Xiriirku wuu diiray",
     "drop.reason4": "Waa la dhammeeyay ka baxsan app-ka",
     "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper is the secretary for your friendships — it remembers what you owe whom, drafts the words, picks the moment: {{url}}",
+    "share.voiceB": "LoopKeeper wuxuu qoraa fariinta aad sahlaysid saaxiib — ereyada iyo waqtiga, diyaar u dir. Xiriirrada, waa la hayaa. {{url}}",
     "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
     "t.openErr": "Loop-kaan ma furmin — isku day mar kale.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
@@ -613,6 +613,11 @@
     "ctx.gapWho": "magac",
     "ctx.gapTouch": "xiriirkii ugu dambeeyay",
     "ctx.gapRel": "xiriir",
-    "ctx.gapWhy": "sabab"
+    "ctx.gapWhy": "sabab",
+    "settings.shareVoice": "Codka wadaagista",
+    "settings.shareVoiceCycle": "Beddel",
+    "settings.shareVoiceAuto": "Otomatig (wareegaya)",
+    "settings.shareVoiceDesc": "erayada la isticmaalo marka la wadaagayo LoopKeeper",
+    "empty.titleOpen": "Wax baa fadhiya? Wax baa qaniinaya?"
   }
 }

@@ -239,7 +239,7 @@ export class HomePage implements OnInit, OnDestroy {
       history.replaceState(null, '', location.pathname + location.hash);
       const modal = await this.modalController.create({
         component: InviteLandingComponent,
-        componentProps: { invite: inv },
+        componentProps: { invite: inv, token }, // BUILD 152: token rides for the funnel
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95],
         initialBreakpoint: 0.95,
@@ -250,6 +250,10 @@ export class HomePage implements OnInit, OnDestroy {
       const role = res?.role;
       const picked = res?.data?.picked;
       if (picked?.name) {
+        // 2026-08-29 BUILD 152: the funnel's last door — the invitee confirmed
+        // they know the sender. Timed against invite_created by token in
+        // Investors ("how soon after invite, new users respond").
+        try { this.analytics.track('invite_accepted', { token, kind: inv.kind }); } catch { /* analytics optional */ }
         // the WOW: their card is born with the invite already on it
         const appt = inv.kind === 'appointment' ? [{ title: inv.title, when: inv.when, from: inv.from }] : [];
         const c = {
@@ -389,6 +393,9 @@ export class HomePage implements OnInit, OnDestroy {
    */
   private escalateCheckIn(extra: { contactId?: string; action?: string; [k: string]: any }): void {
     try {
+      // 2026-08-29 BUILD 152 (founder: "good to know what features people
+      // respond to"): a tapped nudge is engagement on the feature itself.
+      try { this.analytics.track('nudge_tapped', { matched: !!extra?.contactId || !!extra?.['name'] }); } catch { /* analytics optional */ }
       const id = extra?.contactId;
       const contact = (id ? this.contacts.find((c) => c.contactId === id) : null)
         || this.contacts.find((c) => (c.name?.display || '').toLowerCase() === String(extra?.['name'] || '').toLowerCase())

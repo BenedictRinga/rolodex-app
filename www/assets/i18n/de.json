@@ -385,7 +385,7 @@
     "drop.reason3": "Die Beziehung ist abgekühlt",
     "drop.reason4": "Außerhalb der App erledigt",
     "share.voiceA": "Du schuldest noch eine Antwort? LoopKeeper hat den Kontext gefunden und entworfen — du drückst nur Senden: {{url}}",
-    "share.voiceB": "LoopKeeper ist die Sekretärin deiner Freundschaften — Kontext gefunden, Worte gewählt, du sendest: {{url}}",
+    "share.voiceB": "LoopKeeper formuliert die Nachricht, die du einem Freund schuldest — die Worte und der Moment, bereit zum Senden. Beziehungen, gehalten. {{url}}",
     "share.voiceC": "Ein Satz erfasst, bevor der Kaffee kalt wurde — LoopKeeper machte die fertige Nachricht daraus: {{url}}",
     "t.openErr": "Loop konnte nicht geöffnet werden — noch einmal versuchen.",
     "t.sampleBlocked": "Das ist der Beispieltext — schreib eine eigene echte Zusage, um sie festzuhalten.",
@@ -691,6 +691,11 @@
     "ctx.gapWho": "Name",
     "ctx.gapTouch": "letztem Kontakt",
     "ctx.gapRel": "Verbindung",
-    "ctx.gapWhy": "Grund"
+    "ctx.gapWhy": "Grund",
+    "settings.shareVoice": "Formulierung zum Teilen",
+    "settings.shareVoiceCycle": "Wechseln",
+    "settings.shareVoiceAuto": "Auto (rotiert)",
+    "settings.shareVoiceDesc": "die Formulierung beim Teilen von LoopKeeper",
+    "empty.titleOpen": "Etwas, das liegt? Etwas, das nagt?"
   }
 }
