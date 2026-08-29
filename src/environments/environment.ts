@@ -7,7 +7,7 @@ export const environment = {
   // 2026-08-26 CANONICAL API PATH: /api/loopkeeper (server aliases openloop/rolodex).
   rolodexApiBase: 'https://zyppar.com/api/loopkeeper',
   version: '0.3.1', // LoopKeeper app version — compared against /api/updates/check
-  build: 146, // 2026-08-29 ONE VOICE PER ANGLE: the Search fab hides while the inbox is expanded (it blocked the deck View footer and the Settings button); gapnote pulse fixed - it never dims now, the pulse rides on glow + background (dimming to .65 had made it FAINTER than its surroundings); de-tautology pass - gapnote now says Missing: ... (li-why owns the still-open voice), the Why-sitting display row and the em-dash rows are gone (a row only speaks when it holds a fact), detail.steps is relatable (What we know / What to say / Off it goes), engine suggests human words (the right words to start with... / they last); i18n x39 values refreshed (514 keys)
+  build: 147, // 2026-08-29 HUMAN WORDS, ONE OPEN: gapnote text turned warm WHITE (#fff6ea + soft text-shadow) so it pops against the pulsing amber instead of blending chameleon-like; the three OPENs itemized and killed - sittingBecause is now Still HERE because (the one wait-voice), ctx.openPromise is The promise, ctx.hook is Opening line, and suggestPretext no longer says the open thread; legacy suggested whySitting strings migrate on load (natural hook -> the right words to start with...), user-written reasons never touched; i18n x39 values refreshed (514 keys)
 };
 
 /*

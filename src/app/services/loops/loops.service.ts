@@ -99,6 +99,23 @@ export class LoopsService {
     } catch {
       this.cache = [];
     }
+    // 2026-08-29 BUILD 147 (founder: "I am still seeing natural hook"): the
+    // nerd wording was FIXED in the source but OLD LOOPS STILL CARRY it in
+    // storage (whySitting was persisted when the engine suggested it). One
+    // quiet migration on load — legacy suggested strings become the human
+    // ones. User-written reasons are never touched.
+    const LEGACY_WHY: Record<string, string> = {
+      'there was no natural hook to reopen with': 'the right words to start with haven\u2019t come yet',
+      'long silences feel heavier the longer they sit': 'long silences feel heavier the longer they last',
+    };
+    let migrated = false;
+    for (const l of this.cache) {
+      if (l.whySittingSource === 'suggested' && l.whySitting && LEGACY_WHY[l.whySitting]) {
+        l.whySitting = LEGACY_WHY[l.whySitting];
+        migrated = true;
+      }
+    }
+    if (migrated) void this.persist();
     return this.cache;
   }
 
@@ -467,7 +484,7 @@ No pressure either way — replying here connects you directly.`;
   suggestPretext(l: Loop): string {
     if (l.promise) return `you promised: “${l.promise}”`;
     if (l.relation) return `how you met — ${l.relation}`;
-    if (l.summary) return `the open thread: ${l.summary}`;
+    if (l.summary) return `the thread: ${l.summary}`; // 2026-08-29 BUILD 147: "the open thread" carried the third OPEN
     const d = this.daysSitting(l);
     if (d > 21) return `an honest note about the ${d}-day gap`;
     return `a real hello — not “just circling back”`;

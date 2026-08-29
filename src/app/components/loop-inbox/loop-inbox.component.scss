@@ -137,11 +137,15 @@
    2026-08-29 BUILD 146 (founder): the pulse was invisible — dimming the whole
    note to .65 made it FAINTER than its surroundings. Now the note never dims:
    it stays at full strength and the pulse rides on glow + background, hard to
-   miss at a glance. */
+   miss at a glance.
+   2026-08-29 BUILD 147 (founder): the text must NOT share the background's
+   hue — amber-on-amber reads as chameleon. Warm WHITE text pops against the
+   pulsing amber at both ends of the cycle. */
 .li-gapnote { width:fit-content; max-width:100%; text-align:left; border:1px solid rgba(255,190,110,.85);
-  background:rgba(255,178,92,.16); color:#ffd9a0; border-radius:999px; padding:5px 12px;
+  background:rgba(255,178,92,.16); color:#fff6ea; border-radius:999px; padding:5px 12px;
   font-size:11.5px; font-weight:700; margin-bottom:8px; cursor:pointer;
-  animation:lkGapPulse 1.6s ease-in-out infinite; }
+  animation:lkGapPulse 1.6s ease-in-out infinite;
+  text-shadow:0 1px 2px rgba(0,0,0,.55); }
 .li-gap-panel { display:flex; flex-direction:column; gap:6px; padding:8px; margin-bottom:8px;
   border:1px solid rgba(255,178,92,.35); border-radius:12px; background:rgba(255,178,92,.05); }
 .li-gap-row { display:flex; gap:8px; align-items:center; font-size:12px;
