@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, ModalController, ActionSheetController } from '@ionic/angular';
+import { AlertController, ModalController, ActionSheetController, IonContent } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SecurityService } from '../services/security/security.service';
 import { SoundService } from '../services/sound/sound.service';
@@ -57,6 +57,10 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-29 BUILD 143 (founder #2): the inbox instance — tapped nudges
    *  escalate THROUGH it (armed loop + destination pill + open Loops tab). */
   @ViewChild('inboxRef') inboxRef?: LoopInboxComponent;
+  /** 2026-08-30 BUILD 153 (founder): a tapped nudge takes the viewport — the
+   *  home scroller is pulled to the top so the opened inbox leads the screen,
+   *  whatever scroll position or view (Settings included) the user was in. */
+  @ViewChild('homeContent') homeContent?: IonContent;
 
   contacts: ContactInfo[] = [];
   displayedContacts: ContactInfo[] = [];
@@ -417,8 +421,18 @@ export class HomePage implements OnInit, OnDestroy {
         2600);
 
       // Open the inbox on the Loops tab, arm the destination, select the loop.
+      // 2026-08-30 BUILD 153 (founder: "it must get priority to viewport…
+      // in Settings and tap the prompt - it only shuts down Settings, and
+      // does no more"): the escalation now TAKES the screen — it leaves
+      // Settings (the deck returns to its regular view), pulls the home
+      // scroller to the top so the inbox leads the viewport from any scroll
+      // position, then travels to the armed loop with a second pass as a
+      // safety net for slow first renders.
+      try { this.rolodexComp?.showRegularView(); } catch { /* deck not mounted */ }
+      void this.homeContent?.scrollToTop(0);
+      window.scrollTo({ top: 0, behavior: 'auto' }); // native scroller parity
       this.rolodexAiChatOpen = true;
-      setTimeout(() => {
+      const travel = (): void => {
         const inbox = this.inboxRef;
         if (!inbox) return;
         inbox.tab = 'loops';
@@ -427,7 +441,9 @@ export class HomePage implements OnInit, OnDestroy {
         void inbox.refresh();
         inbox.presentResponse(); // travel to the armed loop — the visible proof
         void this.sound.playLoopReady();
-      }, 180); // let *ngIf render the inbox first
+      };
+      setTimeout(travel, 320); // let *ngIf render the inbox first
+      setTimeout(travel, 800); // second pass: first render still settling
     } catch { /* a dead nudge is still better than a crash */ }
   }
 

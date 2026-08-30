@@ -261,6 +261,19 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.theirs = this.loops.waitingOnThem();
     this.closed = this.loops.recentlyClosed();
     this.counts = this.loops.counts();
+    // 2026-08-30 BUILD 153 (founder: "did you restore Search when that
+    // expansion is retracted, or nullified"): a selected loop that has left
+    // the open lists (sent, closed, dropped, or now waiting) must retract the
+    // shell too — otherwise the deck stays footer-bound and the Search fab
+    // stays hidden for nothing.
+    if (this.selectedId) {
+      const stillOpen = this.todaysThree.some(l => l.id === this.selectedId)
+        || this.mine.some(l => l.id === this.selectedId);
+      if (!stillOpen) {
+        this.selectedId = null;
+        this.expandedChange.emit(false); // the fab and the deck are restored
+      }
+    }
     // 2026-08-28 BUILD 128: one truthful nudge census — which loops are the
     // algo prompting right now (woken snoozes included; they arm
     // nextNudgeAt = now and land here naturally). The bar counts prompts not
