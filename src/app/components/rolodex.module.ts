@@ -25,6 +25,8 @@ import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
 import { LoopInboxComponent } from './loop-inbox/loop-inbox.component';
 import { LoopConsultComponent } from './loop-consult/loop-consult.component';
+// 2026-08-30 BUILD 157: the SEND WALK — the default Loops surface (4 slides).
+import { SendWalkComponent } from './send-walk/send-walk.component';
 import { TranslatePortalComponent } from './translate-portal/translate-portal.component';
 import { TranslationReviewComponent } from './translation-review/translation-review.component';
 
@@ -52,6 +54,7 @@ import { TranslationReviewComponent } from './translation-review/translation-rev
     ShareAppModalComponent,
     LoopInboxComponent,
     LoopConsultComponent,
+    SendWalkComponent,
     TranslatePortalComponent,
     TranslationReviewComponent,
   ],

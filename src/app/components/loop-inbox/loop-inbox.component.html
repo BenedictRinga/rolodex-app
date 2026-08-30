@@ -45,6 +45,20 @@
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
   <div *ngIf="tab === 'loops'" class="li-body">
+    <!-- 2026-08-30 BUILD 157 (founder): the SEND WALK is the DEFAULT Loops
+         surface — four slides, one decision each, for the chronic prevaricator.
+         The full shelf below is PACKED, not deleted: the walk's quiet
+         "I'm good" opens it, the shelf's quiet "Smooth" returns. No cues —
+         the discovery IS the toggle. -->
+    <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"
+      [contacts]="contacts"
+      (shelfRequest)="setLoopsSurface('shelf')"
+      (loopsChanged)="refresh()"
+      (contactsDirty)="contactsDirty.emit()"
+      (loopOpened)="acknowledgeNudge($event)">
+    </app-send-walk>
+
+    <ng-container *ngIf="loopsSurface === 'shelf'">
 
     <!-- 2026-08-28 BUILD 127 (founder): the Loops tab now reads pills →
          fulcrum → input. The three sample sentences (visual only) tether the
@@ -189,6 +203,12 @@
         </span>
       </div>
     </div>
+
+    <!-- 2026-08-30 BUILD 157: the shelf's quiet way back — no cues, one word. -->
+    <div class="li-smooth">
+      <button class="li-linkbtn" (click)="setLoopsSurface('walk')">{{ 'loopkeeper.walk.smooth' | translate }}</button>
+    </div>
+    </ng-container>
   </div>
 
   <!-- ═══════════ CHAT TAB (projected legacy — untouched) ═══════════ -->

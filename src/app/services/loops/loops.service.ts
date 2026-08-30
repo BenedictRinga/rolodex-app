@@ -19,7 +19,8 @@ export type LoopKind =
   | 'social' | 'meeting' | 'birthday' | 'coffee';
 
 export type LoopTone = 'short' | 'honest' | 'light' | 'formal';
-export type LoopChannel = 'whatsapp' | 'sms' | 'email' | 'linkedin' | 'telegram' | 'voice'; // 2026-08-28 BUILD 132: telegram joins the palette
+export type LoopChannel = 'whatsapp' | 'sms' | 'email' | 'linkedin' | 'telegram' | 'voice'
+  | 'call' | 'copy'; // 2026-08-30 BUILD 157: the walk's phone + universal doors join the union
 export type LoopStance = 'warm' | 'brief' | 'overdue-apology';
 export type LoopDirection = 'mine' | 'theirs'; // waiting-on-you vs waiting-on-them
 export type LoopStatus = 'open' | 'waiting' | 'closed' | 'dropped';
@@ -371,8 +372,10 @@ export class LoopsService {
     return undefined;
   }
 
-  /** F11 — the card says YOU owe THEM (factual signals only, never shaming). */
-  private cardSaysIOweReply(contact: any): boolean {
+  /** F11 — the card says YOU owe THEM (factual signals only, never shaming).
+   *  2026-08-30 BUILD 157: public — the Send Walk's slide-2 chips read the
+   *  same card truth ("The reply I owe") the signal sweep sees. */
+  cardSaysIOweReply(contact: any): boolean {
     const fu = String(contact?.rolodex?.followUp || '');
     if (/^\s*(reply|respond|answer|owe)\b/i.test(fu)) return true;
     if (/\b(asked me|wants? me to|waiting on me|my reply)\b/i.test(fu)) return true;
@@ -754,6 +757,18 @@ No pressure either way — replying here connects you directly.`;
           copyText: l.draft,
           label: tg ? 'Telegram' : 'Telegram · add their handle',
         };
+      }
+      case 'call': {
+        // 2026-08-30 BUILD 157 (the walk's phone door): the 20-second plan is
+        // on screen, the dial is the deed. tel: leaves via _self at the
+        // component layer; the words ride the clipboard as always.
+        const digits = raw.replace(/[^\d+]/g, '');
+        return { url: digits ? `tel:${digits}` : undefined, copyText: l.draft, label: 'Phone call' };
+      }
+      case 'copy': {
+        // 2026-08-30 BUILD 157 (the walk's universal door): the words leave
+        // with the user into ANY app — clipboard-always IS the mechanism.
+        return { copyText: l.draft, label: 'Copy' };
       }
     }
   }

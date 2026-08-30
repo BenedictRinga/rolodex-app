@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -9,6 +9,11 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { StorageService } from '../../services/storage/storage.service';
 import { LoopConsultComponent } from '../loop-consult/loop-consult.component';
+// 2026-08-30 BUILD 157: the SEND WALK is the default Loops surface — four
+// slides, one decision each, for the chronic prevaricator. This inbox's rows
+// are the PACKED SHELF: reachable via the walk's quiet "I'm good", returned
+// from via the shelf's quiet "Smooth". No cues; the discovery IS the toggle.
+import { SendWalkComponent } from '../send-walk/send-walk.component';
 // 2026-08-28 BUILD 130: the loop meets the card — in-app chat + video embeds
 // that already live on every contact, and the rolling-context writer so a
 // dispatch leaves the relationship richer than it found it.
@@ -50,6 +55,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** 2026-08-29 BUILD 145 (founder): the shell's expansion is announced, so the
    *  deck's View toolbar can sit up as a footer while the inbox leads. */
   @Output() expandedChange = new EventEmitter<boolean>();
+
+  // 2026-08-30 BUILD 157: which surface fills the Loops tab — the walk
+  // (default) or this packed shelf. Persisted; "I'm good" / "Smooth" flip it.
+  loopsSurface: 'walk' | 'shelf' = 'walk';
+  private static readonly SURFACE_KEY = 'loopkeeper_loops_surface';
+  @ViewChild('walkRef') walkRef?: SendWalkComponent;
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
@@ -242,6 +253,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
     this.startPhRotation();
+    // 2026-08-30 BUILD 157: surface memory loads FIRST so the tab's first
+    // paint is the surface the user last chose (walk by default).
+    this.loopsSurface = (await this.storage.get<'walk' | 'shelf'>(LoopInboxComponent.SURFACE_KEY)) || 'walk';
     // F11/F12: sweep the deck silently — owed replies + stale promises become
     // loops BEFORE the lists paint. No toast unless something was created.
     if (this.contacts?.length) void this.keeper.scanInboxSignals(this.contacts);
@@ -250,6 +264,43 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     // so the old `due.length + woke.length` double-counted them.
     await this.loops.resumeExpiredWaits();
     await this.refresh();
+  }
+
+  // ── 2026-08-30 BUILD 157: the walk / shelf toggle ───────────────────────────
+  // "I'm good" (walk footer) opens this shelf; "Smooth" (below the receipts)
+  // returns. Persisted across sessions; no cues on either side.
+
+  setLoopsSurface(s: 'walk' | 'shelf'): void {
+    this.loopsSurface = s;
+    void this.storage.set(LoopInboxComponent.SURFACE_KEY, s);
+    if (s === 'shelf') void this.refresh(); // the badge + lists must be current
+  }
+
+  /** A pick was opened in the walk — if it was nudging, that nudge is answered
+   *  (build 128 semantics: opening is the answer; escalation advances). */
+  acknowledgeNudge(loopId: string): void {
+    if (!this.nudgeIds.has(loopId)) return;
+    this.loops.registerNudgeSent(loopId);
+    this.nudgeIds.delete(loopId);
+    this.nudgesDue = this.nudgeIds.size;
+  }
+
+  /**
+   * 2026-08-30 BUILD 157: the home page's tapped-nudge escalation arrives
+   * here (was: direct armDestination/selectedId manipulation). With the walk
+   * as the default surface, the nudge lands IN the walk — armed loop goes
+   * straight to slide 3 (the words). The two-pass retry in HomePage covers
+   * the first render; until walkRef exists we hold, we do not fall through.
+   */
+  nudgeArrived(contact: any | null, loopId?: string): void {
+    if (this.loopsSurface === 'walk') {
+      if (this.walkRef) this.walkRef.armFromNudge(contact, loopId);
+      return;
+    }
+    if (contact) this.armDestination(contact);
+    if (loopId) this.selectedId = loopId;
+    void this.refresh();
+    this.presentResponse();
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the home page escalates a tapped

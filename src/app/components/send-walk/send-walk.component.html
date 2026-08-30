@@ -1,0 +1,172 @@
+<!-- 2026-08-30 BUILD 157 — THE SEND WALK. Four slides, one decision each.
+     Form-phobic: tap before type; the only typing is one optional line.
+     The footer's "I'm good" opens the packed shelf — no cues, discovery by click. -->
+
+<div class="sw">
+
+  <!-- ═══════════ SLIDE 1 · WHO ═══════════ -->
+  <ng-container *ngIf="step === 1">
+    <div class="sw-title">{{ 'loopkeeper.walk.whoTitle' | translate }}</div>
+
+    <!-- The engine's picks — the loops that have been waiting -->
+    <div *ngIf="picks.length" class="sw-picks">
+      <div class="sw-section-label">{{ 'loopkeeper.walk.whoPicks' | translate }}</div>
+      <button *ngFor="let l of picks" class="sw-pick" (click)="pickLoop(l)">
+        <span class="sw-pick-name">{{ l.person }}</span>
+        <span class="sw-pick-whisper">{{ whisperFor(l) }}</span>
+      </button>
+    </div>
+
+    <!-- The deck — immediate population of the device contacts list -->
+    <div class="sw-else">
+      <div class="sw-section-label">{{ 'loopkeeper.walk.whoElse' | translate }}</div>
+      <div *ngIf="contacts?.length" class="sw-find">
+        <input type="text" [ngModel]="walkFilter" (ngModelChange)="walkFilter = $event; showAllPeople = false"
+          [placeholder]="'loopkeeper.walk.whoFind' | translate" autocomplete="off">
+      </div>
+      <div *ngIf="peopleCount" class="sw-people">
+        <button *ngFor="let c of people" class="sw-person" (click)="pickContact(c)">
+          <span class="sw-person-name">{{ c.name?.display }}</span>
+          <span *ngIf="whereOf(c)" class="sw-person-where">{{ whereOf(c) }}</span>
+        </button>
+        <button *ngIf="peopleCount > people.length" class="sw-more" (click)="showAllPeople = true">
+          {{ 'loopkeeper.walk.whoMore' | translate }}
+        </button>
+      </div>
+      <div *ngIf="contacts?.length && !peopleCount" class="sw-empty">{{ 'loopkeeper.walk.whoEmpty' | translate }}</div>
+      <div *ngIf="!contacts?.length" class="sw-empty">{{ 'loopkeeper.walk.whoEmpty' | translate }}</div>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════ SLIDE 2 · THE THING ═══════════ -->
+  <ng-container *ngIf="step === 2">
+    <div class="sw-backrow">
+      <button class="sw-back" (click)="backToWho()" [attr.aria-label]="'loopkeeper.walk.back' | translate">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <span class="sw-back-name">{{ armedName() }}</span>
+    </div>
+    <div class="sw-title">{{ 'loopkeeper.walk.whatTitle' | translate }}</div>
+    <div class="sw-body">{{ 'loopkeeper.walk.whatBody' | translate: { name: armedName() } }}</div>
+
+    <!-- Tap-first intentions — the card already knows -->
+    <div class="sw-chips">
+      <button *ngFor="let ch of chips" class="sw-chip" (click)="chipTap(ch)">
+        {{ tr(ch.key) }}
+      </button>
+    </div>
+
+    <!-- One optional rough line -->
+    <div class="sw-what">
+      <ion-textarea
+        [ngModel]="whatInput"
+        (ngModelChange)="whatInput = $event"
+        [placeholder]="'loopkeeper.walk.whatPlaceholder' | translate"
+        auto-grow rows="1" fill="outline"
+        (keydown.enter)="onWhatEnter($event)"
+      ></ion-textarea>
+      <ion-button size="small" (click)="commitWhat()" [disabled]="busy || !whatInput.trim()">
+        {{ 'loopkeeper.walk.whatCommit' | translate }}
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════ SLIDE 3 · THE WORDS ═══════════ -->
+  <ng-container *ngIf="step === 3 && sel()">
+    <div class="sw-backrow">
+      <button class="sw-back" (click)="backFromWords()" [attr.aria-label]="'loopkeeper.walk.back' | translate">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
+      <span class="sw-back-name">{{ sel()?.person }}</span>
+    </div>
+    <div class="sw-title">{{ 'loopkeeper.walk.wordsTitle' | translate }}</div>
+    <div class="sw-body">{{ 'loopkeeper.walk.wordsBody' | translate }}</div>
+
+    <!-- The draft — big, readable, already written -->
+    <div class="sw-draft" *ngIf="!editingWords">{{ sel()?.draft }}</div>
+    <div class="sw-editbox" *ngIf="editingWords">
+      <ion-textarea [ngModel]="editBuffer" (ngModelChange)="editBuffer = $event" auto-grow rows="4" fill="outline"></ion-textarea>
+      <ion-button size="small" (click)="saveEdit()">{{ 'loopkeeper.walk.wordsEditSave' | translate }}</ion-button>
+    </div>
+
+    <!-- Send as is — THE primary -->
+    <ion-button expand="block" class="sw-send" (click)="toTap()">
+      {{ 'loopkeeper.walk.wordsSend' | translate }}
+      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+    </ion-button>
+
+    <!-- Quiet adjusters — one tap each, never a form -->
+    <div class="sw-quiet">
+      <button *ngFor="let t of toneRow" class="sw-quietbtn" (click)="setTone(t.id)">{{ tr(t.key) }}</button>
+      <button class="sw-quietbtn" (click)="retry()">{{ 'loopkeeper.walk.wordsRetry' | translate }}</button>
+      <button class="sw-quietbtn" (click)="polish()" [disabled]="polishing">
+        {{ polishing ? ('loopkeeper.chat.writing' | translate) : ('loopkeeper.walk.wordsPolish' | translate) }}
+      </button>
+      <button *ngIf="!editingWords" class="sw-quietbtn sw-quietdim" (click)="startEdit()">{{ 'loopkeeper.walk.wordsEdit' | translate }}</button>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════ SLIDE 4 · THE TAP ═══════════ -->
+  <ng-container *ngIf="step === 4 && sel()">
+    <div class="sw-title">{{ 'loopkeeper.walk.tapTitle' | translate }}</div>
+
+    <!-- The words, quiet preview — you always see what leaves -->
+    <div class="sw-tapwords">{{ sel()?.draft }}</div>
+
+    <!-- The CALL plan — the same words, spoken shape -->
+    <div *ngIf="callOpen" class="sw-plan">
+      <div class="sw-plan-title">{{ 'loopkeeper.walk.callPlanTitle' | translate }}</div>
+      <pre class="sw-plan-body">{{ callPlan }}</pre>
+      <ion-button expand="block" class="sw-send" (click)="fire('call')" [disabled]="busy">
+        {{ 'loopkeeper.walk.callNow' | translate }}
+        <ion-icon name="call-outline" slot="end"></ion-icon>
+      </ion-button>
+      <button class="sw-linkbtn" (click)="closeCallPlan()">{{ 'loopkeeper.walk.callBack' | translate }}</button>
+    </div>
+
+    <!-- The doors -->
+    <div *ngIf="!callOpen" class="sw-doors">
+      <ion-button *ngIf="hasPhone" expand="block" class="sw-door sw-door-primary" (click)="fire('whatsapp')" [disabled]="busy">
+        <ion-icon name="chatbubble-ellipses-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
+      </ion-button>
+      <ion-button *ngIf="hasPhone" expand="block" fill="outline" class="sw-door" (click)="openCallPlan()" [disabled]="busy">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.walk.doorCall' | translate }}
+      </ion-button>
+      <ion-button expand="block" fill="outline" class="sw-door" (click)="fire('copy')" [disabled]="busy">
+        <ion-icon name="copy-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.walk.doorCopy' | translate }}
+      </ion-button>
+      <div *ngIf="!hasPhone" class="sw-nophone">{{ 'loopkeeper.walk.tNoPhone' | translate }}</div>
+      <button class="sw-linkbtn" (click)="toggleMore()">{{ 'loopkeeper.walk.moreWays' | translate }}</button>
+      <div *ngIf="moreOpen" class="sw-moreways">
+        <ion-button *ngIf="hasPhone" expand="block" fill="outline" class="sw-door" (click)="fire('sms')" [disabled]="busy">
+          <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
+          {{ 'loopkeeper.walk.doorSms' | translate }}
+        </ion-button>
+        <ion-button *ngIf="hasEmail" expand="block" fill="outline" class="sw-door" (click)="fire('email')" [disabled]="busy">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          {{ 'loopkeeper.walk.doorEmail' | translate }}
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════ THE BREATH · OFF YOUR MIND ═══════════ -->
+  <ng-container *ngIf="step === 5">
+    <div class="sw-done">
+      <div class="sw-done-check">&#10003;</div>
+      <div class="sw-done-title">{{ 'loopkeeper.walk.doneTitle' | translate }}</div>
+      <div class="sw-done-line">{{ sel()?.person }} · {{ doneLabel }}</div>
+      <ion-button expand="block" fill="outline" class="sw-door" (click)="nextOne()">
+        {{ 'loopkeeper.walk.doneNext' | translate }}
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <!-- The quiet discovery toggle — no cues -->
+  <div class="sw-foot">
+    <button class="sw-linkbtn sw-good" (click)="imGood()">{{ 'loopkeeper.walk.good' | translate }}</button>
+  </div>
+</div>

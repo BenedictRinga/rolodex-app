@@ -439,11 +439,11 @@ export class HomePage implements OnInit, OnDestroy {
       const travel = (): void => {
         const inbox = this.inboxRef;
         if (!inbox) return;
+        // 2026-08-30 BUILD 157: the escalation routes through nudgeArrived —
+        // the walk (default surface) takes the armed loop straight to the
+        // words; the packed shelf keeps its own arm-and-select path.
         inbox.tab = 'loops';
-        if (contact) inbox.armDestination(contact);
-        if (loopId) inbox.selectedId = loopId;
-        void inbox.refresh();
-        inbox.presentResponse(); // travel to the armed loop — the visible proof
+        inbox.nudgeArrived(contact || null, loopId || undefined);
         void this.sound.playLoopReady();
       };
       setTimeout(travel, 320); // let *ngIf render the inbox first

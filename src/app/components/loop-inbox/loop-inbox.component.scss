@@ -241,3 +241,9 @@
 /* 2026-08-27 FOUNDER RELOCATION: the .li-meter strip was removed from the
    inbox — the meter now lives on the back of every contact card
    (contact-card.component.scss, .back-meter). */
+
+/* 2026-08-30 BUILD 157: the shelf's quiet way back to the Send Walk —
+   one word, no cues, centered under the receipts. */
+.li-smooth { display:flex; justify-content:center; padding:14px 0 4px; }
+.li-smooth .li-linkbtn { font-size:12px; opacity:.5; }
+.li-smooth .li-linkbtn:active { opacity:.95; }
