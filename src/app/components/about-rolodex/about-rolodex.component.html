@@ -610,20 +610,28 @@
               <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.analyticsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.presenceStrong' | translate }}</strong></div>
             </div>
             <div class="investor-kpis">
+              <!-- 2026-08-30 BUILD 154 (founder: "absolute integrity, no noise"):
+                   the top line is ORGANIC — the founder's own dev/tester devices
+                   are excluded server-side and reported as their own card. -->
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.dau }}</div>
                 <div class="kpi-label">DAU</div>
-                <div class="kpi-caption">Anonymous devices active in last 24h.</div>
+                <div class="kpi-caption">Anonymous devices active in last 24h — organic, own fleet excluded.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.wau }}</div>
                 <div class="kpi-label">WAU</div>
-                <div class="kpi-caption">Devices active in last 7 days.</div>
+                <div class="kpi-caption">Organic devices active in last 7 days.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.mau }}</div>
                 <div class="kpi-label">MAU</div>
-                <div class="kpi-caption">Devices active in last 30 days.</div>
+                <div class="kpi-caption">Organic devices active in last 30 days.</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-value">{{ investorStats.analytics.ownFleet?.devices || 0 }}</div>
+                <div class="kpi-label">Own fleet</div>
+                <div class="kpi-caption">Dev + tester devices, reported separately — never mixed into the market line ({{ investorStats.analytics.ownFleet?.mau || 0 }} active 30d).</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.sessions?.last7d }}</div>
@@ -730,7 +738,7 @@
                 <span>{{ c.day }}</span><span>{{ c.size }}</span><span>{{ c.d1 }}</span><span>{{ c.d7 }}</span>
               </div>
             </div>
-            <p class="investor-chart-note">Devices whose first app_launch fell in each day; D1/D7 = devices that came back on that day. Empty until analytics events arrive.</p>
+            <p class="investor-chart-note">Devices whose first app_launch fell in each day; D1/D7 = devices that came back on that day. Anchored server-side (a wiped storage cannot reset a cohort), own fleet excluded. Empty until analytics events arrive.</p>
           </div>
 
           <div class="investor-section sec-activation" id="inv-activation" *ngIf="investorStats.analytics?.activation">

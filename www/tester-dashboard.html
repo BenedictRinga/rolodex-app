@@ -116,6 +116,30 @@
       <span><i class="cell active"></i> opened app only</span>
       <span><i class="cell"></i> silent</span>
     </p>
+
+    <!-- 2026-08-30 BUILD 154 (founder: "absolute integrity, no noise"): the
+         OWN-FLEET list — deviceIds that are NOT the market (dev browsers, test
+         rigs). They are excluded from every Investors number and shown as the
+         own-fleet line instead. Same admin key as the roster. -->
+    <details id="noiseBox" style="margin-top:14px">
+      <summary style="cursor:pointer;font-weight:600">_own fleet — devices kept OUT of the market numbers</summary>
+      <p style="font-size:12px;opacity:.75;margin:6px 0">
+        Paste a deviceId to add it (find it in an analytics event or the device's own log). Tester devices are
+        excluded automatically; this list is for YOUR dev browsers and rigs. <span id="noiseCount"></span>
+      </p>
+      <div style="display:flex;gap:6px;margin:8px 0">
+        <input id="noiseInput" placeholder="rolodex-xxxxxxxx…" autocomplete="off" spellcheck="false"
+               style="flex:1;min-width:0;padding:7px 9px;border-radius:8px;border:1px solid #444;background:#16181d;color:#eee;font-size:12px">
+        <button id="noiseAdd" type="button" style="padding:7px 12px;border-radius:8px;border:1px solid #444;background:#1d2026;color:#eee;font-size:12px;cursor:pointer">Add</button>
+      </div>
+      <div id="noiseErr" style="color:#ff8a80;font-size:12px;margin:4px 0"></div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Device</th><th>Events 30d</th><th>Last seen</th><th></th></tr></thead>
+          <tbody id="noiseRows"></tbody>
+        </table>
+      </div>
+    </details>
   </div>
 </div>
 
@@ -165,6 +189,7 @@
   function render(data) {
     document.getElementById('gate').style.display = 'none';
     document.getElementById('roster').style.display = '';
+    noiseLoad(); // 2026-08-30 BUILD 154: the own-fleet list rides along with the roster
     document.getElementById('gen').textContent = 'generated ' + new Date(data.generatedAt).toLocaleString();
     var s = data.summary || {};
     // 2026-08-28 BUILD 124: drop the hardcoded /15 — the cohort is 20 invites
@@ -196,6 +221,61 @@
     }).join('');
     document.getElementById('rows').innerHTML = rows;
   }
+
+  // 2026-08-30 BUILD 154: own-fleet noise list — same admin key as the roster.
+  // Loaded alongside it; add/remove hit the server immediately and re-render.
+  function noiseLoad() {
+    var err = document.getElementById('noiseErr');
+    err.textContent = '';
+    fetch('/api/loopkeeper/tester/noise-devices?key=' + encodeURIComponent(key), { cache: 'no-store' })
+      .then(function (r) {
+        if (r.status === 401) throw new Error('Key rejected (401).');
+        if (!r.ok) throw new Error('Server error ' + r.status);
+        return r.json();
+      })
+      .then(function (d) {
+        var rows = (d.devices || []).map(function (n) {
+          return '<tr>' +
+            '<td class="code" style="max-width:240px;overflow-wrap:anywhere">' + esc(n.id) + '</td>' +
+            '<td class="nums">' + (n.events30d || 0) + '</td>' +
+            '<td class="nums">' + fmtDay(n.lastTs) + '</td>' +
+            '<td class="nums"><button type="button" data-remove="' + esc(n.id) + '" style="padding:4px 10px;border-radius:8px;border:1px solid #444;background:#1d2026;color:#eee;font-size:11px;cursor:pointer">Remove</button></td>' +
+            '</tr>';
+        }).join('');
+        document.getElementById('noiseRows').innerHTML =
+          rows || '<tr><td colspan="4" style="opacity:.6">No own-fleet devices listed yet.</td></tr>';
+        document.getElementById('noiseCount').textContent =
+          (d.devices || []).length ? ('(' + d.devices.length + ' listed)') : '';
+      })
+      .catch(function (e) { err.textContent = (e && e.message) || 'Could not load the own-fleet list.'; });
+  }
+  document.getElementById('noiseAdd').addEventListener('click', function () {
+    var input = document.getElementById('noiseInput');
+    var id = input.value.trim();
+    if (!id) return;
+    fetch('/api/loopkeeper/tester/noise-devices', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: key, add: [id] }),
+    })
+      .then(function (r) { if (!r.ok) throw new Error('Server error ' + r.status); return r.json(); })
+      .then(function () { input.value = ''; noiseLoad(); })
+      .catch(function (e) { document.getElementById('noiseErr').textContent = (e && e.message) || 'Add failed.'; });
+  });
+  document.getElementById('noiseRows').addEventListener('click', function (ev) {
+    var btn = ev.target && ev.target.closest ? ev.target.closest('[data-remove]') : null;
+    if (!btn) return;
+    var id = btn.getAttribute('data-remove');
+    if (!id) return;
+    fetch('/api/loopkeeper/tester/noise-devices', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: key, remove: [id] }),
+    })
+      .then(function (r) { if (!r.ok) throw new Error('Server error ' + r.status); return r.json(); })
+      .then(function () { noiseLoad(); })
+      .catch(function (e) { document.getElementById('noiseErr').textContent = (e && e.message) || 'Remove failed.'; });
+  });
 
   // 2026-08-28 BUILD 124: store AFTER a successful check, never before —
   // a mistyped mobile attempt must not latch into localStorage.
