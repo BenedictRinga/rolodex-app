@@ -42,6 +42,8 @@ import { Subscription } from 'rxjs'; // BUILD 143: nudge-tap channel handles
 import { KeeperAgentService } from '../services/agents/keeper-agent.service';
 import { InAppNotificationService } from '../services/in-app-notification/in-app-notification.service';
 import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
+// 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
+import { LoopsService } from '../services/loops/loops.service';
 
 
 @Component({
@@ -167,6 +169,8 @@ export class HomePage implements OnInit, OnDestroy {
     // the page creates the loop on the user's behalf and arms the capture.
     private keeper: KeeperAgentService,
     private inAppNotifications: InAppNotificationService,
+    // 2026-08-30 BUILD 155: demo-fed loops are purged when Demo turns off.
+    private readonly loops: LoopsService,
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -373,7 +377,7 @@ export class HomePage implements OnInit, OnDestroy {
       if (restored && restored.length) {
         this.contacts = restored;
         this.loading = false;
-        this.rolodexSync.push(this.contacts);
+        this.rolodexSync.push(this.realContacts());
       }
     }
   }
@@ -483,7 +487,7 @@ export class HomePage implements OnInit, OnDestroy {
   onRoomInput(event: any): void {
     const code = String(event?.detail?.value || '').trim();
     this.rolodexSync.setRoom(code);
-    this.rolodexSync.push(this.contacts);
+    this.rolodexSync.push(this.realContacts());
     // 2026-08-16 SOCKET CHAT: joining the room joins the live chat too.
     if (code) {
       try {
@@ -1162,7 +1166,7 @@ export class HomePage implements OnInit, OnDestroy {
       ? this.contacts.map((c: any) => (c.contactId === contact.contactId ? contact : c))
       : [contact, ...this.contacts];
     void this.persistContacts(this.contacts);
-    this.rolodexSync.push(this.contacts);
+    this.rolodexSync.push(this.realContacts());
     this.analytics.track('card_edited');
     void this.alertsService.showToast('Card updated — loop intact.', 1800);
   }
@@ -1185,7 +1189,7 @@ export class HomePage implements OnInit, OnDestroy {
     c.appointments = [...appts, { title, when, from: String(inv?.from || 'Them') }];
     c.updatedAt = new Date();
     void this.persistContacts(this.contacts);
-    this.rolodexSync.push(this.contacts);
+    this.rolodexSync.push(this.realContacts());
     // 2026-08-27 CHOICE-FIRST CALENDAR (founder): the invite lands on the
     // CARD always (LoopKeeper-side storage is ours) — but the device calendar
     // is joined only if the user says so, right here at arrival. Dismissal
@@ -1222,7 +1226,7 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-19 allowEmpty: removing the LAST real contact must persist the
     // empty list (otherwise the demo/mock filler would come back as "real").
     await this.persistContacts(this.contacts, { allowEmpty: true });
-    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+    this.rolodexSync.push(this.realContacts()); // 2026-08-16: the server home updates live
   }
 
   /** 2026-08-18 SECURITY: the PIN gate on every cold start. */
@@ -1302,7 +1306,7 @@ export class HomePage implements OnInit, OnDestroy {
   onContactsChange(contacts: ContactInfo[]) {
     this.contacts = contacts;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
-    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+    this.rolodexSync.push(this.realContacts()); // 2026-08-16: the server home updates live
     void this.rolodexAiNudge(contacts); // 2026-08-18: the agent never sits comatose
   }
 
@@ -1336,12 +1340,28 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-19 CRITICAL FIX: the demo toggle only adds/removes DEMO cards.
    *  Real contacts are never touched, never replaced, never persisted-over. */
-  private applyDemoToggle(): void {
+  private async applyDemoToggle(): Promise<void> {
     this.mockEnabled = !this.mockEnabled;
     this.contacts = this.deckWithDemo();
     void this.storageService.set('rolodex_demo_enabled', this.mockEnabled); // 2026-08-19 persisted state
-    this.rolodexSync.push(this.contacts); // 2026-08-16: the server home updates live
+    // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every
+    // process when Demo is off): sync pushes REAL cards only - demo never
+    // leaves the device, matching the honest-storage doctrine.
+    this.rolodexSync.push(this.realContacts());
+    // 2026-08-30 BUILD 155: when demo drops, every artifact it fed must go -
+    // loops minted from demo cards would keep nudging a person who no longer
+    // exists on the deck. The engine re-run below clears managed demo events.
+    if (!this.mockEnabled) {
+      const demoIds = new Set(mockContacts.map((c: any) => String(c.contactId)));
+      const all = await this.loops.all();
+      for (const l of all) {
+        if (l.sourceContactId && demoIds.has(String(l.sourceContactId))) this.loops.remove(l.id);
+      }
+      this.relationshipScores = [];
+      this.upcomingBirthdays = [];
+    }
     void this.rolodexAiNudge(this.contacts);
+    await this.runAutomation(); // re-sweep clears managed demo events, reschedules real ones
   }
 
   onToggleWelcome() {

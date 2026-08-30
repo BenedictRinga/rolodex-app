@@ -198,7 +198,13 @@ export class EventService implements OnDestroy {
       const batch = this.pendingNotifications;
       this.pendingNotifications = [];
 
+      // 2026-08-30 BUILD 155: a deleted event must never ring. The demo purge
+      // (or any delete) can land inside this 200ms debounce window, after the
+      // timeout already fired - so check liveness against storage first.
+      const liveIds = new Set((await this.getEvents()).map((e) => e.id));
+
       for (const evt of batch) {
+        if (!liveIds.has(evt.id)) continue; // deleted mid-debounce - never ring
         try {
           // 2026-08-18 LONDON-BUS FIX: on the web/PWA the reminder lands in the
           // draggable in-app Ionic dock - NOT the obtrusive browser notification
