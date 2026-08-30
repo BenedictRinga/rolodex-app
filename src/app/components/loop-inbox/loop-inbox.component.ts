@@ -55,12 +55,21 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** 2026-08-29 BUILD 145 (founder): the shell's expansion is announced, so the
    *  deck's View toolbar can sit up as a footer while the inbox leads. */
   @Output() expandedChange = new EventEmitter<boolean>();
+  /** 2026-08-31 BUILD 159 (founder): the walk's MINE door — the demo walk's
+   *  last stage asks for their own people; the inbox re-emits to home, which
+   *  opens the device Contact Picker (or the add sheet). */
+  @Output() addRequest = new EventEmitter<void>();
 
-  // 2026-08-30 BUILD 157: which surface fills the Loops tab — the walk
+  // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
   // (default) or this packed shelf. Persisted; "I'm good" / "Smooth" flip it.
   loopsSurface: 'walk' | 'shelf' = 'walk';
+  walkStep = 1;
   private static readonly SURFACE_KEY = 'loopkeeper_loops_surface';
   @ViewChild('walkRef') walkRef?: SendWalkComponent;
+
+  get shellExpanded(): boolean {
+    return !!this.selectedId || (this.loopsSurface === 'walk' && this.walkStep >= 3);
+  }
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
 
@@ -273,7 +282,16 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   setLoopsSurface(s: 'walk' | 'shelf'): void {
     this.loopsSurface = s;
     void this.storage.set(LoopInboxComponent.SURFACE_KEY, s);
-    if (s === 'shelf') void this.refresh(); // the badge + lists must be current
+    if (s === 'shelf') {
+      this.walkStep = 1;
+      void this.refresh();
+    }
+    this.expandedChange.emit(this.shellExpanded);
+  }
+
+  onWalkStep(n: number): void {
+    this.walkStep = n;
+    this.expandedChange.emit(this.shellExpanded);
   }
 
   /** A pick was opened in the walk — if it was nudging, that nudge is answered
@@ -322,7 +340,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
         || this.mine.some(l => l.id === this.selectedId);
       if (!stillOpen) {
         this.selectedId = null;
-        this.expandedChange.emit(false); // the fab and the deck are restored
+        this.expandedChange.emit(this.shellExpanded);
       }
     }
     // 2026-08-28 BUILD 128: one truthful nudge census — which loops are the

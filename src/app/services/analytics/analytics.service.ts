@@ -34,6 +34,9 @@ export class AnalyticsService {
   private readonly VISITS_KEY = 'loopkeeper_analytics_visits';
   private readonly FIRST_SEEN_KEY = 'loopkeeper_analytics_first_seen';
   private readonly TOTAL_SECONDS_KEY = 'loopkeeper_analytics_total_seconds';
+  // 2026-08-31 BUILD 159 (founder): fires once EVER per device — the moment a
+  // real person's card is added, whatever door it came through.
+  private readonly LIST_STARTED_KEY = 'loopkeeper_list_started';
   // 2026-08-28 CLOSED BETA: the invite deeplink (?t=<6-digit code>) is absorbed
   // once and tags every later event. Numeric only — no name, no phone, no email.
   private readonly TESTER_ID_KEY = 'loopkeeper_tester_id';
@@ -45,6 +48,9 @@ export class AnalyticsService {
   private sessionStart = 0;
   private flushTimer: any = null;
   private visibilityBound = false;
+  // 2026-08-31 BUILD 159: in-session backstop when storage is unavailable —
+  // device_list_started must still fire at most once per session.
+  private listStartedSent = false;
   // 2026-08-24 SELF-REPORT: the device tells its OWN anonymous story — how many
   // times it has been here, whether it is returning, and how long it has spent
   // in total. No phone number, no name, no server-side identity needed.
@@ -206,6 +212,30 @@ export class AnalyticsService {
     });
     if (this.queue.length >= 20) void this.flush();
     else this.scheduleFlush();
+  }
+
+  /**
+   * 2026-08-31 BUILD 159 (founder): device_list_started — the moment a real
+   * person's card is added, however it arrives (walk confirm, device pick,
+   * manual entry, contact share accepted). Fires ONCE EVER per device: the
+   * flag lives in storage, so it marks the beginning of the list, not an
+   * action repeat. Investors: the Activation table's first row, "Started
+   * their list". Anonymous — a categorical door name only, no card data.
+   */
+  async trackListStartedOnce(source: string): Promise<void> {
+    if (!this.enabled) return;
+    try {
+      const done = await this.storage.get<boolean | string>(this.LIST_STARTED_KEY);
+      if (done === true || done === '1' || done === 'true') return;
+      await this.storage.set(this.LIST_STARTED_KEY, true);
+    } catch {
+      // storage unavailable: still send once per session rather than never —
+      // the server dedupes nothing here, but activation counts distinct
+      // devices, so repeats never inflate the number.
+      if (this.listStartedSent) return;
+    }
+    this.listStartedSent = true;
+    this.track('device_list_started', { source: String(source || '').slice(0, 24) });
   }
 
   async flush(): Promise<void> {

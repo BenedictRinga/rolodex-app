@@ -262,6 +262,8 @@ export class HomePage implements OnInit, OnDestroy {
         // they know the sender. Timed against invite_created by token in
         // Investors ("how soon after invite, new users respond").
         try { this.analytics.track('invite_accepted', { token, kind: inv.kind }); } catch { /* analytics optional */ }
+        // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
+        void this.analytics.trackListStartedOnce('invite');
         // the WOW: their card is born with the invite already on it
         const appt = inv.kind === 'appointment' ? [{ title: inv.title, when: inv.when, from: inv.from }] : [];
         const c = {
@@ -1378,15 +1380,16 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-21 ADD CONTACTS: from the phone (Contact Picker, Android Chrome)
    *  or the manual entry form — the created contact lands at the TOP of the
-   *  deck, exactly like a device import. */
+   *  deck, exactly like a device import. 2026-08-31 BUILD 159: the sheet speaks
+   *  the user's language (it now also answers the walk's MINE door). */
   async onCreateContact() {
     const sheet = await this.alertController.create({
-      header: 'Add a person',
-      message: 'Bring them in — how?',
+      header: this.translate.instant('loopkeeper.add.title'),
+      message: this.translate.instant('loopkeeper.add.msg'),
       buttons: [
-        { text: 'Pick from my phone', handler: () => { void this.addFromPhoneContacts(); } },
-        { text: "I'll type one in", handler: () => { void this.openManualContactEntry(); } },
-        { text: 'Cancel', role: 'cancel' },
+        { text: this.translate.instant('loopkeeper.add.pickPhone'), handler: () => { void this.addFromPhoneContacts(); } },
+        { text: this.translate.instant('loopkeeper.add.typeOne'), handler: () => { void this.openManualContactEntry(); } },
+        { text: this.translate.instant('loopkeeper.t.btnCancel'), role: 'cancel' },
       ],
     });
     await sheet.present();
@@ -1412,7 +1415,9 @@ export class HomePage implements OnInit, OnDestroy {
       const contact = this.normalizeManualContact(data.contact);
       this.contacts = [contact, ...this.contacts]; // bump to top like a device import
       this.onContactsChange(this.contacts);
-      void this.alertsService.showToast('Contact added', 2000);
+      // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
+      void this.analytics.trackListStartedOnce('manual');
+      void this.alertsService.showToast(this.translate.instant('loopkeeper.add.addedToast'), 2000);
     }
   }
 
@@ -1905,7 +1910,7 @@ export class HomePage implements OnInit, OnDestroy {
   async addFromPhoneContacts(): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
-      void this.alertsService.showToast('Pick from your phone on Android Chrome — or add the one person manually.', 5000);
+      void this.alertsService.showToast(this.translate.instant('loopkeeper.add.pickToast'), 5000);
       return;
     }
     try {
@@ -1932,10 +1937,29 @@ export class HomePage implements OnInit, OnDestroy {
       if (!mapped.length) return; // user cancelled
       this.contacts = [...mapped, ...this.contacts]; // 2026-08-18 prepend: the deck's first batch shows the new card
       this.onContactsChange(this.contacts);
+      // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
+      void this.analytics.trackListStartedOnce('picker');
       void this.alertsService.showToast(mapped.length + ' contact' + (mapped.length === 1 ? '' : 's') + ' added from your phone.', 4000);
     } catch {
       /* user cancelled the picker */
     }
+  }
+
+  /**
+   * 2026-08-31 BUILD 159 (founder): the walk's MINE door. A first-timer walked
+   * a demo name to the Send stage and tapped MINE — their own people, post
+   * haste. One tap where the device offers it: the Contact Picker opens
+   * directly. Without the picker (desktop, denied) the add sheet answers in
+   * the user's language. Any pick lands back on the walk's Who card (the walk
+   * snapshots its deck before we open the picker and absorbs what is new).
+   */
+  async channelAddFromWalk(): Promise<void> {
+    const picker = (navigator as any)?.contacts;
+    if (picker?.select) {
+      await this.addFromPhoneContacts();
+      return;
+    }
+    await this.onCreateContact();
   }
 
   onAcceptAutoSort() {

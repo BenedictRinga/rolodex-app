@@ -2,7 +2,7 @@
      57.5vh at rest, 80vh the moment a loop is open (the app has answered), so
      the context packet + draft + send machinery are ON the viewport instead of
      below the fold. -->
-<div class="li-shell" [class.expanded]="!!selectedId">
+<div class="li-shell" [class.expanded]="shellExpanded">
   <!-- 2026-08-28 BUILD 129: THE CULMINATION. When a loop truly closes — their
        reply lands and you tap close it, the coffee happens, the intro is made,
        a voice note seals the deed — the inbox pauses for one breath: the check
@@ -44,18 +44,18 @@
   </ion-segment>
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
-  <div *ngIf="tab === 'loops'" class="li-body">
-    <!-- 2026-08-30 BUILD 157 (founder): the SEND WALK is the DEFAULT Loops
-         surface — four slides, one decision each, for the chronic prevaricator.
-         The full shelf below is PACKED, not deleted: the walk's quiet
-         "I'm good" opens it, the shelf's quiet "Smooth" returns. No cues —
-         the discovery IS the toggle. -->
+  <!-- Stays mounted when the user leaves the tab so slide 2 is never lost. -->
+  <div class="li-body" [class.away]="tab !== 'loops'">
+    <!-- 2026-08-31 BUILD 158: the walk is the DEFAULT Loops surface —
+         four slides, one decision. Packed shelf behind I'm good / Smooth. -->
     <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"
       [contacts]="contacts"
       (shelfRequest)="setLoopsSurface('shelf')"
       (loopsChanged)="refresh()"
       (contactsDirty)="contactsDirty.emit()"
-      (loopOpened)="acknowledgeNudge($event)">
+      (loopOpened)="acknowledgeNudge($event)"
+      (stepChange)="onWalkStep($event)"
+      (addRequest)="addRequest.emit()">
     </app-send-walk>
 
     <ng-container *ngIf="loopsSurface === 'shelf'">
