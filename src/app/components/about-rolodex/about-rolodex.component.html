@@ -406,7 +406,7 @@
         <div class="investor-kpis" *ngIf="investorStats">
           <div class="kpi-card">
             <div class="kpi-value">{{ investorStats.totals.devices }}</div>
-            <div class="kpi-label">Devices synced</div>
+            <div class="kpi-label">Contact-sync devices</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-value">{{ investorStats.totals.contacts }}</div>
@@ -414,7 +414,7 @@
           </div>
           <div class="kpi-card">
             <div class="kpi-value">{{ investorStats.totals.activeLast24h }}</div>
-            <div class="kpi-label">Active in last 24h</div>
+            <div class="kpi-label">Synced in last 24h</div>
           </div>
         </div>
 
@@ -582,8 +582,12 @@
             <div class="investor-kpis">
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.devices }}</div>
-              <div class="kpi-label">Devices synced</div>
-              <div class="kpi-caption">One row per device that has pushed a state to the LoopKeeper database.</div>
+              <div class="kpi-label">Contact-sync devices</div>
+              <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit
+                   the bill): sync pushes fire only when contacts change, NOT on
+                   app opens — every sync caption says so, and points to 03
+                   Analytics for the app-open picture. -->
+              <div class="kpi-caption">Devices that have ever pushed contacts to the LoopKeeper database. Sync fires only when contacts change — never on app opens.</div>
             </div>
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.contacts }}</div>
@@ -597,8 +601,8 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-value">{{ investorStats.totals.activeLast24h }}</div>
-              <div class="kpi-label">Active in last 24h</div>
-              <div class="kpi-caption">Devices whose last sync happened in the past 24 hours.</div>
+              <div class="kpi-label">Synced in last 24h</div>
+              <div class="kpi-caption">Devices whose last contact-change sync fell in the past 24h. Sync fires only when contacts change — this is NOT a measure of app opens; app-open activity is measured in 03 Analytics below.</div>
             </div>
           </div>
           </div>
@@ -756,6 +760,8 @@
               <div class="retention-row"><span>Started billing</span><span>{{ investorStats.analytics.activation.billingstarted || 0 }}</span></div>
               <div class="retention-row"><span>Billing succeeded</span><span>{{ investorStats.analytics.activation.billingsucceeded || 0 }}</span></div>
             </div>
+            <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill): Devices = all-time distinct organic devices; "Added a card" counts card_added events only — invite-born cards take a different path and never fire it, so a 0 there is the metric's definition, not a broken funnel. -->
+            <p class="investor-chart-note">Devices = all-time distinct organic devices that ever fired the milestone. "Added a card" counts card_added events only — cards born from an accepted invite take a different path and never fire it, so that row can honestly read 0.</p>
           </div>
 
           <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
@@ -769,6 +775,8 @@
                 <span>{{ e._id }}</span><span>{{ e.count }}</span>
               </div>
             </div>
+            <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill): a bare "Count" column must say its window and whose events are counted. -->
+            <p class="investor-chart-note">Raw event counts across the last 7 days, organic devices only (own fleet excluded). Rows list only the events that actually fired — a feature absent here has simply not been used in the window.</p>
           </div>
 
           <div class="investor-section sec-timeline" id="inv-timeline" *ngIf="investorStats.timeline?.length">
@@ -785,7 +793,7 @@
                 <span class="bar-count">{{ b.count }}</span>
               </div>
             </div>
-            <p class="investor-chart-note">Each bar = the number of devices whose last sync fell inside that hour. This is the real record, not a projection.</p>
+            <p class="investor-chart-note">Each bar = the number of devices whose last contact-change sync fell inside that hour. This is the real record, not a projection. Quiet bars mean no contact edits — not no users; app-open activity is the Analytics section above.</p>
           </div>
 
           <div class="investor-section sec-rooms" id="inv-rooms" *ngIf="investorStats.rooms?.length">
