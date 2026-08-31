@@ -316,3 +316,26 @@
   color: #2dd4bf; font-size: 14.5px; font-weight: 700;
 }
 .sw-whoadd:active { background: rgba(20, 184, 166, .16); }
+
+/* 2026-08-31 BUILD 160: the chooser — "Not this one" with real people aboard
+   opens the whole list instead of paging the deck one card at a time. */
+.sw-choose { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.sw-find {
+  width: 100%; padding: 11px 14px; border-radius: 12px;
+  border: 1px solid rgba(128, 128, 128, .25); background: rgba(128, 128, 128, .07);
+  color: inherit; font-size: 14px; outline: none;
+}
+.sw-choose-list {
+  max-height: 288px; overflow-y: auto; display: flex; flex-direction: column;
+  border: 1px solid rgba(128, 128, 128, .18); border-radius: 12px;
+}
+.sw-person {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer;
+  background: none; border: none; border-bottom: 1px solid rgba(128, 128, 128, .12);
+  color: inherit; text-align: left; font-size: 14.5px;
+}
+.sw-person:last-child { border-bottom: none; }
+.sw-person:active { background: rgba(128, 128, 128, .1); }
+.sw-person-img { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; }
+.sw-person-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sw-choose-empty { padding: 18px 12px; font-size: 13px; opacity: .5; text-align: center; }

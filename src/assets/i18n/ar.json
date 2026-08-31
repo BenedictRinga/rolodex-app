@@ -755,6 +755,7 @@
     "add.typeOne": "سأكتبه بنفسي",
     "add.addedToast": "تمت إضافة جهة الاتصال",
     "add.pickToast": "الاختيار من هاتفك يحتاج Android Chrome — أو أضِف الشخص يدويًا.",
-    "walk.whoAdd": "أضف شخصًا حقيقيًا"
+    "walk.whoAdd": "أضف شخصًا حقيقيًا",
+    "walk.find": "ابحث عن شخص"
   }
 }

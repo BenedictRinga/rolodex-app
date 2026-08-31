@@ -755,6 +755,7 @@
     "add.typeOne": "我自己輸入",
     "add.addedToast": "已新增聯絡人",
     "add.pickToast": "從手機選取需要 Android Chrome — 或者手動輸入這一位。",
-    "walk.whoAdd": "加一位真實的人"
+    "walk.whoAdd": "加一位真實的人",
+    "walk.find": "找一個人"
   }
 }

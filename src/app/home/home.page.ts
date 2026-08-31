@@ -749,11 +749,16 @@ export class HomePage implements OnInit, OnDestroy {
         // Demo contacts still appear for the tour, but no real contact data is
         // ever silently imported — and nothing leaves the device unless the
         // user has enabled backend sync in Settings → Cloud Sync.
-        this.contacts = mockContacts;
+        // 2026-08-31 BUILD 160 (founder: "kill this once and for all"): an
+        // empty persisted deck is EMPTY when Demo is off — the two lines below
+        // used to seed mockContacts unconditionally, so demo cards fed every
+        // prompt and the engines minted "Check in with <sample>" events on
+        // EVERY boot of a Demo-off device with nothing real yet.
+        this.contacts = this.mockEnabled ? mockContacts : [];
         await this.contactsSyncService.automateContactSetup(this.contacts);
       }
     } catch {
-      this.contacts = mockContacts;
+      this.contacts = this.mockEnabled ? mockContacts : [];
       await this.contactsSyncService.automateContactSetup(this.contacts);
     }
     this.loading = false;

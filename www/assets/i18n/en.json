@@ -761,6 +761,7 @@
     "add.typeOne": "I'll type one in",
     "add.addedToast": "Contact added",
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
-    "walk.whoAdd": "Bring in someone real"
+    "walk.whoAdd": "Bring in someone real",
+    "walk.find": "Find someone"
   }
 }

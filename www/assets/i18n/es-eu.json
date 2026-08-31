@@ -755,6 +755,7 @@
     "add.typeOne": "La escribo yo",
     "add.addedToast": "Contacto añadido",
     "add.pickToast": "Elegir de tu teléfono necesita Android Chrome — o añade a la persona a mano.",
-    "walk.whoAdd": "Trae a alguien real"
+    "walk.whoAdd": "Trae a alguien real",
+    "walk.find": "Buscar a alguien"
   }
 }

@@ -755,6 +755,7 @@
     "add.typeOne": "自分で入力する",
     "add.addedToast": "連絡先を追加しました",
     "add.pickToast": "端末から選ぶには Android Chrome が必要です。または手入力で追加してください。",
-    "walk.whoAdd": "ほんとうの人を追加"
+    "walk.whoAdd": "ほんとうの人を追加",
+    "walk.find": "ひとを探す"
   }
 }

@@ -755,6 +755,7 @@
     "add.typeOne": "Ich tippe sie selbst ein",
     "add.addedToast": "Kontakt hinzugefügt",
     "add.pickToast": "Aus dem Telefon wählen braucht Android Chrome — oder tippe die Person von Hand ein.",
-    "walk.whoAdd": "Hol jemand Echtes rein"
+    "walk.whoAdd": "Hol jemand Echtes rein",
+    "walk.find": "Jemanden finden"
   }
 }

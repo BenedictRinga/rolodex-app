@@ -755,6 +755,7 @@
     "add.typeOne": "በራሴ እጽፈዋለሁ",
     "add.addedToast": "እውቂ ታክሏል",
     "add.pickToast": "ከስልክ መምረጥ Android Chrome ይፈልጋል — ወይም ሰዉን በእጅ ያስገቡ።",
-    "walk.whoAdd": "እውነተኛ ሰው ያስገቡ"
+    "walk.whoAdd": "እውነተኛ ሰው ያስገቡ",
+    "walk.find": "ሰው መፈለግ"
   }
 }

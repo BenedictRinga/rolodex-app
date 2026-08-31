@@ -13,6 +13,20 @@
     <button *ngIf="who && canSkip" class="sw-ghost" type="button" (click)="notThisOne()">
       {{ 'loopkeeper.walk.notThis' | translate }}
     </button>
+    <!-- 2026-08-31 BUILD 160 (founder): the chooser — "Not this one" opens the
+         whole list (filter + tap) instead of paging one card at a time. -->
+    <div *ngIf="listOpen" class="sw-choose">
+      <input class="sw-find" [ngModel]="listFilter" (ngModelChange)="listFilter = $event"
+        [placeholder]="'loopkeeper.walk.find' | translate" autocomplete="off">
+      <div class="sw-choose-list">
+        <button *ngFor="let c of filteredPeople()" class="sw-person" type="button" (click)="chooseFromList(c)">
+          <img [src]="avatarOf(c)" alt="" class="sw-person-img">
+          <span class="sw-person-name">{{ c.name?.display || c.nickname }}</span>
+        </button>
+        <div *ngIf="!filteredPeople().length" class="sw-choose-empty">{{ 'loopkeeper.walk.whoEmpty' | translate }}</div>
+      </div>
+      <button class="sw-ghost" type="button" (click)="closeList()">{{ 'loopkeeper.walk.back' | translate }}</button>
+    </div>
     <div *ngIf="!who" class="sw-empty">
       <div class="sw-empty-title">{{ 'loopkeeper.walk.whoTitle' | translate }}</div>
       <div class="sw-empty-body">{{ 'loopkeeper.walk.whoEmpty' | translate }}</div>

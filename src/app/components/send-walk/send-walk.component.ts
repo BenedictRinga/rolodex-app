@@ -219,10 +219,55 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.go(2);
   }
 
-  /** Not this one — the next of today's three, then the next contact. One card. */
+  /** 2026-08-31 BUILD 160 (founder): with real people aboard, "Not this one"
+   *  must NEVER serially page the deck — that is insufferable at 200 cards.
+   *  It opens the chooser instead. Only a pure-demo deck (the six samples)
+   *  still cycles, and the MINE door waits at the end of that tour anyway. */
+  get hasRealPeople(): boolean {
+    return (this.contacts || []).some((c: any) => !c?.isMockData);
+  }
+
+  listOpen = false;
+  listFilter = '';
+
+  /** Not this one — demo decks cycle; real decks open the chooser. */
   notThisOne(): void {
+    if (this.hasRealPeople) {
+      this.listOpen = true;
+      return;
+    }
     if (this.queue.length < 2) return;
     this.whoIndex = (this.whoIndex + 1) % this.queue.length;
+  }
+
+  /** The chooser's rows: everyone except the card on screen, filter first. */
+  filteredPeople(): any[] {
+    const q = this.listFilter.trim().toLowerCase();
+    return (this.contacts || [])
+      .filter((c: any) => c !== this.who?.contact)
+      .filter((c: any) => !q || String(c?.name?.display || c?.nickname || '').toLowerCase().includes(q))
+      .slice(0, 100);
+  }
+
+  chooseFromList(c: any): void {
+    this.listOpen = false;
+    this.listFilter = '';
+    if (!c) return;
+    // Same doors as confirming by hand: an open loop lands on the words,
+    // a bare contact arms at the thing.
+    if (!c.isMockData) void this.analytics.trackListStartedOnce('walk');
+    const open = this.openLoopFor(c);
+    if (open) { this.pickLoop(open, c); return; }
+    this.armedContact = c;
+    this.whatInput = '';
+    this.lineOpen = false;
+    this.backOfStep3 = 2;
+    this.go(2);
+  }
+
+  closeList(): void {
+    this.listOpen = false;
+    this.listFilter = '';
   }
 
   /** The armed person is a demo identity — the Send stage shows the MINE door. */
