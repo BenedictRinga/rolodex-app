@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ModalController } from '@ionic/angular';
 import { Loop, LoopChannel, LoopKind, LoopsService } from '../../services/loops/loops.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { SoundService } from '../../services/sound/sound.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
+import { SearchModalComponent } from '../search-modal/search-modal.component';
 
 /**
  * 2026-08-31 BUILD 158 — THE SEND WALK.
@@ -79,6 +81,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     private sounds: SoundService,
     private translate: TranslateService,
     private draftEngine: DraftEngineService,
+    private modalController: ModalController,
   ) {}
 
   tr(key: string, params?: Record<string, unknown>): string {
@@ -222,36 +225,40 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** 2026-08-31 BUILD 160 (founder): with real people aboard, "Not this one"
    *  must NEVER serially page the deck — that is insufferable at 200 cards.
    *  It opens the chooser instead. Only a pure-demo deck (the six samples)
-   *  still cycles, and the MINE door waits at the end of that tour anyway. */
+   *  still cycles, and the MINE door waits at the end of that tour anyway.
+   *  2026-08-31 FOUNDER DEV ITERATION (unshipped): the chooser is no longer
+   *  the cramped inline list — "Not this one" opens the CONTACTS MODAL
+   *  (SearchModalComponent, pick mode): the roomy bottom-sheet design the
+   *  add-flow family already uses, full search, avatar rows. */
   get hasRealPeople(): boolean {
     return (this.contacts || []).some((c: any) => !c?.isMockData);
   }
 
-  listOpen = false;
-  listFilter = '';
-
-  /** Not this one — demo decks cycle; real decks open the chooser. */
-  notThisOne(): void {
+  /** Not this one — demo decks cycle; real decks open the contacts modal. */
+  async notThisOne(): Promise<void> {
     if (this.hasRealPeople) {
-      this.listOpen = true;
+      const modal = await this.modalController.create({
+        component: SearchModalComponent,
+        componentProps: {
+          contacts: this.contacts,
+          pickMode: true,
+          excludeId: String(this.who?.contact?.contactId || ''),
+        },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95, 1],
+        initialBreakpoint: 0.95,
+        keyboardClose: false,
+      });
+      await modal.present();
+      const res = await modal.onDidDismiss();
+      this.chooseFromList(res?.data?.contact);
       return;
     }
     if (this.queue.length < 2) return;
     this.whoIndex = (this.whoIndex + 1) % this.queue.length;
   }
 
-  /** The chooser's rows: everyone except the card on screen, filter first. */
-  filteredPeople(): any[] {
-    const q = this.listFilter.trim().toLowerCase();
-    return (this.contacts || [])
-      .filter((c: any) => c !== this.who?.contact)
-      .filter((c: any) => !q || String(c?.name?.display || c?.nickname || '').toLowerCase().includes(q))
-      .slice(0, 100);
-  }
-
   chooseFromList(c: any): void {
-    this.listOpen = false;
-    this.listFilter = '';
     if (!c) return;
     // Same doors as confirming by hand: an open loop lands on the words,
     // a bare contact arms at the thing.
@@ -263,11 +270,6 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.lineOpen = false;
     this.backOfStep3 = 2;
     this.go(2);
-  }
-
-  closeList(): void {
-    this.listOpen = false;
-    this.listFilter = '';
   }
 
   /** The armed person is a demo identity — the Send stage shows the MINE door. */

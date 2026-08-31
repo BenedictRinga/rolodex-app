@@ -15,6 +15,12 @@ import { ContactInfo } from '../../models/contacts';
 })
 export class SearchModalComponent {
   @Input() contacts: ContactInfo[] = [];
+  /** 2026-08-31 FOUNDER DEV ITERATION (unshipped): pick mode — the walk's
+   *  "Not this one" opens this sheet to CHOOSE a person; the tap returns the
+   *  contact instead of navigating to the card. Same roomy design, new target. */
+  @Input() pickMode = false;
+  /** The walk's on-screen person is hidden from the pick list. */
+  @Input() excludeId = '';
 
   query = '';
 
@@ -22,8 +28,12 @@ export class SearchModalComponent {
 
   get results(): ContactInfo[] {
     const q = this.query.trim().toLowerCase();
-    if (!q) return (this.contacts || []).slice(0, 20);
-    return (this.contacts || []).filter((c) => {
+    let pool = this.contacts || [];
+    if (this.pickMode && this.excludeId) {
+      pool = pool.filter((c) => String(c?.contactId || '') !== this.excludeId);
+    }
+    if (!q) return pool.slice(0, 20);
+    return pool.filter((c) => {
       const name = String(c.name?.display || '').toLowerCase();
       const company = String(c.organization?.company || '').toLowerCase();
       const phones = (c.phones || []).map((p) => String(p.number || '')).join(' ').toLowerCase();
@@ -34,7 +44,7 @@ export class SearchModalComponent {
   }
 
   open(contact: ContactInfo): void {
-    void this.modalController.dismiss({ contact }, 'open');
+    void this.modalController.dismiss({ contact }, this.pickMode ? 'pick' : 'open');
   }
 
   clear(): void {

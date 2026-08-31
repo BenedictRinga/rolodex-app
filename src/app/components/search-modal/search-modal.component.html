@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="font-size: 15px;">Search LoopKeeper</ion-title>
+    <ion-title style="font-size: 15px;">{{ pickMode ? ('loopkeeper.walk.whoTitle' | translate) : 'Search LoopKeeper' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -14,7 +14,7 @@
     <ion-icon name="search-outline" class="search-icon"></ion-icon>
     <ion-input
       [(ngModel)]="query"
-      placeholder="Name, phone, email, company, tag…"
+      [placeholder]="pickMode ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
       autofocus
       class="search-input"
       (keyup.enter)="results[0] ? open(results[0]) : null"
@@ -27,7 +27,8 @@
   <div class="search-results">
     <div *ngIf="!results.length" class="search-empty">
       <ion-icon name="search-outline"></ion-icon>
-      <p>{{ query ? 'No contacts match "' + query + '"' : 'Start typing to search your contacts.' }}</p>
+      <p *ngIf="query">{{ 'No contacts match "' + query + '"' }}</p>
+      <p *ngIf="!query">{{ pickMode ? ('loopkeeper.walk.whoEmpty' | translate) : 'Start typing to search your contacts.' }}</p>
     </div>
 
     <ion-item *ngFor="let c of results" button class="search-result" (click)="open(c)">
