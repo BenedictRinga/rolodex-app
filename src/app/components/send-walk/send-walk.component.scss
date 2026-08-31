@@ -307,9 +307,9 @@
 }
 
 // ── Quiet discovery ──────────────────────────────────────────────────────────
-.sw-foot { display: flex; justify-content: center; padding: 18px 0 6px; margin-top: auto; }
-/* 2026-08-31 BUILD 161 (founder): the flip — the word became the card-flip
-   mark, one icon both views. Same round ghost as the shelf's .li-flipbtn. */
+/* 2026-08-31 FOUNDER DEV ITERATION (unshipped): the flip leads — one mark
+   above the slide, both views. Same round ghost as the shelf's .li-flipbtn. */
+.sw-fliprow { display: flex; justify-content: center; padding: 2px 0 0; }
 .sw-flip {
   width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
   display: flex; align-items: center; justify-content: center;

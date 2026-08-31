@@ -6,10 +6,13 @@
    2026-08-29 BUILD 145 (founder): 80% pushed the deck's View toolbar half out
    of the bottom viewport — 75% is still ample workspace. The toolbar itself
    now sits up as a footer while expanded (see rolodex.component.scss). */
-.li-shell { display:flex; flex-direction:column; height:57.5vh; min-height:57.5vh; max-height:57.5vh; position:relative;
+/* 2026-08-31 FOUNDER DEV ITERATION (unshipped): the shell is a notch longer —
+   57.5→62vh resting, 75→78vh expanded. Kept under the 80% that pushed the
+   deck's View toolbar out of the viewport (BUILD 145's ceiling). */
+.li-shell { display:flex; flex-direction:column; height:62vh; min-height:62vh; max-height:62vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
   transition:height .32s ease, min-height .32s ease, max-height .32s ease; }
-.li-shell.expanded { height:75vh; min-height:75vh; max-height:75vh; }
+.li-shell.expanded { height:78vh; min-height:78vh; max-height:78vh; }
 /* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
    whole tab pauses for one breath. The check pops with a spring, the person is
    named freed, and the freed-this-week count counts UP. The arc finally lands:
