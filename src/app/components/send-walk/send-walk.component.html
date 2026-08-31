@@ -12,8 +12,10 @@
   </div>
   <!-- 2026-08-31 BUILD 162 (founder: bring the Slide down lower): a
        shrinkable spacer — the slide sits lower in the pane, never clipped
-       on short screens (it gives its height back when space runs out). -->
-  <div class="sw-lower" aria-hidden="true"></div>
+       on short screens (it gives its height back when space runs out).
+       2026-08-31 FOUNDER DEV ITERATION: slide 4 needs the room — it starts
+       higher, no spacer there. -->
+  <div class="sw-lower" *ngIf="step !== 4" aria-hidden="true"></div>
 
   <!-- 1 WHO — the app picked. Confirm or skip. Never a list. -->
   <ng-container *ngIf="step === 1">
@@ -105,20 +107,20 @@
       </button>
       <span class="sw-back-name">{{ sel()?.person }}</span>
     </div>
+    <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the accepted words ONCE,
+         at the top — at least three lines visible, internal scroll beyond.
+         Every door below carries exactly these words. -->
+    <div *ngIf="scriptBody()" class="sw-words">
+      <div class="sw-words-label">{{ 'loopkeeper.walk.wordsTitle' | translate }}</div>
+      <div class="sw-words-text">{{ scriptBody() }}</div>
+    </div>
     <div class="sw-doors">
       <button *ngIf="hasPhone" class="sw-door sw-door-wa" type="button" (click)="fire('whatsapp')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
       </button>
-      <div *ngIf="hasPhone" class="sw-calldoor">
-        <div class="sw-script">
-          <div class="sw-beat"><b>{{ 'loopkeeper.walk.beatHi' | translate }}</b> {{ callBeats().hi }}</div>
-          <div class="sw-beat"><b>{{ 'loopkeeper.walk.beatThing' | translate }}</b> {{ callBeats().thing }}</div>
-          <div class="sw-beat"><b>{{ 'loopkeeper.walk.beatSoft' | translate }}</b> {{ callBeats().soft }}</div>
-        </div>
-        <button class="sw-door sw-door-call" type="button" (click)="fire('call')" [disabled]="busy">
-          {{ 'loopkeeper.walk.doorCall' | translate }}
-        </button>
-      </div>
+      <button *ngIf="hasPhone" class="sw-door sw-door-call" type="button" (click)="fire('call')" [disabled]="busy">
+        {{ 'loopkeeper.walk.doorCall' | translate }}
+      </button>
       <button class="sw-door sw-door-copy" type="button" (click)="fire('copy')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorCopy' | translate }}
       </button>

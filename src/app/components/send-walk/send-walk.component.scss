@@ -227,19 +227,23 @@
 .sw-door-call { border-color: rgba(255, 178, 92, .55); color: #ffb25c; }
 .sw-door-copy { opacity: .9; }
 
-.sw-calldoor {
-  border: 1px solid rgba(255, 178, 92, .4);
-  border-radius: 18px;
-  background: rgba(255, 178, 92, .07);
-  padding: 12px 12px 10px;
+/* 2026-08-31 FOUNDER DEV ITERATION (unshipped): slide 4 shows the accepted
+   words once, at the top — at least three lines visible, internal scroll for
+   the rest. The doors below are plain; the call door no longer repeats the
+   script (the old .sw-calldoor/.sw-beat styles retired with it). */
+.sw-words {
+  margin: 2px 0 12px;
+  border: 1px solid rgba(128, 128, 128, .18);
+  border-radius: 14px;
+  background: rgba(128, 128, 128, .06);
+  padding: 10px 12px 12px;
 }
-.sw-script { margin: 0 0 10px; padding: 0 4px; }
-.sw-beat {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #fff6ea;
-  margin-bottom: 4px;
-  b { color: #ffb25c; font-weight: 800; margin-right: 6px; }
+.sw-words-label { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; opacity: .55; margin-bottom: 6px; }
+.sw-words-text {
+  font-size: 13.5px; line-height: 1.55; white-space: pre-line;
+  max-height: 80px; overflow-y: auto;
+  /* color inherits the theme — the old #fff6ea rendered invisible on light
+     backgrounds (the same bug that hid the old call-beat content). */
 }
 
 .sw-nophone { font-size: 12px; opacity: .55; text-align: center; padding: 2px 4px; }

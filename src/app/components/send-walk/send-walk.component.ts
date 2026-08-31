@@ -441,6 +441,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
     if (!this.sel()) return;
     this.moreOpen = false;
     this.go(4);
+    // 2026-08-31 FOUNDER DEV ITERATION (unshipped): on a demo card the MINE
+    // door waits below the fold — bring it into view as the slide opens.
+    if (this.armedIsDemo) {
+      setTimeout(() => {
+        (document.querySelector('.sw-mine') as HTMLElement | null)
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 380);
+    }
   }
 
   backFromWords(): void {
@@ -467,17 +475,21 @@ export class SendWalkComponent implements OnInit, OnChanges {
   get hasPhone(): boolean { return !!this.phoneOf(); }
   get hasEmail(): boolean { return !!this.emailOf(); }
 
-  /** say hi → the thing → land it soft. Same words, spoken shape. */
-  callBeats(): { hi: string; thing: string; soft: string } {
+  /** 2026-08-31 FOUNDER DEV ITERATION (unshipped): the call door's script IS
+   *  the accepted words — no re-derived beats. The old callBeats() preferred
+   *  the chip summary over the draft and added template labels ("Say hi",
+   *  "The thing", "Land it soft"), so the door ignored what slide 3 accepted.
+   *  Now: the person's name, then their words verbatim. */
+  callGreeting(): string {
     const l = this.sel();
     const f = (l?.person || '').split(' ')[0] || this.tr('loopkeeper.t.them');
-    const thing = (l?.summary || l?.draft || '').split('\n')[0].trim()
-      || this.tr('loopkeeper.walk.beatThing');
-    return {
-      hi: `${f}.`,
-      thing,
-      soft: this.tr('loopkeeper.walk.beatSoftLine'),
-    };
+    return `${f} —`;
+  }
+
+  /** The words the user accepted on the previous slide, verbatim. */
+  scriptBody(): string {
+    const l = this.sel();
+    return String(l?.draft || l?.summary || '').trim();
   }
 
   toggleMore(): void { this.moreOpen = !this.moreOpen; }
