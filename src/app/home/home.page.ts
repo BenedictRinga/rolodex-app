@@ -438,6 +438,7 @@ export class HomePage implements OnInit, OnDestroy {
       void this.homeContent?.scrollToTop(0);
       window.scrollTo({ top: 0, behavior: 'auto' }); // native scroller parity
       this.rolodexAiChatOpen = true;
+      this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
       const travel = (): void => {
         const inbox = this.inboxRef;
         if (!inbox) return;
@@ -1723,16 +1724,23 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat. */
+  /** 2026-08-21: the header R icon re-opens the inline AI Assistant chat.
+   *  2026-08-31 BUILD 161 (founder: the Search fab must come back): closing
+   *  the inbox DESTROYS it — a destroyed component can no longer emit its
+   *  retract, so the expanded mirror resets at every close/reopen here. */
   openRolodexAiChat(): void {
-    this.rolodexAiChatOpen ? this.rolodexAiChatOpen = false : this.rolodexAiChatOpen = true;
+    this.rolodexAiChatOpen = !this.rolodexAiChatOpen;
+    this.inboxExpanded = false;
   }
 
   /** 2026-08-26 SETTINGS/INBOX SWAP: Settings is about to open. If the Inbox is
    *  open, remember that and close it so Settings gets an unimpeded viewport. */
   onRolodexSettingsWillOpen(): void {
     this.inboxWasOpenBeforeSettings = this.rolodexAiChatOpen;
-    if (this.rolodexAiChatOpen) this.rolodexAiChatOpen = false;
+    if (this.rolodexAiChatOpen) {
+      this.rolodexAiChatOpen = false;
+      this.inboxExpanded = false; // BUILD 161: destroyed inbox cannot emit its retract
+    }
   }
 
   /** 2026-08-26 SETTINGS/INBOX SWAP: Settings closed. Restore the Inbox if it
@@ -1740,12 +1748,14 @@ export class HomePage implements OnInit, OnDestroy {
   onRolodexSettingsClosed(): void {
     if (this.inboxWasOpenBeforeSettings) {
       this.rolodexAiChatOpen = true;
+      this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
     }
     this.inboxWasOpenBeforeSettings = false;
   }
 
   closeRolodexAiChat(): void {
     this.rolodexAiChatOpen = false;
+    this.inboxExpanded = false; // BUILD 161: same leak — reset at every close
   }
 
   /** 2026-08-22 THE ROLODEX THAT REMEMBERS: after any send, update the card on

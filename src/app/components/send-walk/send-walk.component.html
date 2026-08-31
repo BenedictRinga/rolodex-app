@@ -157,6 +157,11 @@
   </ng-container>
 
   <div class="sw-foot">
-    <button class="sw-good" type="button" (click)="imGood()">{{ 'loopkeeper.walk.good' | translate }}</button>
+    <!-- 2026-08-31 BUILD 161 (founder): the flip — same card-flip mark as the
+         shelf's, one icon both ways. The word is gone; the door remains. -->
+    <button class="sw-flip" type="button" (click)="imGood()"
+      [attr.aria-label]="'loopkeeper.walk.good' | translate">
+      <ion-icon name="arrow-redo-outline" aria-hidden="true"></ion-icon>
+    </button>
   </div>
 </div>

@@ -73,6 +73,16 @@
       <span *ngFor="let s of sampleCaptureKeys" class="li-sample">{{ tr(s) }}</span>
     </div>
 
+    <!-- 2026-08-31 BUILD 161 (founder): the flip — the card-flip mark, right
+         under the three pills where the eye already is. No words below the
+         fold; this flips to the walk the way a card flips to its back. -->
+    <div class="li-flip">
+      <button class="li-flipbtn" type="button" (click)="setLoopsSurface('walk')"
+        [attr.aria-label]="'loopkeeper.walk.smooth' | translate">
+        <ion-icon name="arrow-redo-outline" aria-hidden="true"></ion-icon>
+      </button>
+    </div>
+
     <!-- 2026-08-29 BUILD 152 (founder: "When did we lose the Loops fulcrum?"):
          the fulcrum is STANDING again — pills → fulcrum → input at all times,
          as builds 126/127 described it. Since build 87 it was gated to the
@@ -202,11 +212,6 @@
           <ng-container *ngIf="l.closeReason"> · {{ l.closeReason }}</ng-container>
         </span>
       </div>
-    </div>
-
-    <!-- 2026-08-30 BUILD 157: the shelf's quiet way back — no cues, one word. -->
-    <div class="li-smooth">
-      <button class="li-linkbtn" (click)="setLoopsSurface('walk')">{{ 'loopkeeper.walk.smooth' | translate }}</button>
     </div>
     </ng-container>
   </div>

@@ -302,11 +302,15 @@
 
 // ── Quiet discovery ──────────────────────────────────────────────────────────
 .sw-foot { display: flex; justify-content: center; padding: 18px 0 6px; margin-top: auto; }
-.sw-good {
-  border: none; background: none; cursor: pointer; color: inherit;
-  opacity: .38; font-size: 12.5px; font-weight: 500; padding: 8px 14px;
+/* 2026-08-31 BUILD 161 (founder): the flip — the word became the card-flip
+   mark, one icon both views. Same round ghost as the shelf's .li-flipbtn. */
+.sw-flip {
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(128, 128, 128, .25); background: none; color: inherit;
+  opacity: .45; font-size: 17px; padding: 0;
 }
-.sw-good:active { opacity: .9; }
+.sw-flip:active { opacity: .95; border-color: rgba(45, 212, 191, .5); color: #2dd4bf; }
 
 /* 2026-08-31 BUILD 159: the empty deck's door — same family as the MINE tile,
    one quiet teal line. Demo OFF + no cards yet still leads somewhere. */

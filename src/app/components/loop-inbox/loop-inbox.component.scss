@@ -243,8 +243,14 @@
    inbox — the meter now lives on the back of every contact card
    (contact-card.component.scss, .back-meter). */
 
-/* 2026-08-30 BUILD 157: the shelf's quiet way back to the Send Walk —
-   one word, no cues, centered under the receipts. */
-.li-smooth { display:flex; justify-content:center; padding:14px 0 4px; }
-.li-smooth .li-linkbtn { font-size:12px; opacity:.5; }
-.li-smooth .li-linkbtn:active { opacity:.95; }
+/* 2026-08-31 BUILD 161 (founder): the flip — the card-flip mark sits right
+   under the three pills (the old bottom word hid below the viewport). One
+   quiet round ghost, same arrow family the cards flip with. */
+.li-flip { display:flex; justify-content:center; padding:2px 0 10px; }
+.li-flipbtn {
+  width:34px; height:34px; border-radius:50%; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(128,128,128,.25); background:none; color:inherit;
+  opacity:.45; font-size:17px; padding:0;
+}
+.li-flipbtn:active { opacity:.95; border-color: rgba(45,212,191,.5); color:#2dd4bf; }
