@@ -53,6 +53,8 @@
   .code { font-family: ui-monospace, Menlo, Consolas, monospace; color: #b7c0d8; }
   .status { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; border-radius: 999px; padding: 3px 10px; }
   .status.awaiting { background: rgba(255,255,255,.08); color: #8b93b0; }
+  /* 2026-08-31 BUILD 167: the invited rung — link handed out, not yet claimed. */
+  .status.invited { background: rgba(255,178,92,.16); color: #ffb25c; }
   .status.accepted { background: rgba(122,184,255,.15); color: #7ab8ff; }
   .status.installed { background: rgba(157,255,184,.14); color: #8fe6ab; }
   .status.practicing { background: rgba(140,255,170,.22); color: #a4f7bb; }
@@ -100,18 +102,46 @@
     <button class="refresh" id="refresh">↻ Refresh</button>
     <div class="chips" id="chips"></div>
 
-    <!-- 2026-08-31 INVITE LINE: paste a tester code, copy the shareable line. -->
+    <!-- 2026-08-31 BUILD 167: the INVITE COMPOSER — the recruiting explainer's
+         words (Variation A warm / Variation B short + its sector hooks) finally
+         became a feature: paste a code, pick the voice, copy the finished
+         message, and the same tap marks the seat invited on the roster. -->
     <div style="border:1px solid rgba(122,184,255,.25);background:rgba(122,184,255,.05);border-radius:12px;padding:14px;margin-bottom:16px;max-width:560px">
-      <div style="font-weight:700;margin-bottom:6px;color:#7ab8ff">🔗 Invite line</div>
+      <div style="font-weight:700;margin-bottom:6px;color:#7ab8ff">🔗 Invite composer</div>
       <p style="font-size:12.5px;color:#b7c0d8;margin-bottom:8px">
-        Paste a 6-digit tester code — the shareable invite line builds instantly. Copy it, then send it however you like.
+        Paste a 6-digit tester code — the message composes itself (the words do the convincing), you copy it and send it however you like. Copying also marks the seat <b>invited</b> on the roster.
       </p>
-      <div style="display:flex;gap:8px">
-        <input id="inviteCode" placeholder="e.g. 480213" autocomplete="off"
-               autocapitalize="off" autocorrect="off" spellcheck="false"
-               style="flex:1;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.35);color:#e8ecf6;font:inherit;font-size:13px">
-        <button id="inviteCopy" type="button" title="Copy invite line"
-                style="border:0;cursor:pointer;font:inherit;font-weight:700;color:#071021;background:linear-gradient(135deg,#7ab8ff,#9db8ff);border-radius:9px;padding:9px 15px;white-space:nowrap">📋 Copy</button>
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <input id="inviteCode" placeholder="tester code, e.g. 480213" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="numeric"
+               style="flex:1;min-width:140px;padding:9px 11px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.35);color:#e8ecf6;font:inherit;font-size:13px">
+        <input id="inviteName" placeholder="their name (optional, warms Variation A)" autocomplete="off" autocapitalize="words" spellcheck="false"
+               style="flex:1;min-width:140px;padding:9px 11px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.35);color:#e8ecf6;font:inherit;font-size:13px">
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap">
+        <button type="button" data-voice="a" title="Variation A — warm, for people you know personally"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer">Warm — you know them</button>
+        <button type="button" data-voice="b" title="Variation B — short, for group chats / looser contacts"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer">Short — group chat</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+        <button type="button" data-hook="" title="No sector hook"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font:inherit;font-size:11.5px;cursor:pointer">No hook</button>
+        <button type="button" data-hook="freelancer" title="Freelancer hook"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font:inherit;font-size:11.5px;cursor:pointer">Freelancer</button>
+        <button type="button" data-hook="recruiter" title="Recruiter hook"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font:inherit;font-size:11.5px;cursor:pointer">Recruiter</button>
+        <button type="button" data-hook="family" title="Diaspora family hook"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font:inherit;font-size:11.5px;cursor:pointer">Family</button>
+        <button type="button" data-hook="sales" title="Sales/BD hook"
+                style="border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 11px;font:inherit;font-size:11.5px;cursor:pointer">Sales/BD</button>
+      </div>
+      <div id="invitePreview" style="white-space:pre-wrap;font-size:12.5px;line-height:1.55;color:#e8ecf6;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:10px 12px;min-height:44px"></div>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
+        <button id="inviteCopy" type="button" title="Copy the composed invite message"
+                style="border:0;cursor:pointer;font:inherit;font-weight:700;color:#071021;background:linear-gradient(135deg,#7ab8ff,#9db8ff);border-radius:9px;padding:9px 15px;white-space:nowrap">📋 Copy message</button>
+        <button id="inviteLinkCopy" type="button" title="Copy just the tester.html link"
+                style="border:1px solid rgba(122,184,255,.4);cursor:pointer;font:inherit;font-weight:700;color:#7ab8ff;background:transparent;border-radius:9px;padding:8px 13px;white-space:nowrap">Copy link only</button>
       </div>
       <div id="inviteLine" style="margin-top:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:#7ab8ff;word-break:break-all;min-height:18px"></div>
       <div id="inviteErr" style="color:#ff9d9d;font-size:12px;margin-top:6px"></div>
@@ -214,6 +244,7 @@
     // for 15 rewards (server build 39); a bare count cannot misread as full.
     document.getElementById('chips').innerHTML =
       '<div class="chip"><div class="v">' + (s.claimed || 0) + '</div><div class="k">accepted</div></div>' +
+      '<div class="chip"><div class="v">' + (s.invited || 0) + '</div><div class="k">invited</div></div>' +
       '<div class="chip"><div class="v">' + (s.installed || 0) + '</div><div class="k">installed</div></div>' +
       '<div class="chip"><div class="v">' + (s.practicing || 0) + '</div><div class="k">practicing</div></div>' +
       '<div class="chip' + ((s.nudges || 0) > 0 ? ' warn' : '') + '"><div class="v">' + (s.nudges || 0) + '</div><div class="k">need a nudge</div></div>';
@@ -323,25 +354,71 @@
   });
   document.getElementById('refresh').addEventListener('click', function () { load(false); });
 
-  // 2026-08-31 INVITE LINE: paste a tester code, then one tap copies the
-  // shareable invitation URL (tester.html?t=<code>). Same 6-digit range the
-  // accept page validates.
-  function buildInviteLine() {
-    var input = document.getElementById('inviteCode');
+  // 2026-08-31 BUILD 167: the INVITE COMPOSER — the recruiting explainer's
+  // two voices (Variation A warm / Variation B short) and its sector hooks,
+  // verbatim, finally a feature. One tap copies the finished message (the
+  // tester.html?t=<code> link rides inside) and marks the seat invited on
+  // the roster (POST /tester/invited, TESTER_ADMIN_KEY). Same 6-digit range
+  // the accept page validates.
+  var INVITE_URL = function (code) { return 'https://zyppar.com/loopkeeper/tester.html?t=' + code; };
+  var HOOKS = {
+    '': '',
+    freelancer: 'That client who ghosts after you delivered.',
+    recruiter: 'The candidate you meant to circle back to.',
+    family: "Mum's been waiting on that reply for a week.",
+    sales: 'The deal that died because the follow-up slipped.'
+  };
+  var inviteVoice = 'a';
+  var inviteHook = '';
+
+  function inviteMessage(code) {
+    var url = INVITE_URL(code);
+    var name = String(document.getElementById('inviteName').value || '').trim();
+    var msg;
+    if (inviteVoice === 'a') {
+      msg = 'Hey ' + (name || 'there') + ' — I need one honest favor from you. I\'ve spent a year building LoopKeeper: it catches the replies you keep meaning to send. You type one line, it drafts the message, you just hit Send. I\'m picking 15 testers — 15 min a day for 2 weeks, free the whole time, no phone, no email, no sign-up. You feed it ONE real reply you owe and tell me what annoys you. The first 15 who finish get 6 months of the paid Assistant tier, free. Android only. Read + accept in one tap: ' + url;
+    } else {
+      msg = 'Building something for everyone who owes someone a reply. LoopKeeper catches what you owe, drafts it with AI, you press Send. I need 15 honest testers: 15 min a day, 2 weeks. Free during the test — first 15 finishers earn 6 months of the paid tier. No sign-up, no phone. Android. Details + one-tap accept: ' + url;
+    }
+    var hook = HOOKS[inviteHook] || '';
+    return hook ? hook + '\n' + msg : msg;
+  }
+
+  function refreshInvite() {
     var lineEl = document.getElementById('inviteLine');
     var errEl = document.getElementById('inviteErr');
-    var raw = String(input.value || '').trim();
+    var prevEl = document.getElementById('invitePreview');
+    var raw = String(document.getElementById('inviteCode').value || '').trim();
     var code = Number(raw) || 0;
     errEl.textContent = '';
     if (!(code >= 100000 && code <= 999999)) {
       lineEl.textContent = '';
-      errEl.textContent = raw ? 'Enter a valid 6-digit tester code (100000–999999).' : 'Paste a 6-digit tester code first.';
+      prevEl.textContent = '';
+      if (raw) errEl.textContent = 'Enter a valid 6-digit tester code (100000–999999).';
       return null;
     }
-    var url = 'https://zyppar.com/loopkeeper/tester.html?t=' + code;
-    lineEl.textContent = url;
-    return url;
+    lineEl.textContent = INVITE_URL(code);
+    prevEl.textContent = inviteMessage(code);
+    return code;
   }
+
+  function paintInviteToggles() {
+    var btns = document.querySelectorAll('[data-voice]');
+    for (var i = 0; i < btns.length; i++) {
+      var on = btns[i].getAttribute('data-voice') === inviteVoice;
+      btns[i].style.background = on ? 'linear-gradient(135deg,#7ab8ff,#9db8ff)' : 'rgba(0,0,0,.35)';
+      btns[i].style.color = on ? '#071021' : '#b7c0d8';
+      btns[i].style.borderColor = on ? '#7ab8ff' : 'rgba(255,255,255,.16)';
+    }
+    var hooks = document.querySelectorAll('[data-hook]');
+    for (var j = 0; j < hooks.length; j++) {
+      var onH = hooks[j].getAttribute('data-hook') === inviteHook;
+      hooks[j].style.background = onH ? 'rgba(122,184,255,.22)' : 'rgba(0,0,0,.35)';
+      hooks[j].style.color = onH ? '#7ab8ff' : '#8b93b0';
+      hooks[j].style.borderColor = onH ? 'rgba(122,184,255,.6)' : 'rgba(255,255,255,.16)';
+    }
+  }
+
   function fallbackCopy(text) {
     var ta = document.createElement('textarea');
     ta.value = text;
@@ -352,26 +429,80 @@
     try { document.execCommand('copy'); } catch (e) { /* ignore */ }
     document.body.removeChild(ta);
   }
-  document.getElementById('inviteCopy').addEventListener('click', function () {
-    var url = buildInviteLine();
-    if (!url) return;
-    var btn = document.getElementById('inviteCopy');
+
+  // 2026-08-31 BUILD 54/167: copy = the seat is handed out — mark it invited
+  // so the roster shows the rung between awaiting and accepted.
+  function markInvited(code) {
+    var errEl = document.getElementById('inviteErr');
+    var k = key || String((document.getElementById('key') || {}).value || '').trim();
+    if (!k) { errEl.textContent = 'Copied — unlock the roster (key above) to mark the seat invited.'; return; }
+    fetch('/api/loopkeeper/tester/invited', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code, key: k })
+    }).then(function (r) {
+      if (r.status === 401) throw new Error('Key rejected (401).');
+      if (!r.ok) throw new Error('Server error ' + r.status);
+      return r.json();
+    }).then(function () {
+      errEl.style.color = '#8fe6ab';
+      errEl.textContent = '✓ Copied — seat marked invited.';
+      setTimeout(function () { errEl.textContent = ''; errEl.style.color = ''; }, 4000);
+    }).catch(function (e) {
+      errEl.style.color = '';
+      errEl.textContent = 'Copied, but the invite mark failed: ' + ((e && e.message) || 'unknown');
+    });
+  }
+
+  function copyInviteText(text, btn, code) {
     var original = btn.textContent;
     function done() {
       btn.textContent = '✓ Copied';
       setTimeout(function () { btn.textContent = original; }, 1500);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(done).catch(function () { fallbackCopy(url); done(); });
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text); done(); });
     } else {
-      fallbackCopy(url);
+      fallbackCopy(text);
       done();
     }
+    markInvited(code);
+  }
+
+  document.getElementById('inviteCopy').addEventListener('click', function () {
+    var code = refreshInvite();
+    if (!code) return;
+    copyInviteText(inviteMessage(code), document.getElementById('inviteCopy'), code);
   });
-  document.getElementById('inviteCode').addEventListener('input', function () { buildInviteLine(); });
+  document.getElementById('inviteLinkCopy').addEventListener('click', function () {
+    var code = refreshInvite();
+    if (!code) return;
+    copyInviteText(INVITE_URL(code), document.getElementById('inviteLinkCopy'), code);
+  });
+  document.getElementById('inviteCode').addEventListener('input', refreshInvite);
+  document.getElementById('inviteName').addEventListener('input', refreshInvite);
   document.getElementById('inviteCode').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') document.getElementById('inviteCopy').click();
   });
+  (function () {
+    var btns = document.querySelectorAll('[data-voice]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function (e) {
+        inviteVoice = e.currentTarget.getAttribute('data-voice');
+        paintInviteToggles();
+        refreshInvite();
+      });
+    }
+    var hooks = document.querySelectorAll('[data-hook]');
+    for (var j = 0; j < hooks.length; j++) {
+      hooks[j].addEventListener('click', function (e) {
+        inviteHook = e.currentTarget.getAttribute('data-hook');
+        paintInviteToggles();
+        refreshInvite();
+      });
+    }
+    paintInviteToggles();
+  })();
 
   if (key) {
     document.getElementById('gate').style.display = 'none';
