@@ -99,6 +99,24 @@
   <div id="roster" style="display:none">
     <button class="refresh" id="refresh">↻ Refresh</button>
     <div class="chips" id="chips"></div>
+
+    <!-- 2026-08-31 INVITE LINE: paste a tester code, copy the shareable line. -->
+    <div style="border:1px solid rgba(122,184,255,.25);background:rgba(122,184,255,.05);border-radius:12px;padding:14px;margin-bottom:16px;max-width:560px">
+      <div style="font-weight:700;margin-bottom:6px;color:#7ab8ff">🔗 Invite line</div>
+      <p style="font-size:12.5px;color:#b7c0d8;margin-bottom:8px">
+        Paste a 6-digit tester code — the shareable invite line builds instantly. Copy it, then send it however you like.
+      </p>
+      <div style="display:flex;gap:8px">
+        <input id="inviteCode" placeholder="e.g. 480213" autocomplete="off"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               style="flex:1;min-width:0;padding:9px 11px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.35);color:#e8ecf6;font:inherit;font-size:13px">
+        <button id="inviteCopy" type="button" title="Copy invite line"
+                style="border:0;cursor:pointer;font:inherit;font-weight:700;color:#071021;background:linear-gradient(135deg,#7ab8ff,#9db8ff);border-radius:9px;padding:9px 15px;white-space:nowrap">📋 Copy</button>
+      </div>
+      <div id="inviteLine" style="margin-top:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:#7ab8ff;word-break:break-all;min-height:18px"></div>
+      <div id="inviteErr" style="color:#ff9d9d;font-size:12px;margin-top:6px"></div>
+    </div>
+
     <div style="overflow-x:auto">
       <table>
         <thead>
@@ -304,6 +322,56 @@
     document.getElementById('key').focus();
   });
   document.getElementById('refresh').addEventListener('click', function () { load(false); });
+
+  // 2026-08-31 INVITE LINE: paste a tester code, then one tap copies the
+  // shareable invitation URL (tester.html?t=<code>). Same 6-digit range the
+  // accept page validates.
+  function buildInviteLine() {
+    var input = document.getElementById('inviteCode');
+    var lineEl = document.getElementById('inviteLine');
+    var errEl = document.getElementById('inviteErr');
+    var raw = String(input.value || '').trim();
+    var code = Number(raw) || 0;
+    errEl.textContent = '';
+    if (!(code >= 100000 && code <= 999999)) {
+      lineEl.textContent = '';
+      errEl.textContent = raw ? 'Enter a valid 6-digit tester code (100000–999999).' : 'Paste a 6-digit tester code first.';
+      return null;
+    }
+    var url = 'https://zyppar.com/loopkeeper/tester.html?t=' + code;
+    lineEl.textContent = url;
+    return url;
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta);
+  }
+  document.getElementById('inviteCopy').addEventListener('click', function () {
+    var url = buildInviteLine();
+    if (!url) return;
+    var btn = document.getElementById('inviteCopy');
+    var original = btn.textContent;
+    function done() {
+      btn.textContent = '✓ Copied';
+      setTimeout(function () { btn.textContent = original; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done).catch(function () { fallbackCopy(url); done(); });
+    } else {
+      fallbackCopy(url);
+      done();
+    }
+  });
+  document.getElementById('inviteCode').addEventListener('input', function () { buildInviteLine(); });
+  document.getElementById('inviteCode').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('inviteCopy').click();
+  });
 
   if (key) {
     document.getElementById('gate').style.display = 'none';
