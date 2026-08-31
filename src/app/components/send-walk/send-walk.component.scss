@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+/* 2026-08-31 BUILD 162 (founder: bring the Slide down lower): the slide no
+   longer glues to the top of the pane — a shrinkable spacer drops it toward
+   the lower half. flex-basis 0 shrink 1: on a short screen it yields its
+   height back entirely, so tall slides are never pushed below the fold. */
+.sw-lower { flex: 0 1 clamp(20px, 9vh, 88px); }
+
 .sw-kicker {
   font-size: 12px;
   letter-spacing: .04em;

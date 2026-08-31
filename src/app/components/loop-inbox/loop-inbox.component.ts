@@ -61,10 +61,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   @Output() addRequest = new EventEmitter<void>();
 
   // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
-  // (default) or this packed shelf. Persisted; "I'm good" / "Smooth" flip it.
+  // (always the default) or this packed shelf. The flip icon switches it for
+  // the session only; BUILD 162 removed the cross-launch persistence.
   loopsSurface: 'walk' | 'shelf' = 'walk';
   walkStep = 1;
-  private static readonly SURFACE_KEY = 'loopkeeper_loops_surface';
   @ViewChild('walkRef') walkRef?: SendWalkComponent;
 
   get shellExpanded(): boolean {
@@ -262,9 +262,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
     this.startPhRotation();
-    // 2026-08-30 BUILD 157: surface memory loads FIRST so the tab's first
-    // paint is the surface the user last chose (walk by default).
-    this.loopsSurface = (await this.storage.get<'walk' | 'shelf'>(LoopInboxComponent.SURFACE_KEY)) || 'walk';
+    // 2026-08-31 BUILD 162 (founder: "default should be the newer"): surface
+    // memory is GONE — every launch opens the Send Walk. The 157 persistence
+    // (last-used wins) kept dragging devices that had once flipped to the
+    // packed shelf back into the OLD view on every boot.
     // F11/F12: sweep the deck silently — owed replies + stale promises become
     // loops BEFORE the lists paint. No toast unless something was created.
     if (this.contacts?.length) void this.keeper.scanInboxSignals(this.contacts);
@@ -276,12 +277,11 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   // ── 2026-08-30 BUILD 157: the walk / shelf toggle ───────────────────────────
-  // "I'm good" (walk footer) opens this shelf; "Smooth" (below the receipts)
-  // returns. Persisted across sessions; no cues on either side.
+  // The flip icon (walk foot / under the shelf's three pills) switches for the
+  // SESSION only; the default is always the walk.
 
   setLoopsSurface(s: 'walk' | 'shelf'): void {
     this.loopsSurface = s;
-    void this.storage.set(LoopInboxComponent.SURFACE_KEY, s);
     if (s === 'shelf') {
       this.walkStep = 1;
       void this.refresh();

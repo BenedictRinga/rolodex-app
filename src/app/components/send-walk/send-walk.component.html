@@ -2,6 +2,10 @@
      Prevaricator / form-phobic: tap before type, one decision, no field staring.
      The close is "Off your mind" — the tab in the head shuts. -->
 <div class="sw">
+  <!-- 2026-08-31 BUILD 162 (founder: bring the Slide down lower): a
+       shrinkable spacer — the slide sits lower in the pane, never clipped
+       on short screens (it gives its height back when space runs out). -->
+  <div class="sw-lower" aria-hidden="true"></div>
 
   <!-- 1 WHO — the app picked. Confirm or skip. Never a list. -->
   <ng-container *ngIf="step === 1">
