@@ -396,9 +396,13 @@ export class RolodexComponent implements OnInit {
 
   /** 2026-08-16 REMINDERS: the section — alarms, follow-ups, birthdays. */
   async openReminders(): Promise<void> {
+    // 2026-09-01 BUILD 168 (founder): the reminders pane is OPERATIONAL —
+    // once one real person exists, demo rows leave it (the modal's own DEMO
+    // labelling remains for the pure-demo tour, where demo IS the show).
+    const real = (this.contacts || []).filter((c: any) => !(c as any)?.isMockData);
     const modal = await this.modalController.create({
       component: RemindersModalComponent,
-      componentProps: { contacts: this.contacts },
+      componentProps: { contacts: real.length ? real : this.contacts },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.6, 0.8, 0.9],
       initialBreakpoint: 0.8,

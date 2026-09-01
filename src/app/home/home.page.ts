@@ -730,6 +730,50 @@ export class HomePage implements OnInit, OnDestroy {
     return this.mockEnabled ? [...real, ...mockContacts] : real;
   }
 
+  // ==========================================================================
+  // 2026-09-01 BUILD 168 (founder: "once user has real contacts, Demo should
+  // stop factoring into operational features") — THE ONE GATE, stated once:
+  //
+  //   Demo factors operationally ONLY while it is the whole show — Demo ON
+  //   and not a single real contact on board. The moment one real person
+  //   exists, or Demo is off, every engine, prompt, event, score, AI nudge
+  //   and walk pick sees REAL contacts only.
+  //
+  // The DISPLAY deck (deckWithDemo) still shows the tour while Demo is on;
+  // nothing below ever mints an artifact from a demo card outside the tour.
+  // ==========================================================================
+
+  /** True only in the pure-demo tour state: Demo ON, zero real contacts. */
+  private demoIsTheShow(): boolean {
+    return this.mockEnabled && this.realContacts().length === 0;
+  }
+
+  /** The deck the ENGINES may see. Display keeps the tour; operations do not. */
+  private operationContacts(): ContactInfo[] {
+    const real = this.realContacts();
+    return this.demoIsTheShow() ? this.contacts : real;
+  }
+
+  /**
+   * BUILD 168: the demo artifact sweep. The engines minted calendar events
+   * (recurring "Check in with <sample>", bday_<demoId>_<year> reminders) in
+   * earlier builds whenever the mixed deck reached them, and those events
+   * OUTLIVED the Demo toggle — the old purge removed demo LOOPS but let the
+   * minted events sit (and the empty-deck early-return in runAutomation
+   * skipped the re-sweep entirely). This removes every event owned by a
+   * demo contactId and prunes the birthday handled-ledger. Idempotent —
+   * safe to run at every boot and toggle.
+   */
+  private async purgeDemoArtifacts(): Promise<void> {
+    try {
+      const demoIds = new Set(mockContacts.map((c: any) => String(c.contactId)).filter(Boolean));
+      for (const id of demoIds) {
+        await this.eventService.deleteEventsForContact(id);
+      }
+      await this.birthdayReminder.purgeHandledFor(demoIds);
+    } catch { /* best effort — the engines re-sweep on the next run */ }
+  }
+
   async loadContacts() {
     this.loading = true;
     try {
@@ -756,11 +800,11 @@ export class HomePage implements OnInit, OnDestroy {
         // prompt and the engines minted "Check in with <sample>" events on
         // EVERY boot of a Demo-off device with nothing real yet.
         this.contacts = this.mockEnabled ? mockContacts : [];
-        await this.contactsSyncService.automateContactSetup(this.contacts);
+        await this.contactsSyncService.automateContactSetup(this.operationContacts());
       }
     } catch {
       this.contacts = this.mockEnabled ? mockContacts : [];
-      await this.contactsSyncService.automateContactSetup(this.contacts);
+      await this.contactsSyncService.automateContactSetup(this.operationContacts());
     }
     this.loading = false;
     // 2026-08-16 DEMO SYNC: the moment contacts are ready, talk to the fresh
@@ -768,22 +812,40 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-27 HONEST STORAGE TABS: real cards only — demo filler never
     // leaves the device, matching the pane's promise verbatim.
     this.rolodexSync.push(this.realContacts());
+    // 2026-09-01 BUILD 168: whenever demo is NOT the whole show, clear every
+    // artifact it ever minted (boot-time safety sweep — the third strike on
+    // this leak, so the sweep runs whether or not anything leaked).
+    if (!this.demoIsTheShow()) await this.purgeDemoArtifacts();
   }
 
   /** Run the full automation pipeline — follow-ups, birthdays, health scoring. */
   async runAutomation() {
-    if (this.contacts.length === 0) return;
+    // 2026-09-01 BUILD 168 (founder): the engines see the OPERATIONAL deck —
+    // never the display deck. With Demo ON + real people aboard, this used to
+    // mint "Check in with <sample>" events and demo birthday reminders on
+    // every boot, every contact change and every toggle.
+    const ops = this.operationContacts();
+    if (!ops.length) {
+      // Nothing operational to schedule. The old early-return let demo-minted
+      // events sit forever on a Demo-off empty deck — sweep them instead.
+      await this.purgeDemoArtifacts();
+      this.followUpReport = { scheduled: 0, skipped: 0, overdue: [] };
+      this.followUpOverdue = [];
+      this.relationshipScores = [];
+      this.upcomingBirthdays = [];
+      return;
+    }
 
     // Follow-up engine: schedule recurring check-ins
-    this.followUpReport = await this.followUpEngine.run(this.contacts);
+    this.followUpReport = await this.followUpEngine.run(ops);
     this.followUpOverdue = this.followUpReport.overdue;
 
     // Relationship health scoring
-    this.relationshipScores = this.relationshipMonitor.suggestReachOut(this.contacts, 5);
+    this.relationshipScores = this.relationshipMonitor.suggestReachOut(ops, 5);
     await this.relationshipMonitor.scheduleHealthCheck();
 
     // Birthday reminders
-    const bdayReport = await this.birthdayReminder.processUpcomingBirthdays(this.contacts);
+    const bdayReport = await this.birthdayReminder.processUpcomingBirthdays(ops);
     this.upcomingBirthdays = bdayReport.upcoming;
     await this.birthdayReminder.cleanupOldEntries();
 
@@ -796,11 +858,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** Manual trigger: re-run relationship scoring on current contacts. */
   refreshRelationshipScores() {
-    this.relationshipScores = this.relationshipMonitor.suggestReachOut(this.contacts, 5);
+    // 2026-09-01 BUILD 168: scores are operational prompts — real deck only.
+    this.relationshipScores = this.relationshipMonitor.suggestReachOut(this.operationContacts(), 5);
   }
 
   getDormantCount(): number {
-    return this.relationshipMonitor.findDormant(this.contacts).length;
+    return this.relationshipMonitor.findDormant(this.operationContacts()).length;
   }
 
   // ===== Cloud Sync ========================================================
@@ -1322,7 +1385,11 @@ export class HomePage implements OnInit, OnDestroy {
    *  the 4 W's, RolodexAI says so instead of silently filing them. */
   private async rolodexAiNudge(contacts: ContactInfo[]): Promise<void> {
     try {
-      const noContext = (contacts || []).filter((c: any) => !(c?.rolodex?.where || c?.rolodex?.why || c?.rolodex?.topic));
+      // 2026-09-01 BUILD 168 (founder): the nudge counts the OPERATIONAL deck
+      // — demo cards never inflate (or become) the "no context" prompt once a
+      // real person exists.
+      const deck = this.operationContacts();
+      const noContext = (deck || []).filter((c: any) => !(c?.rolodex?.where || c?.rolodex?.why || c?.rolodex?.topic));
       if (!noContext.length || noContext.length === this.aiNudgeShownFor) return;
       this.aiNudgeShownFor = noContext.length;
       const noun = noContext.length === 1 ? 'contact has' : 'contacts have';
@@ -1368,6 +1435,11 @@ export class HomePage implements OnInit, OnDestroy {
       this.relationshipScores = [];
       this.upcomingBirthdays = [];
     }
+    // 2026-09-01 BUILD 168: both toggle directions sweep the minted artifacts.
+    // Turning demo OFF: its old events must die. Turning demo ON while real
+    // people exist: demo must not re-mint anything (the re-run below now uses
+    // the operational deck, and the sweep clears whatever older builds left).
+    if (!this.demoIsTheShow()) await this.purgeDemoArtifacts();
     void this.rolodexAiNudge(this.contacts);
     await this.runAutomation(); // re-sweep clears managed demo events, reschedules real ones
   }

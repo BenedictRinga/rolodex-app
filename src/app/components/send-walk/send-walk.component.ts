@@ -128,6 +128,16 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const seen = new Set<string>();
     const queue: Array<{ contact: any; loop?: Loop }> = [];
 
+    // 2026-09-01 BUILD 168 (founder): once ONE real person is on the deck,
+    // loops minted from demo cards stop prompting in the walk. (Pure-demo
+    // tour keeps them — there, demo IS the show.) The deck itself still
+    // mixes for display while Demo is on, but a demo loop never leads.
+    const realOnDeck = (this.contacts || []).some((c: any) => !(c as any)?.isMockData);
+    const demoIds = new Set(
+      (this.contacts || []).filter((c: any) => (c as any)?.isMockData)
+        .map((c: any) => String(c?.contactId || '')).filter(Boolean),
+    );
+
     const mark = (c: any) => {
       const id = String(c?.contactId || '').trim();
       const name = String(c?.name?.display || '').trim().toLowerCase();
@@ -142,6 +152,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
     for (const l of picks) {
       const card = this.cardFor(l) || this.ghostFromLoop(l);
+      if (realOnDeck && (
+        demoIds.has(String((l as any)?.sourceContactId || '')) ||
+        (card as any)?.isMockData
+      )) continue;
       queue.push({ contact: card, loop: l });
       mark(card);
     }

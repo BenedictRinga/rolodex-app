@@ -193,15 +193,26 @@
               </div>
             </div>
 
-            <!-- STORAGE: device / cloud / server -->
-            <div class="storage" *ngSwitchCase="'storage'">
-              <div class="st-row">
-                <span class="st-focus"></span>
-                <span class="st-chip">{{ 'loopkeeper.welcome.st.devDevice' | translate }}</span>
-                <span class="st-chip">{{ 'loopkeeper.welcome.st.devCloud' | translate }}</span>
-                <span class="st-chip">{{ 'loopkeeper.welcome.st.devServer' | translate }}</span>
+            <!-- 2026-09-01 BUILD 169: NO ACCOUNT. The book stays on the phone. -->
+            <div class="pledge-stage" *ngSwitchCase="'privacy'">
+              <div class="pledge-phone">
+                <div class="pledge-card">AW</div>
               </div>
-              <div class="room-pill"><span class="live-dot"></span> {{ 'loopkeeper.welcome.st.roomPill' | translate }}</div>
+              <div class="pledge-facts">
+                <span>{{ 'loopkeeper.welcome.st.factEmail' | translate }}</span>
+                <span>{{ 'loopkeeper.welcome.st.factNumber' | translate }}</span>
+                <span>{{ 'loopkeeper.welcome.st.factSend' | translate }}</span>
+              </div>
+            </div>
+
+            <!-- STORAGE: device is the home. Cloud / server are optional, off. -->
+            <div class="storage" *ngSwitchCase="'storage'">
+              <div class="st-home">{{ 'loopkeeper.welcome.st.devDevice' | translate }}</div>
+              <div class="st-opt">
+                <span class="st-chip dim">{{ 'loopkeeper.welcome.st.devCloud' | translate }}</span>
+                <span class="st-chip dim">{{ 'loopkeeper.welcome.st.devServer' | translate }}</span>
+              </div>
+              <div class="st-note">{{ 'loopkeeper.welcome.st.stayOptional' | translate }}</div>
             </div>
 
             <!-- PRICING: Basic vs Assistant -->
@@ -267,17 +278,9 @@
     </div>
   </ng-container>
 
-  <!-- 2026-08-24 PRIVACY PLEDGE: the thing we crow about — no PII to mine. -->
-  <!-- 2026-08-27 i18n: the pledge is comms — it translates too. -->
-  <div style="margin:14px 4px 4px;padding:14px 16px;border:1px solid rgba(0,200,83,.35);border-radius:14px;background:rgba(0,200,83,.06);display:flex;gap:12px;align-items:flex-start;">
-    <ion-icon name="shield-checkmark-outline" style="font-size:22px;color:#00C853;flex:none;margin-top:2px;"></ion-icon>
-    <div style="font-size:13px;line-height:1.5;">
-      <b style="font-size:14px;">{{ 'loopkeeper.welcome.privacyTitle' | translate }}</b>
-      <p style="margin:4px 0 0;color:var(--rolodex-text-secondary);">
-        {{ 'loopkeeper.welcome.privacyBody' | translate }}
-      </p>
-    </div>
-  </div>
+  <!-- 2026-09-01 BUILD 169: the privacy pledge is a slide now, not wallpaper
+       under every step. Unknown companies that slogan "privacy is the product"
+       on every screen look like they are hiding. -->
 
   <!-- 2026-08-27 SHEET-FIT FIX: controls + actions ride in one sticky footer —
        the last rows can never slide out of viewport again. -->

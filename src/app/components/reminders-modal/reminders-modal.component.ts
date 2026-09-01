@@ -100,7 +100,16 @@ export class RemindersModalComponent {
     this.reminders = [];
     this.followUps = [];
     this.birthdays = [];
-    for (const c of this.contacts || []) {
+    // 2026-09-01 BUILD 168 (founder): the reminders pane is OPERATIONAL.
+    // Once ONE real contact arrives, demo rows leave the pane entirely,
+    // whichever host passed the mixed deck (home opener, rolodex opener or
+    // the inbox's reminders tab). A pure-demo deck — the fresh-device tour,
+    // where demo IS the show — keeps its labelled demo section.
+    const all = this.contacts || [];
+    const deck = all.some((c: any) => !(c as any)?.isMockData)
+      ? all.filter((c: any) => !(c as any)?.isMockData)
+      : all;
+    for (const c of deck) {
       const name = c?.name?.display || 'Contact';
       const demo = !!(c as any)?.isMockData;
       for (const r of c?.reminders || []) {

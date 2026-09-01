@@ -103,6 +103,21 @@ export class BirthdayReminderService {
     await this.saveHandled(fresh);
   }
 
+  /**
+   * 2026-09-01 BUILD 168 (founder: demo must stop factoring operationally
+   * once real people exist): prune the handled-birthday ledger for contacts
+   * that must never prompt again — the demo cardIds. The minted calendar
+   * events themselves are swept by the home purge via
+   * eventService.deleteEventsForContact; this clears the memory so a demo
+   * card can never silently re-claim its slot either.
+   */
+  async purgeHandledFor(demoIds: Set<string>): Promise<void> {
+    if (!demoIds || !demoIds.size) return;
+    const handled = await this.loadHandled();
+    const fresh = handled.filter((h) => !demoIds.has(String(h.contactId)));
+    if (fresh.length !== handled.length) await this.saveHandled(fresh);
+  }
+
   // ===== Helpers ===========================================================
 
   private async loadHandled(): Promise<HandledBirthday[]> {
