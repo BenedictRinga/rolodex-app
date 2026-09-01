@@ -47,7 +47,17 @@
      --rolodex-border-light fallback never fired (the var IS defined
      globally: #252830 in dark mode ≈ invisible). Override removed — Loops
      now inherits the exact same border as the Assistant composer. */
-  ion-textarea { --border-radius:16px; --background:transparent; padding:8px 6px; font-size:13px; min-height:74px; } }
+  /* 2026-09-01 BUILD 173 (founder: white illegible text): the composer pins
+     its own ink - typed text, placeholder, caret, and the ion-text-color
+     fallback - so no system palette leak can ever white it out again. */
+  ion-textarea {
+    --border-radius:16px; --background:transparent; padding:8px 6px; font-size:13px; min-height:74px;
+    --color: var(--rolodex-text, #1E2328);
+    --placeholder-color: var(--rolodex-text-secondary, #70757A);
+    --placeholder-opacity: 1;
+    caret-color: var(--rolodex-text, #1E2328);
+  }
+  --ion-text-color: var(--rolodex-text, #1E2328); }
 /* 2026-08-28 BUILD 127: the ✕ that clears the whole capture box. */
 .li-capture .chat-clear { --padding-start:4px; --padding-end:4px; margin:0; --color:var(--rolodex-text-secondary, #8a9a94); }
 /* 2026-08-29 BUILD 143 (founder #2): the destination pill — a tapped nudge

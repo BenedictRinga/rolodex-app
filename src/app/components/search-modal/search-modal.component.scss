@@ -24,6 +24,12 @@
   --padding-end: 4px;
   font-size: 14px;
   flex: 1;
+  /* 2026-09-01 BUILD 173: same ink pins as the composers - no system
+     palette leak can white out typed text or the placeholder here. */
+  --color: var(--rolodex-text, #1E2328);
+  --placeholder-color: var(--rolodex-text-secondary, #70757A);
+  --placeholder-opacity: 1;
+  caret-color: var(--rolodex-text, #1E2328);
 }
 
 .search-empty {

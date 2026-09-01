@@ -16,7 +16,14 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* 2026-09-01 BUILD 173 (founder: white illegible text in the composers):
+   dark.system.css is RETIRED. It flipped Ionic's ink (text + the step greys
+   that drive placeholders) to WHITE whenever the phone's OS is dark - while
+   this app's own surfaces stayed light (dark here is opt-in via body.dark).
+   The result was typed text and placeholders in the capture box and the
+   Assistant composer rendering white-on-light. The theme system is the
+   app's own: light by default, body.dark for dark. Composers additionally
+   pin their own colors in their component SCSS. */
 
 /* ── Base Reset & Smoothing ──────────────────────── */
 *,

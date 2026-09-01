@@ -88,6 +88,14 @@ ion-content {
   flex: 1;
   --background: var(--rolodex-surface);
   --color: var(--rolodex-text);
+  /* 2026-09-01 BUILD 173 (founder: white illegible text): the Assistant
+     composer pins every ink channel - typed text, the "Tell the Assistant…"
+     placeholder, caret, and the local ion-text-color fallback - so a system
+     dark palette can never white it out on a light surface again. */
+  --placeholder-color: var(--rolodex-text-secondary, #70757A);
+  --placeholder-opacity: 1;
+  --ion-text-color: var(--rolodex-text, #1E2328);
+  caret-color: var(--rolodex-text, #1E2328);
 }
 
 .mode-picker {
