@@ -584,7 +584,7 @@ export class RolodexComponent implements OnInit {
     const v = this.shareAppService.getShareVoice();
     return v === 'auto'
       ? `${this.translate.instant('loopkeeper.settings.shareVoiceAuto')} · ${this.translate.instant('loopkeeper.settings.shareVoiceDesc')}`
-      : this.translate.instant(`loopkeeper.share.voice${v}`, { url: 'zyppar.com/loopkeeper' });
+      : this.translate.instant(`loopkeeper.share.voice${v}`, { url: 'https://zyppar.com/loopkeeper/' }); // BUILD 180: the full, secure URL travels in share texts
   }
 
   /** 2026-08-19 CHAT WITH AI ASSISTANT: the suggestion channel with the banner,

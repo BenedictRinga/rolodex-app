@@ -535,7 +535,7 @@
     "storage.serverTitle": "LoopKeeper Server — off",
     "storage.serverOffBody": "Backend sync is off — none of your cards have ever left this device.",
     "storage.serverDeviceId": "This device's sync slot",
-    "storage.serverExplain": "Turning it on copies your real cards to the LoopKeeper server (zyppar.com), so another device can pull them back. Demo cards never copy.",
+    "storage.serverExplain": "Turning it on copies your real cards to the LoopKeeper server (https://zyppar.com/loopkeeper/), so another device can pull them back. Demo cards never copy.",
     "storage.serverEnablePush": "Enable + push",
     "storage.serverEnableOnly": "Enable only",
     "storage.serverOn": "Server sync is on",
@@ -559,7 +559,7 @@
     "aboutTxt.tagline": "Dhammaadka 'Waxaan doonayaa, laakiin aan weli sameyn.'",
     "aboutTxt.privacyTitle": "No account. The book stays here.",
     "aboutTxt.privacy1": "We never ask for an email or a number. Anything you add is voluntary and lives on this phone unless you turn Cloud or Server on.",
-    "aboutTxt.privacy2": "We cannot message your people. Sending opens WhatsApp or the phone app. LoopKeeper is made by Zyppar — bookmark zyppar.com/loopkeeper/.",
+    "aboutTxt.privacy2": "We cannot message your people. Sending opens WhatsApp or the phone app. LoopKeeper is made by Zyppar — bookmark https://zyppar.com/loopkeeper/.",
     "aboutTxt.whatTitle": "LoopKeeper waa maxay?",
     "aboutTxt.what": "LoopKeeper waa kaaliyaha xiriirrada la socda — daawaha 'Waxaan doonayaa, laakiin aan weli sameyn.' Dooro qof keliya oo kugu muhiim ah, gelii heer — cunto bil kasta, wicitaan waqti-mar hore — markii wakhtigu imaado, LoopKeeper wuu ku xasuusinayaa, wuu kaa caawinayaa inaad xiriirka dhammaystirto, calaamadahuna way muuqdaan si daacadnimo aad aragto. Qof keliya waqti kasta, ma aha buugga teleefoanka oo dhan: guul yar oo dhammaystiran, ka dibna tan xigta. Fikradda xududda ah waa mid ka duwan barnaamij kasta — giraanta soo rogo ilaa 1958.",
     "aboutTxt.historyTitle": "Rolodex-gii asal ahaa — 1958",
@@ -593,7 +593,7 @@
     "aboutTxt.plansTitle": "Basic × Assistant",
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/bil):</strong> kaarada dadka muhiimsan, kooxaha, xasuusinayaasha, mashiinka xiriirka, dhalashooyinka, is-waafajinta, pods, wadahadal app-ka gudihiisa.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/bil):</strong> wax kasta oo Basic ah, iyo Kaaliyaha — fariimaha lagu sameeyo codkaada, kor la akhriyo ka hor intaadan dirin, iyo hagayaal, soo jeedmo xiriir iyo waqti.",
-    "aboutTxt.version": "LoopKeeper v{{v}} · browser-kaaga ayuu ku shaqeeyaa zyppar.com/loopkeeper/",
+    "aboutTxt.version": "LoopKeeper v{{v}} · browser-kaaga ayuu ku shaqeeyaa https://zyppar.com/loopkeeper/",
     "aboutTxt.rmNote": "Gooraysan — qalabkaagu wuxuu doorbidayaa dhaqaaq la’aan.",
     "invite.kickerMsg": "Fariin ka socota",
     "invite.kickerAppt": "Ballan ka socda",
@@ -680,7 +680,7 @@
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Raadi qof",
     "share.voiceD": "Isdiiwaangelin majirto — telefoonkaaga ayay ku nooshahay. Jawaabta aad rabto inaad dirto, la qoray, adigu riix Dir: {{url}}",
-    "privacy.madeBy": "LoopKeeper waxaa sameeyay Zyppar. Calaamadee zyppar.com/loopkeeper/.",
+    "privacy.madeBy": "LoopKeeper waxaa sameeyay Zyppar. Calaamadee https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
     "welcome.privacy.kicker": "03 · Telefoonkan",
@@ -699,7 +699,7 @@
     "walk.polishStay": "rewriting — the card stays here",
     "welcome.confidante.emphasis": "Ereyada way diyaar yihiin. Adigu riix Dir.",
     "welcome.storage.emphasis": "Telefoonkan. Daruurtu waa dami.",
-    "welcome.outro.emphasis": "Akaun majirto. Calaamadee zyppar.com/loopkeeper/.",
+    "welcome.outro.emphasis": "Akaun majirto. Calaamadee https://zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "Hal diritaan dhab ah. Telefoonka ayay ku hadhaan.",
     "welcome.card.emphasis": "Hal qof. Hal kaadh. Wax kasta oo isaga ah halkaas ayay ku nool yihiin.",
     "add.tabPeople": "Dadka LoopKeeper",
@@ -714,6 +714,7 @@
     "add.vcfHow": "Ama keen hal mar oo dhan:",
     "add.vcfStep1": "Ka soo saar xiriiriyeyaashaaga fayl .vcf - laga bilaabo Google Contacts ama iCloud internetka.",
     "add.vcfStep2": "Kaydi faylka telefoonkan (Files ama Downloads).",
-    "add.vcfStep3": "Guji albabka soo dejinta hoose, ka dibna dooro faylka."
+    "add.vcfStep3": "Guji albabka soo dejinta hoose, ka dibna dooro faylka.",
+    "add.sysNote": "Haddii telefoonkuu markaas muujo ogeysi sheegaya xiriiriyeyaasha \"la wadaagi doono zyppar.com\" - taasi waa hadalka caadiga ah ee telefoonka wax kasta oo akhriya xiriiriyeyaal. Dadka aad doorato waxay ku dhammaadaan LoopKeeper telefoonkan; naga waxba kama helno."
   }
 }

@@ -613,7 +613,7 @@
     "storage.serverTitle": "LoopKeeper-Server — aus",
     "storage.serverOffBody": "Backend-Sync ist aus — keine deiner Karten hat dieses Gerät je verlassen.",
     "storage.serverDeviceId": "Sync-Platz dieses Geräts",
-    "storage.serverExplain": "Beim Einschalten werden deine echten Karten auf den LoopKeeper-Server (zyppar.com) kopiert, damit ein anderes Gerät sie zurückholen kann. Demo-Karten werden nie kopiert.",
+    "storage.serverExplain": "Beim Einschalten werden deine echten Karten auf den LoopKeeper-Server (https://zyppar.com/loopkeeper/) kopiert, damit ein anderes Gerät sie zurückholen kann. Demo-Karten werden nie kopiert.",
     "storage.serverEnablePush": "Aktivieren + pushen",
     "storage.serverEnableOnly": "Nur aktivieren",
     "storage.serverOn": "Server-Sync ist an",
@@ -637,7 +637,7 @@
     "aboutTxt.tagline": "The end of 'I keep meaning to.'",
     "aboutTxt.privacyTitle": "Kein Konto. Das Buch bleibt hier.",
     "aboutTxt.privacy1": "Wir fragen nicht nach E-Mail oder Nummer. Was du hinzufügst, ist freiwillig und bleibt auf diesem Telefon, bis du Cloud oder Server anschaltest.",
-    "aboutTxt.privacy2": "Wir können deine Leute nicht anschreiben. Senden öffnet WhatsApp oder das Telefon. LoopKeeper stammt von Zyppar — zyppar.com/loopkeeper/.",
+    "aboutTxt.privacy2": "Wir können deine Leute nicht anschreiben. Senden öffnet WhatsApp oder das Telefon. LoopKeeper stammt von Zyppar — https://zyppar.com/loopkeeper/.",
     "aboutTxt.whatTitle": "What is LoopKeeper?",
     "aboutTxt.what": "LoopKeeper is a relationship follow-through assistant — the antidote to 'I keep meaning to.' Choose one person who matters and set a rhythm — lunch every month, a call now and then — and when the moment comes, LoopKeeper nudges you, helps you close the loop, and lights the streak so the care becomes something you can see. One person at a time, never the whole address book: one small, finished win, then the next. The idea at its heart is older than any app — wind the wheel back to 1958.",
     "aboutTxt.historyTitle": "The original Rolodex — 1958",
@@ -671,7 +671,7 @@
     "aboutTxt.plansTitle": "Basic × Assistant",
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/month):</strong> cards for the people who matter, groups, reminders, the follow-up engine, birthdays, sync, pods, in-app chat.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/month):</strong> everything in Basic, plus the Assistant — messages composed in your own voice, spoken aloud before you send, with preset guides, suggested follow-ups and timing.",
-    "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at zyppar.com/loopkeeper/",
+    "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at https://zyppar.com/loopkeeper/",
     "aboutTxt.rmNote": "Szene eingefroren — Ihr Gerät bevorzugt reduzierte Bewegung.",
     "invite.kickerMsg": "Nachricht von",
     "invite.kickerAppt": "Termin von",
@@ -758,7 +758,7 @@
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Jemanden finden",
     "share.voiceD": "Keine Anmeldung — es lebt auf deinem Telefon. Die Antwort, die du schicken willst, formuliert, du tippst Senden: {{url}}",
-    "privacy.madeBy": "LoopKeeper stammt von Zyppar. zyppar.com/loopkeeper/ merken.",
+    "privacy.madeBy": "LoopKeeper stammt von Zyppar. https://zyppar.com/loopkeeper/ merken.",
     "privacy.analyticsTitle": "Anonyme Nutzung (keine Namen)",
     "privacy.analyticsBody": "Starts, Sitzungen, Senden, Schließen — nie Kontakte, Namen oder Nachrichtentext. Ausschalten, wenn du willst.",
     "welcome.privacy.kicker": "03 · Dieses Telefon",
@@ -777,7 +777,7 @@
     "walk.polishStay": "neu schreiben — die Karte bleibt hier",
     "welcome.confidante.emphasis": "Die Worte stehen. Sie tippen auf Senden.",
     "welcome.storage.emphasis": "Dieses Telefon. Cloud bleibt aus.",
-    "welcome.outro.emphasis": "Kein Konto. zyppar.com/loopkeeper/ merken.",
+    "welcome.outro.emphasis": "Kein Konto. https://zyppar.com/loopkeeper/ merken.",
     "welcome.taste.surprise": "Ein echtes Senden. Sie bleiben auf diesem Telefon.",
     "welcome.card.emphasis": "Eine Person. Eine Karte. Alles zu ihr lebt dort.",
     "add.tabPeople": "Deine LoopKeeper-Leute",
@@ -792,6 +792,7 @@
     "add.vcfHow": "Oder bringen Sie viele auf einmal:",
     "add.vcfStep1": "Exportieren Sie Ihre Kontakte als .vcf-Datei - aus Google Contacts oder iCloud im Web.",
     "add.vcfStep2": "Speichern Sie die Datei auf diesem Telefon (Dateien oder Downloads).",
-    "add.vcfStep3": "Tippen Sie unten auf die Import-Tuer und waehlen Sie die Datei."
+    "add.vcfStep3": "Tippen Sie unten auf die Import-Tuer und waehlen Sie die Datei.",
+    "add.sysNote": "Wenn das Telefon danach einen Hinweis zeigt, dass Kontakte \"mit zyppar.com geteilt werden\" - das ist die Standardformulierung des Telefons fuer jede Seite, die Kontakte lesen will. Die gewaehlten Personen bleiben in LoopKeeper auf diesem Telefon; wir erhalten nie eine Kopie."
   }
 }

@@ -2189,11 +2189,16 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  /** One screen before the OS contact picker — why, what stays, what never happens. */
+  /** One screen before the OS contact picker — why, what stays, what never happens.
+   *  2026-09-01 BUILD 180 (founder): the phone's own picker dialog then says the
+   *  contacts "will be shared with zyppar.com" - the browser's standard wording,
+   *  which reads as a false claim and contradicts our assurances. We cannot
+   *  reword or restyle that dialog, so the preface defuses it before it shows. */
   private async presentPickerPreface(): Promise<boolean> {
     const a = await this.alertController.create({
       header: this.translate.instant('loopkeeper.add.prefaceTitle'),
-      message: this.translate.instant('loopkeeper.add.prefaceBody'),
+      message: this.translate.instant('loopkeeper.add.prefaceBody')
+        + '\n\n' + this.translate.instant('loopkeeper.add.sysNote'),
       buttons: [
         { text: this.translate.instant('loopkeeper.t.btnCancel'), role: 'cancel' },
         { text: this.translate.instant('loopkeeper.add.pickPhone'), role: 'ok' },

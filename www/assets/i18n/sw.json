@@ -613,7 +613,7 @@
     "storage.serverTitle": "Seva ya LoopKeeper — imezimwa",
     "storage.serverOffBody": "Usawazishaji wa nyuma umefungwa — hakuna kadi yako iliyoondoka kwenye kifaa hiki.",
     "storage.serverDeviceId": "Sloti ya usawazishaji ya kifaa hiki",
-    "storage.serverExplain": "Ukiwasha, kadi zako halisi zinanakiliwa kwa seva ya LoopKeeper (zyppar.com), ili kifaa kingine kiweze kuvuta tena. Kadi za majaribio hazinakiliwi kamwe.",
+    "storage.serverExplain": "Ukiwasha, kadi zako halisi zinanakiliwa kwa seva ya LoopKeeper (https://zyppar.com/loopkeeper/), ili kifaa kingine kiweze kuvuta tena. Kadi za majaribio hazinakiliwi kamwe.",
     "storage.serverEnablePush": "Washa + tuma",
     "storage.serverEnableOnly": "Washa tu",
     "storage.serverOn": "Usawazishaji wa seva umewashwa",
@@ -637,7 +637,7 @@
     "aboutTxt.tagline": "Mwisho wa 'Nataka, ila sijawahi.'",
     "aboutTxt.privacyTitle": "Hakuna akaunti. Kitabu kinakaa hapa.",
     "aboutTxt.privacy1": "Hatuombi barua pepe wala namba. Unachoongeza ni kwa hiari na kinaishi kwenye simu hii isipokuwa uwasha Wingu au Seva.",
-    "aboutTxt.privacy2": "Hatuwezi kuwatumia watu wako ujumbe. Kutuma hufungua WhatsApp au simu. LoopKeeper imetengenezwa na Zyppar — zyppar.com/loopkeeper/.",
+    "aboutTxt.privacy2": "Hatuwezi kuwatumia watu wako ujumbe. Kutuma hufungua WhatsApp au simu. LoopKeeper imetengenezwa na Zyppar — https://zyppar.com/loopkeeper/.",
     "aboutTxt.whatTitle": "LoopKeeper ni nini?",
     "aboutTxt.what": "LoopKeeper ni msaidizi wa kufuata mahusiano hadi mwisho — dawa ya 'Nataka, ila sijawahi.' Chagua mtu mmoja anayekuhusu, uweke mduara — chakula kila mwezi, simu mara kwa mara — na wakati ukifika, LoopKeeper inakukumbusha, inakusaidia kufunga mduara, na inawasha mstari ili upendo uonekane. Mtu mmoja kwa wakati, si kitabu chote cha simu: ushindi mdogo uliokamilika, kisha ule unaofuata. Wazo lililo nyoyake ni la zamani kuliko programu yoyote — sogeza gurudumu nyuma hadi 1958.",
     "aboutTxt.historyTitle": "Rolodex ya asili — 1958",
@@ -671,7 +671,7 @@
     "aboutTxt.plansTitle": "Basic × Assistant",
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/mwezi):</strong> kadi za watu wanaokuhusu, makundi, vikumbusho, injini ya kufuatilia, siku za kuzaliwa, usawazishaji, pods, soga ndani ya programu.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/mwezi):</strong> kila kitu katika Basic, pamoja na Msaidizi — ujumbe unaoundwa kwa sauti yako mwenyewe, unasomwa kwa sauti kabla ya kutuma, na nyongozi, mapendekezo ya kufuatilia na muda.",
-    "aboutTxt.version": "LoopKeeper v{{v}} · inaendesha kwenye kivinjari chako kwa zyppar.com/loopkeeper/",
+    "aboutTxt.version": "LoopKeeper v{{v}} · inaendesha kwenye kivinjari chako kwa https://zyppar.com/loopkeeper/",
     "aboutTxt.rmNote": "Imesimama tulivu — kifaa chako kipenda mwendo mdogo.",
     "invite.kickerMsg": "Ujumbe kutoka kwa",
     "invite.kickerAppt": "Miadi kutoka kwa",
@@ -758,7 +758,7 @@
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Tafuta mtu",
     "share.voiceD": "Hakuna kujisajili — inaishi kwenye simu yako. Jibu unalokusudia kutuma, limeandikwa, wewe bonyeza Tuma: {{url}}",
-    "privacy.madeBy": "LoopKeeper imetengenezwa na Zyppar. Weka alama zyppar.com/loopkeeper/.",
+    "privacy.madeBy": "LoopKeeper imetengenezwa na Zyppar. Weka alama https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Matumizi yasiyojulikana (bila majina)",
     "privacy.analyticsBody": "Ufunguaji, vipindi, kutuma, kufunga — kamwe anwani, majina, wala maandishi ya ujumbe. Zima ukitaka.",
     "welcome.privacy.kicker": "03 · Simu hii",
@@ -777,7 +777,7 @@
     "walk.polishStay": "inaandika upya — kadi inakaa hapa",
     "welcome.confidante.emphasis": "Maneno yako tayari. Wewe bonyeza Tuma.",
     "welcome.storage.emphasis": "Simu hii. Wingu limezimwa.",
-    "welcome.outro.emphasis": "Hakuna akaunti. Weka alama zyppar.com/loopkeeper/.",
+    "welcome.outro.emphasis": "Hakuna akaunti. Weka alama https://zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "Tuma moja halisi. Wanabaki kwenye simu hii.",
     "welcome.card.emphasis": "Mtu mmoja. Kadi moja. Kila kitu chake kipo hapo.",
     "add.tabPeople": "Watu wa LoopKeeper",
@@ -792,6 +792,7 @@
     "add.vcfHow": "Au leta wengi kwa pamoja:",
     "add.vcfStep1": "Hamisha anwani zako kama faili la .vcf - kutoka Google Contacts au iCloud mtandaoni.",
     "add.vcfStep2": "Hifadhi faili kwenye simu hii (Files au Downloads).",
-    "add.vcfStep3": "Bofya lango la kuleta hapa chini kisha chagua faili."
+    "add.vcfStep3": "Bofya lango la kuleta hapa chini kisha chagua faili.",
+    "add.sysNote": "Ikionekana taarifa ya simu kuwa anwani \"zitashirikishwa na zyppar.com\" - hiyo ni lugha ya kawaida ya simu kwa tovuti yoyote inayooma anwani. Watu utakaowauteua huishi ndani ya LoopKeeper kwenye simu hii; hatupati nakala kamwe."
   }
 }

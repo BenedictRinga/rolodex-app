@@ -83,7 +83,7 @@ export class HelpModalComponent {
       features: [
         { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. There is no LoopKeeper account to sign into. The clean reset is to clear LoopKeeper\'s app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. If you had exported a .rolodex file, or turned Cloud / Server on yourself, that copy can come back — nothing is waiting in an account of ours.' },
         { id: 'faq-passphrase', title: 'I forgot my sync passphrase', guide: 'The passphrase is never stored anywhere, so the old cloud bundle cannot be decrypted without it. Set a new passphrase to start a fresh encrypted bundle; the previous bundle stays unrecoverable by design.' },
-        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'LoopKeeper is made by Zyppar. Bookmark zyppar.com/loopkeeper/ — not the bare zyppar.com home.' },
+        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/ — the full, secure address — not the bare zyppar.com home.' },
       ],
     },
     {

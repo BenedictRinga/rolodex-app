@@ -306,7 +306,7 @@
     "privacy.subhead": "We never asked for an email or a number. Your people stay on this phone unless you turn something on.",
     "privacy.pledgeTitle": "What we never do",
     "privacy.pledgeBody": "No account. No copy of your address book on our servers. We cannot message your people — sending opens WhatsApp or the phone, not us. Anything you add is voluntary.",
-    "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark zyppar.com/loopkeeper/.",
+    "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
     "privacy.deviceTitle": "Device-first storage",
@@ -470,7 +470,7 @@
     "welcome.outro.kicker": "You’re set",
     "welcome.outro.title": "That’s the tour — it’s all live",
     "welcome.outro.copy": "You’re set. Pick your first person — we’ll start there. Replay this demo any time from Settings → Welcome Again.",
-    "welcome.outro.emphasis": "No account. Bookmark zyppar.com/loopkeeper/.",
+    "welcome.outro.emphasis": "No account. Bookmark https://zyppar.com/loopkeeper/.",
     "welcome.taste.kicker": "The surprise",
     "welcome.taste.title": "Let’s close one real loop — right now",
     "welcome.taste.copy": "Pick the person you keep meaning to text. We’ll work through that one together: compose the message, then you send.",
@@ -636,7 +636,7 @@
     "storage.serverTitle": "LoopKeeper Server — off",
     "storage.serverOffBody": "Backend sync is off — none of your cards have ever left this device.",
     "storage.serverDeviceId": "This device's sync slot",
-    "storage.serverExplain": "Turning it on copies your real cards to the LoopKeeper server (zyppar.com), so another device can pull them back. Demo cards never copy.",
+    "storage.serverExplain": "Turning it on copies your real cards to the LoopKeeper server (https://zyppar.com/loopkeeper/), so another device can pull them back. Demo cards never copy.",
     "storage.serverEnablePush": "Enable + push",
     "storage.serverEnableOnly": "Enable only",
     "storage.serverOn": "Server sync is on",
@@ -660,7 +660,7 @@
     "aboutTxt.tagline": "The end of 'I keep meaning to.'",
     "aboutTxt.privacyTitle": "No account. The book stays here.",
     "aboutTxt.privacy1": "We never ask for an email or a number. Anything you add is voluntary and lives on this phone unless you turn Cloud or Server on.",
-    "aboutTxt.privacy2": "We cannot message your people. Sending opens WhatsApp or the phone app. LoopKeeper is made by Zyppar — bookmark zyppar.com/loopkeeper/.",
+    "aboutTxt.privacy2": "We cannot message your people. Sending opens WhatsApp or the phone app. LoopKeeper is made by Zyppar — bookmark https://zyppar.com/loopkeeper/.",
     "aboutTxt.whatTitle": "What is LoopKeeper?",
     "aboutTxt.what": "LoopKeeper is a relationship follow-through assistant — the antidote to 'I keep meaning to.' Choose one person who matters and set a rhythm — lunch every month, a call now and then — and when the moment comes, LoopKeeper nudges you, helps you close the loop, and lights the streak so the care becomes something you can see. One person at a time, never the whole address book: one small, finished win, then the next. The idea at its heart is older than any app — wind the wheel back to 1958.",
     "aboutTxt.historyTitle": "The original Rolodex — 1958",
@@ -694,7 +694,7 @@
     "aboutTxt.plansTitle": "Basic × Assistant",
     "aboutTxt.plan1": "<strong>LoopKeeper (Basic · $1/month):</strong> cards for the people who matter, groups, reminders, the follow-up engine, birthdays, sync, pods, in-app chat.",
     "aboutTxt.plan2": "<strong>LoopKeeper (Assistant · $5/month):</strong> everything in Basic, plus the Assistant — messages composed in your own voice, spoken aloud before you send, with preset guides, suggested follow-ups and timing.",
-    "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at zyppar.com/loopkeeper/",
+    "aboutTxt.version": "LoopKeeper v{{v}} · runs in your browser at https://zyppar.com/loopkeeper/",
     "aboutTxt.rmNote": "Holding still — your device prefers reduced motion.",
     "invite.kickerMsg": "Message from",
     "invite.kickerAppt": "Appointment from",
@@ -798,6 +798,7 @@
     "add.vcfHow": "Or bring many at once:",
     "add.vcfStep1": "Export your contacts as a .vcf file — from Google Contacts or iCloud on the web.",
     "add.vcfStep2": "Save the file to this phone (Files or Downloads).",
-    "add.vcfStep3": "Tap the import door below and choose the file."
+    "add.vcfStep3": "Tap the import door below and choose the file.",
+    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy."
   }
 }
