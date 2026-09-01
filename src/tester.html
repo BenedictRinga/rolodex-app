@@ -75,7 +75,7 @@
   .btn {
     display: block; width: 100%; text-align: center; border: 0; cursor: pointer;
     font: inherit; font-weight: 700; font-size: 16px; border-radius: 12px;
-    padding: 15px 18px; margin-top: 20px; color: #071021;
+    padding: 15px 18px; margin-top: 10px; color: #071021;
     background: linear-gradient(135deg, #7ab8ff, #9db8ff);
     transition: transform .08s ease, opacity .15s ease;
   }
@@ -86,6 +86,9 @@
     margin-top: 10px; text-decoration: none; text-align: center; font-weight: 600;
   }
   .fine { color: #6d7590; font-size: 12.5px; margin-top: 16px; text-align: center; }
+  /* 2026-09-01 BUILD 176 (founder: the usher above the button): a quiet
+     directional line so "Accept the invitation" lands warm, not curt. */
+  .usher { color: #b7c0d8; font-size: 13.5px; text-align: center; margin: 18px 0 0; }
   .hidden { display: none !important; }
   .state { text-align: center; padding: 10px 0 0; }
   .state .big { font-size: 40px; margin-bottom: 10px; }
@@ -156,6 +159,18 @@
       <p><b>You know someone in every one of these ten.</b> Test on the loops you owe — then hand the app to the friend you thought of first.</p>
     </div>
 
+    <!-- 2026-09-01 BUILD 176 (founder: the tester's juncture): the cohorts card
+         says "hand the app to the friend" — and the page used to leave him
+         there with no way to do it, the nearest object being the invite-code
+         line, which read like the code was the thing to pass on. The hand-over
+         now has its own door, and the plain link is the honest one: no code,
+         nothing to sign; the friend just opens the app. -->
+    <div class="card">
+      <h2>Handing it to that friend</h2>
+      <p>You don't need a code to share LoopKeeper — the app itself is the share. One tap below sends it however you talk: WhatsApp, SMS, anything. Your friend opens the link and it simply works; your seat stays yours.</p>
+      <button class="btn ghost" id="shareBtn" type="button">Share LoopKeeper with that friend</button>
+    </div>
+
     <div class="card reward">
       <h2>The deal</h2>
       <p>Free for the whole test — no card, no subscription. <b>The first 15 testers who finish the two weeks get 6 months of the paid Assistant tier, free.</b></p>
@@ -170,6 +185,13 @@
       <p>No phone number. No email. No sign-up identity. This invite link just carries a private number — that's all I ever see. Your contacts and messages stay on your phone.</p>
     </div>
 
+    <!-- 2026-09-01 BUILD 176 (founder): the usher moves ABOVE the button —
+         short, directional, warm ("One tap to claim your seat") so the button
+         is the deed, not a demand. The old below-button line ("Invite #480213
+         detected") read like a code to hand to someone else — the exact
+         ambiguity that stalled a tester. What remains below is only the
+         reassurance: nothing to type, nothing to pass on. -->
+    <p class="usher">One tap to claim your seat.</p>
     <button class="btn" id="acceptBtn">Accept the invitation</button>
     <p class="fine" id="codeNote">Checking your invite code…</p>
   </div>
@@ -196,6 +218,9 @@
     </div>
     <a class="btn" id="installBtn" href="#">Open LoopKeeper</a>
     <p class="fine">Keep this chat with me — reply here when something confuses you, and when you've sent your first loop. In a few weeks you'll also be first in line for the Google Play build.</p>
+    <!-- 2026-09-01 BUILD 176: the same quiet hand-over door once they're in —
+         the share impulse usually arrives after the first send, not before. -->
+    <button class="btn ghost" id="shareBtn2" type="button">Share LoopKeeper with a friend</button>
   </div>
 
   <!-- ── BAD / USED LINK ─────────────────────────────────────────────────── -->
@@ -225,7 +250,27 @@
     show('invalid');
     return;
   }
-  note.textContent = 'Invite #' + code + ' detected — one tap to claim your seat.';
+  // 2026-09-01 BUILD 176 (founder): the technicality is retired from view.
+  // The seat is claimed with the button above; this line only defuses the old
+  // reading ("a code I should hand to someone") and echoes the privacy card.
+  note.textContent = 'Nothing to type, nothing to pass on — the invitation rides in this link.';
+
+  // 2026-09-01 BUILD 176 (the hand-over door): the friend link is the PLAIN
+  // app URL on purpose — no tester code. The friend opens it as a regular
+  // user; the tester's seat never travels with the share.
+  var SHARE_URL = 'https://zyppar.com/loopkeeper/';
+  var SHARE_TEXT = 'I am testing LoopKeeper - you tell it the reply you owe, it drafts the message, you press Send. Free while I test it: ' + SHARE_URL;
+  function shareApp() {
+    if (navigator.share) {
+      navigator.share({ title: 'LoopKeeper', text: SHARE_TEXT, url: SHARE_URL }).catch(function () {});
+      return;
+    }
+    window.open('https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT), '_blank', 'noopener');
+  }
+  var sb1 = document.getElementById('shareBtn');
+  var sb2 = document.getElementById('shareBtn2');
+  if (sb1) sb1.addEventListener('click', shareApp);
+  if (sb2) sb2.addEventListener('click', shareApp);
 
   acceptBtn.addEventListener('click', function () {
     acceptBtn.disabled = true;
