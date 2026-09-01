@@ -21,10 +21,28 @@ export class SearchModalComponent {
   @Input() pickMode = false;
   /** The walk's on-screen person is hidden from the pick list. */
   @Input() excludeId = '';
+  /**
+   * 2026-09-01 BUILD 172 (founder): the ADD ICON joins the Loops interface —
+   * one roomy sheet for reaching people everywhere. With addDoors the sheet
+   * carries the bring-them-in doors at its foot: the phone picker (only when
+   * the device actually offers it — iPhone Safari never does) and typing one
+   * in (always). Tapping a row still opens that person's card.
+   */
+  @Input() addDoors = false;
+  /** The Contact Picker API exists on this browser (Android Chromium only). */
+  @Input() pickerAvailable = false;
 
   query = '';
 
   constructor(private readonly modalController: ModalController) {}
+
+  pickPhone(): void {
+    void this.modalController.dismiss(null, 'phone');
+  }
+
+  typeOne(): void {
+    void this.modalController.dismiss(null, 'manual');
+  }
 
   get results(): ContactInfo[] {
     const q = this.query.trim().toLowerCase();

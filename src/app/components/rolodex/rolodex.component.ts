@@ -568,7 +568,7 @@ export class RolodexComponent implements OnInit {
    *  with a live preview of the message the current voice sends. */
   async cycleShareVoice(ev?: Event): Promise<void> {
     ev?.stopPropagation(); // the row itself opens the share sheet — this button must not
-    const order: Array<'auto' | 'A' | 'B' | 'C'> = ['auto', 'A', 'B', 'C'];
+    const order: Array<'auto' | 'A' | 'B' | 'C' | 'D'> = ['auto', 'A', 'B', 'C', 'D'];
     const cur = this.shareAppService.getShareVoice();
     const next = order[(order.indexOf(cur) + 1) % order.length];
     this.shareAppService.setShareVoice(next);

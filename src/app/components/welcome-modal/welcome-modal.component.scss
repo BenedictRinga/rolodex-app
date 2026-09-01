@@ -732,6 +732,74 @@ ion-content {
   gap: 14px;
 }
 
+.st-home {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1px solid var(--rolodex-primary);
+  background: rgba(var(--rolodex-primary-rgb), 0.14);
+  color: var(--rolodex-text);
+}
+
+.st-opt { display: flex; gap: 8px; }
+.st-chip.dim { opacity: .42; font-weight: 500; padding: 6px 12px; }
+.st-note {
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: .6;
+  text-align: center;
+  max-width: 220px;
+}
+
+.pledge-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.pledge-phone {
+  width: 92px;
+  height: 148px;
+  border-radius: 18px;
+  border: 2px solid var(--rolodex-border);
+  background: var(--rolodex-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+}
+.pledge-card {
+  width: 56px;
+  height: 72px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,178,92,.25), rgba(20,184,166,.12));
+  border: 1px solid rgba(255,178,92,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+.pledge-facts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 260px;
+}
+.pledge-facts span {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(0,200,83,.10);
+  border: 1px solid rgba(0,200,83,.35);
+  color: var(--rolodex-text);
+}
+
 .st-row {
   position: relative;
   display: flex;

@@ -67,6 +67,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: 'loopkeeper.welcome.card.kicker',
       title: 'loopkeeper.welcome.card.title',
       copy: 'loopkeeper.welcome.card.copy',
+      emphasis: 'loopkeeper.welcome.card.emphasis',
     },
     {
       id: 'loopmotto',
@@ -118,24 +119,28 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       kicker: 'loopkeeper.welcome.confidante.kicker',
       title: 'loopkeeper.welcome.confidante.title',
       copy: 'loopkeeper.welcome.confidante.copy',
+      emphasis: 'loopkeeper.welcome.confidante.emphasis',
     },
     {
       id: 'storage',
       kicker: 'loopkeeper.welcome.storage.kicker',
       title: 'loopkeeper.welcome.storage.title',
       copy: 'loopkeeper.welcome.storage.copy',
+      emphasis: 'loopkeeper.welcome.storage.emphasis',
     },
     {
       id: 'outro',
       kicker: 'loopkeeper.welcome.outro.kicker',
       title: 'loopkeeper.welcome.outro.title',
       copy: 'loopkeeper.welcome.outro.copy',
+      emphasis: 'loopkeeper.welcome.outro.emphasis',
     },
     {
       id: 'taste',
       kicker: 'loopkeeper.welcome.taste.kicker',
       title: 'loopkeeper.welcome.taste.title',
       copy: 'loopkeeper.welcome.taste.copy',
+      surprise: 'loopkeeper.welcome.taste.surprise',
     },
   ];
 

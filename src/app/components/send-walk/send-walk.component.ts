@@ -195,6 +195,16 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   get canSkip(): boolean { return this.queue.length > 1; }
 
+  /** First real person on screen: one whisper, then never again. */
+  get showStayHere(): boolean {
+    if (!this.who || this.who.contact?.isMockData) return false;
+    try { return localStorage.getItem('loopkeeper_stay_here_seen') !== '1'; } catch { return true; }
+  }
+
+  private markStaySeen(): void {
+    try { localStorage.setItem('loopkeeper_stay_here_seen', '1'); } catch { /* session only */ }
+  }
+
   whisper(): string {
     const item = this.who;
     if (!item) return '';
@@ -222,6 +232,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
   confirmWho(): void {
     const item = this.who;
     if (!item) return;
+    this.markStaySeen();
     if (item.loop) {
       this.pickLoop(item.loop, item.contact);
       return;

@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="font-size: 15px;">{{ pickMode ? ('loopkeeper.walk.whoTitle' | translate) : 'Search LoopKeeper' }}</ion-title>
+    <ion-title style="font-size: 15px;">{{ addDoors ? ('loopkeeper.add.title' | translate) : (pickMode ? ('loopkeeper.walk.whoTitle' | translate) : 'Search LoopKeeper') }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -14,7 +14,7 @@
     <ion-icon name="search-outline" class="search-icon"></ion-icon>
     <ion-input
       [(ngModel)]="query"
-      [placeholder]="pickMode ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
+      [placeholder]="(pickMode || addDoors) ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
       autofocus
       class="search-input"
       (keyup.enter)="results[0] ? open(results[0]) : null"
@@ -28,7 +28,7 @@
     <div *ngIf="!results.length" class="search-empty">
       <ion-icon name="search-outline"></ion-icon>
       <p *ngIf="query">{{ 'No contacts match "' + query + '"' }}</p>
-      <p *ngIf="!query">{{ pickMode ? ('loopkeeper.walk.whoEmpty' | translate) : 'Start typing to search your contacts.' }}</p>
+      <p *ngIf="!query">{{ (pickMode || addDoors) ? ('loopkeeper.walk.whoEmpty' | translate) : 'Start typing to search your contacts.' }}</p>
     </div>
 
     <ion-item *ngFor="let c of results" button class="search-result" (click)="open(c)">
@@ -47,3 +47,20 @@
     </ion-item>
   </div>
 </ion-content>
+
+<!-- 2026-09-01 BUILD 172 (founder): the bring-them-in doors ride at the foot
+     of the same roomy sheet — the phone picker ONLY where the device offers
+     it (iPhone Safari never does, so the dead door simply never shows), and
+     typing one in always. -->
+<ion-footer *ngIf="addDoors" class="ion-no-border sm-doors">
+  <div class="sm-doors-row">
+    <ion-button *ngIf="pickerAvailable" expand="block" class="sm-door" (click)="pickPhone()">
+      <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.pickPhone' | translate }}
+    </ion-button>
+    <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
+      <ion-icon name="create-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.typeOne' | translate }}
+    </ion-button>
+  </div>
+</ion-footer>

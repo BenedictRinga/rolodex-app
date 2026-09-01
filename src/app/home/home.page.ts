@@ -1461,16 +1461,38 @@ export class HomePage implements OnInit, OnDestroy {
    *  deck, exactly like a device import. 2026-08-31 BUILD 159: the sheet speaks
    *  the user's language (it now also answers the walk's MINE door). */
   async onCreateContact() {
-    const sheet = await this.alertController.create({
-      header: this.translate.instant('loopkeeper.add.title'),
-      message: this.translate.instant('loopkeeper.add.msg'),
-      buttons: [
-        { text: this.translate.instant('loopkeeper.add.pickPhone'), handler: () => { void this.addFromPhoneContacts(); } },
-        { text: this.translate.instant('loopkeeper.add.typeOne'), handler: () => { void this.openManualContactEntry(); } },
-        { text: this.translate.instant('loopkeeper.t.btnCancel'), role: 'cancel' },
-      ],
+    // 2026-09-01 BUILD 172 (founder: "apply the interface used for accessing
+    // the contacts in Loops, for contacts via the add icon also"): the cramped
+    // three-button alert is RETIRED. The add icon - on the deck AND behind the
+    // walk's MINE door - opens the SAME roomy sheet the Loops chooser uses:
+    // the searchable list of people already here, with the bring-them-in
+    // doors at the foot. The phone-picker door only renders where the device
+    // actually offers the Contact Picker API (Android Chromium); iPhone
+    // Safari never does, so the dead door never shows and "I'll type one in"
+    // leads. A row tap still opens that person's card.
+    const modal = await this.modalController.create({
+      component: SearchModalComponent,
+      componentProps: {
+        contacts: this.contacts,
+        addDoors: true,
+        pickerAvailable: !!((navigator as any)?.contacts?.select),
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
     });
-    await sheet.present();
+    await modal.present();
+    const res = await modal.onDidDismiss();
+    if (res?.role === 'phone') {
+      await this.addFromPhoneContacts();
+      return;
+    }
+    if (res?.role === 'manual') {
+      await this.openManualContactEntry();
+      return;
+    }
+    if (res?.data?.contact) this.onContactTap(res.data.contact);
   }
 
   /** Manual entry: reuse the ContactCardComponent create form in a modal, then
@@ -2000,6 +2022,17 @@ export class HomePage implements OnInit, OnDestroy {
       void this.alertsService.showToast(this.translate.instant('loopkeeper.add.pickToast'), 5000);
       return;
     }
+    // 2026-09-01 BUILD 169: speak BEFORE the OS picker. Startups don't get
+    // Google's pass on the address book — the sentence belongs at the ask.
+    const PREFACE_KEY = 'loopkeeper_picker_preface_seen';
+    try {
+      const seen = await this.storageService.get<boolean>(PREFACE_KEY);
+      if (!seen) {
+        const go = await this.presentPickerPreface();
+        if (!go) return;
+        await this.storageService.set(PREFACE_KEY, true);
+      }
+    } catch { /* if storage fails, still offer the picker */ }
     try {
       const props = ['name', 'email', 'tel', 'address', 'icon'];
       const picked = await picker.select(props, { multiple: true });
@@ -2026,10 +2059,27 @@ export class HomePage implements OnInit, OnDestroy {
       this.onContactsChange(this.contacts);
       // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
       void this.analytics.trackListStartedOnce('picker');
-      void this.alertsService.showToast(mapped.length + ' contact' + (mapped.length === 1 ? '' : 's') + ' added from your phone.', 4000);
+      void this.alertsService.showToast(
+        this.translate.instant('loopkeeper.add.stayToast', { n: mapped.length }),
+        4200);
     } catch {
       /* user cancelled the picker */
     }
+  }
+
+  /** One screen before the OS contact picker — why, what stays, what never happens. */
+  private async presentPickerPreface(): Promise<boolean> {
+    const a = await this.alertController.create({
+      header: this.translate.instant('loopkeeper.add.prefaceTitle'),
+      message: this.translate.instant('loopkeeper.add.prefaceBody'),
+      buttons: [
+        { text: this.translate.instant('loopkeeper.t.btnCancel'), role: 'cancel' },
+        { text: this.translate.instant('loopkeeper.add.pickPhone'), role: 'ok' },
+      ],
+    });
+    await a.present();
+    const { role } = await a.onDidDismiss();
+    return role === 'ok';
   }
 
   /**

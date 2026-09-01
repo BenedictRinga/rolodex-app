@@ -74,16 +74,16 @@ export class HelpModalComponent {
     {
       label: 'Your essentials, your choice',
       features: [
-        { id: 'storage', title: 'Where your essentials live', guide: 'Device, Cloud (Dropbox · Drive · OneDrive), or the LoopKeeper Server — pick per your trust level. You choose what goes where, and sync across devices.', goLabel: 'Choose' },
+        { id: 'storage', title: 'Where your essentials live', guide: 'Default: this phone. Cloud is your Dropbox, Drive or OneDrive, encrypted with a passphrase you set. Our server stays off unless you turn it on.', goLabel: 'Choose' },
         { id: 'sync', title: 'Cloud sync', guide: 'Encrypted push/pull to the cloud provider of your choice, with a passphrase.', goLabel: 'Sync' },
       ],
     },
     {
       label: 'FAQ',
       features: [
-        { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. The clean reset is to clear LoopKeeper\'s app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. Contacts already synced to the LoopKeeper Server / cloud come back after you sign in again.' },
+        { id: 'faq-lock', title: 'I forgot my app-lock PIN', guide: 'The PIN is stored hashed on your device — nobody can read or recover it. There is no LoopKeeper account to sign into. The clean reset is to clear LoopKeeper\'s app data (Settings → Apps → LoopKeeper → Clear storage) or reinstall. If you had exported a .rolodex file, or turned Cloud / Server on yourself, that copy can come back — nothing is waiting in an account of ours.' },
         { id: 'faq-passphrase', title: 'I forgot my sync passphrase', guide: 'The passphrase is never stored anywhere, so the old cloud bundle cannot be decrypted without it. Set a new passphrase to start a fresh encrypted bundle; the previous bundle stays unrecoverable by design.' },
-        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'The PWA lives at zyppar.com/loopkeeper/ — bookmark that exact URL, not the bare zyppar.com home.' },
+        { id: 'faq-url', title: 'Where does LoopKeeper live?', guide: 'LoopKeeper is made by Zyppar. Bookmark zyppar.com/loopkeeper/ — not the bare zyppar.com home.' },
       ],
     },
     {

@@ -60,3 +60,29 @@
   font-size: 12px;
   color: var(--rolodex-text-secondary);
 }
+
+/* 2026-09-01 BUILD 172 (founder): the bring-them-in doors — the same teal
+   action language as the walk, quiet on the theme colors, never hardcoded. */
+.sm-doors {
+  --background: transparent;
+}
+
+.sm-doors-row {
+  display: flex;
+  gap: 10px;
+  padding: 8px 14px calc(10px + env(safe-area-inset-bottom));
+}
+
+.sm-doors .sm-door {
+  flex: 1;
+  margin: 0;
+  height: 44px;
+  font-size: 13.5px;
+  font-weight: 700;
+  --border-radius: 12px;
+}
+
+.sm-doors .sm-door[fill='outline'] {
+  --border-color: rgba(128, 128, 128, 0.35);
+  --color: var(--rolodex-text);
+}

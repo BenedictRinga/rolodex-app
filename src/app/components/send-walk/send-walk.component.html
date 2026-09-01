@@ -23,6 +23,7 @@
       <img class="sw-avatar" [src]="avatarOf(who.contact)" alt="">
       <div class="sw-name">{{ whoName }}</div>
       <div class="sw-whisper" *ngIf="whisper()">{{ whisper() }}</div>
+      <div class="sw-stay" *ngIf="showStayHere">{{ 'loopkeeper.walk.stayHere' | translate }}</div>
     </button>
     <button *ngIf="who && canSkip" class="sw-ghost" type="button" (click)="notThisOne()">
       {{ 'loopkeeper.walk.notThis' | translate }}
@@ -90,7 +91,7 @@
       <button class="sw-tone" type="button" (click)="setTone('honest')">{{ 'loopkeeper.walk.toneHonest' | translate }}</button>
       <span class="sw-dot">·</span>
       <button class="sw-tone" type="button" (click)="retry()" [disabled]="polishing">
-        {{ polishing ? ('loopkeeper.chat.writing' | translate) : ('loopkeeper.walk.wordsRetry' | translate) }}
+        {{ polishing ? ('loopkeeper.walk.polishStay' | translate) : ('loopkeeper.walk.wordsRetry' | translate) }}
       </button>
     </div>
     <button *ngIf="!editingWords" class="sw-ghost sw-change" type="button" (click)="startEdit()">
@@ -124,6 +125,7 @@
       <button class="sw-door sw-door-copy" type="button" (click)="fire('copy')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorCopy' | translate }}
       </button>
+      <div class="sw-nophone">{{ 'loopkeeper.walk.weDontSend' | translate }}</div>
       <div *ngIf="!hasPhone" class="sw-nophone">{{ 'loopkeeper.walk.tNoPhone' | translate }}</div>
       <button class="sw-ghost" type="button" (click)="toggleMore()">{{ 'loopkeeper.walk.moreWays' | translate }}</button>
       <div *ngIf="moreOpen" class="sw-moreways">

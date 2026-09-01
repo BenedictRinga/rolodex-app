@@ -27,6 +27,9 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
       <p style="margin:0 0 16px; color:var(--rolodex-text-secondary); font-size:13px;">
         {{ 'loopkeeper.privacy.subhead' | translate }}
       </p>
+      <p style="margin:-8px 0 16px; color:var(--rolodex-text-secondary); font-size:12px;">
+        {{ 'loopkeeper.privacy.madeBy' | translate }}
+      </p>
 
       <!-- 2026-08-24 PRIVACY PLEDGE: no PII to mine, so external digs find nothing. -->
       <div style="margin:0 0 16px; padding:14px 16px; border:1px solid rgba(0,200,83,.35); border-radius:14px; background:rgba(0,200,83,.06); display:flex; gap:12px; align-items:flex-start;">
@@ -82,22 +85,12 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
       <ion-item>
         <ion-icon name="pulse-outline" slot="start" color="medium"></ion-icon>
         <ion-label>
-          <b>Anonymous product analytics</b>
+          <b>{{ 'loopkeeper.privacy.analyticsTitle' | translate }}</b>
           <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            Only anonymous app usage events (launches, sessions, sends, billing) — never contacts, names or message text. Helps us know what to fix.
+            {{ 'loopkeeper.privacy.analyticsBody' | translate }}
           </p>
         </ion-label>
         <ion-toggle slot="end" [checked]="analyticsEnabled" (ionChange)="toggleAnalytics($event)"></ion-toggle>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="globe-outline" slot="start" color="medium"></ion-icon>
-        <ion-label>
-          <b>The app's home</b>
-          <p style="font-size:12px; white-space:normal; color:var(--rolodex-text-secondary); margin:2px 0 0;">
-            LoopKeeper lives at zyppar.com/loopkeeper/ — bookmark that exact address.
-          </p>
-        </ion-label>
       </ion-item>
     </ion-content>
   `,
