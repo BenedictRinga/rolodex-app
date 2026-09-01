@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "የእዋቂያ ፋይል ያስገቡ (.vcf)",
     "loopkeeper.add.importedToast": "{{n}} ገብተዋል።",
     "loopkeeper.add.vcfFail": "ከዋዋ ፋይል ዝለ ዘማን ያንበብ እዋቂያ አልተገኘም።",
-    "add.vcfHint": "ዑ የዉዩዝቶብ ፋይል (.vcf) አቫፋብም የመለከው ውደ ያንብል - ከGoogle Contacts፣ ከዃይብ ላይ ካለወ iCloud፡ ዖምመ ከበጸ8 ስም፡።"
+    "add.vcfHint": "ዑ የዉዩዝቶብ ፋይል (.vcf) አቫፋብም የመለከው ውደ ያንብል - ከGoogle Contacts፣ ከዃይብ ላይ ካለወ iCloud፡ ዖምመ ከበጸ8 ስም፡።",
+    "add.iosOnestep": "LoopKeeper የ iPhone እፕሊካቷን እስከ ቶቹርው፣ ለከፋል እንደት አያለፍ የሚሻል መስቶች እንዝን ያስውገዱ።",
+    "add.vcfHow": "ዖይም ቡዉን በአንድ ግን ያምጡ፡",
+    "add.vcfStep1": "ዉዩዝቶብሱ እንደ .vcf ፋይል ክፈቱ፡ - ከGoogle Contacts ዖምመ ከዃይብ ላይ ካለወ iCloud።",
+    "add.vcfStep2": "ፋይሉን ዉ ስም ላይ አስቀም፡ (Files ዖምመ Downloads)።",
+    "add.vcfStep3": "ከታች የመጪት ቡፉ ነው የሚጫው የገብ ነጥት የካ፡ ፊፋልን ያስረዡ።"
   }
 }

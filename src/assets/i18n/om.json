@@ -793,6 +793,11 @@
     "loopkeeper.add.vcfBtn": "Import a contacts file (.vcf)",
     "loopkeeper.add.importedToast": "Brought {{n}} in.",
     "loopkeeper.add.vcfFail": "That file held no contacts we could read.",
-    "add.vcfHint": "It reads a contacts file (.vcf) you export first - from Google Contacts, iCloud on the web, or your old phone."
+    "add.vcfHint": "It reads a contacts file (.vcf) you export first - from Google Contacts, iCloud on the web, or your old phone.",
+    "add.iosOnestep": "While you wait for the LoopKeeper iPhone app, one person at a time works well: type them in as you need them.",
+    "add.vcfHow": "Or bring many at once:",
+    "add.vcfStep1": "Export your contacts as a .vcf file — from Google Contacts or iCloud on the web.",
+    "add.vcfStep2": "Save the file to this phone (Files or Downloads).",
+    "add.vcfStep3": "Tap the import door below and choose the file."
   }
 }

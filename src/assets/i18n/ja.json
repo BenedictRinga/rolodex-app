@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "連絡先ファイルを読み込む（.vcf）",
     "loopkeeper.add.importedToast": "{{n}}人を取り込みました。",
     "loopkeeper.add.vcfFail": "そのファイルから読める連絡先はありませんでした。",
-    "add.vcfHint": "まず書き出した連絡先ファイル（.vcf）を読み込みます - Google Contacts、Web版iCloud、または前の携帯電話から。"
+    "add.vcfHint": "まず書き出した連絡先ファイル（.vcf）を読み込みます - Google Contacts、Web版iCloud、または前の携帯電話から。",
+    "add.iosOnestep": "LoopKeeper iPhone版を待つ間、1人ずつで十分です：必要になったまことに入力してください。",
+    "add.vcfHow": "または一度に何人も：",
+    "add.vcfStep1": "連絡先を.vcfファイルとして書き出します - Google ContactsまたはWeb版iCloudから。",
+    "add.vcfStep2": "ファイルをこの携帯に保存します（ファイルまたはダウンロード）。",
+    "add.vcfStep3": "下のインポートドアをタップし、ファイルを選択します。"
   }
 }

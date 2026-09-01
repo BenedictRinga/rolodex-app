@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "استيراد ملف جهات الاتصال (.vcf)",
     "loopkeeper.add.importedToast": "وصل {{n}}.",
     "loopkeeper.add.vcfFail": "لم يحتوِ ذلك الملف على أي جهة اتصال نستطيع قراءتها.",
-    "add.vcfHint": "تقرأ ملف جهات الاتصال (.vcf) تصدره أولا - من Google Contacts أو iCloud على الويب أو هاتفك القديم."
+    "add.vcfHint": "تقرأ ملف جهات الاتصال (.vcf) تصدره أولا - من Google Contacts أو iCloud على الويب أو هاتفك القديم.",
+    "add.iosOnestep": "إذ تنتظر تطبيق LoopKeeper للآيفون، فإن شخص واحد في كل مرة يعمل جيدا: أدخلهم حسب الحاجة.",
+    "add.vcfHow": "أو أحضر الكثير معا:",
+    "add.vcfStep1": "استرد جهات الاتصال كملف .vcf - من Google Contacts أو iCloud على الويب.",
+    "add.vcfStep2": "احفظ الملف في هذا الهاتف (الملفات أو التنزيلات).",
+    "add.vcfStep3": "اضغط باب الاستيراد أدناه ثم اختر الملف."
   }
 }

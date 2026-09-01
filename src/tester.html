@@ -182,7 +182,10 @@
 
     <div class="card">
       <h2>Privacy, plainly</h2>
-      <p>No phone number. No email. No sign-up identity. This invite link just carries a private number — that's all I ever see. Your contacts and messages stay on your phone.</p>
+      <!-- 2026-09-01 BUILD 178 (founder: "just carries a private number" is not
+           good enough - we HAVE their exact number, show it): the tester's own
+           link number stands in the copy, nothing left to guess. -->
+      <p>No phone number. No email. No sign-up identity. This invite link just carries your tester link number — <span class="slot" id="codeShow">#······</span>. That's all I ever see. Your contacts and messages stay on your phone.</p>
     </div>
 
     <!-- 2026-09-01 BUILD 176 (founder): the usher moves ABOVE the button —
@@ -258,6 +261,10 @@
   }
   // 2026-09-01 BUILD 177: the codeNote line is gone from markup AND script -
   // the button above is the whole story; the page ends at the exit.
+  // 2026-09-01 BUILD 178 (founder): the tester's own link number is SHOWN in
+  // the privacy card - "just carries a private number" left room to guess.
+  var cs = document.getElementById('codeShow');
+  if (cs) cs.textContent = '#' + code;
 
   // 2026-09-01 BUILD 176 (the hand-over door): the friend link is the PLAIN
   // app URL on purpose — no tester code. The friend opens it as a regular

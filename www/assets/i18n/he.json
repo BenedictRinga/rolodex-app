@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "ייבוא קובץ אנשי קשר (‎.vcf)",
     "loopkeeper.add.importedToast": "הגיעו {{n}}.",
     "loopkeeper.add.vcfFail": "בקובץ הזה לא היו אנשי קשר שיכולנו לקרוא.",
-    "add.vcfHint": "היא קוראת קובץ אנשי קשר (.vcf) שאתה מייצא קודם - מ-Google Contacts, iCloud בדפדפן, או הטלפון הקודם שלך."
+    "add.vcfHint": "היא קוראת קובץ אנשי קשר (.vcf) שאתה מייצא קודם - מ-Google Contacts, iCloud בדפדפן, או הטלפון הקודם שלך.",
+    "add.iosOnestep": "בזמן ההמתנה לאפליקציית LoopKeeper לאיפון, אדם אחד בכל פעם עובד היטב: הוסיפו ככל שצריך.",
+    "add.vcfHow": "או הביאו הרבה בבת אחת:",
+    "add.vcfStep1": "ייצאו את אנשי הקשר כקובץ .vcf - מ-Google Contacts או iCloud בדפדפן.",
+    "add.vcfStep2": "שמרו את הקובץ בטלפון הזה (קבצים או הורדות).",
+    "add.vcfStep3": "הקישו על דלת היבוא למטה ובחרו בקובץ."
   }
 }

@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "Ingiza faili ya anwani (.vcf)",
     "loopkeeper.add.importedToast": "Wameingia {{n}}.",
     "loopkeeper.add.vcfFail": "Hakuna anwani tunayoweza kusoma katika faili hilo.",
-    "add.vcfHint": "Husoma faili la anwani (.vcf) unalotangaza kwanza - kutoka Google Contacts, iCloud mtandaoni, au simu yako ya zamani."
+    "add.vcfHint": "Husoma faili la anwani (.vcf) unalotangaza kwanza - kutoka Google Contacts, iCloud mtandaoni, au simu yako ya zamani.",
+    "add.iosOnestep": "Ukisubiri programu ya LoopKeeper ya iPhone, mtu mmoja kwa wakati mmoja hufanya kazi vizuri: mwingine wakihitajika.",
+    "add.vcfHow": "Au leta wengi kwa pamoja:",
+    "add.vcfStep1": "Hamisha anwani zako kama faili la .vcf - kutoka Google Contacts au iCloud mtandaoni.",
+    "add.vcfStep2": "Hifadhi faili kwenye simu hii (Files au Downloads).",
+    "add.vcfStep3": "Bofya lango la kuleta hapa chini kisha chagua faili."
   }
 }

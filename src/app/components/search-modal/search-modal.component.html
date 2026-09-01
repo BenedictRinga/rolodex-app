@@ -72,16 +72,30 @@
       <ion-icon name="phone-portrait-outline" class="sm-phone-glyph"></ion-icon>
       <div class="sm-phone-title">{{ 'loopkeeper.add.prefaceTitle' | translate }}</div>
       <div class="sm-phone-body">{{ 'loopkeeper.add.prefaceBody' | translate }}</div>
+      <!-- 2026-09-01 BUILD 177 (founder: it is not obvious what a .vcf is or
+           where it comes from - it is NOT a door into the Contacts app): one
+           quiet line of provenance, above the doors, never after them. -->
+      <div class="sm-phone-hint">{{ 'loopkeeper.add.vcfHint' | translate }}</div>
     </ng-container>
     <ng-container *ngIf="!pickerAvailable">
       <ion-icon name="lock-closed-outline" class="sm-phone-glyph"></ion-icon>
       <div class="sm-phone-title">{{ 'loopkeeper.add.iosTitle' | translate }}</div>
-      <div class="sm-phone-body">{{ 'loopkeeper.add.iosBody' | translate }}</div>
+      <!-- 2026-09-01 BUILD 178 (founder: on iPhone recommend one person at a
+           time, as needed, pending the iPhone app - with the typed door right
+           here in the tab, and a visual of the .vcf process as the batch way
+           in): recommendation first, door second, process third. -->
+      <div class="sm-phone-body">{{ 'loopkeeper.add.iosOnestep' | translate }}</div>
+      <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.add.typeOne' | translate }}
+      </ion-button>
+      <div class="sm-vcf-how">{{ 'loopkeeper.add.vcfHow' | translate }}</div>
+      <div class="sm-vcfsteps">
+        <div class="sm-vcfstep"><span class="sm-vcfn">1</span><span>{{ 'loopkeeper.add.vcfStep1' | translate }}</span></div>
+        <div class="sm-vcfstep"><span class="sm-vcfn">2</span><span>{{ 'loopkeeper.add.vcfStep2' | translate }}</span></div>
+        <div class="sm-vcfstep"><span class="sm-vcfn">3</span><span>{{ 'loopkeeper.add.vcfStep3' | translate }}</span></div>
+      </div>
     </ng-container>
-    <!-- 2026-09-01 BUILD 177 (founder: it is not obvious what a .vcf is or
-         where it comes from - it is NOT a door into the Contacts app): one
-         quiet line of provenance, above the doors, never after them. -->
-    <div class="sm-phone-hint">{{ 'loopkeeper.add.vcfHint' | translate }}</div>
     <div *ngIf="vcfFail" class="sm-phone-fail">{{ 'loopkeeper.add.vcfFail' | translate }}</div>
   </div>
 </ion-content>
@@ -109,13 +123,12 @@
     </ion-button>
   </div>
   <div *ngIf="tab === 'phone' && !pickerAvailable" class="sm-doors-col">
+    <!-- 2026-09-01 BUILD 178: on iPhone the typed door lives IN the pane body
+         (the recommendation leads there); the footer keeps only the batch
+         import, which the 3-step visual above points at. -->
     <ion-button expand="block" class="sm-door sm-door-primary" (click)="importVcf()">
       <ion-icon name="document-attach-outline" slot="start"></ion-icon>
       {{ 'loopkeeper.add.vcfBtn' | translate }}
-    </ion-button>
-    <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
-      <ion-icon name="create-outline" slot="start"></ion-icon>
-      {{ 'loopkeeper.add.typeOne' | translate }}
     </ion-button>
   </div>
 </ion-footer>

@@ -285,4 +285,14 @@
       <ion-icon name="search-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- 2026-09-01 BUILD 178 (founder: the in-template ion-modal, the Zyppar
+       pattern - no ModalController timing to juggle): the "I'll type one in"
+       door raises this DECLARED create form; when it answers, the contact
+       joins the top of the deck exactly like a device import. -->
+  <ion-modal [isOpen]="manualAddOpen" cssClass="contact-edit-fullscreen" [keyboardClose]="false" (didDismiss)="manualAddClosed($event)">
+    <ng-template>
+      <app-contact-card [contact]="manualDraft" [selectedMode]="'createContact'"></app-contact-card>
+    </ng-template>
+  </ion-modal>
 </ion-content>

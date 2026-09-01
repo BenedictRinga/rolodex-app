@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "संपर्क फ़ाइल आयात करें (.vcf)",
     "loopkeeper.add.importedToast": "{{n}} आ गए।",
     "loopkeeper.add.vcfFail": "उस फ़ाइल में कोई पढ़ने योग्य संपर्क नहीं था।",
-    "add.vcfHint": "यह आपकी पहले निर्यात की हुई संपर्क फ़ाइल (.vcf) पढ़ती है - Google Contacts, वेब पर iCloud, या आपका पुराना फ़ोन।"
+    "add.vcfHint": "यह आपकी पहले निर्यात की हुई संपर्क फ़ाइल (.vcf) पढ़ती है - Google Contacts, वेब पर iCloud, या आपका पुराना फ़ोन।",
+    "add.iosOnestep": "LoopKeeper के iPhone वर्शन की प्रतीक्षा में, एक समय में एक व्यक्ति अच्छा काम करती है: जरूरत पड़ने पर उन्हें टाइप करें।",
+    "add.vcfHow": "या एक साथ बहुत लायें:",
+    "add.vcfStep1": "अपने संपर्क एक .vcf फ़ाइल के रूप में निर्यात करें - Google Contacts या वेब पर iCloud से।",
+    "add.vcfStep2": "फ़ाइल को इस फ़ोन में सहेंं (Files या Downloads)।",
+    "add.vcfStep3": "नीचे इंपोर्ट के दरवाज़े को टैप करें और फ़ाइल चुनें।"
   }
 }

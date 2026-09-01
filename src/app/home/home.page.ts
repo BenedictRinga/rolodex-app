@@ -72,6 +72,12 @@ export class HomePage implements OnInit, OnDestroy {
   selectedFilter: string = 'all';
   selectedGroup: string = 'all';
   mockEnabled: boolean = true;
+  /** 2026-09-01 BUILD 178 (founder: in-template ion-modal, the Zyppar
+   *  pattern): the manual create form is DECLARED in the home template and
+   *  raised by this flag - the sheet's "I'll type one in" never fights the
+   *  ModalController again. */
+  manualAddOpen = false;
+  manualDraft: ContactInfo = {} as ContactInfo;
   loading: boolean = false;
   /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
@@ -1496,6 +1502,13 @@ export class HomePage implements OnInit, OnDestroy {
     // phone tab already showed the preface copy, so the second preface alert
     // is skipped on this path (skipPreface). The .vcf door hands its parsed
     // records over as the 'vcf' role.
+    // 2026-09-01 BUILD 178 (founder: "'I'll type one in' still only closes the
+    // modal - proper thing is an in-template ion-modal, the Zyppar pattern"):
+    // the create form is NOT presented by the controller anymore. The sheet's
+    // dismissal flips manualAddOpen, which raises the DECLARED ion-modal in
+    // the home template - no controller.present() into a dying overlay, no
+    // timing to juggle. Native OS doors (picker, .vcf file dialog) keep the
+    // warm onWillDismiss they need for user activation.
     const res = await modal.onWillDismiss();
     if (res?.role === 'phone') {
       void this.addFromPhoneContacts(true);
@@ -1505,18 +1518,27 @@ export class HomePage implements OnInit, OnDestroy {
       this.importVcfContacts(res.data?.contacts || []);
       return;
     }
-    // 2026-09-01 BUILD 177 (founder: "I'll type one in merely closes the
-    // interface"): the create form is an Ionic modal, and presenting one
-    // WHILE the sheet is still animating away swallows it - the sheet died
-    // and nothing followed. These in-app doors wait for the sheet to be
-    // fully gone (onDidDismiss), THEN present. Only the native OS doors
-    // (picker, file dialog) ride the warm onWillDismiss above.
-    await modal.onDidDismiss();
     if (res?.role === 'manual') {
-      await this.openManualContactEntry();
+      this.manualDraft = {} as ContactInfo;
+      this.manualAddOpen = true;
       return;
     }
     if (res?.data?.contact) this.onContactTap(res.data.contact);
+  }
+
+  /** 2026-09-01 BUILD 178: the declared create-form modal answered. Same
+   *  post-processing as the old controller path (normalize, bump to top,
+   *  once-ever list marker, receipt). */
+  manualAddClosed(ev?: CustomEvent): void {
+    this.manualAddOpen = false;
+    const data = (ev as any)?.detail?.data;
+    if (data?.mode === 'createContact' && data?.contact) {
+      const contact = this.normalizeManualContact(data.contact);
+      this.contacts = [contact, ...this.contacts];
+      this.onContactsChange(this.contacts);
+      void this.analytics.trackListStartedOnce('manual');
+      void this.alertsService.showToast(this.translate.instant('loopkeeper.add.addedToast'), 2000);
+    }
   }
 
   /** 2026-09-01 BUILD 175 (founder: batch import — "that parser from way

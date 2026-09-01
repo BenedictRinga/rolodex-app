@@ -709,6 +709,11 @@
     "loopkeeper.add.vcfBtn": "Soo deji faylka xiriiriyeyaasha (.vcf)",
     "loopkeeper.add.importedToast": "Waa la keenay {{n}}.",
     "loopkeeper.add.vcfFail": "Faylkaasi kuma jiro xiriiriye aan akhriyi karno.",
-    "add.vcfHint": "Waxa akhriya fayl xiriiriyeyaal (.vcf) aad horeba dhoofiyay - laga soo dejiyay Google Contacts, iCloud internetka, ama telefoonkaga hore."
+    "add.vcfHint": "Waxa akhriya fayl xiriiriyeyaal (.vcf) aad horeba dhoofiyay - laga soo dejiyay Google Contacts, iCloud internetka, ama telefoonkaga hore.",
+    "add.iosOnestep": "Iyadoo la sugto barnaamijka LoopKeeper ee iPhone, qof keliya waqti kasta waa ka fiican: ku qor marka aad u baahato.",
+    "add.vcfHow": "Ama keen hal mar oo dhan:",
+    "add.vcfStep1": "Ka soo saar xiriiriyeyaashaaga fayl .vcf - laga bilaabo Google Contacts ama iCloud internetka.",
+    "add.vcfStep2": "Kaydi faylka telefoonkan (Files ama Downloads).",
+    "add.vcfStep3": "Guji albabka soo dejinta hoose, ka dibna dooro faylka."
   }
 }

@@ -787,6 +787,11 @@
     "loopkeeper.add.vcfBtn": "匯入聯絡人檔案（.vcf）",
     "loopkeeper.add.importedToast": "已帶來 {{n}} 位。",
     "loopkeeper.add.vcfFail": "那個檔案裡沒有我們能讀的聯絡人。",
-    "add.vcfHint": "它讀取您先匯出的聯絡人檔案（.vcf）—來自 Google 通訊錄、網頁版 iCloud、或您的舊手機。"
+    "add.vcfHint": "它讀取您先匯出的聯絡人檔案（.vcf）—來自 Google 通訊錄、網頁版 iCloud、或您的舊手機。",
+    "add.iosOnestep": "在等待 LoopKeeper iPhone 版期間，一次一個人就很好：需要誰時就手動輸入。",
+    "add.vcfHow": "或一次帶來很多：",
+    "add.vcfStep1": "把聯絡人匯出為 .vcf 檔案 - 從 Google 通訊錄或網頁版 iCloud。",
+    "add.vcfStep2": "把檔案儲存到本機（檔案或下載）。",
+    "add.vcfStep3": "點下方的匯入門，選擇該檔案。"
   }
 }
