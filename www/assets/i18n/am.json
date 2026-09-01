@@ -783,6 +783,9 @@
     "add.tabPeople": "የLoopKeeper ሰዎች",
     "add.tabPhone": "የስልክ እውቂያዎች",
     "add.iosTitle": "iPhone የአድራሻ መጽሐፍን ዘግቶ ይይዛል",
-    "add.iosBody": "Apple ማንኛውም የድረ-ገጽ መተግበሪያ የስልክ እውቂያዎችን እንዲያነብ አይፈቅድም — LoopKeeperም ጨምሮ፣ ይቅርታ እንለዋለን። ስልክዎ በትክክል ነው። ሁለት እውነተኛ መንገዶች፦ ሰዎችን እዚህ ይጻፉ (ለእያንዳንዱ ጥቂት ሰከንዶች)፣ ወይም የLoopKeeper መተግበሪያ በApp Store ሲወጣ ይጠብቁ፤ እሱ በትክክል ያነባቸዋል።"
+    "add.iosBody": "Apple ማንኛውም የድረ-ገጽ መተግበሪያ የስልክ እውቂያዎችን እንዲያነብ አይፈቅድም — LoopKeeperም ጨምሮ፣ ይቅርታ እንለዋለን። ስልክዎ በትክክል ነው። ሁለት እውነተኛ መንገዶች፦ ሰዎችን እዚህ ይጻፉ (ለእያንዳንዱ ጥቂት ሰከንዶች)፣ ወይም የLoopKeeper መተግበሪያ በApp Store ሲወጣ ይጠብቁ፤ እሱ በትክክል ያነባቸዋል።",
+    "loopkeeper.add.vcfBtn": "የእዋቂያ ፋይል ያስገቡ (.vcf)",
+    "loopkeeper.add.importedToast": "{{n}} ገብተዋል።",
+    "loopkeeper.add.vcfFail": "ከዋዋ ፋይል ዝለ ዘማን ያንበብ እዋቂያ አልተገኘም።"
   }
 }

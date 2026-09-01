@@ -705,6 +705,9 @@
     "add.tabPeople": "Dadka LoopKeeper",
     "add.tabPhone": "Xiriiriyeyaasha telefoonka",
     "add.iosTitle": "iPhone wuu xiray buugga xiriirka",
-    "add.iosBody": "Apple uma oggola barnaamij internet oo akhriyo xiriiriyeyaasha telefoonka — LoopKeeper midna, waan ka xunnahay. Telefoonkaadu waa sax. Laba si oo daacada ah: halkan ku qor (ilbiriqsiyo qof kasta), ama sug barnaamijka LoopKeeper ee App Store, wuu si fiican u akhriyi doonaa."
+    "add.iosBody": "Apple uma oggola barnaamij internet oo akhriyo xiriiriyeyaasha telefoonka — LoopKeeper midna, waan ka xunnahay. Telefoonkaadu waa sax. Laba si oo daacada ah: halkan ku qor (ilbiriqsiyo qof kasta), ama sug barnaamijka LoopKeeper ee App Store, wuu si fiican u akhriyi doonaa.",
+    "loopkeeper.add.vcfBtn": "Soo deji faylka xiriiriyeyaasha (.vcf)",
+    "loopkeeper.add.importedToast": "Waa la keenay {{n}}.",
+    "loopkeeper.add.vcfFail": "Faylkaasi kuma jiro xiriiriye aan akhriyi karno."
   }
 }

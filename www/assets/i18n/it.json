@@ -783,6 +783,9 @@
     "add.tabPeople": "LoopKeeper people",
     "add.tabPhone": "Phone contacts",
     "add.iosTitle": "iPhone keeps its address book closed",
-    "add.iosBody": "Apple does not let any web app read the phone's contacts — LoopKeeper included, and we are sorry. Nothing is wrong with your phone. Two honest ways in: type people in here (seconds each), or wait for the LoopKeeper app on the App Store, which will read them properly."
+    "add.iosBody": "Apple does not let any web app read the phone's contacts — LoopKeeper included, and we are sorry. Nothing is wrong with your phone. Two honest ways in: type people in here (seconds each), or wait for the LoopKeeper app on the App Store, which will read them properly.",
+    "loopkeeper.add.vcfBtn": "Import a contacts file (.vcf)",
+    "loopkeeper.add.importedToast": "Brought {{n}} in.",
+    "loopkeeper.add.vcfFail": "That file held no contacts we could read."
   }
 }

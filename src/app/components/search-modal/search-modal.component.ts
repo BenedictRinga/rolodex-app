@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ContactInfo } from '../../models/contacts';
+// 2026-09-01 BUILD 175 (founder: "the parser from way back"): the .vcf door —
+// the honest batch import on every device, and THE batch path on iPhone.
+import { parseVcf, VcfContact } from '../../../util/vcard';
 
 /**
  * 2026-08-19 SEARCH MODAL — the missing Search control.
@@ -41,6 +44,10 @@ export class SearchModalComponent {
 
   query = '';
 
+  /** 2026-09-01 BUILD 175: a chosen .vcf file held nothing we could read —
+   *  say so quietly in the phone pane instead of a silent dead tap. */
+  vcfFail = false;
+
   constructor(private readonly modalController: ModalController) {}
 
   pickPhone(): void {
@@ -49,6 +56,33 @@ export class SearchModalComponent {
 
   typeOne(): void {
     void this.modalController.dismiss(null, 'manual');
+  }
+
+  /** 2026-09-01 BUILD 175 (founder: batch import — "that parser from way
+   *  back"): pick a .vcf file, parse it here on the device, hand the records
+   *  home. Nothing is uploaded; the file never leaves the phone. */
+  importVcf(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.vcf,text/vcard,text/x-vcard';
+    input.onchange = () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const cards: VcfContact[] = parseVcf(String(reader.result || ''));
+          if (cards.length) {
+            void this.modalController.dismiss({ contacts: cards }, 'vcf');
+            return;
+          }
+        } catch { /* fall through to the quiet failure line */ }
+        this.vcfFail = true;
+      };
+      reader.onerror = () => { this.vcfFail = true; };
+      reader.readAsText(file);
+    };
+    input.click();
   }
 
   get results(): ContactInfo[] {

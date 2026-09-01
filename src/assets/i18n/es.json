@@ -783,6 +783,9 @@
     "add.tabPeople": "Gente de LoopKeeper",
     "add.tabPhone": "Contactos del teléfono",
     "add.iosTitle": "El iPhone mantiene cerrada su agenda",
-    "add.iosBody": "Apple no permite que ninguna app web lea los contactos del teléfono — tampoco LoopKeeper, y lo sentimos. Tu teléfono está bien. Dos caminos honestos: escríbelos aquí (segundos por persona) o espera la app de LoopKeeper en el App Store, que los leerá como debe ser."
+    "add.iosBody": "Apple no permite que ninguna app web lea los contactos del teléfono — tampoco LoopKeeper, y lo sentimos. Tu teléfono está bien. Dos caminos honestos: escríbelos aquí (segundos por persona) o espera la app de LoopKeeper en el App Store, que los leerá como debe ser.",
+    "loopkeeper.add.vcfBtn": "Importar un archivo de contactos (.vcf)",
+    "loopkeeper.add.importedToast": "Llegaron {{n}}.",
+    "loopkeeper.add.vcfFail": "Ese archivo no contenía contactos que pudiéramos leer."
   }
 }

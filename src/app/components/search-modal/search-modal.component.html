@@ -63,35 +63,52 @@
 
   <!-- 2026-09-01 BUILD 174: the DEVICE tab. Android: the honest preface and
        the picker door. iPhone (no Contact Picker API in Safari — Apple's
-       wall): the apology, the explanation, and the typed door up front. -->
+       wall): the apology, the explanation, and the typed door up front.
+       2026-09-01 BUILD 175 (founder): the ACTION buttons live in the ion-
+       footer below so they are always in the viewport, and the .vcf door
+       joins as the batch way in. -->
   <div *ngIf="addDoors && tab === 'phone'" class="sm-phone">
     <ng-container *ngIf="pickerAvailable">
       <ion-icon name="phone-portrait-outline" class="sm-phone-glyph"></ion-icon>
       <div class="sm-phone-title">{{ 'loopkeeper.add.prefaceTitle' | translate }}</div>
       <div class="sm-phone-body">{{ 'loopkeeper.add.prefaceBody' | translate }}</div>
-      <ion-button expand="block" class="sm-phone-btn" (click)="pickPhone()">
-        <ion-icon name="download-outline" slot="start"></ion-icon>
-        {{ 'loopkeeper.add.pickPhone' | translate }}
-      </ion-button>
     </ng-container>
     <ng-container *ngIf="!pickerAvailable">
       <ion-icon name="lock-closed-outline" class="sm-phone-glyph"></ion-icon>
       <div class="sm-phone-title">{{ 'loopkeeper.add.iosTitle' | translate }}</div>
       <div class="sm-phone-body">{{ 'loopkeeper.add.iosBody' | translate }}</div>
-      <ion-button expand="block" class="sm-phone-btn" (click)="typeOne()">
-        <ion-icon name="create-outline" slot="start"></ion-icon>
-        {{ 'loopkeeper.add.typeOne' | translate }}
-      </ion-button>
     </ng-container>
+    <div *ngIf="vcfFail" class="sm-phone-fail">{{ 'loopkeeper.add.vcfFail' | translate }}</div>
   </div>
 </ion-content>
 
-<!-- 2026-09-01 BUILD 172 (founder): the bring-them-in doors ride at the foot
-     of the same roomy sheet — the phone picker ONLY where the device offers
-     it (iPhone Safari never does, so the dead door simply never shows), and
-     typing one in always. -->
-<ion-footer *ngIf="addDoors && tab === 'people'" class="ion-no-border sm-doors">
-  <div class="sm-doors-row">
+<!-- 2026-09-01 BUILD 175 (founder: bottom-lying buttons belong in an
+     ion-footer so they are always visible in the viewport): every door of
+     the add sheet now rides the footer — people tab: type one in; phone
+     tab on Android: pick from the phone + import a .vcf; phone tab on
+     iPhone: import a .vcf (the batch way past Apple's wall) + type one in. -->
+<ion-footer *ngIf="addDoors" class="ion-no-border sm-doors">
+  <div *ngIf="tab === 'people'" class="sm-doors-row">
+    <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
+      <ion-icon name="create-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.typeOne' | translate }}
+    </ion-button>
+  </div>
+  <div *ngIf="tab === 'phone' && pickerAvailable" class="sm-doors-col">
+    <ion-button expand="block" class="sm-door sm-door-primary" (click)="pickPhone()">
+      <ion-icon name="download-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.pickPhone' | translate }}
+    </ion-button>
+    <ion-button expand="block" fill="outline" class="sm-door" (click)="importVcf()">
+      <ion-icon name="document-attach-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.vcfBtn' | translate }}
+    </ion-button>
+  </div>
+  <div *ngIf="tab === 'phone' && !pickerAvailable" class="sm-doors-col">
+    <ion-button expand="block" class="sm-door sm-door-primary" (click)="importVcf()">
+      <ion-icon name="document-attach-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.add.vcfBtn' | translate }}
+    </ion-button>
     <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
       <ion-icon name="create-outline" slot="start"></ion-icon>
       {{ 'loopkeeper.add.typeOne' | translate }}

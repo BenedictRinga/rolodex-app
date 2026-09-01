@@ -1483,9 +1483,21 @@ export class HomePage implements OnInit, OnDestroy {
       keyboardClose: false,
     });
     await modal.present();
-    const res = await modal.onDidDismiss();
+    // 2026-09-01 BUILD 175 (founder: "the I'll add from my phone does not open
+    // anything - just closes the interface"): onDidDismiss resolves AFTER the
+    // closing animation, and the Contact Picker API demands fresh user
+    // activation at the call. onWillDismiss fires the instant the dismissal
+    // BEGINS - the picker opens while the tap is still warm. The sheet's own
+    // phone tab already showed the preface copy, so the second preface alert
+    // is skipped on this path (skipPreface). The .vcf door hands its parsed
+    // records over as the 'vcf' role.
+    const res = await modal.onWillDismiss();
     if (res?.role === 'phone') {
-      await this.addFromPhoneContacts();
+      void this.addFromPhoneContacts(true);
+      return;
+    }
+    if (res?.role === 'vcf') {
+      this.importVcfContacts(res.data?.contacts || []);
       return;
     }
     if (res?.role === 'manual') {
@@ -1493,6 +1505,76 @@ export class HomePage implements OnInit, OnDestroy {
       return;
     }
     if (res?.data?.contact) this.onContactTap(res.data.contact);
+  }
+
+  /** 2026-09-01 BUILD 175 (founder: batch import — "that parser from way
+   *  back"): the sheet parsed a .vcf on the device; these are the records.
+   *  Same card shape as the picker path, prepended at the top of the deck. */
+  private importVcfContacts(cards: any[]): void {
+    const when = Date.now();
+    const mapped: any[] = [];
+    for (let i = 0; i < (cards || []).length; i++) {
+      const v = cards[i] || {};
+      const parts = String(v.display || '').trim().split(/\s+/);
+      mapped.push({
+        contactId: 'vcf-' + when + '-' + i,
+        name: {
+          display: String(v.display || '').trim() || 'Imported contact ' + (i + 1),
+          given: String(v.given || '').trim() || parts[0] || '',
+          middle: '',
+          family: String(v.family || '').trim() || parts.slice(1).join(' ') || '',
+          prefix: String(v.prefix || '').trim(),
+          suffix: String(v.suffix || '').trim(),
+        },
+        phones: (v.phones || []).map((n: string, j: number) => ({
+          number: String(n || ''), type: 'mobile' as any, isPrimary: j === 0, label: null,
+        })),
+        emails: (v.emails || []).map((a: string, j: number) => ({
+          address: String(a || ''), type: 'personal' as any, isPrimary: j === 0, label: null,
+        })),
+        postalAddresses: [],
+        organization: { company: String(v.company || ''), jobTitle: '', department: '' },
+        birthday: null,
+        note: String(v.note || ''),
+        urls: [],
+        image: { base64String: v.photo || null },
+        rolodex: {
+          when: '',
+          where: '',
+          who: '',
+          why: '',
+          how: '',
+          topic: '',
+          followUp: '',
+          personalTidbits: '',
+          outcome: '',
+          priority: 'medium' as const,
+          contactFrequency: 'weekly' as const, // so the follow-up engine adopts them
+          references: [],
+        },
+        socialProfiles: {},
+        tags: (v.tags || []).map((t: any) => String(t)).filter(Boolean).slice(0, 6),
+        groups: [],
+        sharedBy: [],
+        lastInteraction: null,
+        nextInteraction: null,
+        reminders: [],
+        appointments: [],
+        isMockData: false,
+        isContactInfo: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        preferences: { refreshContacts: false, notificationPreference: 'email' as any },
+      });
+    }
+    if (!mapped.length) return;
+    this.contacts = [...mapped, ...this.contacts];
+    this.onContactsChange(this.contacts);
+    // the list has begun (or grown) — once ever per device
+    void this.analytics.trackListStartedOnce('vcf');
+    void this.alertsService.showToast(
+      this.translate.instant('loopkeeper.add.importedToast', { n: mapped.length }),
+      4200);
   }
 
   /** Manual entry: reuse the ContactCardComponent create form in a modal, then
@@ -2016,7 +2098,11 @@ export class HomePage implements OnInit, OnDestroy {
     return '';
   }
 
-  async addFromPhoneContacts(): Promise<void> {
+  /** 2026-09-01 BUILD 175: skipPreface — when the caller is the add sheet's
+   *  phone tab, that tab already showed the honest preface copy; a second
+   *  alert before the picker would be a stutter (and it costs user
+   *  activation, which the Contact Picker API insists on). */
+  async addFromPhoneContacts(skipPreface = false): Promise<void> {
     const picker = (navigator as any)?.contacts;
     if (!picker?.select) {
       void this.alertsService.showToast(this.translate.instant('loopkeeper.add.pickToast'), 5000);
@@ -2024,15 +2110,17 @@ export class HomePage implements OnInit, OnDestroy {
     }
     // 2026-09-01 BUILD 169: speak BEFORE the OS picker. Startups don't get
     // Google's pass on the address book — the sentence belongs at the ask.
-    const PREFACE_KEY = 'loopkeeper_picker_preface_seen';
-    try {
-      const seen = await this.storageService.get<boolean>(PREFACE_KEY);
-      if (!seen) {
-        const go = await this.presentPickerPreface();
-        if (!go) return;
-        await this.storageService.set(PREFACE_KEY, true);
-      }
-    } catch { /* if storage fails, still offer the picker */ }
+    if (!skipPreface) {
+      const PREFACE_KEY = 'loopkeeper_picker_preface_seen';
+      try {
+        const seen = await this.storageService.get<boolean>(PREFACE_KEY);
+        if (!seen) {
+          const go = await this.presentPickerPreface();
+          if (!go) return;
+          await this.storageService.set(PREFACE_KEY, true);
+        }
+      } catch { /* if storage fails, still offer the picker */ }
+    }
     try {
       const props = ['name', 'email', 'tel', 'address', 'icon'];
       const picked = await picker.select(props, { multiple: true });

@@ -135,3 +135,26 @@
   --border-color: rgba(128, 128, 128, 0.35);
   --color: var(--rolodex-text);
 }
+
+/* 2026-09-01 BUILD 175 (founder): the phone tab carries TWO doors — they
+   stack full-width in the footer so both stay visible in the viewport. */
+.sm-doors-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 14px calc(10px + env(safe-area-inset-bottom));
+}
+
+.sm-doors .sm-door-primary {
+  --background: var(--rolodex-accent, #00A896);
+  --color: #fff;
+}
+
+/* 2026-09-01 BUILD 175: a .vcf file that held nothing readable — a quiet
+   honest line in the phone pane, never a silent dead tap. */
+.sm-phone-fail {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--rolodex-danger, #d05656);
+  text-align: center;
+}

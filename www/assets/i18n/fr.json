@@ -783,6 +783,9 @@
     "add.tabPeople": "Vos contacts LoopKeeper",
     "add.tabPhone": "Contacts du téléphone",
     "add.iosTitle": "L'iPhone garde son répertoire fermé",
-    "add.iosBody": "Apple n'autorise aucune application web à lire le répertoire du téléphone — LoopKeeper y compris, et nous en sommes désolés. Rien ne va chez vous. Deux portes honnêtes : tapez les gens ici (quelques secondes chacun), ou attendez l'application LoopKeeper sur l'App Store, qui les lira comme il faut."
+    "add.iosBody": "Apple n'autorise aucune application web à lire le répertoire du téléphone — LoopKeeper y compris, et nous en sommes désolés. Rien ne va chez vous. Deux portes honnêtes : tapez les gens ici (quelques secondes chacun), ou attendez l'application LoopKeeper sur l'App Store, qui les lira comme il faut.",
+    "loopkeeper.add.vcfBtn": "Importer un fichier de contacts (.vcf)",
+    "loopkeeper.add.importedToast": "Ajoutés : {{n}}.",
+    "loopkeeper.add.vcfFail": "Ce fichier ne contenait aucun contact lisible."
   }
 }
