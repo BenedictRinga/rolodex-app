@@ -59,6 +59,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  last stage asks for their own people; the inbox re-emits to home, which
    *  opens the device Contact Picker (or the add sheet). */
   @Output() addRequest = new EventEmitter<void>();
+  /** 2026-09-01 BUILD 179 (founder): the walk's "Not this one" asks for the
+   *  agnostic add sheet; the inbox re-emits to home, which opens it and arms
+   *  the walk with whatever comes back. */
+  @Output() whoRequest = new EventEmitter<void>();
 
   // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
   // (always the default) or this packed shelf. The flip icon switches it for

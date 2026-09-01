@@ -55,7 +55,8 @@
       (contactsDirty)="contactsDirty.emit()"
       (loopOpened)="acknowledgeNudge($event)"
       (stepChange)="onWalkStep($event)"
-      (addRequest)="addRequest.emit()">
+      (addRequest)="addRequest.emit()"
+      (whoRequest)="whoRequest.emit()">
     </app-send-walk>
 
     <ng-container *ngIf="loopsSurface === 'shelf'">

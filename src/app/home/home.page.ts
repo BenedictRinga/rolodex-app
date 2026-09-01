@@ -2221,6 +2221,47 @@ export class HomePage implements OnInit, OnDestroy {
     await this.onCreateContact();
   }
 
+  /**
+   * 2026-09-01 BUILD 179 (founder): the walk's "Not this one" — "Who's on
+   * your mind" — presents the SAME agnostic interface as the add icon, all
+   * the way to the iPhone mitigations. One sheet, two tabs, every deck:
+   * the people tab (whatever the deck holds, demos included, full search),
+   * the phone tab (Contact Picker on Android; the honest iPhone ladder —
+   * one-at-a-time typing plus the 3-step .vcf visual — where Apple walls
+   * the address book off). Every outcome arms the walk's Who card:
+   * - row tap      -> nudgeArrived routes the contact into the walk
+   * - picker/.vcf  -> the contact joins the deck; the walk's own watcher
+   *                    fronts the fresh arrival as the Who (build 159)
+   * - type one in  -> the declared create form; same absorption on save
+   */
+  async channelWhoFromWalk(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: SearchModalComponent,
+      componentProps: {
+        contacts: this.contacts,
+        addDoors: true,
+        pickerAvailable: !!((navigator as any)?.contacts?.select),
+      },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 1,
+      keyboardClose: false,
+    });
+    await modal.present();
+    const res = await modal.onWillDismiss();
+    if (res?.role === 'phone') { void this.addFromPhoneContacts(true); return; }
+    if (res?.role === 'vcf') { this.importVcfContacts(res.data?.contacts || []); return; }
+    if (res?.role === 'manual') {
+      this.manualDraft = {} as ContactInfo;
+      this.manualAddOpen = true;
+      return;
+    }
+    // A row tap in the people tab: this person is the next Who — same doors
+    // as arming by hand (open loop lands on the words; bare contact arms at
+    // the thing). Not the add-icon's open-a-card behavior.
+    if (res?.data?.contact) this.inboxRef?.nudgeArrived(res.data.contact);
+  }
+
   onAcceptAutoSort() {
     this.autoSortStarted = false;
   }

@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController } from '@ionic/angular';
 import { Loop, LoopChannel, LoopKind, LoopsService } from '../../services/loops/loops.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { SoundService } from '../../services/sound/sound.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
-import { SearchModalComponent } from '../search-modal/search-modal.component';
 
 /**
  * 2026-08-31 BUILD 158 — THE SEND WALK.
@@ -36,6 +34,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** 2026-08-31 BUILD 159: the third "Not this one" on demo people channels
    *  the add icon — the inbox re-emits it, home opens the device picker. */
   @Output() addRequest = new EventEmitter<void>();
+  /** 2026-09-01 BUILD 179 (founder: "Who's on your mind should present them
+   *  the same agnostic interface shown by the add icon, all the way to the
+   *  iPhone mitigations"): "Not this one" no longer opens a people-only
+   *  chooser — it asks home for the ADD SHEET (two tabs, picker, .vcf, the
+   *  iPhone ladder), and whatever comes back arms the walk. */
+  @Output() whoRequest = new EventEmitter<void>();
 
   /** 1 who · 2 thing · 3 words · 4 tap · 5 off-your-mind */
   step = 1;
@@ -81,7 +85,6 @@ export class SendWalkComponent implements OnInit, OnChanges {
     private sounds: SoundService,
     private translate: TranslateService,
     private draftEngine: DraftEngineService,
-    private modalController: ModalController,
   ) {}
 
   tr(key: string, params?: Record<string, unknown>): string {
@@ -193,7 +196,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
       || this.tr('loopkeeper.t.them');
   }
 
-  get canSkip(): boolean { return this.queue.length > 1; }
+  /** 2026-09-01 BUILD 179 (founder): the door leads to the add sheet now, not
+   *  to a second deck card — so it exists whenever a Who stands armed, even
+   *  on a one-card or demo-only deck (that is exactly the first-timer). */
+  get canSkip(): boolean { return !!this.who; }
 
   /** First real person on screen: one whisper, then never again. */
   get showStayHere(): boolean {
@@ -247,54 +253,21 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.go(2);
   }
 
-  /** 2026-08-31 BUILD 160 (founder): with real people aboard, "Not this one"
-   *  must NEVER serially page the deck — that is insufferable at 200 cards.
-   *  It opens the chooser instead. Only a pure-demo deck (the six samples)
-   *  still cycles, and the MINE door waits at the end of that tour anyway.
-   *  2026-08-31 FOUNDER DEV ITERATION (unshipped): the chooser is no longer
-   *  the cramped inline list — "Not this one" opens the CONTACTS MODAL
-   *  (SearchModalComponent, pick mode): the roomy bottom-sheet design the
-   *  add-flow family already uses, full search, avatar rows. */
-  get hasRealPeople(): boolean {
-    return (this.contacts || []).some((c: any) => !c?.isMockData);
-  }
+  /** 2026-09-01 BUILD 179 (founder): the deck-split era is over — "Not this
+   *  one" hands every deck to the same agnostic add sheet, so this getter
+   *  (cycling's gatekeeper) is retired with it. */
 
-  /** Not this one — demo decks cycle; real decks open the contacts modal. */
-  async notThisOne(): Promise<void> {
-    if (this.hasRealPeople) {
-      const modal = await this.modalController.create({
-        component: SearchModalComponent,
-        componentProps: {
-          contacts: this.contacts,
-          pickMode: true,
-          excludeId: String(this.who?.contact?.contactId || ''),
-        },
-        cssClass: 'card-chat-modal-sheet',
-        breakpoints: [0, 0.7, 0.95, 1],
-        initialBreakpoint: 0.95,
-        keyboardClose: false,
-      });
-      await modal.present();
-      const res = await modal.onDidDismiss();
-      this.chooseFromList(res?.data?.contact);
-      return;
-    }
-    if (this.queue.length < 2) return;
-    this.whoIndex = (this.whoIndex + 1) % this.queue.length;
-  }
-
-  chooseFromList(c: any): void {
-    if (!c) return;
-    // Same doors as confirming by hand: an open loop lands on the words,
-    // a bare contact arms at the thing.
-    if (!c.isMockData) void this.analytics.trackListStartedOnce('walk');
-    const open = this.openLoopFor(c);
-    if (open) { this.pickLoop(open, c); return; }
-    this.armedContact = c;
-    this.whatInput = '';
-    this.lineOpen = false;
-    this.backOfStep3 = 2;
-    this.go(2);
+  /**
+   * 2026-09-01 BUILD 179 (founder): "Who's on your mind" IS the add-icon
+   * interface now — one door for every deck. The old split (real people got
+   * a people-only picker, demo decks cycled) failed the first-timer twice:
+   * an empty list had nothing to pick, and a demo-only list offered nothing
+   * real to reach. The walk asks home for the agnostic add sheet — two tabs,
+   * device picker, .vcf, the iPhone ladder — and whatever comes back (a row
+   * tap, a picked contact, an import, a typed card) lands as the Who.
+   */
+  notThisOne(): void {
+    this.whoRequest.emit();
   }
 
   /** The armed person is a demo identity — the Send stage shows the MINE door. */
@@ -336,8 +309,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /**
    * A nudge (or chat handoff) arrives with a loop armed — skip Who, land on
    * the words. Same doors as confirming by hand.
+   * 2026-09-01 BUILD 179: also the landing for "Not this one" row taps (home
+   * routes them here), so the once-ever list marker rides along like it did
+   * in the old chooser.
    */
   armFromNudge(contact: any | null, loopId?: string): void {
+    if (contact && !contact.isMockData) void this.analytics.trackListStartedOnce('walk');
     const byId = loopId ? this.loops.getLoop(loopId) : undefined;
     if (byId && byId.status === 'open') {
       this.pickLoop(byId, contact || this.cardFor(byId));
