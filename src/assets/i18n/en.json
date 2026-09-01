@@ -785,6 +785,10 @@
     "walk.stayHere": "on this phone",
     "walk.weDontSend": "This opens WhatsApp or the phone. We don't send it.",
     "walk.polishStay": "rewriting — the card stays here",
-    "walk.find": "Find someone"
+    "walk.find": "Find someone",
+    "add.tabPeople": "LoopKeeper people",
+    "add.tabPhone": "Phone contacts",
+    "add.iosTitle": "iPhone keeps its address book closed",
+    "add.iosBody": "Apple does not let any web app read the phone's contacts — LoopKeeper included, and we are sorry. Nothing is wrong with your phone. Two honest ways in: type people in here (seconds each), or wait for the LoopKeeper app on the App Store, which will read them properly."
   }
 }

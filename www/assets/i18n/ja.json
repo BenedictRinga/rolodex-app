@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "この端末。クラウドはオフ。",
     "welcome.outro.emphasis": "アカウントなし。zyppar.com/loopkeeper/ をブックマーク。",
     "welcome.taste.surprise": "本番の送信を一つ。この端末に残ります。",
-    "welcome.card.emphasis": "一人。一枚のカード。その人のすべてはそこに。"
+    "welcome.card.emphasis": "一人。一枚のカード。その人のすべてはそこに。",
+    "add.tabPeople": "LoopKeeper の人たち",
+    "add.tabPhone": "電話の連絡先",
+    "add.iosTitle": "iPhone はアドレス帳を閉じたままにします",
+    "add.iosBody": "Apple は、Web アプリが電話の連絡先を読むことを一切許可していません — LoopKeeper も例外ではなく、申し訳ありません。あなたの電話に問題はありません。正直な道は二つ：ここに直接入力する（一人数秒）、または App Store の LoopKeeper アプリを待つこと。それはきちんと読み取ります。"
   }
 }

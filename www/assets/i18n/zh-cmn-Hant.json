@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "這台手機。雲端關著。",
     "welcome.outro.emphasis": "沒有帳號。收藏 zyppar.com/loopkeeper/。",
     "welcome.taste.surprise": "真正寄一條。他們留在這台手機上。",
-    "welcome.card.emphasis": "一個人。一張卡片。關於他們的一切都在那裡。"
+    "welcome.card.emphasis": "一個人。一張卡片。關於他們的一切都在那裡。",
+    "add.tabPeople": "LoopKeeper 的人",
+    "add.tabPhone": "手機聯絡人",
+    "add.iosTitle": "iPhone 把通訊錄鎖著",
+    "add.iosBody": "Apple 不允許任何網頁應用讀取手機通訊錄 —— LoopKeeper 也不例外，我們很抱歉。你的手機沒有問題。兩條坦誠的路：在這裡逐個輸入（每人幾秒鐘），或等 App Store 上的 LoopKeeper 應用，它會正當地讀取。"
   }
 }

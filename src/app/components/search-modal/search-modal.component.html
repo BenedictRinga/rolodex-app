@@ -10,41 +10,79 @@
 </ion-header>
 
 <ion-content class="search-body">
-  <div class="search-field">
-    <ion-icon name="search-outline" class="search-icon"></ion-icon>
-    <ion-input
-      [(ngModel)]="query"
-      [placeholder]="(pickMode || addDoors) ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
-      autofocus
-      class="search-input"
-      (keyup.enter)="results[0] ? open(results[0]) : null"
-    ></ion-input>
-    <ion-button *ngIf="query" fill="clear" size="small" (click)="clear()">
-      <ion-icon name="close-circle-outline"></ion-icon>
-    </ion-button>
-  </div>
+  <!-- 2026-09-01 BUILD 174 (founder: two tabs — one for device contacts, one
+       for LoopKeeper contacts). On iPhone the device tab still shows: it
+       explains Apple's wall with an apology and urges the typed door. -->
+  <ion-segment *ngIf="addDoors" [(ngModel)]="tab" class="sm-seg" mode="ios">
+    <ion-segment-button value="people">
+      <ion-label>{{ 'loopkeeper.add.tabPeople' | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="phone">
+      <ion-label>{{ 'loopkeeper.add.tabPhone' | translate }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <div class="search-results">
-    <div *ngIf="!results.length" class="search-empty">
-      <ion-icon name="search-outline"></ion-icon>
-      <p *ngIf="query">{{ 'No contacts match "' + query + '"' }}</p>
-      <p *ngIf="!query">{{ (pickMode || addDoors) ? ('loopkeeper.walk.whoEmpty' | translate) : 'Start typing to search your contacts.' }}</p>
+  <ng-container *ngIf="!addDoors || tab === 'people'">
+    <div class="search-field">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="query"
+        [placeholder]="(pickMode || addDoors) ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
+        autofocus
+        class="search-input"
+        (keyup.enter)="results[0] ? open(results[0]) : null"
+      ></ion-input>
+      <ion-button *ngIf="query" fill="clear" size="small" (click)="clear()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </div>
 
-    <ion-item *ngFor="let c of results" button class="search-result" (click)="open(c)">
-      <ion-avatar slot="start">
-        <img [src]="c.image?.base64String || avatarFor(c)" (error)="avatarFailed($event)" alt="" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ c.name?.display || 'Unknown' }}</h2>
-        <p>
-          <span *ngIf="c.organization?.company">{{ c.organization.company }} · </span>
-          <span *ngIf="uniquePhones(c)[0]">{{ uniquePhones(c)[0].number }}</span>
-          <span *ngIf="!uniquePhones(c)[0] && uniqueEmails(c)[0]">{{ uniqueEmails(c)[0].address }}</span>
-        </p>
-      </ion-label>
-      <ion-icon slot="end" name="chevron-forward-outline" style="color: var(--rolodex-text-tertiary);"></ion-icon>
-    </ion-item>
+    <div class="search-results">
+      <div *ngIf="!results.length" class="search-empty">
+        <ion-icon name="search-outline"></ion-icon>
+        <p *ngIf="query">{{ 'No contacts match "' + query + '"' }}</p>
+        <p *ngIf="!query">{{ (pickMode || addDoors) ? ('loopkeeper.walk.whoEmpty' | translate) : 'Start typing to search your contacts.' }}</p>
+      </div>
+
+      <ion-item *ngFor="let c of results" button class="search-result" (click)="open(c)">
+        <ion-avatar slot="start">
+          <img [src]="c.image?.base64String || avatarFor(c)" (error)="avatarFailed($event)" alt="" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ c.name?.display || 'Unknown' }}</h2>
+          <p>
+            <span *ngIf="c.organization?.company">{{ c.organization.company }} · </span>
+            <span *ngIf="uniquePhones(c)[0]">{{ uniquePhones(c)[0].number }}</span>
+            <span *ngIf="!uniquePhones(c)[0] && uniqueEmails(c)[0]">{{ uniqueEmails(c)[0].address }}</span>
+          </p>
+        </ion-label>
+        <ion-icon slot="end" name="chevron-forward-outline" style="color: var(--rolodex-text-tertiary);"></ion-icon>
+      </ion-item>
+    </div>
+  </ng-container>
+
+  <!-- 2026-09-01 BUILD 174: the DEVICE tab. Android: the honest preface and
+       the picker door. iPhone (no Contact Picker API in Safari — Apple's
+       wall): the apology, the explanation, and the typed door up front. -->
+  <div *ngIf="addDoors && tab === 'phone'" class="sm-phone">
+    <ng-container *ngIf="pickerAvailable">
+      <ion-icon name="phone-portrait-outline" class="sm-phone-glyph"></ion-icon>
+      <div class="sm-phone-title">{{ 'loopkeeper.add.prefaceTitle' | translate }}</div>
+      <div class="sm-phone-body">{{ 'loopkeeper.add.prefaceBody' | translate }}</div>
+      <ion-button expand="block" class="sm-phone-btn" (click)="pickPhone()">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.add.pickPhone' | translate }}
+      </ion-button>
+    </ng-container>
+    <ng-container *ngIf="!pickerAvailable">
+      <ion-icon name="lock-closed-outline" class="sm-phone-glyph"></ion-icon>
+      <div class="sm-phone-title">{{ 'loopkeeper.add.iosTitle' | translate }}</div>
+      <div class="sm-phone-body">{{ 'loopkeeper.add.iosBody' | translate }}</div>
+      <ion-button expand="block" class="sm-phone-btn" (click)="typeOne()">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        {{ 'loopkeeper.add.typeOne' | translate }}
+      </ion-button>
+    </ng-container>
   </div>
 </ion-content>
 
@@ -52,12 +90,8 @@
      of the same roomy sheet — the phone picker ONLY where the device offers
      it (iPhone Safari never does, so the dead door simply never shows), and
      typing one in always. -->
-<ion-footer *ngIf="addDoors" class="ion-no-border sm-doors">
+<ion-footer *ngIf="addDoors && tab === 'people'" class="ion-no-border sm-doors">
   <div class="sm-doors-row">
-    <ion-button *ngIf="pickerAvailable" expand="block" class="sm-door" (click)="pickPhone()">
-      <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
-      {{ 'loopkeeper.add.pickPhone' | translate }}
-    </ion-button>
     <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
       <ion-icon name="create-outline" slot="start"></ion-icon>
       {{ 'loopkeeper.add.typeOne' | translate }}

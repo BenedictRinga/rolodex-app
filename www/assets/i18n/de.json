@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "Dieses Telefon. Cloud bleibt aus.",
     "welcome.outro.emphasis": "Kein Konto. zyppar.com/loopkeeper/ merken.",
     "welcome.taste.surprise": "Ein echtes Senden. Sie bleiben auf diesem Telefon.",
-    "welcome.card.emphasis": "Eine Person. Eine Karte. Alles zu ihr lebt dort."
+    "welcome.card.emphasis": "Eine Person. Eine Karte. Alles zu ihr lebt dort.",
+    "add.tabPeople": "Deine LoopKeeper-Leute",
+    "add.tabPhone": "Telefonkontakte",
+    "add.iosTitle": "Das iPhone hält sein Adressbuch geschlossen",
+    "add.iosBody": "Apple erlaubt keiner Web-App, die Telefonkontakte zu lesen — auch LoopKeeper nicht, und das tut uns leid. Mit deinem Telefon ist alles in Ordnung. Zwei ehrliche Wege: tippe die Leute hier ein (Sekunden pro Person) oder warte auf die LoopKeeper-App im App Store, die sie richtig liest."
   }
 }

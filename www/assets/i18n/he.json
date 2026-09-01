@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "הטלפון הזה. הענן כבוי.",
     "welcome.outro.emphasis": "אין חשבון. zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "שליחה אמיתית אחת. הם נשארים בטלפון הזה.",
-    "welcome.card.emphasis": "אדם אחד. כרטיס אחד. הכול עליו חי שם."
+    "welcome.card.emphasis": "אדם אחד. כרטיס אחד. הכול עליו חי שם.",
+    "add.tabPeople": "האנשים של LoopKeeper",
+    "add.tabPhone": "אנשי קשר בטלפון",
+    "add.iosTitle": "האייפון שומר את ספר הכתובות סגור",
+    "add.iosBody": "אפל אינה מרשה לאף אפליקציית רשת לקרוא את אנשי הקשר בטלפון — גם לא ל-LoopKeeper, ואנחנו מצטערים על כך. הטלפון שלך תקין. שני פתחים כנים: הקלידו את האנשים כאן (שניות לכל איש), או המתינו לאפליקציית LoopKeeper ב-App Store, שתקרא אותם כראוי."
   }
 }

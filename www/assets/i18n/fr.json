@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "Ce téléphone. Le cloud reste éteint.",
     "welcome.outro.emphasis": "Pas de compte. Ajoutez zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "Un vrai envoi. Ils restent sur ce téléphone.",
-    "welcome.card.emphasis": "Une personne. Une carte. Tout pour elle vit là."
+    "welcome.card.emphasis": "Une personne. Une carte. Tout pour elle vit là.",
+    "add.tabPeople": "Vos contacts LoopKeeper",
+    "add.tabPhone": "Contacts du téléphone",
+    "add.iosTitle": "L'iPhone garde son répertoire fermé",
+    "add.iosBody": "Apple n'autorise aucune application web à lire le répertoire du téléphone — LoopKeeper y compris, et nous en sommes désolés. Rien ne va chez vous. Deux portes honnêtes : tapez les gens ici (quelques secondes chacun), ou attendez l'application LoopKeeper sur l'App Store, qui les lira comme il faut."
   }
 }

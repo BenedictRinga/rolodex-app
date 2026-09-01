@@ -31,6 +31,13 @@ export class SearchModalComponent {
   @Input() addDoors = false;
   /** The Contact Picker API exists on this browser (Android Chromium only). */
   @Input() pickerAvailable = false;
+  /**
+   * 2026-09-01 BUILD 174 (founder: two tabs — device contacts AND the people
+   * already here): the sheet's two surfaces. 'people' is the searchable
+   * LoopKeeper deck; 'phone' is the device tab — the picker door on Android,
+   * and on iPhone the honest explanation with an apology and the typed door.
+   */
+  tab: 'people' | 'phone' = 'people';
 
   query = '';
 

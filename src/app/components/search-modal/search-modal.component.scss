@@ -32,6 +32,49 @@
   caret-color: var(--rolodex-text, #1E2328);
 }
 
+/* 2026-09-01 BUILD 174 (founder: two tabs): the segment stays quiet, and the
+   device tab speaks the house register — glyph, title, honest body, one
+   action. All colors ride the theme vars; nothing hardcoded. */
+.sm-seg {
+  margin: 4px 14px 0;
+  --background: transparent;
+}
+
+.sm-phone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 26px 22px 10px;
+}
+
+.sm-phone-glyph {
+  font-size: 40px;
+  color: var(--rolodex-text-secondary, #70757A);
+}
+
+.sm-phone-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--rolodex-text, #1E2328);
+}
+
+.sm-phone-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--rolodex-text-secondary, #70757A);
+  max-width: 340px;
+}
+
+.sm-phone-btn {
+  margin-top: 6px;
+  --border-radius: 12px;
+  height: 44px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
 .search-empty {
   display: flex;
   flex-direction: column;

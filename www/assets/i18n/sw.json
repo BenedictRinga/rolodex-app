@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "Simu hii. Wingu limezimwa.",
     "welcome.outro.emphasis": "Hakuna akaunti. Weka alama zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "Tuma moja halisi. Wanabaki kwenye simu hii.",
-    "welcome.card.emphasis": "Mtu mmoja. Kadi moja. Kila kitu chake kipo hapo."
+    "welcome.card.emphasis": "Mtu mmoja. Kadi moja. Kila kitu chake kipo hapo.",
+    "add.tabPeople": "Watu wa LoopKeeper",
+    "add.tabPhone": "Anwani za simu",
+    "add.iosTitle": "iPhone inafunga kitabu cha anwani",
+    "add.iosBody": "Apple hairuhusu programu yoyote ya mtandao kusoma anwani za simu — hata LoopKeeper, na tunasikitika. Simu yako iko sawa. Njia mbili za mwaminifu: waandike hapa (sekunde chache kwa kila mmoja), au subiri programu ya LoopKeeper katika App Store, itakayosoma vizuri."
   }
 }

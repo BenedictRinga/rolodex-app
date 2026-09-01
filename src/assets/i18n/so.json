@@ -701,6 +701,10 @@
     "welcome.storage.emphasis": "Telefoonkan. Daruurtu waa dami.",
     "welcome.outro.emphasis": "Akaun majirto. Calaamadee zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "Hal diritaan dhab ah. Telefoonka ayay ku hadhaan.",
-    "welcome.card.emphasis": "Hal qof. Hal kaadh. Wax kasta oo isaga ah halkaas ayay ku nool yihiin."
+    "welcome.card.emphasis": "Hal qof. Hal kaadh. Wax kasta oo isaga ah halkaas ayay ku nool yihiin.",
+    "add.tabPeople": "Dadka LoopKeeper",
+    "add.tabPhone": "Xiriiriyeyaasha telefoonka",
+    "add.iosTitle": "iPhone wuu xiray buugga xiriirka",
+    "add.iosBody": "Apple uma oggola barnaamij internet oo akhriyo xiriiriyeyaasha telefoonka — LoopKeeper midna, waan ka xunnahay. Telefoonkaadu waa sax. Laba si oo daacada ah: halkan ku qor (ilbiriqsiyo qof kasta), ama sug barnaamijka LoopKeeper ee App Store, wuu si fiican u akhriyi doonaa."
   }
 }

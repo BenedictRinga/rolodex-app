@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "这台手机。云端关着。",
     "welcome.outro.emphasis": "没有账号。收藏 zyppar.com/loopkeeper/。",
     "welcome.taste.surprise": "真正发一条。他们留在这台手机上。",
-    "welcome.card.emphasis": "一个人。一张卡片。关于他们的一切都在那里。"
+    "welcome.card.emphasis": "一个人。一张卡片。关于他们的一切都在那里。",
+    "add.tabPeople": "LoopKeeper 的人",
+    "add.tabPhone": "手机联系人",
+    "add.iosTitle": "iPhone 把通讯录锁着",
+    "add.iosBody": "Apple 不允许任何网页应用读取手机通讯录 —— LoopKeeper 也不例外，我们很抱歉。你的手机没有问题。两条坦诚的路：在这里逐个输入（每人几秒钟），或等 App Store 上的 LoopKeeper 应用，它会正当地读取。"
   }
 }

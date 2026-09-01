@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "هذا الهاتف. السحابة مغلقة.",
     "welcome.outro.emphasis": "لا حساب. احفظ zyppar.com/loopkeeper/.",
     "welcome.taste.surprise": "إرسال حقيقي واحد. يبقون على هذا الهاتف.",
-    "welcome.card.emphasis": "شخص واحد. بطاقة واحدة. كل ما يخصّه يعيش هناك."
+    "welcome.card.emphasis": "شخص واحد. بطاقة واحدة. كل ما يخصّه يعيش هناك.",
+    "add.tabPeople": "أشخاص LoopKeeper",
+    "add.tabPhone": "جهات اتصال الهاتف",
+    "add.iosTitle": "الآيفون يُبقي دفتر العناوين مغلقاً",
+    "add.iosBody": "لا تسمح Apple لأي تطبيق ويب بقراءة جهات اتصال الهاتف — حتى LoopKeeper، ونحن آسفون لذلك. لا عيب في هاتفك. طريقان صادقان: اكتب الأشخاص هنا (ثوانٍ لكل شخص)، أو انتظر تطبيق LoopKeeper في آب ستور الذي سيقرأها كما ينبغي."
   }
 }

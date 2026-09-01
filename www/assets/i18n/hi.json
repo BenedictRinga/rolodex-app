@@ -779,6 +779,10 @@
     "welcome.storage.emphasis": "यह फ़ोन। क्लाउड बंद है।",
     "welcome.outro.emphasis": "कोई खाता नहीं। zyppar.com/loopkeeper/।",
     "welcome.taste.surprise": "एक असली भेजना। वे इस फ़ोन पर रहते हैं।",
-    "welcome.card.emphasis": "एक व्यक्ति। एक कार्ड। उनके बारे में सब वहीं रहता है।"
+    "welcome.card.emphasis": "एक व्यक्ति। एक कार्ड। उनके बारे में सब वहीं रहता है।",
+    "add.tabPeople": "LoopKeeper के लोग",
+    "add.tabPhone": "फ़ोन के संपर्क",
+    "add.iosTitle": "iPhone अपनी पता पुस्तिका बंद रखता है",
+    "add.iosBody": "Apple किसी भी वेब ऐप को फ़ोन के संपर्क पढ़ने की अनुमति नहीं देता — LoopKeeper को भी नहीं, और हमें खेद है। आपके फ़ोन में कोई कमी नहीं। दो ईमानदार रास्ते: लोगों को यहाँ टाइप करें (हर एक पर सेकंड), या App Store पर LoopKeeper ऐप का इंतज़ार करें, जो उन्हें ठीक से पढ़ेगा।"
   }
 }
