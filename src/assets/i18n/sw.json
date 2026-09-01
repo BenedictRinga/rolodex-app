@@ -786,6 +786,7 @@
     "add.iosBody": "Apple hairuhusu programu yoyote ya mtandao kusoma anwani za simu — hata LoopKeeper, na tunasikitika. Simu yako iko sawa. Njia mbili za mwaminifu: waandike hapa (sekunde chache kwa kila mmoja), au subiri programu ya LoopKeeper katika App Store, itakayosoma vizuri.",
     "loopkeeper.add.vcfBtn": "Ingiza faili ya anwani (.vcf)",
     "loopkeeper.add.importedToast": "Wameingia {{n}}.",
-    "loopkeeper.add.vcfFail": "Hakuna anwani tunayoweza kusoma katika faili hilo."
+    "loopkeeper.add.vcfFail": "Hakuna anwani tunayoweza kusoma katika faili hilo.",
+    "add.vcfHint": "Husoma faili la anwani (.vcf) unalotangaza kwanza - kutoka Google Contacts, iCloud mtandaoni, au simu yako ya zamani."
   }
 }

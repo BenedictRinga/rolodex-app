@@ -708,6 +708,7 @@
     "add.iosBody": "Apple uma oggola barnaamij internet oo akhriyo xiriiriyeyaasha telefoonka — LoopKeeper midna, waan ka xunnahay. Telefoonkaadu waa sax. Laba si oo daacada ah: halkan ku qor (ilbiriqsiyo qof kasta), ama sug barnaamijka LoopKeeper ee App Store, wuu si fiican u akhriyi doonaa.",
     "loopkeeper.add.vcfBtn": "Soo deji faylka xiriiriyeyaasha (.vcf)",
     "loopkeeper.add.importedToast": "Waa la keenay {{n}}.",
-    "loopkeeper.add.vcfFail": "Faylkaasi kuma jiro xiriiriye aan akhriyi karno."
+    "loopkeeper.add.vcfFail": "Faylkaasi kuma jiro xiriiriye aan akhriyi karno.",
+    "add.vcfHint": "Waxa akhriya fayl xiriiriyeyaal (.vcf) aad horeba dhoofiyay - laga soo dejiyay Google Contacts, iCloud internetka, ama telefoonkaga hore."
   }
 }

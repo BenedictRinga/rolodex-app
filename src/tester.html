@@ -191,9 +191,13 @@
          detected") read like a code to hand to someone else — the exact
          ambiguity that stalled a tester. What remains below is only the
          reassurance: nothing to type, nothing to pass on. -->
+    <!-- 2026-09-01 BUILD 177 (founder: "everywhere we have an exit, nothing
+         should continue after it"): the button is the exit and the LAST thing
+         on the page. The old codeNote line under it is retired entirely - the
+         founder removed the ambiguity, and with it gone the flourish after
+         the door was pure noise. -->
     <p class="usher">One tap to claim your seat.</p>
     <button class="btn" id="acceptBtn">Accept the invitation</button>
-    <p class="fine" id="codeNote">Checking your invite code…</p>
   </div>
 
   <!-- ── ACCEPTING SPINNER ───────────────────────────────────────────────── -->
@@ -216,11 +220,14 @@
         <div class="step"><span class="n"></span><p>Tomorrow it will remind you. Same time. 15 minutes.</p></div>
       </div>
     </div>
-    <a class="btn" id="installBtn" href="#">Open LoopKeeper</a>
+    <!-- 2026-09-01 BUILD 177 (founder: the exit is the last element): the
+         fine-print and the share door stand BEFORE "Open LoopKeeper" - the
+         link out of the page ends the page. -->
     <p class="fine">Keep this chat with me — reply here when something confuses you, and when you've sent your first loop. In a few weeks you'll also be first in line for the Google Play build.</p>
     <!-- 2026-09-01 BUILD 176: the same quiet hand-over door once they're in —
          the share impulse usually arrives after the first send, not before. -->
     <button class="btn ghost" id="shareBtn2" type="button">Share LoopKeeper with a friend</button>
+    <a class="btn" id="installBtn" href="#">Open LoopKeeper</a>
   </div>
 
   <!-- ── BAD / USED LINK ─────────────────────────────────────────────────── -->
@@ -237,7 +244,6 @@
   var API = '/api/loopkeeper';
   var params = new URLSearchParams(location.search);
   var code = Number(params.get('t')) || 0;
-  var note = document.getElementById('codeNote');
   var acceptBtn = document.getElementById('acceptBtn');
 
   function show(id) {
@@ -250,10 +256,8 @@
     show('invalid');
     return;
   }
-  // 2026-09-01 BUILD 176 (founder): the technicality is retired from view.
-  // The seat is claimed with the button above; this line only defuses the old
-  // reading ("a code I should hand to someone") and echoes the privacy card.
-  note.textContent = 'Nothing to type, nothing to pass on — the invitation rides in this link.';
+  // 2026-09-01 BUILD 177: the codeNote line is gone from markup AND script -
+  // the button above is the whole story; the page ends at the exit.
 
   // 2026-09-01 BUILD 176 (the hand-over door): the friend link is the PLAIN
   // app URL on purpose — no tester code. The friend opens it as a regular

@@ -786,6 +786,7 @@
     "add.iosBody": "Apple does not let any web app read the phone's contacts — LoopKeeper included, and we are sorry. Nothing is wrong with your phone. Two honest ways in: type people in here (seconds each), or wait for the LoopKeeper app on the App Store, which will read them properly.",
     "loopkeeper.add.vcfBtn": "Import a contacts file (.vcf)",
     "loopkeeper.add.importedToast": "Brought {{n}} in.",
-    "loopkeeper.add.vcfFail": "That file held no contacts we could read."
+    "loopkeeper.add.vcfFail": "That file held no contacts we could read.",
+    "add.vcfHint": "Lee un archivo de contactos (.vcf) que exportas antes: desde Google Contacts, iCloud en la web o tu teléfono anterior."
   }
 }

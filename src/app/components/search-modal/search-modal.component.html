@@ -28,7 +28,7 @@
       <ion-input
         [(ngModel)]="query"
         [placeholder]="(pickMode || addDoors) ? ('loopkeeper.walk.find' | translate) : 'Name, phone, email, company, tag…'"
-        autofocus
+        [autofocus]="!addDoors"
         class="search-input"
         (keyup.enter)="results[0] ? open(results[0]) : null"
       ></ion-input>
@@ -78,6 +78,10 @@
       <div class="sm-phone-title">{{ 'loopkeeper.add.iosTitle' | translate }}</div>
       <div class="sm-phone-body">{{ 'loopkeeper.add.iosBody' | translate }}</div>
     </ng-container>
+    <!-- 2026-09-01 BUILD 177 (founder: it is not obvious what a .vcf is or
+         where it comes from - it is NOT a door into the Contacts app): one
+         quiet line of provenance, above the doors, never after them. -->
+    <div class="sm-phone-hint">{{ 'loopkeeper.add.vcfHint' | translate }}</div>
     <div *ngIf="vcfFail" class="sm-phone-fail">{{ 'loopkeeper.add.vcfFail' | translate }}</div>
   </div>
 </ion-content>

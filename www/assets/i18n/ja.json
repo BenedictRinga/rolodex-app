@@ -786,6 +786,7 @@
     "add.iosBody": "Apple は、Web アプリが電話の連絡先を読むことを一切許可していません — LoopKeeper も例外ではなく、申し訳ありません。あなたの電話に問題はありません。正直な道は二つ：ここに直接入力する（一人数秒）、または App Store の LoopKeeper アプリを待つこと。それはきちんと読み取ります。",
     "loopkeeper.add.vcfBtn": "連絡先ファイルを読み込む（.vcf）",
     "loopkeeper.add.importedToast": "{{n}}人を取り込みました。",
-    "loopkeeper.add.vcfFail": "そのファイルから読める連絡先はありませんでした。"
+    "loopkeeper.add.vcfFail": "そのファイルから読める連絡先はありませんでした。",
+    "add.vcfHint": "まず書き出した連絡先ファイル（.vcf）を読み込みます - Google Contacts、Web版iCloud、または前の携帯電話から。"
   }
 }

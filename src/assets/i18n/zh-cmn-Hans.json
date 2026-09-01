@@ -786,6 +786,7 @@
     "add.iosBody": "Apple 不允许任何网页应用读取手机通讯录 —— LoopKeeper 也不例外，我们很抱歉。你的手机没有问题。两条坦诚的路：在这里逐个输入（每人几秒钟），或等 App Store 上的 LoopKeeper 应用，它会正当地读取。",
     "loopkeeper.add.vcfBtn": "导入联系人文件（.vcf）",
     "loopkeeper.add.importedToast": "已带来 {{n}} 位。",
-    "loopkeeper.add.vcfFail": "那个文件里没有我们能读的联系人。"
+    "loopkeeper.add.vcfFail": "那个文件里没有我们能读的联系人。",
+    "add.vcfHint": "它读取您先导出的联系人文件（.vcf）——来自 Google 通讯录、网页版 iCloud、或您的旧手机。"
   }
 }

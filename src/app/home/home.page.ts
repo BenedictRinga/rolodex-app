@@ -1479,7 +1479,12 @@ export class HomePage implements OnInit, OnDestroy {
       },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
-      initialBreakpoint: 0.95,
+      // 2026-09-01 BUILD 177 (founder: "does not open with a firm initial
+      // anchor, so the ion-footers are mostly hiding at the bottom"): the
+      // add sheet opens FULL - the doors stand on the true viewport bottom,
+      // and the search field no longer autofocuses (no keyboard sliding the
+      // footer out of view before the user even looks).
+      initialBreakpoint: 1,
       keyboardClose: false,
     });
     await modal.present();
@@ -1500,6 +1505,13 @@ export class HomePage implements OnInit, OnDestroy {
       this.importVcfContacts(res.data?.contacts || []);
       return;
     }
+    // 2026-09-01 BUILD 177 (founder: "I'll type one in merely closes the
+    // interface"): the create form is an Ionic modal, and presenting one
+    // WHILE the sheet is still animating away swallows it - the sheet died
+    // and nothing followed. These in-app doors wait for the sheet to be
+    // fully gone (onDidDismiss), THEN present. Only the native OS doors
+    // (picker, file dialog) ride the warm onWillDismiss above.
+    await modal.onDidDismiss();
     if (res?.role === 'manual') {
       await this.openManualContactEntry();
       return;
