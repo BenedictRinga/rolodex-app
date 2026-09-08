@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "ቀለበቶች",
     "tab.reminders": "ማስታወሻዎች",
-    "capture.placeholder": "አንድ ዓረፍተ ነገር፡ ማን + ምን…",
+    "capture.placeholder": "One sentence: who or what, and the thing. “Reply to Ada about the venue.” “Renew the car insurance before the 15th.”",
     "capture.button": "ቀለበት",
     "sendDraft": "ረቂቅ ላክ",
     "waitUntil": "እስከ… ይጠብቅ",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "ለፕሪያ ስለ ሐሙስ ሰዓቱ መመለስ አለብኝ",
     "capture.sample2": "ለቱንዴ ማቅረቢያውን እልካለሁ ብዬ ቃል ገባሁ",
-    "capture.sample3": "ከአማራ ጋር ቡና መጠጣት ይገባል",
+    "capture.sample3": "Renew the car insurance before the 15th",
     "drop.reason1": "ሰዓቱ አይደለም — በኋላ ላይ እመልሳለሁ",
     "drop.reason2": "በእውነቱ አይገባም",
     "drop.reason3": "ግንኙነቱ አበረደ",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "Start with one thing you keep meaning to do — a person to reach, a decision to make, a renewal to file. Set the rhythm. Close the loop.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "ዉዩዝቶብሱ እንደ .vcf ፋይል ክፈቱ፡ - ከGoogle Contacts ዖምመ ከዃይብ ላይ ካለወ iCloud።",
     "add.vcfStep2": "ፋይሉን ዉ ስም ላይ አስቀም፡ (Files ዖምመ Downloads)።",
     "add.vcfStep3": "ከታች የመጪት ቡፉ ነው የሚጫው የገብ ነጥት የካ፡ ፊፋልን ያስረዡ።",
-    "add.sysNote": "ከዚያ ስልኩ እውቂያዎች ከzyppar.com ጋር «ይጋራሉ» የሚል ማሳወቂያ ካሳየ - ይህ እውቂያዎችን የሚያነብ ማንኛውም ጣቢያ በሚጠይቅበት ጊዜ ስልኩ የሚሰጠው መደበኛ ቃል ነው። የሚመርጧቸው ሰዎች በዚህ ስልክ LoopKeeper ውስጥ ብቻ ይቀራሉ፤ ቅጂ አናገኝም።"
+    "add.sysNote": "ከዚያ ስልኩ እውቂያዎች ከzyppar.com ጋር «ይጋራሉ» የሚል ማሳወቂያ ካሳየ - ይህ እውቂያዎችን የሚያነብ ማንኛውም ጣቢያ በሚጠይቅበት ጊዜ ስልኩ የሚሰጠው መደበኛ ቃል ነው። የሚመርጧቸው ሰዎች በዚህ ስልክ LoopKeeper ውስጥ ብቻ ይቀራሉ፤ ቅጂ አናገኝም።",
+    "walk.chipDecide": "A decision I keep not making",
+    "walk.chipShowUp": "Somewhere I must show up",
+    "stack.title": "The Stack · {{n}}",
+    "stack.sub": "Deferred, delayed, stacked up — nothing lost.",
+    "stack.waiting": "Waiting · {{n}}",
+    "stack.parked": "Parked for someday · {{n}}",
+    "stack.back": "Bring it back",
+    "stack.backToast": "{{thing}} is back in the open.",
+    "aboutTxt.tasksLine": "The tray widened: loops now carry tasks deferred, delayed or stacked up — a decision to make, a renewal to file, a payment to send — with or without a person attached. Contacts stay first-class; they are no longer the gate."
   }
 }

@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Loops",
     "tab.reminders": "Lembretes",
-    "capture.placeholder": "Uma frase: quem + o quê…",
+    "capture.placeholder": "Uma frase: quem ou quê, e o assunto. “Responder à Ada sobre o local”. “Renovar o seguro do carro antes do dia 15”.",
     "capture.button": "Loop",
     "sendDraft": "Enviar rascunho",
     "waitUntil": "Esperar até…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Preciso de responder à Priya sobre a vaga de quinta",
     "capture.sample2": "Prometi ao Tunde enviar a apresentação",
-    "capture.sample3": "Devíamos tomar um café com a Amara",
+    "capture.sample3": "Renovar o seguro do carro antes do dia 15",
     "drop.reason1": "Má altura — volto mais tarde",
     "drop.reason2": "Não vale a pena, sinceramente",
     "drop.reason3": "A relação arrefeceu",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "Comece por uma coisa que anda a adiar — uma pessoa a contactar, uma decisão a tomar, uma renovação a tratar. Dê o ritmo. Feche o ciclo.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Export your contacts as a .vcf file — from Google Contacts or iCloud on the web.",
     "add.vcfStep2": "Save the file to this phone (Files or Downloads).",
     "add.vcfStep3": "Tap the import door below and choose the file.",
-    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy."
+    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy.",
+    "walk.chipDecide": "Uma decisão que continuo a adiar",
+    "walk.chipShowUp": "Um sítio onde tenho de aparecer",
+    "stack.title": "A Pilha · {{n}}",
+    "stack.sub": "Adiado, atrasado, acumulado — nada se perde.",
+    "stack.waiting": "À espera · {{n}}",
+    "stack.parked": "Estacionado para um dia · {{n}}",
+    "stack.back": "Trazer de volta",
+    "stack.backToast": "{{thing}} está de volta.",
+    "aboutTxt.tasksLine": "A bandeja alargou-se: os ciclos agora transportam tarefas adiadas, atrasadas ou acumuladas — uma decisão a tomar, uma renovação a tratar, um pagamento a enviar — com ou sem pessoa associada. Os contactos continuam em primeiro plano; deixaram de ser o portão."
   }
 }

@@ -182,7 +182,7 @@
     "tab.chat": "Assistent",
     "tab.loops": "Schleifen",
     "tab.reminders": "Erinnerungen",
-    "capture.placeholder": "Ein Satz: wer + was…",
+    "capture.placeholder": "Ein Satz: wer oder was, und die Sache. „Ada wegen des Orts antworten“. „Die Autoversicherung vor dem 15. erneuern“.",
     "capture.button": "Schleife",
     "sendDraft": "Entwurf senden",
     "waitUntil": "Warten bis…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Ich muss Priya wegen des Donnerstagsslots antworten",
     "capture.sample2": "Ich habe Tunde versprochen, das Deck zu schicken",
-    "capture.sample3": "Lass uns mit Amara einen Kaffee trinken",
+    "capture.sample3": "Die Autoversicherung vor dem 15. erneuern",
     "drop.reason1": "Schlechter Zeitpunkt — später wieder",
     "drop.reason2": "Ehrlich: es lohnt nicht",
     "drop.reason3": "Die Beziehung ist abgekühlt",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Willkommen zurück",
     "welcome.intro.title": "LoopKeeper — schließe die Schleife, die du stets aufspiebst",
-    "welcome.intro.copy": "Beginne mit einer Person, die du erreichen willst. Lege den Rhythmus fest. Schließe die Schleife.",
+    "welcome.intro.copy": "Fang mit einer Sache an, die du schon länger vorhast — ein Mensch, den du erreichst, eine Entscheidung, die du triffst, eine Verlängerung, die du einreichst. Setz den Takt. Schließ die Schleife.",
     "welcome.intro.surprise": "Bleib bis zum Schluss — wir schließen gemeinsam eine echte Schleife.",
     "welcome.card.kicker": "01 · Die Karte",
     "welcome.card.title": "Die Karte ist alles",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Exportieren Sie Ihre Kontakte als .vcf-Datei - aus Google Contacts oder iCloud im Web.",
     "add.vcfStep2": "Speichern Sie die Datei auf diesem Telefon (Dateien oder Downloads).",
     "add.vcfStep3": "Tippen Sie unten auf die Import-Tuer und waehlen Sie die Datei.",
-    "add.sysNote": "Wenn das Telefon danach einen Hinweis zeigt, dass Kontakte \"mit zyppar.com geteilt werden\" - das ist die Standardformulierung des Telefons fuer jede Seite, die Kontakte lesen will. Die gewaehlten Personen bleiben in LoopKeeper auf diesem Telefon; wir erhalten nie eine Kopie."
+    "add.sysNote": "Wenn das Telefon danach einen Hinweis zeigt, dass Kontakte \"mit zyppar.com geteilt werden\" - das ist die Standardformulierung des Telefons fuer jede Seite, die Kontakte lesen will. Die gewaehlten Personen bleiben in LoopKeeper auf diesem Telefon; wir erhalten nie eine Kopie.",
+    "walk.chipDecide": "Eine Entscheidung, die ich ständig aufschiebe",
+    "walk.chipShowUp": "Ein Ort, an dem ich auftauchen muss",
+    "stack.title": "Der Stapel · {{n}}",
+    "stack.sub": "Aufgeschoben, verzögert, gestapelt — nichts geht verloren.",
+    "stack.waiting": "Wartet · {{n}}",
+    "stack.parked": "Geparkt für irgendwann · {{n}}",
+    "stack.back": "Zurückholen",
+    "stack.backToast": "{{thing}} ist wieder offen auf dem Tisch.",
+    "aboutTxt.tasksLine": "Das Tablett wurde breiter: Loops tragen jetzt Aufgaben, die aufgeschoben, verzögert oder gestapelt sind — eine Entscheidung zu treffen, eine Verlängerung einzureichen, eine Zahlung zu senden — mit oder ohne Person. Kontakte bleiben selbstverständlich; sie sind nicht mehr die Pforte."
   }
 }

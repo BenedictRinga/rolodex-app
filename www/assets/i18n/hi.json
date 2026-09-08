@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "लूप्स",
     "tab.reminders": "रिमाइंडर",
-    "capture.placeholder": "एक वाक्य: कौन + क्या…",
+    "capture.placeholder": "टेक से लिखें: कौन या क्या, और काम। “आदा को जगह के बारे में जवाब देना”। “15 तक कार का बीमा नवीनीकृत करना”।",
     "capture.button": "लूप बनाएँ",
     "sendDraft": "ड्राफ़्ट भेजें",
     "waitUntil": "तब तक प्रतीक्षा करें…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "प्रिया को गुरुवार के स्लॉट के बारे में जवाब देना है",
     "capture.sample2": "तुंडे से वादा किया था कि डेक भेजूँगा",
-    "capture.sample3": "अमारा के साथ कॉफ़ी होनी चाहिए",
+    "capture.sample3": "15 तक कार का बीमा नवीनीकृत करना",
     "drop.reason1": "समय ठीक नहीं — बाद में देखूँगा",
     "drop.reason2": "ईमानदारी से, इसका कोई मूल्य नहीं",
     "drop.reason3": "रिश्ता ठंडा हो गया",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "उस एक काम से शुरू करें जिसे आप लगातार टाल रहे हैं — एक इंसान जिस तक पहुँचना है, एक फ़ैसला जो लेना है, एक नवीनीकरण जो भेजना है। लय़ बनाइए। लूप बंद कीजिए।",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "अपने संपर्क एक .vcf फ़ाइल के रूप में निर्यात करें - Google Contacts या वेब पर iCloud से।",
     "add.vcfStep2": "फ़ाइल को इस फ़ोन में सहेंं (Files या Downloads)।",
     "add.vcfStep3": "नीचे इंपोर्ट के दरवाज़े को टैप करें और फ़ाइल चुनें।",
-    "add.sysNote": "इसके बाद फ़ोन यह सूचना दिखाए कि संपर्क \"zyppar.com के साथ साझा किए जाएंगे\" - यह फ़ोन की मानक भाषा है, जो संपर्क पढ़ने वाली हर साइट के लिए दिखती है। आपके चुने लोग इस फ़ोन पर LoopKeeper में ही रहते हैं; हमें कभी प्रतिलिपि नहीं मिलती।"
+    "add.sysNote": "इसके बाद फ़ोन यह सूचना दिखाए कि संपर्क \"zyppar.com के साथ साझा किए जाएंगे\" - यह फ़ोन की मानक भाषा है, जो संपर्क पढ़ने वाली हर साइट के लिए दिखती है। आपके चुने लोग इस फ़ोन पर LoopKeeper में ही रहते हैं; हमें कभी प्रतिलिपि नहीं मिलती।",
+    "walk.chipDecide": "एक फ़ैसला जो मैं बार-बार टाल रहा हूँ",
+    "walk.chipShowUp": "वह जगह जहाँ मुझे पहुँचना है",
+    "stack.title": "ढेर · {{n}}",
+    "stack.sub": "टाला गया, रुका हुआ, जमा हुआ — कुछ नहीं खोया।",
+    "stack.waiting": "प्रतीक्षा · {{n}}",
+    "stack.parked": "किसी दिन के लिए रखा हुआ · {{n}}",
+    "stack.back": "वापस लाएँ",
+    "stack.backToast": "{{thing}} फिर से नज़र में है।",
+    "aboutTxt.tasksLine": "ट्रे चौड़ी हुई: अब लूप टाले गए, रुके हुए या जमे हुए काम भी ले जाते हैं — एक फ़ैसला, एक नवीनीकरण, एक भुगतान — इंसान के साथ या बिना। संपर्क पहले दर्जे पर ही रहेंगे; वे अब दरवाज़ा नहीं हैं।"
   }
 }

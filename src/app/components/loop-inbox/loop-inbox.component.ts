@@ -93,6 +93,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   theirs: Loop[] = [];
   closed: Loop[] = [];
   counts = { mine: 0, theirs: 0, closedThisWeek: 0 };
+  // 2026-09-08 BUILD 181 THE STACK — the secretary's tray: what's deferred
+  // (snoozed with a wake date) and what's parked (someday), kept in view.
+  stack: { waiting: Loop[]; parked: Loop[]; dueCount: number } = { waiting: [], parked: [], dueCount: 0 };
+  stackOpen = false;
   nudgesDue = 0;
   /** 2026-08-28 BUILD 128: the ids of loops the algo is prompting RIGHT NOW —
    *  rows glow, the bar counts them, and opening one is the answer. */
@@ -334,6 +338,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.theirs = this.loops.waitingOnThem();
     this.closed = this.loops.recentlyClosed();
     this.counts = this.loops.counts();
+    this.stack = this.loops.theStack(); // BUILD 181: deferred + parked stay in view
     // 2026-08-30 BUILD 153 (founder: "did you restore Search when that
     // expansion is retracted, or nullified"): a selected loop that has left
     // the open lists (sent, closed, dropped, or now waiting) must retract the
@@ -523,9 +528,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       const firstDone = await this.storage.get<boolean>('loopkeeper_first_loop_done');
       if (!firstDone) {
         await this.storage.set('loopkeeper_first_loop_done', true);
-        void this.alerts.showToast(this.tr('loopkeeper.t.firstLoop', { person: loop.person }), 3600);
+        void this.alerts.showToast(this.tr('loopkeeper.t.firstLoop', { person: this.rowName(loop) }), 3600);
       } else {
-        void this.alerts.showToast(this.tr('loopkeeper.t.opened', { person: loop.person }), 2600);
+        void this.alerts.showToast(this.tr('loopkeeper.t.opened', { person: this.rowName(loop) }), 2600);
       }
     } finally {
       this.busy = false;
@@ -651,6 +656,18 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** One-tap send (6) → receipt (8) */
   async send(l: Loop): Promise<void> {
     const channel = l.channel || 'sms';
+
+    // 2026-09-08 BUILD 181: COPY is a first-class shelf door now — the default
+    // channel for subject-less loops (decide, someday). No recipient to ask
+    // for; the words ride the clipboard and the loop closes.
+    if (channel === 'copy') {
+      try { await navigator.clipboard.writeText(l.draft || ''); } catch { /* clipboard denied — loop stays open */ }
+      this.loops.markSent(l.id, 'copy', l.draft || '');
+      await this.refresh();
+      this.celebrate(l);
+      void this.alerts.showToast(this.tr('loopkeeper.t.sentOut'), 2600);
+      return;
+    }
 
     // ═══ VOICE: the recorder owns this path — never a fake-send. ═══
     if (channel === 'voice') {
@@ -865,7 +882,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  breath: the ✓ pops, the person is named, the freed count counts UP.
    *  Card matches add the pat on the back (data gleaned back into LoopKeeper). */
   private celebrate(l: Loop): void {
-    this.celebrating = { name: l.person, count: this.counts.closedThisWeek, cardLine: !!this.cardFor(l) };
+    this.celebrating = { name: this.rowName(l), count: this.counts.closedThisWeek, cardLine: !!this.cardFor(l) };
     if (this.celebrateTimer) clearTimeout(this.celebrateTimer);
     this.celebrateTimer = setTimeout(() => { this.celebrating = null; }, 3600);
   }
@@ -1021,4 +1038,27 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
   sitting(l: Loop): number { return this.loops.daysSitting(l); }
   kindLabel(k: string): string { return k.replace('-', ' '); }
+
+  // ── 2026-09-08 BUILD 181 THE STACK helpers ──────────────────────────────────
+  /** The row's name slot: the person, or (subject-less task loops) nothing —
+   *  the summary line carries the identity. */
+  hasName(l: Loop): boolean {
+    return !!l.person && l.person !== 'Someone' && l.person !== 'Unnamed';
+  }
+  /** A speakable name for toasts and the celebration: person, else the subject. */
+  rowName(l: Loop): string {
+    return this.hasName(l) ? l.person : (l.summary || this.tr('loopkeeper.t.them'));
+  }
+  /** What a waiting loop wakes as: the user's condition, else the wake date. */
+  wakeLabel(l: Loop): string {
+    const day = l.waitUntil ? new Date(l.waitUntil).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : '';
+    if (l.waitCondition && day) return `${l.waitCondition} · ${day}`;
+    return l.waitCondition || day || '—';
+  }
+  /** Stack row tap: wake the loop back into the open piles. */
+  bringBack(l: Loop): void {
+    this.loops.bringBack(l.id);
+    void this.refresh();
+    void this.alerts.showToast(this.tr('loopkeeper.stack.backToast', { thing: this.rowName(l) }), 2400);
+  }
 }

@@ -182,7 +182,7 @@
     "tab.chat": "Msaidizi",
     "tab.loops": "Vitanzi",
     "tab.reminders": "Vikumbusho",
-    "capture.placeholder": "Sentensi moja: nani + nini…",
+    "capture.placeholder": "Sentensi moja: nani au nini, na jambo. “Kumjibu Ada kuhusu mahali”. “Kubaliza bima ya gari kabla ya tarehe 15”.",
     "capture.button": "Kitanzi",
     "sendDraft": "Tuma rasimu",
     "waitUntil": "Subiri hadi…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Nahitaji kumjibu Priya kuhusu kipindi cha Alhamisi",
     "capture.sample2": "Niliahidi Tunde nitamtumia faili",
-    "capture.sample3": "Tunapaswa kunywa kahawa na Amara",
+    "capture.sample3": "Kubaliza bima ya gari kabla ya tarehe 15",
     "drop.reason1": "Muda si sahihi — nitairudi baadaye",
     "drop.reason2": "Haistahili, kwa ukweli",
     "drop.reason3": "Uhusiano umezima",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Karibu tena",
     "welcome.intro.title": "LoopKeeper — funga mzunguko umekuwa ukimaanisha kufunga",
-    "welcome.intro.copy": "Anza na mtu mmoja unayemaanisha kuwasiliana naye. Weka muda wake. Funga mzunguko.",
+    "welcome.intro.copy": "Anza na jambo moja ulilokaribia kufanya kila siku — mtu wa kufikia, uamuzi wa kuchukua, kubaliza cha kutuma. Weka mdundo. Funga duara.",
     "welcome.intro.surprise": "Kaa hadi mwisho — tutafunga mzunguko mmoja wa kweli pamoja.",
     "welcome.card.kicker": "01 · Kadi",
     "welcome.card.title": "Kadi ndiyo yote",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Hamisha anwani zako kama faili la .vcf - kutoka Google Contacts au iCloud mtandaoni.",
     "add.vcfStep2": "Hifadhi faili kwenye simu hii (Files au Downloads).",
     "add.vcfStep3": "Bofya lango la kuleta hapa chini kisha chagua faili.",
-    "add.sysNote": "Ikionekana taarifa ya simu kuwa anwani \"zitashirikishwa na zyppar.com\" - hiyo ni lugha ya kawaida ya simu kwa tovuti yoyote inayooma anwani. Watu utakaowauteua huishi ndani ya LoopKeeper kwenye simu hii; hatupati nakala kamwe."
+    "add.sysNote": "Ikionekana taarifa ya simu kuwa anwani \"zitashirikishwa na zyppar.com\" - hiyo ni lugha ya kawaida ya simu kwa tovuti yoyote inayooma anwani. Watu utakaowauteua huishi ndani ya LoopKeeper kwenye simu hii; hatupati nakala kamwe.",
+    "walk.chipDecide": "Uamuzi ushaokataa kufanya",
+    "walk.chipShowUp": "Mahali pa kufika",
+    "stack.title": "Rundo · {{n}}",
+    "stack.sub": "Yaliyoahirishwa, yaliyochelewa, yaliyorundwa — hakitu kinachopotea.",
+    "stack.waiting": "Inasubiri · {{n}}",
+    "stack.parked": "Imewekwa pembeni kwa siku nyingine · {{n}}",
+    "stack.back": "Irudishe",
+    "stack.backToast": "{{thing}} imerudi wazi.",
+    "aboutTxt.tasksLine": "Bakuli la kazi limepanuka: mizunguko sasa hubeba kazi zilizoahirishwa, zilizochelewa au zilizorundwa — uamuzi wa kuchukua, kubaliza cha kutuma, malipo ya kutuma — ikiwa na mtu au bila yeye. Mawasiliano yanabaki mbele; hayako tena kama lango."
   }
 }

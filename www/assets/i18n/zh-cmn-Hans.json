@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "循环",
     "tab.reminders": "提醒",
-    "capture.placeholder": "一句话：谁 + 什么…",
+    "capture.placeholder": "一句话：谁或什么，加上那件事。“就场地回复 Ada”。“15 号前给车险续保”。",
     "capture.button": "建立循环",
     "sendDraft": "发送草稿",
     "waitUntil": "等到…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "要回复 Priya 周四的时段",
     "capture.sample2": "答应了 Tunde 要把资料发过去",
-    "capture.sample3": "该和 Amara 喝杯咖啡了",
+    "capture.sample3": "15 号前给车险续保",
     "drop.reason1": "时机不对——以后再看",
     "drop.reason2": "说实话，不太值得",
     "drop.reason3": "关系淡了",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "从一件你一直想做却搁着的事开始 — 一个要联络的人，一个要做的决定，一份要提交的续期。定下节奏，把环闭上。",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "把联系人导出为 .vcf 文件——从 Google 通讯录或网页版 iCloud。",
     "add.vcfStep2": "把文件保存到本机（文件或下载）。",
     "add.vcfStep3": "点击下方的导入门，选择该文件。",
-    "add.sysNote": "如果手机随后显示联系人“将与 zyppar.com 共享”的提示——那是手机对任何读取联系人的网站的统一说法。你选定的人只保存在这台手机的 LoopKeeper 里；我们永远不会收到副本。"
+    "add.sysNote": "如果手机随后显示联系人“将与 zyppar.com 共享”的提示——那是手机对任何读取联系人的网站的统一说法。你选定的人只保存在这台手机的 LoopKeeper 里；我们永远不会收到副本。",
+    "walk.chipDecide": "一件我一直没下决心的事",
+    "walk.chipShowUp": "一个我必须到场的地方",
+    "stack.title": "搁置堆 · {{n}}",
+    "stack.sub": "搁下的、迟了的、攒着的 — 一样都不会少。",
+    "stack.waiting": "等待中 · {{n}}",
+    "stack.parked": "留给某一天 · {{n}}",
+    "stack.back": "拿回来",
+    "stack.backToast": "{{thing}} 重新回到眼前。",
+    "aboutTxt.tasksLine": "托盘变宽了：循环现在也承载被搁下、延误或堆积的事 — 一个待做的决定，一份待交的续期，一笔待付的款项 — 有没有人都可以。联系人仍是一等公民；但他们不再是唯一的门。"
   }
 }

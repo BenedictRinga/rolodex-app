@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Loops",
     "tab.reminders": "Reminders",
-    "capture.placeholder": "One sentence: who + what…",
+    "capture.placeholder": "Tek cümle: kim ya da ne, ve iş. “Ada’ya mekân hakkında yanıt vermek”. “15’ten önce araba sigortasını yenilemek”.",
     "capture.button": "Loop",
     "sendDraft": "Send draft",
     "waitUntil": "Wait until…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Perşembe randevusu hakkında Priya'ya cevap vermeliyim",
     "capture.sample2": "Tunde'ye sunumu göndereceğime söz verdim",
-    "capture.sample3": "Amara'yla bir kahve içsek iyi olurdu",
+    "capture.sample3": "15’ten önce araba sigortasını yenilemek",
     "drop.reason1": "Zamanı değil — sonra tekrar bakarım",
     "drop.reason2": "Açıkçası buna değmez",
     "drop.reason3": "İlişki soğudu",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "Uzun süredir ertelediğin tek bir işle başla — ulaşılacak bir kişi, verilecek bir karar, gönderilecek bir yenileme. Ritmi sen koy. Halkayı kapat.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Export your contacts as a .vcf file — from Google Contacts or iCloud on the web.",
     "add.vcfStep2": "Save the file to this phone (Files or Downloads).",
     "add.vcfStep3": "Tap the import door below and choose the file.",
-    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy."
+    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy.",
+    "walk.chipDecide": "Sürekli ertelediğim bir karar",
+    "walk.chipShowUp": "Katılmam gereken bir yer",
+    "stack.title": "Yığın · {{n}}",
+    "stack.sub": "Ertelenen, geciken, biriken — hiçbir şey kaybolmaz.",
+    "stack.waiting": "Bekliyor · {{n}}",
+    "stack.parked": "İlerisi için bırakıldı · {{n}}",
+    "stack.back": "Geri getir",
+    "stack.backToast": "{{thing}} yeniden masada.",
+    "aboutTxt.tasksLine": "Tepsi genişledi: döngüler artık ertelenmiş, gecikmiş ya da birikmiş işleri de taşıyor — verilecek bir karar, gönderilecek bir yenileme, yapılacak bir ödeme — kişili ya da kişisiz. Kişiler birinci sınıf kalıyor; artık kapı değiller."
   }
 }

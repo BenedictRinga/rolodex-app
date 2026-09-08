@@ -16,7 +16,12 @@ import { userLang } from '../lang/user-lang';
 
 export type LoopKind =
   | 'owed-reply' | 'promise' | 'check-in' | 'favor' | 'intro'
-  | 'social' | 'meeting' | 'birthday' | 'coffee';
+  | 'social' | 'meeting' | 'birthday' | 'coffee'
+  // 2026-09-08 BUILD 181 THE SECRETARY SPREAD: task-shaped kinds. A loop's
+  // subject can be a decision, a place, a document, a payment — a person is
+  // one kind of subject, never the gate. Contacts stay first-class (the
+  // tester kept the deck); this widens the tray, it does not narrow it.
+  | 'decide' | 'show-up' | 'send' | 'book' | 'chase' | 'renew' | 'pay' | 'someday';
 
 export type LoopTone = 'short' | 'honest' | 'light' | 'formal';
 export type LoopChannel = 'whatsapp' | 'sms' | 'email' | 'linkedin' | 'telegram' | 'voice'
@@ -147,7 +152,7 @@ export class LoopsService {
       id: now.toString(36) + Math.random().toString(36).slice(2, 7),
       createdAt: now,
       updatedAt: now,
-      person: partial.person || 'Someone',
+      person: partial.person ?? 'Someone',
       kind: partial.kind || 'check-in',
       summary: partial.summary || '',
       stance: partial.stance || 'warm',
@@ -222,12 +227,43 @@ export class LoopsService {
     };
   }
 
-  /** Urgency score: owed replies and dying social debts float up. */
+  /** 2026-09-08 BUILD 181 THE STACK — the secretary's tray. Today's 3 caps
+   *  attention; the stack holds everything deferred, delayed or stacked up:
+   *  WAITING = snoozed with a wake date (these used to vanish from every
+   *  pile the moment they were parked), PARKED = someday loops (no date, no
+   *  guilt, never in Today's 3 — the score keeps them low by design). */
+  theStack(): { waiting: Loop[]; parked: Loop[]; dueCount: number } {
+    const list = this.cache || [];
+    return {
+      waiting: list.filter(l => l.status === 'waiting')
+        .sort((a, b) => (a.waitUntil || 0) - (b.waitUntil || 0)),
+      parked: list.filter(l => l.kind === 'someday' && l.status !== 'closed' && l.status !== 'dropped'),
+      dueCount: this.openMine().filter(l => l.kind !== 'someday').length,
+    };
+  }
+
+  /** Wake a snoozed or parked loop back into the open piles (Stack row tap). */
+  bringBack(id: string): void {
+    const l = this.cache?.find(x => x.id === id);
+    if (!l) return;
+    l.status = 'open';
+    l.waitUntil = undefined;
+    l.waitCondition = undefined;
+    l.nextNudgeAt = Date.now();
+    this.touch(l);
+    void this.persist();
+  }
+
+  /** Urgency score: owed replies and dying social debts float up.
+   *  2026-09-08 BUILD 181: money and deadlines float too; someday sinks by
+   *  design — the parked tray must never crowd Today's 3. */
   score(l: Loop): number {
     const days = this.daysSitting(l);
     const base: Record<LoopKind, number> = {
       'owed-reply': 100, 'social': 110, 'promise': 85, 'meeting': 75,
       'intro': 70, 'favor': 65, 'coffee': 55, 'check-in': 45 + days * 2, 'birthday': 95,
+      'pay': 88, 'send': 80, 'chase': 82, 'renew': 78, 'book': 74,
+      'decide': 72, 'show-up': 68, 'someday': 12,
     };
     return (base[l.kind] || 50) + days * 4 + l.nudgesSent * 5;
   }
@@ -289,14 +325,26 @@ export class LoopsService {
       || /\bwaiting\b.{0,12}\bon\b.{0,12}\b(them|him|her)\b/i.test(lower);
 
     // Kind detection.
+    // 2026-09-08 BUILD 181: the secretary's verbs joined the chain — tasks
+    // deferred, delayed or stacked up parse with or without a person. Money
+    // (pay) beats favor; booking beats meeting; strong intent ("I'll …")
+    // still lands on promise.
     let kind: LoopKind = 'check-in';
     if (/\b(repl(y|ies)|respond|answer(ed)? (him|her|them)|owe (him|her|them) a)\b/i.test(lower)) kind = 'owed-reply';
     else if (/\b(intro|introduce|connect (you|her|him)|introduction)\b/i.test(lower)) kind = 'intro';
     else if (/\b(birthday|congratulat|condolence|thank|sympath)\b/i.test(lower)) kind = 'social';
     else if (/\b(coffee|lunch|drinks|catch up over)\b/i.test(lower)) kind = 'coffee';
-    else if (/\b(promis|said i('| i)?( would|'d|ll)|i'?ll (send|ping|share|intro)|told (him|her|them) i'?d)\b/i.test(lower)) kind = 'promise';
-    else if (/\b(favor|favour|borrowed|lend|owes me|invoice)\b/i.test(lower)) kind = 'favor';
+    else if (/\b(book|booking|schedule|reschedule|reserve|appointment)\b/i.test(lower)) kind = 'book';
     else if (/\b(follow(-| )?up|after (the|our) (call|meeting)|recap)\b/i.test(lower)) kind = 'meeting';
+    else if (/\b(promis|said i('| i)?( would|'d|ll)|i'?ll (send|ping|share|intro)|told (him|her|them) i'?d)\b/i.test(lower)) kind = 'promise';
+    else if (/\b(pay|payment|settle|deposit|top up|airtime|bill)s?\b/i.test(lower)) kind = 'pay';
+    else if (/\b(favor|favour|borrowed|lend|owes me|invoice)\b/i.test(lower)) kind = 'favor';
+    else if (/\b(send|submit|post|deliver|forward|mail out|bring)\b/i.test(lower)) kind = 'send';
+    else if (/\b(renew|renewal|expiry|expire|expiring|extend(ion)?)\b/i.test(lower)) kind = 'renew';
+    else if (/\b(chase|nudge|check on|check with|where (is|are) (my|the)|still waiting for|has (it|my) (arrived|landed))\b/i.test(lower)) kind = 'chase';
+    else if (/\b(decide|deciding|decide on|choose|choosing|pick between|make up my mind)\b/i.test(lower)) kind = 'decide';
+    else if (/\b(show up|showing up|turn up|attend|be there|be at)\b/i.test(lower)) kind = 'show-up';
+    else if (/\b(someday|eventually|one day|when i (have|get) (time|a chance)|at some point|should really)\b/i.test(lower)) kind = 'someday';
     else if (/\bbirthday\b/i.test(lower)) kind = 'birthday';
 
     // Summary: strip filler prefixes.
@@ -305,16 +353,31 @@ export class LoopsService {
     ).trim();
 
     // Deadline sniff → wait-until hint embedded in condition (18).
+    // 2026-09-08 BUILD 181: the secretary hears more deadlines — "by Friday",
+    // "tonight", "this weekend", "end of month", "before the 15th".
     let waitCondition = '';
     const wd = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+    const capDay = (d: string): string => d[0].toUpperCase() + d.slice(1);
+    const byDay = lower.match(/\b(?:by|before|on|come)\s+(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\b/);
     const dayHit = lower.match(new RegExp(`\\b(${wd.join('|')})\\b`));
-    if (dayHit) waitCondition = `By ${dayHit[1][0].toUpperCase() + dayHit[1].slice(1)}`;
+    const byNth = lower.match(/\b(?:by|before)\s+the\s+(\d{1,2})(?:st|nd|rd|th)?\b/);
+    if (byDay) waitCondition = `By ${capDay(byDay[1])}`;
+    else if (dayHit) waitCondition = `By ${capDay(dayHit[1])}`;
+    else if (byNth) waitCondition = `By the ${byNth[1]}`;
+    else if (/\btonight\b/i.test(lower)) waitCondition = 'Tonight';
     else if (/\btomorrow\b/i.test(lower)) waitCondition = 'Tomorrow';
+    else if (/\bthis weekend\b/i.test(lower)) waitCondition = 'This weekend';
     else if (/\bthis week\b/i.test(lower)) waitCondition = 'This week';
+    else if (/\bnext week\b/i.test(lower)) waitCondition = 'Next week';
+    else if (/\bend of (the )?month\b/i.test(lower)) waitCondition = 'End of month';
+    else if (/\bnext month\b/i.test(lower)) waitCondition = 'Next month';
 
     // ── 2026-08-25 DEEPEN SIX: enrich from the resolved card (F11/F12/F13) ──
+    // 2026-09-08 BUILD 181: person is OPTIONAL — a task loop ("renew the car
+    // insurance") carries no counterparty. An empty person is the signal that
+    // the summary itself is the subject.
     const enriched: Partial<Loop> = {
-      person: person || 'Unnamed',
+      person,
       kind,
       summary,
       direction: theirs ? 'theirs' : 'mine',
@@ -407,6 +470,13 @@ export class LoopsService {
     const d = Math.max(0, Math.floor((Date.now() - (l.lastTouchAt || l.createdAt || Date.now())) / DAY));
     const s = (l.summary || '').toLowerCase();
     if (l.kind === 'owed-reply') return 'the reply is still unwritten';
+    // 2026-09-08 BUILD 181: the task frictions — the secretary names why the
+    // thing keeps sliding, in the same human voice as the relational ones.
+    if (l.kind === 'someday') return 'no date yet — parked on purpose';
+    if (l.kind === 'decide') return 'choosing feels heavier than it should';
+    if (l.kind === 'renew') return 'the window is open; the form is unsent';
+    if (l.kind === 'show-up') return 'the day never made it onto a calendar';
+    if (l.kind === 'chase') return 'asking again feels like nagging';
     if (/(pric|cost|quote|invoice|budget|fee|pay|discount)/.test(s)) return 'it touches money — the number is unsent';
     if (/(decide|decision|choose|option|offer|approve|sign)/.test(s)) return 'it waits on a decision nobody has made yet';
     if (l.kind === 'coffee') return '“sometime” was never turned into a date';
@@ -499,6 +569,7 @@ No pressure either way — replying here connects you directly.`;
   // ===== Agent layer: pretext / channel / voice (14/15/16) ===================
 
   suggestPretext(l: Loop): string {
+    if (l.kind === 'someday') return 'parked on purpose — no date, no guilt'; // BUILD 181
     if (l.promise) return `you promised: “${l.promise}”`;
     if (l.relation) return `how you met — ${l.relation}`;
     // 2026-08-29 BUILD 148 (founder: "Hi Angela — the open thread: B"): a
@@ -511,13 +582,16 @@ No pressure either way — replying here connects you directly.`;
   }
 
   suggestChannel(l: Loop): LoopChannel {
-    if (l.tone === 'formal' || l.kind === 'meeting' || l.kind === 'intro') return 'email';
-    if (l.kind === 'social' || l.kind === 'coffee') return 'sms';
+    // 2026-09-08 BUILD 181: subject-less loops (decide, someday) have no
+    // counterparty to message — the clipboard IS their door.
+    if (l.kind === 'decide' || l.kind === 'someday') return 'copy';
+    if (l.tone === 'formal' || l.kind === 'meeting' || l.kind === 'intro' || l.kind === 'send' || l.kind === 'renew' || l.kind === 'chase') return 'email';
+    if (l.kind === 'social' || l.kind === 'coffee' || l.kind === 'show-up' || l.kind === 'pay') return 'sms';
     return 'sms';
   }
 
   voiceOutline(l: Loop): string {
-    const f = l.person.split(' ')[0];
+    const f = l.person.trim().split(/\s+/)[0] || 'there'; // BUILD 181: subject-less safe
     return [
       `20-second voice note — ${l.kind}`,
       `1. Say hi: “${f}! It's [your name].”`,
@@ -540,7 +614,7 @@ No pressure either way — replying here connects you directly.`;
   private localizedShort(l: Loop): string | null {
     const lang = this.translate?.currentLang;
     if (!lang || lang === 'en' || lang.startsWith('en-')) return null;
-    const f = l.person.split(' ')[0];
+    const f = l.person.trim().split(/\s+/)[0] || 'there'; // BUILD 181: subject-less safe
     const topic = (l.summary || 'our last thread').replace(/^about\s+/i, '');
     const t = (k: string, params: Record<string, unknown>): string | null => {
       const s = this.translate.instant(k, params);
@@ -571,7 +645,7 @@ No pressure either way — replying here connects you directly.`;
       const loc = this.localizedShort(l);
       if (loc) return loc;
     }
-    const f = l.person.split(' ')[0];
+    const f = l.person.trim().split(/\s+/)[0] || 'there'; // BUILD 181: subject-less loops still draft
     const topic = (l.summary || 'our last thread').replace(/^about\s+/i, '');
     const why = l.whySitting ? `Still here because ${l.whySitting}.` : ''; // 2026-08-29 BUILD 148: the row's voice, not "It sat because"
     const d = this.daysSitting(l);
@@ -630,6 +704,55 @@ No pressure either way — replying here connects you directly.`;
         honest: `Hi ${f} — “let's grab coffee” has been pending too long. Proposing a real date: [day/time]?\n\n`,
         light: `Hey ${f}! Coffee debt collection ☕ — name a day, I'm there.\n\n`,
         formal: `Dear ${l.person},\n\nMight you have time for coffee in the coming weeks? I would value catching up.\n\n`,
+      },
+      // ── 2026-09-08 BUILD 181 THE SECRETARY SPREAD — task-shaped drafts ──
+      'send': {
+        short: `Hi ${f} — here's the thing I owe: ${topic}.\n\n`,
+        honest: `Hi ${f} — you asked for ${topic}, and it's late. Here it is:\n\n`,
+        light: `Hey ${f}! ${topic} — delivered! 📦\n\n`,
+        formal: `Dear ${l.person},\n\nPlease find enclosed the promised ${topic}.\n\n`,
+      },
+      'book': {
+        short: `Hi ${f} — let's get ${topic} on the calendar: does [day] work?\n\n`,
+        honest: `Hi ${f} — ${topic} keeps sliding because nobody proposes a date. Proposing now: [day/time]?\n\n`,
+        light: `Hey ${f}! Booking ${topic} before it escapes us again 📅 — [day]?\n\n`,
+        formal: `Dear ${l.person},\n\nCould we schedule ${topic} in the coming week? Kindly share a convenient time.\n\n`,
+      },
+      'pay': {
+        short: `Hi ${f} — sending the payment for ${topic} today.\n\n`,
+        honest: `Hi ${f} — the payment for ${topic} is late, and that's on me. Sending it now:\n\n`,
+        light: `Hey ${f}! Paying up for ${topic} 💸 — it's on the way.\n\n`,
+        formal: `Dear ${l.person},\n\nKindly note that the payment for ${topic} is being settled today.\n\n`,
+      },
+      'chase': {
+        short: `Hi ${f} — gently checking on ${topic}. Any movement?\n\n`,
+        honest: `Hi ${f} — I don't want to nag, but ${topic} matters to me. Where do things stand?\n\n`,
+        light: `Hey ${f}! Nudging ${topic} along 🐝 — any news?\n\n`,
+        formal: `Dear ${l.person},\n\nI am writing to follow up on ${topic}. An update would be appreciated when convenient.\n\n`,
+      },
+      'renew': {
+        short: `Hi ${f} — ${topic} is up for renewal. Sorting it before it lapses.\n\n`,
+        honest: `Hi ${f} — ${topic} nearly lapsed on my watch. Renewing it today:\n\n`,
+        light: `Renewal alarm for ${topic} ⏰ — handling it now.\n\n`,
+        formal: `Dear ${l.person},\n\nI am arranging the renewal of ${topic} ahead of its expiry.\n\n`,
+      },
+      'decide': {
+        short: `${f !== 'there' ? `Hi ${f} — ` : ''}about ${topic}: I've been sitting on it. Deciding by [day].\n\n`,
+        honest: `${f !== 'there' ? `Hi ${f} — ` : ''}${topic} — I keep not deciding, and silence is itself a decision. Choosing by [day]:\n\n`,
+        light: `Decision time on ${topic} 🎲 — picking [day] and sticking to it.\n\n`,
+        formal: `Note to self: reach a decision on ${topic} by the agreed date, then act on it without further delay.\n\n`,
+      },
+      'show-up': {
+        short: `Hi ${f} — confirming I'll be at ${topic}. See you there.\n\n`,
+        honest: `Hi ${f} — I almost let ${topic} pass without confirming. I'll be there:\n\n`,
+        light: `Hey ${f}! ${topic} — count me in 🙌\n\n`,
+        formal: `Dear ${l.person},\n\nI am writing to confirm my attendance at ${topic}.\n\n`,
+      },
+      'someday': {
+        short: `Someday note: ${topic}. Not forgotten — just parked.\n\n`,
+        honest: `${topic} keeps waiting for “one day”. Writing it down so it stops weighing:\n\n`,
+        light: `Parked for someday: ${topic} 🌱 It will keep.\n\n`,
+        formal: `For the record: ${topic} remains on the someday list, to be taken up when time allows.\n\n`,
       },
     };
     return (P[l.kind] || P['check-in'])[tone];

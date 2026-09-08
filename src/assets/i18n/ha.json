@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Madaukai",
     "tab.reminders": "Tunatarwa",
-    "capture.placeholder": "Jumla ɗaya: wa + me…",
+    "capture.placeholder": "One sentence: who or what, and the thing. “Reply to Ada about the venue.” “Renew the car insurance before the 15th.”",
     "capture.button": "Madauki",
     "sendDraft": "Aika daftari",
     "waitUntil": "Jira har…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Ina bukatar amsawa wa Priya kan lokacin Alhamis",
     "capture.sample2": "Na yi wa Tunde alkawari zan tura fayil din gabatarwa",
-    "capture.sample3": "Ya kamata mu sha kofi da Amara",
+    "capture.sample3": "Renew the car insurance before the 15th",
     "drop.reason1": "Lokaci ba shi da kyau — sake duba daga baya",
     "drop.reason2": "Ba ya cancanta, a gaskiya",
     "drop.reason3": "Alaka ta sanyaya",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "Start with one thing you keep meaning to do — a person to reach, a decision to make, a renewal to file. Set the rhythm. Close the loop.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Export your contacts as a .vcf file — from Google Contacts or iCloud on the web.",
     "add.vcfStep2": "Save the file to this phone (Files or Downloads).",
     "add.vcfStep3": "Tap the import door below and choose the file.",
-    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy."
+    "add.sysNote": "If the phone then shows a notice that contacts \"will be shared with zyppar.com\" - that is the phone's own standard wording for any site that asks to read contacts. The people you pick go only into LoopKeeper on this phone; we never receive a copy.",
+    "walk.chipDecide": "A decision I keep not making",
+    "walk.chipShowUp": "Somewhere I must show up",
+    "stack.title": "The Stack · {{n}}",
+    "stack.sub": "Deferred, delayed, stacked up — nothing lost.",
+    "stack.waiting": "Waiting · {{n}}",
+    "stack.parked": "Parked for someday · {{n}}",
+    "stack.back": "Bring it back",
+    "stack.backToast": "{{thing}} is back in the open.",
+    "aboutTxt.tasksLine": "The tray widened: loops now carry tasks deferred, delayed or stacked up — a decision to make, a renewal to file, a payment to send — with or without a person attached. Contacts stay first-class; they are no longer the gate."
   }
 }

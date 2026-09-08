@@ -267,3 +267,11 @@
   opacity:.45; font-size:17px; padding:0;
 }
 .li-flipbtn:active { opacity:.95; border-color: rgba(45,212,191,.5); color:#2dd4bf; }
+
+/* 2026-09-08 BUILD 181 THE STACK — the secretary's tray. Quieter than the
+   open piles: everything here is deferred or parked by choice. */
+.li-stack { opacity:.92; }
+.li-stack-title { cursor:pointer; user-select:none; }
+.li-stack-caret { margin-left:6px; opacity:.7; }
+.li-stack-sub { font-size:11.5px; opacity:.55; margin:-2px 0 8px; }
+.li-stack-subhead { font-size:11px; text-transform:uppercase; letter-spacing:.06em; opacity:.5; margin:10px 0 5px; }

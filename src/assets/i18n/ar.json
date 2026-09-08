@@ -182,7 +182,7 @@
     "tab.chat": "المساعد",
     "tab.loops": "الحلقات",
     "tab.reminders": "التذكيرات",
-    "capture.placeholder": "جملة واحدة: من + ماذا…",
+    "capture.placeholder": "جملة واحدة: من أو ماذا، والموضوع. «الرد على آدا بخصوص المكان». «تجديد تأمين السيارة قبل الخامسعشر».",
     "capture.button": "حلقة",
     "sendDraft": "أرسل المسودة",
     "waitUntil": "انتظر حتى…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "عليّ أن أردّ على بريا بشأن موعد الخميس",
     "capture.sample2": "وعدتُ توندي بإرسال العرض التقديمي",
-    "capture.sample3": "ينبغي أن نتناول القهوة مع عمارة",
+    "capture.sample3": "تجديد تأمين السيارة قبل الخامسعشر",
     "drop.reason1": "التوقيت غير مناسب — سأعود لاحقًا",
     "drop.reason2": "لا يستحق المشكلة بصراحة",
     "drop.reason3": "برودت العلاقة",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "ابدأ بشيء واحد تأجّله طويلًا — شخص تودّ الوصول إليه، قرار ينتظر حسمك، تجديد ينتظر إيداعه. اضبط الإيقاع. أغلق الحلقة.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "استرد جهات الاتصال كملف .vcf - من Google Contacts أو iCloud على الويب.",
     "add.vcfStep2": "احفظ الملف في هذا الهاتف (الملفات أو التنزيلات).",
     "add.vcfStep3": "اضغط باب الاستيراد أدناه ثم اختر الملف.",
-    "add.sysNote": "إذا أظهر الهاتف لاحقًا إشعارًا بأن جهات الاتصال \"ستتم مشاركتها مع zyppar.com\" - فهذه هي الصيغة القياسية للهاتف لأي موقع يطلب قراءة جهات الاتصال. الأشخاص الذين تختارهم يبقون في LoopKeeper على هذا الهاتف؛ لا نستلم نسخة أبدًا."
+    "add.sysNote": "إذا أظهر الهاتف لاحقًا إشعارًا بأن جهات الاتصال \"ستتم مشاركتها مع zyppar.com\" - فهذه هي الصيغة القياسية للهاتف لأي موقع يطلب قراءة جهات الاتصال. الأشخاص الذين تختارهم يبقون في LoopKeeper على هذا الهاتف؛ لا نستلم نسخة أبدًا.",
+    "walk.chipDecide": "قرار أظل مؤجّلًا عن اتخاذه",
+    "walk.chipShowUp": "مكان لا بد أن أحضر إليه",
+    "stack.title": "الكومة · {{n}}",
+    "stack.sub": "مؤجَّل، متأخّر، متراكم — لا شيء يضيع.",
+    "stack.waiting": "انتظار · {{n}}",
+    "stack.parked": "أُجِّل إلى يوم ما · {{n}}",
+    "stack.back": "أعده إلى الواجهة",
+    "stack.backToast": "{{thing}} عاد إلى الواجهة.",
+    "aboutTxt.tasksLine": "اتّسع الصحن: تحمل الحلقات الآن مهامًا مؤجّلة أو متأخّرة أو متراكمة — قرار ينتظر، تجديد يُودَع، دفعة تُرسَل — بشخص مرافق أو بدونه. جهات الاتصال تبقى في الصدارة؛ لكنها لم تعد البوابة الوحيدة."
   }
 }

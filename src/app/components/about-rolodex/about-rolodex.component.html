@@ -43,6 +43,11 @@
     <p>
       {{ 'loopkeeper.aboutTxt.what' | translate }}
     </p>
+    <!-- 2026-09-08 BUILD 181 THE SECRETARY SPREAD: the tray widened — say it
+         right next to the "what" so the portal never reads stale. -->
+    <p>
+      {{ 'loopkeeper.aboutTxt.tasksLine' | translate }}
+    </p>
   </div>
 
   <div class="about-section" *ngIf="portalMode !== 'investors'">
@@ -545,6 +550,8 @@
             <button class="index-chip" (click)="scrollToSection('inv-events')">Events</button>
             <button class="index-chip" (click)="scrollToSection('inv-rooms')">Rooms</button>
             <button class="index-chip" (click)="scrollToSection('inv-translations')">Translations</button>
+            <!-- 2026-09-02 BUILD 181: the contactless redesign framework joins the index. -->
+            <button class="index-chip" (click)="scrollToSection('inv-redesign')">Redesign</button>
           </div>
 
           <!-- 2026-08-24 WHAT CHANGED: snapshot comparison from the last exit. -->
@@ -835,6 +842,178 @@
             <ion-button size="small" fill="outline" (click)="openTranslationReview()" style="margin-top: 8px;">
               {{ 'loopkeeper.review.title' | translate }}
             </ion-button>
+          </div>
+
+          <!-- 2026-09-02 BUILD 181 (founder directive): THE CONTACTLESS REDESIGN —
+               the framework from loopkeeper redesign.txt, packed for investors as a
+               segmented panel. Six tabs; the source document is the authority. -->
+          <div class="investor-section sec-redesign" id="inv-redesign">
+            <div class="section-head">
+              <span class="section-num">10</span>
+              <div class="section-title"><span class="section-kicker">Redesign</span><strong>The contactless framework</strong></div>
+            </div>
+
+            <div class="lpred-hero">
+              <p>LoopKeeper is not a safer rolodex.<br>
+                 It is a tray for unfinished acts whose counterparties<br>
+                 the software is not allowed to know.</p>
+            </div>
+
+            <div class="lpred-tabs">
+              <button *ngFor="let t of redesignTabs" class="lpred-tab" [class.active]="redesignTab === t.id" (click)="redesignTab = t.id">{{ t.label }}</button>
+            </div>
+
+            <!-- WHY -->
+            <div *ngIf="redesignTab === 'why'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>The mistake the rolodex baked in</h4>
+                <p>A rolodex starts from <em>people</em> and hopes tasks will appear. LoopKeeper has to start from <em>tension</em> and treat people as optional decoration the user keeps at home.</p>
+                <p>What actually occupies the mind is not "Priya, +254…, last emailed 12 March." It is:</p>
+                <ul class="lpred-quotes">
+                  <li>"I owe a reply."</li>
+                  <li>"I promised a file."</li>
+                  <li>"I said we would talk after the trip."</li>
+                  <li>"I have not decided."</li>
+                </ul>
+                <p>None of those sentences require a server or the Play Store permission <code>READ_CONTACTS</code>. The identity lives in the user's head. The product's job is to hold the <em>incompleteness</em>, not the <em>person</em>.</p>
+              </div>
+              <div class="lpred-card">
+                <h4>The science we stand on</h4>
+                <p><strong>Zeigarnik:</strong> interrupted work stays warmer in memory than finished work. <strong>Ovsiankina:</strong> people feel a quasi-need to resume it. <strong>Masicampo &amp; Baumeister:</strong> a specific plan discharges much of the tension before the task is even done.</p>
+                <p>A private LoopKeeper therefore has exactly three legal moves:</p>
+                <ol class="lpred-moves">
+                  <li><strong>Hold</strong> the open loop, so the user does not have to.</li>
+                  <li><strong>Resume</strong> it with the next physical action — draft, send, call, show up.</li>
+                  <li><strong>Release</strong> it with a plan, a drop, or a close — so the mind can let go.</li>
+                </ol>
+                <p class="lpred-note">The waiter in the original studies remembered that <em>table 4 still wants the bill</em> — not a national ID.</p>
+              </div>
+            </div>
+
+            <!-- THREAT -->
+            <div *ngIf="redesignTab === 'threat'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>The threat model, said bluntly</h4>
+                <p>Assume every assurance we write will be disbelieved.</p>
+                <table class="lpred-table">
+                  <tr><th>If this exists on a server we control</th><th>A careful user treats it as</th></tr>
+                  <tr><td>Address book dump</td><td>A copy of their social world</td></tr>
+                  <tr><td>Phone numbers / emails</td><td>A deanonymizing key</td></tr>
+                  <tr><td>"We'll encrypt it"</td><td>A promise, not a property</td></tr>
+                  <tr><td>"We don't sell data"</td><td>Revocable</td></tr>
+                  <tr><td>AI that "knows your network"</td><td>The thing they already fear</td></tr>
+                </table>
+                <p class="lpred-strong">The only pitch that survives: <em>we cannot name your people, because we never receive their names.</em></p>
+                <p>That is not a copy change. It is a data-flow change — and if testers must believe the privacy policy before the app is useful, we have already lost. The architecture must make a lie structurally hard: LoopKeeper should do its job on a device that has never seen a contact record.</p>
+              </div>
+            </div>
+
+            <!-- THE LOOP -->
+            <div *ngIf="redesignTab === 'loop'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>The object we should have been storing</h4>
+                <p>Replace <code>Contact</code> with <code>Loop</code>. A Loop is:</p>
+                <ul>
+                  <li>a <strong>verb</strong> — "reply", "send", "decide", "show up", "drop"</li>
+                  <li>a <strong>handle</strong> the user invented — "the architect", "Ma's doctor", "Thursday slot"</li>
+                  <li>a <strong>shard of context</strong> they typed or pasted</li>
+                  <li>a <strong>state</strong> — open / parked / waiting / closed / dropped</li>
+                  <li>a <strong>next move</strong> that does not require resolving a person in any database</li>
+                </ul>
+                <p>The handle is not an identity. It is a mnemonic, like a tab name. Two users can both have a loop called "the architect" — the system should not care, and should not be able to join them.</p>
+              </div>
+              <div class="lpred-card">
+                <h4>The standing rules</h4>
+                <ul class="lpred-rules">
+                  <li><strong>Contacts permission: never request it.</strong></li>
+                  <li><strong>Account: optional.</strong></li>
+                  <li><strong>Cloud: optional — and if it exists, it stores ciphertext the server cannot read.</strong></li>
+                </ul>
+                <h4 class="lpred-h4">The three storage tiers, shipped in order</h4>
+                <p><strong>Tier A — device-only.</strong> Loops live on the phone. No account. Uninstall = gone, unless they exported. <em>This is the version you hand your children.</em></p>
+                <p><strong>Tier B — user-encrypted sync.</strong> A passphrase they type, never stored. The client encrypts the blob; the server sees an opaque ID and a timestamp. The passphrase cannot be reset — that pain is the proof.</p>
+                <p><strong>Tier C — sealed send packet.</strong> If they ever insist on in-app send, the address is entered in that session, used, and not written unless they opt into a local alias. Default: the address is never persisted.</p>
+              </div>
+            </div>
+
+            <!-- PRODUCT -->
+            <div *ngIf="redesignTab === 'product'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>How the product works with zero contacts</h4>
+                <p><strong>1. The user names the ghost.</strong> Capture is one line, on purpose: "Reply to the gallery woman about Thursday." On device that becomes — verb: reply · handle: gallery woman · object: Thursday · state: open. Autocomplete runs against <em>their own previous handles</em>, never the address book. The moment an OS contact picker appears, we have asked for the graph.</p>
+                <p><strong>2. Identity stays in the apps they already trust.</strong> Mail, WhatsApp, Messages, Phone already have the names. LoopKeeper is a staging room, not a new directory: open a loop → the draft is written → tap Copy or Share → the native app sends → come back and mark sent / waiting / closed. We lose "one-tap send." We gain the only thing that gets family onto a closed test: <em>this thing cannot text my children for me, because it does not know them.</em></p>
+                <p><strong>3. Context without a dossier.</strong> Context is whatever the user parks next to the loop — a dictated sentence, a screenshot kept on device, a voice memo. If a model runs in the cloud it sees: <em>Loop type: overdue reply. Tone: short, apologetic. Topic: Thursday slot. Handle: [redacted].</em> — never a name and a number. Redaction is a user-facing control: a "preview what the model will see" screen is worth more than a privacy policy.</p>
+                <p><strong>4. The AI that does not need a graph.</strong> Find context = read this loop's own notes. Make the call = recommend send / park / drop from <em>loop age and verb</em>, not from who they are. Draft = fill a template from the loop text the user already wrote. Remember the person = do not. Remember the <em>unfinished act</em>. "Know your network" is a marketing phrase we kill on purpose.</p>
+              </div>
+              <div class="lpred-card">
+                <h4>Zeigarnik machinery that never asks who</h4>
+                <ul>
+                  <li><strong>The board is capped at three live loops.</strong> Forty-seven open names is why people avoid the app and the tasks. Three is a working memory. The rest wait in a sealed backlog.</li>
+                  <li><strong>Start the act for them.</strong> Every card already contains a first sentence of the draft — a blank card is a new task; a half-written card is an interrupted one, and interrupted is what the mind returns to.</li>
+                  <li><strong>Plan-based release.</strong> "Saturday after the match, copy the draft into WhatsApp." Tension drops with a plan — no identity required. This is how we avoid becoming a guilt machine.</li>
+                  <li><strong>Close must feel like putting a plate down.</strong> The waiters forgot the order once it was paid. The close animation and the card's disappearance are the discharge — closed loops never linger as a social profile.</li>
+                  <li><strong>Handles may stay opaque forever.</strong> "The man from the gallery" is a complete key for its owner. Completeness meters are Zeigarnik used against the user. Banned.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- WILDER -->
+            <div *ngIf="redesignTab === 'wilder'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>Features that get stranger — and still work</h4>
+                <div class="lpred-grid">
+                  <div class="lpred-tile"><strong>Role loops</strong><span>"The school." "The landlord." "The clinic." Institutions are what people avoid — and they were never in the address book as one record anyway.</span></div>
+                  <div class="lpred-tile"><strong>Self-loops</strong><span>"Decide whether I am going." Much avoided work has no counterparty at all. Contacts-first design cannot even see this category. It may be the real wedge.</span></div>
+                  <div class="lpred-tile"><strong>Object loops</strong><span>"The permission slip." "The rebate." The person is incidental.</span></div>
+                  <div class="lpred-tile"><strong>Place-shaped loops</strong><span>Geofence the user's own chosen place: "when I get to the office, show the three parked sends." Their movement as a cue — nobody's contacts involved.</span></div>
+                  <div class="lpred-tile"><strong>Time-shaped loops</strong><span>"Sunday 8pm is loop hour." A ritual beats a graph. Family testers understand a ritual.</span></div>
+                  <div class="lpred-tile"><strong>Shared loop, no shared identity</strong><span>Pairing is a one-time code, like a padlock — not an address-book merge. If either side refuses, the loop stays single-player.</span></div>
+                  <div class="lpred-tile"><strong>Photograph of the debt</strong><span>Snap the paper note, the text thread. On-device OCR, then the image stays local or dies. The loop is born from evidence they already had.</span></div>
+                  <div class="lpred-tile"><strong>Dead-drop drafts</strong><span>Their existing mail client is the identity layer. LoopKeeper is a typewriter for unfinished speech.</span></div>
+                  <div class="lpred-tile"><strong>An anonymous streak</strong><span>"3 loops put down this week" — a number a tester can show anyone without exposing who they know.</span></div>
+                  <div class="lpred-tile"><strong>Deliberate forgetting</strong><span>An old planless loop is offered for burial. Helping people <em>drop</em> is as much the product as helping them send.</span></div>
+                </div>
+              </div>
+              <div class="lpred-card lpred-rip">
+                <h4>What gets ripped out for the tester build</h4>
+                <ul>
+                  <li>Import from Google / Apple contacts</li>
+                  <li>"Find people in your network"</li>
+                  <li>Birthday / job-change scraping</li>
+                  <li>Relationship maps</li>
+                  <li>"Who should I reach out to?" ranked by graph</li>
+                  <li>Cloud backup of names by default</li>
+                  <li>Login-with-Google that then offers the address book</li>
+                  <li>Any onboarding step that previews a permission dialog</li>
+                </ul>
+                <p>Every one of those is a reason our own children will not tap Install.</p>
+              </div>
+            </div>
+
+            <!-- SHIP -->
+            <div *ngIf="redesignTab === 'ship'" class="lpred-pane">
+              <div class="lpred-card">
+                <h4>The tester pitch, rewritten</h4>
+                <p>What we sent was probably: <em>try my app, it helps you stay in touch.</em> What they heard was: <em>give this thing the family.</em> Say this instead:</p>
+                <blockquote class="lpred-quote">
+                  LoopKeeper never reads your contacts. It cannot. There is no contact permission.<br>
+                  You type a nickname only you understand.<br>
+                  The AI sees a redacted task, not a person.<br>
+                  You send from the app you already use.<br>
+                  Uninstall and it is gone.
+                </blockquote>
+                <p>Then give them a 30-second first loop that is <em>not social</em>: "Park the thing I keep not deciding." Once the app has held one private tension and released it, staying opted in for 14 days is a small favor instead of a character test.</p>
+                <p class="lpred-note">Play Console facts: twelve opted-in-and-still-opted-in testers for fourteen continuous days. Invites are not testers; dropouts reset us. Over-recruit, and make staying cheap. A no-contacts build is how staying becomes cheap.</p>
+              </div>
+              <div class="lpred-card">
+                <h4>The build order that matches the constraint</h4>
+                <div class="lpred-phase"><span class="lpred-ph">Week 0</span><div><strong>The closed-test binary.</strong> No <code>READ_CONTACTS</code>. No account. Capture → three-slot board → draft → share sheet → mark closed/parked/dropped. On-device only. One screen: "network calls this session: 0."</div></div>
+                <div class="lpred-phase"><span class="lpred-ph">Week 2</span><div><strong>If they still have it installed.</strong> Plan-based park ("Saturday after the match"). Redaction preview if any model is used. Export / wipe.</div></div>
+                <div class="lpred-phase"><span class="lpred-ph">Later</span><div><strong>Only if testers ask.</strong> Passphrase sync. Optional last-mile send that never persists addresses. Pairing codes for two-sided loops. — Never promised in the invite; promises about "send later" reawaken the fear.</div></div>
+              </div>
+            </div>
+
+            <p class="investor-chart-note">Source: the founder's redesign memo ("loopkeeper redesign.txt"), packed verbatim in spirit — the memo is the authority.</p>
           </div>
 
           <p class="investor-live-note">

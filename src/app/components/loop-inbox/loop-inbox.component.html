@@ -190,6 +190,50 @@
       </div>
     </div>
 
+    <!-- ═══ 2026-09-08 BUILD 181 THE STACK — deferred, delayed, stacked up ═══
+         Snoozed loops used to vanish from every pile while they waited;
+         someday loops had no home at all. The secretary's tray keeps both in
+         sight — nothing lost, nothing nagging. -->
+    <div class="li-section li-stack" *ngIf="stack.waiting.length || stack.parked.length">
+      <div class="li-section-title li-stack-title" role="button" (click)="stackOpen = !stackOpen">
+        {{ 'loopkeeper.stack.title' | translate:{ n: stack.waiting.length + stack.parked.length } }}
+        <span class="li-stack-caret">{{ stackOpen ? '▾' : '▸' }}</span>
+      </div>
+      <div class="li-stack-sub">{{ 'loopkeeper.stack.sub' | translate }}</div>
+      <ng-container *ngIf="stackOpen">
+        <ng-container *ngIf="stack.waiting.length">
+          <div class="li-stack-subhead">{{ 'loopkeeper.stack.waiting' | translate:{ n: stack.waiting.length } }}</div>
+          <div *ngFor="let l of stack.waiting" class="li-row theirs">
+            <div class="li-row-main" (click)="toggle(l.id)">
+              <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
+              <span class="li-kind">{{ kindLabel(l.kind) }}</span>
+              <span class="li-meta">{{ wakeLabel(l) }}</span>
+              <div class="li-summary">{{ l.summary }}</div>
+            </div>
+            <div class="li-their-actions">
+              <ion-button size="small" fill="outline" (click)="bringBack(l)">{{ 'loopkeeper.stack.back' | translate }}</ion-button>
+              <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">{{ 'loopkeeper.drop' | translate }}</ion-button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="stack.parked.length">
+          <div class="li-stack-subhead">{{ 'loopkeeper.stack.parked' | translate:{ n: stack.parked.length } }}</div>
+          <div *ngFor="let l of stack.parked" class="li-row theirs">
+            <div class="li-row-main" (click)="toggle(l.id)">
+              <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
+              <span class="li-kind">{{ kindLabel(l.kind) }}</span>
+              <span class="li-meta">{{ rel(l.createdAt) }}</span>
+              <div class="li-summary">{{ l.summary }}</div>
+            </div>
+            <div class="li-their-actions">
+              <ion-button size="small" fill="outline" (click)="bringBack(l)">{{ 'loopkeeper.stack.back' | translate }}</ion-button>
+              <ion-button size="small" fill="clear" color="medium" (click)="openDrop(l)">{{ 'loopkeeper.drop' | translate }}</ion-button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+
     <!-- // REVEAL-LATER: birthday inbox rows — per-person opt-in lives in the
          Reminders tab; flip BIRTHDAY_ROWS_REVEALED (and add a birthdayRows
          getter reading opted-in contacts) to surface them here.
@@ -207,7 +251,7 @@
       <div class="li-section-title">{{ 'loopkeeper.section.recentlyClosed' | translate:{ n: counts.closedThisWeek } }}</div>
       <div *ngFor="let l of closed" class="li-receipt">
         <span class="li-check">✓</span>
-        <span><b>{{ l.person }}</b> · {{ l.receipt?.channel || kindLabel(l.kind) }}
+        <span><b>{{ rowName(l) }}</b> · {{ l.receipt?.channel || kindLabel(l.kind) }}
           <span class="li-meta">{{ rel(l.receipt?.sentAt || l.closedAt) }}</span>
           <ng-container *ngIf="l.receipt">· {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.doneClosed' | translate) : ('loopkeeper.receipt.doneReply' | translate) }}</ng-container>
           <ng-container *ngIf="l.closeReason"> · {{ l.closeReason }}</ng-container>
@@ -239,7 +283,7 @@
     <div class="li-row-main" (click)="toggle(l.id)">
       <span *ngIf="isDue(l)" class="li-nudge-bell">🔔</span>
       <span *ngIf="starred" class="li-star">⭐</span>
-      <span class="li-person">{{ l.person }}</span>
+      <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
       <span class="li-kind">{{ kindLabel(l.kind) }}</span>
       <span class="li-meta">{{ 'loopkeeper.sittingDays' | translate:{ n: sitting(l), m: l.nudgesSent } }}</span>
       <div class="li-summary">{{ l.summary }}</div>
@@ -270,7 +314,7 @@
            plain phone call. The nudge opens into the relationship, not just
            the sentence. -->
       <div *ngIf="cardFor(l)" class="li-cardstrip">
-        <span class="li-cardstrip-name">{{ cardFor(l)?.name?.display || l.person }}</span>
+        <span class="li-cardstrip-name">{{ cardFor(l)?.name?.display || rowName(l) }}</span>
         <div class="li-cardstrip-actions">
           <button class="li-cardchip" (click)="openLoopChat(l); $event.stopPropagation()">💬 {{ 'loopkeeper.act.chat' | translate }}</button>
           <button class="li-cardchip" (click)="openLoopVideo(l); $event.stopPropagation()">🎥 {{ 'loopkeeper.act.video' | translate }}</button>

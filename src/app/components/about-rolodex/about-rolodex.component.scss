@@ -1280,3 +1280,69 @@ details.inv-details {
 .cohorts-share { margin: 10px 0 0; padding: 9px 12px; font-size: 12.5px; line-height: 1.5;
   background: rgba(0, 200, 83, .07); border-radius: 10px;
   strong { font-weight: 700; } }
+
+/* 2026-09-02 BUILD 181: THE CONTACTLESS REDESIGN panel (investors portal).
+   Self-contained lpred- family; theme vars with fallbacks, light and dark. */
+.lpred-hero {
+  margin: 4px 0 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 200, 83, .30);
+  border-radius: 14px;
+  background: rgba(0, 200, 83, .06);
+  p { margin: 0; font-size: 15.5px; line-height: 1.55; font-weight: 600; color: var(--rolodex-text, #1E2328); }
+}
+.lpred-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.lpred-tab {
+  border: 1px solid rgba(128, 128, 128, .30);
+  background: transparent;
+  color: var(--rolodex-text-secondary, #70757A);
+  font-size: 12px; font-weight: 600;
+  border-radius: 999px; padding: 6px 12px;
+  &.active { border-color: rgba(0, 200, 83, .55); background: rgba(0, 200, 83, .10); color: var(--rolodex-text, #1E2328); }
+}
+.lpred-pane { display: flex; flex-direction: column; gap: 12px; }
+.lpred-card {
+  border: 1px solid rgba(128, 128, 128, .22);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: var(--rolodex-surface, #fff);
+  h4 { margin: 0 0 8px; font-size: 14px; font-weight: 800; color: var(--rolodex-text, #1E2328); }
+  .lpred-h4 { margin-top: 14px; }
+  p { margin: 0 0 9px; font-size: 13px; line-height: 1.6; color: var(--rolodex-text, #1E2328); }
+  p:last-child { margin-bottom: 0; }
+  ul, ol { margin: 0 0 9px; padding-left: 20px; }
+  li { font-size: 13px; line-height: 1.6; color: var(--rolodex-text, #1E2328); margin-bottom: 4px; }
+  code { font-size: 12px; background: rgba(128, 128, 128, .12); border-radius: 5px; padding: 1px 5px; }
+  em { font-style: italic; }
+}
+.lpred-quotes {
+  list-style: none; padding: 0 !important; margin: 4px 0 10px !important;
+  li { font-style: italic; font-weight: 600; margin-bottom: 3px; }
+}
+.lpred-moves li { margin-bottom: 7px; }
+.lpred-note { font-size: 12.5px; color: var(--rolodex-text-secondary, #70757A); font-style: italic; }
+.lpred-strong { font-weight: 700; }
+.lpred-rules { list-style: none; padding-left: 0 !important; li { font-weight: 600; } }
+.lpred-table { width: 100%; border-collapse: collapse; margin: 6px 0 12px;
+  th, td { text-align: left; font-size: 12.5px; line-height: 1.5; padding: 7px 9px; border: 1px solid rgba(128, 128, 128, .22); color: var(--rolodex-text, #1E2328); }
+  th { font-weight: 700; background: rgba(128, 128, 128, .08); }
+}
+.lpred-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 6px; }
+.lpred-tile {
+  border: 1px solid rgba(128, 128, 128, .22); border-radius: 12px; padding: 10px 12px;
+  strong { display: block; font-size: 12.5px; font-weight: 800; margin-bottom: 4px; color: var(--rolodex-text, #1E2328); }
+  span { font-size: 12px; line-height: 1.55; color: var(--rolodex-text-secondary, #70757A); }
+}
+.lpred-rip ul { list-style: none; padding-left: 0 !important;
+  li { text-decoration: line-through; text-decoration-color: rgba(208, 86, 86, .65); margin-bottom: 5px; } }
+.lpred-quote {
+  margin: 8px 0 12px; padding: 12px 14px;
+  border-left: 3px solid rgba(0, 200, 83, .55);
+  background: rgba(0, 200, 83, .07);
+  border-radius: 0 10px 10px 0;
+  font-size: 13px; line-height: 1.65; font-weight: 600; color: var(--rolodex-text, #1E2328);
+}
+.lpred-phase { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px;
+  .lpred-ph { flex: 0 0 64px; font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase;
+    color: var(--rolodex-text-secondary, #70757A); border: 1px solid rgba(128, 128, 128, .30); border-radius: 8px; padding: 4px 6px; text-align: center; }
+  div { font-size: 13px; line-height: 1.6; color: var(--rolodex-text, #1E2328); } }

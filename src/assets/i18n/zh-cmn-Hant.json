@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Loops",
     "tab.reminders": "Reminders",
-    "capture.placeholder": "One sentence: who + what…",
+    "capture.placeholder": "一句話：誰或什麼，加上那件事。「就場地回覆 Ada」「15 號前幫汽車險續保」。",
     "capture.button": "Loop",
     "sendDraft": "Send draft",
     "waitUntil": "Wait until…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "要回覆 Priya 週四的時段",
     "capture.sample2": "答應了 Tunde 要把資料寄過去",
-    "capture.sample3": "該跟 Amara 喝杯咖啡了",
+    "capture.sample3": "15 號前幫汽車險續保",
     "drop.reason1": "時機不對——以後再看",
     "drop.reason2": "說實話，不太值得",
     "drop.reason3": "關係淡了",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "從一件你一直想做卻搁著的事開始 — 一個要聯絡的人，一個要做的決定，一份要提交的續約。定下節奏，把璨閉上。",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "把聯絡人匯出為 .vcf 檔案 - 從 Google 通訊錄或網頁版 iCloud。",
     "add.vcfStep2": "把檔案儲存到本機（檔案或下載）。",
     "add.vcfStep3": "點下方的匯入門，選擇該檔案。",
-    "add.sysNote": "如果手機隨後顯示聯絡人「將與 zyppar.com 共享」的提示——那是手機對任何讀取聯絡人的網站的統一說法。你選定的人只保存在這台手機的 LoopKeeper 裡；我們永遠不會收到副本。"
+    "add.sysNote": "如果手機隨後顯示聯絡人「將與 zyppar.com 共享」的提示——那是手機對任何讀取聯絡人的網站的統一說法。你選定的人只保存在這台手機的 LoopKeeper 裡；我們永遠不會收到副本。",
+    "walk.chipDecide": "一件我一直下不了決心的事",
+    "walk.chipShowUp": "一個我必須到場的地方",
+    "stack.title": "搁置堆 · {{n}}",
+    "stack.sub": "搁下的、延誤的、累積的 — 一樣都不會少。",
+    "stack.waiting": "等待中 · {{n}}",
+    "stack.parked": "留給某一天 · {{n}}",
+    "stack.back": "拿回來",
+    "stack.backToast": "{{thing}} 重新回到眼前。",
+    "aboutTxt.tasksLine": "托盤變寬了：循璨現在也承載被搁下、延誤或累積的事 — 一個待做的決定，一份待交的續約，一筆待付的款項 — 有沒有人都可以。聯絡人仍是一等公民；但他們不再是唯一的門。"
   }
 }

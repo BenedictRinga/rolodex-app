@@ -104,7 +104,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Loobiyo",
     "tab.reminders": "Xusuusin",
-    "capture.placeholder": "Hal jumlo: yaa + maxay…",
+    "capture.placeholder": "One sentence: who or what, and the thing. “Reply to Ada about the venue.” “Renew the car insurance before the 15th.”",
     "capture.button": "Loop",
     "sendDraft": "Dir qabyo",
     "waitUntil": "Sug ilaa…",
@@ -301,7 +301,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Waxaan u baahanahay inaan ka jawaabo Priya waqtiga Khamiista",
     "capture.sample2": "Tunde ayaan ballan qaaday inaan soo diro bandhigga",
-    "capture.sample3": "Waa inaan quraarro la cabnaa Amara",
+    "capture.sample3": "Renew the car insurance before the 15th",
     "drop.reason1": "Waqtigu ma habboona — dib ayaan ugu noqonayaa",
     "drop.reason2": "Xaqiiqda ah, ma laha qiimo",
     "drop.reason3": "Xiriirku wuu diiray",
@@ -348,7 +348,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "Start with one thing you keep meaning to do — a person to reach, a decision to make, a renewal to file. Set the rhythm. Close the loop.",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -715,6 +715,15 @@
     "add.vcfStep1": "Ka soo saar xiriiriyeyaashaaga fayl .vcf - laga bilaabo Google Contacts ama iCloud internetka.",
     "add.vcfStep2": "Kaydi faylka telefoonkan (Files ama Downloads).",
     "add.vcfStep3": "Guji albabka soo dejinta hoose, ka dibna dooro faylka.",
-    "add.sysNote": "Haddii telefoonkuu markaas muujo ogeysi sheegaya xiriiriyeyaasha \"la wadaagi doono zyppar.com\" - taasi waa hadalka caadiga ah ee telefoonka wax kasta oo akhriya xiriiriyeyaal. Dadka aad doorato waxay ku dhammaadaan LoopKeeper telefoonkan; naga waxba kama helno."
+    "add.sysNote": "Haddii telefoonkuu markaas muujo ogeysi sheegaya xiriiriyeyaasha \"la wadaagi doono zyppar.com\" - taasi waa hadalka caadiga ah ee telefoonka wax kasta oo akhriya xiriiriyeyaal. Dadka aad doorato waxay ku dhammaadaan LoopKeeper telefoonkan; naga waxba kama helno.",
+    "walk.chipDecide": "A decision I keep not making",
+    "walk.chipShowUp": "Somewhere I must show up",
+    "stack.title": "The Stack · {{n}}",
+    "stack.sub": "Deferred, delayed, stacked up — nothing lost.",
+    "stack.waiting": "Waiting · {{n}}",
+    "stack.parked": "Parked for someday · {{n}}",
+    "stack.back": "Bring it back",
+    "stack.backToast": "{{thing}} is back in the open.",
+    "aboutTxt.tasksLine": "The tray widened: loops now carry tasks deferred, delayed or stacked up — a decision to make, a renewal to file, a payment to send — with or without a person attached. Contacts stay first-class; they are no longer the gate."
   }
 }

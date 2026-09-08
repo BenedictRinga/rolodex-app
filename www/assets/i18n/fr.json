@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Boucles",
     "tab.reminders": "Rappels",
-    "capture.placeholder": "Une phrase : qui + quoi…",
+    "capture.placeholder": "Une phrase : qui ou quoi, et l’affaire. « Répondre à Ada au sujet du lieu ». « Renouveler l’assurance auto avant le 15 ».",
     "capture.button": "Boucle",
     "sendDraft": "Envoyer le brouillon",
     "waitUntil": "Attendre jusqu'à…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "Je dois répondre à Priya pour le créneau de jeudi",
     "capture.sample2": "J'ai promis à Tunde d'envoyer le dossier",
-    "capture.sample3": "On devrait prendre un café avec Amara",
+    "capture.sample3": "Renouveler l’assurance auto avant le 15",
     "drop.reason1": "Mauvais moment — à revoir plus tard",
     "drop.reason2": "Ça n'en vaut pas la peine, honnêtement",
     "drop.reason3": "La relation s'est refroidie",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana !",
     "welcome.intro.kickerReplay": "Bon retour",
     "welcome.intro.title": "LoopKeeper — bouclez la boucle que vous repoussez sans fin",
-    "welcome.intro.copy": "Commencez par une personne que vous voulez joindre. Fixez le rythme. Bouclez la boucle.",
+    "welcome.intro.copy": "Commencez par une chose que vous repoussez depuis longtemps — une personne à joindre, une décision à prendre, un renouvellement à déposer. Donnez le rythme. Bouclez la boucle.",
     "welcome.intro.surprise": "Restez jusqu’à la fin — nous bouclerons une vraie boucle ensemble.",
     "welcome.card.kicker": "01 · La carte",
     "welcome.card.title": "La carte est tout",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "Exportez vos contacts en fichier .vcf — depuis Google Contacts ou iCloud sur le web.",
     "add.vcfStep2": "Enregistrez le fichier sur ce téléphone (Fichiers ou Téléchargements).",
     "add.vcfStep3": "Touchez la porte d'importation ci-dessous et choisissez le fichier.",
-    "add.sysNote": "Si le téléphone affiche ensuite un avis indiquant que les contacts « seront partagés avec zyppar.com » - c'est la formulation standard du téléphone pour tout site qui demande à lire les contacts. Les personnes choisies restent dans LoopKeeper sur ce téléphone ; nous n'en recevons jamais de copie."
+    "add.sysNote": "Si le téléphone affiche ensuite un avis indiquant que les contacts « seront partagés avec zyppar.com » - c'est la formulation standard du téléphone pour tout site qui demande à lire les contacts. Les personnes choisies restent dans LoopKeeper sur ce téléphone ; nous n'en recevons jamais de copie.",
+    "walk.chipDecide": "Une décision que je ne prends toujours pas",
+    "walk.chipShowUp": "Quelque part où je dois me présenter",
+    "stack.title": "La Pile · {{n}}",
+    "stack.sub": "Différé, retardé, accumulé — rien ne se perd.",
+    "stack.waiting": "En attente · {{n}}",
+    "stack.parked": "Garé pour un jour · {{n}}",
+    "stack.back": "Le ramener",
+    "stack.backToast": "{{thing}} est de retour à l’air libre.",
+    "aboutTxt.tasksLine": "Le plateau s’est élargi : les boucles portent désormais des tâches différées, retardées ou accumulées — une décision à prendre, un renouvellement à déposer, un paiement à envoyer — avec ou sans personne attachée. Les contacts restent de premier plan ; ils ne sont plus le sas."
   }
 }

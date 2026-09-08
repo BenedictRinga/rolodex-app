@@ -52,6 +52,18 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsError = '';
   statsUpdatedLabel = '';
   private statsTimer: any = null;
+
+  // 2026-09-02 BUILD 181 (founder directive): the contactless redesign framework
+  // (loopkeeper redesign.txt) joins the investors portal as a segmented panel.
+  redesignTab = 'why';
+  redesignTabs = [
+    { id: 'why', label: 'Why' },
+    { id: 'threat', label: 'Threat' },
+    { id: 'loop', label: 'The Loop' },
+    { id: 'product', label: 'Zero-contact product' },
+    { id: 'wilder', label: 'Wilder' },
+    { id: 'ship', label: 'Ship' },
+  ];
   // 2026-08-24 WHAT CHANGED: snapshot of the last portal visit, compared on load.
   private readonly SNAPSHOT_KEY = 'loopkeeper_investor_snapshot';
   statsDelta: any = null;

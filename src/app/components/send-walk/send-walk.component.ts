@@ -75,6 +75,13 @@ export class SendWalkComponent implements OnInit, OnChanges {
     { kind: 'owed-reply', key: 'loopkeeper.walk.chipReply' },
     { kind: 'promise', key: 'loopkeeper.walk.chipPromise' },
     { kind: 'check-in', key: 'loopkeeper.walk.chipCheckin' },
+    // 2026-09-08 BUILD 181 THE SECRETARY SPREAD: the walk stays person-anchored
+    // (slide 1 arms a contact), but two of its five intentions are now
+    // task-shaped — the deferred decision, the place to show up. Subject-less
+    // tasks (renew the insurance, pay the deposit) live on the shelf's free
+    // capture, where no contact is needed at all.
+    { kind: 'decide', key: 'loopkeeper.walk.chipDecide' },
+    { kind: 'show-up', key: 'loopkeeper.walk.chipShowUp' },
   ];
 
   constructor(

@@ -182,7 +182,7 @@
     "tab.chat": "Assistant",
     "tab.loops": "Loops",
     "tab.reminders": "Reminders",
-    "capture.placeholder": "One sentence: who + what…",
+    "capture.placeholder": "ひと文で：誰か・何かと、その用事。「Adaに会場について返信する」「15日までに自動車保険を更新する」",
     "capture.button": "Loop",
     "sendDraft": "Send draft",
     "waitUntil": "Wait until…",
@@ -379,7 +379,7 @@
     "review.merged": "Merged ✓",
     "capture.sample1": "木曜の枠についてPriyaに返事しないと",
     "capture.sample2": "Tundeに資料を送ると約束していた",
-    "capture.sample3": "Amaraとコーヒーでも飲もう",
+    "capture.sample3": "15日までに自動車保険を更新する",
     "drop.reason1": "今はタイミングが悪い — 後で見直す",
     "drop.reason2": "正直、そこまでの価値はない",
     "drop.reason3": "関係が冷めてしまった",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
-    "welcome.intro.copy": "Start with one person you keep meaning to contact. Set the rhythm. Close the loop.",
+    "welcome.intro.copy": "ずっとやろうと思っていたことを47ひとつから — 届けたい人、決めかねていること、提出を待つ更新。リズムを決めて、輪を閉じる。",
     "welcome.intro.surprise": "Stay to the end — we’ll close one real loop together.",
     "welcome.card.kicker": "01 · The card",
     "welcome.card.title": "The card is everything",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "連絡先を.vcfファイルとして書き出します - Google ContactsまたはWeb版iCloudから。",
     "add.vcfStep2": "ファイルをこの携帯に保存します（ファイルまたはダウンロード）。",
     "add.vcfStep3": "下のインポートドアをタップし、ファイルを選択します。",
-    "add.sysNote": "その後、電話に「連絡先が zyppar.com と共有されます」という通知が表示されても、それは連絡先の読み取りを求めるすべてのサイトに表示される端末の標準文言です。選んだ人はこの端末の LoopKeeper の中だけに残り、こちらにコピーが届くことはありません。"
+    "add.sysNote": "その後、電話に「連絡先が zyppar.com と共有されます」という通知が表示されても、それは連絡先の読み取りを求めるすべてのサイトに表示される端末の標準文言です。選んだ人はこの端末の LoopKeeper の中だけに残り、こちらにコピーが届くことはありません。",
+    "walk.chipDecide": "ずっと決めかねていること",
+    "walk.chipShowUp": "どうしても行かなくてはならない場所",
+    "stack.title": "積みおき · {{n}}",
+    "stack.sub": "先送り、遅れ、積み重なり — なくすものはありません。",
+    "stack.waiting": "待機中 · {{n}}",
+    "stack.parked": "いつかのために保管 · {{n}}",
+    "stack.back": "呼び戻す",
+    "stack.backToast": "{{thing}} がまた前に戻りました。",
+    "aboutTxt.tasksLine": "受け皿が広がりました：ループは今、先送りにされた・遅れた・積み重なった用事も運びます — 決めること、更新を提出すること、支払うこと — 人が付いていてもいなくても。連絡先は引続き主役です。もう門ではありません。"
   }
 }

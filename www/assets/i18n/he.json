@@ -182,7 +182,7 @@
     "tab.chat": "עוזר",
     "tab.loops": "לולאות",
     "tab.reminders": "תזכורות",
-    "capture.placeholder": "משפט אחד: מי + מה…",
+    "capture.placeholder": "One sentence: who or what, and the thing. “Reply to Ada about the venue.” “Renew the car insurance before the 15th.”",
     "capture.button": "לולאה",
     "sendDraft": "שלח טיוטה",
     "waitUntil": "לדחות עד…",
@@ -379,7 +379,7 @@
     "review.merged": "מוזג ✓",
     "capture.sample1": "צריך לענות לפריה על מקום ביום חמישי",
     "capture.sample2": "הבטחתי לטונדה לשלוח את המצגת",
-    "capture.sample3": "כדאי לצאת לקפה עם אמרה",
+    "capture.sample3": "Renew the car insurance before the 15th",
     "drop.reason1": "לא הזמן — לחזור אל זה מאוחר יותר",
     "drop.reason2": "בכנות — לא שווה",
     "drop.reason3": "הקשר התקרר",
@@ -426,7 +426,7 @@
     "welcome.intro.kicker": "Karibu sana!",
     "welcome.intro.kickerReplay": "ברוכים הבאים שוב",
     "welcome.intro.title": "LoopKeeper — סגרו את הלולאה שתמיד התכוונתם לסגור",
-    "welcome.intro.copy": "התחילו מאדם אחד שאליו תמיד התכוונתם לפנות. קבעו קצב. סגרו את הלולאה.",
+    "welcome.intro.copy": "Start with one thing you keep meaning to do — a person to reach, a decision to make, a renewal to file. Set the rhythm. Close the loop.",
     "welcome.intro.surprise": "הישארו עד הסוף — נסגור יחד לולאה אמיתית אחת.",
     "welcome.card.kicker": "01 · הכרטיס",
     "welcome.card.title": "הכרטיס הוא הכול",
@@ -793,6 +793,15 @@
     "add.vcfStep1": "ייצאו את אנשי הקשר כקובץ .vcf - מ-Google Contacts או iCloud בדפדפן.",
     "add.vcfStep2": "שמרו את הקובץ בטלפון הזה (קבצים או הורדות).",
     "add.vcfStep3": "הקישו על דלת היבוא למטה ובחרו בקובץ.",
-    "add.sysNote": "אם הטלפון יציג אז הודעה שאנשי הקשר \"ישותפו עם zyppar.com\" - זו הניסוח הסטנדרטי של הטלפון לכל אתר שמבקש לקרוא אנשי קשר. האנשים שתבחרו נשארים ב-LoopKeeper בטלפון הזה; אנחנו אף פעם לא מקבלים עותק."
+    "add.sysNote": "אם הטלפון יציג אז הודעה שאנשי הקשר \"ישותפו עם zyppar.com\" - זו הניסוח הסטנדרטי של הטלפון לכל אתר שמבקש לקרוא אנשי קשר. האנשים שתבחרו נשארים ב-LoopKeeper בטלפון הזה; אנחנו אף פעם לא מקבלים עותק.",
+    "walk.chipDecide": "A decision I keep not making",
+    "walk.chipShowUp": "Somewhere I must show up",
+    "stack.title": "The Stack · {{n}}",
+    "stack.sub": "Deferred, delayed, stacked up — nothing lost.",
+    "stack.waiting": "Waiting · {{n}}",
+    "stack.parked": "Parked for someday · {{n}}",
+    "stack.back": "Bring it back",
+    "stack.backToast": "{{thing}} is back in the open.",
+    "aboutTxt.tasksLine": "The tray widened: loops now carry tasks deferred, delayed or stacked up — a decision to make, a renewal to file, a payment to send — with or without a person attached. Contacts stay first-class; they are no longer the gate."
   }
 }
