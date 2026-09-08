@@ -365,3 +365,16 @@
 }
 /* The garden's typed line reuses .sw-line; nudge its rhythm inside the block. */
 .sw-garden .sw-line { margin: 10px 0 4px; }
+
+/* 2026-09-08 BUILD 183 SELF LOOPS - the no-arming door under the garden:
+   two quiet gray taps (a decision, a place to show up). Quieter than the
+   teal pills on purpose - the shyest entry in the whole walk. */
+.sw-selfrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 2px 14px; }
+.sw-self {
+  display: inline-flex; align-items: center;
+  border: 1px solid rgba(128, 128, 128, .28);
+  background: rgba(128, 128, 128, .07);
+  color: inherit; font-size: 12.5px; font-weight: 600;
+  border-radius: 999px; padding: 7px 13px; cursor: pointer; opacity: .8;
+}
+.sw-self:active { opacity: 1; border-color: rgba(45, 212, 191, .5); color: #2dd4bf; }

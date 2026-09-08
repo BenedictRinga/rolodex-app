@@ -50,6 +50,17 @@
         {{ 'loopkeeper.walk.nameGo' | translate }}
       </button>
     </div>
+    <!-- 2026-09-08 BUILD 183 SELF LOOPS: the no-arming door. Two quiet taps —
+         a decision, a place to show up — as PURE self-loops (no subject at
+         all, b181's person-less loop), straight to the words. -->
+    <div class="sw-selfrow">
+      <button class="sw-self" type="button" (click)="selfTap('decide')">
+        {{ 'loopkeeper.walk.chipDecide' | translate }}
+      </button>
+      <button class="sw-self" type="button" (click)="selfTap('show-up')">
+        {{ 'loopkeeper.walk.chipShowUp' | translate }}
+      </button>
+    </div>
     <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the inline chooser is
          retired — "Not this one" opens the contacts modal (pick mode), the
          roomy sheet design, instead of a cramped list under the card. -->

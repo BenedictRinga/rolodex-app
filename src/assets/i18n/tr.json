@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "Tepsi genişledi: döngüler artık ertelenmiş, gecikmiş ya da birikmiş işleri de taşıyor — verilecek bir karar, gönderilecek bir yenileme, yapılacak bir ödeme — kişili ya da kişisiz. Kişiler birinci sınıf kalıyor; artık kapı değiller.",
     "walk.garden": "Döngülerinizden",
     "walk.handlePh": "Annenin doktoru, okul, sigorta…",
-    "walk.nameGo": "Başla"
+    "walk.nameGo": "Başla",
+    "garden.title": "Bahçe · {{n}}",
+    "garden.sub": "Kendi konularınız, döngülerinizden. Birini yeniden adlandırın — veya birleştirmek için başkasının adını verin.",
+    "garden.renameBtn": "Yeniden adlandır",
+    "garden.save": "Kaydet",
+    "garden.cancel": "İptal",
+    "garden.renamedToast": "{{n}} döngü taşındı: \"{{from}}\" artık \"{{to}}\"."
   }
 }

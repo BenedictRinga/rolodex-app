@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "托盘变宽了：循环现在也承载被搁下、延误或堆积的事 — 一个待做的决定，一份待交的续期，一笔待付的款项 — 有没有人都可以。联系人仍是一等公民；但他们不再是唯一的门。",
     "walk.garden": "来自你的循环",
     "walk.handlePh": "妈妈的医生、学校、保险…",
-    "walk.nameGo": "开始"
+    "walk.nameGo": "开始",
+    "garden.title": "花园 · {{n}}",
+    "garden.sub": "你自己的主题，来自你的循环。重命名一个 — 或改为另一个的名字以合并。",
+    "garden.renameBtn": "重命名",
+    "garden.save": "保存",
+    "garden.cancel": "取消",
+    "garden.renamedToast": "已移动 {{n}} 个循环：\"{{from}}\" 现在是\"{{to}}\"。"
   }
 }

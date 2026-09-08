@@ -97,6 +97,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   // (snoozed with a wake date) and what's parked (someday), kept in view.
   stack: { waiting: Loop[]; parked: Loop[]; dueCount: number } = { waiting: [], parked: [], dueCount: 0 };
   stackOpen = false;
+  // 2026-09-08 BUILD 183 GARDEN TENDING — the user's own loop-history
+  // subjects, renamable/mergeable in place (renameHandle does both).
+  garden: Array<{ handle: string; open: number }> = [];
+  gardenOpen = false;
+  renamingHandle = '';
+  renameValue = '';
   nudgesDue = 0;
   /** 2026-08-28 BUILD 128: the ids of loops the algo is prompting RIGHT NOW —
    *  rows glow, the bar counts them, and opening one is the answer. */
@@ -339,6 +345,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.closed = this.loops.recentlyClosed();
     this.counts = this.loops.counts();
     this.stack = this.loops.theStack(); // BUILD 181: deferred + parked stay in view
+    this.garden = this.loops.handleGarden(); // BUILD 183: tending stays fresh
     // 2026-08-30 BUILD 153 (founder: "did you restore Search when that
     // expansion is retracted, or nullified"): a selected loop that has left
     // the open lists (sent, closed, dropped, or now waiting) must retract the
@@ -1060,5 +1067,26 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     this.loops.bringBack(l.id);
     void this.refresh();
     void this.alerts.showToast(this.tr('loopkeeper.stack.backToast', { thing: this.rowName(l) }), 2400);
+  }
+
+  /** BUILD 183: rename a garden handle (a rename onto an existing handle
+   *  MERGES the two — loops.renameHandle returns how many loops moved). */
+  startRename(handle: string): void {
+    this.renamingHandle = handle;
+    this.renameValue = handle;
+  }
+
+  cancelRename(): void {
+    this.renamingHandle = '';
+    this.renameValue = '';
+  }
+
+  commitRename(handle: string): void {
+    const to = this.renameValue.trim();
+    if (!to || to.toLowerCase() === handle.toLowerCase()) { this.cancelRename(); return; }
+    const moved = this.loops.renameHandle(handle, to);
+    this.cancelRename();
+    void this.refresh();
+    void this.alerts.showToast(this.tr('loopkeeper.garden.renamedToast', { from: handle, to, n: moved }), 2800);
   }
 }

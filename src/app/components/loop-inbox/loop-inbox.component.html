@@ -234,6 +234,32 @@
       </ng-container>
     </div>
 
+    <!-- ═══ 2026-09-08 BUILD 183 GARDEN TENDING — the user's own subjects, ═══
+         renameable in place; renaming onto an existing handle MERGES the two.
+         One subject, one history — the garden never grows doubles. -->
+    <div class="li-section li-stack" *ngIf="garden.length">
+      <div class="li-section-title li-stack-title" role="button" (click)="gardenOpen = !gardenOpen">
+        {{ 'loopkeeper.garden.title' | translate:{ n: garden.length } }}
+        <span class="li-stack-caret">{{ gardenOpen ? '▾' : '▸' }}</span>
+      </div>
+      <div class="li-stack-sub">{{ 'loopkeeper.garden.sub' | translate }}</div>
+      <ng-container *ngIf="gardenOpen">
+        <div *ngFor="let g of garden" class="li-garden-row">
+          <ng-container *ngIf="renamingHandle !== g.handle">
+            <span class="li-gpill">{{ g.handle }}</span>
+            <span class="li-gopen" *ngIf="g.open">{{ g.open }}</span>
+            <button class="li-grename" type="button" (click)="startRename(g.handle)">{{ 'loopkeeper.garden.renameBtn' | translate }}</button>
+          </ng-container>
+          <ng-container *ngIf="renamingHandle === g.handle">
+            <input class="li-ginput" type="text" [ngModel]="renameValue" (ngModelChange)="renameValue = $event"
+              (keydown.enter)="commitRename(g.handle)" autocomplete="off">
+            <ion-button size="small" fill="outline" (click)="commitRename(g.handle)">{{ 'loopkeeper.garden.save' | translate }}</ion-button>
+            <ion-button size="small" fill="clear" color="medium" (click)="cancelRename()">{{ 'loopkeeper.garden.cancel' | translate }}</ion-button>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
     <!-- // REVEAL-LATER: birthday inbox rows — per-person opt-in lives in the
          Reminders tab; flip BIRTHDAY_ROWS_REVEALED (and add a birthdayRows
          getter reading opted-in contacts) to surface them here.

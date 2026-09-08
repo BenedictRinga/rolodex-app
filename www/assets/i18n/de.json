@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "Das Tablett wurde breiter: Loops tragen jetzt Aufgaben, die aufgeschoben, verzögert oder gestapelt sind — eine Entscheidung zu treffen, eine Verlängerung einzureichen, eine Zahlung zu senden — mit oder ohne Person. Kontakte bleiben selbstverständlich; sie sind nicht mehr die Pforte.",
     "walk.garden": "Aus deinen Loops",
     "walk.handlePh": "Mamas Arzt, die Schule, die Versicherung…",
-    "walk.nameGo": "Starten"
+    "walk.nameGo": "Starten",
+    "garden.title": "Der Garten · {{n}}",
+    "garden.sub": "Deine eigenen Themen, aus deinen Loops. Benenne einen um — oder benenne ihn in einen anderen um, um sie zusammenzulegen.",
+    "garden.renameBtn": "Umbenennen",
+    "garden.save": "Speichern",
+    "garden.cancel": "Abbrechen",
+    "garden.renamedToast": "{{n}} Loop(s) verschoben: \"{{from}}\" heißt jetzt \"{{to}}\"."
   }
 }

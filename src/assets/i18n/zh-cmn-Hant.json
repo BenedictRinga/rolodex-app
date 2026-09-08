@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "托盤變寬了：循璨現在也承載被搁下、延誤或累積的事 — 一個待做的決定，一份待交的續約，一筆待付的款項 — 有沒有人都可以。聯絡人仍是一等公民；但他們不再是唯一的門。",
     "walk.garden": "來自你的循環",
     "walk.handlePh": "媽媽的醫生、學校、保險…",
-    "walk.nameGo": "開始"
+    "walk.nameGo": "開始",
+    "garden.title": "花園 · {{n}}",
+    "garden.sub": "你自己的主題，來自你的循環。重新命名一個 — 或改為另一個的名字以合併。",
+    "garden.renameBtn": "重新命名",
+    "garden.save": "儲存",
+    "garden.cancel": "取消",
+    "garden.renamedToast": "已移動 {{n}} 個循環：\"{{from}}\" 現在是\"{{to}}\"。"
   }
 }

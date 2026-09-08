@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "The tray widened: loops now carry tasks deferred, delayed or stacked up — a decision to make, a renewal to file, a payment to send — with or without a person attached. Contacts stay first-class; they are no longer the gate.",
     "walk.garden": "From your loops",
     "walk.handlePh": "Ma's doctor, the school, the insurance…",
-    "walk.nameGo": "Start"
+    "walk.nameGo": "Start",
+    "garden.title": "The Garden · {{n}}",
+    "garden.sub": "Your own subjects, from your loops. Rename one — or rename it onto another to merge them.",
+    "garden.renameBtn": "Rename",
+    "garden.save": "Save",
+    "garden.cancel": "Cancel",
+    "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\"."
   }
 }

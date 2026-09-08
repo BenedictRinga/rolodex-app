@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "Le plateau s’est élargi : les boucles portent désormais des tâches différées, retardées ou accumulées — une décision à prendre, un renouvellement à déposer, un paiement à envoyer — avec ou sans personne attachée. Les contacts restent de premier plan ; ils ne sont plus le sas.",
     "walk.garden": "De vos boucles",
     "walk.handlePh": "Le médecin de maman, l'école, l'assurance…",
-    "walk.nameGo": "Commencer"
+    "walk.nameGo": "Commencer",
+    "garden.title": "Le jardin · {{n}}",
+    "garden.sub": "Vos propres sujets, issus de vos boucles. Renommez-en un — ou renommez-le vers un autre pour les fusionner.",
+    "garden.renameBtn": "Renommer",
+    "garden.save": "Enregistrer",
+    "garden.cancel": "Annuler",
+    "garden.renamedToast": "{{n}} boucle(s) déplacée(s) : \"{{from}}\" s'appelle désormais \"{{to}}\"."
   }
 }

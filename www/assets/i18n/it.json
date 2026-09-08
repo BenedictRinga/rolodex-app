@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "Il vassoio si è allargato: i loop ora portano anche compiti rinviati, rimandati o accumulati — una decisione da prendere, un rinnovo da presentare, un pagamento da inviare — con o senza una persona. I contatti restano protagonisti; non sono più il varco.",
     "walk.garden": "Dai tuoi loop",
     "walk.handlePh": "Il dottore della mamma, la scuola, l’assicurazione…",
-    "walk.nameGo": "Inizia"
+    "walk.nameGo": "Inizia",
+    "garden.title": "Il giardino · {{n}}",
+    "garden.sub": "I tuoi argomenti, dai tuoi loop. Rinomina uno — o rinominalo su un altro per unirli.",
+    "garden.renameBtn": "Rinomina",
+    "garden.save": "Salva",
+    "garden.cancel": "Annulla",
+    "garden.renamedToast": "{{n}} loop spostati: \"{{from}}\" ora è \"{{to}}\"."
   }
 }

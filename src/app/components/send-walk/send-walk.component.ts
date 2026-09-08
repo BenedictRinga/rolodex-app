@@ -459,6 +459,29 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   /**
+   * 2026-09-08 BUILD 183 SELF LOOPS — the slide-1 door with NO arming at all.
+   * "A decision I keep not making" / "Somewhere I must show up" as PURE
+   * self-loops: person '' (b181's subject-less loop), straight to the words.
+   * The tray's quietest entry — no card, no handle, no sentence needed.
+   */
+  selfTap(kind: LoopKind): void {
+    if (this.busy) return;
+    void this.analytics.trackListStartedOnce('walk');
+    this.armedContact = null;
+    this.armedHandle = '';
+    this.whatInput = '';
+    this.lineOpen = false;
+    this.loop = this.loops.create({
+      person: '',
+      kind,
+      summary: '',
+      stance: 'warm',
+      direction: 'mine',
+    });
+    this.enterWords(true);
+  }
+
+  /**
    * Optional line, Enter commits — parseCapture with the armed contact.
    * 2026-09-08 BUILD 182: the handle the user NAMED wins over whatever the
    * sentence re-extracts ("her", "them") — the b182 Garden rule. With nothing

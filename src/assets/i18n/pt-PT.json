@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "A bandeja alargou-se: os ciclos agora transportam tarefas adiadas, atrasadas ou acumuladas — uma decisão a tomar, uma renovação a tratar, um pagamento a enviar — com ou sem pessoa associada. Os contactos continuam em primeiro plano; deixaram de ser o portão.",
     "walk.garden": "Dos teus loops",
     "walk.handlePh": "O médico da mãe, a escola, o seguro…",
-    "walk.nameGo": "Começar"
+    "walk.nameGo": "Começar",
+    "garden.title": "O jardim · {{n}}",
+    "garden.sub": "Os teus próprios assuntos, dos teus loops. Renomeia um — ou renomeia-o sobre outro para os fundir.",
+    "garden.renameBtn": "Renomear",
+    "garden.save": "Guardar",
+    "garden.cancel": "Cancelar",
+    "garden.renamedToast": "{{n}} loop(s) movido(s): \"{{from}}\" agora é \"{{to}}\"."
   }
 }

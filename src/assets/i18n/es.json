@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "La bandeja se ensanchó: los ciclos ahora llevan tareas aplazadas, retrasadas o acumuladas — una decisión que tomar, una renovación que presentar, un pago que enviar — con o sin persona asociada. Los contactos siguen siendo de primera; ya no son la puerta.",
     "walk.garden": "De tus bucles",
     "walk.handlePh": "El médico de mamá, el colegio, el seguro…",
-    "walk.nameGo": "Empezar"
+    "walk.nameGo": "Empezar",
+    "garden.title": "El jardín · {{n}}",
+    "garden.sub": "Tus propios asuntos, de tus bucles. Renombra uno — o renómbralo sobre otro para fusionarlos.",
+    "garden.renameBtn": "Renombrar",
+    "garden.save": "Guardar",
+    "garden.cancel": "Cancelar",
+    "garden.renamedToast": "{{n}} bucle(s) movido(s): \"{{from}}\" ahora es \"{{to}}\"."
   }
 }

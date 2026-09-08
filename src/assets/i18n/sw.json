@@ -805,6 +805,12 @@
     "aboutTxt.tasksLine": "Bakuli la kazi limepanuka: mizunguko sasa hubeba kazi zilizoahirishwa, zilizochelewa au zilizorundwa — uamuzi wa kuchukua, kubaliza cha kutuma, malipo ya kutuma — ikiwa na mtu au bila yeye. Mawasiliano yanabaki mbele; hayako tena kama lango.",
     "walk.garden": "Kutoka kwa mizunguko yako",
     "walk.handlePh": "Daktari wa mama, shule, bima…",
-    "walk.nameGo": "Anza"
+    "walk.nameGo": "Anza",
+    "garden.title": "Bustani · {{n}}",
+    "garden.sub": "Mada zako binafsi, kutoka kwa mizunguko yako. Ipe jina jingine — au lipe jina la nyingine ili kuunganisha.",
+    "garden.renameBtn": "Badilisha jina",
+    "garden.save": "Hifadhi",
+    "garden.cancel": "Ghairi",
+    "garden.renamedToast": "Mizunguko {{n}} imehamishwa: \"{{from}}\" sasa ni \"{{to}}\"."
   }
 }

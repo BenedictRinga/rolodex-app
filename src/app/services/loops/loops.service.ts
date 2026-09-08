@@ -277,6 +277,26 @@ export class LoopsService {
       .map(({ handle, open }) => ({ handle, open }));
   }
 
+  /** 2026-09-08 BUILD 183 GARDEN TENDING — rename a handle across every loop
+   *  that rides it; if the new name is already a handle, the two MERGE (all
+   *  loops land on the surviving name — one subject, one history). Match folds
+   *  case; the new spelling wins on the records. Returns the number of loops
+   *  moved so the UI can speak honestly ("3 loops moved"). */
+  renameHandle(from: string, to: string): number {
+    const f = String(from || '').trim().toLowerCase();
+    const t = String(to || '').trim();
+    if (!f || !t) return 0;
+    let moved = 0;
+    for (const l of (this.cache || [])) {
+      if (String(l.person || '').trim().toLowerCase() !== f) continue;
+      l.person = t;
+      this.touch(l);
+      moved++;
+    }
+    if (moved) void this.persist();
+    return moved;
+  }
+
   /** Urgency score: owed replies and dying social debts float up.
    *  2026-09-08 BUILD 181: money and deadlines float too; someday sinks by
    *  design — the parked tray must never crowd Today's 3. */
