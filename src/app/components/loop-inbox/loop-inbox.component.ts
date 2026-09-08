@@ -1084,8 +1084,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   commitRename(handle: string): void {
     const to = this.renameValue.trim();
     if (!to || to.toLowerCase() === handle.toLowerCase()) { this.cancelRename(); return; }
+    // BUILD 184: a rename onto a handle that ALREADY exists is a merge —
+    // measured before the move so the analytics speak truth.
+    const merged = this.garden.some(g => String(g.handle || '').trim().toLowerCase() === to.toLowerCase()) ? 1 : 0;
     const moved = this.loops.renameHandle(handle, to);
     this.cancelRename();
+    void this.analytics.track('garden_renamed', { loopsMoved: moved, merged });
     void this.refresh();
     void this.alerts.showToast(this.tr('loopkeeper.garden.renamedToast', { from: handle, to, n: moved }), 2800);
   }

@@ -478,6 +478,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
       stance: 'warm',
       direction: 'mine',
     });
+    void this.analytics.track('self_loop_started'); // BUILD 184: the no-arming door, measured
     this.enterWords(true);
   }
 
