@@ -49,6 +49,13 @@ export class SendWalkComponent implements OnInit, OnChanges {
   whoIndex = 0;
 
   armedContact: any = null;
+  // 2026-09-08 BUILD 182 THE GARDEN PATH: the walk can arm a HANDLE instead of
+  // a deck card — a nickname the user invented ("Ma's doctor", "my decision",
+  // "the school"), grown from their own loop history or typed fresh. A contact
+  // stays first-class; the handle is the door for users who never sync one.
+  armedHandle = '';
+  garden: Array<{ handle: string; open: number }> = [];
+  handleInput = '';
   loop: Loop | null = null;
   private backOfStep3: 1 | 2 = 2;
 
@@ -134,6 +141,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
   // ── Slide 1 · WHO ──────────────────────────────────────────────────────────
 
   private async rebuildWho(): Promise<void> {
+    // 2026-09-08 BUILD 182: the garden grows alongside the Who — pills from the
+    // user's own loop history, whether or not a deck stands behind them.
+    this.garden = this.loops.handleGarden();
+    this.handleInput = '';
     const picks = await this.loops.todaysThree();
     const seen = new Set<string>();
     const queue: Array<{ contact: any; loop?: Loop }> = [];
@@ -203,6 +214,47 @@ export class SendWalkComponent implements OnInit, OnChanges {
       || this.tr('loopkeeper.t.them');
   }
 
+  /** BUILD 182: garden pills for slide 1 — the on-screen Who card is already
+   *  offered above, so it never doubles as a pill. */
+  get gardenPills(): Array<{ handle: string; open: number }> {
+    const who = String(this.whoName || '').trim().toLowerCase();
+    return this.garden.filter(g => g.handle && g.handle.toLowerCase() !== who);
+  }
+
+  // ── BUILD 182 · THE GARDEN PATH ────────────────────────────────────────────
+  // Arm a handle (a garden pill, or one typed fresh). An open loop for that
+  // subject lands straight on the words; otherwise the thing slide arms it.
+  // A handle can be a person, a place, or a thing — "my decision" is as
+  // welcome as "Ma's doctor". It never leaves this phone.
+
+  armHandle(handle: string): void {
+    const h = String(handle || '').trim();
+    if (!h) return;
+    void this.analytics.trackListStartedOnce('walk');
+    const open = this.loops.openMine().find(l => String(l.person || '').trim().toLowerCase() === h.toLowerCase());
+    if (open) { this.pickLoop(open); return; }
+    this.armedContact = null;
+    this.armedHandle = h;
+    this.whatInput = '';
+    this.lineOpen = false;
+    this.editingWords = false;
+    this.moreOpen = false;
+    this.backOfStep3 = 2;
+    this.go(2);
+  }
+
+  onHandleEnter(ev: KeyboardEvent): void {
+    ev.preventDefault();
+    this.commitHandle();
+  }
+
+  commitHandle(): void {
+    const h = this.handleInput.trim();
+    if (!h) return;
+    this.handleInput = '';
+    this.armHandle(h);
+  }
+
   /** 2026-09-01 BUILD 179 (founder): the door leads to the add sheet now, not
    *  to a second deck card — so it exists whenever a Who stands armed, even
    *  on a one-card or demo-only deck (that is exactly the first-timer). */
@@ -254,6 +306,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // has begun — logged once ever per device, whatever door it came through.
     if (!item.contact?.isMockData) void this.analytics.trackListStartedOnce('walk');
     this.armedContact = item.contact;
+    this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
     this.backOfStep3 = 2;
@@ -293,6 +346,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
   mine(): void {
     this.loop = null;
     this.armedContact = null;
+    this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
     this.editingWords = false;
@@ -307,7 +361,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   pickLoop(l: Loop, contact?: any): void {
     this.loop = l;
-    this.armedContact = contact || this.cardFor(l);
+    // 2026-09-08 BUILD 182: a loop with no deck card behind it arms its subject
+    // as a HANDLE — "my decision" walks exactly like "Ma's doctor".
+    this.armedContact = contact || this.cardFor(l) || null;
+    this.armedHandle = this.armedContact ? '' : String(l.person || '').trim();
     this.backOfStep3 = 1;
     this.loopOpened.emit(l.id);
     this.enterWords(false);
@@ -331,6 +388,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
       const open = this.openLoopFor(contact);
       if (open) { this.pickLoop(open, contact); return; }
       this.armedContact = contact;
+      this.armedHandle = '';
       this.whatInput = '';
       this.lineOpen = false;
       this.backOfStep3 = 2;
@@ -341,6 +399,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
   backToWho(): void {
     this.loop = null;
     this.armedContact = null;
+    this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
     this.editingWords = false;
@@ -352,40 +411,69 @@ export class SendWalkComponent implements OnInit, OnChanges {
   // ── Slide 2 · THE THING ────────────────────────────────────────────────────
 
   armedName(): string {
-    return String(this.armedContact?.name?.display || '').trim() || this.tr('loopkeeper.t.them');
+    // 2026-09-08 BUILD 182: the thing slide speaks either arming — a deck card
+    // OR a garden handle ("my decision" names itself).
+    return String(this.armedContact?.name?.display || this.armedHandle || '').trim()
+      || this.tr('loopkeeper.t.them');
   }
 
   openLine(): void { this.lineOpen = true; }
 
-  /** Tap a chip — the loop is born, structured. Chime #1. */
+  /**
+   * Tap a chip — the loop is born, structured. Chime #1.
+   * 2026-09-08 BUILD 182: the counterparty is a CONTACT *or* a HANDLE —
+   * "A decision I keep not making" armed at the handle "my decision" walks
+   * exactly like a reply owed to a deck card. No deck card is ever required.
+   */
   chipTap(kind: LoopKind): void {
-    if (this.busy || !this.armedContact) return;
-    const c = this.armedContact;
+    if (this.busy || (!this.armedContact && !this.armedHandle)) return;
     const summary = this.whatInput.trim();
-    const promise = kind === 'promise' ? (this.loops.extractPromiseFromContact(c) || summary || undefined) : undefined;
-    this.loop = this.loops.create({
-      person: this.armedName(),
-      kind,
-      summary,
-      stance: kind === 'owed-reply' ? 'overdue-apology' : 'warm',
-      direction: 'mine',
-      sourceContactId: String(c?.contactId || '') || undefined,
-      relation: this.whereOf(c) || undefined,
-      lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
-      promise,
-    });
+    if (this.armedContact) {
+      const c = this.armedContact;
+      const promise = kind === 'promise' ? (this.loops.extractPromiseFromContact(c) || summary || undefined) : undefined;
+      this.loop = this.loops.create({
+        person: this.armedName(),
+        kind,
+        summary,
+        stance: kind === 'owed-reply' ? 'overdue-apology' : 'warm',
+        direction: 'mine',
+        sourceContactId: String(c?.contactId || '') || undefined,
+        relation: this.whereOf(c) || undefined,
+        lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
+        promise,
+      });
+    } else {
+      // The handle path: no card, no relation — the nickname the user chose
+      // IS the subject. A decision or a place arms here as happily as a person.
+      this.loop = this.loops.create({
+        person: this.armedHandle,
+        kind,
+        summary,
+        stance: kind === 'owed-reply' ? 'overdue-apology' : 'warm',
+        direction: 'mine',
+        lastTouchAt: undefined,
+      });
+    }
     this.whatInput = '';
     this.enterWords(true);
   }
 
-  /** Optional line, Enter commits — parseCapture with the armed contact. */
+  /**
+   * Optional line, Enter commits — parseCapture with the armed contact.
+   * 2026-09-08 BUILD 182: the handle the user NAMED wins over whatever the
+   * sentence re-extracts ("her", "them") — the b182 Garden rule. With nothing
+   * armed the parse stands alone: a subject-less capture ("Renew the car
+   * insurance") is a first-class loop since BUILD 181.
+   */
   commitWhat(): void {
     const sentence = this.whatInput.trim();
     if (!sentence || this.busy) return;
     this.busy = true;
     try {
       const contact = this.armedContact || undefined;
-      this.loop = this.loops.create(this.loops.parseCapture(sentence, contact));
+      const parsed = this.loops.parseCapture(sentence, contact);
+      if (this.armedHandle) parsed.person = this.armedHandle;
+      this.loop = this.loops.create(parsed);
       this.whatInput = '';
       this.enterWords(true);
     } finally {
@@ -543,6 +631,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
   nextOne(): void {
     this.loop = null;
     this.armedContact = null;
+    this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
     this.editingWords = false;

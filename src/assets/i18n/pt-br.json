@@ -802,6 +802,9 @@
     "stack.parked": "Estacionado para um dia · {{n}}",
     "stack.back": "Trazê-lo de volta",
     "stack.backToast": "{{thing}} está de volta à vista.",
-    "aboutTxt.tasksLine": "A bandeja alargou: os ciclos agora carregam tarefas adiadas, atrasadas ou acumuladas — uma decisão a tomar, uma renovação a protocolar, um pagamento a enviar — com ou sem pessoa ligada. Os contatos continuam em primeiro lugar; deixaram de ser o portão."
+    "aboutTxt.tasksLine": "A bandeja alargou: os ciclos agora carregam tarefas adiadas, atrasadas ou acumuladas — uma decisão a tomar, uma renovação a protocolar, um pagamento a enviar — com ou sem pessoa ligada. Os contatos continuam em primeiro lugar; deixaram de ser o portão.",
+    "walk.garden": "Dos seus loops",
+    "walk.handlePh": "O médico da mamãe, a escola, o seguro…",
+    "walk.nameGo": "Começar"
   }
 }

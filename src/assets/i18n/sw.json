@@ -802,6 +802,9 @@
     "stack.parked": "Imewekwa pembeni kwa siku nyingine · {{n}}",
     "stack.back": "Irudishe",
     "stack.backToast": "{{thing}} imerudi wazi.",
-    "aboutTxt.tasksLine": "Bakuli la kazi limepanuka: mizunguko sasa hubeba kazi zilizoahirishwa, zilizochelewa au zilizorundwa — uamuzi wa kuchukua, kubaliza cha kutuma, malipo ya kutuma — ikiwa na mtu au bila yeye. Mawasiliano yanabaki mbele; hayako tena kama lango."
+    "aboutTxt.tasksLine": "Bakuli la kazi limepanuka: mizunguko sasa hubeba kazi zilizoahirishwa, zilizochelewa au zilizorundwa — uamuzi wa kuchukua, kubaliza cha kutuma, malipo ya kutuma — ikiwa na mtu au bila yeye. Mawasiliano yanabaki mbele; hayako tena kama lango.",
+    "walk.garden": "Kutoka kwa mizunguko yako",
+    "walk.handlePh": "Daktari wa mama, shule, bima…",
+    "walk.nameGo": "Anza"
   }
 }

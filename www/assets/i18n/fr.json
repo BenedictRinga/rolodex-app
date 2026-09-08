@@ -802,6 +802,9 @@
     "stack.parked": "Garé pour un jour · {{n}}",
     "stack.back": "Le ramener",
     "stack.backToast": "{{thing}} est de retour à l’air libre.",
-    "aboutTxt.tasksLine": "Le plateau s’est élargi : les boucles portent désormais des tâches différées, retardées ou accumulées — une décision à prendre, un renouvellement à déposer, un paiement à envoyer — avec ou sans personne attachée. Les contacts restent de premier plan ; ils ne sont plus le sas."
+    "aboutTxt.tasksLine": "Le plateau s’est élargi : les boucles portent désormais des tâches différées, retardées ou accumulées — une décision à prendre, un renouvellement à déposer, un paiement à envoyer — avec ou sans personne attachée. Les contacts restent de premier plan ; ils ne sont plus le sas.",
+    "walk.garden": "De vos boucles",
+    "walk.handlePh": "Le médecin de maman, l'école, l'assurance…",
+    "walk.nameGo": "Commencer"
   }
 }

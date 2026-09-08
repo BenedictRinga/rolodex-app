@@ -28,6 +28,28 @@
     <button *ngIf="who && canSkip" class="sw-ghost" type="button" (click)="notThisOne()">
       {{ 'loopkeeper.walk.notThis' | translate }}
     </button>
+    <!-- 2026-09-08 BUILD 182 THE GARDEN PATH: beneath the deck lead, the garden
+         — pills grown from the user's OWN loop history (a person, a place, a
+         thing), plus one typed line for a subject nobody has decked. The deck
+         stays first-class; this is the door for everyone else. Always shown on
+         an empty deck: a user who never syncs contacts can still walk. -->
+    <div *ngIf="gardenPills.length || !who" class="sw-garden">
+      <div *ngIf="gardenPills.length" class="sw-garden-label">{{ 'loopkeeper.walk.garden' | translate }}</div>
+      <div *ngIf="gardenPills.length" class="sw-garden-row">
+        <button *ngFor="let g of gardenPills" class="sw-gpill" type="button" (click)="armHandle(g.handle)">
+          {{ g.handle }}<span *ngIf="g.open" class="sw-gopen">{{ g.open }}</span>
+        </button>
+      </div>
+      <input class="sw-line" type="text"
+        [ngModel]="handleInput"
+        (ngModelChange)="handleInput = $event"
+        [placeholder]="'loopkeeper.walk.handlePh' | translate"
+        autocomplete="off"
+        (keydown.enter)="onHandleEnter($event)">
+      <button *ngIf="handleInput.trim()" class="sw-ghost" type="button" (click)="commitHandle()">
+        {{ 'loopkeeper.walk.nameGo' | translate }}
+      </button>
+    </div>
     <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the inline chooser is
          retired — "Not this one" opens the contacts modal (pick mode), the
          roomy sheet design, instead of a cramped list under the card. -->

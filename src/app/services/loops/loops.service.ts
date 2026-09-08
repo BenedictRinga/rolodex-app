@@ -254,6 +254,29 @@ export class LoopsService {
     void this.persist();
   }
 
+  /** 2026-09-08 BUILD 182 THE GARDEN PATH — ported from the b182 contactless
+   *  line (rolodex-app), now serving the hybrid walk. Distinct subjects from
+   *  the user's OWN loop history — a person, a place, or a thing ("Ma's
+   *  doctor", "the school", "my decision"); the pill count is the open loops
+   *  riding that subject. Never reads the OS address book: the garden grows
+   *  only from what the user themselves has looped about. */
+  handleGarden(): Array<{ handle: string; open: number }> {
+    const counts = new Map<string, { handle: string; open: number; at: number }>();
+    for (const l of (this.cache || [])) {
+      const h = String(l.person || '').trim();
+      if (!h || h === 'Someone' || h === 'Unnamed') continue;
+      const k = h.toLowerCase();
+      const cur = counts.get(k) || { handle: h, open: 0, at: 0 };
+      if (l.status === 'open') cur.open++;
+      cur.at = Math.max(cur.at, l.updatedAt || 0);
+      counts.set(k, cur);
+    }
+    return [...counts.values()]
+      .sort((a, b) => (b.open - a.open) || (b.at - a.at))
+      .slice(0, 8)
+      .map(({ handle, open }) => ({ handle, open }));
+  }
+
   /** Urgency score: owed replies and dying social debts float up.
    *  2026-09-08 BUILD 181: money and deadlines float too; someday sinks by
    *  design — the parked tray must never crowd Today's 3. */

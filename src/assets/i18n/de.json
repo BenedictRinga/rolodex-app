@@ -802,6 +802,9 @@
     "stack.parked": "Geparkt für irgendwann · {{n}}",
     "stack.back": "Zurückholen",
     "stack.backToast": "{{thing}} ist wieder offen auf dem Tisch.",
-    "aboutTxt.tasksLine": "Das Tablett wurde breiter: Loops tragen jetzt Aufgaben, die aufgeschoben, verzögert oder gestapelt sind — eine Entscheidung zu treffen, eine Verlängerung einzureichen, eine Zahlung zu senden — mit oder ohne Person. Kontakte bleiben selbstverständlich; sie sind nicht mehr die Pforte."
+    "aboutTxt.tasksLine": "Das Tablett wurde breiter: Loops tragen jetzt Aufgaben, die aufgeschoben, verzögert oder gestapelt sind — eine Entscheidung zu treffen, eine Verlängerung einzureichen, eine Zahlung zu senden — mit oder ohne Person. Kontakte bleiben selbstverständlich; sie sind nicht mehr die Pforte.",
+    "walk.garden": "Aus deinen Loops",
+    "walk.handlePh": "Mamas Arzt, die Schule, die Versicherung…",
+    "walk.nameGo": "Starten"
   }
 }

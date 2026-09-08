@@ -802,6 +802,9 @@
     "stack.parked": "İlerisi için bırakıldı · {{n}}",
     "stack.back": "Geri getir",
     "stack.backToast": "{{thing}} yeniden masada.",
-    "aboutTxt.tasksLine": "Tepsi genişledi: döngüler artık ertelenmiş, gecikmiş ya da birikmiş işleri de taşıyor — verilecek bir karar, gönderilecek bir yenileme, yapılacak bir ödeme — kişili ya da kişisiz. Kişiler birinci sınıf kalıyor; artık kapı değiller."
+    "aboutTxt.tasksLine": "Tepsi genişledi: döngüler artık ertelenmiş, gecikmiş ya da birikmiş işleri de taşıyor — verilecek bir karar, gönderilecek bir yenileme, yapılacak bir ödeme — kişili ya da kişisiz. Kişiler birinci sınıf kalıyor; artık kapı değiller.",
+    "walk.garden": "Döngülerinizden",
+    "walk.handlePh": "Annenin doktoru, okul, sigorta…",
+    "walk.nameGo": "Başla"
   }
 }

@@ -802,6 +802,9 @@
     "stack.parked": "Aparcado para algún día · {{n}}",
     "stack.back": "Traerlo de vuelta",
     "stack.backToast": "{{thing}} vuelve a la vista.",
-    "aboutTxt.tasksLine": "La bandeja se ensanchó: los ciclos ahora llevan tareas aplazadas, retrasadas o acumuladas — una decisión que tomar, una renovación que presentar, un pago que enviar — con o sin persona asociada. Los contactos siguen siendo de primera; ya no son la puerta."
+    "aboutTxt.tasksLine": "La bandeja se ensanchó: los ciclos ahora llevan tareas aplazadas, retrasadas o acumuladas — una decisión que tomar, una renovación que presentar, un pago que enviar — con o sin persona asociada. Los contactos siguen siendo de primera; ya no son la puerta.",
+    "walk.garden": "De tus bucles",
+    "walk.handlePh": "El médico de mamá, el colegio, el seguro…",
+    "walk.nameGo": "Empezar"
   }
 }
