@@ -193,18 +193,6 @@
               </div>
             </div>
 
-            <!-- 2026-09-01 BUILD 169: NO ACCOUNT. The book stays on the phone. -->
-            <div class="pledge-stage" *ngSwitchCase="'privacy'">
-              <div class="pledge-phone">
-                <div class="pledge-card">AW</div>
-              </div>
-              <div class="pledge-facts">
-                <span>{{ 'loopkeeper.welcome.st.factEmail' | translate }}</span>
-                <span>{{ 'loopkeeper.welcome.st.factNumber' | translate }}</span>
-                <span>{{ 'loopkeeper.welcome.st.factSend' | translate }}</span>
-              </div>
-            </div>
-
             <!-- STORAGE: device is the home. Cloud / server are optional, off. -->
             <div class="storage" *ngSwitchCase="'storage'">
               <div class="st-home">{{ 'loopkeeper.welcome.st.devDevice' | translate }}</div>
@@ -278,9 +266,9 @@
     </div>
   </ng-container>
 
-  <!-- 2026-09-01 BUILD 169: the privacy pledge is a slide now, not wallpaper
-       under every step. Unknown companies that slogan "privacy is the product"
-       on every screen look like they are hiding. -->
+  <!-- 2026-09-09 BUILD 186 NO-APOLOGY SWEEP: the BUILD 169 privacy slide is
+       GONE. Defensive assurances read as distrust; the welcome speaks only in
+       what the app DOES (the positive statement lives in Settings, reworded). -->
 
   <!-- 2026-08-27 SHEET-FIT FIX: controls + actions ride in one sticky footer —
        the last rows can never slide out of viewport again. -->

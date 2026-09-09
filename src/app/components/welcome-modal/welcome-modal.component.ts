@@ -80,15 +80,6 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       emphasis: 'loopkeeper.welcome.loopmotto.emphasis',
     },
     {
-      // 2026-09-01 BUILD 169: privacy is a SLIDE, not a footer slogan.
-      // Unknown startups don't get Google's pass on the address book.
-      id: 'privacy',
-      kicker: 'loopkeeper.welcome.privacy.kicker',
-      title: 'loopkeeper.welcome.privacySlideTitle',
-      copy: 'loopkeeper.welcome.privacySlideCopy',
-      emphasis: 'loopkeeper.welcome.privacySlideEmphasis',
-    },
-    {
       id: 'fourws',
       kicker: 'loopkeeper.welcome.fourws.kicker',
       title: 'loopkeeper.welcome.fourws.title',
