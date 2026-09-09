@@ -1093,4 +1093,19 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     void this.refresh();
     void this.alerts.showToast(this.tr('loopkeeper.garden.renamedToast', { from: handle, to, n: moved }), 2800);
   }
+
+  /**
+   * 2026-09-09 BUILD 185 GARDEN DEEP-LINK — tap Walk on a Garden pill and
+   * the walk arms itself at that subject: the surface flips to the walk and
+   * armHandle does the rest (an open loop for that subject resumes straight
+   * on the words; a fresh one starts at the thing). No re-typing the name.
+   */
+  walkHandle(handle: string): void {
+    const h = String(handle || '').trim();
+    if (!h) return;
+    this.setLoopsSurface('walk');
+    void this.analytics.track('garden_pill_walk');
+    // The *ngIf needs one tick to mount the walk before it can be armed.
+    setTimeout(() => this.walkRef?.armHandle(h), 60);
+  }
 }

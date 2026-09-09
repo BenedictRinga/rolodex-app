@@ -807,10 +807,11 @@
     "walk.handlePh": "母の主治医、学校、保険…",
     "walk.nameGo": "はじめる",
     "garden.title": "ガーデン · {{n}}",
-    "garden.sub": "あなた自身のテーマ、ループから。名前を変更 — 既存の名前に変えると統合されます。",
+    "garden.sub": "あなた自身のテーマ、ループから。ひとつをなぞり、名前を変更 — 既存の名前に変えると統合されます。",
     "garden.renameBtn": "名前を変更",
     "garden.save": "保存",
     "garden.cancel": "キャンセル",
-    "garden.renamedToast": "{{n}}件のループを移動：「{{from}}」は「{{to}}」になりました。"
+    "garden.renamedToast": "{{n}}件のループを移動：「{{from}}」は「{{to}}」になりました。",
+    "garden.walkBtn": "なぞる"
   }
 }

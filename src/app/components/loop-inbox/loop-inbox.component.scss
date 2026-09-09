@@ -300,3 +300,13 @@
   border: 1px solid rgba(128, 128, 128, .35); border-radius: 10px;
   background: none; color: inherit; font-size: 13.5px; padding: 7px 11px;
 }
+
+/* 2026-09-09 BUILD 185 GARDEN DEEP-LINK - the pill's Walk button: teal text,
+   the garden's primary action; rename (the pen) stays the quiet secondary. */
+.li-gwalk {
+  border: none; background: none; color: #14b8a6;
+  font-size: 12px; font-weight: 800; cursor: pointer; padding: 4px 6px;
+  letter-spacing: .02em;
+}
+.li-gwalk:active { color: #0d9488; }
+.li-gwalk + .li-grename { border-left: 1px solid rgba(128, 128, 128, .2); }

@@ -807,10 +807,11 @@
     "walk.handlePh": "Ma's doctor, the school, the insurance…",
     "walk.nameGo": "Start",
     "garden.title": "The Garden · {{n}}",
-    "garden.sub": "Your own subjects, from your loops. Rename one — or rename it onto another to merge them.",
+    "garden.sub": "Your own subjects, from your loops. Walk one, rename one — or rename it onto another to merge them.",
     "garden.renameBtn": "Rename",
     "garden.save": "Save",
     "garden.cancel": "Cancel",
-    "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\"."
+    "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
+    "garden.walkBtn": "Walk"
   }
 }

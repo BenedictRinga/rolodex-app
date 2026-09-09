@@ -807,10 +807,11 @@
     "walk.handlePh": "媽媽的醫生、學校、保險…",
     "walk.nameGo": "開始",
     "garden.title": "花園 · {{n}}",
-    "garden.sub": "你自己的主題，來自你的循環。重新命名一個 — 或改為另一個的名字以合併。",
+    "garden.sub": "你自己的主題，來自你的循環。走一走其中一個，重新命名一個 — 或改為另一個的名字以合併。",
     "garden.renameBtn": "重新命名",
     "garden.save": "儲存",
     "garden.cancel": "取消",
-    "garden.renamedToast": "已移動 {{n}} 個循環：\"{{from}}\" 現在是\"{{to}}\"。"
+    "garden.renamedToast": "已移動 {{n}} 個循環：\"{{from}}\" 現在是\"{{to}}\"。",
+    "garden.walkBtn": "走一走"
   }
 }

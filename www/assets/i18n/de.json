@@ -807,10 +807,11 @@
     "walk.handlePh": "Mamas Arzt, die Schule, die Versicherung…",
     "walk.nameGo": "Starten",
     "garden.title": "Der Garten · {{n}}",
-    "garden.sub": "Deine eigenen Themen, aus deinen Loops. Benenne einen um — oder benenne ihn in einen anderen um, um sie zusammenzulegen.",
+    "garden.sub": "Deine eigenen Themen, aus deinen Loops. Geh einen an, benenne einen um — oder benenne ihn in einen anderen um, um sie zusammenzulegen.",
     "garden.renameBtn": "Umbenennen",
     "garden.save": "Speichern",
     "garden.cancel": "Abbrechen",
-    "garden.renamedToast": "{{n}} Loop(s) verschoben: \"{{from}}\" heißt jetzt \"{{to}}\"."
+    "garden.renamedToast": "{{n}} Loop(s) verschoben: \"{{from}}\" heißt jetzt \"{{to}}\".",
+    "garden.walkBtn": "Durchgehen"
   }
 }

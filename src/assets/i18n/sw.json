@@ -807,10 +807,11 @@
     "walk.handlePh": "Daktari wa mama, shule, bima…",
     "walk.nameGo": "Anza",
     "garden.title": "Bustani · {{n}}",
-    "garden.sub": "Mada zako binafsi, kutoka kwa mizunguko yako. Ipe jina jingine — au lipe jina la nyingine ili kuunganisha.",
+    "garden.sub": "Mada zako binafsi, kutoka kwa mizunguko yako. Tembea moja, badilisha jina moja — au lipe jina la nyingine ili kuunganisha.",
     "garden.renameBtn": "Badilisha jina",
     "garden.save": "Hifadhi",
     "garden.cancel": "Ghairi",
-    "garden.renamedToast": "Mizunguko {{n}} imehamishwa: \"{{from}}\" sasa ni \"{{to}}\"."
+    "garden.renamedToast": "Mizunguko {{n}} imehamishwa: \"{{from}}\" sasa ni \"{{to}}\".",
+    "garden.walkBtn": "Tembea"
   }
 }

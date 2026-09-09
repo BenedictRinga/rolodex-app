@@ -807,10 +807,11 @@
     "walk.handlePh": "Le médecin de maman, l'école, l'assurance…",
     "walk.nameGo": "Commencer",
     "garden.title": "Le jardin · {{n}}",
-    "garden.sub": "Vos propres sujets, issus de vos boucles. Renommez-en un — ou renommez-le vers un autre pour les fusionner.",
+    "garden.sub": "Vos propres sujets, issus de vos boucles. Parcourez-en un, renommez-en un — ou renommez-le vers un autre pour les fusionner.",
     "garden.renameBtn": "Renommer",
     "garden.save": "Enregistrer",
     "garden.cancel": "Annuler",
-    "garden.renamedToast": "{{n}} boucle(s) déplacée(s) : \"{{from}}\" s'appelle désormais \"{{to}}\"."
+    "garden.renamedToast": "{{n}} boucle(s) déplacée(s) : \"{{from}}\" s'appelle désormais \"{{to}}\".",
+    "garden.walkBtn": "Parcourir"
   }
 }

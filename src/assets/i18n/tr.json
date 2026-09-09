@@ -807,10 +807,11 @@
     "walk.handlePh": "Annenin doktoru, okul, sigorta…",
     "walk.nameGo": "Başla",
     "garden.title": "Bahçe · {{n}}",
-    "garden.sub": "Kendi konularınız, döngülerinizden. Birini yeniden adlandırın — veya birleştirmek için başkasının adını verin.",
+    "garden.sub": "Kendi konularınız, döngülerinizden. Birini yürüyün, birini yeniden adlandırın — veya birleştirmek için başkasının adını verin.",
     "garden.renameBtn": "Yeniden adlandır",
     "garden.save": "Kaydet",
     "garden.cancel": "İptal",
-    "garden.renamedToast": "{{n}} döngü taşındı: \"{{from}}\" artık \"{{to}}\"."
+    "garden.renamedToast": "{{n}} döngü taşındı: \"{{from}}\" artık \"{{to}}\".",
+    "garden.walkBtn": "Yürü"
   }
 }

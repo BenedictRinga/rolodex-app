@@ -248,6 +248,8 @@
           <ng-container *ngIf="renamingHandle !== g.handle">
             <span class="li-gpill">{{ g.handle }}</span>
             <span class="li-gopen" *ngIf="g.open">{{ g.open }}</span>
+            <!-- 2026-09-09 BUILD 185: the pill deep-links — Walk arms the walk at this subject. -->
+            <button class="li-gwalk" type="button" (click)="walkHandle(g.handle)">{{ 'loopkeeper.garden.walkBtn' | translate }}</button>
             <button class="li-grename" type="button" (click)="startRename(g.handle)">{{ 'loopkeeper.garden.renameBtn' | translate }}</button>
           </ng-container>
           <ng-container *ngIf="renamingHandle === g.handle">

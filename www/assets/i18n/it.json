@@ -807,10 +807,11 @@
     "walk.handlePh": "Il dottore della mamma, la scuola, l’assicurazione…",
     "walk.nameGo": "Inizia",
     "garden.title": "Il giardino · {{n}}",
-    "garden.sub": "I tuoi argomenti, dai tuoi loop. Rinomina uno — o rinominalo su un altro per unirli.",
+    "garden.sub": "I tuoi argomenti, dai tuoi loop. Percorrine uno, rinomina uno — o rinominalo su un altro per unirli.",
     "garden.renameBtn": "Rinomina",
     "garden.save": "Salva",
     "garden.cancel": "Annulla",
-    "garden.renamedToast": "{{n}} loop spostati: \"{{from}}\" ora è \"{{to}}\"."
+    "garden.renamedToast": "{{n}} loop spostati: \"{{from}}\" ora è \"{{to}}\".",
+    "garden.walkBtn": "Percorrere"
   }
 }
