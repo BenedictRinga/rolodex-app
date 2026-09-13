@@ -245,6 +245,8 @@
     document.getElementById('chips').innerHTML =
       '<div class="chip"><div class="v">' + (s.claimed || 0) + '</div><div class="k">accepted</div></div>' +
       '<div class="chip"><div class="v">' + (s.invited || 0) + '</div><div class="k">invited</div></div>' +
+      // 2026-09-13 BUILD 187: the VISIT rung — deeplink opened (beacon ping).
+      '<div class="chip"><div class="v">' + (s.visited || 0) + '</div><div class="k">visited</div></div>' +
       '<div class="chip"><div class="v">' + (s.installed || 0) + '</div><div class="k">installed</div></div>' +
       '<div class="chip"><div class="v">' + (s.practicing || 0) + '</div><div class="k">practicing</div></div>' +
       '<div class="chip' + ((s.nudges || 0) > 0 ? ' warn' : '') + '"><div class="v">' + (s.nudges || 0) + '</div><div class="k">need a nudge</div></div>';
@@ -254,6 +256,9 @@
         return '<i class="cell' + (g.practiced ? ' practiced' : g.active ? ' active' : '') + '" title="' + esc(g.day) + '"></i>';
       }).join('');
       var statusTag = '<span class="status ' + esc(t.status) + '">' + esc(t.status) + '</span>' +
+        // 2026-09-13 BUILD 187: the visited tag — the link WAS opened (beacon),
+        // so "awaiting/invited + 👁" reads "opened but not accepted".
+        (!t.visitedAt || t.acceptedAt ? '' : ' <span class="nudgetag">👁 visited' + (t.visitCount > 1 ? ' ×' + t.visitCount : '') + '</span>') +
         (t.nudge ? '<span class="nudgetag">⚑ ' + (t.nudge === 'install' ? 'never installed' : 'silent ≥3d') + '</span>' : '');
       return '<tr class="' + (t.nudge ? 'nudge' : '') + '">' +
         '<td class="slotno">' + t.slot + '</td>' +

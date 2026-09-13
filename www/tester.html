@@ -266,6 +266,20 @@
   var cs = document.getElementById('codeShow');
   if (cs) cs.textContent = '#' + code;
 
+  // 2026-09-13 BUILD 187 VISIT BEACON (founder: the roster cannot tell "link
+  // never opened" from "opened, not accepted"): the deeplink pings the server
+  // the moment the page renders a valid code - numeric code ONLY, no name, no
+  // phone, no email, no fingerprint. Fire-and-forget: a dead network must
+  // never block the page or the accept button.
+  try {
+    fetch(API + '/tester/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code }),
+      keepalive: true,
+    }).catch(function () {});
+  } catch (e) { /* beacon is best-effort by design */ }
+
   // 2026-09-01 BUILD 176 (the hand-over door): the friend link is the PLAIN
   // app URL on purpose — no tester code. The friend opens it as a regular
   // user; the tester's seat never travels with the share.

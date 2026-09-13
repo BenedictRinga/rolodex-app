@@ -1715,12 +1715,19 @@ export class HomePage implements OnInit, OnDestroy {
     setTimeout(() => { void fix(); }, 0); // after Angular's writeValue settles
   }
 
-  /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply. */
+  /** 2026-08-21 OPENLOOP CHAT: send to the real chat proxy and render the reply.
+   *  2026-09-13 BUILD 187 (founder: the home chat is the PRIMARY assistant
+   *  surface yet it reported nothing): every send now rides confidante_message
+   *  with surface:'home' (the modal Confidante keeps its own), and a dead
+   *  backend — network error, non-OK status, empty reply — lands in
+   *  ai_chat_failed with the stage that broke. Event names + a categorical
+   *  stage ONLY; never the message text, never a name, per the privacy rules. */
   async sendRolodexAi(): Promise<void> {
     const text = this.rolodexAiInput.trim();
     if (!text || this.rolodexAiBusy) return;
     this.rolodexAiInput = '';
     this.rolodexAiMessages.push({ from: 'user', text });
+    try { this.analytics.track('confidante_message', { surface: 'home' }); } catch { /* analytics optional */ }
     void this.sound.playChatSend();
     this.rolodexAiBusy = true;
     this.rolodexAiTyping = true;
@@ -1745,10 +1752,14 @@ export class HomePage implements OnInit, OnDestroy {
         body: JSON.stringify({ engine, messages: history }),
       });
       const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.reply) {
+        try { this.analytics.track('ai_chat_failed', { surface: 'home', stage: res.ok ? 'empty' : 'http' + res.status }); } catch { /* analytics optional */ }
+      }
       const reply = String(data?.reply || 'AI Assistant could not reply right now — try again.');
       this.rolodexAiMessages.push({ from: 'assistant', text: reply });
       void this.sound.playChatReceive();
     } catch {
+      try { this.analytics.track('ai_chat_failed', { surface: 'home', stage: 'network' }); } catch { /* analytics optional */ }
       this.rolodexAiMessages.push({ from: 'assistant', text: 'AI Assistant could not reply right now — try again.' });
       void this.sound.playChatReceive();
     } finally {
