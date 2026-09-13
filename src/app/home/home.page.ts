@@ -1739,17 +1739,21 @@ export class HomePage implements OnInit, OnDestroy {
     // BEFORE these lines so they never leak into the backend AI's context.
     try { this.proactiveAssist(text); } catch { /* never block the reply */ }
     try {
-      let engine = 'deepseek';
-      try {
-        const s = await this.draftEngine.aiStatus();
-        engine = s.grokConfigured && !s.deepseekConfigured ? 'grok' : 'deepseek';
-      } catch { /* default deepseek; backend falls back */ }
+      // 2026-09-13 BUILD 189 (founder: CALIBRATION): the engine pre-flight
+      // cost a full aiStatus roundtrip before EVERY message, while the
+      // backend ladder already falls back deepseek → glm → grok — so the
+      // choice is cached per session now (at most one check ever). And the
+      // chat fetch gets a 30s AbortSignal: a hanging upstream used to hold
+      // the typing dots forever; now it lands as ai_chat_failed 'timeout'
+      // and the input unlocks with the honest "could not reply" line.
+      const engine = await this.chatEngine();
       const history = this.rolodexAiMessages
         .map((m) => ({ role: m.from === 'user' ? 'user' as const : 'assistant' as const, content: m.text }));
       const res = await fetch(`${environment.rolodexApiBase}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ engine, messages: history }),
+        signal: AbortSignal.timeout(30000),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.reply) {
@@ -1758,8 +1762,9 @@ export class HomePage implements OnInit, OnDestroy {
       const reply = String(data?.reply || 'AI Assistant could not reply right now — try again.');
       this.rolodexAiMessages.push({ from: 'assistant', text: reply });
       void this.sound.playChatReceive();
-    } catch {
-      try { this.analytics.track('ai_chat_failed', { surface: 'home', stage: 'network' }); } catch { /* analytics optional */ }
+    } catch (err) {
+      const stage = (err as any)?.name === 'TimeoutError' ? 'timeout' : 'network';
+      try { this.analytics.track('ai_chat_failed', { surface: 'home', stage }); } catch { /* analytics optional */ }
       this.rolodexAiMessages.push({ from: 'assistant', text: 'AI Assistant could not reply right now — try again.' });
       void this.sound.playChatReceive();
     } finally {
@@ -1767,6 +1772,19 @@ export class HomePage implements OnInit, OnDestroy {
       this.rolodexAiBusy = false;
       this.scrollChatToBottom();
     }
+  }
+
+  /** 2026-09-13 BUILD 189: engine choice cached per session — the pre-flight
+   *  used to cost a roundtrip before EVERY message; the backend ladder
+   *  handles fallbacks anyway, so one check per session is plenty. */
+  private chatEngineCache: string | null = null;
+  private async chatEngine(): Promise<string> {
+    if (this.chatEngineCache) return this.chatEngineCache;
+    try {
+      const s = await this.draftEngine.aiStatus();
+      this.chatEngineCache = s.grokConfigured && !s.deepseekConfigured ? 'grok' : 'deepseek';
+    } catch { this.chatEngineCache = 'deepseek'; }
+    return this.chatEngineCache;
   }
 
   /** 2026-08-23: Enter sends; Shift+Enter makes a new line in the auto-grow box. */

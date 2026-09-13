@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 import { NetworkService } from '../network/network.service';
+import { AnalyticsService } from '../analytics/analytics.service';
 
 export type Occasion = 'first-meeting' | 'birthday' | 'anniversary' | 'milestone' | 'congratulations' | 'follow-up' | 'overdue';
 export type AiProvider = 'rolodex' | 'deepseek' | 'grok' | 'glm';
@@ -149,6 +150,7 @@ export class DraftEngineService {
     private readonly storage: StorageService,
     private readonly rolodexSync: RolodexSyncService,
     private readonly network: NetworkService,
+    private readonly analytics: AnalyticsService, // BUILD 189: ai_draft_failed visibility
   ) {
     // async hydrate of the persisted preferences into the sync fields.
     // 2026-08-20 FIX: exposed as a promise so ensureTrial() can AWAIT it —
@@ -431,15 +433,27 @@ export class DraftEngineService {
   private async callProvider(c: ContactInfo, occasion: Occasion, guide: MessageGuide | null): Promise<string | null> {
     const briefing = this.briefing(c, occasion, guide);
     try {
+      // 2026-09-13 BUILD 189 (founder: CALIBRATION): a hanging upstream used
+      // to hang the composer forever (no timeout) and every server failure
+      // fell back to the on-device engine INVISIBLY. 20s AbortSignal + an
+      // ai_draft_failed track (names/stages only — never the briefing text)
+      // so a dying AI backend shows up in the portal's reliability panel
+      // instead of just making the app "get dumber".
       const res = await fetch(`${environment.rolodexApiBase}/ai/compose`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ engine: this.provider, briefing }),
+        signal: AbortSignal.timeout(20000),
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        try { this.analytics.track('ai_draft_failed', { stage: 'http' + res.status, kind: 'compose' }); } catch { /* analytics optional */ }
+        return null;
+      }
       const data = await res.json();
       return data?.draft || null;
-    } catch {
+    } catch (err) {
+      const stage = (err as any)?.name === 'TimeoutError' ? 'timeout' : 'network';
+      try { this.analytics.track('ai_draft_failed', { stage, kind: 'compose' }); } catch { /* analytics optional */ }
       return null;
     }
   }
@@ -468,6 +482,9 @@ export class DraftEngineService {
   async refine(instruction: string, current: string): Promise<string> {
     if (this.provider === 'deepseek' || this.provider === 'grok' || this.provider === 'glm') {
       try {
+        // BUILD 189: same calibration as callProvider — 20s timeout, and the
+        // failure is TRACKED (ai_draft_failed, kind 'refine') instead of
+        // silently falling back to the unrefined draft.
         const res = await fetch(`${environment.rolodexApiBase}/ai/compose`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -475,12 +492,17 @@ export class DraftEngineService {
             engine: this.provider,
             briefing: `The user wants to refine their outgoing message.\nUser instruction: ${String(instruction || '').slice(0, 1500)}\nCurrent draft:\n${String(current || '').slice(0, 1500)}\nReturn only the improved message.`,
           }),
+          signal: AbortSignal.timeout(20000),
         });
         if (res.ok) {
           const data = await res.json();
           if (data?.draft) return String(data.draft).trim();
         }
-      } catch { /* fall through */ }
+        try { this.analytics.track('ai_draft_failed', { stage: res.ok ? 'empty' : 'http' + res.status, kind: 'refine' }); } catch { /* analytics optional */ }
+      } catch (err) {
+        const stage = (err as any)?.name === 'TimeoutError' ? 'timeout' : 'network';
+        try { this.analytics.track('ai_draft_failed', { stage, kind: 'refine' }); } catch { /* analytics optional */ }
+      }
     }
     return current;
   }

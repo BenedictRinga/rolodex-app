@@ -1254,6 +1254,14 @@ details.inv-details {
   color: var(--rolodex-text-tertiary);
 }
 
+/* 2026-09-13 BUILD 189: breakdown rows under a headline metric (reliability
+   panel) — one soft indent, tertiary tone, no new component. */
+.metric-indent {
+  padding-left: 14px;
+  color: var(--rolodex-text-tertiary);
+  font-size: 12px;
+}
+
 .inv-details-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
 /* 2026-08-28 BUILD 136: THE TEN COHORTS - a page-wide pill (collapsed by

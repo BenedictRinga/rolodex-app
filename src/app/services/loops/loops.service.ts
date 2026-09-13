@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../storage/storage.service';
 import { AnalyticsService } from '../analytics/analytics.service';
+import { LoopWakeService } from '../loop-wake/loop-wake.service';
 import { environment } from '../../../environments/environment';
 import { userLang } from '../lang/user-lang';
 
@@ -93,6 +94,11 @@ export class LoopsService {
     private storage: StorageService,
     private analytics: AnalyticsService,
     private translate: TranslateService,
+    // 2026-09-13 BUILD 189 THE LOOP WAKE PING: a snoozed loop's wake date
+    // finally speaks — the OS holds a local notification (Soliloquy pattern,
+    // survives app kill) that fires at 9 on the promised morning and taps
+    // back onto the home deck. Device-local, never leaves the phone.
+    private loopWake: LoopWakeService,
   ) {}
 
   // ===== Persistence ========================================================
@@ -136,6 +142,11 @@ export class LoopsService {
       }
     }
     if (migrated) void this.persist();
+    // 2026-09-13 BUILD 189 THE LOOP WAKE PING: rebuild the whole wake schedule
+    // from the ledger on first load — future wakes re-arm, closed/dropped
+    // loops stop pinging, and PWA wakes that passed while closed get one
+    // catch-up nudge instead of silence (the Soliloquy resync pattern).
+    void this.loopWake.resyncAll(this.cache);
     return this.cache;
   }
 
@@ -183,6 +194,7 @@ export class LoopsService {
   }
 
   remove(id: string): void {
+    void this.loopWake.cancelWake(id); // BUILD 189: a removed loop never rings
     this.cache = this.cache?.filter(l => l.id !== id) || [];
     void this.persist();
   }
@@ -252,6 +264,7 @@ export class LoopsService {
     l.nextNudgeAt = Date.now();
     this.touch(l);
     void this.persist();
+    void this.loopWake.cancelWake(id); // BUILD 189: it's awake — kill the ping
   }
 
   /** 2026-09-08 BUILD 182 THE GARDEN PATH — ported from the b182 contactless
@@ -833,6 +846,11 @@ No pressure either way — replying here connects you directly.`;
     if (/repl(y|ies)|friday.*escalat/i.test(condition || '')) l.escalateIfNoReplyBy = l.waitUntil;
     this.touch(l);
     void this.persist();
+    // 2026-09-13 BUILD 189 THE LOOP WAKE PING: the promise gets a voice — the
+    // OS schedules the 9AM alarm (Soliloquy pattern; survives app kill), the
+    // tap lands on the home deck. The handle shown is the user's own nickname
+    // and never leaves the phone.
+    void this.loopWake.scheduleWake(id, l.waitUntil, l.handle || undefined);
   }
 
   dropWithDignity(id: string, reason: string): void {
@@ -844,6 +862,7 @@ No pressure either way — replying here connects you directly.`;
     l.nextNudgeAt = undefined; // dropping IS closing — silence afterwards
     this.touch(l);
     void this.persist();
+    void this.loopWake.cancelWake(id); // BUILD 189: dropped with dignity — the ping goes too
     this.analytics.track('loop_closed', { mode: 'dropped' });
   }
 
@@ -861,6 +880,7 @@ No pressure either way — replying here connects you directly.`;
     if (l.status !== 'closed') { l.status = 'closed'; l.closedAt = Date.now(); }
     this.touch(l);
     void this.persist();
+    void this.loopWake.cancelWake(id); // BUILD 189: sent IS closed — no ping for a resting loop
     this.analytics.track('message_sent');
     this.analytics.track('loop_closed', { mode: 'sent' });
   }
@@ -874,6 +894,7 @@ No pressure either way — replying here connects you directly.`;
     l.nextNudgeAt = undefined;
     this.touch(l);
     void this.persist();
+    void this.loopWake.cancelWake(id); // BUILD 189: done — the ping goes quiet
     this.analytics.track('loop_closed');
   }
 

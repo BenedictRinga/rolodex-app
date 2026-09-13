@@ -845,12 +845,41 @@
             </ion-button>
           </div>
 
+          <!-- 2026-09-13 BUILD 189 (founder: "If there is an error, will we know
+               in Investor portal?"): THE RELIABILITY PANEL. Every failure the
+               app reports on itself — chat sends vs failures (with the stage
+               where they died), draft-engine fallbacks, and the crash ledger
+               the app has streamed since 2026-08-27 but that only lived in an
+               SSH tail until today. Organic devices only; stages are
+               categorical (httpNNN/empty/network/timeout), never user text. -->
+          <div class="investor-section sec-reliability" id="inv-reliability" *ngIf="investorStats.analytics?.reliability">
+            <div class="section-head">
+              <span class="section-num">10</span>
+              <div class="section-title"><span class="section-kicker">Reliability</span><strong>Will we know? The error ledger</strong></div>
+            </div>
+            <div class="retention-row retention-head"><span>Metric (last 7 days, organic)</span><span>Value</span></div>
+            <div class="retention-row"><span>Confidante sends (chat working = sends + failures)</span><span>{{ (investorStats.analytics.reliability.chatSends7d || 0) + (investorStats.analytics.reliability.chatFails7d || 0) }}</span></div>
+            <div class="retention-row"><span>Chat failures</span><span>{{ investorStats.analytics.reliability.chatFails7d || 0 }}</span></div>
+            <div class="retention-row"><span>Chat failure rate</span><span>{{ investorStats.analytics.reliability.chatFailureRatePct === null ? '—' : investorStats.analytics.reliability.chatFailureRatePct + '%' }}</span></div>
+            <div class="retention-row" *ngFor="let s of investorStats.analytics.reliability.chatFailStages">
+              <span class="metric-indent">↳ died at: {{ s.stage }}</span><span>{{ s.count }}</span>
+            </div>
+            <div class="retention-row"><span>Draft-engine failures (fell back to on-device)</span><span>{{ investorStats.analytics.reliability.draftFails7d || 0 }}</span></div>
+            <div class="retention-row"><span>Crashes · last 7 days</span><span>{{ investorStats.analytics.reliability.crashes7d || 0 }}</span></div>
+            <div class="retention-row"><span>Crashes · last 30 days</span><span>{{ investorStats.analytics.reliability.crashes30d || 0 }}</span></div>
+            <div class="retention-row" *ngFor="let c of investorStats.analytics.reliability.crashTop">
+              <span class="metric-indent">↳ {{ c.crash }}</span><span>{{ c.count }}</span>
+            </div>
+            <div class="retention-row"><span>Analytics batches rejected by this server (since boot)</span><span>{{ investorStats.analytics.reliability.ingestFailures || 0 }}</span></div>
+            <p class="investor-chart-note">The ledger of what broke: chat failures split by the stage where they died (http408 = slow upstream, timeout = dead hang, network = offline device), drafts that silently fell back to the on-device engine, and real crashes from the device crash stream (error type × page, routes only — no user text ever). ingestFailures is the server's own counter of analytics batches it could not accept — the metric that was zero-visible while two weeks of events burned.</p>
+          </div>
+
           <!-- 2026-09-02 BUILD 181 (founder directive): THE CONTACTLESS REDESIGN —
                the framework from loopkeeper redesign.txt, packed for investors as a
                segmented panel. Six tabs; the source document is the authority. -->
           <div class="investor-section sec-redesign" id="inv-redesign">
             <div class="section-head">
-              <span class="section-num">10</span>
+              <span class="section-num">11</span>
               <div class="section-title"><span class="section-kicker">Redesign</span><strong>The contactless framework</strong></div>
             </div>
 

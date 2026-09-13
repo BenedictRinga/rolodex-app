@@ -86,9 +86,23 @@ across all of these, or the Confidante will answer from stale facts.
   `card_added`, `card_edited`, `card_removed`, `loop_captured`, `message_sent`,
   `loop_closed`, `confidante_message`, `feedback_sent`, `invite_created`,
   `billing_started`, `billing_succeeded`, `video_clip_sent`.
+- Reliability events (2026-09-13 BUILD 189): `ai_chat_failed` (home chat died
+  — categorical stage: `httpNNN`/`empty`/`network`/`timeout`) and
+  `ai_draft_failed` (compose/refine fell back to the on-device engine — kind
+  + stage). Event names + stages only, never message text. The investors
+  portal's Reliability section (10) renders these plus the crash JSONL ledger
+  from `rolodex-server` (crashes7d/crashes30d/crashTop) and its
+  `analyticsIngestFailures` counter (also on `/health`).
+- Loop wake notifications (BUILD 189): `LoopWakeService` (Soliloquy pattern —
+  OS-held `LocalNotifications.schedule` with a future Date, deterministic
+  ids, resync from the ledger on load). A snoozed loop's `waitUntil()` date
+  speaks at 9AM local; `bringBack`/`markSent`/`closeFully`/`dropWithDignity`/
+  `remove` cancel; `LoopsService.all()` resyncs. PWA = dock nudge + catch-up
+  (browsers cannot schedule future notifications). Device-local only —
+  loop handles never leave the phone.
 - Investors portal (`about-rolodex.component.html`) renders the backend
   analytics summary: DAU/WAU/MAU, sessions, avg session, retention cohorts,
-  activation, top events. Keep the portal fields in sync with
+  activation, top events, reliability. Keep the portal fields in sync with
   `rolodex-server` `computeAnalyticsSummary()`.
 - Self-report fields (build 77+): `visitNumber`, `isReturning`,
   `daysSinceFirstUse`, `totalTimeSpentSeconds` are computed locally and sent
