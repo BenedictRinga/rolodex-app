@@ -760,17 +760,18 @@
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Milestone</span><span>Devices</span></div>
               <!-- 2026-08-31 BUILD 159 (founder): leads the table — the moment a real person's card is added (device pick, manual entry, invite accepted, walk confirm); the app fires it once ever per device. -->
+              <!-- 2026-09-13 BUILD 188 (founder: rows that can never move do not fit the bill): "Added a card" counted card_added, fired by NO code path anywhere, and "Created a follow-up" counted followup_created, dead with the follow-up engine (build 183) — both rows read 0 by definition. Swapped for milestones the app actually emits: Captured a loop (loop_captured) and Talked to the Assistant (confidante_message — home tab + modal). -->
               <div class="retention-row"><span>Started their list</span><span>{{ investorStats.analytics.activation.deviceliststarted || 0 }}</span></div>
-              <div class="retention-row"><span>Added a card</span><span>{{ investorStats.analytics.activation.cardadded || 0 }}</span></div>
-              <div class="retention-row"><span>Created a follow-up</span><span>{{ investorStats.analytics.activation.followupcreated || 0 }}</span></div>
+              <div class="retention-row"><span>Captured a loop</span><span>{{ investorStats.analytics.activation.loopcaptured || 0 }}</span></div>
+              <div class="retention-row"><span>Talked to the Assistant</span><span>{{ investorStats.analytics.activation.confidantemessage || 0 }}</span></div>
               <div class="retention-row"><span>Sent a message</span><span>{{ investorStats.analytics.activation.messagesent || 0 }}</span></div>
               <div class="retention-row"><span>Closed a loop</span><span>{{ investorStats.analytics.activation.loopclosed || 0 }}</span></div>
               <div class="retention-row"><span>Created an invite</span><span>{{ investorStats.analytics.activation.invitecreated || 0 }}</span></div>
               <div class="retention-row"><span>Started billing</span><span>{{ investorStats.analytics.activation.billingstarted || 0 }}</span></div>
               <div class="retention-row"><span>Billing succeeded</span><span>{{ investorStats.analytics.activation.billingsucceeded || 0 }}</span></div>
             </div>
-            <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill): Devices = all-time distinct organic devices; "Added a card" counts card_added events only — invite-born cards take a different path and never fire it, so a 0 there is the metric's definition, not a broken funnel. -->
-            <p class="investor-chart-note">Devices = all-time distinct organic devices that ever fired the milestone. "Started their list" (build 159) fires once ever per device, at the first real person's card — device pick, manual entry, accepted invite, or confirming someone in the Loops walk. "Added a card" counts card_added events only — cards born from an accepted invite take a different path and never fire it, so that row can honestly read 0.</p>
+            <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill); 2026-09-13 BUILD 188: the card_added apology is retired with the dead row. -->
+            <p class="investor-chart-note">Devices = all-time distinct organic devices that ever fired the milestone. "Started their list" (build 159) fires once ever per device, at the first real person's card — device pick, manual entry, accepted invite, or confirming someone in the Loops walk. "Captured a loop" fires every time the Send Walk or a capture box turns words into an open loop. "Talked to the Assistant" fires every Confidante send — the home chat tab and the modal.</p>
           </div>
 
           <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
