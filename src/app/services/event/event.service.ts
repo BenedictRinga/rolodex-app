@@ -115,6 +115,45 @@ export class EventService implements OnDestroy {
     for (const event of events) {
       await this.scheduleIfImminent(event);
     }
+    await this.catchUpMissedAlerts(events);
+  }
+
+  /**
+   * 2026-09-14 BUILD 198 THE CATCH-UP (founder: the algo alerts should be
+   * "waiting for me" — a reminder that came due while the app was CLOSED used
+   * to vanish silently, because the boot scheduler only arms FUTURE timeouts).
+   * Anything whose reminder time passed in the last 24 hours and has not been
+   * alerted yet fires NOW, sticky, when the user opens the app. A persisted
+   * fired-ledger (id -> firedAt, pruned past 24h) keeps it exactly-once — the
+   * alert waits for the user, but never nags twice.
+   */
+  private static readonly FIRED_LEDGER_KEY = 'lk_alert_fired';
+
+  private async catchUpMissedAlerts(events: CalendarEvent[]): Promise<void> {
+    try {
+      const now = Date.now();
+      const ledger = (await this.storage.get<Record<string, number>>(EventService.FIRED_LEDGER_KEY)) || {};
+      // Prune the ledger — fired more than 24h ago can never nag again.
+      for (const id of Object.keys(ledger)) {
+        if (now - Number(ledger[id]) > TWENTY_FOUR_HOURS_MS) delete ledger[id];
+      }
+      let changed = false;
+      for (const event of events) {
+        const eventTime = new Date(event.start).getTime();
+        const reminderMs = (event.reminderBefore ?? 15) * 60 * 1000;
+        const notifyTime = eventTime - reminderMs;
+        const age = now - notifyTime;
+        if (age < 0 || age > TWENTY_FOUR_HOURS_MS) continue; // not yet due, or long past
+        if (ledger[event.id]) continue; // already waited for the user
+        this.inAppNotifications.notify(
+          event.title + (event.notes ? ' — ' + event.notes : ''),
+          { kind: 'info', duration: 0, data: { action: 'checkin', contactId: event.contactId } },
+        );
+        ledger[event.id] = now;
+        changed = true;
+      }
+      if (changed) await this.storage.set(EventService.FIRED_LEDGER_KEY, ledger);
+    } catch { /* the catch-up is best-effort by design */ }
   }
 
   private async cleanupOldEvents(): Promise<void> {
@@ -228,9 +267,14 @@ export class EventService implements OnDestroy {
           } else {
             // 2026-08-29 BUILD 143 (founder #2): the PWA dock nudge is TAPPABLE —
             // it carries its contact so a tap escalates into Loops (armed).
+            // 2026-09-14 BUILD 198 STICKY (founder: the algo alerts were
+            // "disappearing at first touch ... of little or no utility"): a
+            // 5-second auto-dismiss meant the reminder was gone before the
+            // user looked up. Algo alerts are now STICKY — they stay until
+            // the user taps them (escalate) or explicitly dismisses (✕).
             this.inAppNotifications.notify(
               evt.title + (evt.notes ? ' — ' + evt.notes : ''),
-              { kind: 'info', duration: 5000, data: { action: 'checkin', contactId: evt.contactId } },
+              { kind: 'info', duration: 0, data: { action: 'checkin', contactId: evt.contactId } },
             );
           }
 

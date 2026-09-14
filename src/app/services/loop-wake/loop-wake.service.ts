@@ -98,7 +98,9 @@ export class LoopWakeService {
       this.clearWebTimer(loopId);
       const t = setTimeout(() => {
         try {
-          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 8000, data: { action: 'loopWake', loopId } });
+          // BUILD 198 STICKY: the wake nudge is the return driver — it waits
+          // until tapped or dismissed, never auto-vanishes.
+          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopWake', loopId } });
         } catch { /* dock is best-effort */ }
         this.webTimers.delete(loopId);
       }, Math.min(at.getTime() - Date.now(), 2_147_000_000));
@@ -165,7 +167,7 @@ export class LoopWakeService {
             due.length === 1
               ? '⏰ A loop you snoozed is ready to walk back.'
               : `⏰ ${due.length} snoozed loops are ready to walk back.`,
-            { kind: 'info', duration: 8000, data: { action: 'loopWakeCatchUp', count: due.length } },
+            { kind: 'info', duration: 0, data: { action: 'loopWakeCatchUp', count: due.length } }, // BUILD 198: sticky
           );
         } catch { /* dock is best-effort */ }
       }

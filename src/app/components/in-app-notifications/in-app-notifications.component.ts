@@ -29,7 +29,9 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
   private initialized = false;
   private drag = { active: false, startX: 0, startY: 0, originX: 0, originY: 0 };
 
-  private static readonly POS_KEY = 'rolodex_notify_dock_pos';
+  // BUILD 198: key bumped — pre-198 saved positions sat under the home fab;
+  // everyone re-lands on the cleared default once, then their drags persist.
+  private static readonly POS_KEY = 'rolodex_notify_dock_pos_v2';
 
   constructor(
     private readonly service: InAppNotificationService,
@@ -63,7 +65,12 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
     const w = el?.offsetWidth || 320;
     const h = el?.offsetHeight || 120;
     this.position.x = Math.max(8, window.innerWidth - w - 16);
-    this.position.y = Math.max(8, window.innerHeight - h - 16);
+    // 2026-09-14 BUILD 198 (founder: the alerts "almost always are waiting for
+    // me in Settings" — the default corner sat UNDER the home page's search
+    // FAB; Settings has no fab, so alerts were only fully visible there): the
+    // default corner now clears the fab zone (~72px), so the dock is fully
+    // visible on Home too. A dragged corner still wins.
+    this.position.y = Math.max(8, window.innerHeight - h - 88);
     void this.persistPosition();
   }
 
