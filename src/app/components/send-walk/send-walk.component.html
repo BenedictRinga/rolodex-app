@@ -28,21 +28,15 @@
     <button *ngIf="who && canSkip" class="sw-ghost" type="button" (click)="notThisOne()">
       {{ 'loopkeeper.walk.notThis' | translate }}
     </button>
-    <!-- 2026-09-08 BUILD 182 THE GARDEN PATH: beneath the deck lead, the garden
-         — pills grown from the user's OWN loop history (a person, a place, a
-         thing), plus one typed line for a subject nobody has decked. The deck
-         stays first-class; this is the door for everyone else. Always shown on
-         an empty deck: a user who never syncs contacts can still walk.
-         2026-09-14 BUILD 201 (founder: the natural flow — "Ma's doctor..." and
-         its pills come immediately after "Not this one"; the 'From your loops'
-         label steps DOWN beneath them as a quiet caption): pills and the typed
-         line lead, the label explains after. -->
-    <div *ngIf="gardenPills.length || !who" class="sw-garden">
-      <div *ngIf="gardenPills.length" class="sw-garden-row">
-        <button *ngFor="let g of gardenPills" class="sw-gpill" type="button" (click)="armHandle(g.handle)">
-          {{ g.handle }}<span *ngIf="g.open" class="sw-gopen">{{ g.open }}</span>
-        </button>
-      </div>
+    <!-- 2026-09-08 BUILD 182 THE GARDEN PATH: beneath the deck lead, one typed
+         line for a subject nobody has decked ("Ma's doctor, the school, the
+         insurance…"). The deck stays first-class; this is the door for everyone
+         else — always shown, even on an empty deck.
+         2026-09-14 BUILD 201, REV 2 (founder correction: the natural flow is —
+         "Not this one", then the typed line WITH ITS OWN accompanying pills,
+         "A decision I keep not making" and "Somewhere I must show up"; the
+         "From your loops" section and its pills step DOWN below them). -->
+    <div class="sw-garden">
       <input class="sw-line" type="text"
         [ngModel]="handleInput"
         (ngModelChange)="handleInput = $event"
@@ -52,11 +46,12 @@
       <button *ngIf="handleInput.trim()" class="sw-ghost" type="button" (click)="commitHandle()">
         {{ 'loopkeeper.walk.nameGo' | translate }}
       </button>
-      <div *ngIf="gardenPills.length" class="sw-garden-label">{{ 'loopkeeper.walk.garden' | translate }}</div>
     </div>
     <!-- 2026-09-08 BUILD 183 SELF LOOPS: the no-arming door. Two quiet taps —
          a decision, a place to show up — as PURE self-loops (no subject at
-         all, b181's person-less loop), straight to the words. -->
+         all, b181's person-less loop), straight to the words.
+         BUILD 201 REV 2: these ride up with the typed line, immediately after
+         "Not this one". -->
     <div class="sw-selfrow">
       <button class="sw-self" type="button" (click)="selfTap('decide')">
         {{ 'loopkeeper.walk.chipDecide' | translate }}
@@ -64,6 +59,17 @@
       <button class="sw-self" type="button" (click)="selfTap('show-up')">
         {{ 'loopkeeper.walk.chipShowUp' | translate }}
       </button>
+    </div>
+    <!-- THE GARDEN, stepped down: the user's OWN loop history (a person, a
+         place, a thing), below the fresh-start doors. Empty for a first-timer —
+         it grows as their loops grow. -->
+    <div *ngIf="gardenPills.length" class="sw-garden sw-garden-lower">
+      <div class="sw-garden-label">{{ 'loopkeeper.walk.garden' | translate }}</div>
+      <div class="sw-garden-row">
+        <button *ngFor="let g of gardenPills" class="sw-gpill" type="button" (click)="armHandle(g.handle)">
+          {{ g.handle }}<span *ngIf="g.open" class="sw-gopen">{{ g.open }}</span>
+        </button>
+      </div>
     </div>
     <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the inline chooser is
          retired — "Not this one" opens the contacts modal (pick mode), the

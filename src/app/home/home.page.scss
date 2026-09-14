@@ -205,7 +205,9 @@ app-rolodex {
 
 .storage-panel {
   flex-shrink: 0;
-  padding-bottom: 6px;
+  /* 2026-09-14 BUILD 202 (founder: "pull up the Inbox main card and content
+     below by 5px - there is space to spare there"): 6px -> 1px. */
+  padding-bottom: 1px;
 }
 
 #container {

@@ -345,11 +345,13 @@
    from the user's own loop history, plus one typed line for a fresh subject.
    Ported from the b182 contactless walk; palette unchanged. */
 .sw-garden { margin: 4px 2px 14px; }
-/* BUILD 201: the label steps DOWN beneath the pills + typed line — a quiet
-   caption after the deed, not a header before it. */
+/* BUILD 201 REV 2: the garden (label + the user's own loop pills) stepped down
+   BELOW the typed line + self pills — label back in header role; the block
+   breathes apart from the fresh-start doors above it. */
+.sw-garden-lower { margin-top: 16px; }
 .sw-garden-label {
   font-size: 11px; font-weight: 700; letter-spacing: .04em;
-  text-transform: uppercase; opacity: .45; margin-top: 8px;
+  text-transform: uppercase; opacity: .45; margin-bottom: 8px;
 }
 .sw-garden-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .sw-gpill {
