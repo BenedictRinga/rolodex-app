@@ -1,7 +1,8 @@
-<!-- 2026-09-14 BUILD 190 THE COMMAND CENTER — the operations console behind
-     the Investors portal's Command Center button. Growth story stays in the
-     portal; the telemetry lives here. All sections read the SAME
-     `investorStats` summary object, passed in as [stats]. -->
+<!-- 2026-09-14 BUILD 190/191 THE COMMAND CENTER — the operations console.
+     Two hosts: the portal's in-template modal ([stats] passed in) and the
+     RolodexPage sessional-aperture view (self-fetches /investor/summary).
+     Header carries the external Home icon (Settings-view mirror) plus this
+     component's own internal Close. -->
 <div class="cc-shell">
 
   <div class="cc-head">
@@ -9,12 +10,25 @@
       <span class="cc-kicker">Investors · Operations</span>
       <strong>Command Center</strong>
     </div>
-    <ion-button size="small" fill="outline" (click)="close()">
-      Close
-    </ion-button>
+    <ion-buttons class="cc-actions">
+      <!-- BUILD 191: the external Home icon, mirroring the Settings view. -->
+      <ion-button (click)="goHome()" fill="clear">
+        <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
+      </ion-button>
+      <ion-button (click)="close()" fill="clear">
+        Close
+      </ion-button>
+    </ion-buttons>
   </div>
 
   <div class="cc-body">
+
+    <div class="investor-section" *ngIf="loading && !stats">
+      <p class="investor-live-note">Reading the live record…</p>
+    </div>
+    <div class="investor-section" *ngIf="loadError && !stats">
+      <p class="investor-live-note">{{ loadError }}</p>
+    </div>
 
     <!-- 01 · RELIABILITY (moved from the portal, 2026-09-14) — the founder's
          "if there is an error, will we know?" ledger. app_error (build 190)
@@ -105,8 +119,8 @@
       </ion-button>
     </div>
 
-    <div class="investor-section" *ngIf="!stats">
-      <p class="investor-live-note">Telemetry has not loaded yet — close and reopen the portal.</p>
+    <div class="investor-section" *ngIf="!stats && !loading && !loadError">
+      <p class="investor-live-note">Telemetry has not loaded yet — leave and reopen the console.</p>
     </div>
 
   </div>

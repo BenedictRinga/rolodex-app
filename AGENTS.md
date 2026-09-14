@@ -94,13 +94,23 @@ across all of these, or the Confidante will answer from stale facts.
   5s/type+page flood valve; the scalable pipeline ledger, while the
   `/crashes` JSONL stays as the detailed stream with messages + stacks).
   Event names + stages only, never message text, in analytics.
-- THE COMMAND CENTER (BUILD 190): the Investors portal's operations console
-  (`components/command-center/`) opened by the portal button/index chip
-  through an in-template ion-modal. Carries Reliability (incl. app_error rows
-  + crash ledger + `analyticsIngestFailures`), Timeline, Rooms, Translations.
-  The PORTAL keeps the growth story (Delta, Live, Presence, Retention,
-  Activation, Events, Redesign) — new telemetry sections belong in the
-  Command Center, not the portal, per the founder's decluttering rule.
+- THE COMMAND CENTER (BUILD 190-191): the Investors portal's operations console
+  (`components/command-center/`). TWO hosts: the portal's button/index chip
+  (in-template ion-modal, [stats] passed in) AND the RolodexPage
+  SESSIONAL APERTURE (BUILD 191: the aperture-outline icon appears ONLY after
+  the portal password succeeds this session — `InvestorGateService`,
+  in-memory, re-locks on restart — and opens `RolodexView.CommandCenter`, the
+  same view-swap contract as Settings with the external Home icon plus the
+  console's own internal Close; the component self-fetches
+  `/investor/summary` on that path). Carries Reliability (incl. app_error
+  rows + crash ledger + `analyticsIngestFailures`), Timeline, Rooms,
+  Translations. The PORTAL keeps the growth story (Delta, Live, Presence,
+  Retention, Activation, Events, Redesign) — new telemetry sections belong in
+  the Command Center, not the portal, per the founder's decluttering rule.
+- Locale depth (BUILD 191): the portal's Presence section renders
+  `locales.topTimezones` (Place table — full IANA zone, city-level) alongside
+  the Region table. Privacy line held: tz comes from the device clock — never
+  IP, never geolocation; a city means "phones set to this clock".
 - Loop wake notifications (BUILD 189): `LoopWakeService` (Soliloquy pattern —
   OS-held `LocalNotifications.schedule` with a future Date, deterministic
   ids, resync from the ledger on load). A snoozed loop's `waitUntil()` date

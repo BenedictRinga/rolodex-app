@@ -733,7 +733,19 @@
                 <span>{{ row.region }}</span><span>{{ row.regionDevices }}</span><span>{{ row.lang }}</span><span>{{ row.langDevices }}</span>
               </div>
             </div>
-            <p class="investor-chart-note" *ngIf="investorStats.analytics.locales">From anonymous IANA timezones + language subtags on app_launch (build 149+). Devices = distinct anonymous ids; language = the language the app actually runs in.</p>
+            <!-- 2026-09-14 BUILD 191 (founder: "Region | Devices | LAN seems so shallow"): the
+                 DEEPER cut was already flowing — the full IANA timezone (city-level, e.g.
+                 Africa/Nairobi) rides every app_launch; this table finally renders it. Still
+                 no IP, no GPS, no country lookup: the place is the device clock's own zone. -->
+            <div class="retention-table" *ngIf="investorStats.analytics.locales?.topTimezones?.length" style="margin-top:10px;">
+              <div class="retention-row retention-head">
+                <span>Place (device timezone)</span><span>Devices</span><span>Launches</span><span></span>
+              </div>
+              <div class="retention-row" *ngFor="let p of investorStats.analytics.locales.topTimezones">
+                <span>{{ p.tz }}</span><span>{{ p.devices }}</span><span>{{ p.launches }}</span><span></span>
+              </div>
+            </div>
+            <p class="investor-chart-note" *ngIf="investorStats.analytics.locales">From anonymous IANA timezones + language subtags on app_launch (build 149+). Devices = distinct anonymous ids; language = the language the app actually runs in. Region is the timezone's continent segment; Place is the full zone (city-level, e.g. Africa/Nairobi) — read from the device clock, never from IP or location services, so a city here means "phones set to this clock", which is as close to a country as we ever get without breaking the no-geolocation rule.</p>
           </div>
 
           <div class="investor-section sec-retention" id="inv-retention" *ngIf="investorStats.analytics?.retention?.length">

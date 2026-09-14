@@ -323,6 +323,20 @@ app-contact-card {
   }
 }
 
+/* 2026-09-14 BUILD 191: the Command Center view's float header — the same
+   sticky contract as .settings-float (label + external Home icon). */
+.commandcenter-float {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  background: var(--rolodex-bg);
+  backdrop-filter: blur(8px);
+
+  ion-list-header {
+    border-bottom: 1px solid var(--rolodex-border-light);
+  }
+}
+
 /* 2026-08-28 BUILD 140: the quicknav is BACK IN THE FLOW — it scrolls away
    with the Profile and the rest of the content, exactly as the founder
    ordered. The sticky Settings label above is the way back to it. */

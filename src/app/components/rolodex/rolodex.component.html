@@ -24,6 +24,12 @@
                 {{ mode.value }}
               </ion-select-option>
             </ion-select>
+            <!-- 2026-09-14 BUILD 191 THE SESSIONAL APERTURE (founder): hidden
+                 until the Investor portal password succeeds this session
+                 (InvestorGateService); opens the Command Center view. -->
+            <ion-button *ngIf="investorGate.unlockedThisSession" (click)="onCommandCenter()" appTooltip="See Command Center">
+              <ion-icon name="aperture-outline" class="fabcolor"></ion-icon>
+            </ion-button>
             <ion-button (click)="onCreateContact()" appTooltip="Create Contacts">
               <ion-icon name="add-circle-outline" class="fabcolor"></ion-icon>
             </ion-button>
@@ -643,6 +649,26 @@
           <ion-label color="medium">— End of settings —</ion-label>
         </ion-item-divider>
       </ion-list>
+    </ng-container>
+
+    <!-- 2026-09-14 BUILD 191 THE COMMAND CENTER VIEW (founder: the sessional
+         aperture opens the console "just like the Settings component, same
+         view, same Home icon external, apart from its own internal close").
+         Same float header contract as Settings: label + external Home icon;
+         the console itself keeps its internal Close (emits `closed`). The
+         component self-fetches /investor/summary — no [stats] binding here. -->
+    <ng-container *ngSwitchCase="RolodexView.CommandCenter">
+      <div class="commandcenter-float">
+        <ion-list-header>
+          <ion-label class="fabcolor" role="button" [attr.aria-label]="'Command Center — back to top'">Command Center</ion-label>
+          <ion-buttons>
+            <ion-button (click)="showRegularView()" fill="clear">
+              <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-list-header>
+      </div>
+      <app-command-center (closed)="showRegularView()" (home)="showRegularView()"></app-command-center>
     </ng-container>
   </ng-container>
 </div>

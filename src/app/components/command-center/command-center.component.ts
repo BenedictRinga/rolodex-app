@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
+import { NetworkService } from '../../services/network/network.service';
 import { TimeNormalizerService } from '../../services/time-normalizer/time-normalizer.service';
 import { TranslationReviewComponent } from '../translation-review/translation-review.component';
 
@@ -8,12 +10,14 @@ import { TranslationReviewComponent } from '../translation-review/translation-re
  * Investor portal analytics in a dedicated command center component via a
  * button inside Investor, so that this portal does not get too cluttered").
  *
- * The portal keeps the growth story (Delta, Live, Presence, Retention,
- * Activation, Events); THIS component is the operations console one tap away:
- * 01 Reliability (chat/draft failures, app_error + the crash ledger, ingest
- * counter), 02 Timeline (hourly sync bars), 03 Rooms, 04 Community
- * translations. All data arrives via the same `investorStats` summary the
- * portal already renders — no second fetch, no new permissions.
+ * BUILD 191 (founder: the sessional aperture): the console now ALSO lives as
+ * a RolodexPage view (RolodexView.CommandCenter) opened by the aperture icon
+ * — which appears only after a successful Investor-portal unlock this
+ * session (InvestorGateService). Same view contract as Settings: the external
+ * Home icon plus this component's own internal Close. Two hosts, one
+ * component: when `stats` is passed (the portal modal path) it renders
+ * as-is; when not (the aperture view path) it fetches
+ * `/investor/summary` itself on init.
  */
 @Component({
   selector: 'app-command-center',
@@ -21,17 +25,57 @@ import { TranslationReviewComponent } from '../translation-review/translation-re
   styleUrls: ['./command-center.component.scss'],
   standalone: false,
 })
-export class CommandCenterComponent {
+export class CommandCenterComponent implements OnInit, OnChanges {
   @Input() stats: any = null;
   @Output() closed = new EventEmitter<void>();
+  @Output() home = new EventEmitter<void>(); // BUILD 191: the external Home icon
+  loading = false;
+  loadError = '';
 
   constructor(
     private readonly modalController: ModalController,
     private readonly time: TimeNormalizerService,
+    private readonly network: NetworkService,
   ) {}
+
+  ngOnInit(): void {
+    void this.ensureStats();
+  }
+
+  /** The view path re-runs on every open — refresh the console each time. */
+  ngOnChanges(): void {
+    void this.ensureStats();
+  }
+
+  /**
+   * BUILD 191: the aperture path arrives with no [stats] — fetch the summary
+   * directly (same endpoint the portal reads; quiet via safeFetch).
+   */
+  private async ensureStats(): Promise<void> {
+    if (this.stats) return;
+    if (this.loading) return;
+    this.loading = true;
+    this.loadError = '';
+    try {
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/investor/summary`, { cache: 'no-store' });
+      if (res && res.ok) {
+        this.stats = await res.json();
+      } else {
+        this.loadError = res ? `Summary unavailable (HTTP ${res.status}).` : 'Offline — the console needs a connection.';
+      }
+    } catch {
+      this.loadError = 'The summary would not load. Try again in a moment.';
+    } finally {
+      this.loading = false;
+    }
+  }
 
   close(): void {
     this.closed.emit();
+  }
+
+  goHome(): void {
+    this.home.emit();
   }
 
   /** Hour label for a timeline bucket — always through the TimeNormalizer. */

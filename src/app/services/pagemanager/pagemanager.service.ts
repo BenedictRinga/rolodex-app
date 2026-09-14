@@ -14,6 +14,7 @@ export enum RolodexView {
   Locations = 'Locations',
   Interactive = 'Interactive',
   FourWs = 'FourWs', // 2026-08-17 the Assistant's deep-context lens
+  CommandCenter = 'CommandCenter', // 2026-09-14 BUILD 191: the sessional aperture view
 }
 
 // ---------------------------------------------------------------------------

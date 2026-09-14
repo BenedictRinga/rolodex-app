@@ -33,6 +33,7 @@ import { HelpModalComponent } from '../help-modal/help-modal.component';
 import { APP_LANGUAGES, LANG_POPOVER_OPTS } from '../../services/lang/app-languages';
 // 2026-08-29 BUILD 142: the ONE language state (persist + overrides + live read).
 import { TranslationService } from '../../services/translation/translation.service';
+import { InvestorGateService } from '../../services/investor-gate/investor-gate.service';
 import { ShareAppModalComponent } from '../share-app-modal/share-app-modal.component';
 import { TranslatePortalComponent } from '../translate-portal/translate-portal.component';
 import { environment } from 'src/environments/environment';
@@ -157,6 +158,7 @@ export class RolodexComponent implements OnInit {
 
   constructor(
     public pageManager: PagemanagerService,
+    public investorGate: InvestorGateService, // BUILD 191: gates the sessional aperture
     private storageService: StorageService,
     private alertService: AlertsService,
     private eventService: EventService,
@@ -811,7 +813,9 @@ export class RolodexComponent implements OnInit {
    *  remembered Inbox can be restored. Called by every path that leaves the
    *  Settings switch. */
   private leaveSettingsIfNeeded(): void {
-    if (this.currentView === RolodexView.Settings) this.settingsClosed.emit();
+    // 2026-09-14 BUILD 191: the Command Center view joins the same contract
+    // (it opens with the same inbox swap that Settings uses).
+    if (this.currentView === RolodexView.Settings || this.currentView === RolodexView.CommandCenter) this.settingsClosed.emit();
   }
 
   showRegularView() {
@@ -893,6 +897,27 @@ export class RolodexComponent implements OnInit {
       return;
     }
     this.applyFilter.emit();
+  }
+
+  /** 2026-09-14 BUILD 191 THE SESSIONAL APERTURE (founder): the aperture icon
+   *  only exists once the Investor portal password succeeded this session —
+   *  it opens the Command Center AS A VIEW, exactly like Settings: same view
+   *  swap, same external Home icon, plus the console's own internal Close. */
+  onCommandCenter(): void {
+    if (!this.investorGate.unlockedThisSession) {
+      // Defensive: the button is hidden while locked, but a stray tap or a
+      // future caller lands on the word instead of the console.
+      void this.openInvestors();
+      return;
+    }
+    this.showCommandCenterView();
+  }
+
+  showCommandCenterView(): void {
+    this.settingsWillOpen.emit(); // same contract as Settings: the remembered Inbox steps aside
+    this.currentView = RolodexView.CommandCenter;
+    this.autoSortStarted = true;
+    this.searchResultsVisible = false;
   }
 
   fourWsOf(contact: any): { who: string; what: string; where: string; when: string } {

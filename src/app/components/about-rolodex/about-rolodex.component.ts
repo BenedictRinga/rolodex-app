@@ -9,6 +9,7 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { NetworkService } from '../../services/network/network.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { InvestorGateService } from '../../services/investor-gate/investor-gate.service';
 // 2026-09-14 BUILD 190: TranslationReviewComponent moved with the Translations
 // section into command-center/ (that component presents it itself).
 
@@ -112,6 +113,7 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     private readonly draftEngine: DraftEngineService,
     private readonly network: NetworkService,
     private readonly storage: StorageService,
+    private readonly investorGate: InvestorGateService, // BUILD 191: the sessional aperture signal
   ) {}
 
   ngOnInit(): void {
@@ -414,6 +416,10 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
             const pass = String(data?.pass || '').trim();
             if (pass.toLowerCase() === INVESTOR_PASSWORD.toLowerCase()) {
               this.unlocked = true;
+              // 2026-09-14 BUILD 191 THE SESSIONAL APERTURE: a successful
+              // unlock raises the RolodexPage's aperture icon for THIS session
+              // (in-memory only — a fresh app start re-locks it).
+              this.investorGate.unlock();
               this.startInvestorStats();
               return true;
             }

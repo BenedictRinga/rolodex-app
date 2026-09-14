@@ -4,10 +4,13 @@
 // operations-console header.
 
 .cc-shell {
-  position: absolute;
-  inset: 0;
+  /* BUILD 191: works in BOTH hosts — the portal's full-screen modal (the
+     inner .ion-page provides the height) and the RolodexPage view (flow
+     layout with a generous floor; the page behind scrolls normally). */
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 70vh;
   background: var(--ion-background-color, var(--rolodex-surface, #f7f4ee));
 }
 
