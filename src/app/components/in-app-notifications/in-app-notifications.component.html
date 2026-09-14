@@ -11,7 +11,22 @@
   <div class="notify-header">
     <ion-icon name="notifications-outline" class="notify-header-icon"></ion-icon>
     <span class="notify-title">LoopKeeper</span>
+    <!-- 2026-09-14 BUILD 200 THE BLANKET CONTROLS (founder: item-by-item
+         dismissal "is a notional form of false imprisonment — more polite to
+         allow blanket manual dismissal or snooze"): SNOOZE lifts the whole
+         pile (30m · 1h · until 9AM) and DISMISS-ALL clears it, in one tap. -->
+    <ion-icon name="time-outline" class="notify-hbtn" [class.active]="snoozeOpen"
+              (click)="toggleSnooze($event)" role="button" aria-label="Snooze all"></ion-icon>
+    <ion-icon name="close-circle-outline" class="notify-hbtn"
+              (click)="dismissAll($event)" role="button" aria-label="Dismiss all"></ion-icon>
     <ion-icon name="reorder-two-outline" class="notify-grip"></ion-icon>
+  </div>
+  <!-- The snooze window picker — inline, three taps, gone. -->
+  <div class="notify-snooze" *ngIf="snoozeOpen">
+    <span class="ns-label">Quiet until</span>
+    <button type="button" class="ns-chip" (click)="snooze(30)">30 min</button>
+    <button type="button" class="ns-chip" (click)="snooze(60)">1 hour</button>
+    <button type="button" class="ns-chip" (click)="snooze(0)">9 AM</button>
   </div>
   <div class="notify-list">
     <div

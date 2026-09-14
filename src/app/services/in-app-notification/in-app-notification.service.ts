@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { StorageService } from '../storage/storage.service';
 
 /**
  * 2026-08-18 IN-APP NOTIFICATIONS (the London-bus fix).
@@ -8,6 +9,14 @@ import { BehaviorSubject } from 'rxjs';
  * live INSIDE the app, auto-dismiss, and the whole dock can be dragged to a
  * convenient corner of the screen and stays there for the session. The
  * component renders the dock; this service is the state + timer brain.
+ *
+ * 2026-09-14 BUILD 200 THE BLANKET SNOOZE (founder: forcing item-by-item
+ * dismissal "is a notional form of false imprisonment — more polite to allow
+ * blanket manual dismissal or snooze"): dismiss-all exists via clear(), and
+ * snoozeAll() lifts the WHOLE pile out of the way for a chosen window —
+ * 30m, 1h, or until 9AM — returning it intact (sticky items stay sticky).
+ * Alerts that arrive DURING the window join the pile silently; nothing is
+ * lost, nothing nags. The snooze survives a reload (persisted pile + until).
  */
 export interface InAppNotification {
   id: number;
@@ -35,6 +44,35 @@ export class InAppNotificationService {
 
   readonly notifications$ = this.subject.asObservable();
 
+  // ── BUILD 200: the blanket snooze ────────────────────────────────────────
+  private snoozed: InAppNotification[] = [];
+  private snoozedUntil = 0;
+  private snoozeTimer: ReturnType<typeof setTimeout> | null = null;
+  private static readonly SNOOZE_KEY = 'lk_notif_snooze';
+
+  constructor(private readonly storage: StorageService) {
+    // A reload during a snooze window must not lose the pile.
+    void this.storage.get<{ until: number; pile: InAppNotification[] }>(InAppNotificationService.SNOOZE_KEY).then((saved) => {
+      if (saved?.until && saved.until > Date.now()) {
+        this.snoozed = Array.isArray(saved.pile) ? saved.pile : [];
+        this.snoozedUntil = saved.until;
+        this.armSnoozeTimer(saved.until - Date.now());
+      } else if (saved?.pile?.length) {
+        // The window passed while the tab was closed — hand the pile back.
+        for (const n of saved.pile) {
+          this.notifications = [...this.notifications, n];
+          if (n.duration > 0) {
+            const t = setTimeout(() => this.dismiss(n.id), n.duration);
+            this.timers.set(n.id, t);
+          }
+        }
+        this.snoozed = [];
+        void this.storage.remove(InAppNotificationService.SNOOZE_KEY);
+        this.subject.next(this.notifications);
+      }
+    });
+  }
+
   notify(
     message: string,
     opts?: { kind?: 'info' | 'success' | 'error'; duration?: number; data?: InAppNotification['data'] },
@@ -47,6 +85,12 @@ export class InAppNotificationService {
       duration: opts?.duration ?? 3500,
       data: opts?.data,
     };
+    // Snoozed? The alert joins the waiting pile silently — it is not lost.
+    if (this.snoozedUntil > Date.now()) {
+      this.snoozed = [...this.snoozed, notification];
+      void this.storage.set(InAppNotificationService.SNOOZE_KEY, { until: this.snoozedUntil, pile: this.snoozed });
+      return id;
+    }
     this.notifications = [...this.notifications, notification];
     this.subject.next(this.notifications);
     if (notification.duration > 0) {
@@ -78,5 +122,50 @@ export class InAppNotificationService {
     this.timers.clear();
     this.notifications = [];
     this.subject.next([]);
+  }
+
+  // ── BUILD 200: the blanket snooze ────────────────────────────────────────
+
+  /** Lift the whole pile out of the way for `ms`. Nothing is lost: sticky and
+   *  timed items alike return intact when the window ends (timers re-arm). */
+  snoozeAll(ms: number): void {
+    if (!this.notifications.length || ms <= 0) return;
+    for (const n of this.notifications) {
+      const t = this.timers.get(n.id);
+      if (t) { clearTimeout(t); this.timers.delete(n.id); }
+    }
+    this.snoozed = [...this.snoozed, ...this.notifications];
+    this.snoozedUntil = Date.now() + ms;
+    this.notifications = [];
+    this.subject.next([]);
+    void this.storage.set(InAppNotificationService.SNOOZE_KEY, { until: this.snoozedUntil, pile: this.snoozed });
+    this.armSnoozeTimer(ms);
+  }
+
+  /** Is the blanket down? (The dock shows a quiet "snoozed" state when true.) */
+  get snoozeActive(): boolean {
+    return this.snoozedUntil > Date.now();
+  }
+
+  private armSnoozeTimer(ms: number): void {
+    if (this.snoozeTimer) clearTimeout(this.snoozeTimer);
+    this.snoozeTimer = setTimeout(() => this.liftSnooze(), Math.min(ms, 2_147_000_000));
+  }
+
+  private liftSnooze(): void {
+    this.snoozedUntil = 0;
+    this.snoozeTimer = null;
+    const pile = this.snoozed;
+    this.snoozed = [];
+    void this.storage.remove(InAppNotificationService.SNOOZE_KEY);
+    if (!pile.length) return;
+    this.notifications = [...this.notifications, ...pile];
+    for (const n of this.notifications) {
+      if (n.duration > 0) {
+        const t = setTimeout(() => this.dismiss(n.id), n.duration);
+        this.timers.set(n.id, t);
+      }
+    }
+    this.subject.next(this.notifications);
   }
 }

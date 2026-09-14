@@ -81,6 +81,8 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
   onDragStart(e: PointerEvent): void {
     // Close buttons must stay tappable, not become drag handles.
     if ((e.target as HTMLElement).closest('ion-button')) return;
+    // BUILD 200: the blanket controls are taps, not drag handles.
+    if ((e.target as HTMLElement).closest('.notify-hbtn, .notify-snooze')) return;
     this.drag = {
       active: true,
       startX: e.clientX,
@@ -132,5 +134,38 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
 
   dismiss(n: InAppNotification): void {
     this.service.dismiss(n.id);
+  }
+
+  // ── 2026-09-14 BUILD 200 THE BLANKET CONTROLS ────────────────────────────
+  // The founder's "blanket manual dismissal or snooze": the header carries a
+  // snooze picker (30m · 1h · until 9AM) and a dismiss-all. Both must NOT be
+  // swallowed by the dock's drag handler (pointerdown on an icon is a drag
+  // start otherwise) — hence the stopPropagation.
+  snoozeOpen = false;
+
+  toggleSnooze(ev: Event): void {
+    ev.stopPropagation();
+    this.snoozeOpen = !this.snoozeOpen;
+  }
+
+  dismissAll(ev: Event): void {
+    ev.stopPropagation();
+    this.snoozeOpen = false;
+    this.service.clear();
+  }
+
+  snooze(mins: number): void {
+    this.snoozeOpen = false;
+    let ms: number;
+    if (mins <= 0) {
+      // Until the next 9AM local (the morning-digest hour).
+      const at = new Date();
+      at.setHours(9, 0, 0, 0);
+      if (at.getTime() <= Date.now() + 60_000) at.setDate(at.getDate() + 1);
+      ms = at.getTime() - Date.now();
+    } else {
+      ms = mins * 60_000;
+    }
+    this.service.snoozeAll(ms);
   }
 }

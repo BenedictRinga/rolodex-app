@@ -181,3 +181,15 @@ lives here:
   samples still EN - candidate.
 - #4 Rewarded ads: NOT APPLICABLE (off-brand for a private assistant).
 - Hard paywall: NEVER - the never-block doctrine is protected design.
+
+## Billing enforcement policy (2026-09-14, founder)
+"We are deliberately delaying billing enforcement until statistics tell us the
+app is sticky, which is best gathered from first adopters." Concretely:
+- NO billing enforcement of any kind until the investor-portal statistics
+  (retention cohorts D1/D7, DAU/WAU trend, session depth) prove stickiness.
+- The trial stays re-fillable at the user's instance (build 199: the trial
+  stitch - reopenTrial via /api/loopkeeper/trial/reopen); PRE_RELEASE_RENEWAL
+  stays false.
+- Prices ($1 Basic / $5 Assistant) remain advertised in the billing modal but
+  are never enforced. Do not add paywalls, trial locks, or nudge-to-pay flows
+  until the founder calls the moment.

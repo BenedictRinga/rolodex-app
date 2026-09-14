@@ -49,6 +49,45 @@
   font-size: 16px;
 }
 
+/* 2026-09-14 BUILD 200 THE BLANKET CONTROLS — snooze + dismiss-all in the
+   dock header, and the inline snooze-window picker. */
+.notify-hbtn {
+  color: #8b93b0;
+  font-size: 17px;
+  cursor: pointer;
+  flex: none;
+
+  &:hover { color: #c7cede; }
+  &.active { color: #f5c542; }
+}
+
+.notify-snooze {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-bottom: 1px solid #262b3a;
+  background: #1f2330;
+
+  .ns-label {
+    font-size: 11px;
+    color: #8b93b0;
+    flex: 1;
+  }
+
+  .ns-chip {
+    background: #262b3a;
+    color: #e6e8f0;
+    border: 1px solid #343a4d;
+    border-radius: 999px;
+    font-size: 11px;
+    padding: 3px 10px;
+    cursor: pointer;
+
+    &:active { opacity: .7; }
+  }
+}
+
 .notify-list {
   overflow-y: auto;
   padding: 6px 8px;
@@ -130,5 +169,27 @@
 
   .notify-msg {
     color: #1a1d27;
+  }
+}
+
+/* BUILD 200: light-mode counterparts for the blanket controls. */
+@media (prefers-color-scheme: light) {
+  .notify-snooze {
+    background: #f3f5fa;
+    border-bottom-color: #e2e5ee;
+
+    .ns-label { color: #4a5068; }
+
+    .ns-chip {
+      background: #eceef4;
+      color: #1a1d27;
+      border-color: #dfe3ee;
+    }
+  }
+
+  .notify-hbtn {
+    color: #7a8098;
+
+    &:hover { color: #2a2f45; }
   }
 }
