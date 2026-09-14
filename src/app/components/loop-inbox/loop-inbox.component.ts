@@ -604,6 +604,7 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
   async copyIntroB(l: Loop): Promise<void> {
     try {
+      try { this.analytics.track('send_exit', { channel: 'copy', surface: 'inbox-intro' }); } catch { /* analytics optional */ }
       await navigator.clipboard.writeText(l.introNoteB || '');
       void this.alerts.showToast(this.tr('loopkeeper.t.introCopied', { who: l.secondPerson || this.tr('loopkeeper.t.them') }), 2400);
     } catch { void this.alerts.showToast(this.tr('loopkeeper.t.copyErr'), 2500); }
@@ -924,6 +925,8 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     const md = (navigator as any)?.mediaDevices;
     if (!md?.getUserMedia || typeof MediaRecorder === 'undefined') {
       // Graceful degradation: outline to clipboard, loop stays open, nothing faked.
+      // BUILD 194: the outline leaving via clipboard is still an exit signal.
+      try { this.analytics.track('send_exit', { channel: 'copy', surface: 'inbox-voice' }); } catch { /* analytics optional */ }
       try { await navigator.clipboard.writeText(this.loops.getLoop(l.id)?.voiceOutline || ''); } catch { /* ignore */ }
       void this.alerts.showToast(this.tr('loopkeeper.t.recUnsupported'), 3400);
       return;

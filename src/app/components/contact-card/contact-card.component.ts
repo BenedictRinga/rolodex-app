@@ -23,6 +23,7 @@ import { ConfidanteComposerModalComponent } from '../confidante-composer-modal/c
 import { EmailPayload, EmailType, NamePayload, OrganizationPayload, PhonePayload, PhoneType, PostalAddressPayload, PostalAddressType } from '@capacitor-community/contacts';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 @Component({
   selector: 'app-contact-card',
@@ -170,6 +171,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // 2026-08-27 CHOICE-FIRST CALENDAR: the push button on the creation
     // alerts is localized.
     private translate: TranslateService,
+    private analytics: AnalyticsService, // BUILD 194: the card's exit doors speak
   ) {
     
       if (this.pageManager.currentViewMode === 'grid') {
@@ -735,10 +737,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         header: 'Message proffered by your Assistant',
         message: draft,
         buttons: [
-          ...(nums.length ? [{ text: 'Send via WhatsApp', handler: () => { void sendWhatsApp(); } }] : []),
-          ...(nums.length ? [{ text: 'Send via SMS', handler: () => { void sendSms(); } }] : []),
-          ...(email ? [{ text: 'Send via Email', handler: () => { this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
-          { text: 'Copy draft', handler: () => { void navigator.clipboard.writeText(draft); return false; } },
+          // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: every door tap in this
+          // menu is an exit signal — tracked before the handoff, completion
+          // or not. Categorical channel + surface only, never the draft text.
+          ...(nums.length ? [{ text: 'Send via WhatsApp', handler: () => { try { this.analytics.track('send_exit', { channel: 'whatsapp', surface: 'card' }); } catch { /* analytics optional */ } void sendWhatsApp(); } }] : []),
+          ...(nums.length ? [{ text: 'Send via SMS', handler: () => { try { this.analytics.track('send_exit', { channel: 'sms', surface: 'card' }); } catch { /* analytics optional */ } void sendSms(); } }] : []),
+          ...(email ? [{ text: 'Send via Email', handler: () => { try { this.analytics.track('send_exit', { channel: 'email', surface: 'card' }); } catch { /* analytics optional */ } this.draftEngine.pushContext(contact, 'Sent an email (' + new Date().toLocaleDateString() + ')'); contact.lastInteraction = new Date(); this.contactsDirty.emit(); void this.shareApp.shareViaEmail('chat-message', { from, to: name, text: draft, room }, email); } }] : []),
+          { text: 'Copy draft', handler: () => { try { this.analytics.track('send_exit', { channel: 'copy', surface: 'card' }); } catch { /* analytics optional */ } void navigator.clipboard.writeText(draft); return false; } },
           ...socialButtons,
           { text: 'Set message guide', handler: () => this.setMessageGuide(contact) },
           { text: 'Cancel', role: 'cancel' },

@@ -87,6 +87,16 @@
         </div>
       </div>
       <p class="investor-chart-note">Organic devices, all events, one cell per day. Read the SLOPE, not the total: rising rows earn refinement and doubling down; rows flat at zero across the window are drop or re-interprete candidates; the Σ column gives the weight. Sep 8-12 are empty by history (the two-week ingest outage) — the matrix re-baselines from the repair.</p>
+      <!-- 2026-09-14 BUILD 194 THE CHANNEL FUNNEL (founder: the exit windows are
+           a signal-detector stage): door taps (send_exit) vs deeds
+           (message_sent) per channel, 30d. exits > sends = the drop-off. -->
+      <div class="retention-table" *ngIf="stats.analytics.channelExits?.length" style="margin-top:10px;">
+        <div class="retention-row retention-head"><span>Channel (30d)</span><span>Door taps</span><span>Sends</span><span></span></div>
+        <div class="retention-row" *ngFor="let c of stats.analytics.channelExits">
+          <span>{{ c.channel }}</span><span>{{ c.exits }}</span><span>{{ c.sends }}</span><span></span>
+        </div>
+      </div>
+      <p class="investor-chart-note" *ngIf="stats.analytics.channelExits?.length">The signal-detector stage: every door tap into WhatsApp, SMS, email, in-app chat, or a copy — counted at the tap, completion or not — against the sends that closed a loop. A channel with many taps and few sends is where the words lose the user.</p>
     </div>
 
     <!-- 03 · TIMELINE (moved from the portal) -->

@@ -10,6 +10,7 @@ import { StudioAudioBridgeService } from '../../services/studio-bridge/studio-br
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { VideoCallModalComponent } from '../video-call-modal/video-call-modal.component';
 import { AssistantCardService } from '../../services/assistant-card/assistant-card.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 interface ComposerMsg {
   role: 'user' | 'ai';
@@ -128,6 +129,7 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
     private readonly studioPlayback: StudioPlaybackService,
     private readonly studioBridge: StudioAudioBridgeService,
     private readonly assistantCard: AssistantCardService,
+    private readonly analytics: AnalyticsService, // BUILD 194: the exit doors speak
   ) {}
 
   get firstPhone(): string {
@@ -176,24 +178,30 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
 
   async sendSms(): Promise<void> {
     if (!this.firstPhone || !this.draft) return;
+    // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the door tap itself is the
+    // signal — whether or not the SMS completes, the intent is now a log.
+    try { this.analytics.track('send_exit', { channel: 'sms', surface: 'composer' }); } catch { /* analytics optional */ }
     await this.shareApp.shareViaSms('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstPhone);
     this.assistantCard.push(this.contact?.contactId, 'SMS', this.draft);
   }
 
   async sendEmail(): Promise<void> {
     if (!this.firstEmail || !this.draft) return;
+    try { this.analytics.track('send_exit', { channel: 'email', surface: 'composer' }); } catch { /* analytics optional */ }
     await this.shareApp.shareViaEmail('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstEmail);
     this.assistantCard.push(this.contact?.contactId, 'Email', this.draft);
   }
 
   async sendWhatsApp(): Promise<void> {
     if (!this.firstPhone || !this.draft) return;
+    try { this.analytics.track('send_exit', { channel: 'whatsapp', surface: 'composer' }); } catch { /* analytics optional */ }
     await this.shareApp.shareViaWhatsApp('chat-message', { from: await this.senderName(), to: this.contactName, text: this.draft, room: this.cardChat.room || '' }, this.firstPhone);
     this.assistantCard.push(this.contact?.contactId, 'WhatsApp', this.draft);
   }
 
   async sendInAppChat(): Promise<void> {
     try {
+      try { this.analytics.track('send_exit', { channel: 'in-app', surface: 'composer' }); } catch { /* analytics optional */ }
       const thread = await this.cardChat.seedThread(this.contact);
       const modal = await this.modalController.create({
         component: CardChatModalComponent,
@@ -288,6 +296,8 @@ export class ConfidanteComposerModalComponent implements OnInit, OnDestroy {
   async copyDraft(): Promise<void> {
     if (!this.draft) return;
     try {
+      // BUILD 194 THE SIGNAL DETECTOR: every copy is an exit with the words.
+      try { this.analytics.track('send_exit', { channel: 'copy', surface: 'composer' }); } catch { /* analytics optional */ }
       await navigator.clipboard.writeText(this.draft);
       void this.alertsService.showToast('Draft copied', 1800);
     } catch {

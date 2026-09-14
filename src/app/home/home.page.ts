@@ -1955,6 +1955,10 @@ export class HomePage implements OnInit, OnDestroy {
       void this.alertsService.showToast('Oops, AI Assistant is waiting for you before it can respond.', 2500);
       return;
     }
+    // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the chat's copy door is one of
+    // the ENDS of the user-AI conversation — the words leaving the chat are a
+    // measurable outcome, whether or not a send ever follows.
+    try { this.analytics.track('send_exit', { channel: 'copy', surface: 'chat' }); } catch { /* analytics optional */ }
     try {
       await navigator.clipboard.writeText(text);
       await this.alertsService.showToast('Draft copied', 1800);

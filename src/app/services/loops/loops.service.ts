@@ -881,7 +881,10 @@ No pressure either way — replying here connects you directly.`;
     this.touch(l);
     void this.persist();
     void this.loopWake.cancelWake(id); // BUILD 189: sent IS closed — no ping for a resting loop
-    this.analytics.track('message_sent');
+    // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the door tap IS the deed here
+    // (fire-and-close), so message_sent carries the CHANNEL — the per-channel
+    // exit funnel the founder asked for, cross-matchable against send_exit.
+    this.analytics.track('message_sent', { channel, surface: 'loop' });
     this.analytics.track('loop_closed', { mode: 'sent' });
   }
 
