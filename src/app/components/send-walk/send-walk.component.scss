@@ -13,8 +13,14 @@
 /* 2026-08-31 BUILD 162 (founder: bring the Slide down lower): the slide no
    longer glues to the top of the pane — a shrinkable spacer drops it toward
    the lower half. flex-basis 0 shrink 1: on a short screen it yields its
-   height back entirely, so tall slides are never pushed below the fold. */
-.sw-lower { flex: 0 1 clamp(20px, 9vh, 88px); }
+   height back entirely, so tall slides are never pushed below the fold.
+   2026-09-14 BUILD 204 (founder: get more material into the initial viewport
+   WITHOUT over-suppressing the contacts card display space — the last trim
+   cost the view of the first pill under "Ma's doctor"): the decorative spacer
+   above the slide yields — max 88px of air down to 44px — and the card's
+   padding tightens. The deck below the shell keeps its space; the pills come
+   back into view. */
+.sw-lower { flex: 0 1 clamp(12px, 6vh, 44px); }
 
 .sw-kicker {
   font-size: 12px;
@@ -29,12 +35,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   border: 1px solid rgba(255, 178, 92, .5);
   background: linear-gradient(180deg, rgba(255, 178, 92, .10), rgba(20, 184, 166, .05));
   border-radius: 22px;
-  padding: 22px 18px 20px;
+  padding: 16px 18px 14px;
   color: inherit;
   cursor: pointer;
   text-align: center;
@@ -344,7 +350,8 @@
 /* 2026-09-08 BUILD 182 THE GARDEN PATH — slide 1's second door: pills grown
    from the user's own loop history, plus one typed line for a fresh subject.
    Ported from the b182 contactless walk; palette unchanged. */
-.sw-garden { margin: 4px 2px 14px; }
+/* BUILD 204: rhythm tightened with the spacer — the pills stay on the pane. */
+.sw-garden { margin: 4px 2px 10px; }
 /* BUILD 201 REV 2: the garden (label + the user's own loop pills) stepped down
    BELOW the typed line + self pills — label back in header role; the block
    breathes apart from the fresh-start doors above it. */
@@ -373,7 +380,7 @@
 /* 2026-09-08 BUILD 183 SELF LOOPS - the no-arming door under the garden:
    two quiet gray taps (a decision, a place to show up). Quieter than the
    teal pills on purpose - the shyest entry in the whole walk. */
-.sw-selfrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 2px 14px; }
+.sw-selfrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 2px 10px; }
 .sw-self {
   display: inline-flex; align-items: center;
   border: 1px solid rgba(128, 128, 128, .28);
