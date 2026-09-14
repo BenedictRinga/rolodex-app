@@ -59,6 +59,39 @@ export class RolodexSyncService {
     ) {
     this.deviceId = this.loadDeviceId();
     this.profileReady = this.hydrateProfile();
+    // 2026-09-14 BUILD 205 THE PHANTOM-ID FIX (Grok audit, verified): on a
+    // cold start that lost the IndexedDB-hydration race, loadDeviceId() minted
+    // a FRESH rolodex-<random> id and setSync() PERSISTED it - overwriting the
+    // device's true identity. Every losing cold start minted a phantom device;
+    // DAU 172 with D1 0 was that machine. Now: the provisional id is never
+    // persisted by loadDeviceId; hydration ADOPTS the stored id (or finalizes
+    // the provisional only when none exists), and analytics awaits the final
+    // identity before queueing app_launch.
+    this.deviceReady = this.hydrateDeviceId();
+  }
+
+  /** Resolves once the device id is FINAL (stored id adopted, or provisional
+   *  finalized). Analytics init awaits this before queueing app_launch. */
+  readonly deviceReady: Promise<void>;
+
+  private async hydrateDeviceId(): Promise<void> {
+    try {
+      const stored = await this.storage.get<string>('rolodex_device_id');
+      if (stored && stored !== this.deviceId) {
+        // The true identity wins; the provisional (never persisted) is dropped.
+        this.deviceId = stored;
+        this.storage.setSync('rolodex_device_id', stored);
+      } else if (!stored) {
+        // Genuinely first run - finalize the provisional as the real id.
+        await this.storage.set('rolodex_device_id', this.deviceId);
+      }
+    } catch { /* keep the provisional; next launch retries */ }
+  }
+
+  /** BUILD 205: the final device id, after hydration. */
+  async getDeviceIdFinal(): Promise<string> {
+    await this.deviceReady;
+    return this.deviceId;
   }
 
   private async hydrateProfile(): Promise<void> {
@@ -77,9 +110,10 @@ export class RolodexSyncService {
     try {
       const stored = this.storage.getSync<string>('rolodex_device_id'); // 2026-08-18 IndexedDB memory cache
       if (stored) return stored;
-      const id = 'rolodex-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-      this.storage.setSync('rolodex_device_id', id);
-      return id;
+      // BUILD 205: PROVISIONAL ONLY - setSync removed (it wrote through to
+      // IndexedDB and clobbered the true stored id during the hydration race -
+      // the phantom machine). hydrateDeviceId() adopts or finalizes.
+      return 'rolodex-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
     } catch {
       return 'rolodex-' + Date.now().toString(36);
     }

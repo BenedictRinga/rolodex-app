@@ -96,7 +96,11 @@ export class LoopWakeService {
    * passed today, plus the in-page timer for tomorrow.
    */
   async resyncDigest(loops: Array<{ id: string; status: string; waitUntil?: number; handle?: string }> | null | undefined): Promise<void> {
-    const waiting = (loops || []).filter((l) => l.status === 'waiting' && !!l.waitUntil);
+    // 2026-09-14 BUILD 205 (Grok plan #4: arm the digest the moment the FIRST
+    // loop exists, even a self-loop): OUTSTANDING loops - open AND waiting -
+    // are the morning material, not just snoozed ones. Open loops carry no
+    // waitUntil, so the filter is status-based.
+    const waiting = (loops || []).filter((l) => l.status === 'waiting' || l.status === 'open');
     const handles = waiting.map((l) => (l.handle || '').trim()).filter(Boolean).slice(0, 3);
     const body = waiting.length === 0 ? ''
       : `${waiting.length} loop${waiting.length === 1 ? '' : 's'} waiting` +

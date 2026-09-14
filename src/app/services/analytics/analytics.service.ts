@@ -122,6 +122,9 @@ export class AnalyticsService {
   async init(): Promise<void> {
     if (!this.loaded) await this.hydrate();
     if (!this.enabled) return;
+    // 2026-09-14 BUILD 205 THE PHANTOM-ID FIX: await the FINAL device identity
+    // before queueing anything - a cold-start provisional id must never flush.
+    try { await this.rolodexSync.getDeviceIdFinal(); } catch { /* flush stamps live anyway */ }
     const now = Date.now();
     this.visitNumber = (this.visitNumber || 0) + 1;
     if (!this.firstSeenAt) this.firstSeenAt = now;
@@ -159,7 +162,6 @@ export class AnalyticsService {
     try {
       const flag = await this.storage.get<boolean>('loopkeeper_landing_sent');
       if (flag) return;
-      await this.storage.set('loopkeeper_landing_sent', true);
       let ref = 'direct';
       try {
         const r = document.referrer || '';
@@ -173,7 +175,11 @@ export class AnalyticsService {
         const s = new URLSearchParams(window.location.search).get('src') || '';
         src = (s.toLowerCase().match(/^[a-z0-9_-]{1,24}$/) || [''])[0];
       } catch { src = ''; }
+      // 2026-09-14 BUILD 205: QUEUE FIRST, bookkeeping after - the old order
+      // awaited the flag-write before queueing, and a 3-second bounce dropped
+      // the whole landing (171 launches vs 3 landings was that bug).
       this.track('landing_source', { ref, src });
+      void this.storage.set('loopkeeper_landing_sent', true);
     } catch { /* landing attribution is best-effort by design */ }
   }
 

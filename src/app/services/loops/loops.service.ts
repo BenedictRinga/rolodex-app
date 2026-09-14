@@ -4,6 +4,7 @@ import { StorageService } from '../storage/storage.service';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { LoopWakeService } from '../loop-wake/loop-wake.service';
 import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
+import { AppInstallService } from '../app-install/app-install.service';
 import { environment } from '../../../environments/environment';
 import { userLang } from '../lang/user-lang';
 
@@ -102,6 +103,8 @@ export class LoopsService {
     private loopWake: LoopWakeService,
     // 2026-09-14 BUILD 199: the achievement celebration rides the same dock.
     private inAppNotifications: InAppNotificationService,
+    // 2026-09-14 BUILD 205: the install door opens on the first deed.
+    private appInstall: AppInstallService,
   ) {}
 
   // ===== Persistence ========================================================
@@ -185,6 +188,16 @@ export class LoopsService {
     this.cache!.unshift(loop);
     void this.persist();
     this.analytics.track('loop_captured');
+    // 2026-09-14 BUILD 205 THE FIRST DEED (Grok plan #1): one once-ever event
+    // for the very first loop of any kind - the Activation table's headline.
+    // The moment it exists, the install door opens (the only return path
+    // without a store) - not on cold landing, on the deed.
+    void this.storage.get<boolean>('lk_first_loop_started').then((done) => {
+      if (done) return;
+      void this.storage.set('lk_first_loop_started', true);
+      this.analytics.track('first_loop_started');
+      void this.appInstall.promptInstallNow('first loop captured');
+    });
     return loop;
   }
 

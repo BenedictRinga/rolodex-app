@@ -51,13 +51,19 @@
          a decision, a place to show up — as PURE self-loops (no subject at
          all, b181's person-less loop), straight to the words.
          BUILD 201 REV 2: these ride up with the typed line, immediately after
-         "Not this one". -->
+         "Not this one".
+         2026-09-14 BUILD 205 (Grok plan #2: MINE is the first door): on an
+         EMPTY deck the add sheet is one tap away — a stranger's first tap can
+         be "add someone", not a demo name. -->
     <div class="sw-selfrow">
       <button class="sw-self" type="button" (click)="selfTap('decide')">
         {{ 'loopkeeper.walk.chipDecide' | translate }}
       </button>
       <button class="sw-self" type="button" (click)="selfTap('show-up')">
         {{ 'loopkeeper.walk.chipShowUp' | translate }}
+      </button>
+      <button *ngIf="!who" class="sw-self" type="button" (click)="addRequest.emit()">
+        {{ 'loopkeeper.add.pickPhone' | translate }}
       </button>
     </div>
     <!-- THE GARDEN, stepped down: the user's OWN loop history (a person, a
