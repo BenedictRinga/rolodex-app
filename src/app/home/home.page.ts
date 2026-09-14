@@ -42,6 +42,9 @@ import { Subscription } from 'rxjs'; // BUILD 143: nudge-tap channel handles
 import { KeeperAgentService } from '../services/agents/keeper-agent.service';
 import { InAppNotificationService } from '../services/in-app-notification/in-app-notification.service';
 import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
+// 2026-09-14 BUILD 199 THE ACHIEVEMENT SHARE + THE TRIAL STITCH: the dock's
+// celebration tap and the trial-end stitch both open the share sheet.
+import { ShareAppModalComponent } from '../components/share-app-modal/share-app-modal.component';
 // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
 import { LoopsService } from '../services/loops/loops.service';
 import { UpdatesService } from '../services/updates/updates.service';
@@ -388,10 +391,22 @@ export class HomePage implements OnInit, OnDestroy {
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
+      // 2026-09-14 BUILD 199: the achievement share tap opens the share sheet.
+      if (n?.data?.action === 'shareAchievement') void this.openShareApp();
+      // BUILD 199: a morning-digest tap — the user is already on home; the
+      // dock dismisses on tap and the deck does the talking.
+      if (n?.data?.action === 'loopDigest') { /* dismiss only */ }
     });
 
     await this.loadContacts();
     await this.runAutomation();
+    // 2026-09-14 BUILD 199 THE TRIAL STITCH (founder: trial exhaustion "should
+    // be re-fillable at user's instance"): an expired trial now MEETS the user
+    // — the free path (re-fill the 7 days on demand, or invite a friend)
+    // instead of the silent pre-release auto-renew.
+    if (this.draftEngine.plan !== 'confidante' && this.draftEngine.trialDaysLeft() <= 0) {
+      void this.presentTrialStitch();
+    }
 
     // 2026-08-16: when the server is the chosen home, restore the full list
     // from it (fall back to the local list when the server has nothing).
@@ -474,6 +489,55 @@ export class HomePage implements OnInit, OnDestroy {
       setTimeout(travel, 320); // let *ngIf render the inbox first
       setTimeout(travel, 800); // second pass: first render still settling
     } catch { /* a dead nudge is still better than a crash */ }
+  }
+
+  /** 2026-09-14 BUILD 199: open the share sheet (the achievement tap and the
+   *  trial stitch's invite door both land here). */
+  private async openShareApp(): Promise<void> {
+    try {
+      const modal = await this.modalController.create({
+        component: ShareAppModalComponent,
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95, 1],
+        initialBreakpoint: 0.95,
+      });
+      await modal.present();
+    } catch { /* best effort */ }
+  }
+
+  /**
+   * 2026-09-14 BUILD 199 THE TRIAL STITCH (founder: trial exhaustion "should
+   * be re-fillable at user's instance" — the original /trial/reopen policy,
+   * restored as a user-facing door). At expiry the user MEETS the free path:
+   * re-fill the 7 days on demand (reopenTrial), or invite a friend. At most
+   * once per 48h per expiry, so it waits without nagging.
+   */
+  private async presentTrialStitch(): Promise<void> {
+    try {
+      const last = await this.storageService.get<number>('lk_trial_stitch_at');
+      if (last && Date.now() - last < 48 * 3600_000) return;
+      await this.storageService.set('lk_trial_stitch_at', Date.now());
+      const alert = await this.alertController.create({
+        header: 'Your full-access week has ended',
+        message: 'LoopKeeper stays yours — your people live on your phone. Re-fill your 7 days on demand, or invite a friend to keep theirs warm too.',
+        buttons: [
+          { text: 'Later', role: 'cancel' },
+          {
+            text: 'Invite a friend',
+            handler: () => { void this.openShareApp(); },
+          },
+          {
+            text: 'Re-fill my 7 days',
+            handler: () => {
+              void this.draftEngine.reopenTrial().then((ok) => {
+                void this.alertsService.showToast(ok ? 'Your 7 days are re-filled — welcome back' : 'Week re-filled on this device', 2800);
+              });
+            },
+          },
+        ],
+      });
+      await alert.present();
+    } catch { /* the stitch is best-effort */ }
   }
 
   /** 2026-08-18 AI LIVE LIGHT: ask the server which engines are configured. */

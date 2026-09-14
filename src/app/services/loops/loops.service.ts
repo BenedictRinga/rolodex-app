@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../storage/storage.service';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { LoopWakeService } from '../loop-wake/loop-wake.service';
+import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
 import { environment } from '../../../environments/environment';
 import { userLang } from '../lang/user-lang';
 
@@ -99,6 +100,8 @@ export class LoopsService {
     // survives app kill) that fires at 9 on the promised morning and taps
     // back onto the home deck. Device-local, never leaves the phone.
     private loopWake: LoopWakeService,
+    // 2026-09-14 BUILD 199: the achievement celebration rides the same dock.
+    private inAppNotifications: InAppNotificationService,
   ) {}
 
   // ===== Persistence ========================================================
@@ -146,7 +149,7 @@ export class LoopsService {
     // from the ledger on first load — future wakes re-arm, closed/dropped
     // loops stop pinging, and PWA wakes that passed while closed get one
     // catch-up nudge instead of silence (the Soliloquy resync pattern).
-    void this.loopWake.resyncAll(this.cache);
+    void this.loopWake.resyncDigest(this.cache); // BUILD 199: the morning digest replaces per-loop pings
     return this.cache;
   }
 
@@ -194,7 +197,7 @@ export class LoopsService {
   }
 
   remove(id: string): void {
-    void this.loopWake.cancelWake(id); // BUILD 189: a removed loop never rings
+    void this.loopWake.resyncDigest(this.cache); // — BUILD 189: a removed loop never rings
     this.cache = this.cache?.filter(l => l.id !== id) || [];
     void this.persist();
   }
@@ -264,7 +267,7 @@ export class LoopsService {
     l.nextNudgeAt = Date.now();
     this.touch(l);
     void this.persist();
-    void this.loopWake.cancelWake(id); // BUILD 189: it's awake — kill the ping
+    void this.loopWake.resyncDigest(this.cache); // — BUILD 189: it's awake — kill the ping
   }
 
   /** 2026-09-08 BUILD 182 THE GARDEN PATH — ported from the b182 contactless
@@ -850,7 +853,7 @@ No pressure either way — replying here connects you directly.`;
     // OS schedules the 9AM alarm (Soliloquy pattern; survives app kill), the
     // tap lands on the home deck. The handle shown is the user's own nickname
     // and never leaves the phone.
-    void this.loopWake.scheduleWake(id, l.waitUntil, l.handle || undefined);
+    void this.loopWake.resyncDigest(this.cache); // BUILD 199: the digest re-arms; per-loop pings retired
   }
 
   dropWithDignity(id: string, reason: string): void {
@@ -862,7 +865,7 @@ No pressure either way — replying here connects you directly.`;
     l.nextNudgeAt = undefined; // dropping IS closing — silence afterwards
     this.touch(l);
     void this.persist();
-    void this.loopWake.cancelWake(id); // BUILD 189: dropped with dignity — the ping goes too
+    void this.loopWake.resyncDigest(this.cache); // — BUILD 189: dropped with dignity — the ping goes too
     this.analytics.track('loop_closed', { mode: 'dropped' });
   }
 
@@ -880,12 +883,13 @@ No pressure either way — replying here connects you directly.`;
     if (l.status !== 'closed') { l.status = 'closed'; l.closedAt = Date.now(); }
     this.touch(l);
     void this.persist();
-    void this.loopWake.cancelWake(id); // BUILD 189: sent IS closed — no ping for a resting loop
+    void this.loopWake.resyncDigest(this.cache); // — BUILD 189: sent IS closed — no ping for a resting loop
     // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the door tap IS the deed here
     // (fire-and-close), so message_sent carries the CHANNEL — the per-channel
     // exit funnel the founder asked for, cross-matchable against send_exit.
     this.analytics.track('message_sent', { channel, surface: 'loop' });
     this.analytics.track('loop_closed', { mode: 'sent' });
+    this.maybeCelebrateAchievement();
   }
 
   /** Reply arrived / thing truly done → THE celebration moment. */
@@ -897,8 +901,35 @@ No pressure either way — replying here connects you directly.`;
     l.nextNudgeAt = undefined;
     this.touch(l);
     void this.persist();
-    void this.loopWake.cancelWake(id); // BUILD 189: done — the ping goes quiet
+    void this.loopWake.resyncDigest(this.cache); // — BUILD 189: done — the ping goes quiet
     this.analytics.track('loop_closed');
+    this.maybeCelebrateAchievement();
+  }
+
+  /**
+   * 2026-09-14 BUILD 199 THE ACHIEVEMENT SHARE (Pocket FM's cliffhanger-share
+   * lever, organic version): closing loops is the achievement — at week-milestones
+   * the dock offers to tell someone ("You've closed N loops this week"), tapping
+   * into the share sheet. Milestone-gated + once-per-level (persisted), so it
+   * celebrates, never nags.
+   */
+  private maybeCelebrateAchievement(): void {
+    try {
+      const week = (this.cache || []).filter((l) => l.closedAt && Date.now() - l.closedAt < 7 * 86400000).length;
+      if (!week) return;
+      const milestones = [1, 3, 5, 10, 20, 30];
+      const hit = [...milestones].reverse().find((m) => week >= m);
+      if (!hit) return;
+      const key = 'lk_achievement_shown';
+      void this.storage.get<number>(key).then((shown) => {
+        if ((shown || 0) >= hit) return; // this level already celebrated
+        void this.storage.set(key, hit);
+        this.inAppNotifications.notify(
+          '🎉 You have closed ' + week + ' loops this week — tell someone',
+          { kind: 'success', duration: 0, data: { action: 'shareAchievement', count: week } },
+        );
+      });
+    } catch { /* celebration is best-effort */ }
   }
 
   /**

@@ -159,3 +159,25 @@ across all of these, or the Confidante will answer from stale facts.
 - AI chat: stateless — backend never persists/logs messages.
 - Feedback: only the AI-gleaned summary is sent; raw chat text stays on device.
 - NEVER add phone/contact collection to analytics or background calls.
+
+## Pocket FM-derived backlog (2026-09-14, build 199)
+The founder's playbook file D:/TODOs/Pocket_FM Playbook.txt maps Rohan Nayak's
+0-to-500M breakdown - but it was mapped FOR ZYPPAR. The LoopKeeper adaptation
+lives here:
+- #2 Daily-drops habit engine -> loop wake 9AM MORNING DIGEST (build 199):
+  one notification/day listing waiting loops by handle (replaces per-loop
+  pings; PWA catch-up once/day).
+- #3 Cliffhanger shares (organic) -> ACHIEVEMENT SHARE (build 199): dock
+  nudge at week-milestones (1/3/5/10/20/30 closed loops), tap -> share sheet.
+- #1 Exhaustion stitching -> TRIAL STITCH (build 199): expired trial meets
+  the user with the free path - RE-FILL THE 7 DAYS ON DEMAND
+  (draft-engine.reopenTrial -> /api/loopkeeper/trial/reopen; the pre-release
+  silent auto-renew PRE_RELEASE_RENEWAL is now FALSE) or invite a friend.
+  Once per 48h per expiry.
+- #6 Drop-off analytics -> already built (dailyEvents, deviceGrowth,
+  channel funnel, reliability, crash ledger - builds 69-76).
+- #5 Localization -> lite version shipped (39 locales + tz greeting,
+  build 195; directive warmth, server 75). Deeper: locale-aware capture
+  samples still EN - candidate.
+- #4 Rewarded ads: NOT APPLICABLE (off-brand for a private assistant).
+- Hard paywall: NEVER - the never-block doctrine is protected design.

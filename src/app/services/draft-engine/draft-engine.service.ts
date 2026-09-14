@@ -30,8 +30,13 @@ const CONTEXT_CAP = 8;
  * 2026-08-26 PRE-RELEASE RENEWAL — while payments are not yet wired, an expired
  * trial is silently renewed on the next visit with a visible thank-you. Flip to
  * false the day real billing goes live.
+ * 2026-09-14 BUILD 199 (founder: trial exhaustion "should be re-fillable at
+ * user's instance"): the renewal becomes the USER'S BUTTON — the silent
+ * auto-renew is retired; an expired trial shows the trial stitch (re-fill the
+ * 7 days on demand via reopenTrial — the original /trial/reopen policy
+ * restored — or invite a friend). Flip back to true only on request.
  */
-const PRE_RELEASE_RENEWAL = true;
+const PRE_RELEASE_RENEWAL = false;
 
 /**
  * 2026-08-16 THE CONFIDANTE v2 — the confidential secretary that PROFfers
