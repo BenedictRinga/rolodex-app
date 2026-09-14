@@ -147,6 +147,34 @@
       </ion-button>
     </div>
 
+    <!-- 06 · DISCOVERY (2026-09-14 BUILD 193, founder: "no clue how they are
+         discovering the app"): the arrival record + the once-per-device
+         landing attribution. Bursts correlate with real-world shares; a flat
+         tail after a burst reads as churn. -->
+    <div class="investor-section sec-discovery" *ngIf="stats?.analytics?.deviceGrowth">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <div class="section-title"><span class="section-kicker">Discovery</span><strong>How they arrive</strong></div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-row" *ngFor="let g of growthBars()">
+          <span class="bar-label">{{ g.day.slice(5) }}</span>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="growthWidth(g.count)"></div>
+          </div>
+          <span class="bar-count">{{ g.count }}</span>
+        </div>
+      </div>
+      <p class="investor-chart-note">Each bar = devices whose FIRST contact sync (trial start) fell on that day — the arrival record. Bursts correlate with real-world shares and posts; a flat tail after a burst reads as churn.</p>
+      <div class="retention-table" *ngIf="stats.analytics.landingSources?.length" style="margin-top:10px;">
+        <div class="retention-row retention-head"><span>Landing source (once per device)</span><span>Devices</span></div>
+        <div class="retention-row" *ngFor="let s of stats.analytics.landingSources">
+          <span>{{ s.ref }}</span><span>{{ s.count }}</span>
+        </div>
+      </div>
+      <p class="investor-chart-note" *ngIf="!stats.analytics.landingSources?.length">No attributed landings yet — devices record their provenance once, from build 193. WhatsApp forwards of the plain link land as 'direct' by design; pin a ?src= tag when you post to tag a community.</p>
+    </div>
+
     <div class="investor-section" *ngIf="!stats && !loading && !loadError">
       <p class="investor-live-note">Telemetry has not loaded yet — leave and reopen the console.</p>
     </div>

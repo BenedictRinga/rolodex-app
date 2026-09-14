@@ -110,4 +110,20 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     if (!max) return 0;
     return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
   }
+
+  /** 2026-09-14 BUILD 193 DISCOVERY: zip the arrival timeline into bars. */
+  growthBars(): Array<{ day: string; count: number }> {
+    const g = this.stats?.analytics?.deviceGrowth;
+    if (!g?.days?.length) return [];
+    return g.days.map((day: string, i: number) => ({ day, count: Number(g.counts?.[i]) || 0 }));
+  }
+
+  /** Arrival bar width, scaled to the busiest arrival day. */
+  growthWidth(count: number): number {
+    const g = this.stats?.analytics?.deviceGrowth;
+    const counts = (g?.counts || []).map((c: any) => Number(c) || 0);
+    const max = Math.max(0, ...counts);
+    if (!max) return 0;
+    return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
+  }
 }

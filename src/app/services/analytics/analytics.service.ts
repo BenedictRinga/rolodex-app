@@ -140,6 +140,41 @@ export class AnalyticsService {
     });
     this.startSession();
     this.bindVisibility();
+    void this.trackLandingSource();
+  }
+
+  /**
+   * 2026-09-14 BUILD 193 THE DISCOVERY LENS (founder: "no clue how they are
+   * discovering the app"): fires ONCE PER DEVICE, ever — the provenance of
+   * the very first arrival. Two categorical props only:
+   *  - ref: document.referrer reduced to host + path, query string STRIPPED
+   *    (no tokens, no campaign ids can leak — the crash reporter's rule);
+   *    'direct' when there is no referrer (typed URL, WhatsApp webview, a
+   *    forwarded plain link — expected to dominate);
+   *  - src: a short ?src= tag the founder may pin when posting links
+   *    (e.g. ?src=whatsapp-mchungaji), sanitized to [a-z0-9_-]{1,24}.
+   * Storage flag makes it exactly-once; consent already gates this service.
+   */
+  private async trackLandingSource(): Promise<void> {
+    try {
+      const flag = await this.storage.get<boolean>('loopkeeper_landing_sent');
+      if (flag) return;
+      await this.storage.set('loopkeeper_landing_sent', true);
+      let ref = 'direct';
+      try {
+        const r = document.referrer || '';
+        if (r) {
+          const u = new URL(r);
+          ref = (u.host + u.pathname).slice(0, 80).replace(/\/$/, '') || 'direct';
+        }
+      } catch { ref = 'direct'; }
+      let src = '';
+      try {
+        const s = new URLSearchParams(window.location.search).get('src') || '';
+        src = (s.toLowerCase().match(/^[a-z0-9_-]{1,24}$/) || [''])[0];
+      } catch { src = ''; }
+      this.track('landing_source', { ref, src });
+    } catch { /* landing attribution is best-effort by design */ }
   }
 
   startSession(): void {
