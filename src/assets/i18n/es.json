@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Nota de voz entregada — bucle CERRADO con {{person}}.",
     "t.voiceSent": "📤 Nota de voz enviada — listo significa la respuesta de {{person}}.",
     "t.attachSaved": "⬇ Guardado — adjúntalo en tu app de chat y márcalo enviado.",
-    "welcome.intro.kicker": "¡Karibu sana!",
+    "welcome.intro.kicker": "¡Bienvenido!",
     "welcome.intro.kickerReplay": "Bienvenido de nuevo",
     "welcome.intro.title": "LoopKeeper — cierra el bucle que siempre dejas pendiente",
     "welcome.intro.copy": "Empieza con una cosa que llevas tiempo queriendo hacer: una persona a la que escribir, una decisión que tomar, una renovación que presentar. Ponle ritmo. Cierra el ciclo.",

@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Voice note delivered — loop CLOSED with {{person}}.",
     "t.voiceSent": "📤 Voice note sent — done means {{person}}'s reply.",
     "t.attachSaved": "⬇ Saved — attach it in your chat app, then mark it sent.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "ようこそ！",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
     "welcome.intro.copy": "ずっとやろうと思っていたことを47ひとつから — 届けたい人、決めかねていること、提出を待つ更新。リズムを決めて、輪を閉じる。",

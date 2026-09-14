@@ -27,6 +27,13 @@ export interface WelcomeDemoStep {
   surprise?: string;
   /** 2026-08-20 optional bold/larger emphasis line, detached from the copy. */
   emphasis?: string;
+  /**
+   * 2026-09-14 BUILD 195 THE LOCAL GREETING: when the device's timezone maps
+   * to one of OUR translation languages, the kicker becomes that locale's own
+   * line, fetched from its i18n file — a RAW string, rendered as-is (the
+   * template prefers it over the translate-piped key).
+   */
+  kickerRaw?: string;
 }
 
 /**
@@ -184,12 +191,97 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     const t = (k?: string) => (k ? this.translate.instant(k) : k);
     return {
       ...step,
-      kicker: t(step.kicker) as string,
+      // BUILD 195: a timezone-picked raw greeting wins over the piped key.
+      kicker: (step.kickerRaw ?? t(step.kicker)) as string,
       title: t(step.title) as string,
       copy: t(step.copy) as string,
       emphasis: t(step.emphasis),
       surprise: t(step.surprise),
     };
+  }
+
+  /**
+   * 2026-09-14 BUILD 195 THE LOCAL GREETING (founder: configure "Karibu sana!"
+   * to appear in any one of our translation languages dependent on where in
+   * the world the phone is). NO IP, NO geolocation API — the DEVICE CLOCK is
+   * the geography: the IANA zone's city maps to one of OUR 39 translation
+   * locales, that locale's own i18n file supplies its translated greeting for
+   * the first slide's kicker, and the rest of the tour stays in the user's
+   * chosen language. A phone in Nairobi reads "Karibu sana!", a phone in
+   * Paris reads our French line — the multilingual hook on the very first
+   * thing a new device sees. Fallbacks: device language → current behaviour.
+   */
+  private static readonly GREET_CITY_TO_LOCALE: Record<string, string> = {
+    // East Africa — the Swahili home; Karibu keeps its throne here.
+    nairobi: 'sw', mombasa: 'sw', kisumu: 'sw', nakuru: 'sw', eldoret: 'sw',
+    dar_es_salaam: 'sw', dodoma: 'sw', zanzibar: 'sw', kampala: 'sw', kigali: 'sw',
+    // West Africa
+    lagos: 'yo', ibadan: 'yo', abuja: 'yo', kano: 'ha', maiduguri: 'ha',
+    enugu: 'ig', aba: 'ig', dakar: 'fr', abidjan: 'fr', kinshasa: 'fr', lubumbashi: 'fr',
+    accra: 'en',
+    // North
+    cairo: 'ar', casablanca: 'ar', riyadh: 'ar', dubai: 'ar', doha: 'ar',
+    abu_dhabi: 'ar', amman: 'ar', 'al_jizah': 'ar', tel_aviv: 'he',
+    addis_ababa: 'am', mogadishu: 'so', harare: 'sn', bulawayo: 'sn',
+    // Europe
+    paris: 'fr', lyon: 'fr', marseille: 'fr', brussels: 'fr', geneva: 'fr', montreal: 'fr',
+    madrid: 'es', barcelona: 'es', valencia: 'es', berlin: 'de', munich: 'de',
+    hamburg: 'de', vienna: 'de', zurich: 'de', frankfurt: 'de',
+    rome: 'it', milan: 'it', naples: 'it', turin: 'it',
+    amsterdam: 'nl', rotterdam: 'nl', utrecht: 'nl',
+    warsaw: 'pl', krakow: 'pl', stockholm: 'sv', copenhagen: 'da',
+    oslo: 'nb_NO', bergen: 'nb_NO', athens: 'el', moscow: 'ru',
+    saint_petersburg: 'ru', kyiv: 'ua', kiev: 'ua', istanbul: 'tr', ankara: 'tr',
+    // The Americas
+    new_york: 'en', los_angeles: 'en', chicago: 'en', toronto: 'en',
+    mexico_city: 'es', guadalajara: 'es', bogota: 'es', medellin: 'es',
+    lima: 'es', santiago: 'es', quito: 'es', caracas: 'es',
+    buenos_aires: 'es', montevideo: 'es',
+    sao_paulo: 'pt-br', rio_de_janeiro: 'pt-br', brasilia: 'pt-br', lisbon: 'pt-PT',
+    // Asia-Pacific
+    mumbai: 'hi', delhi: 'hi', kolkata: 'hi', bangalore: 'hi',
+    manila: 'fil', quezon_city: 'fil',
+    tokyo: 'ja', osaka: 'ja', beijing: 'zh-cmn-Hans', shanghai: 'zh-cmn-Hans',
+    shenzhen: 'zh-cmn-Hans', guangzhou: 'zh-cmn-Hans', hong_kong: 'zh-cmn-Hant',
+    taipei: 'zh-cmn-Hant', bangkok: 'th', jakarta: 'en', kuala_lumpur: 'en',
+    johannesburg: 'af', cape_town: 'af', durban: 'af', pretoria: 'af',
+  };
+
+  private greetLocaleFor(): string | null {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const city = (tz.split('/')[1] || '').toLowerCase();
+      if (city && WelcomeModalComponent.GREET_CITY_TO_LOCALE[city]) {
+        return WelcomeModalComponent.GREET_CITY_TO_LOCALE[city];
+      }
+      // Fallback: the device language, when we ship it.
+      const lang = String(navigator.language || '').toLowerCase().split('-')[0];
+      const shipped = ['af', 'am', 'ar', 'bs', 'by', 'da', 'de', 'el', 'es', 'fil', 'fr',
+        'ha', 'he', 'hi', 'ig', 'it', 'ja', 'nl', 'pl', 'ru', 'sk', 'sl', 'sn', 'so',
+        'sv', 'th', 'tr', 'ua', 'yo'];
+      if (shipped.includes(lang)) return lang;
+      if (lang === 'pt') return 'pt-PT';
+      if (lang === 'zh') return 'zh-cmn-Hans';
+      if (lang === 'nb') return 'nb_NO';
+      if (lang === 'en') return null; // EN keeps the Karibu flourish as-is
+    } catch { /* no geography, no greeting change */ }
+    return null;
+  }
+
+  /** Fetch OUR translation file for the greet locale and take its own line. */
+  private async applyLocaleGreeting(): Promise<void> {
+    if (this.isReplay) return; // the replay keeps its kicker
+    try {
+      const locale = this.greetLocaleFor();
+      if (!locale || locale === this.translate.currentLang) return;
+      const res = await fetch(`./assets/i18n/${locale}.json`);
+      if (!res.ok) return;
+      const dict = await res.json();
+      const line = dict?.loopkeeper?.['welcome.intro.kicker'];
+      if (typeof line === 'string' && line.trim()) {
+        this.steps[0].kickerRaw = line; // raw translated text; kicker stays a key
+      }
+    } catch { /* keep the current-language greeting */ }
   }
 
   get isFirst(): boolean {
@@ -209,6 +301,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     // 2026-08-17: first visit greets Karibu sana!; the replay says Welcome Again.
     // 2026-08-27 i18n: both greetings are keys now.
     if (this.isReplay) this.steps[0].kicker = 'loopkeeper.welcome.intro.kickerReplay';
+    // 2026-09-14 BUILD 195: the greeting meets the world — the kicker renders
+    // in one of OUR translation languages, picked by the device's timezone.
+    void this.applyLocaleGreeting();
     // 2026-08-21: listen for the browser demanding a tap before audio — that is
     // when the floating audio button appears (off state) in the animation window.
     this.unsubscribeUserInteraction = this.playback.onUserInteractionRequired(() => {

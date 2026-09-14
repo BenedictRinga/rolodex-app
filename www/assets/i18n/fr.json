@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Note vocale livrée — boucle FERMÉE avec {{person}}.",
     "t.voiceSent": "📤 Note vocale envoyée — fini quand {{person}} répond.",
     "t.attachSaved": "⬇ Enregistré — joignez-la dans votre appli de chat, puis marquez envoyée.",
-    "welcome.intro.kicker": "Karibu sana !",
+    "welcome.intro.kicker": "Bienvenue !",
     "welcome.intro.kickerReplay": "Bon retour",
     "welcome.intro.title": "LoopKeeper — bouclez la boucle que vous repoussez sans fin",
     "welcome.intro.copy": "Commencez par une chose que vous repoussez depuis longtemps — une personne à joindre, une décision à prendre, un renouvellement à déposer. Donnez le rythme. Bouclez la boucle.",

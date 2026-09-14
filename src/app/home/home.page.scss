@@ -440,3 +440,47 @@ ion-fab.search-fab.tab-hidden {
 .device-strip {
   flex-wrap: wrap;
 }
+
+/* 2026-09-14 BUILD 195 THE UPDATE BANNER — the slim global strip at the top
+   of home. Tap = apply; ✕ = dismiss this version only. */
+.update-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: linear-gradient(90deg, rgba(0, 168, 150, .16), rgba(0, 200, 83, .12));
+  border-bottom: 1px solid var(--rolodex-border-light, #2a2f3a);
+  cursor: pointer;
+  user-select: none;
+
+  .ub-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00c853;
+    flex: none;
+    animation: ub-pulse 1.6s ease-in-out infinite;
+  }
+
+  .ub-text {
+    flex: 1;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--rolodex-text, #e8eaed);
+  }
+
+  .ub-close {
+    flex: none;
+    background: none;
+    border: none;
+    color: var(--rolodex-text-tertiary, #8b93b0);
+    font-size: 13px;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+}
+
+@keyframes ub-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .45; transform: scale(.82); }
+}

@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Voice note delivered — loop CLOSED with {{person}}.",
     "t.voiceSent": "📤 Voice note sent — done means {{person}}'s reply.",
     "t.attachSaved": "⬇ Saved — attach it in your chat app, then mark it sent.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "أهلاً وسهلاً!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
     "welcome.intro.copy": "ابدأ بشيء واحد تأجّله طويلًا — شخص تودّ الوصول إليه، قرار ينتظر حسمك، تجديد ينتظر إيداعه. اضبط الإيقاع. أغلق الحلقة.",

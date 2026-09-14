@@ -44,6 +44,7 @@ import { InAppNotificationService } from '../services/in-app-notification/in-app
 import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
 // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
 import { LoopsService } from '../services/loops/loops.service';
+import { UpdatesService } from '../services/updates/updates.service';
 
 
 @Component({
@@ -96,6 +97,14 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-19 HEADER: alternates with the live pulse + AI Assistant label. */
   headerLine = 'One loop at a time.';
   private headerTimer: ReturnType<typeof setInterval> | null = null;
+  /** 2026-09-14 BUILD 195 THE UPDATE BANNER: state + lifecycle. */
+  private updateBannerTimer: ReturnType<typeof setInterval> | null = null;
+  get updateBannerVisible(): boolean { return this.updates.bannerAvailable; }
+  async applyUpdateBanner(): Promise<void> { await this.updates.applyBanner(); }
+  async dismissUpdateBanner(ev?: Event): Promise<void> {
+    ev?.stopPropagation();
+    await this.updates.dismissBanner();
+  }
   groups: { id: string; name: string }[] = [
     { id: 'all', name: 'All Contacts' },
     { id: 'family', name: 'Family' },
@@ -177,6 +186,7 @@ export class HomePage implements OnInit, OnDestroy {
     private inAppNotifications: InAppNotificationService,
     // 2026-08-30 BUILD 155: demo-fed loops are purged when Demo turns off.
     private readonly loops: LoopsService,
+    private readonly updates: UpdatesService, // BUILD 195: the home update banner
     ) {
     // 2026-08-16: after a Stripe checkout return, grant the plan.
     try {
@@ -326,6 +336,11 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentWelcome();
     // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
     this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
+    // 2026-09-14 BUILD 195 THE UPDATE BANNER: check now, then every 30 minutes.
+    // A tap applies (cache clear + SW unregister + hard reload); the ✕ hides
+    // THIS version only — a new deploy re-shows it.
+    void this.updates.refreshBanner();
+    this.updateBannerTimer = setInterval(() => { void this.updates.refreshBanner(); }, 30 * 60_000);
     // 2026-08-27 CALENDAR SYNC: a received card-to-card appointment invite
     // lands ON THE CARD (appointments[]) and on the device calendar. This
     // subscription is the only consumer appointment$ ever had — before it,
@@ -392,6 +407,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.headerTimer) clearInterval(this.headerTimer);
+    if (this.updateBannerTimer) clearInterval(this.updateBannerTimer); // BUILD 195
     // 2026-08-29 BUILD 143: release the nudge-tap channels.
     this.notifTapSub?.unsubscribe();
     this.dockTapSub?.unsubscribe();

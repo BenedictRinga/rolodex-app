@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Voice note delivered — loop CLOSED with {{person}}.",
     "t.voiceSent": "📤 Voice note sent — done means {{person}}'s reply.",
     "t.attachSaved": "⬇ Saved — attach it in your chat app, then mark it sent.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "Bem-vindo!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
     "welcome.intro.copy": "Comece por uma coisa que anda a adiar — uma pessoa a contactar, uma decisão a tomar, uma renovação a tratar. Dê o ritmo. Feche o ciclo.",

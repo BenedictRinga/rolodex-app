@@ -253,9 +253,12 @@
       </div>
 
       <!-- ── COPY ───────────────────────────────────────────────────── -->
-      <!-- 2026-08-27 i18n: step fields hold keys; pipes resolve them here. -->
+      <!-- 2026-08-27 i18n: step fields hold keys; pipes resolve them here.
+           2026-09-14 BUILD 195: kickerRaw (the timezone-picked local greeting,
+           already a real translated line from our own i18n file) renders
+           as-is, no pipe. -->
       <div class="demo-copy">
-        <div class="demo-kicker">{{ s.kicker | translate }}</div>
+        <div class="demo-kicker">{{ s.kickerRaw || (s.kicker | translate) }}</div>
         <h2 class="demo-title">{{ s.title | translate }}</h2>
         <p class="demo-text">{{ s.copy | translate }}</p>
         <!-- 2026-08-20 EMPHASIS: detached, bold, slightly larger — a recapture line. -->

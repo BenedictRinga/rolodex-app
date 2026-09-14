@@ -215,4 +215,40 @@ export class UpdatesService {
     const { available, server } = await this.check();
     return available && server !== '';
   }
+
+  // ═══ 2026-09-14 BUILD 195: THE HOME BANNER ═══════════════════════════════
+  // The founder's "global notification of Updates available — on tap, dismiss
+  // and apply": home renders a slim strip when the server version differs.
+  // Tap = apply (cache clear + SW unregister + hard reload, the full Zyppar
+  // contract). The ✕ = dismiss THIS version only — a new deploy re-shows it,
+  // so a stale banner can never hide a fresh update.
+  bannerAvailable = false;
+  bannerVersion = '';
+  private bannerChecking = false;
+
+  async refreshBanner(): Promise<void> {
+    if (this.bannerChecking) return;
+    this.bannerChecking = true;
+    try {
+      const r = await this.check();
+      this.bannerVersion = r.available && r.server ? r.server : '';
+      if (!this.bannerVersion) { this.bannerAvailable = false; return; }
+      const dismissed = await this.storageService.get<string>('lk_updates_dismissed');
+      this.bannerAvailable = dismissed !== this.bannerVersion;
+    } catch { this.bannerAvailable = false; } finally {
+      this.bannerChecking = false;
+    }
+  }
+
+  async dismissBanner(): Promise<void> {
+    this.bannerAvailable = false;
+    if (this.bannerVersion) {
+      try { await this.storageService.set('lk_updates_dismissed', this.bannerVersion); } catch { /* best effort */ }
+    }
+  }
+
+  async applyBanner(): Promise<void> {
+    if (!this.bannerVersion) return;
+    await this.forceUpdate(this.bannerVersion);
+  }
 }

@@ -1,4 +1,15 @@
 <ion-content #homeContent>
+  <!-- 2026-09-14 BUILD 195 THE UPDATE BANNER (founder: "a global notification
+       of Updates available — on tap, dismiss and apply"): shows whenever the
+       server version differs; tap the strip to APPLY (cache clear + SW
+       unregister + hard reload); ✕ dismisses THIS version only — a new deploy
+       re-shows it. -->
+  <div class="update-banner" *ngIf="updateBannerVisible" (click)="applyUpdateBanner()" role="button"
+       [attr.aria-label]="'Updates available, tap to apply'">
+    <span class="ub-pulse"></span>
+    <span class="ub-text">Updates available — tap to apply</span>
+    <button type="button" class="ub-close" aria-label="Dismiss" (click)="dismissUpdateBanner($event)">✕</button>
+  </div>
   <!-- 2026-08-16: flex column so the rolodex list fills the remaining height and
        scrolls inside itself — the nested ion-content previously cut the bottom
        15-35% of the view. -->

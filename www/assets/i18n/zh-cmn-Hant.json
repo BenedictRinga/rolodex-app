@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Voice note delivered — loop CLOSED with {{person}}.",
     "t.voiceSent": "📤 Voice note sent — done means {{person}}'s reply.",
     "t.attachSaved": "⬇ Saved — attach it in your chat app, then mark it sent.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "歡迎！",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
     "welcome.intro.copy": "從一件你一直想做卻搁著的事開始 — 一個要聯絡的人，一個要做的決定，一份要提交的續約。定下節奏，把璨閉上。",

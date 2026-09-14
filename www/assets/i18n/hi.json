@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Voice note delivered — loop CLOSED with {{person}}.",
     "t.voiceSent": "📤 Voice note sent — done means {{person}}'s reply.",
     "t.attachSaved": "⬇ Saved — attach it in your chat app, then mark it sent.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "स्वागत है!",
     "welcome.intro.kickerReplay": "Welcome Again",
     "welcome.intro.title": "LoopKeeper — close the loop you keep meaning to close",
     "welcome.intro.copy": "उस एक काम से शुरू करें जिसे आप लगातार टाल रहे हैं — एक इंसान जिस तक पहुँचना है, एक फ़ैसला जो लेना है, एक नवीनीकरण जो भेजना है। लय़ बनाइए। लूप बंद कीजिए।",

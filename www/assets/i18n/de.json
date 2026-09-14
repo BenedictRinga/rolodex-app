@@ -423,7 +423,7 @@
     "t.voiceClosed": "✅ Sprachnachricht zugestellt — Loop mit {{person}} GESCHLOSSEN.",
     "t.voiceSent": "📤 Sprachnachricht gesendet — fertig heißt: die Antwort von {{person}}.",
     "t.attachSaved": "⬇ Gespeichert — in der Chat-App anhängen, dann als gesendet markieren.",
-    "welcome.intro.kicker": "Karibu sana!",
+    "welcome.intro.kicker": "Herzlich willkommen!",
     "welcome.intro.kickerReplay": "Willkommen zurück",
     "welcome.intro.title": "LoopKeeper — schließe die Schleife, die du stets aufspiebst",
     "welcome.intro.copy": "Fang mit einer Sache an, die du schon länger vorhast — ein Mensch, den du erreichst, eine Entscheidung, die du triffst, eine Verlängerung, die du einreichst. Setz den Takt. Schließ die Schleife.",
