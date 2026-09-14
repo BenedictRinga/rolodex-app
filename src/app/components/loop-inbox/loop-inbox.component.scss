@@ -14,8 +14,11 @@
    by taking the From-your-loops section back down below Ma's doctor..." — the
    reorder shipped in send-walk this build, so 75vh it is; the LoopKeeper icon
    panel rides into footnote territory, and the first-timer's deck peeks below
-   the shell). Expanded keeps its headroom at 85vh. */
-.li-shell { display:flex; flex-direction:column; height:75vh; min-height:75vh; max-height:75vh; position:relative;
+   the shell). Expanded keeps its headroom at 85vh.
+   2026-09-14 BUILD 203 (founder: "shorten the Inbox from 75 to 70vh we see"):
+   resting height 75vh -> 70vh (the flip-gap trim above returns ~8px too).
+   Expanded holds at 85vh. */
+.li-shell { display:flex; flex-direction:column; height:70vh; min-height:70vh; max-height:70vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
   transition:height .32s ease, min-height .32s ease, max-height .32s ease; }
 .li-shell.expanded { height:85vh; min-height:85vh; max-height:85vh; }
@@ -264,8 +267,11 @@
 
 /* 2026-08-31 BUILD 161 (founder): the flip — the card-flip mark sits right
    under the three pills (the old bottom word hid below the viewport). One
-   quiet round ghost, same arrow family the cards flip with. */
-.li-flip { display:flex; justify-content:center; padding:2px 0 10px; }
+   quiet round ghost, same arrow family the cards flip with.
+   2026-09-14 BUILD 203 (founder: between the flip button and the inbox main
+   card below it there is space to spare — "perhaps 10px, or maybe 7px"): the
+   bottom pad 10px -> 2px, the card below rises ~8px. */
+.li-flip { display:flex; justify-content:center; padding:2px 0 2px; }
 .li-flipbtn {
   width:34px; height:34px; border-radius:50%; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
