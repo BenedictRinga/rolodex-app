@@ -35,6 +35,20 @@ export class SearchModalComponent {
   /** The Contact Picker API exists on this browser (Android Chromium only). */
   @Input() pickerAvailable = false;
   /**
+   * 2026-09-14 BUILD 197 THE TWO-REPOSITORY SEARCH (founder: the search fab
+   * "should equally have two columns - so it can also search the device
+   * contacts list, not just LoopKeeper's, much like the add Contact applies
+   * to both repositories. Be mindful of any qualifications in the add
+   * format, such as permissions"): the SEARCH sheet carries the same two-tab
+   * architecture as the add sheet, with the SAME qualifications — the web
+   * Contact Picker API is pick-only (the OS picker's own search bar searches
+   * the device list; no web app can query device contacts directly), so the
+   * phone tab is the picker door where the API exists, and on iPhone the
+   * honest wall + the .vcf / typed doors. Home matches the picked person
+   * against LoopKeeper: found -> their card; not found -> brought in.
+   */
+  @Input() deviceSearch = false;
+  /**
    * 2026-09-01 BUILD 174 (founder: two tabs — device contacts AND the people
    * already here): the sheet's two surfaces. 'people' is the searchable
    * LoopKeeper deck; 'phone' is the device tab — the picker door on Android,
@@ -49,6 +63,29 @@ export class SearchModalComponent {
   vcfFail = false;
 
   constructor(private readonly modalController: ModalController) {}
+
+  /** BUILD 197: search-mode phone-pane copy (the add pane's translated keys
+   *  speak ADD; search speaks its own honest EN — the home-chrome precedent).
+   *  The doors themselves reuse the same translated labels in both contexts. */
+  searchPhoneTitle(): string {
+    return this.deviceSearch ? 'Search your phone\'s contacts' : '';
+  }
+
+  searchPhoneBody(): string {
+    return this.deviceSearch
+      ? 'The phone\'s own contact picker opens — its search bar searches your device list (a web app cannot read the device contacts directly). Pick the person and we\'ll find them here — or bring them in.'
+      : '';
+  }
+
+  searchIosTitle(): string {
+    return this.deviceSearch ? 'Apple\'s wall' : '';
+  }
+
+  searchIosBody(): string {
+    return this.deviceSearch
+      ? 'No web app can search an iPhone\'s contacts — not even LoopKeeper. Bring the person in with a .vcf file or by typing them in — then they are searchable here forever.'
+      : '';
+  }
 
   pickPhone(): void {
     void this.modalController.dismiss(null, 'phone');

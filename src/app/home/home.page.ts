@@ -539,17 +539,93 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-19 SEARCH: the FAB-launched search sheet over the real deck. */
   async openSearchModal(): Promise<void> {
+    // 2026-09-14 BUILD 197 THE TWO-REPOSITORY SEARCH (founder: the search fab
+    // should reach the device contacts list too, "much like the add Contact
+    // applies to both repositories. Be mindful of any qualifications in the
+    // add format, such as permissions"): the sheet now carries the same
+    // two tabs as the add sheet, with the SAME qualifications — the picker
+    // door only where the Contact Picker API exists, the honest Apple-wall
+    // ladder (.vcf + typed) where it doesn't.
     const modal = await this.modalController.create({
       component: SearchModalComponent,
-      componentProps: { contacts: this.contacts },
+      componentProps: {
+        contacts: this.contacts,
+        deviceSearch: true,
+        pickerAvailable: !!((navigator as any)?.contacts?.select),
+      },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.7, 0.95, 1],
       initialBreakpoint: 0.95,
       keyboardClose: false,
     });
     await modal.present();
+    // Doors that need WARM user activation (the picker, the .vcf file dialog)
+    // are answered on onWillDismiss (the build-175/177 lesson); the typed door
+    // flips the declared create-form modal (build 178). A row tap — open the
+    // card — waits for onDidDismiss: never present a card into a dying
+    // overlay.
+    const will = await modal.onWillDismiss();
+    if (will?.role === 'phone') { void this.searchPhoneContacts(); return; }
+    if (will?.role === 'vcf') { this.importVcfContacts(will.data?.contacts || []); return; }
+    if (will?.role === 'manual') {
+      this.manualDraft = {} as ContactInfo;
+      this.manualAddOpen = true;
+      return;
+    }
     const res = await modal.onDidDismiss();
     if (res?.data?.contact) this.onContactTap(res.data.contact);
+  }
+
+  /**
+   * 2026-09-14 BUILD 197: the search-context device door. The web Contact
+   * Picker API is PICK-ONLY — the OS picker's own search bar is how a device
+   * list is searched, and this call needs the tap still warm. The picked
+   * person is MATCHED against LoopKeeper (phone digits, then name): found ->
+   * their card opens; not found -> they are brought in from the phone and
+   * their new card opens. Every device search is also a signal-detector exit.
+   */
+  private async searchPhoneContacts(): Promise<void> {
+    const picker = (navigator as any)?.contacts?.select;
+    if (!picker) return; // the door only renders where the API exists
+    try { this.analytics.track('send_exit', { channel: 'device-contacts', surface: 'search' }); } catch { /* analytics optional */ }
+    try {
+      const picked = await picker(['name', 'tel', 'email'], { multiple: false });
+      if (!picked?.length) return; // user cancelled the OS picker
+      const raw = picked[0];
+      const match = this.matchDeviceContact(raw);
+      if (match) { this.onContactTap(match); return; }
+      // Not in LoopKeeper yet — bring them in (the AI device path's shape).
+      const c = this.mapPickedContact(raw, Date.now(), 0);
+      if (raw?.icon instanceof Blob) {
+        try {
+          c.image.base64String = await new Promise<string | null>((res) => {
+            const fr = new FileReader();
+            fr.onload = () => res(typeof fr.result === 'string' ? fr.result : null);
+            fr.onerror = () => res(null);
+            fr.readAsDataURL(raw.icon);
+          });
+        } catch { /* keep the generated avatar */ }
+      }
+      this.contacts = [c, ...this.contacts];
+      this.onContactsChange(this.contacts);
+      void this.analytics.trackListStartedOnce('picker');
+      void this.alertsService.showToast('Added from your phone', 2200);
+      this.onContactTap(c);
+    } catch { /* user cancelled the picker */ }
+  }
+
+  /** Match a picked device contact against the deck: phone digits (last 9,
+   *  tolerant of country codes) then exact display name. */
+  private matchDeviceContact(raw: any): ContactInfo | undefined {
+    const digits = String(raw?.tel?.[0] || '').replace(/\D/g, '');
+    const name = String(raw?.name?.[0] || '').trim().toLowerCase();
+    return (this.contacts || []).find((c) => {
+      if (digits && (c.phones || []).some((p) => {
+        const d = String(p.number || '').replace(/\D/g, '');
+        return !!d && (d.endsWith(digits.slice(-9)) || digits.endsWith(d.slice(-9)));
+      })) return true;
+      return !!name && String(c.name?.display || '').trim().toLowerCase() === name;
+    });
   }
 
   /** 2026-08-19 A help "Go" tap now DEMONSTRATES the feature with real data

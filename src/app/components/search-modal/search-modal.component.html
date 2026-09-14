@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title style="font-size: 15px;">{{ addDoors ? ('loopkeeper.add.title' | translate) : (pickMode ? ('loopkeeper.walk.whoTitle' | translate) : 'Search LoopKeeper') }}</ion-title>
+    <ion-title style="font-size: 15px;">{{ addDoors ? ('loopkeeper.add.title' | translate) : (pickMode ? ('loopkeeper.walk.whoTitle' | translate) : (deviceSearch ? 'Search LoopKeeper & your phone' : 'Search LoopKeeper')) }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-outline"></ion-icon>
@@ -12,8 +12,12 @@
 <ion-content class="search-body">
   <!-- 2026-09-01 BUILD 174 (founder: two tabs — one for device contacts, one
        for LoopKeeper contacts). On iPhone the device tab still shows: it
-       explains Apple's wall with an apology and urges the typed door. -->
-  <ion-segment *ngIf="addDoors" [(ngModel)]="tab" class="sm-seg" mode="ios">
+       explains Apple's wall with an apology and urges the typed door.
+       2026-09-14 BUILD 197: the SEARCH sheet carries the same two tabs (the
+       founder: search must reach both repositories, with the add format's
+       qualifications — the picker where the API exists, the honest wall
+       elsewhere). -->
+  <ion-segment *ngIf="addDoors || deviceSearch" [(ngModel)]="tab" class="sm-seg" mode="ios">
     <ion-segment-button value="people">
       <ion-label>{{ 'loopkeeper.add.tabPeople' | translate }}</ion-label>
     </ion-segment-button>
@@ -66,12 +70,15 @@
        wall): the apology, the explanation, and the typed door up front.
        2026-09-01 BUILD 175 (founder): the ACTION buttons live in the ion-
        footer below so they are always in the viewport, and the .vcf door
-       joins as the batch way in. -->
-  <div *ngIf="addDoors && tab === 'phone'" class="sm-phone">
+       joins as the batch way in.
+       2026-09-14 BUILD 197: the SEARCH sheet reuses this pane — its copy
+       speaks SEARCH (the picker's own search bar is the device search; a web
+       app cannot query device contacts), the doors stay the same. -->
+  <div *ngIf="(addDoors || deviceSearch) && tab === 'phone'" class="sm-phone">
     <ng-container *ngIf="pickerAvailable">
       <ion-icon name="phone-portrait-outline" class="sm-phone-glyph"></ion-icon>
-      <div class="sm-phone-title">{{ 'loopkeeper.add.prefaceTitle' | translate }}</div>
-      <div class="sm-phone-body">{{ 'loopkeeper.add.prefaceBody' | translate }}</div>
+      <div class="sm-phone-title">{{ deviceSearch ? searchPhoneTitle() : ('loopkeeper.add.prefaceTitle' | translate) }}</div>
+      <div class="sm-phone-body">{{ deviceSearch ? searchPhoneBody() : ('loopkeeper.add.prefaceBody' | translate) }}</div>
       <!-- 2026-09-01 BUILD 177 (founder: it is not obvious what a .vcf is or
            where it comes from - it is NOT a door into the Contacts app): one
            quiet line of provenance, above the doors, never after them. -->
@@ -79,13 +86,14 @@
     </ng-container>
     <ng-container *ngIf="!pickerAvailable">
       <ion-icon name="lock-closed-outline" class="sm-phone-glyph"></ion-icon>
-      <div class="sm-phone-title">{{ 'loopkeeper.add.iosTitle' | translate }}</div>
+      <div class="sm-phone-title">{{ deviceSearch ? searchIosTitle() : ('loopkeeper.add.iosTitle' | translate) }}</div>
       <!-- 2026-09-01 BUILD 178 (founder: on iPhone recommend one person at a
            time, as needed, pending the iPhone app - with the typed door right
            here in the tab, and a visual of the .vcf process as the batch way
-           in): recommendation first, door second, process third. -->
-      <div class="sm-phone-body">{{ 'loopkeeper.add.iosOnestep' | translate }}</div>
-      <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
+           in): recommendation first, door second, process third.
+           BUILD 197: in search mode the same honest wall, search-flavored. -->
+      <div class="sm-phone-body">{{ deviceSearch ? searchIosBody() : ('loopkeeper.add.iosOnestep' | translate) }}</div>
+      <ion-button *ngIf="!deviceSearch" expand="block" fill="outline" class="sm-door" (click)="typeOne()">
         <ion-icon name="create-outline" slot="start"></ion-icon>
         {{ 'loopkeeper.add.typeOne' | translate }}
       </ion-button>
@@ -105,7 +113,7 @@
      the add sheet now rides the footer — people tab: type one in; phone
      tab on Android: pick from the phone + import a .vcf; phone tab on
      iPhone: import a .vcf (the batch way past Apple's wall) + type one in. -->
-<ion-footer *ngIf="addDoors" class="ion-no-border sm-doors">
+<ion-footer *ngIf="addDoors || deviceSearch" class="ion-no-border sm-doors">
   <div *ngIf="tab === 'people'" class="sm-doors-row">
     <ion-button expand="block" fill="outline" class="sm-door" (click)="typeOne()">
       <ion-icon name="create-outline" slot="start"></ion-icon>
