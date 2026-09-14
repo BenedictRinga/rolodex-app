@@ -105,9 +105,69 @@
 
 /* Distinct accent per section (matching the portal's eye-mapping). */
 .sec-reliability  { border-left-color: #EF476F; .section-num { background: #EF476F; } }
+.sec-trends       { border-left-color: #7C5CFC; .section-num { background: #7C5CFC; } }
 .sec-timeline     { border-left-color: #00A896; .section-num { background: #00A896; } }
 .sec-rooms        { border-left-color: #9BA1A6; .section-num { background: #9BA1A6; } }
 .sec-translations { border-left-color: #00A896; .section-num { background: #00A896; } }
+
+/* 2026-09-14 BUILD 192: the TRENDS matrix — 14 day columns + Σ, sliding
+   horizontally on narrow screens (same contract as the retention table). */
+.trend-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.trend-table {
+  min-width: 560px;
+}
+
+.trend-row {
+  display: grid;
+  grid-template-columns: minmax(118px, 1.6fr) repeat(14, minmax(26px, 1fr)) minmax(36px, 0.9fr);
+  gap: 3px;
+  align-items: center;
+  padding: 5px 6px;
+  font-size: 11.5px;
+  border-bottom: 1px solid var(--rolodex-border-light);
+}
+
+.trend-row.trend-head {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--rolodex-text-tertiary);
+}
+
+.t-event {
+  font-weight: 600;
+  color: var(--rolodex-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.t-day {
+  text-align: center;
+  color: var(--rolodex-text-secondary);
+}
+
+.t-day.t-zero {
+  color: var(--rolodex-border);
+}
+
+.t-day.t-today {
+  background: var(--rolodex-surface-alt);
+  border-radius: 4px;
+  font-weight: 700;
+  color: var(--rolodex-text);
+}
+
+.t-total {
+  text-align: right;
+  font-weight: 700;
+  color: var(--rolodex-text);
+}
 
 /* --- ported row/bar/note styles --- */
 

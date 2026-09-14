@@ -61,10 +61,38 @@
       <p class="investor-chart-note">The ledger of what broke. App errors (app_error) ride the same scalable, batched analytics pipeline as every other event — type + page only, never message text; the crash ledger keeps the full messages and stacks server-side. ingestFailures is the server's own counter of analytics batches it could not accept.</p>
     </div>
 
-    <!-- 02 · TIMELINE (moved from the portal) -->
-    <div class="investor-section sec-timeline" *ngIf="stats?.timeline?.length">
+    <!-- 02 · TRENDS (2026-09-14 BUILD 192, founder: "data to sift for trends -
+         what to refine, double down on, drop, or re-interpret"): the 14-day x
+         event matrix from server build 71. Rows sorted by 14-day weight; the
+         SLOPE is the story — rising rows to double down on, flat-at-zero rows
+         to drop or re-interpret. Sep 8-12 read zero because the outage ate
+         them; the matrix re-baselines from the ingest repair (Sep 13). -->
+    <div class="investor-section sec-trends" *ngIf="stats?.analytics?.dailyEvents?.rows?.length">
       <div class="section-head">
         <span class="section-num">02</span>
+        <div class="section-title"><span class="section-kicker">Trends · 14 days</span><strong>What's rising, what's dying</strong></div>
+      </div>
+      <div class="trend-scroll">
+        <div class="trend-table">
+          <div class="trend-row trend-head">
+            <span class="t-event">Event</span>
+            <span class="t-day" *ngFor="let day of stats.analytics.dailyEvents.days">{{ day.slice(8) }}</span>
+            <span class="t-total">Σ</span>
+          </div>
+          <div class="trend-row" *ngFor="let r of stats.analytics.dailyEvents.rows">
+            <span class="t-event">{{ r.event }}</span>
+            <span class="t-day" *ngFor="let c of r.counts; let last = last" [class.t-today]="last" [class.t-zero]="!c">{{ c || '·' }}</span>
+            <span class="t-total">{{ r.total }}</span>
+          </div>
+        </div>
+      </div>
+      <p class="investor-chart-note">Organic devices, all events, one cell per day. Read the SLOPE, not the total: rising rows earn refinement and doubling down; rows flat at zero across the window are drop or re-interprete candidates; the Σ column gives the weight. Sep 8-12 are empty by history (the two-week ingest outage) — the matrix re-baselines from the repair.</p>
+    </div>
+
+    <!-- 03 · TIMELINE (moved from the portal) -->
+    <div class="investor-section sec-timeline" *ngIf="stats?.timeline?.length">
+      <div class="section-head">
+        <span class="section-num">03</span>
         <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.hourlyKicker' | translate }}</span><strong>{{ 'loopkeeper.about.hourlyStrong' | translate }}</strong></div>
       </div>
       <div class="bar-chart">
@@ -79,10 +107,10 @@
       <p class="investor-chart-note">Each bar = the number of devices whose last contact-change sync fell inside that hour. This is the real record, not a projection. Quiet bars mean no contact edits — not no users; app-open activity is the Analytics section in the portal.</p>
     </div>
 
-    <!-- 03 · ROOMS (moved from the portal) -->
+    <!-- 04 · ROOMS (moved from the portal) -->
     <div class="investor-section sec-rooms" *ngIf="stats?.rooms?.length">
       <div class="section-head">
-        <span class="section-num">03</span>
+        <span class="section-num">04</span>
         <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.demoKicker' | translate }}</span><strong>{{ 'loopkeeper.about.roomsStrong' | translate }}</strong></div>
       </div>
       <div class="room-row" *ngFor="let r of stats.rooms">
@@ -92,10 +120,10 @@
       <p class="investor-chart-note">Rooms are the shared demo-space codes. Devices without a code are grouped under "(no room)".</p>
     </div>
 
-    <!-- 04 · COMMUNITY TRANSLATIONS (moved from the portal) -->
+    <!-- 05 · COMMUNITY TRANSLATIONS (moved from the portal) -->
     <div class="investor-section sec-translations" *ngIf="stats?.translations">
       <div class="section-head">
-        <span class="section-num">04</span>
+        <span class="section-num">05</span>
         <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.translationsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.translationsStrong' | translate }}</strong></div>
       </div>
       <div class="room-row">
