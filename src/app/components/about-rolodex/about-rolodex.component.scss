@@ -1153,6 +1153,36 @@ ion-content::part(scroll) {
   font-weight: 700;
 }
 
+/* 2026-09-14 BUILD 196: the LIVE YARDSTICK toggle row (series segment + the
+   ⤢ expand button). */
+.ys-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+
+  .ys-segment {
+    flex: 1;
+    min-width: 0;
+
+    ion-segment-button {
+      --indicator-height: 2px;
+      min-height: 28px;
+      font-size: 11px;
+    }
+  }
+
+  ion-button {
+    flex: none;
+  }
+}
+
+.ys-theory-label {
+  margin-top: 10px;
+  font-weight: 600;
+  font-style: normal;
+}
+
 /* ═══ 2026-08-27 INVESTOR TRIM — lean hero + collapsed deep-dives ═════════
    A first-time investor reads thesis -> live proof -> money in one screen;
    the deep material stays one tap away inside native <details>. */

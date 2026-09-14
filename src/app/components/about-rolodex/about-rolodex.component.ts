@@ -61,6 +61,37 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   // in-template ion-modal below. The portal keeps the growth story.
   commandCenterOpen = false;
 
+  // 2026-09-14 BUILD 196 THE LIVE YARDSTICK: the portal's yardstick leads
+  // with a real 14-day series (Opens / Arrivals / Loops closed), toggleable,
+  // pinch-zoomable, expandable into the Command Center. Data comes from the
+  // same summary object as everything else — dailyEvents + deviceGrowth.
+  yardstickSeries: 'opens' | 'arrivals' | 'closed' = 'opens';
+
+  yardstickPoints(): Array<{ day: string; count: number }> {
+    const a = (this.investorStats as any)?.analytics;
+    const de = a?.dailyEvents;
+    if (this.yardstickSeries === 'arrivals') {
+      const g = a?.deviceGrowth;
+      if (!g?.days?.length) return [];
+      return g.days.map((day: string, i: number) => ({ day, count: Number(g.counts?.[i]) || 0 }));
+    }
+    const event = this.yardstickSeries === 'closed' ? 'loop_closed' : 'app_launch';
+    const row = de?.rows?.find((r: any) => r.event === event);
+    return (de?.days || []).map((day: string, i: number) => ({ day, count: Number(row?.counts?.[i]) || 0 }));
+  }
+
+  yardstickLabel(): string {
+    return this.yardstickSeries === 'arrivals' ? 'Arrivals' : this.yardstickSeries === 'closed' ? 'Loops closed' : 'Opens';
+  }
+
+  yardstickColor(): string {
+    return this.yardstickSeries === 'arrivals' ? '#00A896' : this.yardstickSeries === 'closed' ? '#FFB300' : '#00C853';
+  }
+
+  openYardstickInCenter(): void {
+    this.commandCenterOpen = true; // ⤢ the same console, full-size
+  }
+
   // 2026-09-02 BUILD 181 (founder directive): the contactless redesign framework
   // (loopkeeper redesign.txt) joins the investors portal as a segmented panel.
   redesignTab = 'why';

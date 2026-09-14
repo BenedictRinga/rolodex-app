@@ -126,4 +126,11 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     if (!max) return 0;
     return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
   }
+
+  /** 2026-09-14 BUILD 196: the full-size live Opens series for the chart. */
+  ccOpensPoints(): Array<{ day: string; count: number }> {
+    const de = this.stats?.analytics?.dailyEvents;
+    const row = de?.rows?.find((r: any) => r.event === 'app_launch');
+    return (de?.days || []).map((day: string, i: number) => ({ day, count: Number(row?.counts?.[i]) || 0 }));
+  }
 }

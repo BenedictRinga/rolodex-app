@@ -33,6 +33,10 @@ import { TranslationReviewComponent } from './translation-review/translation-rev
 // Investors portal's button (Reliability, Timeline, Rooms, Translations).
 import { CommandCenterComponent } from './command-center/command-center.component';
 
+// 2026-09-14 BUILD 196: the LIVE YARDSTICK chart — pinch/± zoom, expandable
+// to the Command Center (the Zyppar CommandCenter retention-chart pattern).
+import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.component';
+
 @NgModule({
   declarations: [
     RolodexComponent,
@@ -61,6 +65,7 @@ import { CommandCenterComponent } from './command-center/command-center.componen
     TranslatePortalComponent,
     TranslationReviewComponent,
     CommandCenterComponent,
+    YardstickChartComponent,
   ],
   imports: [
     CommonModule,

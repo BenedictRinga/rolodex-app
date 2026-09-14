@@ -1,0 +1,29 @@
+<!-- 2026-09-14 BUILD 196 THE LIVE YARDSTICK — dependency-free SVG line chart
+     with pinch + ± zoom (the Zyppar CommandCenter pattern). -->
+<div class="ys-controls">
+  <span class="ys-legend"><span class="ys-dot" [style.background]="color"></span>{{ seriesLabel }} · 14 days</span>
+  <ion-button size="small" fill="outline" (click)="zoomOut()" [disabled]="zoom <= 1" aria-label="Zoom out">−</ion-button>
+  <span class="ys-zoom-label">{{ zoom }}×</span>
+  <ion-button size="small" fill="outline" (click)="zoomIn()" [disabled]="zoom >= 3" aria-label="Zoom in">+</ion-button>
+  <ion-button size="small" fill="clear" (click)="scrollToLatest()" aria-label="Jump to latest">latest →</ion-button>
+</div>
+<div class="ys-wrap" #ysWrap (touchstart)="pinchStart($event)" (touchmove)="pinchMove($event)">
+  <svg [attr.viewBox]="'0 0 ' + chartW + ' ' + chartH"
+       [style.width.%]="100 * zoom"
+       style="height:auto; display:block;">
+    <!-- gridlines + Y labels -->
+    <line *ngFor="let g of gridYs()" [attr.x1]="padL" [attr.x2]="chartW - padR"
+          [attr.y1]="g.y" [attr.y2]="g.y" stroke="#2a2f45" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text *ngFor="let g of gridYs()" [attr.x]="padL - 5" [attr.y]="g.y + 3"
+          text-anchor="end" font-size="9" fill="#8b93b0">{{ g.label }}</text>
+    <!-- X labels -->
+    <text *ngFor="let l of dayLabels()" [attr.x]="l.x" [attr.y]="chartH - 8"
+          text-anchor="middle" font-size="9" fill="#8b93b0">{{ l.label }}</text>
+    <!-- area + line + dots -->
+    <path [attr.d]="areaPath()" [attr.fill]="color" opacity="0.10"/>
+    <path [attr.d]="linePath()" fill="none" [attr.stroke]="color" stroke-width="2.4"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <circle *ngFor="let p of points; let i = index" [attr.cx]="dotX(i)" [attr.cy]="dotY(i)" r="2.6"
+            [attr.fill]="color"/>
+  </svg>
+</div>

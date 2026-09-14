@@ -476,11 +476,28 @@
         </details>
 
         <!-- 2026-08-16 THE YARDSTICK: the retention curve, drawn + explained —
-             the chart an investor wakes up to. -->
+             the chart an investor wakes up to.
+             2026-09-14 BUILD 196 (founder: it must "catch and reflect actual
+             stats", dynamic, pinch-zoomable, expandable to the Command Center
+             — the Zyppar CommandCenter chart pattern): the LIVE 14-day series
+             leads (Opens / Arrivals / Loops toggled), the ⤢ expands into the
+             Command Center, and the hand-drawn concept curve stays below as
+             the shape we drive toward. -->
         <details class="inv-details">
-          <summary>The yardstick — the curve that decides everything</summary>
+          <summary>The yardstick — the curve that decides everything (now live)</summary>
           <div class="inv-details-body">
-        <svg class="investor-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Retention curve">
+            <div class="ys-toggle-row">
+              <ion-segment [value]="yardstickSeries" (ionChange)="yardstickSeries = $event.detail.value" mode="ios" class="ys-segment">
+                <ion-segment-button value="opens"><ion-label>Opens</ion-label></ion-segment-button>
+                <ion-segment-button value="arrivals"><ion-label>Arrivals</ion-label></ion-segment-button>
+                <ion-segment-button value="closed"><ion-label>Loops closed</ion-label></ion-segment-button>
+              </ion-segment>
+              <ion-button size="small" fill="outline" (click)="openYardstickInCenter()" aria-label="Expand in Command Center">⤢ Command Center</ion-button>
+            </div>
+            <app-yardstick-chart [points]="yardstickPoints()" [seriesLabel]="yardstickLabel()" [color]="yardstickColor()"></app-yardstick-chart>
+            <p class="investor-chart-note">LIVE — organic devices, one point per day, straight from the same pipeline as every number on this page. Opens = app launches; Arrivals = devices' first sync; Loops closed = loops closed while sending. Pinch or ± to zoom, slide to the latest days, ⤢ to take it full-size into the Command Center.</p>
+            <p class="investor-chart-note ys-theory-label">The shape we drive toward:</p>
+        <svg class="investor-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Retention curve — the concept">
           <line x1="24" y1="8" x2="24" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
           <line x1="24" y1="104" x2="292" y2="104" stroke="#9BA1A6" stroke-width="1.5"/>
           <text x="8" y="16" font-size="8" fill="#9BA1A6">100%</text>
@@ -500,7 +517,8 @@
           green line runs parallel to the gold asymptote, the business is
           real: people come back because each day has a tiny loop waiting to
           be closed. Every feature we ship is judged against this chart —
-          does it flatten it? That is the whole job.
+          does it flatten it? That is the whole job. The LIVE chart above is
+          how we will know.
         </p>
           </div>
         </details>
