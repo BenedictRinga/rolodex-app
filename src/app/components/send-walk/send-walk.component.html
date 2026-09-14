@@ -32,9 +32,12 @@
          — pills grown from the user's OWN loop history (a person, a place, a
          thing), plus one typed line for a subject nobody has decked. The deck
          stays first-class; this is the door for everyone else. Always shown on
-         an empty deck: a user who never syncs contacts can still walk. -->
+         an empty deck: a user who never syncs contacts can still walk.
+         2026-09-14 BUILD 201 (founder: the natural flow — "Ma's doctor..." and
+         its pills come immediately after "Not this one"; the 'From your loops'
+         label steps DOWN beneath them as a quiet caption): pills and the typed
+         line lead, the label explains after. -->
     <div *ngIf="gardenPills.length || !who" class="sw-garden">
-      <div *ngIf="gardenPills.length" class="sw-garden-label">{{ 'loopkeeper.walk.garden' | translate }}</div>
       <div *ngIf="gardenPills.length" class="sw-garden-row">
         <button *ngFor="let g of gardenPills" class="sw-gpill" type="button" (click)="armHandle(g.handle)">
           {{ g.handle }}<span *ngIf="g.open" class="sw-gopen">{{ g.open }}</span>
@@ -49,6 +52,7 @@
       <button *ngIf="handleInput.trim()" class="sw-ghost" type="button" (click)="commitHandle()">
         {{ 'loopkeeper.walk.nameGo' | translate }}
       </button>
+      <div *ngIf="gardenPills.length" class="sw-garden-label">{{ 'loopkeeper.walk.garden' | translate }}</div>
     </div>
     <!-- 2026-09-08 BUILD 183 SELF LOOPS: the no-arming door. Two quiet taps —
          a decision, a place to show up — as PURE self-loops (no subject at

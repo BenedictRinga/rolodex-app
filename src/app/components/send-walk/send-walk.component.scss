@@ -345,9 +345,11 @@
    from the user's own loop history, plus one typed line for a fresh subject.
    Ported from the b182 contactless walk; palette unchanged. */
 .sw-garden { margin: 4px 2px 14px; }
+/* BUILD 201: the label steps DOWN beneath the pills + typed line — a quiet
+   caption after the deed, not a header before it. */
 .sw-garden-label {
   font-size: 11px; font-weight: 700; letter-spacing: .04em;
-  text-transform: uppercase; opacity: .45; margin-bottom: 8px;
+  text-transform: uppercase; opacity: .45; margin-top: 8px;
 }
 .sw-garden-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .sw-gpill {
