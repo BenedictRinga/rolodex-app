@@ -29,6 +29,9 @@ import { LoopConsultComponent } from './loop-consult/loop-consult.component';
 import { SendWalkComponent } from './send-walk/send-walk.component';
 import { TranslatePortalComponent } from './translate-portal/translate-portal.component';
 import { TranslationReviewComponent } from './translation-review/translation-review.component';
+// 2026-09-14 BUILD 190: the COMMAND CENTER — the operations console behind the
+// Investors portal's button (Reliability, Timeline, Rooms, Translations).
+import { CommandCenterComponent } from './command-center/command-center.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,7 @@ import { TranslationReviewComponent } from './translation-review/translation-rev
     SendWalkComponent,
     TranslatePortalComponent,
     TranslationReviewComponent,
+    CommandCenterComponent,
   ],
   imports: [
     CommonModule,

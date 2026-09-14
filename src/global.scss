@@ -439,6 +439,17 @@ ion-modal.contact-edit-fullscreen {
   --max-width: 100%;
 }
 
+/* 2026-09-14 BUILD 190 COMMAND CENTER: full-screen operations console opened
+   from the Investors portal's button/chip (in-template ion-modal, b178
+   pattern — the content styles ride with the command-center component). */
+ion-modal.command-center-modal {
+  --height: 100%;
+  --width: 100%;
+  --border-radius: 0;
+  --max-height: 100%;
+  --max-width: 100%;
+}
+
 .contact-edit-fullscreen app-contact-card {
   display: flex;
   flex-direction: column;

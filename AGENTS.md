@@ -86,13 +86,21 @@ across all of these, or the Confidante will answer from stale facts.
   `card_added`, `card_edited`, `card_removed`, `loop_captured`, `message_sent`,
   `loop_closed`, `confidante_message`, `feedback_sent`, `invite_created`,
   `billing_started`, `billing_succeeded`, `video_clip_sent`.
-- Reliability events (2026-09-13 BUILD 189): `ai_chat_failed` (home chat died
-  — categorical stage: `httpNNN`/`empty`/`network`/`timeout`) and
-  `ai_draft_failed` (compose/refine fell back to the on-device engine — kind
-  + stage). Event names + stages only, never message text. The investors
-  portal's Reliability section (10) renders these plus the crash JSONL ledger
-  from `rolodex-server` (crashes7d/crashes30d/crashTop) and its
-  `analyticsIngestFailures` counter (also on `/health`).
+- Reliability events (BUILD 189-190): `ai_chat_failed` (home chat died —
+  categorical stage: `httpNNN`/`empty`/`network`/`timeout`), `ai_draft_failed`
+  (compose/refine fell back to the on-device engine — kind + stage), and
+  `app_error` (BUILD 190: the global window.onerror + unhandledrejection hook
+  in `CrashReporterService` fires it — `{ type, page }` categorical only,
+  5s/type+page flood valve; the scalable pipeline ledger, while the
+  `/crashes` JSONL stays as the detailed stream with messages + stacks).
+  Event names + stages only, never message text, in analytics.
+- THE COMMAND CENTER (BUILD 190): the Investors portal's operations console
+  (`components/command-center/`) opened by the portal button/index chip
+  through an in-template ion-modal. Carries Reliability (incl. app_error rows
+  + crash ledger + `analyticsIngestFailures`), Timeline, Rooms, Translations.
+  The PORTAL keeps the growth story (Delta, Live, Presence, Retention,
+  Activation, Events, Redesign) — new telemetry sections belong in the
+  Command Center, not the portal, per the founder's decluttering rule.
 - Loop wake notifications (BUILD 189): `LoopWakeService` (Soliloquy pattern —
   OS-held `LocalNotifications.schedule` with a future Date, deterministic
   ids, resync from the ledger on load). A snoozed loop's `waitUntil()` date

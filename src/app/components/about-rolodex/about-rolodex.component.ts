@@ -9,7 +9,8 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 import { DraftEngineService } from '../../services/draft-engine/draft-engine.service';
 import { NetworkService } from '../../services/network/network.service';
 import { StorageService } from '../../services/storage/storage.service';
-import { TranslationReviewComponent } from '../translation-review/translation-review.component';
+// 2026-09-14 BUILD 190: TranslationReviewComponent moved with the Translations
+// section into command-center/ (that component presents it itself).
 
 // 2026-08-16 THE PADLOCK: the Investors section opens with this word.
 // Change it here — exclusivity is the point.
@@ -52,6 +53,12 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   statsError = '';
   statsUpdatedLabel = '';
   private statsTimer: any = null;
+
+  // 2026-09-14 BUILD 190 THE COMMAND CENTER: the operations console
+  // (Reliability · Timeline · Rooms · Translations) moved into its own
+  // component (command-center/), opened by the portal button/chip through the
+  // in-template ion-modal below. The portal keeps the growth story.
+  commandCenterOpen = false;
 
   // 2026-09-02 BUILD 181 (founder directive): the contactless redesign framework
   // (loopkeeper redesign.txt) joins the investors portal as a segmented panel.
@@ -257,38 +264,9 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     } catch { /* ignore */ }
   }
 
-  /** Hour label for a timeline bucket — always through the TimeNormalizer. */
-  hourLabel(iso: string): string {
-    return this.time.format(iso, 'time') || '—';
-  }
-
-  /** 2026-08-25 Community translations helpers. */
-  keysCount(t: any): number {
-    return t?.keys && typeof t.keys === 'object' ? Object.keys(t.keys).length : 0;
-  }
-
-  formatTime(v: any): string {
-    return this.time.format(v, 'datetime') || '—';
-  }
-
-  /** 2026-08-25 REVIEW VIEW: maintainer approves/rejects community translations. */
-  async openTranslationReview(): Promise<void> {
-    const modal = await this.modalController.create({
-      component: TranslationReviewComponent,
-      cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.6, 0.85, 0.95],
-      initialBreakpoint: 0.85,
-    });
-    await modal.present();
-  }
-
-  /** Bar width as a percentage of the busiest hour in the timeline. */
-  barWidth(count: number): number {
-    const counts = (this.investorStats?.timeline || []).map((b: any) => Number(b?.count) || 0);
-    const max = Math.max(0, ...counts);
-    if (!max) return 0;
-    return Math.max(2, Math.round(((Number(count) || 0) / max) * 100));
-  }
+  // 2026-09-14 BUILD 190: hourLabel/keysCount/formatTime/openTranslationReview/
+  // barWidth MOVED with their sections into command-center/ (the Command
+  // Center component carries its own copies) — no dead helpers here.
 
   /** 2026-08-19 EXTENDED ROOM PASSWORD: northstar-x2 (case-insensitive). */
   async promptX2(): Promise<void> {

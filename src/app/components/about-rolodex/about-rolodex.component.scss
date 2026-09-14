@@ -1143,6 +1143,15 @@ ion-content::part(scroll) {
 .sec-timeline    { border-left-color: #00A896; .section-num { background: #00A896; } }
 .sec-rooms       { border-left-color: #9BA1A6; .section-num { background: #9BA1A6; } }
 .sec-translations{ border-left-color: #00A896; .section-num { background: #00A896; } }
+/* 2026-09-14 BUILD 190: the Command Center card (the console itself lives in
+   command-center/); timeline/rooms/translations rows moved there. */
+.sec-command     { border-left-color: #EF476F; .section-num { background: #EF476F; } }
+
+.index-chip-command {
+  border-color: #EF476F;
+  color: #EF476F;
+  font-weight: 700;
+}
 
 /* ═══ 2026-08-27 INVESTOR TRIM — lean hero + collapsed deep-dives ═════════
    A first-time investor reads thesis -> live proof -> money in one screen;

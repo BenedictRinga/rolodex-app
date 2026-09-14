@@ -1,0 +1,113 @@
+<!-- 2026-09-14 BUILD 190 THE COMMAND CENTER — the operations console behind
+     the Investors portal's Command Center button. Growth story stays in the
+     portal; the telemetry lives here. All sections read the SAME
+     `investorStats` summary object, passed in as [stats]. -->
+<div class="cc-shell">
+
+  <div class="cc-head">
+    <div class="cc-title">
+      <span class="cc-kicker">Investors · Operations</span>
+      <strong>Command Center</strong>
+    </div>
+    <ion-button size="small" fill="outline" (click)="close()">
+      Close
+    </ion-button>
+  </div>
+
+  <div class="cc-body">
+
+    <!-- 01 · RELIABILITY (moved from the portal, 2026-09-14) — the founder's
+         "if there is an error, will we know?" ledger. app_error (build 190)
+         is the SCALABLE global count riding the analytics pipeline; the crash
+         ledger rows beneath are the detailed stream with stacks server-side. -->
+    <div class="investor-section sec-reliability" *ngIf="stats?.analytics?.reliability">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <div class="section-title"><span class="section-kicker">Reliability</span><strong>Will we know? The error ledger</strong></div>
+      </div>
+      <div class="retention-row retention-head"><span>Metric (last 7 days, organic)</span><span>Value</span></div>
+      <div class="retention-row"><span>Confidante sends (chat working = sends + failures)</span><span>{{ (stats.analytics.reliability.chatSends7d || 0) + (stats.analytics.reliability.chatFails7d || 0) }}</span></div>
+      <div class="retention-row"><span>Chat failures</span><span>{{ stats.analytics.reliability.chatFails7d || 0 }}</span></div>
+      <div class="retention-row"><span>Chat failure rate</span><span>{{ stats.analytics.reliability.chatFailureRatePct === null ? '—' : stats.analytics.reliability.chatFailureRatePct + '%' }}</span></div>
+      <div class="retention-row" *ngFor="let s of stats.analytics.reliability.chatFailStages">
+        <span class="metric-indent">↳ died at: {{ s.stage }}</span><span>{{ s.count }}</span>
+      </div>
+      <div class="retention-row"><span>Draft-engine failures (fell back to on-device)</span><span>{{ stats.analytics.reliability.draftFails7d || 0 }}</span></div>
+      <div class="retention-row"><span>App errors (global hook, last 7 days)</span><span>{{ stats.analytics.reliability.appErrors7d || 0 }}</span></div>
+      <div class="retention-row"><span>App errors (last 30 days)</span><span>{{ stats.analytics.reliability.appErrors30d || 0 }}</span></div>
+      <div class="retention-row" *ngFor="let s of stats.analytics.reliability.appErrorStages">
+        <span class="metric-indent">↳ {{ s.stage }}</span><span>{{ s.count }}</span>
+      </div>
+      <div class="retention-row"><span>Crash-ledger entries · last 7 days (with stacks server-side)</span><span>{{ stats.analytics.reliability.crashes7d || 0 }}</span></div>
+      <div class="retention-row"><span>Crash-ledger entries · last 30 days</span><span>{{ stats.analytics.reliability.crashes30d || 0 }}</span></div>
+      <div class="retention-row" *ngFor="let c of stats.analytics.reliability.crashTop">
+        <span class="metric-indent">↳ {{ c.crash }}</span><span>{{ c.count }}</span>
+      </div>
+      <div class="retention-row"><span>Analytics batches rejected by this server (since boot)</span><span>{{ stats.analytics.reliability.ingestFailures || 0 }}</span></div>
+      <p class="investor-chart-note">The ledger of what broke. App errors (app_error) ride the same scalable, batched analytics pipeline as every other event — type + page only, never message text; the crash ledger keeps the full messages and stacks server-side. ingestFailures is the server's own counter of analytics batches it could not accept.</p>
+    </div>
+
+    <!-- 02 · TIMELINE (moved from the portal) -->
+    <div class="investor-section sec-timeline" *ngIf="stats?.timeline?.length">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.hourlyKicker' | translate }}</span><strong>{{ 'loopkeeper.about.hourlyStrong' | translate }}</strong></div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-row" *ngFor="let b of stats.timeline">
+          <span class="bar-label">{{ hourLabel(b.bucketStart) }}</span>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="barWidth(b.count)"></div>
+          </div>
+          <span class="bar-count">{{ b.count }}</span>
+        </div>
+      </div>
+      <p class="investor-chart-note">Each bar = the number of devices whose last contact-change sync fell inside that hour. This is the real record, not a projection. Quiet bars mean no contact edits — not no users; app-open activity is the Analytics section in the portal.</p>
+    </div>
+
+    <!-- 03 · ROOMS (moved from the portal) -->
+    <div class="investor-section sec-rooms" *ngIf="stats?.rooms?.length">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.demoKicker' | translate }}</span><strong>{{ 'loopkeeper.about.roomsStrong' | translate }}</strong></div>
+      </div>
+      <div class="room-row" *ngFor="let r of stats.rooms">
+        <span class="room-name">{{ r.room }}</span>
+        <span class="room-meta">{{ r.deviceCount }} device(s) · {{ r.contacts }} contacts</span>
+      </div>
+      <p class="investor-chart-note">Rooms are the shared demo-space codes. Devices without a code are grouped under "(no room)".</p>
+    </div>
+
+    <!-- 04 · COMMUNITY TRANSLATIONS (moved from the portal) -->
+    <div class="investor-section sec-translations" *ngIf="stats?.translations">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.translationsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.translationsStrong' | translate }}</strong></div>
+      </div>
+      <div class="room-row">
+        <span class="room-name">{{ 'loopkeeper.about.translationsTotal' | translate:{ n: stats.translations.total || 0 } }}</span>
+      </div>
+      <div *ngIf="stats.translations.byLang?.length">
+        <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsByLang' | translate }}</span><span></span></div>
+        <div class="retention-row" *ngFor="let l of stats.translations.byLang">
+          <span>{{ l._id }}</span><span>{{ l.count }}</span>
+        </div>
+      </div>
+      <div *ngIf="stats.translations.latest?.length">
+        <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsLatest' | translate }}</span><span></span></div>
+        <div class="retention-row" *ngFor="let t of stats.translations.latest">
+          <span>{{ t.lang }} · {{ keysCount(t) }} keys</span><span>{{ formatTime(t.createdAt) }}</span>
+        </div>
+      </div>
+      <p class="investor-chart-note" *ngIf="!stats.translations.total">{{ 'loopkeeper.about.translationsEmpty' | translate }}</p>
+      <ion-button size="small" fill="outline" (click)="openTranslationReview()" style="margin-top: 8px;">
+        {{ 'loopkeeper.review.title' | translate }}
+      </ion-button>
+    </div>
+
+    <div class="investor-section" *ngIf="!stats">
+      <p class="investor-live-note">Telemetry has not loaded yet — close and reopen the portal.</p>
+    </div>
+
+  </div>
+</div>

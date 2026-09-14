@@ -548,8 +548,8 @@
             <button class="index-chip" (click)="scrollToSection('inv-retention')">Retention</button>
             <button class="index-chip" (click)="scrollToSection('inv-activation')">Activation</button>
             <button class="index-chip" (click)="scrollToSection('inv-events')">Events</button>
-            <button class="index-chip" (click)="scrollToSection('inv-rooms')">Rooms</button>
-            <button class="index-chip" (click)="scrollToSection('inv-translations')">Translations</button>
+            <!-- 2026-09-14 BUILD 190: Rooms/Translations/Timeline/Reliability moved into the Command Center — the chip opens it. -->
+            <button class="index-chip index-chip-command" (click)="commandCenterOpen = true">Command Center</button>
             <!-- 2026-09-02 BUILD 181: the contactless redesign framework joins the index. -->
             <button class="index-chip" (click)="scrollToSection('inv-redesign')">Redesign</button>
           </div>
@@ -789,89 +789,14 @@
             <p class="investor-chart-note">Raw event counts across the last 7 days, organic devices only (own fleet excluded). Rows list only the events that actually fired — a feature absent here has simply not been used in the window.</p>
           </div>
 
-          <div class="investor-section sec-timeline" id="inv-timeline" *ngIf="investorStats.timeline?.length">
+          <!-- 2026-09-14 BUILD 190 (founder: the portal must not get too cluttered): THE COMMAND CENTER — the operations console (Reliability · Timeline · Rooms · Translations) moved behind ONE button; the portal keeps the growth story. app_error rows ride the scalable analytics pipeline (build 190); the crash ledger keeps stacks server-side. -->
+          <div class="investor-section sec-command" id="inv-command">
             <div class="section-head">
               <span class="section-num">07</span>
-              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.hourlyKicker' | translate }}</span><strong>{{ 'loopkeeper.about.hourlyStrong' | translate }}</strong></div>
+              <div class="section-title"><span class="section-kicker">Operations</span><strong>Command Center</strong></div>
             </div>
-            <div class="bar-chart">
-              <div class="bar-row" *ngFor="let b of investorStats.timeline">
-                <span class="bar-label">{{ hourLabel(b.bucketStart) }}</span>
-                <div class="bar-track">
-                  <div class="bar-fill" [style.width.%]="barWidth(b.count)"></div>
-                </div>
-                <span class="bar-count">{{ b.count }}</span>
-              </div>
-            </div>
-            <p class="investor-chart-note">Each bar = the number of devices whose last contact-change sync fell inside that hour. This is the real record, not a projection. Quiet bars mean no contact edits — not no users; app-open activity is the Analytics section above.</p>
-          </div>
-
-          <div class="investor-section sec-rooms" id="inv-rooms" *ngIf="investorStats.rooms?.length">
-            <div class="section-head">
-              <span class="section-num">08</span>
-              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.demoKicker' | translate }}</span><strong>{{ 'loopkeeper.about.roomsStrong' | translate }}</strong></div>
-            </div>
-            <div class="room-row" *ngFor="let r of investorStats.rooms">
-              <span class="room-name">{{ r.room }}</span>
-              <span class="room-meta">{{ r.deviceCount }} device(s) · {{ r.contacts }} contacts</span>
-            </div>
-            <p class="investor-chart-note">Rooms are the shared demo-space codes. Devices without a code are grouped under "(no room)".</p>
-          </div>
-
-          <!-- 2026-08-25 COMMUNITY TRANSLATIONS: anonymous portal contributions. -->
-          <div class="investor-section sec-translations" id="inv-translations" *ngIf="investorStats.translations">
-            <div class="section-head">
-              <span class="section-num">09</span>
-              <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.translationsKicker' | translate }}</span><strong>{{ 'loopkeeper.about.translationsStrong' | translate }}</strong></div>
-            </div>
-            <div class="room-row">
-              <span class="room-name">{{ 'loopkeeper.about.translationsTotal' | translate:{ n: investorStats.translations.total || 0 } }}</span>
-            </div>
-            <div *ngIf="investorStats.translations.byLang?.length">
-              <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsByLang' | translate }}</span><span></span></div>
-              <div class="retention-row" *ngFor="let l of investorStats.translations.byLang">
-                <span>{{ l._id }}</span><span>{{ l.count }}</span>
-              </div>
-            </div>
-            <div *ngIf="investorStats.translations.latest?.length">
-              <div class="retention-row retention-head"><span>{{ 'loopkeeper.about.translationsLatest' | translate }}</span><span></span></div>
-              <div class="retention-row" *ngFor="let t of investorStats.translations.latest">
-                <span>{{ t.lang }} · {{ keysCount(t) }} keys</span><span>{{ formatTime(t.createdAt) }}</span>
-              </div>
-            </div>
-            <p class="investor-chart-note" *ngIf="!investorStats.translations.total">{{ 'loopkeeper.about.translationsEmpty' | translate }}</p>
-            <ion-button size="small" fill="outline" (click)="openTranslationReview()" style="margin-top: 8px;">
-              {{ 'loopkeeper.review.title' | translate }}
-            </ion-button>
-          </div>
-
-          <!-- 2026-09-13 BUILD 189 (founder: "If there is an error, will we know
-               in Investor portal?"): THE RELIABILITY PANEL. Every failure the
-               app reports on itself — chat sends vs failures (with the stage
-               where they died), draft-engine fallbacks, and the crash ledger
-               the app has streamed since 2026-08-27 but that only lived in an
-               SSH tail until today. Organic devices only; stages are
-               categorical (httpNNN/empty/network/timeout), never user text. -->
-          <div class="investor-section sec-reliability" id="inv-reliability" *ngIf="investorStats.analytics?.reliability">
-            <div class="section-head">
-              <span class="section-num">10</span>
-              <div class="section-title"><span class="section-kicker">Reliability</span><strong>Will we know? The error ledger</strong></div>
-            </div>
-            <div class="retention-row retention-head"><span>Metric (last 7 days, organic)</span><span>Value</span></div>
-            <div class="retention-row"><span>Confidante sends (chat working = sends + failures)</span><span>{{ (investorStats.analytics.reliability.chatSends7d || 0) + (investorStats.analytics.reliability.chatFails7d || 0) }}</span></div>
-            <div class="retention-row"><span>Chat failures</span><span>{{ investorStats.analytics.reliability.chatFails7d || 0 }}</span></div>
-            <div class="retention-row"><span>Chat failure rate</span><span>{{ investorStats.analytics.reliability.chatFailureRatePct === null ? '—' : investorStats.analytics.reliability.chatFailureRatePct + '%' }}</span></div>
-            <div class="retention-row" *ngFor="let s of investorStats.analytics.reliability.chatFailStages">
-              <span class="metric-indent">↳ died at: {{ s.stage }}</span><span>{{ s.count }}</span>
-            </div>
-            <div class="retention-row"><span>Draft-engine failures (fell back to on-device)</span><span>{{ investorStats.analytics.reliability.draftFails7d || 0 }}</span></div>
-            <div class="retention-row"><span>Crashes · last 7 days</span><span>{{ investorStats.analytics.reliability.crashes7d || 0 }}</span></div>
-            <div class="retention-row"><span>Crashes · last 30 days</span><span>{{ investorStats.analytics.reliability.crashes30d || 0 }}</span></div>
-            <div class="retention-row" *ngFor="let c of investorStats.analytics.reliability.crashTop">
-              <span class="metric-indent">↳ {{ c.crash }}</span><span>{{ c.count }}</span>
-            </div>
-            <div class="retention-row"><span>Analytics batches rejected by this server (since boot)</span><span>{{ investorStats.analytics.reliability.ingestFailures || 0 }}</span></div>
-            <p class="investor-chart-note">The ledger of what broke: chat failures split by the stage where they died (http408 = slow upstream, timeout = dead hang, network = offline device), drafts that silently fell back to the on-device engine, and real crashes from the device crash stream (error type × page, routes only — no user text ever). ingestFailures is the server's own counter of analytics batches it could not accept — the metric that was zero-visible while two weeks of events burned.</p>
+            <p class="investor-live-note">Reliability · Timeline · Rooms · Translations — the full telemetry console, one tap away. Errors now ride the scalable analytics pipeline (app_error), with the detailed crash ledger beneath.</p>
+            <ion-button size="small" fill="solid" (click)="commandCenterOpen = true">Open Command Center</ion-button>
           </div>
 
           <!-- 2026-09-02 BUILD 181 (founder directive): THE CONTACTLESS REDESIGN —
@@ -879,7 +804,7 @@
                segmented panel. Six tabs; the source document is the authority. -->
           <div class="investor-section sec-redesign" id="inv-redesign">
             <div class="section-head">
-              <span class="section-num">11</span>
+              <span class="section-num">07</span>
               <div class="section-title"><span class="section-kicker">Redesign</span><strong>The contactless framework</strong></div>
             </div>
 
@@ -1123,5 +1048,15 @@
     </button>
     <img [src]="lightboxUrl" [alt]="lightboxAlt" (click)="$event.stopPropagation()" />
   </div>
+
+
+  <!-- 2026-09-14 BUILD 190: THE COMMAND CENTER modal — in-template ion-modal
+       (the build-178 lesson: controller-presented overlays are fragile).
+       Full-screen operations console fed by the same investorStats object. -->
+  <ion-modal [isOpen]="commandCenterOpen" cssClass="command-center-modal">
+    <ng-template>
+      <app-command-center [stats]="investorStats" (closed)="commandCenterOpen = false"></app-command-center>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

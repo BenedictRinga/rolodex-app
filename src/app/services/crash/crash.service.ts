@@ -3,6 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { environment } from '../../../environments/environment';
 import { NetworkService } from '../network/network.service';
 import { StorageService } from '../storage/storage.service';
+import { AnalyticsService } from '../analytics/analytics.service';
 
 /**
  * 2026-08-27 CRASH REPORTING — the audit gap "you cannot fix what you never
@@ -45,10 +46,13 @@ export class CrashReporterService {
   private timer: ReturnType<typeof setInterval> | null = null;
   private draining = false;
   private consented: boolean | null = null; // null = not yet resolved
+  /** BUILD 190: last `app_error` track time per type|page — 5s flood valve. */
+  private readonly lastErrorTrack = new Map<string, number>();
 
   constructor(
     private readonly network: NetworkService,
     private readonly storage: StorageService,
+    private readonly analytics: AnalyticsService,
   ) {
     if (typeof window === 'undefined' || window.__loopkeeperCrashWired) return;
     window.__loopkeeperCrashWired = true;
@@ -90,6 +94,23 @@ export class CrashReporterService {
     // Never report our own HTTP failures from reporting itself, or benign aborts.
     const msg = String(message || '').slice(0, 500);
     if (/AbortError|NetworkError|Failed to fetch/i.test(msg)) return;
+    // 2026-09-14 BUILD 190 (founder: global app error analytics is MORE
+    // SCALABLE than a file ledger): every crash/rejection also fires the
+    // `app_error` analytics event — it rides the same batched, idempotent,
+    // hourly-capped ingest as every other event, so the Command Center counts
+    // errors without reading a server file. Categorical props ONLY (type +
+    // page path — no message text; the detailed msg/stack still go to the
+    // /crashes JSONL ledger below). Flood throttle: at most one track per
+    // type+page every 5s, so a render-loop error cannot crowd the queue.
+    try {
+      const page = this.safePage();
+      const key = `${type}|${page}`;
+      const now = Date.now();
+      if ((this.lastErrorTrack.get(key) || 0) < now - 5_000) {
+        this.lastErrorTrack.set(key, now);
+        this.analytics.track('app_error', { type, page });
+      }
+    } catch { /* analytics optional by design */ }
     if (this.queue.length >= CrashReporterService.MAX_QUEUE) this.queue.shift();
     let stack = '';
     if (error instanceof Error) stack = String(error.stack || '').slice(0, 2000);

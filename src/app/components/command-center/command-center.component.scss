@@ -1,0 +1,220 @@
+// 2026-09-14 BUILD 190 THE COMMAND CENTER — styles ported from the Investors
+// portal (about-rolodex.component.scss) so the moved sections render
+// identically inside the dedicated component. The shell adds the sticky
+// operations-console header.
+
+.cc-shell {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--ion-background-color, var(--rolodex-surface, #f7f4ee));
+}
+
+.cc-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--rolodex-border-light);
+  background: var(--rolodex-surface, #fff);
+}
+
+.cc-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  .cc-kicker {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--rolodex-text-tertiary);
+  }
+
+  strong {
+    font-size: 16px;
+    color: var(--rolodex-text);
+  }
+}
+
+.cc-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 12px 24px;
+}
+
+/* --- ported section chrome (investor-section + heads) --- */
+
+.investor-section {
+  position: relative;
+  margin: 14px 0;
+  padding: 14px 14px 12px 16px;
+  background: var(--rolodex-surface);
+  border: 1px solid var(--rolodex-border-light);
+  border-left: 4px solid var(--rolodex-border);
+  border-radius: 12px;
+  scroll-margin-top: 12px;
+
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .section-num {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--rolodex-primary);
+    }
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+
+      .section-kicker {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--rolodex-text-tertiary);
+      }
+
+      strong {
+        font-size: 15px;
+        line-height: 1.25;
+        color: var(--rolodex-text);
+      }
+    }
+  }
+}
+
+/* Distinct accent per section (matching the portal's eye-mapping). */
+.sec-reliability  { border-left-color: #EF476F; .section-num { background: #EF476F; } }
+.sec-timeline     { border-left-color: #00A896; .section-num { background: #00A896; } }
+.sec-rooms        { border-left-color: #9BA1A6; .section-num { background: #9BA1A6; } }
+.sec-translations { border-left-color: #00A896; .section-num { background: #00A896; } }
+
+/* --- ported row/bar/note styles --- */
+
+.retention-table { min-width: 0; }
+
+.retention-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.5fr) repeat(2, minmax(76px, 1fr)) minmax(128px, 1.3fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 440px;          /* ← narrower phones SLIDE to see Change col */
+  padding: 9px 10px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--rolodex-border-light);
+}
+
+.retention-row.retention-head {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--rolodex-text-tertiary);
+}
+
+/* BUILD 189: breakdown rows under a headline metric (reliability panel). */
+.metric-indent {
+  padding-left: 14px;
+  color: var(--rolodex-text-tertiary);
+  font-size: 12px;
+}
+
+/* The reliability table is two-column — relax the 4-col grid from the portal. */
+.sec-reliability .retention-row {
+  grid-template-columns: 1fr auto;
+  min-width: 0;
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 6px 0;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 42px 1fr 30px;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--rolodex-text-secondary);
+}
+
+.bar-label {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.bar-track {
+  height: 10px;
+  background: var(--rolodex-surface-alt);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--rolodex-border-light);
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rolodex-accent), #00c853);
+  border-radius: 6px;
+  min-width: 2px;
+}
+
+.bar-count {
+  text-align: left;
+  font-weight: 600;
+  color: var(--rolodex-text);
+}
+
+.room-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  background: var(--rolodex-surface-alt);
+}
+
+.room-name {
+  font-weight: 600;
+  color: var(--rolodex-text);
+}
+
+.room-meta {
+  font-size: 11.5px;
+  color: var(--rolodex-text-secondary);
+  white-space: nowrap;
+}
+
+.investor-chart-note {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--rolodex-text-secondary);
+}
+
+.investor-live-note {
+  font-size: 12px;
+  color: var(--rolodex-text-secondary);
+}
