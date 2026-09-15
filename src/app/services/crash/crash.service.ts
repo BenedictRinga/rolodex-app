@@ -48,6 +48,12 @@ export class CrashReporterService {
   private consented: boolean | null = null; // null = not yet resolved
   /** BUILD 190: last `app_error` track time per type|page — 5s flood valve. */
   private readonly lastErrorTrack = new Map<string, number>();
+  /** 2026-09-15 BUILD 213: the queue persists as it fills (debounced) — a HARD
+   *  death (renderer gone, WebView killed) used to lose the in-memory queue,
+   *  which is exactly why today's crashes never reached the ledger
+   *  (crashes7d=1 while the founder sat through several). The next boot now
+   *  ships the evidence as backlog. */
+  private persistTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private readonly network: NetworkService,
@@ -58,7 +64,23 @@ export class CrashReporterService {
     window.__loopkeeperCrashWired = true;
 
     window.addEventListener('error', (ev: ErrorEvent) => {
-      this.record('error', ev?.message, ev?.error);
+      const msg = String(ev?.message || '');
+      this.record('error', msg, ev?.error);
+      // 2026-09-15 BUILD 213 THE STALE-CHUNK RECOVERY (the founder's "keeps
+      // crashing after some random processes, and needs to be reloaded"):
+      // after every rebuild/deploy a surviving tab lazily loads an OLD chunk
+      // hash -> 404 -> that surface dies and only a manual reload heals it.
+      // webpack's "Loading chunk ... failed" is that death. Heal it: record
+      // the evidence, then reload ONCE per tab (sessionStorage guard - never
+      // a loop; a second failure stays visible and now reaches the ledger).
+      if (/Loading chunk .+ failed|ChunkLoadError/i.test(msg)) {
+        let reloaded = false;
+        try { reloaded = !!sessionStorage.getItem('lk_chunk_reloaded'); } catch { /* private mode */ }
+        if (!reloaded) {
+          try { sessionStorage.setItem('lk_chunk_reloaded', String(Date.now())); } catch { /* private mode */ }
+          setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 150);
+        }
+      }
     });
     window.addEventListener('unhandledrejection', (ev: PromiseRejectionEvent) => {
       const r = ev?.reason;
@@ -125,6 +147,18 @@ export class CrashReporterService {
       page: this.safePage(),
       ua: (typeof navigator !== 'undefined' && navigator.userAgent) || '',
     });
+    // 2026-09-15 BUILD 213: write-through as the queue fills (debounced 800ms)
+    // — the evidence survives a hard death even when no flush ever runs.
+    this.schedulePersist();
+  }
+
+  /** BUILD 213: debounced write-through of the crash queue to IndexedDB. */
+  private schedulePersist(): void {
+    if (this.persistTimer) return;
+    this.persistTimer = setTimeout(() => {
+      this.persistTimer = null;
+      void this.storage.set(CrashReporterService.QUEUE_KEY, this.queue.slice(-40)).catch(() => { /* best effort */ });
+    }, 800);
   }
 
   /** PATH ONLY — strip any ?query (invite tokens must never be reported). */
