@@ -47,7 +47,21 @@ import { SoundService } from '../../services/sound/sound.service';
   standalone: false,
 })
 export class LoopInboxComponent implements OnInit, OnDestroy {
-  @Input() contacts: any[] = [];
+  // 2026-09-15 BUILD 211 (founder: the boot reveal "should not commence until
+  // the Demo or real contacts have populated their component"): the setter
+  // watches the deck arrive and only then allows the reveal to run.
+  private contactsValue: any[] = [];
+  private deckReady = false;
+  @Input() set contacts(v: any[] | null | undefined) {
+    this.contactsValue = v || [];
+    if (!this.deckReady && this.contactsValue.length > 0) {
+      this.deckReady = true;
+      this.tryReveal();
+    }
+  }
+  get contacts(): any[] {
+    return this.contactsValue;
+  }
   @Output() closeRequest = new EventEmitter<void>();
   // 2026-08-28 BUILD 130: dispatch persists the relationship — the inbox
   // writes the contact's rolling context and asks HomePage to persist the deck.
@@ -108,15 +122,26 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  rows glow, the bar counts them, and opening one is the answer. */
   nudgeIds = new Set<string>();
   flashId: string | null = null;
-  /** 2026-09-15 BUILD 206/207 THE BOOT REVEAL: the shell starts at 50vh
-   *  (deck visible below) and holds until beginReveal() - home calls it when
-   *  Welcome is dismissed, or when Welcome was never shown. */
+  /** 2026-09-15 BUILD 206/207/211 THE BOOT REVEAL: the shell starts at 50vh
+   *  (deck visible below) and holds until BOTH gates open - home ARMS the
+   *  reveal (Welcome dismissed, or never shown), and the deck POPULATES
+   *  (Demo or real contacts arrive; founder 211). The 8s safety timer arms
+   *  unconditionally so a never-populating deck cannot hold the shell down. */
   booting = true;
   private bootSafety: ReturnType<typeof setTimeout> | null = null;
+  private revealArmed = false;
+  private revealScheduled = false;
 
-  /** BUILD 207: end the 50vh hold - the gentle grow to full height begins. */
+  /** BUILD 207/211: ARM the reveal - the gentle grow begins once the deck is
+   *  populated. Idempotent; a retry after the fact is a no-op. */
   beginReveal(): void {
-    if (!this.booting) return;
+    if (this.booting) this.revealArmed = true;
+    this.tryReveal();
+  }
+
+  private tryReveal(): void {
+    if (!this.booting || !this.revealArmed || this.revealScheduled) return;
+    this.revealScheduled = true;
     if (this.bootSafety) { clearTimeout(this.bootSafety); this.bootSafety = null; }
     setTimeout(() => { this.booting = false; }, 250);
   }
@@ -293,7 +318,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     // 2026-09-15 BUILD 207 CONDITIONAL (founder: the reveal was lost behind
     // the Welcome modal): the shell HOLDS 50vh from mount; home calls
     // beginReveal() when Welcome is dismissed — or when Welcome was never
-    // going to show. A safety timer guarantees the reveal either way.
+    // going to show.
+    // 2026-09-15 BUILD 211 (founder: the reveal must not commence until the
+    // Demo or real contacts have populated their component): beginReveal()
+    // only ARMS — the 2.7s grow starts when the contacts input fills, or at
+    // this safety timer (Demo off + an empty real list must not hold the
+    // shell down forever).
     this.bootSafety = setTimeout(() => this.beginReveal(), 8000);
     // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
     this.startPhRotation();

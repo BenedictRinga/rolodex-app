@@ -24,7 +24,9 @@
 .li-shell.boot { height:50vh; min-height:50vh; max-height:50vh; }
 .li-shell { display:flex; flex-direction:column; height:70vh; min-height:70vh; max-height:70vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
-  transition:height .9s cubic-bezier(.25,.8,.4,1), min-height .9s cubic-bezier(.25,.8,.4,1), max-height .9s cubic-bezier(.25,.8,.4,1); }
+  /* 2026-09-15 BUILD 211 (founder: "the elongation is too fast... the animation
+     should be current x 3 so I see it in dev"): the gentle grow .9s -> 2.7s. */
+  transition:height 2.7s cubic-bezier(.25,.8,.4,1), min-height 2.7s cubic-bezier(.25,.8,.4,1), max-height 2.7s cubic-bezier(.25,.8,.4,1); }
 .li-shell.expanded { height:85vh; min-height:85vh; max-height:85vh; }
 /* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
    whole tab pauses for one breath. The check pops with a spring, the person is

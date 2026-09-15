@@ -22,6 +22,10 @@
     <button *ngIf="who" class="sw-card" type="button" (click)="confirmWho()">
       <img class="sw-avatar" [src]="avatarOf(who.contact)" alt="">
       <div class="sw-name">{{ whoName }}</div>
+      <!-- 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: kill the anxiety
+           that their contacts were accessed without permission): a demo Who
+           says so on its face - the walk IS the first screen now. -->
+      <div class="sw-demo" *ngIf="who.contact?.isMockData">DEMO</div>
       <div class="sw-whisper" *ngIf="whisper()">{{ whisper() }}</div>
       <div class="sw-stay" *ngIf="showStayHere">{{ 'loopkeeper.walk.stayHere' | translate }}</div>
     </button>

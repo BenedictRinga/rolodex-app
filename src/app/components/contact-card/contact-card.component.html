@@ -13,7 +13,11 @@
             <div class="demo-separator"><span>DEMO CONTACTS</span></div>
           </ng-container>
           <ng-container *ngIf="seg.type === 'contact'">
-            <ion-item class="default-card-row">
+            <!-- 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: remove the
+                 initial anxiety that their contacts were accessed without
+                 permission): every demo card carries a quiet diagonal DEMO
+                 stamp - unmistakable, unhurried, in the brand amber. -->
+            <ion-item class="default-card-row" [class.demo-card]="seg.contact?.isMockData">
             <!-- Main card area triggers onContactTap -->
             <div class="contact-card-content" (click)="onContactTap(seg.contact, $event)">
               <!-- 2026-08-16: the DEFAULT view avatar is iPad-shaped (square,
@@ -41,7 +45,7 @@
         <div class="rolodex-container" #gridView (scroll)="checkRolodexScroll($event)">
           <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
             <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-            <div *ngIf="seg.type === 'contact'" class="rolodex-card" [class.flipped]="seg.contact.isFlipped">
+            <div *ngIf="seg.type === 'contact'" class="rolodex-card" [class.demo-card]="seg.contact?.isMockData" [class.flipped]="seg.contact.isFlipped">
               <ng-container *ngIf="seg.contact as contact">
             <!-- Main card area triggers flipRolodexcard -->
             <div class="card-inner" (click)="flipRolodexcard(contact)">
@@ -251,7 +255,7 @@
       <ng-container *ngSwitchCase="'businesscard'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-card *ngIf="seg.type === 'contact'" class="professional-card" (click)="onContactTap(seg.contact, $event)">
+          <ion-card *ngIf="seg.type === 'contact'" class="professional-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
           <!-- Header Section -->
           <ion-card-header class="card-header">
@@ -333,7 +337,7 @@
       <ng-container *ngSwitchCase="'family'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-card *ngIf="seg.type === 'contact'" class="family-card" (click)="onContactTap(seg.contact, $event)">
+          <ion-card *ngIf="seg.type === 'contact'" class="family-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
           <!-- Header: Image and Name -->
           <ion-card-header class="family-header">
@@ -458,7 +462,7 @@
       <ng-container *ngSwitchCase="'compact'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-item *ngIf="seg.type === 'contact'" (click)="onContactTap(seg.contact, $event)">
+          <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
                 <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
@@ -477,7 +481,7 @@
       <ng-container *ngSwitchCase="'list'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-item *ngIf="seg.type === 'contact'" (click)="onContactTap(seg.contact, $event)">
+          <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
                 <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
@@ -497,7 +501,7 @@
         <div class="social-container">
           <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
             <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-            <div *ngIf="seg.type === 'contact'" class="social-card" (click)="onContactTap(seg.contact, $event)">
+            <div *ngIf="seg.type === 'contact'" class="social-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
               <ng-container *ngIf="seg.contact as contact">
             <!-- Social Header -->
             <div class="social-header">
@@ -579,7 +583,7 @@
       <ng-container *ngSwitchCase="'detailed'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-item *ngIf="seg.type === 'contact'" (click)="onContactTap(seg.contact, $event)">
+          <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="timeline-container">
                 <div class="timeline-date">
@@ -605,7 +609,7 @@
       <ng-container *ngSwitchCase="'timeline'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
-          <ion-item *ngIf="seg.type === 'contact'" (click)="onContactTap(seg.contact, $event)">
+          <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="timeline-container">
                 <div class="timeline-date">

@@ -1162,3 +1162,38 @@ ion-label.stacked b { font-weight: 800; }
 }
 
 
+
+/* 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: "watermark the Demo
+   contact cards so as to remove that initial anxiety a user might otherwise
+   feel that their contacts have been accessed without permission"): every
+   demo card carries a quiet diagonal DEMO stamp - unmistakable, unhurried,
+   in the brand amber, ghosted under the content. DEMO needs no translation. */
+.default-card-row.demo-card,
+.rolodex-card.demo-card,
+.professional-card.demo-card,
+.family-card.demo-card,
+.social-card.demo-card,
+ion-item.demo-card {
+  position: relative;
+  overflow: hidden;
+}
+.default-card-row.demo-card::after,
+.rolodex-card.demo-card::after,
+.professional-card.demo-card::after,
+.family-card.demo-card::after,
+.social-card.demo-card::after,
+ion-item.demo-card::after {
+  content: 'DEMO';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-22deg);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 178, 92, .16);
+  pointer-events: none;
+  z-index: 5;
+}
