@@ -206,16 +206,39 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-08-16 WELCOME AGAIN: demos Rolodex on init unless turned off
    *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside).
-   *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
-  /** BUILD 207/208: returns whether the Welcome ACTUALLY presented — the
-   *  show boolean. Callers begin the Inbox boot reveal when it is false. */
+   *  2026-08-17: 'Start exploring' in the demo hands off to the live tour.
+   *  2026-09-15 BUILD 210 THE WALK-FIRST ORDER (founder's word on Grok's
+   *  Walk-vs-Welcome overview): splash -> walk. The walk IS the home's front
+   *  surface by default (loopsSurface 'walk'), so on the FIRST open the tour
+   *  is DEFERRED — the deed is the first screen and the boot reveal begins
+   *  immediately. The six-slide tour is then offered ONCE, on the second
+   *  open (lk_open_count + lk_welcome_offered) — never auto-nagged again;
+   *  Settings -> Welcome Again replays it on demand. The show boolean (208)
+   *  still drives the reveal for every caller. */
   async presentWelcome(isReplay = false): Promise<boolean> {
     try {
-      if (await this.storageService.get<string>(WELCOME_DISMISSED_KEY)) {
+      const dismissed = await this.storageService.get<string>(WELCOME_DISMISSED_KEY);
+      if (dismissed) {
         // BUILD 207/208: no Welcome this session — the Inbox boot reveal
         // begins right away.
         this.inboxRef?.beginReveal();
         return false; // 2026-08-18 IndexedDB
+      }
+      if (!isReplay) {
+        // BUILD 210 WALK-FIRST: first run defers to the walk; the tour is
+        // offered exactly once, on the second open. Not on the first deed —
+        // the install door owns that moment (no double interruption).
+        const opens = ((await this.storageService.get<number>('lk_open_count')) || 0) + 1;
+        void this.storageService.set('lk_open_count', opens);
+        const offered = await this.storageService.get<boolean>('lk_welcome_offered');
+        if (opens <= 1 || offered) {
+          this.inboxRef?.beginReveal();
+          // belt-and-braces: beginReveal guards on booting, so a retry is a
+          // no-op if the first call already landed.
+          setTimeout(() => this.inboxRef?.beginReveal(), 1500);
+          return false;
+        }
+        void this.storageService.set('lk_welcome_offered', true);
       }
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
@@ -261,13 +284,15 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentWelcome(true).then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
   }
 
-  /** 2026-08-29 BUILD 143 (founder #1): the invite hand-off hosts the FULL
-   *  Welcome package — the first-time tour, never the "Welcome Again" replay
-   *  variant. A brand-new invitee who CONFIRMS lands here; certainty, not a
-   *  maybe. (Settings' deliberate replay keeps showWelcomeAgain/isReplay.) */
+  /** 2026-08-29 BUILD 143: the invite hand-off hosted the FULL Welcome package.
+   *  2026-09-15 BUILD 210 (Grok's sharpest point, founder's word): an invitee
+   *  who CONFIRMED has declared intent — the reward is the WALK (the home's
+   *  front surface, already mounted with the boot reveal waiting), never the
+   *  six-slide lecture. The dismissal key stays untouched, so the tour is
+   *  still offered once on their second open. */
   async presentFullWelcome(): Promise<void> {
-    try { await this.storageService.remove(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
-    void this.presentWelcome(false).then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
+    this.inboxRef?.beginReveal();
+    setTimeout(() => this.inboxRef?.beginReveal(), 1500);
   }
 
   /** 2026-08-17 THE DROPBOX MOMENT: a shared invite link opened the app. */
