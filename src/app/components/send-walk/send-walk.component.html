@@ -62,8 +62,16 @@
       <button class="sw-self" type="button" (click)="selfTap('show-up')">
         {{ 'loopkeeper.walk.chipShowUp' | translate }}
       </button>
-      <button *ngIf="!who" class="sw-self" type="button" (click)="addRequest.emit()">
-        {{ 'loopkeeper.add.pickPhone' | translate }}
+      <!-- 2026-09-15 BUILD 209 (Grok review gap 1: "MINE is the first door"
+           was dead for the people we care about): Demo is ON by default, so
+           the first-timer's who IS John Doe and the old *ngIf="!who" never
+           fired. The door now opens whenever the REAL deck is empty (a demo
+           card on show), speaks the walk's own words (whoAdd - "Bring in
+           someone real"), and hands to the AGNOSTIC add sheet (whoRequest ->
+           channelWhoFromWalk), never the OS Contact Picker's scary share
+           dialog (the old addRequest + pickPhone). -->
+      <button *ngIf="who && realDeckEmpty" class="sw-self" type="button" (click)="whoRequest.emit()">
+        {{ 'loopkeeper.walk.whoAdd' | translate }}
       </button>
     </div>
     <!-- THE GARDEN, stepped down: the user's OWN loop history (a person, a

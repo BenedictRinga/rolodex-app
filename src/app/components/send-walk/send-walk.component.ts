@@ -335,6 +335,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
     return !!this.armedContact?.isMockData;
   }
 
+  /** 2026-09-15 BUILD 209 (Grok review gap 1): TRUE when no REAL contact is on
+   *  deck — the first-timer's literal state with Demo on by default. Drives the
+   *  "Bring in someone real" door on slide 1: the door must exist for the
+   *  people we care about, not only when the deck is visually empty. */
+  get realDeckEmpty(): boolean {
+    return !(this.contacts || []).some((c: any) => !(c as any)?.isMockData);
+  }
+
   /**
    * 2026-08-31 BUILD 159 (founder): MINE. A first-timer has walked a demo name
    * all the way to the Send stage — the walk's last slide holds the big

@@ -732,7 +732,14 @@ export class RolodexComponent implements OnInit {
       const sc: any = this.cardChat as any;
       if (sc?.socketChat?.name) sc.socketChat.name = this.profile.name || sc.socketChat.name;
       // re-push so the backend registers the identity now
-      try { this.rolodexSync.push(this.contacts || []); } catch { /* ignore */ }
+      // 2026-09-15 BUILD 209 (Grok review gap 5, app half): this was the MOCK
+      // LEAK - the only push() call site passing the RAW deck, so Demo's John
+      // Doe deck rode into the server's DeviceState and posed inside the
+      // "3,159 contacts" investor sum. Every other caller pushes realContacts();
+      // this one now filters isMockData the same way.
+      try {
+        this.rolodexSync.push((this.contacts || []).filter((c: any) => !(c as any)?.isMockData));
+      } catch { /* ignore */ }
     } catch { /* ignore */ }
   }
 

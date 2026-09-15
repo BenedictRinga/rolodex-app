@@ -91,6 +91,10 @@ const RISING_NUDGE_DAYS = [2, 4, 7]; // rises, then holds — never spam
 @Injectable({ providedIn: 'root' })
 export class LoopsService {
   private cache: Loop[] | null = null;
+  // 2026-09-15 BUILD 209 (Grok review gap 3): the once-ever first-deed flag,
+  // hydrated AT CONSTRUCTION so the install prompt never waits on an
+  // IndexedDB hop inside the tap gesture. null = hydration still pending.
+  private firstLoopDone: boolean | null = null;
 
   constructor(
     private storage: StorageService,
@@ -105,7 +109,14 @@ export class LoopsService {
     private inAppNotifications: InAppNotificationService,
     // 2026-09-14 BUILD 205: the install door opens on the first deed.
     private appInstall: AppInstallService,
-  ) {}
+  ) {
+    // 2026-09-15 BUILD 209: hydrate the once-ever first-deed flag NOW, not at
+    // tap time - by the time a user can tap a pill, storage has answered and
+    // the first-deed block can run synchronously inside the gesture.
+    void this.storage.get<boolean>('lk_first_loop_started').then((v) => {
+      this.firstLoopDone = !!v;
+    });
+  }
 
   // ===== Persistence ========================================================
 
@@ -188,16 +199,29 @@ export class LoopsService {
     this.cache!.unshift(loop);
     void this.persist();
     this.analytics.track('loop_captured');
-    // 2026-09-14 BUILD 205 THE FIRST DEED (Grok plan #1): one once-ever event
-    // for the very first loop of any kind - the Activation table's headline.
-    // The moment it exists, the install door opens (the only return path
-    // without a store) - not on cold landing, on the deed.
-    void this.storage.get<boolean>('lk_first_loop_started').then((done) => {
-      if (done) return;
+    // 2026-09-15 BUILD 209 (Grok review gaps 2+3): (a) THE DIGEST ARMS ON THE
+    // DEED - create() was the only loop mutation that never called
+    // resyncDigest; the first loop stayed silent until some later mutation
+    // came along. (b) THE GESTURE SURVIVES - the once-ever flag is hydrated
+    // at construction (firstLoopDone), so when storage has already answered
+    // the whole first-deed block runs SYNCHRONOUSLY inside the tap and
+    // beforeinstallprompt.prompt() keeps its user activation; the old
+    // storage.get().then() hop burned the gesture and fell back to the alert.
+    void this.loopWake.resyncDigest(this.cache);
+    if (this.firstLoopDone === false) {
+      this.firstLoopDone = true;
       void this.storage.set('lk_first_loop_started', true);
       this.analytics.track('first_loop_started');
       void this.appInstall.promptInstallNow('first loop captured');
-    });
+    } else if (this.firstLoopDone === null) {
+      void this.storage.get<boolean>('lk_first_loop_started').then((done) => {
+        if (done || this.firstLoopDone === true) return;
+        this.firstLoopDone = true;
+        void this.storage.set('lk_first_loop_started', true);
+        this.analytics.track('first_loop_started');
+        void this.appInstall.promptInstallNow('first loop captured');
+      });
+    }
     return loop;
   }
 
