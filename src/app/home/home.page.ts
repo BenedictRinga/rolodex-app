@@ -209,7 +209,12 @@ export class HomePage implements OnInit, OnDestroy {
    *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
   async presentWelcome(isReplay = false) {
     try {
-      if (await this.storageService.get<string>(WELCOME_DISMISSED_KEY)) return; // 2026-08-18 IndexedDB
+      if (await this.storageService.get<string>(WELCOME_DISMISSED_KEY)) {
+        // 2026-09-15 BUILD 207: no Welcome this session — the Inbox boot
+        // reveal begins right away.
+        this.inboxRef?.beginReveal();
+        return; // 2026-08-18 IndexedDB
+      }
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
         componentProps: { isReplay },
@@ -223,6 +228,8 @@ export class HomePage implements OnInit, OnDestroy {
       });
       await modal.present();
       const res = await modal.onDidDismiss();
+      // 2026-09-15 BUILD 207: Welcome gone — NOW the Inbox may grow.
+      this.inboxRef?.beginReveal();
       if (res?.role === 'taste') void this.openTasteFlow();
       else if (res?.role === 'start') void this.openHelp();
     } catch { /* quiet */ }

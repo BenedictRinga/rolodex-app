@@ -108,9 +108,18 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  rows glow, the bar counts them, and opening one is the answer. */
   nudgeIds = new Set<string>();
   flashId: string | null = null;
-  /** 2026-09-15 BUILD 206 THE BOOT REVEAL: the shell starts at 50vh (deck
-   *  visible below), then extends to its full height. */
+  /** 2026-09-15 BUILD 206/207 THE BOOT REVEAL: the shell starts at 50vh
+   *  (deck visible below) and holds until beginReveal() - home calls it when
+   *  Welcome is dismissed, or when Welcome was never shown. */
   booting = true;
+  private bootSafety: ReturnType<typeof setTimeout> | null = null;
+
+  /** BUILD 207: end the 50vh hold - the gentle grow to full height begins. */
+  beginReveal(): void {
+    if (!this.booting) return;
+    if (this.bootSafety) { clearTimeout(this.bootSafety); this.bootSafety = null; }
+    setTimeout(() => { this.booting = false; }, 250);
+  }
   private flashTimer: ReturnType<typeof setTimeout> | null = null;
   /** 2026-08-28 BUILD 129: the CULMINATION — when a loop truly closes, the
    *  inbox pauses for one breath: big ✓, the person freed, and the freed
@@ -280,9 +289,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
     // 2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 50vh
     // on first view/reload/entry — a very visual sight of the Demo/Contacts
     // deck below — then gently extends to its full length; balances viewport
-    // usage and tells the user to go look down below later).
-    this.booting = true;
-    setTimeout(() => { this.booting = false; }, 350);
+    // usage and tells the user to go look down below later.
+    // 2026-09-15 BUILD 207 CONDITIONAL (founder: the reveal was lost behind
+    // the Welcome modal): the shell HOLDS 50vh from mount; home calls
+    // beginReveal() when Welcome is dismissed — or when Welcome was never
+    // going to show. A safety timer guarantees the reveal either way.
+    this.bootSafety = setTimeout(() => this.beginReveal(), 8000);
     // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
     this.startPhRotation();
     // 2026-08-31 BUILD 162 (founder: "default should be the newer"): surface
