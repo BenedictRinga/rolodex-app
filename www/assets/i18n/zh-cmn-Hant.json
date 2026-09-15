@@ -803,6 +803,8 @@
     "garden.save": "儲存",
     "garden.cancel": "取消",
     "garden.renamedToast": "已移動 {{n}} 個循環：\"{{from}}\" 現在是\"{{to}}\"。",
-    "garden.walkBtn": "走一走"
+    "garden.walkBtn": "走一走",
+    "share.voiceE": "👀 *如果你有一位從不睡覺的私人祕書呢？*\n\n認識一下 *LoopKeeper* — 幫你打理日常事務、提醒和每天活動的應用。\n\n試試看 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *認識 LoopKeeper — 你的數位祕書！*\n\n厭倦了忘記任務、慣例和提醒？讓 *LoopKeeper* 幫你保持井井有條，走在一天的前面。\n\n👉 在這裡看看: {{url}}\n\n更聰明地工作。保持在軌道上。 🔄"
   }
 }

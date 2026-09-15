@@ -803,6 +803,8 @@
     "garden.save": "保存",
     "garden.cancel": "キャンセル",
     "garden.renamedToast": "{{n}}件のループを移動：「{{from}}」は「{{to}}」になりました。",
-    "garden.walkBtn": "なぞる"
+    "garden.walkBtn": "なぞる",
+    "share.voiceE": "👀 *眠らない専属秘書がいたら？*\n\n*LoopKeeper* — 日々のルーティン、リマインダー、タスクをまとめて管理するアプリです。\n\nぜひ試してみて 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *LoopKeeper — あなたのデジタル秘書！*\n\n仕事や習慣、リマインダーを忘れがちですか？ *LoopKeeper* が整え、あなたの一日を先導します。\n\n👉 こちらから: {{url}}\n\n賢く働く。軌道に乗る。 🔄"
   }
 }

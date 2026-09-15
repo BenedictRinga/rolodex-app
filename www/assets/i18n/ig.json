@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Olee ma ị nwee onye odeakwụkwọ onwe gị na-amaghị ura?*\n\nMara *LoopKeeper* — ngwa na-enyere gị aka ilekọta ọrụ oge niile, ncheta na omume kwa ụbọchị.\n\nNwalee ya 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *Mara LoopKeeper — odeakwụkwọ dijitalụ gị!*\n\nIke ịgwụ gị n'icheta ọrụ, omume na ncheta? Hapụ *LoopKeeper* idowe gị n'usoro ma duru gị n'ụbọchị gị.\n\n👉 Lelee ya ebe a: {{url}}\n\nRụọ ọrụ nke ọma. Nọgide n'ụzọ. 🔄"
   }
 }

@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *ถ้าคุณมีเลขานุการส่วนตัวที่ไม่เคยหลับล่ะ?*\n\nรู้จัก *LoopKeeper* — แอปที่ช่วยคุณจัดการงานประจำ การเตือนความจำ และกิจกรรมประจำวัน\n\nลองใช้เลย 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *รู้จัก LoopKeeper — เลขานุการดิจิทัลของคุณ!*\n\nเบื่อไหมที่ลืมงาน กิจวัตร และการเตือนความจำ ปล่อยให้ *LoopKeeper* จัดระเบียบให้คุณและนำหน้าวันของคุณ\n\n👉 ดูได้ที่นี่: {{url}}\n\nทำงานฉลาดขึ้น อยู่บนเส้นทาง 🔄"
   }
 }

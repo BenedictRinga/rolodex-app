@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Čo keby ste mali osobného sekretára, ktorý nikdy nespí?*\n\nSpoznajte *LoopKeeper* — aplikáciu, ktorá vám pomáha zvládať bežné úlohy, pripomienky a každodenné aktivity.\n\nVyskúšajte 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *Spoznajte LoopKeeper — vášho digitálneho sekretára!*\n\nUnavuje vás zabúdanie na úlohy, rutiny a pripomienky? Nechajte *LoopKeeper*, aby vás držal v poriadku a na špici dňa.\n\n👉 Pozrite tu: {{url}}\n\nPracujte múdre. Zostaňte na kurze. 🔄"
   }
 }

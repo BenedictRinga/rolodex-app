@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Dai iwe une secretary yako wega isinogoni kusvotwa?*\n\nZiva *LoopKeeper* — chinhu chinobatsira kuronga mabasa, yeuchidzo nezviitiko zvezuva nezuva.\n\nEdza 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *Ziva LoopKeeper — secretary yako yedhijitari!*\n\nWaneta nezvakasarudzwa kusarangarira mabasa, maitiro neyeuchidzo? Ngaite *LoopKeeper* ichakuchengetedza wakarongeka uye wakasarudza zuva rako.\n\n👉 Tarisa pano: {{url}}\n\nBata nani. Raira nzira. 🔄"
   }
 }

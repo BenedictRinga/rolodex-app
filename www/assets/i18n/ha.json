@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Me za ka yi idan ka sami sakatarenka na kebe wanda bai taɓa barci ba?*\n\nGa *LoopKeeper* — app ɗin da zai taimaka maka ka kula da ayyukan yau da kullum, tunatarwa da harkokinka.\n\nGwada shi 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *Ga LoopKeeper — sakatarenka na dijital!*\n\nGajiya da mantawa da ayyuka, aladu da tunatarwa? Bari *LoopKeeper* ya tsayar da kai a tsari, ka kasan ci gaba da ranarka.\n\n👉 Duba nan: {{url}}\n\nYi aiki da hikima. Ka kasance a hanya. 🔄"
   }
 }

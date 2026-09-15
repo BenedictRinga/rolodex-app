@@ -803,6 +803,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Paano kung may personal na secretary ka na hindi kailanman natutulog?*\n\nKilalanin ang *LoopKeeper* — ang app na tumutulong sa iyong pamahalaan ang mga paulit-ulit na gawain, paalala at pang-araw-araw na aktibidad.\n\nSubukan ito 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *Kilalanin ang LoopKeeper — ang iyong digital secretary!*\n\nPagod nang makalimutan ang mga gawain, rutina at paalala? Hayaang ang *LoopKeeper* ang magpanatili sa iyo na organisado at nasa una ng araw mo.\n\n👉 Tingnan dito: {{url}}\n\nLumrabas na matalino. Manatili sa takbo. 🔄"
   }
 }

@@ -60,28 +60,28 @@ export class ShareAppService {
    *  behaviour) or a pinned voice, persisted, with a cycle button in
    *  Settings → Share. Every send is tracked by voice + channel so Investors
    *  can compare which phrasing actually converts. */
-  private static readonly VOICE_KEY = 'loopkeeper_share_voice'; // 'auto' | 'A' | 'B' | 'C' | 'D'
-  private static readonly VOICE_IDS = ['A', 'B', 'C', 'D'] as const;
+  private static readonly VOICE_KEY = 'loopkeeper_share_voice'; // 'auto' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
+  private static readonly VOICE_IDS = ['A', 'B', 'C', 'D', 'E', 'F'] as const;
 
-  getShareVoice(): 'auto' | 'A' | 'B' | 'C' | 'D' {
+  getShareVoice(): 'auto' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' {
     try {
       const v = localStorage.getItem(ShareAppService.VOICE_KEY);
-      return v === 'A' || v === 'B' || v === 'C' || v === 'D' ? v : 'auto';
+      return v === 'A' || v === 'B' || v === 'C' || v === 'D' || v === 'E' || v === 'F' ? v : 'auto';
     } catch { return 'auto'; }
   }
 
-  setShareVoice(v: 'auto' | 'A' | 'B' | 'C' | 'D'): void {
+  setShareVoice(v: 'auto' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F'): void {
     try { localStorage.setItem(ShareAppService.VOICE_KEY, v); } catch { /* session only */ }
   }
 
   /** The voice for this send: the pinned one, or a rotation when Auto. */
-  private resolveVoice(): 'A' | 'B' | 'C' | 'D' {
+  private resolveVoice(): 'A' | 'B' | 'C' | 'D' | 'E' | 'F' {
     const pinned = this.getShareVoice();
     if (pinned !== 'auto') return pinned;
     return ShareAppService.VOICE_IDS[Math.floor(Math.random() * ShareAppService.VOICE_IDS.length)];
   }
 
-  private voiceKey(id: 'A' | 'B' | 'C' | 'D'): string {
+  private voiceKey(id: 'A' | 'B' | 'C' | 'D' | 'E' | 'F'): string {
     return `loopkeeper.share.voice${id}`;
   }
 
@@ -99,7 +99,7 @@ export class ShareAppService {
   }
 
   /** 2026-08-27 GENERIC APP SHARE TEXT (three voices, localized). */
-  async buildAppShareText(url: string, voice?: 'A' | 'B' | 'C' | 'D'): Promise<string> {
+  async buildAppShareText(url: string, voice?: 'A' | 'B' | 'C' | 'D' | 'E' | 'F'): Promise<string> {
     const id = voice || this.resolveVoice();
     const key = this.voiceKey(id);
     try {
@@ -165,7 +165,7 @@ export class ShareAppService {
   }
 
   /** The voice actually used by the most recent send (for share tracking). */
-  private lastVoice: 'A' | 'B' | 'C' | 'D' = 'A';
+  private lastVoice: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' = 'A';
 
   private whenLabel(when: string): string {
     try {

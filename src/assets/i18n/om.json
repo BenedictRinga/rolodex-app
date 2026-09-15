@@ -809,6 +809,8 @@
     "garden.save": "Save",
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
-    "garden.walkBtn": "Walk"
+    "garden.walkBtn": "Walk",
+    "share.voiceE": "👀 *Yoo ogessa dhuunfaa hin hortu qabaatta?*\n\n*LoopKeeper* beeksi — hojiiwwan qopheessuu, yaadachiisaa fi sochii guyyaa kee bulchina.\n\nDhiyaata 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *LoopKeeper beeksi — ogeessa dijitaalaa kee!*\n\nHojiwwan, caasaa fi yaadachiisaa dagachaa dhabdaa? *LoopKeeper* qindoomina siif qabi, guyyaa kee fuldura bahi.\n\n👉 As ilaali: {{url}}\n\nSafi hojjedhu. Karaa irratti booda'uu. 🔄"
   }
 }

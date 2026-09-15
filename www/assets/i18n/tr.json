@@ -803,6 +803,8 @@
     "garden.save": "Kaydet",
     "garden.cancel": "İptal",
     "garden.renamedToast": "{{n}} döngü taşındı: \"{{from}}\" artık \"{{to}}\".",
-    "garden.walkBtn": "Yürü"
+    "garden.walkBtn": "Yürü",
+    "share.voiceE": "👀 *Ya hiç uyumayan kişisel bir sekreteriniz olsaydı?*\n\nTanışın: *LoopKeeper* — rutin işleri, hatırlatmaları ve günlük aktivitelerinizi yönetmenize yardım eden uygulama.\n\nDeneyin 👇\n🔗 {{url}}",
+    "share.voiceF": "🤖 *İşte LoopKeeper — dijital sekreteriniz!*\n\nİşleri, rutinleri ve hatırlatmaları unutmaktan sıkıldınız mı? *LoopKeeper* sizi düzenli tutsun, günün başında götürsün.\n\n👉 Buradan bakın: {{url}}\n\nAkıllı çalışın. Raydan çıkmayın. 🔄"
   }
 }
