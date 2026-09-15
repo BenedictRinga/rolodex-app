@@ -300,9 +300,16 @@ app-rolodex {
   100% { box-shadow: 0 0 0 0 rgba(63, 185, 80, 0); }
 }
 
-/* 2026-08-19 SEARCH FAB: clear of the home indicator / safe area. */
-.search-fab {
-  margin-bottom: calc(env(safe-area-inset-bottom) + 4px);
+/* 2026-09-15 BUILD 212 (founder: deprecate the home ion-fab — it overlapped
+   the LoopKeeper icon panel at the footer zone): the search door lives UP in
+   the top panel, beside the storage toggle, styled as its twin. */
+.search-toggle {
+  --padding-start: 6px;
+  --padding-end: 6px;
+  --border-radius: 8px;
+  --color: var(--rolodex-text-secondary, #8b93b0);
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -312,7 +319,7 @@ app-rolodex {
    live. The deck never poses as cloud/server data.
    ═══════════════════════════════════════════════════════ */
 app-rolodex.tab-hidden,
-ion-fab.search-fab.tab-hidden {
+.search-toggle.tab-hidden {
   display: none !important;
 }
 

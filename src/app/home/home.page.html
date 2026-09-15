@@ -24,6 +24,15 @@
         <span style="font-size: 10px; color: #3fb950; white-space: nowrap;">{{ 'loopkeeper.chat.aiAssistant' | translate }}</span>
       </div>
     </div>
+    <!-- 2026-09-15 BUILD 212 (founder: deprecate the home ion-fab — it sat on
+         top of the LoopKeeper icon panel at the footer zone): SEARCH moves UP
+         here, beside the storage toggle. Same openSearchModal() door, same
+         tab-hidden discipline the FAB carried (deckHiddenForTab ||
+         inboxExpanded). -->
+    <ion-button fill="clear" size="small" class="search-toggle" [class.tab-hidden]="deckHiddenForTab || inboxExpanded"
+      (click)="openSearchModal()" [appTooltip]="'loopkeeper.t.liSearch' | translate" aria-label="Search contacts">
+      <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+    </ion-button>
     <!-- 2026-08-27 FOUNDER: the whole storage panel (tabs + panes) hides behind
          this icon — first sight is the LoopKeeper Inbox, not three panels.
          Settings → Cloud Sync also opens it, temporarily. -->
@@ -288,14 +297,10 @@
   <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet.
        2026-08-27: hidden while an un-setup Cloud/Server panel owns the tab —
        searching the deck there would be dishonest. -->
-  <!-- 2026-08-29 BUILD 146 (founder): the fab also hides while the inbox is
-       expanded — it sat on top of the deck's View footer panel and blocked the
-       Settings button at the far right. -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="search-fab" [class.tab-hidden]="deckHiddenForTab || inboxExpanded">
-    <ion-fab-button (click)="openSearchModal()" color="primary" aria-label="Search contacts">
-      <ion-icon name="search-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <!-- 2026-08-29 BUILD 146 / 2026-09-15 BUILD 212: THE SEARCH FAB IS
+       DEPRECATED — it overlapped the LoopKeeper icon panel at the footer zone.
+       Its door (openSearchModal) moved to the TOP PANEL, beside the storage
+       toggle (class search-toggle, same tab-hidden discipline). -->
 
   <!-- 2026-09-01 BUILD 178 (founder: the in-template ion-modal, the Zyppar
        pattern - no ModalController timing to juggle): the "I'll type one in"
