@@ -207,13 +207,15 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-16 WELCOME AGAIN: demos Rolodex on init unless turned off
    *  (Settings > Welcome Again > Stop, or 'Don't show this again' inside).
    *  2026-08-17: 'Start exploring' in the demo hands off to the live tour. */
-  async presentWelcome(isReplay = false) {
+  /** BUILD 207/208: returns whether the Welcome ACTUALLY presented — the
+   *  show boolean. Callers begin the Inbox boot reveal when it is false. */
+  async presentWelcome(isReplay = false): Promise<boolean> {
     try {
       if (await this.storageService.get<string>(WELCOME_DISMISSED_KEY)) {
-        // 2026-09-15 BUILD 207: no Welcome this session — the Inbox boot
-        // reveal begins right away.
+        // BUILD 207/208: no Welcome this session — the Inbox boot reveal
+        // begins right away.
         this.inboxRef?.beginReveal();
-        return; // 2026-08-18 IndexedDB
+        return false; // 2026-08-18 IndexedDB
       }
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
@@ -228,11 +230,15 @@ export class HomePage implements OnInit, OnDestroy {
       });
       await modal.present();
       const res = await modal.onDidDismiss();
-      // 2026-09-15 BUILD 207: Welcome gone — NOW the Inbox may grow.
+      // BUILD 207/208: Welcome gone — NOW the Inbox may grow.
       this.inboxRef?.beginReveal();
       if (res?.role === 'taste') void this.openTasteFlow();
       else if (res?.role === 'start') void this.openHelp();
-    } catch { /* quiet */ }
+      return true;
+    } catch {
+      this.inboxRef?.beginReveal(); // BUILD 208: a failed modal must not hold the reveal
+      return false;
+    }
   }
 
   /** 2026-08-19 THE TASTE: the welcome demo's surprise — a guided real-loop
@@ -252,7 +258,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** The Settings 'Show' side of Welcome Again: clear the dismissal + replay. */
   async showWelcomeAgain() {
     try { await this.storageService.remove(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
-    void this.presentWelcome(true);
+    void this.presentWelcome(true).then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
   }
 
   /** 2026-08-29 BUILD 143 (founder #1): the invite hand-off hosts the FULL
@@ -261,7 +267,7 @@ export class HomePage implements OnInit, OnDestroy {
    *  maybe. (Settings' deliberate replay keeps showWelcomeAgain/isReplay.) */
   async presentFullWelcome(): Promise<void> {
     try { await this.storageService.remove(WELCOME_DISMISSED_KEY); } catch { /* ignore */ }
-    void this.presentWelcome(false);
+    void this.presentWelcome(false).then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
   }
 
   /** 2026-08-17 THE DROPBOX MOMENT: a shared invite link opened the app. */
@@ -345,7 +351,7 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
     void this.presentInviteLanding();
     // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
-    void this.presentWelcome();
+    void this.presentWelcome().then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
     // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
     this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
     // 2026-09-14 BUILD 195 THE UPDATE BANNER: check now, then every 30 minutes.
