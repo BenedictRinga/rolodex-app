@@ -108,6 +108,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  rows glow, the bar counts them, and opening one is the answer. */
   nudgeIds = new Set<string>();
   flashId: string | null = null;
+  /** 2026-09-15 BUILD 206 THE BOOT REVEAL: the shell starts at 50vh (deck
+   *  visible below), then extends to its full height. */
+  booting = true;
   private flashTimer: ReturnType<typeof setTimeout> | null = null;
   /** 2026-08-28 BUILD 129: the CULMINATION — when a loop truly closes, the
    *  inbox pauses for one breath: big ✓, the person freed, and the freed
@@ -274,6 +277,12 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    // 2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 50vh
+    // on first view/reload/entry — a very visual sight of the Demo/Contacts
+    // deck below — then gently extends to its full length; balances viewport
+    // usage and tells the user to go look down below later).
+    this.booting = true;
+    setTimeout(() => { this.booting = false; }, 350);
     // 2026-08-28 BUILD 125: the capture placeholder rotation starts with the tab.
     this.startPhRotation();
     // 2026-08-31 BUILD 162 (founder: "default should be the newer"): surface

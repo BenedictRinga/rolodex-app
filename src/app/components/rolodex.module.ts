@@ -36,6 +36,7 @@ import { CommandCenterComponent } from './command-center/command-center.componen
 // 2026-09-14 BUILD 196: the LIVE YARDSTICK chart — pinch/± zoom, expandable
 // to the Command Center (the Zyppar CommandCenter retention-chart pattern).
 import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.component';
+import { ManagingCardsModalComponent } from './managing-cards-modal/managing-cards-modal.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.compo
     TranslationReviewComponent,
     CommandCenterComponent,
     YardstickChartComponent,
+    ManagingCardsModalComponent,
   ],
   imports: [
     CommonModule,

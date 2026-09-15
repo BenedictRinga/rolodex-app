@@ -1,0 +1,24 @@
+<!-- 2026-09-15 BUILD 206 MANAGING CARDS - the material that left the Welcome
+     tour (slides 5-8) now lives where the question is actually asked: the
+     first attempt to add a contact or build a card. -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title style="font-size: 15px;">Managing cards</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="mc-body">
+  <div class="mc-rows">
+    <div *ngFor="let r of rows" class="mc-row">
+      <div class="mc-kicker">{{ r.kickerKey | translate }}</div>
+      <h2 class="mc-title">{{ r.titleKey | translate }}</h2>
+      <p class="mc-copy">{{ r.copyKey | translate }}</p>
+    </div>
+  </div>
+  <ion-button expand="block" class="mc-go" (click)="close()">Got it — add someone</ion-button>
+</ion-content>

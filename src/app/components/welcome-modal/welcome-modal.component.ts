@@ -96,37 +96,14 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       emphasis: 'loopkeeper.welcome.fourws.emphasis',
     },
     {
-      id: 'followup',
-      kicker: 'loopkeeper.welcome.followup.kicker',
-      title: 'loopkeeper.welcome.followup.title',
-      copy: 'loopkeeper.welcome.followup.copy',
-      emphasis: 'loopkeeper.welcome.followup.emphasis',
-    },
-    {
       // 2026-08-27 THE HONEST GAUGE: prepare the user for the Loop-O-meter —
       // and for the truth that absent their input, the app is just another
       // contacts app (the one their phone already has).
-      id: 'meter',
-      kicker: 'loopkeeper.welcome.meter.kicker',
-      title: 'loopkeeper.welcome.meter.title',
-      copy: 'loopkeeper.welcome.meter.copy',
-      emphasis: 'loopkeeper.welcome.meter.emphasis',
-    },
-    {
-      id: 'confidante',
-      kicker: 'loopkeeper.welcome.confidante.kicker',
-      title: 'loopkeeper.welcome.confidante.title',
-      copy: 'loopkeeper.welcome.confidante.copy',
-      emphasis: 'loopkeeper.welcome.confidante.emphasis',
-    },
-    {
-      id: 'storage',
-      kicker: 'loopkeeper.welcome.storage.kicker',
-      title: 'loopkeeper.welcome.storage.title',
-      copy: 'loopkeeper.welcome.storage.copy',
-      emphasis: 'loopkeeper.welcome.storage.emphasis',
-    },
-    {
+      // 2026-09-15 BUILD 206 (founder): slides 5-8 (followup, meter,
+      // confidante, storage) LEAVE the tour - they become the MANAGING CARDS
+      // modal, shown inside the user's first attempt to add a contact or
+      // build a card (home.onCreateContact gate). The tour keeps the brand
+      // arc: intro, card, loopmotto, fourws, outro, taste.
       id: 'outro',
       kicker: 'loopkeeper.welcome.outro.kicker',
       title: 'loopkeeper.welcome.outro.title',

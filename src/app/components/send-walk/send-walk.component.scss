@@ -96,7 +96,8 @@
 .sw-empty-body { font-size: 13.5px; line-height: 1.5; opacity: .55; }
 
 // ── Back row ─────────────────────────────────────────────────────────────────
-.sw-backrow { display: flex; align-items: center; gap: 8px; margin: 2px 0 10px; }
+/* 2026-09-15 BUILD 206 (founder: pull the 5 pills + the or-a-line anchor up ~10px - every interaction point obvious at first glance). */
+.sw-backrow { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; }
 .sw-back {
   border: none; background: rgba(128, 128, 128, .14); color: inherit; cursor: pointer;
   border-radius: 999px; width: 30px; height: 30px;
@@ -109,7 +110,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 4px 0 16px;
+  margin: 0 0 12px;
 }
 .sw-chip {
   width: 100%;

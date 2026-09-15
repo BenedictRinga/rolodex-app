@@ -45,6 +45,8 @@ import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.componen
 // 2026-09-14 BUILD 199 THE ACHIEVEMENT SHARE + THE TRIAL STITCH: the dock's
 // celebration tap and the trial-end stitch both open the share sheet.
 import { ShareAppModalComponent } from '../components/share-app-modal/share-app-modal.component';
+// 2026-09-15 BUILD 206 MANAGING CARDS: the first add attempt passes through it.
+import { ManagingCardsModalComponent } from '../components/managing-cards-modal/managing-cards-modal.component';
 // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
 import { LoopsService } from '../services/loops/loops.service';
 import { UpdatesService } from '../services/updates/updates.service';
@@ -1623,6 +1625,25 @@ export class HomePage implements OnInit, OnDestroy {
    *  deck, exactly like a device import. 2026-08-31 BUILD 159: the sheet speaks
    *  the user's language (it now also answers the walk's MINE door). */
   async onCreateContact() {
+    // 2026-09-15 BUILD 206 MANAGING CARDS (founder: Welcome slides 5-8 leave
+    // the tour and become THIS modal): the user's FIRST attempt to add a
+    // contact or build a card passes through it — the material answers the
+    // question they are asking at that moment (what happens to a card once it
+    // exists; reminder/notes/task kinds are coming). Once per device.
+    try {
+      const seen = await this.storageService.get<boolean>('lk_cards_modal_seen');
+      if (!seen) {
+        await this.storageService.set('lk_cards_modal_seen', true);
+        const mc = await this.modalController.create({
+          component: ManagingCardsModalComponent,
+          cssClass: 'card-chat-modal-sheet',
+          breakpoints: [0, 0.7, 0.95, 1],
+          initialBreakpoint: 0.95,
+        });
+        await mc.present();
+        await mc.onDidDismiss();
+      }
+    } catch { /* the gate must never block the add flow */ }
     // 2026-09-01 BUILD 172 (founder: "apply the interface used for accessing
     // the contacts in Loops, for contacts via the add icon also"): the cramped
     // three-button alert is RETIRED. The add icon - on the deck AND behind the

@@ -15,12 +15,16 @@
    reorder shipped in send-walk this build, so 75vh it is; the LoopKeeper icon
    panel rides into footnote territory, and the first-timer's deck peeks below
    the shell). Expanded keeps its headroom at 85vh.
-   2026-09-14 BUILD 203 (founder: "shorten the Inbox from 75 to 70vh we see"):
+   /* 2026-09-14 BUILD 203 (founder: "shorten the Inbox from 75 to 70vh we see"):
    resting height 75vh -> 70vh (the flip-gap trim above returns ~8px too).
-   Expanded holds at 85vh. */
+   Expanded holds at 85vh.
+   2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 50vh on
+   first view/reload/entry — the Demo/Contacts deck shows itself below — then
+   gently extends to full length; the grow is a slow ease, not a snap). */
+.li-shell.boot { height:50vh; min-height:50vh; max-height:50vh; }
 .li-shell { display:flex; flex-direction:column; height:70vh; min-height:70vh; max-height:70vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
-  transition:height .32s ease, min-height .32s ease, max-height .32s ease; }
+  transition:height .9s cubic-bezier(.25,.8,.4,1), min-height .9s cubic-bezier(.25,.8,.4,1), max-height .9s cubic-bezier(.25,.8,.4,1); }
 .li-shell.expanded { height:85vh; min-height:85vh; max-height:85vh; }
 /* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
    whole tab pauses for one breath. The check pops with a spring, the person is
