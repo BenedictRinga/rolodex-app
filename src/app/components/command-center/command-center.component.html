@@ -188,6 +188,36 @@
       <p class="investor-chart-note" *ngIf="!stats.analytics.landingSources?.length">No attributed landings yet — devices record their provenance once, from build 193. WhatsApp forwards of the plain link land as 'direct' by design; pin a ?src= tag when you post to tag a community.</p>
     </div>
 
+    <!-- 2026-09-15 BUILD 214 THE DEVICE CATCHER (founder: "I still do not know
+         my device... catching my device, and those for testers... then we write
+         them onto .env"): the roster of every device id the analytics stream
+         saw in 30 days. Tick yours + the testers' (their numeric codes ride
+         the rows), copy the env line, paste into /opt/rolodex-server/.env as
+         LK_NOISE_DEVICES=id1,id2 — then pm2 restart rolodex-server
+         --update-env. A correct .env empties this roster: it verifies itself. -->
+    <div class="investor-section sec-noise" *ngIf="stats?.analytics?.knownDevices">
+      <div class="section-head">
+        <span class="section-num">07</span>
+        <div class="section-title"><span class="section-kicker">Noise list</span><strong>Catch the devices — yours and the testers'</strong></div>
+      </div>
+      <p class="investor-chart-note">Every organic device the analytics stream saw in 30 days — anything already in LK_NOISE_DEVICES is excluded, so the list verifies itself: apply the env line and these rows disappear. Tester rows carry their numeric code (the app tags every tester event with it). Tick the devices that are yours or your testers', copy the line, paste it into /opt/rolodex-server/.env, then run: pm2 restart rolodex-server --update-env</p>
+      <div class="noise-rows">
+        <label class="noise-row" *ngFor="let d of stats.analytics.knownDevices">
+          <input type="checkbox" [checked]="noiseSelected.has(d.id)" (change)="toggleNoise(d.id)">
+          <span class="noise-id">{{ shortId(d.id) }}</span>
+          <span class="noise-meta">
+            {{ d.events }} events · last seen {{ seenLabel(d.lastSeen) }}
+            <span *ngIf="d.tz" class="noise-tz">{{ d.tz }}</span>
+            <span *ngIf="d.testerCodes?.length" class="noise-tester">tester #{{ d.testerCodes.join(' #') }}</span>
+          </span>
+        </label>
+      </div>
+      <ion-button size="small" fill="outline" class="noise-copy" [disabled]="!noiseSelected.size" (click)="copyNoiseEnv()">
+        <ion-icon slot="start" name="copy-outline"></ion-icon>
+        {{ noiseCopied ? 'Copied — paste into .env' : 'Copy LK_NOISE_DEVICES for ' + noiseSelected.size + ' device(s)' }}
+      </ion-button>
+    </div>
+
     <div class="investor-section" *ngIf="!stats && !loading && !loadError">
       <p class="investor-live-note">Telemetry has not loaded yet — leave and reopen the console.</p>
     </div>

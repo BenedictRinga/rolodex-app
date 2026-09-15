@@ -531,6 +531,22 @@
           <ion-toggle slot="end" [(ngModel)]="backendSyncEnabled" (ionChange)="onBackendSyncToggle($event)"></ion-toggle>
         </ion-item>
 
+        <!-- 2026-09-15 BUILD 214 THE DEVICE CATCHER (founder: "I still do not
+             know my device"): this device's anonymous id, one tap to copy — the
+             id the noise list (LK_NOISE_DEVICES) and the analytics ledger know
+             it by. Tap the copy icon, send it to the founder or paste it into
+             the droplet's .env. -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="phone-portrait-outline" slot="start" color="medium"></ion-icon>
+          <ion-label>
+            This device (anonymous id)
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary); word-break: break-all;">{{ myDeviceId || '…' }}</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" [disabled]="!myDeviceId" (click)="copyMyDeviceId()">
+            <ion-icon name="copy-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+
         <!-- Passphrase -->
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="lock-closed-outline" slot="start" [color]="syncHasPassphrase ? 'success' : 'danger'"></ion-icon>

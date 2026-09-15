@@ -432,6 +432,21 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-20 PRIVACY: backend sync consent — default OFF. */
   backendSyncEnabled = false;
 
+  /** 2026-09-15 BUILD 214 THE DEVICE CATCHER: this device's anonymous id —
+   *  resolved once via getDeviceIdFinal() and shown in the Cloud Sync panel
+   *  with a one-tap copy, so the founder and testers can report the exact id
+   *  the noise list (LK_NOISE_DEVICES) and the analytics ledger know. */
+  myDeviceId = '';
+
+  /** BUILD 214: copy the anonymous device id to the clipboard. */
+  copyMyDeviceId(): void {
+    if (!this.myDeviceId) return;
+    try {
+      void navigator.clipboard?.writeText(this.myDeviceId);
+      void this.alertService.showToast('Device id copied', 1800);
+    } catch { /* clipboard unavailable — the id is selectable text */ }
+  }
+
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a
    *  user who already tapped "Update now" is not nagged again after reload. */
   private async initUpdates(): Promise<void> {
@@ -752,6 +767,10 @@ export class RolodexComponent implements OnInit {
     });
     // 2026-08-20 PRIVACY: reflect the backend sync consent toggle.
     void this.rolodexSync.isBackendSyncEnabled().then((v) => (this.backendSyncEnabled = v));
+    // 2026-09-15 BUILD 214 THE DEVICE CATCHER (founder: "I still do not know
+    // my device"): surface this device's anonymous id — the id the noise list
+    // (LK_NOISE_DEVICES) and the analytics ledger know it by. Copy = one tap.
+    void this.rolodexSync.getDeviceIdFinal().then((id) => (this.myDeviceId = id)).catch(() => {});
     this.loadProfile();
     // 2026-08-17 AWARENESS: a new message / appointment invite toasts immediately.
     this.cardChat.arrival$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((ev) => {

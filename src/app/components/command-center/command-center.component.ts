@@ -32,6 +32,49 @@ export class CommandCenterComponent implements OnInit, OnChanges {
   loading = false;
   loadError = '';
 
+  // 2026-09-15 BUILD 214 THE DEVICE CATCHER: the noise-list builder — tick the
+  // devices that are yours or your testers', copy the env line for the droplet.
+  noiseSelected = new Set<string>();
+  noiseCopied = false;
+
+  toggleNoise(id: string): void {
+    if (this.noiseSelected.has(id)) this.noiseSelected.delete(id);
+    else this.noiseSelected.add(id);
+  }
+
+  /** rolodex-<random><ts> is long — head + tail keeps rows single-line. */
+  shortId(id: string): string {
+    return String(id || '').length > 22 ? `${String(id).slice(0, 14)}…${String(id).slice(-6)}` : String(id || '');
+  }
+
+  seenLabel(ts: number | null): string {
+    if (!ts) return '—';
+    const days = Math.floor((Date.now() - ts) / 86_400_000);
+    if (days <= 0) return 'today';
+    if (days === 1) return 'yesterday';
+    return `${days}d ago`;
+  }
+
+  async copyNoiseEnv(): Promise<void> {
+    const ids = [...this.noiseSelected].join(',');
+    if (!ids) return;
+    const line = `LK_NOISE_DEVICES=${ids}`;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(line);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = line;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      this.noiseCopied = true;
+      setTimeout(() => { this.noiseCopied = false; }, 2600);
+    } catch { /* clipboard unavailable — the ids are selectable in the rows */ }
+  }
+
   constructor(
     private readonly modalController: ModalController,
     private readonly time: TimeNormalizerService,
