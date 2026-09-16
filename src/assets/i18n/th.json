@@ -823,6 +823,6 @@
     "walk.doorNote": "โน้ตถึงตัวเอง",
     "walk.doorDelegate": "ส่งต่อ",
     "walk.tSnoozed": "เลื่อนออกไป — จะกลับมาตามจังหวะของมัน",
-    "settings.loops": "Loops"
+    "settings.checkins": "Check-ins"
   }
 }

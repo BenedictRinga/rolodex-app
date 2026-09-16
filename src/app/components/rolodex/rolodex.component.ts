@@ -374,8 +374,8 @@ export class RolodexComponent implements OnInit {
   }
 
   settingsMapHint(): string {
-    // BUILD 232: Loops joins the map (the quicknav chips must match).
-    return 'Updates · Loops · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
+    // BUILD 238: Check-ins replaces Loops in the map (the quicknav chips match).
+    return 'Updates · Check-ins · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }
 
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section.

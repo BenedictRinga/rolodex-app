@@ -240,11 +240,10 @@
             <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
           </ion-select>
           <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
-          <!-- 2026-09-16 BUILD 234 THE MAP CONVENTION (founder: "the map
-               quick-navs user to relevant section of Settings, not into the
-               destination"): the chip SCROLLS to the Loops section like every
-               other chip; the section's own button opens the surface. -->
-          <ion-chip (click)="scrollTo('settings-loops')">{{ 'loopkeeper.settings.loops' | translate }}</ion-chip>
+          <!-- 2026-09-16 BUILD 238 THE MAP CONVENTION + THE RENAME: the chip
+               SCROLLS to the Check-ins section (the founder's convention —
+               the map quick-navs, it does not open the destination). -->
+          <ion-chip (click)="scrollTo('settings-checkins')">{{ 'loopkeeper.settings.checkins' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
@@ -324,10 +323,10 @@
              then test the tap or just regular use when not wanting to wait
              for its scheduled appearance"). The panel is the dock's list:
              Escalated now + Coming up, one escalation path. -->
-        <ion-item lines="none" class="elegant-item" id="settings-loops">
+        <ion-item lines="none" class="elegant-item" id="settings-checkins">
           <ion-icon name="notifications-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            <span class="update-title">Check-ins</span>
+            <span class="update-title">{{ 'loopkeeper.settings.checkins' | translate }}</span>
             <p class="profile-guide">The escalator list — the check-in nudges on demand. Tap one to run the interaction now, no waiting for the schedule.</p>
           </ion-label>
           <ion-button slot="end" fill="outline" (click)="checkinsRequest.emit()">Open Check-ins</ion-button>
