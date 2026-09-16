@@ -100,13 +100,13 @@ export interface CustomContactInfo {
 }
 
 // ---------------------------------------------------------------------------
-// 2026-09-16 BUILD 227 PHASE A — THE CARD KIND (the design constitution):
+// 2026-09-16 BUILD 233 PHASE A — THE CARD KIND (the design constitution):
 // a card is a SUBJECT; `kind` is a first-class attribute and nothing else
 // changes identity. ADDITIVE ONLY: missing kind reads as 'person' (the boot
-// normalizer stamps it — no migration script). place/note/routine are
-// reserved for later — extend the union explicitly, never `| string`.
+// normalizer stamps it — no migration script). Build 235 completes the
+// handover's Phase E sketch: note = body, place = address, routine = cadence.
 // ---------------------------------------------------------------------------
-export type CardKind = 'person' | 'task';
+export type CardKind = 'person' | 'task' | 'note' | 'place' | 'routine';
 
 /** The task payload a kind:'task' card carries. cadence REUSES the
  *  rolodex.contactFrequency union values verbatim (the build-217 TS2322

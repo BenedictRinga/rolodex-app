@@ -83,6 +83,15 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
     if ((e.target as HTMLElement).closest('ion-button')) return;
     // BUILD 200: the blanket controls are taps, not drag handles.
     if ((e.target as HTMLElement).closest('.notify-hbtn, .notify-snooze')) return;
+    // 2026-09-16 BUILD 234 THE TAP IS SACRED (founder: the "Check in with
+    // [name] (Recurrence #N)" items "depress to my tap, but nothing opens" —
+    // even on the third recurrence): an ITEM ROW is a tap, never a drag
+    // handle. The old handler started a drag on the row itself —
+    // setPointerCapture + preventDefault swallowed the click, and the 200ms
+    // drag-release guard then ate what was left, so EVERY listed item was a
+    // no-op on every recurrence. The dock drags by the header and the empty
+    // frame; rows only ever tap.
+    if ((e.target as HTMLElement).closest('.notify-item')) return;
     this.drag = {
       active: true,
       startX: e.clientX,

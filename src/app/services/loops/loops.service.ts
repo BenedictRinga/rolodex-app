@@ -215,7 +215,7 @@ export class LoopsService {
     // BUILD 229 PHASE C: a loop born from a TASK card is woken by the task's
     // OWN rhythm — the card's cadence/due — not the generic 2-day step. Due
     // in the future wakes at the due date; no due wakes on the cadence.
-    if (loop.cardKind === 'task') {
+    if (loop.cardKind && loop.cardKind !== 'person') {
       const cadenceDays: Record<string, number> = { daily: 1, weekly: 7, monthly: 30, quarterly: 91, yearly: 365, never: 7 };
       const cad = loop.taskRhythm?.cadence;
       const due = loop.taskRhythm?.due;
@@ -226,7 +226,7 @@ export class LoopsService {
     void this.persist();
     // BUILD 229 PHASE C: loop events carry the CARD kind (categorical only) —
     // the Command Center's person/task split reads this.
-    this.analytics.track('loop_captured', loop.cardKind === 'task' ? { kind: 'task' } : { kind: 'person' });
+    this.analytics.track('loop_captured', { kind: loop.cardKind || 'person' });
     // 2026-09-15 BUILD 209 (Grok review gaps 2+3): (a) THE DIGEST ARMS ON THE
     // DEED - create() was the only loop mutation that never called
     // resyncDigest; the first loop stayed silent until some later mutation
@@ -768,7 +768,7 @@ No pressure either way — replying here connects you directly.`;
     // reminder to ONESELF — the tone table below speaks "Hi <name>", which
     // has no reader on a subject with no phone. The task draft says what the
     // thing is and when it returns, in the deck's own cadence vocabulary.
-    if ((l as any).cardKind === 'task') {
+    if ((l as any).cardKind && (l as any).cardKind !== 'person') {
       const what = (l.summary || l.person || 'the task').trim();
       const rhythm: string[] = [];
       const due = (l as any).taskRhythm?.due;
@@ -949,7 +949,7 @@ No pressure either way — replying here connects you directly.`;
     this.touch(l);
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: dropped with dignity — the ping goes too
-    this.analytics.track('loop_closed', { mode: 'dropped', kind: l.cardKind === 'task' ? 'task' : 'person' });
+    this.analytics.track('loop_closed', { mode: 'dropped', kind: l.cardKind || 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
   }
 
@@ -971,8 +971,8 @@ No pressure either way — replying here connects you directly.`;
     // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the door tap IS the deed here
     // (fire-and-close), so message_sent carries the CHANNEL — the per-channel
     // exit funnel the founder asked for, cross-matchable against send_exit.
-    this.analytics.track('message_sent', { channel, surface: 'loop', kind: l.cardKind === 'task' ? 'task' : 'person' });
-    this.analytics.track('loop_closed', { mode: 'sent', kind: l.cardKind === 'task' ? 'task' : 'person' });
+    this.analytics.track('message_sent', { channel, surface: 'loop', kind: l.cardKind || 'person' });
+    this.analytics.track('loop_closed', { mode: 'sent', kind: l.cardKind || 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
   }
@@ -1002,7 +1002,7 @@ No pressure either way — replying here connects you directly.`;
     this.touch(l);
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: done — the ping goes quiet
-    this.analytics.track('loop_closed', { kind: l.cardKind === 'task' ? 'task' : 'person' });
+    this.analytics.track('loop_closed', { kind: l.cardKind || 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
   }

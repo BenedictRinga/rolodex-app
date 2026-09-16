@@ -843,15 +843,29 @@
 <ion-content class="contact-edit-body" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
   <div class="no-scrollbar">
 
-    <!-- 2026-09-16 BUILD 228 PHASE B THE TASK FORM: kind==='task' cards build
-         and edit as TASKS — title, rhythm, due, checklist, cover — instead of
-         the person fields. Same reactive form, additive merge on save. -->
+    <!-- 2026-09-16 BUILD 235 PHASE E THE KIND SEGMENT: the create form carries
+         the full CardKind union — the walk's New Task door seeds Task, every
+         other door seeds Person, and the segment switches the form live. Edit
+         forms keep the card's own kind (no switching identity on edit). -->
+    <ng-container *ngIf="selectedMode === 'createContact'">
+      <ion-segment class="kind-seg" [value]="pickedKind" (ionChange)="pickedKind = $any($event.detail.value)">
+        <ion-segment-button value="person"><ion-label>Person</ion-label></ion-segment-button>
+        <ion-segment-button value="task"><ion-label>Task</ion-label></ion-segment-button>
+        <ion-segment-button value="note"><ion-label>Note</ion-label></ion-segment-button>
+        <ion-segment-button value="place"><ion-label>Place</ion-label></ion-segment-button>
+        <ion-segment-button value="routine"><ion-label>Routine</ion-label></ion-segment-button>
+      </ion-segment>
+    </ng-container>
+
+    <!-- 2026-09-16 BUILD 228/235 THE RHYTHM FORM: task AND routine cards build
+         and edit as rhythm cards — title, cadence, due, checklist, cover —
+         instead of the person fields. Same reactive form, additive merge. -->
     <ng-container *ngIf="isTaskForm">
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ selectedMode === 'editContact' ? 'Edit Task' : 'New Task Card' }}
+              {{ selectedMode === 'editContact' ? (formKind === 'routine' ? 'Edit Routine' : 'Edit Task') : (formKind === 'routine' ? 'New Routine Card' : 'New Task Card') }}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
@@ -905,7 +919,69 @@
       </form>
     </ng-container>
 
-    <ng-container *ngIf="selectedMode === 'createContact' && !isTaskForm">
+    <!-- 2026-09-16 BUILD 235 PHASE E THE NOTE FORM: a note card IS its body —
+         a kept line (or lines) with a cover; saves on the title alone. -->
+    <ng-container *ngIf="isNoteForm">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ selectedMode === 'editContact' ? 'Edit Note' : 'New Note Card' }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Title</ion-label>
+              <ion-input formControlName="display" placeholder="What is this note?"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">The note</ion-label>
+              <ion-textarea formControlName="note" rows="5" placeholder="The body — it shows on the deck row"></ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Card cover (optional emoji)</ion-label>
+              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
+                <ion-select-option value="">Default cover</ion-select-option>
+                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ng-container>
+
+    <!-- 2026-09-16 BUILD 235 PHASE E THE PLACE FORM: one honest input — the
+         address becomes the card's address row and reads on the deck. -->
+    <ng-container *ngIf="isPlaceForm">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ selectedMode === 'editContact' ? 'Edit Place' : 'New Place Card' }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Name</ion-label>
+              <ion-input formControlName="display" placeholder="e.g. Ma's doctor, the school"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Address</ion-label>
+              <ion-input formControlName="placeAddress" placeholder="The street or landmark"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Card cover (optional emoji)</ion-label>
+              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
+                <ion-select-option value="">Default cover</ion-select-option>
+                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="formKind === 'person' && selectedMode === 'createContact'">
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <ion-card>
           <ion-card-header>
@@ -1417,7 +1493,7 @@
       </form>
     </ng-container>
 
-    <ng-container *ngIf="selectedMode === 'editContact' && !isTaskForm">
+    <ng-container *ngIf="formKind === 'person' && selectedMode === 'editContact'">
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
         <ion-card>
           <ion-card-header>
@@ -1807,7 +1883,7 @@
 
     <!-- Submit Button -->
     <ion-buttons slot="end"><ion-button [disabled]="!saveEnabled" (click)="onSubmit()">
-        {{ selectedMode === 'editContact' ? (isTaskForm ? 'Save Task' : 'Save Changes') : (isTaskForm ? 'Create Task' : 'Create Contact') }}
+        {{ selectedMode === 'editContact' ? (formKind === 'person' ? 'Save Changes' : 'Save') : (formKind === 'person' ? 'Create Contact' : 'Create') }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

@@ -1292,3 +1292,11 @@ ion-item.demo-card::after {
   display: block;
   background: #000;
 }
+
+/* 2026-09-16 BUILD 235 PHASE E THE KIND SEGMENT: the create form's five-way
+   kind switch — person/task/note/place/routine — sits above the card. */
+.kind-seg {
+  margin: 0 12px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}

@@ -771,7 +771,13 @@ export class SendWalkComponent implements OnInit, OnChanges {
   // waiting machinery (wake ping + Stack), Note opens the card's own story,
   // Delegate hands the words out through the copy channel (sent IS the close).
 
-  isTaskSubject(): boolean { return (this.sel() as any)?.cardKind === 'task'; }
+  /** BUILD 229/235: the operations doors belong to every NON-PERSON kind —
+   *  task, routine, note, place (a subject with no phone still has Done /
+   *  Snooze / Note to self / Delegate). */
+  isTaskSubject(): boolean {
+    const k = (this.sel() as any)?.cardKind;
+    return !!k && k !== 'person';
+  }
 
   /** DONE — the task is finished: the card's task flips done, the loop
    *  closes through closeFully (first-close share + celebration stay). */

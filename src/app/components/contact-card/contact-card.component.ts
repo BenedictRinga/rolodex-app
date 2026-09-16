@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, SecurityContext, OnInit, OnDestroy, ChangeDetectorRef, ElementRef, HostListener, ViewChild, AfterViewInit, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
-import { ContactInfo } from '../../models/contacts';
+import { ContactInfo, CardKind } from '../../models/contacts';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 import { ActionSheetController, AlertController, GestureController, ModalController, SelectCustomEvent } from '@ionic/angular';
 import { Keyboard } from '@capacitor/keyboard';
@@ -42,8 +42,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() searchQuery: string = '';
   /** 2026-09-16 BUILD 228 PHASE B: the create form's kind — the walk's New
    *  Task door opens the create form as a TASK card (task fields); every
-   *  other door creates a person exactly as before. */
-  @Input() createKind: 'person' | 'task' = 'person';
+   *  other door creates a person exactly as before.
+   *  BUILD 235: the full CardKind union — the create form carries a kind
+   *  segment (person/task/note/place/routine) seeded by this input. */
+  @Input() createKind: CardKind = 'person';
+  /** BUILD 235: the create form's LIVE kind — the segment switches it; edit
+   *  forms always read the card's own kind. */
+  pickedKind: CardKind = 'person';
 
   @Output() editContact = new EventEmitter<ContactInfo>();
   // 2026-08-27 FULL-SCREEN EDIT: inside the surface modal (embedded), Edit no
@@ -127,13 +132,19 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   editedContact: ContactInfo = {} as ContactInfo;
 
-  /** 2026-09-16 BUILD 228 PHASE B: does THIS form instance build/edit a task
-   *  card? Create reads the door's createKind; edit reads the card's own kind. */
-  get isTaskForm(): boolean {
+  /** 2026-09-16 BUILD 228/235: which kind does THIS form instance build or
+   *  edit? Create reads the segment (pickedKind, seeded by the door's
+   *  createKind); edit reads the card's own kind (missing = person). */
+  get formKind(): CardKind {
     return this.selectedMode === 'createContact'
-      ? this.createKind === 'task'
-      : this.editedContact?.kind === 'task';
+      ? this.pickedKind
+      : (this.editedContact?.kind || 'person');
   }
+  /** Rhythm fields (cadence/due/checklist) — task AND routine share them. */
+  get isTaskForm(): boolean { return this.formKind === 'task' || this.formKind === 'routine'; }
+  get isPersonForm(): boolean { return this.formKind === 'person'; }
+  get isNoteForm(): boolean { return this.formKind === 'note'; }
+  get isPlaceForm(): boolean { return this.formKind === 'place'; }
 
   get taskChecklistArr(): FormArray {
     return (this.contactForm?.get('task.checklist') as FormArray) ?? this.fb.array([]);
@@ -290,6 +301,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       };
 
+      // BUILD 235: the create form's kind is seeded by the door's createKind
+      // (the walk's New Task door opens the segment on Task) and the segment
+      // switches it live.
+      this.pickedKind = this.createKind;
       this.initializeForm();
 
       // Privacy provisions allow/No sharing or how much
@@ -1269,9 +1284,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     const emails = this.contactForm.get('emails') as FormArray;
     const postalAddresses = this.contactForm.get('postalAddresses') as FormArray;
 
-    // BUILD 228 PHASE B: a TASK card saves on its title alone — no phone is
-    // required (the person rule below stays untouched).
-    if (this.isTaskForm) {
+    // BUILD 228/235: every non-person kind saves on its title alone — a note,
+    // a place, a routine, a task carry no phone (the person rule stays).
+    if (this.formKind !== 'person') {
       this.saveEnabled = !!nameDisplay && nameDisplay.length >= 2;
       return;
     }
@@ -1329,14 +1344,31 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** BUILD 228 PHASE B: the deck labels READ kind — a task card wears the
    *  cadence/due line where a person wears the company. */
   rowSubtitle(c?: ContactInfo | null): string {
-    return (c as any)?.kind === 'task'
-      ? this.taskLine(c)
-      : (c?.organization?.company || 'No Company Info');
+    const kind = (c as any)?.kind;
+    if (kind === 'task' || kind === 'routine') return this.taskLine(c);
+    if (kind === 'note') {
+      const body = String(c?.note || '').trim();
+      return body ? body.split('\n')[0] : 'A kept note';
+    }
+    if (kind === 'place') {
+      const addr = c?.postalAddresses?.[0];
+      return (addr?.street || addr?.city || '').trim() || 'A place to remember';
+    }
+    return c?.organization?.company || 'No Company Info';
   }
 
   rowExtra(c?: ContactInfo | null): string {
-    if ((c as any)?.kind === 'task') {
+    const kind = (c as any)?.kind;
+    if (kind === 'task' || kind === 'routine') {
       return c?.rolodex?.followUp || c?.note || this.translate.instant('loopkeeper.task.noRhythm');
+    }
+    if (kind === 'note') {
+      return c?.rolodex?.followUp || 'The note body carries it — flip for the rest';
+    }
+    if (kind === 'place') {
+      const addr = c?.postalAddresses?.[0];
+      const line = [addr?.city, addr?.postcode].filter(Boolean).join(' ');
+      return c?.rolodex?.followUp || line || 'Nothing scheduled yet — let the assistant set one';
     }
     return c?.rolodex?.followUp || c?.note || c?.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one';
   }
@@ -1359,11 +1391,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         groups: toList(formValue.groups),
         privacy: this.contactForm.get('privacy')?.value,
       };
-      // 2026-09-16 BUILD 228 PHASE B: shape the task payload — the model wants
-      // due as epoch-ms (the control holds an ISO date) and the checklist as
-      // real {text, done} rows; a task card is always kind 'task'.
+      // 2026-09-16 BUILD 228/235 PHASE E: shape the payload by kind — rhythm
+      // kinds (task, routine) carry the task payload (due as epoch-ms — the
+      // control holds an ISO date — and real {text, done} checklist rows);
+      // a place writes its address row; a note rides the body; every kind
+      // stamps its kind explicitly (the additive sync contract).
+      payload.kind = this.formKind;
       if (this.isTaskForm) {
-        payload.kind = 'task';
         const rawDue = formValue?.task?.due;
         const checklist = (formValue?.task?.checklist || [])
           .map((item: any) => ({ text: String(item?.text || '').trim(), done: !!item?.done }))
@@ -1376,7 +1410,17 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         if (!payload.task.due) delete payload.task.due;
         if (!payload.task.cadence) delete payload.task.cadence;
+      } else {
+        delete payload.task;
       }
+      if (this.formKind === 'place') {
+        const addr = String(formValue?.placeAddress || '').trim();
+        payload.postalAddresses = addr
+          ? [{ street: addr, city: '', postcode: '', country: '' } as any]
+          : [];
+      }
+      // The placeAddress control is shape-only — never rides the payload.
+      delete payload.placeAddress;
       this.editedContact = payload;
 
       if (this.selectedMode === 'createContact') {
@@ -1415,19 +1459,22 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // 2026-09-16 BUILD 217 THE CARD COVER: optional emoji cover — patches
       // from the contact on edit, serializes with the form on save.
       coverEmoji: [this.editedContact?.coverEmoji || ''],
+      // BUILD 235 PHASE E: the place kind's one honest input — on submit it
+      // becomes the card's address row (postalAddresses[0]).
+      placeAddress: [this.editedContact?.postalAddresses?.[0]?.street || ''],
 
-      // 2026-09-16 BUILD 228 PHASE B THE TASK FIELDS: only a task form carries
-      // them — person payloads stay exactly as they were (additive merge).
+      // 2026-09-16 BUILD 228/235 THE RHYTHM FIELDS: built ALWAYS — the create
+      // form's kind SEGMENT can switch kind live (person→task), so the group
+      // must exist before the switch. Payloads stay clean: onSubmit deletes
+      // payload.task for non-rhythm kinds and payload.placeAddress always.
       // `due` rides the control as an ISO date for ion-datetime and is
       // converted to the model's epoch-ms in onSubmit().
-      ...(this.isTaskForm ? {
-        kind: ['task'],
-        task: this.fb.group({
-          cadence: ['monthly'],
-          due: [''],
-          checklist: this.fb.array([]),
-        }),
-      } : {}),
+      kind: [this.formKind],
+      task: this.fb.group({
+        cadence: ['monthly'],
+        due: [''],
+        checklist: this.fb.array([]),
+      }),
 
       // Name group
       name: this.fb.group({
@@ -1535,7 +1582,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // Global validator ensuring at least one contact method is present —
       // BUILD 228: a TASK card carries a title, not a phone; the person
       // validators would make every task form unsaveable. Task mode skips them.
-      validators: this.isTaskForm ? [] : [atLeastOneContactMethod(), this.fomvalidation.atLeastOnePhoneOrEmail2],
+      validators: this.formKind === 'person' ? [atLeastOneContactMethod(), this.fomvalidation.atLeastOnePhoneOrEmail2] : [],
     });
 
 

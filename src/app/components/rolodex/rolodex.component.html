@@ -240,10 +240,11 @@
             <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
           </ion-select>
           <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
-          <!-- 2026-09-16 BUILD 232: Settings => Loops — the manual door to the
-               Loops surface (the founder's verification door). The chip OPENS
-               the surface directly, like the modal-opening chips. -->
-          <ion-chip (click)="loopsRequest.emit()">{{ 'loopkeeper.settings.loops' | translate }}</ion-chip>
+          <!-- 2026-09-16 BUILD 234 THE MAP CONVENTION (founder: "the map
+               quick-navs user to relevant section of Settings, not into the
+               destination"): the chip SCROLLS to the Loops section like every
+               other chip; the section's own button opens the surface. -->
+          <ion-chip (click)="scrollTo('settings-loops')">{{ 'loopkeeper.settings.loops' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
