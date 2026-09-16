@@ -63,23 +63,43 @@ export class UpdatesService {
   /** Legacy shape kept for the Settings UI — now backed by /updates/check. */
   async check(): Promise<{ available: boolean; current: string; server: string; currentBuild: number; serverBuild: number }> {
     try {
+      // 2026-09-16 BUILD 220 THE TRUTHFUL CHECK (Deepseek's WRITE_CODE.txt:
+      // "serverBuild: 0" hardcoded made the pop-up path unreachable while
+      // version.txt-vs-app-version kept the banner permanently on): the
+      // deployed build is now read from /loopkeeper/build.json — a tiny
+      // static file every build:prod drops — and compared BY BUILD NUMBER.
+      const deployed = await this.fetchDeployedBuild();
       const status = await this.checkForUpdates();
-      this.serverVersion = status.version;
-      this.serverBuild = 0;
+      this.serverVersion = deployed?.version || status.version;
+      this.serverBuild = deployed?.build || 0;
       this.lastCheckAt = Date.now();
       this.checked = true;
-      const available = status.isUpdateAvailable;
+      const byBuild = !!deployed && deployed.build > this.appBuild;
+      const available = byBuild || (!deployed && status.isUpdateAvailable);
       this.lastResult = {
         available,
         current: this.appVersion,
-        server: status.version,
+        server: this.serverVersion,
         currentBuild: this.appBuild,
-        serverBuild: 0,
+        serverBuild: this.serverBuild,
       };
       return this.lastResult;
     } catch {
       return { available: false, current: this.appVersion, server: '', currentBuild: this.appBuild, serverBuild: 0 };
     }
+  }
+
+  /** BUILD 220: the deployed build, from the static truth file. Absent
+   *  file (dev, first deploy) -> null and the old version check applies. */
+  private async fetchDeployedBuild(): Promise<{ version: string; build: number } | null> {
+    try {
+      const res = await this.network.safeFetch(`${location.origin}/loopkeeper/build.json?b=${this.appBuild}`,
+        { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
+      if (!res || !res.ok) return null;
+      const data = await res.json();
+      const build = Number(data?.build || 0);
+      return build > 0 ? { version: String(data?.version || ''), build } : null;
+    } catch { return null; }
   }
 
   /** 2026-08-20 THE ZYPPAR CHECK — /api/loopkeeper/updates/check?clientVersion=... */

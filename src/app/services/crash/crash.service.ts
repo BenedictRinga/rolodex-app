@@ -63,32 +63,48 @@ export class CrashReporterService {
     if (typeof window === 'undefined' || window.__loopkeeperCrashWired) return;
     window.__loopkeeperCrashWired = true;
 
+    // 2026-09-16 BUILD 220 THE HEAL, MADE REAL (Deepseek's WRITE_CODE.txt:
+    // "the heal is dead code in production" — with module scripts a failed
+    // chunk arrives as a RESOURCE error whose message is EMPTY, the
+    // ChunkLoadError text only ever shows in console.error, and record()
+    // discarded empty-message events. All three are fixed below.)
+    // (a) bubble-phase JS errors (as before);
     window.addEventListener('error', (ev: ErrorEvent) => {
       const msg = String(ev?.message || '');
       this.record('error', msg, ev?.error);
-      // 2026-09-15 BUILD 213 THE STALE-CHUNK RECOVERY (the founder's "keeps
-      // crashing after some random processes, and needs to be reloaded"):
-      // after every rebuild/deploy a surviving tab lazily loads an OLD chunk
-      // hash -> 404 -> that surface dies and only a manual reload heals it.
-      // webpack's "Loading chunk ... failed" is that death. Heal it: record
-      // the evidence, then reload ONCE per tab (sessionStorage guard - never
-      // a loop; a second failure stays visible and now reaches the ledger).
-      if (/Loading chunk .+ failed|ChunkLoadError/i.test(msg)) {
-        let reloaded = false;
-        try { reloaded = !!sessionStorage.getItem('lk_chunk_reloaded'); } catch { /* private mode */ }
-        if (!reloaded) {
-          try { sessionStorage.setItem('lk_chunk_reloaded', String(Date.now())); } catch { /* private mode */ }
-          setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 150);
-        }
-      }
+      this.maybeHeal(msg);
     });
+    // (b) CAPTURE-phase resource errors: a <script>/<link> that fails to
+    //     load fires here with an EMPTY message — the stale-chunk signature
+    //     this reporter was blind to. Record it with the URL as the label.
+    window.addEventListener('error', (ev: Event) => {
+      const tgt = ev?.target as any;
+      if (!tgt || !(tgt.tagName === 'SCRIPT' || tgt.tagName === 'LINK' || tgt.tagName === 'IMG')) return;
+      const url = String(tgt.src || tgt.href || '');
+      if (!url) return;
+      const isOurs = url.includes('/loopkeeper/') || url.startsWith(location.origin);
+      this.record('error', isOurs ? `resource-error: ${url.slice(0, 200)}` : '', undefined);
+      // A missing app script is the stale-chunk death — heal it.
+      if (isOurs && /\.(js|mjs)(\?|$)/.test(url)) this.maybeHeal('resource-error ' + url.slice(0, 120));
+    }, true);
+    // (c) console.error sniff: webpack/Angular route the ChunkLoadError text
+    //     and the module-MIME complaint here — the window error never has it.
+    const origError = console.error.bind(console);
+    console.error = (...args: any[]) => {
+      try {
+        const text = args.map((a) => (typeof a === 'string' ? a : a?.message || '')).join(' ');
+        if (/ChunkLoadError|Loading chunk .+ failed|Failed to load module script/i.test(text)) {
+          this.record('error', text.slice(0, 300), undefined);
+          this.maybeHeal(text.slice(0, 160));
+        }
+      } catch { /* never break the console */ }
+      origError(...args);
+    };
     window.addEventListener('unhandledrejection', (ev: PromiseRejectionEvent) => {
       const r = ev?.reason;
-      this.record(
-        'unhandledrejection',
-        typeof r === 'string' ? r : r?.message || String(r ?? 'unknown rejection'),
-        r instanceof Error ? r : undefined,
-      );
+      const msg = typeof r === 'string' ? r : r?.message || String(r ?? 'unknown rejection');
+      this.record('unhandledrejection', msg, r instanceof Error ? r : undefined);
+      this.maybeHeal(msg); // BUILD 220: a rejected lazy import() is the same death
     });
     // Flush when the page goes away — last chance before the WebView dies.
     document.addEventListener('visibilitychange', () => {
@@ -97,6 +113,19 @@ export class CrashReporterService {
     window.addEventListener('pagehide', () => { void this.flush(); });
 
     this.timer = setInterval(() => { void this.flush(); }, 30_000);
+  }
+
+  /** 2026-09-16 BUILD 220: THE HEAL — one gate for every stale-chunk
+   *  signature (window error text, resource error, console.error,
+   *  unhandledrejection). Reload ONCE per tab (sessionStorage guard — never
+   *  a loop; a second failure stays visible and reaches the ledger). */
+  private maybeHeal(reason: string): void {
+    if (!reason || !/ChunkLoadError|Loading chunk .+ failed|Failed to load module script|resource-error/i.test(reason)) return;
+    let reloaded = false;
+    try { reloaded = !!sessionStorage.getItem('lk_chunk_reloaded'); } catch { /* private mode */ }
+    if (reloaded) return;
+    try { sessionStorage.setItem('lk_chunk_reloaded', String(Date.now())); } catch { /* private mode */ }
+    setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 150);
   }
 
   /** Resolve + cache the analytics consent flag once per session. */
@@ -112,6 +141,8 @@ export class CrashReporterService {
   }
 
   record(type: CrashEvent['type'], message: string, error?: unknown): void {
+    // BUILD 220: resource errors arrive with an empty message — the caller
+    // passes the URL as a synthetic label, so only truly-empty records bail.
     if (!message && !error) return;
     // Never report our own HTTP failures from reporting itself, or benign aborts.
     const msg = String(message || '').slice(0, 500);
