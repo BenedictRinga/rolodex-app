@@ -809,6 +809,7 @@
     "walk.doorInvite": "أرسل لهم LoopKeeper",
     "walk.taskCard": "بطاقة مهمة جديدة",
     "walk.doorChat": "دردش في LoopKeeper",
-    "walk.internalFirst": "لا رقم على هذه البطاقة — ستصلهم محادثة LoopKeeper أو الدعوة."
+    "walk.internalFirst": "لا رقم على هذه البطاقة — ستصلهم محادثة LoopKeeper أو الدعوة.",
+    "updates.welcomeBack": "تم التحديث ✓ — عاد LoopKeeper: أنعم وأغنى وأكثر موثوقية."
   }
 }

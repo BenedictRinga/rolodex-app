@@ -809,6 +809,7 @@
     "walk.doorInvite": "ส่ง LoopKeeper ให้พวกเขา",
     "walk.taskCard": "การ์ดงานใหม่",
     "walk.doorChat": "แชทใน LoopKeeper",
-    "walk.internalFirst": "ไม่มีเบอร์ในการ์ดนี้ — แชท LoopKeeper หรือคำเชิญจะถึงพวกเขา"
+    "walk.internalFirst": "ไม่มีเบอร์ในการ์ดนี้ — แชท LoopKeeper หรือคำเชิญจะถึงพวกเขา",
+    "updates.welcomeBack": "อัปเดตแล้ว ✓ — LoopKeeper กลับมาแล้ว: ลื่นไหล ยิ่งใหญ่ และเชื่อถือได้มากขึ้น"
   }
 }

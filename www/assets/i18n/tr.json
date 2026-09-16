@@ -809,6 +809,7 @@
     "walk.doorInvite": "Onlara LoopKeeper gönderin",
     "walk.taskCard": "Yeni Görev kartı",
     "walk.doorChat": "LoopKeeper’da sohbet et",
-    "walk.internalFirst": "Bu kartta telefon yok — LoopKeeper Sohbeti veya davet onlara ulaşacak."
+    "walk.internalFirst": "Bu kartta telefon yok — LoopKeeper Sohbeti veya davet onlara ulaşacak.",
+    "updates.welcomeBack": "Güncellendi ✓ — LoopKeeper geri döndü: daha akıcı, daha zengin ve daha güvenilir."
   }
 }

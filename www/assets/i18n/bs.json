@@ -809,6 +809,7 @@
     "walk.doorInvite": "Pošaljite im LoopKeeper",
     "walk.taskCard": "Nova kartica zadatka",
     "walk.doorChat": "Razgovaraj u LoopKeeperu",
-    "walk.internalFirst": "Nema broja na ovoj kartici — LoopKeeper razgovor ili poziv će im doći."
+    "walk.internalFirst": "Nema broja na ovoj kartici — LoopKeeper razgovor ili poziv će im doći.",
+    "updates.welcomeBack": "Ažurirano ✓ — LoopKeeper je nazad: glatkiji, bogatiji i pouzdaniji."
   }
 }

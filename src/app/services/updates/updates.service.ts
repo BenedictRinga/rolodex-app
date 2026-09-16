@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { AlertsService } from '../alerts/alerts.service';
+import { TranslateService } from '@ngx-translate/core';
 import { NetworkService } from '../network/network.service';
 
 /**
@@ -30,8 +31,30 @@ export class UpdatesService {
     private readonly storageService: StorageService,
     private readonly alertsService: AlertsService,
     private readonly network: NetworkService,
+    private readonly translate: TranslateService,
   ) {
     void this.initializeVersion();
+  }
+
+  /** 2026-09-16 BUILD 223 THE WELCOME-BACK BEAT (founder: "can we not do
+   *  stuff, a one-off, occasionally, better still, rarely, to bring the
+   *  device holders attention back to discover that LoopKeeper is back,
+   *  richer, and much more reliable?"). RARE by construction: it fires
+   *  ONLY when the device is genuinely running a NEWER build than its last
+   *  (an actual update), ONCE per build, never on first install. One quiet
+   *  toast — the update moment is the one guaranteed attention beat, and
+   *  the fleet just proved they respond to updates. */
+  async welcomeBackCheck(): Promise<void> {
+    try {
+      const KEY = 'lk_last_build_seen';
+      const prev = Number((await this.storageService.get<number | undefined>(KEY)) || 0);
+      const current = environment.build;
+      if (prev > 0 && current > prev) {
+        const msg = this.translate.instant('loopkeeper.updates.welcomeBack');
+        setTimeout(() => { void this.alertsService.showToast(msg, 5000); }, 2500);
+      }
+      if (current !== prev) await this.storageService.set(KEY, current);
+    } catch { /* best effort */ }
   }
 
   /** Persisted version — so a reload knows what it just updated TO. */

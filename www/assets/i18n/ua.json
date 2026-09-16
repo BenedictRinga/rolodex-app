@@ -809,6 +809,7 @@
     "walk.doorInvite": "Надішліть їм LoopKeeper",
     "walk.taskCard": "Нова картка задачі",
     "walk.doorChat": "Спілкуйтеся в LoopKeeper",
-    "walk.internalFirst": "На цій картці немає телефона — чат LoopKeeper або запрошення їх досягне."
+    "walk.internalFirst": "На цій картці немає телефона — чат LoopKeeper або запрошення їх досягне.",
+    "updates.welcomeBack": "Оновлено ✓ — LoopKeeper повернувся: плавніше, багатше та надійніше."
   }
 }

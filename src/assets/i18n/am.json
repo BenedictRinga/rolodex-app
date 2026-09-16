@@ -809,6 +809,7 @@
     "walk.doorInvite": "LoopKeeperን ላካፍሏቸው",
     "walk.taskCard": "አዲስ የተግባር ካርድ",
     "walk.doorChat": "LoopKeeper ውስጥ ይነጋገሩ",
-    "walk.internalFirst": "በዚህ ካርድ ላይ ስልክ የለም — LoopKeeper ውይይት ወይም ግብዣ ያደርሳቸዋል።"
+    "walk.internalFirst": "በዚህ ካርድ ላይ ስልክ የለም — LoopKeeper ውይይት ወይም ግብዣ ያደርሳቸዋል።",
+    "updates.welcomeBack": "ዘመናፈቅደል ✓ — LoopKeeper ተመልሷል፦ ተሻሽሏል፣ ሀብታም እና አስተማማኝ።"
   }
 }

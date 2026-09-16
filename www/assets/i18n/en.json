@@ -815,6 +815,7 @@
     "walk.doorInvite": "Send them LoopKeeper",
     "walk.taskCard": "New Task card",
     "walk.doorChat": "Chat in LoopKeeper",
-    "walk.internalFirst": "No phone on this card — LoopKeeper Chat or the invite will reach them."
+    "walk.internalFirst": "No phone on this card — LoopKeeper Chat or the invite will reach them.",
+    "updates.welcomeBack": "Updated ✓ — LoopKeeper is back: smoother, richer, and more reliable."
   }
 }

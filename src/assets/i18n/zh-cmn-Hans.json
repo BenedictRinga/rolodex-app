@@ -809,6 +809,7 @@
     "walk.doorInvite": "把 LoopKeeper 发给他们",
     "walk.taskCard": "新建任务卡片",
     "walk.doorChat": "在 LoopKeeper 里聊天",
-    "walk.internalFirst": "这张卡片上没有电话 — LoopKeeper 聊天或邀请会送达他们。"
+    "walk.internalFirst": "这张卡片上没有电话 — LoopKeeper 聊天或邀请会送达他们。",
+    "updates.welcomeBack": "已更新 ✓ — LoopKeeper 回来了：更流畅、更丰富、更可靠。"
   }
 }

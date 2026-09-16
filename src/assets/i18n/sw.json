@@ -809,6 +809,7 @@
     "walk.doorInvite": "Watumikie LoopKeeper",
     "walk.taskCard": "Kadi mpya ya kazi",
     "walk.doorChat": "Ongea ndani ya LoopKeeper",
-    "walk.internalFirst": "Hakuna namba kwenye kadi hii — Soga ya LoopKeeper au mwaliko itawafikia."
+    "walk.internalFirst": "Hakuna namba kwenye kadi hii — Soga ya LoopKeeper au mwaliko itawafikia.",
+    "updates.welcomeBack": "Imesasishwa ✓ — LoopKeeper amepya: laini zaidi, tajiri zaidi na kuaminika zaidi."
   }
 }

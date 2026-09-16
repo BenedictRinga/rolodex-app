@@ -809,6 +809,7 @@
     "walk.doorInvite": "שלחו להם את LoopKeeper",
     "walk.taskCard": "כרטיס משימה חדש",
     "walk.doorChat": "שיחה ב-LoopKeeper",
-    "walk.internalFirst": "אין טלפון בכרטיס הזה — צ׳אט LoopKeeper או ההזמנה יגיעו אליהם."
+    "walk.internalFirst": "אין טלפון בכרטיס הזה — צ׳אט LoopKeeper או ההזמנה יגיעו אליהם.",
+    "updates.welcomeBack": "עודכן ✓ — LoopKeeper חזר: חלק יותר, עשיר יותר ואמין יותר."
   }
 }

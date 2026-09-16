@@ -815,6 +815,7 @@
     "walk.doorInvite": "LoopKeeper isini ergi",
     "walk.taskCard": "Kaarata hojii haaraa",
     "walk.doorChat": "LoopKeeper keessatti walqabsiisi",
-    "walk.internalFirst": "Kaarata kana irratti lakkoofsa hin jiru — walqunnamtii LoopKeeper ykn beekamtisni isaan ga’a."
+    "walk.internalFirst": "Kaarata kana irratti lakkoofsa hin jiru — walqunnamtii LoopKeeper ykn beekamtisni isaan ga’a.",
+    "updates.welcomeBack": "Haaromsiffe ✓ — LoopKeeper deebi’eera: mijaawaan ta’een, qalalaanaa fi amansiisaa ta’een."
   }
 }

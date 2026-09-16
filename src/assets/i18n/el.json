@@ -809,6 +809,7 @@
     "walk.doorInvite": "Στείλτε τους το LoopKeeper",
     "walk.taskCard": "Νέα κάρτα εργασίας",
     "walk.doorChat": "Συνομιλήστε στο LoopKeeper",
-    "walk.internalFirst": "Χωρίς αριθμό σε αυτή την κάρτα — η συνομιλία LoopKeeper ή η πρόσκληση θα τους φτάσει."
+    "walk.internalFirst": "Χωρίς αριθμό σε αυτή την κάρτα — η συνομιλία LoopKeeper ή η πρόσκληση θα τους φτάσει.",
+    "updates.welcomeBack": "Ενημερώθηκε ✓ — Το LoopKeeper επιστρέφει: πιο ομαλό, πλουσιότερο και πιο αξιόπιστο."
   }
 }

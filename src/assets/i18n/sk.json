@@ -809,6 +809,7 @@
     "walk.doorInvite": "Pošlite im LoopKeeper",
     "walk.taskCard": "Nová karta úlohy",
     "walk.doorChat": "Chatujte v LoopKeeper",
-    "walk.internalFirst": "Na tejto karte nie je telefón — chat LoopKeeper alebo pozvánka k nim dorazí."
+    "walk.internalFirst": "Na tejto karte nie je telefón — chat LoopKeeper alebo pozvánka k nim dorazí.",
+    "updates.welcomeBack": "Aktualizované ✓ — LoopKeeper je späť: plynulejšie, bohatšie a spoľahlivejšie."
   }
 }

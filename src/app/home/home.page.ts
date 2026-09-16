@@ -386,6 +386,7 @@ export class HomePage implements OnInit, OnDestroy {
     // A tap applies (cache clear + SW unregister + hard reload); the ✕ hides
     // THIS version only — a new deploy re-shows it.
     void this.updates.refreshBanner();
+    void this.updates.welcomeBackCheck(); // BUILD 223: the rare welcome-back beat
     this.updateBannerTimer = setInterval(() => { void this.updates.refreshBanner(); }, 30 * 60_000);
     // 2026-08-27 CALENDAR SYNC: a received card-to-card appointment invite
     // lands ON THE CARD (appointments[]) and on the device calendar. This
