@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -46,7 +46,12 @@ import { SoundService } from '../../services/sound/sound.service';
   styleUrls: ['./loop-inbox.component.scss'],
   standalone: false,
 })
-export class LoopInboxComponent implements OnInit, OnDestroy {
+export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: the inbox announces itself the
+   *  moment it exists, and nudges that arrive before the walk mounts are
+   *  HELD — not silently dropped — then consumed on the walk's first render. */
+  @Output() inboxReady = new EventEmitter<void>();
+  private pendingNudge: { contact: any | null; loopId?: string } | null = null;
   // 2026-09-15 BUILD 211 (founder: the boot reveal "should not commence until
   // the Demo or real contacts have populated their component"): the setter
   // watches the deck arrive and only then allows the reveal to run.
@@ -364,6 +369,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
       this.walkStep = 1;
       void this.refresh();
     }
+    // BUILD 236: a nudge held while the shelf was up delivers the moment the
+    // walk returns — the hold never outlives its surface.
+    if (s === 'walk') this.consumePendingNudge();
     this.expandedChange.emit(this.shellExpanded);
   }
 
@@ -390,13 +398,36 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    */
   nudgeArrived(contact: any | null, loopId?: string): void {
     if (this.loopsSurface === 'walk') {
-      if (this.walkRef) this.walkRef.armFromNudge(contact, loopId);
+      // 2026-09-16 BUILD 236: the old hold was a SILENT DROP — walkRef null
+      // meant the nudge vanished (chime played, nothing opened). Now the
+      // nudge is HELD and consumed the moment the walk mounts (ngAfterViewInit
+      // / the surface toggle), so the arm is deterministic.
+      if (this.walkRef) {
+        this.walkRef.armFromNudge(contact, loopId);
+      } else {
+        this.pendingNudge = { contact, loopId };
+      }
       return;
     }
     if (contact) this.armDestination(contact);
     if (loopId) this.selectedId = loopId;
     void this.refresh();
     this.presentResponse();
+  }
+
+  /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: the inbox exists → home may
+   *  deliver its pending escalation; and a nudge that arrived before the walk
+   *  mounted is consumed here, once, deterministically. */
+  ngAfterViewInit(): void {
+    this.inboxReady.emit();
+    this.consumePendingNudge();
+  }
+
+  private consumePendingNudge(): void {
+    if (!this.pendingNudge || !this.walkRef) return;
+    const { contact, loopId } = this.pendingNudge;
+    this.pendingNudge = null;
+    this.walkRef.armFromNudge(contact, loopId);
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the home page escalates a tapped

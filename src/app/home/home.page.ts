@@ -94,6 +94,10 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-29 BUILD 145 (founder): true while the inbox shell is expanded —
    *  the deck's View toolbar sits up as a footer for the duration. */
   inboxExpanded = false;
+  /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: an escalation whose inbox has
+   *  not mounted yet is HELD here and delivered on the inbox's inboxReady
+   *  signal — no fixed timers, no silent drops. */
+  private pendingEscalation: { contact: any; loopId?: string } | null = null;
   /** 2026-08-26 SETTINGS/INBOX SWAP: remember the Inbox was open so it can be
    *  restored the moment Settings closes. */
   private inboxWasOpenBeforeSettings = false;
@@ -526,31 +530,38 @@ export class HomePage implements OnInit, OnDestroy {
         2600);
 
       // Open the inbox on the Loops tab, arm the destination, select the loop.
-      // 2026-08-30 BUILD 153 (founder: "it must get priority to viewport…
-      // in Settings and tap the prompt - it only shuts down Settings, and
-      // does no more"): the escalation now TAKES the screen — it leaves
-      // Settings (the deck returns to its regular view), pulls the home
-      // scroller to the top so the inbox leads the viewport from any scroll
-      // position, then travels to the armed loop with a second pass as a
-      // safety net for slow first renders.
+      // 2026-08-30 BUILD 153: the escalation TAKES the screen — it leaves
+      // Settings, pulls the home scroller to the top, and opens the inbox.
+      // 2026-09-16 BUILD 236 THE MOUNT CONTRACT (founder: "there is a chime
+      // now but still panel/modal is not opening"): the old two fixed-timer
+      // passes were a race — if the *ngIf'd inbox (or the walk inside it) had
+      // not mounted by 800ms, the arm SILENTLY DROPPED: chime played, nothing
+      // opened. Now the escalation is HELD (pendingEscalation) and delivered
+      // on the inbox's OWN inboxReady signal (its ngAfterViewInit), with an
+      // immediate delivery when the inbox is already open. The walk-side hold
+      // (pendingNudge in the inbox) covers the deeper mount the same way.
       try { this.rolodexComp?.showRegularView(); } catch { /* deck not mounted */ }
       void this.homeContent?.scrollToTop(0);
       window.scrollTo({ top: 0, behavior: 'auto' }); // native scroller parity
+      this.pendingEscalation = { contact: contact || null, loopId: loopId || undefined };
       this.rolodexAiChatOpen = true;
       this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
-      const travel = (): void => {
-        const inbox = this.inboxRef;
-        if (!inbox) return;
-        // 2026-08-30 BUILD 157: the escalation routes through nudgeArrived —
-        // the walk (default surface) takes the armed loop straight to the
-        // words; the packed shelf keeps its own arm-and-select path.
-        inbox.tab = 'loops';
-        inbox.nudgeArrived(contact || null, loopId || undefined);
-        void this.sound.playLoopReady();
-      };
-      setTimeout(travel, 320); // let *ngIf render the inbox first
-      setTimeout(travel, 800); // second pass: first render still settling
+      this.deliverPendingEscalation();
     } catch { /* a dead nudge is still better than a crash */ }
+  }
+
+  /** 2026-09-16 BUILD 236: the escalation delivery — called immediately when
+   *  the inbox is already open, and again from its inboxReady signal when it
+   *  has just mounted. Idempotent: the pending slot clears on delivery. */
+  private deliverPendingEscalation(): void {
+    if (!this.pendingEscalation || !this.inboxRef) return;
+    const { contact, loopId } = this.pendingEscalation;
+    this.pendingEscalation = null;
+    // The walk (default surface) takes the armed loop straight to the words;
+    // the packed shelf keeps its own arm-and-select path (nudgeArrived).
+    this.inboxRef.tab = 'loops';
+    this.inboxRef.nudgeArrived(contact, loopId);
+    void this.sound.playLoopReady();
   }
 
   /** 2026-09-14 BUILD 199: open the share sheet (the achievement tap and the
