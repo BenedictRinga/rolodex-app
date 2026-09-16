@@ -265,25 +265,26 @@ export class ShareAppService {
 
   /** 2026-08-19 STANDARD SHARE APP (Settings): the plain, always-appropriate
    *  share of LoopKeeper itself — native share sheet first, clipboard fallback. */
-  async shareAppStandard(): Promise<'shared' | 'copied' | 'failed'> {
-    // 2026-08-25 CACHE-BUSTING: distinct URL so social platforms don't serve the
+  async shareAppStandard(url: string = 'https://zyppar.com/loopkeeper/?src=settings', voice?: 'E' | 'F'): Promise<'shared' | 'copied' | 'failed'> {
+    // 2026-08-25 CACHE-BUSTING: the caller passes the URL (BUILD 216: the
+    // first-close beat passes ?src=share) so social platforms never serve the
     // old cached Zyppar preview for the bare /loopkeeper/ path.
-    const url = 'https://zyppar.com/loopkeeper/?src=settings';
-    // 2026-08-27 SHARE VOICES: one of three localized messages, picked per send.
-    const voice = this.resolveVoice();
-    const text = await this.buildAppShareText(url, voice);
+    // 2026-08-27 SHARE VOICES: one of the six localized messages, picked per
+    // send (BUILD 216: the first-close beat pins voice E/F — the secretary lines).
+    const v = voice || this.resolveVoice();
+    const text = await this.buildAppShareText(url, v);
     const nav: any = navigator;
     try {
       if (nav.share) {
         await nav.share({ title: 'LoopKeeper', text, url });
-        this.trackShare('native', voice, 'casual');
+        this.trackShare('native', v, 'casual');
         return 'shared';
       }
     } catch { /* user cancelled the sheet */ }
     try {
       if (nav.clipboard?.writeText) {
         await nav.clipboard.writeText(text);
-        this.trackShare('clipboard', voice, 'casual');
+        this.trackShare('clipboard', v, 'casual');
         return 'copied';
       }
     } catch { /* clipboard unavailable */ }

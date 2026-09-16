@@ -67,7 +67,9 @@ export class InviteService {
    *  reads as the app. If a stale server response ever sends a bare
    *  zyppar.com URL, we ignore it and build the /loopkeeper/ path ourselves. */
   shareUrl(inv: RolodexInvite): string {
-    const pwa = `https://zyppar.com/loopkeeper/?invite=${inv.token}`;
+    // 2026-09-16 BUILD 216 (Grok distribution plan): the invite URL carries
+    // src as well as invite= so landed traffic is attributable, never "direct".
+    const pwa = `https://zyppar.com/loopkeeper/?invite=${inv.token}&src=share`;
     return inv?.url?.includes('/loopkeeper/') ? inv.url : pwa;
   }
 

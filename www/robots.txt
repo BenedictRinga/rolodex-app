@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /loopkeeper/
+Disallow: /loopkeeper/tester.html
+Disallow: /loopkeeper/tester-dashboard.html
+
+Sitemap: https://zyppar.com/loopkeeper/sitemap.xml

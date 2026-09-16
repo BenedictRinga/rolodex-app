@@ -379,6 +379,9 @@ export class HomePage implements OnInit, OnDestroy {
     void this.presentWelcome().then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
     // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
     this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
+    // 2026-09-16 BUILD 216 THE FIRST-CLOSE SHARE BEAT: the first close of any
+    // kind invites the user to become the channel (voice E/F, ?src=share).
+    this.loops.firstCloseShare.subscribe(() => this.onFirstCloseShare());
     // 2026-09-14 BUILD 195 THE UPDATE BANNER: check now, then every 30 minutes.
     // A tap applies (cache clear + SW unregister + hard reload); the ✕ hides
     // THIS version only — a new deploy re-shows it.
@@ -533,16 +536,28 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-09-14 BUILD 199: open the share sheet (the achievement tap and the
    *  trial stitch's invite door both land here). */
-  private async openShareApp(): Promise<void> {
+  /** BUILD 216: shareSrc tags the outbound link (?src=settings | share); the
+   *  first-close beat pins voice E/F — the secretary lines. */
+  private async openShareApp(shareSrc: 'settings' | 'share' = 'settings'): Promise<void> {
     try {
       const modal = await this.modalController.create({
         component: ShareAppModalComponent,
+        componentProps: {
+          shareSrc,
+          voice: shareSrc === 'share' ? (Math.random() < 0.5 ? 'E' : 'F') : undefined,
+        },
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95, 1],
         initialBreakpoint: 0.95,
       });
       await modal.present();
     } catch { /* best effort */ }
+  }
+
+  /** 2026-09-16 BUILD 216: the first close invites the user to become the
+   *  channel — the celebration breathes first, then the sheet opens once. */
+  private onFirstCloseShare(): void {
+    setTimeout(() => void this.openShareApp('share'), 1600);
   }
 
   /**

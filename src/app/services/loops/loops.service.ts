@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../storage/storage.service';
 import { AnalyticsService } from '../analytics/analytics.service';
@@ -904,6 +904,7 @@ No pressure either way — replying here connects you directly.`;
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: dropped with dignity — the ping goes too
     this.analytics.track('loop_closed', { mode: 'dropped' });
+    this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
   }
 
   /** 2026-08-28 BUILD 130 (founder: ZEITGARNIK RESOLUTION — "fired and
@@ -926,10 +927,26 @@ No pressure either way — replying here connects you directly.`;
     // exit funnel the founder asked for, cross-matchable against send_exit.
     this.analytics.track('message_sent', { channel, surface: 'loop' });
     this.analytics.track('loop_closed', { mode: 'sent' });
+    this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
   }
 
   /** Reply arrived / thing truly done → THE celebration moment. */
+  /** 2026-09-16 BUILD 216 THE FIRST-CLOSE SHARE BEAT (Grok distribution plan,
+   *  week 2: "After the first closed loop, fire the share sheet with voice
+   *  E/F and ?src=share"): the moment of maximum delight invites the user to
+   *  become the channel. Once per device (lk_share_prompted); home listens
+   *  and opens the sheet after the celebration breathes. */
+  readonly firstCloseShare = new EventEmitter<void>();
+
+  private maybeFirstCloseShare(): void {
+    void this.storage.get<boolean>('lk_share_prompted').then((done) => {
+      if (done) return;
+      void this.storage.set('lk_share_prompted', true);
+      this.firstCloseShare.emit();
+    });
+  }
+
   closeFully(id: string): void {
     const l = this.cache?.find(x => x.id === id);
     if (!l) return;
@@ -940,6 +957,7 @@ No pressure either way — replying here connects you directly.`;
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: done — the ping goes quiet
     this.analytics.track('loop_closed');
+    this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
   }
 

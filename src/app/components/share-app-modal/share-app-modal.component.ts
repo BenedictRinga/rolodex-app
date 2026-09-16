@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ShareAppService } from '../../services/share-app/share-app.service';
 
@@ -18,7 +18,11 @@ export class ShareAppModalComponent implements OnInit {
   // 2026-08-25 CACHE-BUSTING URL: the bare /loopkeeper/ URL is cached by social
   // platforms with the old Zyppar preview. ?src=settings is a distinct stable URL
   // so WhatsApp/Telegram fetch the current LoopKeeper OG card (same PWA, same OG tags).
-  readonly shareUrl = 'https://zyppar.com/loopkeeper/?src=settings';
+  // 2026-09-16 BUILD 216: the outbound src tag — settings (default) or share
+  // (the first-close beat, which also pins voice E/F). Set in ngOnInit.
+  @Input() shareSrc: 'settings' | 'share' = 'settings';
+  @Input() voice?: 'E' | 'F';
+  shareUrl = 'https://zyppar.com/loopkeeper/?src=settings';
   // 2026-08-27 SHARE VOICES: no more hardcoded English line — one of three
   // localized messages (loopkeeper.share.voiceA/B/C), resolved async and
   // refined from this instant English fallback once translations arrive.
@@ -41,8 +45,10 @@ export class ShareAppModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Resolve the localized share voice (three rotating messages).
-    void this.shareApp.buildAppShareText(this.shareUrl).then((t) => { if (t) this.shareText = t; });
+    // Resolve the localized share voice (the rotation, six voices — the
+    // first-close beat pins voice E/F). BUILD 216: the src tag rides the URL.
+    this.shareUrl = 'https://zyppar.com/loopkeeper/?src=' + (this.shareSrc || 'settings');
+    void this.shareApp.buildAppShareText(this.shareUrl, this.voice).then((t) => { if (t) this.shareText = t; });
   }
 
   close(): void {
@@ -71,7 +77,7 @@ export class ShareAppModalComponent implements OnInit {
   }
 
   async native(): Promise<void> {
-    await this.shareApp.shareAppStandard();
+    await this.shareApp.shareAppStandard(this.shareUrl, this.voice);
     await this.modalController.dismiss();
   }
 }
