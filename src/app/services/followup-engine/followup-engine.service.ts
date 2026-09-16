@@ -81,7 +81,17 @@ export class FollowUpEngine {
     const newEventIds: string[] = [];
 
     for (const contact of active) {
-      const freqDays = this.FREQUENCY_DAYS[contact.rolodex.contactFrequency];
+      // 2026-09-16 BUILD 235 THE SUBJECT'S OWN RHYTHM (founder: the check-in
+      // nudges "prods user to interact with a particular person, and I hope
+      // also now, task"): a non-person kind walks to ITS cadence — the card's
+      // task rhythm governs the check-in (a routine's weekly is weekly),
+      // not the person-oriented rolodex frequency.
+      const kind = (contact as any)?.kind;
+      const taskCadence = kind && kind !== 'person' ? (contact as any)?.task?.cadence : null;
+      const frequency = taskCadence && this.FREQUENCY_DAYS[taskCadence]
+        ? taskCadence
+        : contact.rolodex.contactFrequency;
+      const freqDays = this.FREQUENCY_DAYS[frequency];
       if (!freqDays) {
         skipped++;
         continue;
@@ -111,7 +121,7 @@ export class FollowUpEngine {
         title: `Check in with ${contact.displayName ?? contact.name?.display ?? 'Contact'}`,
         start: dueDate.toISOString(),
         notes: this.buildReminderNote(contact),
-        repeat: this.mapFrequencyToRepeat(contact.rolodex.contactFrequency),
+        repeat: this.mapFrequencyToRepeat(frequency),
         reminderBefore: contact.rolodex.priority === 'high' ? 30 : 15,
         contactId: contact.contactId,
       };

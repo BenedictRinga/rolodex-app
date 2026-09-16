@@ -436,22 +436,28 @@ export class HomePage implements OnInit, OnDestroy {
     void this.eventService.wireNativeNotificationTaps();
     this.notifTapSub = this.eventService.notificationTap$.subscribe((extra) => {
       if (extra?.type === 'event' || extra?.action === 'checkin') this.escalateCheckIn(extra);
-      // 2026-09-16 BUILD 230: the NATIVE wake/digest tap (extra.type loopWake)
-      // opens the Loops surface too — it was a dead end like the dock's.
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsFromDigest();
+      // 2026-09-16 BUILD 230/235: the NATIVE MORNING-DIGEST tap (the 9AM
+      // loop-wake ping, extra.type loopWake) opens the Loops surface too —
+      // it was a dead end like the dock's. (The "Check in with ..." nudges
+      // are a DIFFERENT dock item — they ride action 'checkin' above, into
+      // escalateCheckIn, which arms the walk with the item as the payload.)
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
       // 2026-09-14 BUILD 199: the achievement share tap opens the share sheet.
       if (n?.data?.action === 'shareAchievement') void this.openShareApp();
-      // 2026-09-16 BUILD 230 THE DIGEST OPENS (founder: "a tap on a Loop
-      // reminder item actually opens the item — did not last time... Item
-      // depresses to my tap, but nothing opens"): the digest/wake tap now
-      // OPENS the Loops surface — the inbox's Loops tab, Today's 3 and the
-      // Stack. It used to be an explicit no-op ("dismiss only"), so the item
-      // depressed and nothing happened, every recurrence. The dock item still
-      // dismisses on tap (its own behavior); the tab does the talking.
-      if (n?.data?.action === 'loopDigest') this.openLoopsFromDigest();
+      // 2026-09-16 BUILD 230/235 THE DIGEST OPENS: the MORNING DIGEST item
+      // ("⏰ N loops waiting" — the loop-wake ping) opens the Loops surface —
+      // the inbox's Loops tab. It used to be an explicit no-op. NOTE THE
+      // DISTINCTION (founder, after we crossed wires): the "Check in with
+      // [name/task] (Recurrence #N)" items are a DIFFERENT dock item — the
+      // follow-up engine's CHECK-IN NUDGES — and they ride action 'checkin'
+      // above into escalateCheckIn, which arms the WALK with that item as
+      // the payload (the walk takes the armed loop straight to the words).
+      // The dock item still dismisses on tap (its own behavior); the tab
+      // does the talking.
+      if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
     });
 
     await this.loadContacts();
@@ -732,11 +738,13 @@ export class HomePage implements OnInit, OnDestroy {
     if (card) this.onContactTap(card);
   }
 
-  /** 2026-09-16 BUILD 230 THE DIGEST OPENS: the loop digest / wake reminder
-   *  opens the inbox ON the Loops tab (Today's 3 + the Stack). The inbox is
-   *  *ngIf'd, so one tick lets it mount before the tab is set; when it is
-   *  already open (tap from inside), the field set is immediate. */
-  openLoopsFromDigest(): void {
+  /** 2026-09-16 BUILD 230/235 THE LOOPS SURFACE OPENER: raises the inbox ON
+   *  the Loops tab. Callers: the morning-digest dock/native taps, and the
+   *  Settings => Loops section. (A CHECK-IN nudge tap does NOT come here —
+   *  it goes through escalateCheckIn, which arms the walk with the item as
+   *  the payload.) The inbox is *ngIf'd, so one tick lets it mount before
+   *  the tab is set; an already-open inbox lands immediately. */
+  openLoopsSurface(): void {
     this.rolodexAiChatOpen = true;
     setTimeout(() => {
       const ib: any = this.inboxRef;
