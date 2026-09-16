@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Neskôr",
     "walk.doorNote": "Poznámka pre seba",
     "walk.doorDelegate": "Delegovať",
-    "walk.tSnoozed": "Odkladované — vráti sa vo svojom rytme"
+    "walk.tSnoozed": "Odkladované — vráti sa vo svojom rytme",
+    "settings.loops": "Loops"
   }
 }

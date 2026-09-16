@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Kasnije",
     "walk.doorNote": "Bilješka sebi",
     "walk.doorDelegate": "Delegiraj",
-    "walk.tSnoozed": "Odloženo — vraća se svojim ritmom"
+    "walk.tSnoozed": "Odloženo — vraća se svojim ritmom",
+    "settings.loops": "Loops"
   }
 }

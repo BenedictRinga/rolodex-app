@@ -822,6 +822,7 @@
     "walk.doorSnooze": "稍后",
     "walk.doorNote": "给自己的便条",
     "walk.doorDelegate": "交出去",
-    "walk.tSnoozed": "已顺延 — 会按自己的节奏回来"
+    "walk.tSnoozed": "已顺延 — 会按自己的节奏回来",
+    "settings.loops": "循环"
   }
 }

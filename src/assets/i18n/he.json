@@ -822,6 +822,7 @@
     "walk.doorSnooze": "מאוחר יותר",
     "walk.doorNote": "פתק לעצמי",
     "walk.doorDelegate": "להאציל",
-    "walk.tSnoozed": "נדחה — חוזר בקצב שלו"
+    "walk.tSnoozed": "נדחה — חוזר בקצב שלו",
+    "settings.loops": "לולאות"
   }
 }

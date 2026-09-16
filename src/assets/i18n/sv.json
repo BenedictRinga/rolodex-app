@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Senare",
     "walk.doorNote": "Anteckning till mig själv",
     "walk.doorDelegate": "Delegera",
-    "walk.tSnoozed": "Skjutet upp — kommer tillbaka i sin rytm"
+    "walk.tSnoozed": "Skjutet upp — kommer tillbaka i sin rytm",
+    "settings.loops": "Loops"
   }
 }

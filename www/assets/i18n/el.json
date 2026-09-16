@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Αργότερα",
     "walk.doorNote": "Σημείωση σε μένα",
     "walk.doorDelegate": "Αναθέτω",
-    "walk.tSnoozed": "Αναβλήθηκε — επιστρέφει με τον ρυθμό του"
+    "walk.tSnoozed": "Αναβλήθηκε — επιστρέφει με τον ρυθμό του",
+    "settings.loops": "Loops"
   }
 }

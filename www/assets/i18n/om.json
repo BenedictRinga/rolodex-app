@@ -828,6 +828,7 @@
     "walk.doorSnooze": "Booda",
     "walk.doorNote": "Gorfama naaf",
     "walk.doorDelegate": "Maxxansiisi",
-    "walk.tSnoozed": "Dheeraffame — ofiin deebi’a"
+    "walk.tSnoozed": "Dheeraffame — ofiin deebi’a",
+    "settings.loops": "Loops"
   }
 }

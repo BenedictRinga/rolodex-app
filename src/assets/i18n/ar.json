@@ -822,6 +822,7 @@
     "walk.doorSnooze": "لاحقًا",
     "walk.doorNote": "ملاحظة لنفسي",
     "walk.doorDelegate": "تفويض",
-    "walk.tSnoozed": "تم التأجيل — تعود بإيقاعها"
+    "walk.tSnoozed": "تم التأجيل — تعود بإيقاعها",
+    "settings.loops": "الحلقات"
   }
 }

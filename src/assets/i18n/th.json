@@ -822,6 +822,7 @@
     "walk.doorSnooze": "ไปก่อน",
     "walk.doorNote": "โน้ตถึงตัวเอง",
     "walk.doorDelegate": "ส่งต่อ",
-    "walk.tSnoozed": "เลื่อนออกไป — จะกลับมาตามจังหวะของมัน"
+    "walk.tSnoozed": "เลื่อนออกไป — จะกลับมาตามจังหวะของมัน",
+    "settings.loops": "Loops"
   }
 }

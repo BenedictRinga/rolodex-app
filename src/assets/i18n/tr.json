@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Sonra",
     "walk.doorNote": "Kendime not",
     "walk.doorDelegate": "Devret",
-    "walk.tSnoozed": "Ertelendi — kendi ritmiyle döner"
+    "walk.tSnoozed": "Ertelendi — kendi ritmiyle döner",
+    "settings.loops": "Loops"
   }
 }

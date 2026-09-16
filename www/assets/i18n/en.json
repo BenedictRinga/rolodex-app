@@ -828,6 +828,7 @@
     "walk.doorSnooze": "Snooze",
     "walk.doorNote": "Note to self",
     "walk.doorDelegate": "Delegate",
-    "walk.tSnoozed": "Snoozed — it returns on its rhythm"
+    "walk.tSnoozed": "Snoozed — it returns on its rhythm",
+    "settings.loops": "Loops"
   }
 }

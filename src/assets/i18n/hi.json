@@ -822,6 +822,7 @@
     "walk.doorSnooze": "बाद में",
     "walk.doorNote": "अपने लिए नोट",
     "walk.doorDelegate": "सौंप दें",
-    "walk.tSnoozed": "टाल दिया — अपनी लय से लौटेगा"
+    "walk.tSnoozed": "टाल दिया — अपनी लय से लौटेगा",
+    "settings.loops": "लूप्स"
   }
 }

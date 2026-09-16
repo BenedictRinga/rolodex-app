@@ -744,6 +744,7 @@
     "walk.doorSnooze": "Mar dambe",
     "walk.doorNote": "Xasuus naftaada",
     "walk.doorDelegate": "U dhiibo qof",
-    "walk.tSnoozed": "Dib loo dhigay — wuu ku noqon doonaa qaddaraddiisa"
+    "walk.tSnoozed": "Dib loo dhigay — wuu ku noqon doonaa qaddaraddiisa",
+    "settings.loops": "Loobiyo"
   }
 }

@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Deredzera",
     "walk.doorNote": "Nhora yangu",
     "walk.doorDelegate": "Tumira kumwe",
-    "walk.tSnoozed": "Yaderedzerwa — inodzokera nekufamba kwayo"
+    "walk.tSnoozed": "Yaderedzerwa — inodzokera nekufamba kwayo",
+    "settings.loops": "Loops"
   }
 }

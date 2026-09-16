@@ -822,6 +822,7 @@
     "walk.doorSnooze": "後で",
     "walk.doorNote": "自分へのメモ",
     "walk.doorDelegate": "任せる",
-    "walk.tSnoozed": "先送りにしました — そのリズムで戻ります"
+    "walk.tSnoozed": "先送りにしました — そのリズムで戻ります",
+    "settings.loops": "Loops"
   }
 }

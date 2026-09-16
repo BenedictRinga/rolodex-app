@@ -240,6 +240,10 @@
             <ion-select-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</ion-select-option>
           </ion-select>
           <ion-chip (click)="scrollTo('settings-updates')">{{ 'loopkeeper.settings.updates' | translate }}</ion-chip>
+          <!-- 2026-09-16 BUILD 232: Settings => Loops — the manual door to the
+               Loops surface (the founder's verification door). The chip OPENS
+               the surface directly, like the modal-opening chips. -->
+          <ion-chip (click)="loopsRequest.emit()">{{ 'loopkeeper.settings.loops' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-faq')">{{ 'loopkeeper.settings.faq' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-cardview')">{{ 'loopkeeper.settings.cardview' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-demo')">{{ 'loopkeeper.settings.demo' | translate }}</ion-chip>
@@ -311,6 +315,19 @@
           <ion-button slot="end" fill="clear" [disabled]="checkingUpdates || applyingUpdate" [color]="updateAvailable ? 'warning' : (updateChecked ? 'success' : 'medium')" class="update-btn" [class.update-ok]="updateChecked && !updateAvailable" (click)="updateAvailable ? applyUpdate() : checkForUpdates()">
             {{ applyingUpdate ? 'Applying…' : (checkingUpdates ? 'Checking…' : (updateAvailable ? 'Update now' : (updateChecked ? 'Up to date' : 'Check'))) }}
           </ion-button>
+        </ion-item>
+
+        <!-- 2026-09-16 BUILD 232 SETTINGS => LOOPS (founder: "Crucial to have a
+             Settings => Loops so we can manually call it to show" — the manual
+             door to the Loops surface; the digest/wake tap and this section
+             share one open path). In the quicknav map above as a chip too. -->
+        <ion-item lines="none" class="elegant-item" id="settings-loops">
+          <ion-icon name="repeat-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>
+            <span class="update-title">{{ 'loopkeeper.settings.loops' | translate }}</span>
+            <p class="profile-guide">The walk, the waiting piles and the garden — one tap brings the Loops surface up from anywhere.</p>
+          </ion-label>
+          <ion-button slot="end" fill="outline" (click)="loopsRequest.emit()">Open Loops</ion-button>
         </ion-item>
 
         <!-- 2026-08-18 FAQ & HELP: answers to the inevitable questions (forgot

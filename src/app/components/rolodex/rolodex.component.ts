@@ -96,6 +96,9 @@ export class RolodexComponent implements OnInit {
   @Output() toggleWelcome = new EventEmitter<void>();
   @Output() showWelcome = new EventEmitter<void>();
   @Output() mockDataRepeat = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 232 SETTINGS => LOOPS: the manual door to the Loops
+   *  surface — home raises the inbox ON its Loops tab (the digest path). */
+  @Output() loopsRequest = new EventEmitter<void>();
   @Output() initMap = new EventEmitter<HTMLElement>();
   @Output() createContact = new EventEmitter<void>();
 
@@ -369,7 +372,8 @@ export class RolodexComponent implements OnInit {
   }
 
   settingsMapHint(): string {
-    return 'Updates · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
+    // BUILD 232: Loops joins the map (the quicknav chips must match).
+    return 'Updates · Loops · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }
 
   /** 2026-08-16 ABOUT: the app story + the padlocked Investors section.
@@ -486,22 +490,26 @@ export class RolodexComponent implements OnInit {
     try {
       const result = await this.updatesService.manualCheckForUpdates();
       this.updateCurrent = result.currentVersion;
-      this.updateCurrentBuild = this.updatesService.appBuild;
+      this.updateCurrentBuild = result.currentBuild;
       this.updateServer = result.serverVersion || '';
-      this.updateServerBuild = 0;
+      // 2026-09-16 BUILD 232 THE UPDATE TRUTH: the REAL deployed build — the
+      // hardcoded 0 made the prompt read "build 0" and the check rode the
+      // version strings that can never agree (0.3.1 vs 0.3.162), so every
+      // successful apply still read "update available". Builds compare now.
+      this.updateServerBuild = result.serverBuild;
       this.updateAvailable = result.isUpdateAvailable;
 
       if (result.gate === 'error') {
         await this.alertService.alertPrompt({
           header: 'Update check failed',
-          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on v${result.currentVersion}; the server version could not be confirmed.`,
+          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on build ${result.currentBuild}; the deployed build could not be confirmed.`,
         });
         return;
       }
       if (result.gate === 'offline') {
         await this.alertService.alertPrompt({
           header: 'Offline',
-          message: `No internet connection — the update check was skipped. You are on v${result.currentVersion}.`,
+          message: `No internet connection — the update check was skipped. You are on build ${result.currentBuild}.`,
         });
         return;
       }
@@ -515,7 +523,7 @@ export class RolodexComponent implements OnInit {
       } else {
         await this.alertService.alertPrompt({
           header: 'Up to date',
-          message: `You're on v${result.currentVersion} — the latest${result.serverVersion ? ` (server v${result.serverVersion})` : ''}.`,
+          message: `You're on build ${result.currentBuild} (v${result.currentVersion}) — the latest deployed build${result.serverBuild ? ` is ${result.serverBuild}` : ''}. You are current.`,
         });
       }
     } finally {

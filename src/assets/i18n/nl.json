@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Later",
     "walk.doorNote": "Notitie voor mezelf",
     "walk.doorDelegate": "Delegeren",
-    "walk.tSnoozed": "Uitgesteld — komt terug op zijn ritme"
+    "walk.tSnoozed": "Uitgesteld — komt terug op zijn ritme",
+    "settings.loops": "Loops"
   }
 }

@@ -822,6 +822,7 @@
     "walk.doorSnooze": "ቆይ በል",
     "walk.doorNote": "ለራሴ ማስታወሻ",
     "walk.doorDelegate": "አስተላልፍ",
-    "walk.tSnoozed": "ተለይቷል — በራሱ ሥርዓት ይመለሳል"
+    "walk.tSnoozed": "ተለይቷል — በራሱ ሥርዓት ይመለሳል",
+    "settings.loops": "ቀለበቶች"
   }
 }

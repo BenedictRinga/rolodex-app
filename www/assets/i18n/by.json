@@ -822,6 +822,7 @@
     "walk.doorSnooze": "Пазней",
     "walk.doorNote": "Нататка сабе",
     "walk.doorDelegate": "Дэлегаваць",
-    "walk.tSnoozed": "Адкладзена — вернецца па сваім рытме"
+    "walk.tSnoozed": "Адкладзена — вернецца па сваім рытме",
+    "settings.loops": "Loops"
   }
 }
