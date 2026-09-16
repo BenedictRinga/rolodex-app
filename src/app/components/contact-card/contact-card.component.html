@@ -22,13 +22,17 @@
             <div class="contact-card-content" (click)="onContactTap(seg.contact, $event)">
               <!-- 2026-08-16: the DEFAULT view avatar is iPad-shaped (square,
                    rounded corners) — the one card type the user chose. -->
-              <ion-avatar class="default-view-avatar" slot="start">
-                <img [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
-                  (error)="handleImageError($event)">
-                <!-- 2026-09-16 BUILD 217 THE CARD COVER: the emoji rides the
-                     avatar's corner — alive at a glance. -->
+              <!-- 2026-09-16 BUILD 221 THE COVER, VISIBLE: the badge used to
+                   sit INSIDE ion-avatar — overflow:hidden + the circle clipped
+                   it to invisibility (saved, but never seen). The relative
+                   wrapper lets it ride the corner for real. -->
+              <div class="cover-wrap" slot="start">
+                <ion-avatar class="default-view-avatar">
+                  <img [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
+                    (error)="handleImageError($event)">
+                </ion-avatar>
                 <span class="cover-emoji" *ngIf="seg.contact?.coverEmoji">{{ seg.contact.coverEmoji }}</span>
-              </ion-avatar>
+              </div>
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ seg.contact.organization?.company || 'No Company Info' }}</p>
@@ -1327,6 +1331,15 @@
                 <ion-select-option value="">Default cover</ion-select-option>
                 <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
               </ion-select>
+            </ion-item>
+            <!-- 2026-09-16 BUILD 221 THE GALLERY DOOR (founder: "the cover
+                 interface does not provide for using device Gallery to chose
+                 a cover as it does for my own personal card"): the same
+                 PhotoService the personal card uses — the pick persists as
+                 the card's cover image immediately. -->
+            <ion-item button detail="false" (click)="setContactPhoto(editedContact)">
+              <ion-icon name="images-outline" slot="start" color="medium"></ion-icon>
+              <ion-label class="ion-text-wrap">Choose a cover from your Gallery</ion-label>
             </ion-item>
 
             <!-- Name Section -->

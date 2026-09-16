@@ -1200,6 +1200,15 @@ ion-item.demo-card::after {
 
 /* 2026-09-16 BUILD 217 THE CARD COVER: the emoji rides the avatar corner —
    alive at a glance on the deck row. */
+.cover-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.cover-wrap .default-view-avatar {
+  position: relative;
+}
+
 .default-view-avatar {
   position: relative;
 }
@@ -1207,7 +1216,8 @@ ion-item.demo-card::after {
 .cover-emoji {
   position: absolute;
   right: -6px;
-  bottom: -4px;
+  bottom: -2px;
+  z-index: 4;
   font-size: 20px;
   line-height: 1;
   background: #fff;
