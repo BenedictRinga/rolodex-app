@@ -183,7 +183,19 @@ export class RolodexSyncService {
    *  message is emitted on welcome$ so the UI can greet the user.
    *  2026-08-19 THE TRIAL: the client sends its local trial timestamps so a
    *  first sync can adopt them; the server's authoritative trial comes back in
-   *  the response and is persisted when the client has none yet. */
+   *  the response and is persisted when the client has none yet.
+   *  2026-09-16 BUILD 231 PHASE D THE SYNC CONTRACT (verified, do not break):
+   *  this push sends the RAW contact objects — there is NO field whitelist,
+   *  by design. That is why the additive card fields ride for free: kind,
+   *  task {due, cadence, done, doneAt, checklist} and coverEmoji serialize
+   *  without a line of sync code. The server stores contacts as
+   *  [mongoose.Schema.Types.Mixed] (DeviceState) and /state/:deviceId
+   *  returns them untouched. IF YOU EVER ADD A SERIALIZER/SANITIZER HERE,
+   *  you MUST carry kind + task + coverEmoji across, or task cards will
+   *  silently degrade to person cards on restore (missing kind reads as
+   *  person everywhere). Demo cards never ride: home pushes realContacts()
+   *  only (the 209 exclusion). Loops (cardKind/taskRhythm) are device-local
+   *  by design and never sync. */
   async push(contacts: ContactInfo[], followUps?: any[]): Promise<void> {
     // 2026-08-20 PRIVACY GATE: no contact data leaves the device unless the
     // user has explicitly enabled backend sync. Default OFF.
