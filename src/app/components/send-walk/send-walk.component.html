@@ -21,6 +21,9 @@
   <ng-container *ngIf="step === 1">
     <button *ngIf="who" class="sw-card" type="button" (click)="confirmWho()">
       <img class="sw-avatar" [src]="avatarOf(who.contact)" alt="">
+      <!-- 2026-09-16 BUILD 217 THE CARD COVER: task cards carry their emoji
+           into the walk — the breadth of LoopKeeper is visible at slide 1. -->
+      <div class="sw-cover" *ngIf="who.contact?.coverEmoji">{{ who.contact.coverEmoji }}</div>
       <div class="sw-name">{{ whoName }}</div>
       <!-- 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: kill the anxiety
            that their contacts were accessed without permission): a demo Who

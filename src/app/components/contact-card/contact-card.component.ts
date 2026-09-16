@@ -123,6 +123,11 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   editedContact: ContactInfo = {} as ContactInfo;
   contactForm!: FormGroup;
+
+  /** 2026-09-16 BUILD 217 THE CARD COVER: the curated picker set — routine
+   *  tasks, money, places, people, dates, moods. A "myriad" is one scroll
+   *  away; device photos stay via the avatar picker. */
+  coverEmojiOptions = ['💰', '🏠', '🚗', '🛂', '💊', '💧', '🏋️', '🎓', '🤝', '⏰', '📝', '📚', '📞', '🎉', '🎁', '🎂', '☕', '✈️', '🛠️', '📍', '🧾', '🪴', '💼', '🏫', '⚽', '🎵', '💡', '🔧', '🌱', '🐶', '🐱', '❤️', '⭐', '🔥', '✅', '🎯', '📅', '🗒️', '🧠', '🙏'];
   showNameDetails = false;
   showPhoneDetails = false;
   showEmailDetails = false;
@@ -1283,6 +1288,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // by the deck) but never editable — the algo can now learn what the
       // person is actually called.
       nickname: [''],
+
+      // 2026-09-16 BUILD 217 THE CARD COVER: optional emoji cover — patches
+      // from the contact on edit, serializes with the form on save.
+      coverEmoji: [this.editedContact?.coverEmoji || ''],
 
       // Name group
       name: this.fb.group({

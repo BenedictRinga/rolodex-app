@@ -243,6 +243,9 @@
     // 2026-08-28 BUILD 124: drop the hardcoded /15 — the cohort is 20 invites
     // for 15 rewards (server build 39); a bare count cannot misread as full.
     document.getElementById('chips').innerHTML =
+      // 2026-09-16 BUILD 217 (founder: "It should actually have an indicator
+      // for total slots, not just invited v accepted"): the seat count leads.
+      '<div class="chip"><div class="v">' + (s.totalSlots || 20) + '</div><div class="k">total slots</div></div>' +
       '<div class="chip"><div class="v">' + (s.claimed || 0) + '</div><div class="k">accepted</div></div>' +
       '<div class="chip"><div class="v">' + (s.invited || 0) + '</div><div class="k">invited</div></div>' +
       // 2026-09-13 BUILD 187: the VISIT rung — deeplink opened (beacon ping).

@@ -25,6 +25,9 @@
               <ion-avatar class="default-view-avatar" slot="start">
                 <img [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
                   (error)="handleImageError($event)">
+                <!-- 2026-09-16 BUILD 217 THE CARD COVER: the emoji rides the
+                     avatar's corner — alive at a glance. -->
+                <span class="cover-emoji" *ngIf="seg.contact?.coverEmoji">{{ seg.contact.coverEmoji }}</span>
               </ion-avatar>
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
@@ -808,6 +811,16 @@
 
           <ion-card-content>
 
+            <!-- 2026-09-16 BUILD 217 THE CARD COVER: pick an emoji (or leave
+                 the default cover) — the deck row and the walk wear it. -->
+            <ion-item>
+              <ion-label position="stacked">Card cover (optional emoji)</ion-label>
+              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
+                <ion-select-option value="">Default cover</ion-select-option>
+                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
             <!-- Accordion group for additional sections -->
             <ion-accordion-group expand="inset">
 
@@ -1306,6 +1319,16 @@
             <ion-card-title>Edit Contact</ion-card-title>
           </ion-card-header>
           <ion-card-content>
+            <!-- 2026-09-16 BUILD 217 THE CARD COVER: pick an emoji (or leave
+                 the default cover) — the deck row and the walk wear it. -->
+            <ion-item>
+              <ion-label position="stacked">Card cover (optional emoji)</ion-label>
+              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
+                <ion-select-option value="">Default cover</ion-select-option>
+                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
             <!-- Name Section -->
             <ng-container formGroupName="name">
               <ion-item>

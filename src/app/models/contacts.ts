@@ -105,6 +105,12 @@ export interface CustomContactInfo {
 export interface ContactInfo extends BaseContactInfo, CustomContactInfo {
   showDetails?: boolean;
   isFlipped?: boolean;
+  /** 2026-09-16 BUILD 217 THE CARD COVER: an optional emoji that rides on
+   *  the card's avatar — the quick way to take a card beyond the default
+   *  cover and bring it alive (a task card 🚗, a money card 💰, a place 📍).
+   *  Device photos stay via the avatar image; video covers are a later
+   *  conversation. Set from the card edit sheet's picker. */
+  coverEmoji?: string;
   isMockData?: boolean;
   isContactInfo?: boolean;
 }
