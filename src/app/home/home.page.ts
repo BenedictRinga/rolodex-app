@@ -698,12 +698,10 @@ export class HomePage implements OnInit, OnDestroy {
     // the initial card... Important visual for user to mentally see 'Yes,
     // this one'"): the pick relays into the WALK as the Who — slide 1, the
     // card on show — instead of the full card surface or a phase jump.
-    if (res?.data?.contact) this.pendingWalkArm = res.data.contact;
+    // BUILD 224: the pick arms the walk DIRECTLY (inboxRef.armWalkPick ->
+    // walkRef.armFromPick) — no @Input relay to lose to CD timing.
+    if (res?.data?.contact) this.inboxRef?.armWalkPick?.(res.data.contact);
   }
-
-  /** BUILD 218: the pick from the Who sheet, relayed into the walk as the
-   *  Who (inbox -> [walkArm]); new object identity per pick fires the setter. */
-  pendingWalkArm: any = null;
 
   /** BUILD 218: the walk's New Task card door — the manual add sheet. */
   openManualTaskCard(): void {

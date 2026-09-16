@@ -649,10 +649,14 @@
             </ion-list-header>
             <ion-item class="default-card-row" *ngFor="let contact of group.contacts; trackBy: trackById">
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
-                <ion-avatar class="default-view-avatar" slot="start">
-                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
-                    (error)="handleImageError($event)">
-                </ion-avatar>
+                <!-- BUILD 224: the cover rides EVERY deck row template. -->
+                <div class="cover-wrap" slot="start">
+                  <ion-avatar class="default-view-avatar">
+                    <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                      (error)="handleImageError($event)">
+                  </ion-avatar>
+                  <span class="cover-emoji" *ngIf="contact.coverEmoji">{{ contact.coverEmoji }}</span>
+                </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>
@@ -672,10 +676,14 @@
             </ion-list-header>
             <ion-item class="default-card-row" *ngFor="let contact of group.contacts; trackBy: trackById">
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
-                <ion-avatar class="default-view-avatar" slot="start">
-                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
-                    (error)="handleImageError($event)">
-                </ion-avatar>
+                <!-- BUILD 224: the cover rides EVERY deck row template. -->
+                <div class="cover-wrap" slot="start">
+                  <ion-avatar class="default-view-avatar">
+                    <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                      (error)="handleImageError($event)">
+                  </ion-avatar>
+                  <span class="cover-emoji" *ngIf="contact.coverEmoji">{{ contact.coverEmoji }}</span>
+                </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ contact.organization?.company || 'No Company Info' }}</p>

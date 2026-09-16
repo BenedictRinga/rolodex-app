@@ -51,7 +51,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** 2026-09-16 BUILD 218: the pick from the Who sheet lands AS the Who.
    *  Home relays it through the inbox; the walk brings it to slide 1 so
    *  the user sees "Yes, this one" before continuing the walk. */
-  @Input() set walkArm(v: any) {
+  @Input() set walkArm(v: any) { if (v) this.armFromPick(v); }
+
+  /** 2026-09-16 BUILD 224: the pick lands AS the Who — called DIRECTLY
+   *  (home -> inboxRef.armWalkPick -> walkRef.armFromPick), no @Input
+   *  relay to lose to change-detection timing. Slide 1, card on show. */
+  armFromPick(v: any): void {
     if (!v) return;
     const id = String(v?.contactId || '').trim();
     if (id) this.retiredIds.delete(id);
@@ -394,12 +399,19 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * tap, a picked contact, an import, a typed card) lands as the Who.
    */
   notThisOne(): void {
-    // 2026-09-16 BUILD 218 (founder: "Easy for user to feel a disconnect"):
-    // the rejected card retires for the session, and the pick from the sheet
-    // comes back AS the Who — slide 1, seen and confirmed, before the walk
-    // continues (walkArm). No phase jump, no restart from the top.
+    // 2026-09-16 BUILD 224 THE IN-PLACE SWAP (founder: "app still skips
+    // changing in place for user to see new card. Instead, it just skips
+    // that first stage"): "Not this one" retires the current card and
+    // swaps the NEXT queue card IN PLACE — slide 1, the new card on show,
+    // "Not this one" still there to keep walking. The sheet opens ONLY
+    // when the queue is exhausted.
     if (this.who?.contact) this.retire(this.who.contact);
-    this.whoRequest.emit();
+    void this.rebuildWho();
+    if (!this.who) {
+      this.whoRequest.emit(); // queue exhausted — bring the sheet
+      return;
+    }
+    this.go(1);
   }
 
   /** BUILD 218: LoopKeeper's own door — the invite, handed to home. */

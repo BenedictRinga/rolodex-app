@@ -77,10 +77,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  agnostic add sheet; the inbox re-emits to home, which opens it and arms
    *  the walk with whatever comes back. */
   @Output() whoRequest = new EventEmitter<void>();
-  /** 2026-09-16 BUILD 218: the walk's own doors + the Who arm, relayed. */
+  /** 2026-09-16 BUILD 218: the walk's own doors, relayed. */
   @Output() inviteRequest = new EventEmitter<void>();
   @Output() taskCardRequest = new EventEmitter<void>();
-  @Input() walkArm: any = null;
 
   // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
   // (always the default) or this packed shelf. The flip icon switches it for
@@ -88,6 +87,13 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   loopsSurface: 'walk' | 'shelf' = 'walk';
   walkStep = 1;
   @ViewChild('walkRef') walkRef?: SendWalkComponent;
+
+  /** 2026-09-16 BUILD 224: home hands the pick straight to the walk —
+   *  a deterministic method call replaces the two-hop @Input relay that
+   * lost the arm to change-detection timing. */
+  armWalkPick(contact: any): void {
+    this.walkRef?.armFromPick?.(contact);
+  }
 
   get shellExpanded(): boolean {
     return !!this.selectedId || (this.loopsSurface === 'walk' && this.walkStep >= 3);
