@@ -444,8 +444,14 @@
   margin-top: 8px;
 }
 
-.sw-cover {
-  font-size: 30px;
+/* 2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: the emoji stands in the
+   avatar's own circular space. */
+.sw-avatar-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
   line-height: 1;
-  margin: -4px 0;
+  background: rgba(255, 178, 92, .14);
+  border-radius: 50%;
 }

@@ -870,11 +870,14 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     await alert.present();
   }
 
-  /** 2026-08-17 CONTACT PHOTO: pick from the device gallery/camera, persist. */
+  /** 2026-08-17 CONTACT PHOTO: pick from the device gallery/camera, persist.
+   *  2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: a gallery pick CLEARS
+   *  the emoji cover — the most recent choice stands in the space. */
   async setContactPhoto(contact: any): Promise<void> {
     const dataUrl = await this.photoService.pick();
     if (!dataUrl) return;
     contact.image = { base64String: dataUrl };
+    if (contact.coverEmoji) contact.coverEmoji = '';
     this.editContact.emit(contact);
   }
 

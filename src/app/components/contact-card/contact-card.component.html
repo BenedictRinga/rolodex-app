@@ -28,10 +28,10 @@
                    wrapper lets it ride the corner for real. -->
               <div class="cover-wrap" slot="start">
                 <ion-avatar class="default-view-avatar">
-                  <img [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
+                  <img *ngIf="!seg.contact.coverEmoji" [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
                     (error)="handleImageError($event)">
+                  <span *ngIf="seg.contact.coverEmoji" class="cover-face">{{ seg.contact.coverEmoji }}</span>
                 </ion-avatar>
-                <span class="cover-emoji" *ngIf="seg.contact?.coverEmoji">{{ seg.contact.coverEmoji }}</span>
               </div>
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
@@ -649,13 +649,12 @@
             </ion-list-header>
             <ion-item class="default-card-row" *ngFor="let contact of group.contacts; trackBy: trackById">
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
-                <!-- BUILD 224: the cover rides EVERY deck row template. -->
                 <div class="cover-wrap" slot="start">
                   <ion-avatar class="default-view-avatar">
-                    <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                    <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                       (error)="handleImageError($event)">
+                    <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
                   </ion-avatar>
-                  <span class="cover-emoji" *ngIf="contact.coverEmoji">{{ contact.coverEmoji }}</span>
                 </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
@@ -676,13 +675,12 @@
             </ion-list-header>
             <ion-item class="default-card-row" *ngFor="let contact of group.contacts; trackBy: trackById">
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
-                <!-- BUILD 224: the cover rides EVERY deck row template. -->
                 <div class="cover-wrap" slot="start">
                   <ion-avatar class="default-view-avatar">
-                    <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                    <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                       (error)="handleImageError($event)">
+                    <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
                   </ion-avatar>
-                  <span class="cover-emoji" *ngIf="contact.coverEmoji">{{ contact.coverEmoji }}</span>
                 </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
