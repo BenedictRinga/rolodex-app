@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Olee ma ị nwee onye odeakwụkwọ onwe gị na-amaghị ura?*\n\nMara *LoopKeeper* — ngwa na-enyere gị aka ilekọta ọrụ oge niile, ncheta na omume kwa ụbọchị.\n\nNwalee ya 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Mara LoopKeeper — odeakwụkwọ dijitalụ gị!*\n\nIke ịgwụ gị n'icheta ọrụ, omume na ncheta? Hapụ *LoopKeeper* idowe gị n'usoro ma duru gị n'ụbọchị gị.\n\n👉 Lelee ya ebe a: {{url}}\n\nRụọ ọrụ nke ọma. Nọgide n'ụzọ. 🔄",
     "walk.doorInvite": "Ziga ha LoopKeeper",
-    "walk.taskCard": "Kaadị ọrụ ọhụrụ"
+    "walk.taskCard": "Kaadị ọrụ ọhụrụ",
+    "walk.doorChat": "Ya mkparịta ụka na LoopKeeper",
+    "walk.internalFirst": "Ọ nweghị oku na kaadị a — LoopKeeper Chat ma ọ bụ mmịme ahụ ga-eru ha."
   }
 }

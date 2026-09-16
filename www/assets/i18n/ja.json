@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *眠らない専属秘書がいたら？*\n\n*LoopKeeper* — 日々のルーティン、リマインダー、タスクをまとめて管理するアプリです。\n\nぜひ試してみて 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *LoopKeeper — あなたのデジタル秘書！*\n\n仕事や習慣、リマインダーを忘れがちですか？ *LoopKeeper* が整え、あなたの一日を先導します。\n\n👉 こちらから: {{url}}\n\n賢く働く。軌道に乗る。 🔄",
     "walk.doorInvite": "LoopKeeperを送る",
-    "walk.taskCard": "新しいタスクカード"
+    "walk.taskCard": "新しいタスクカード",
+    "walk.doorChat": "LoopKeeperでチャット",
+    "walk.internalFirst": "このカードに電話番号がありません — LoopKeeperのチャットか招待が届きます。"
   }
 }

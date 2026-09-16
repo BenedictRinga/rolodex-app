@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Dai iwe une secretary yako wega isinogoni kusvotwa?*\n\nZiva *LoopKeeper* — chinhu chinobatsira kuronga mabasa, yeuchidzo nezviitiko zvezuva nezuva.\n\nEdza 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Ziva LoopKeeper — secretary yako yedhijitari!*\n\nWaneta nezvakasarudzwa kusarangarira mabasa, maitiro neyeuchidzo? Ngaite *LoopKeeper* ichakuchengetedza wakarongeka uye wakasarudza zuva rako.\n\n👉 Tarisa pano: {{url}}\n\nBata nani. Raira nzira. 🔄",
     "walk.doorInvite": "Tumira vana LoopKeeper",
-    "walk.taskCard": "Muta webasa mutsva"
+    "walk.taskCard": "Muta webasa mutsva",
+    "walk.doorChat": "Tauradzana muLoopKeeper",
+    "walk.internalFirst": "Hapana nhare iyi kadhi — LoopKeeper Chat kana kukokwa kunosvika kwavari."
   }
 }

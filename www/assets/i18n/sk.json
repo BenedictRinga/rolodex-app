@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Čo keby ste mali osobného sekretára, ktorý nikdy nespí?*\n\nSpoznajte *LoopKeeper* — aplikáciu, ktorá vám pomáha zvládať bežné úlohy, pripomienky a každodenné aktivity.\n\nVyskúšajte 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Spoznajte LoopKeeper — vášho digitálneho sekretára!*\n\nUnavuje vás zabúdanie na úlohy, rutiny a pripomienky? Nechajte *LoopKeeper*, aby vás držal v poriadku a na špici dňa.\n\n👉 Pozrite tu: {{url}}\n\nPracujte múdre. Zostaňte na kurze. 🔄",
     "walk.doorInvite": "Pošlite im LoopKeeper",
-    "walk.taskCard": "Nová karta úlohy"
+    "walk.taskCard": "Nová karta úlohy",
+    "walk.doorChat": "Chatujte v LoopKeeper",
+    "walk.internalFirst": "Na tejto karte nie je telefón — chat LoopKeeper alebo pozvánka k nim dorazí."
   }
 }

@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *E se avessi una segretaria personale che non dorme mai?*\n\nEcco *LoopKeeper* — l'app che ti aiuta a gestire mansioni di routine, promemoria e attività quotidiane.\n\nProvala 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Ecco LoopKeeper — la tua segretaria digitale!*\n\nStanco di dimenticare compiti, routine e promemoria? Lascia che *LoopKeeper* ti tenga organizzato e al comando della giornata.\n\n👉 Scoprilo qui: {{url}}\n\nLavora meglio. Resta in carreggiata. 🔄",
     "walk.doorInvite": "Manda loro LoopKeeper",
-    "walk.taskCard": "Nuova card attività"
+    "walk.taskCard": "Nuova card attività",
+    "walk.doorChat": "Chatta in LoopKeeper",
+    "walk.internalFirst": "Nessun numero su questa card — la chat di LoopKeeper o l’invito li raggiungerà."
   }
 }

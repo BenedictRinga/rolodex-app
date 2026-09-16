@@ -813,6 +813,8 @@
     "share.voiceE": "👀 *Yoo ogessa dhuunfaa hin hortu qabaatta?*\n\n*LoopKeeper* beeksi — hojiiwwan qopheessuu, yaadachiisaa fi sochii guyyaa kee bulchina.\n\nDhiyaata 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *LoopKeeper beeksi — ogeessa dijitaalaa kee!*\n\nHojiwwan, caasaa fi yaadachiisaa dagachaa dhabdaa? *LoopKeeper* qindoomina siif qabi, guyyaa kee fuldura bahi.\n\n👉 As ilaali: {{url}}\n\nSafi hojjedhu. Karaa irratti booda'uu. 🔄",
     "walk.doorInvite": "LoopKeeper isini ergi",
-    "walk.taskCard": "Kaarata hojii haaraa"
+    "walk.taskCard": "Kaarata hojii haaraa",
+    "walk.doorChat": "LoopKeeper keessatti walqabsiisi",
+    "walk.internalFirst": "Kaarata kana irratti lakkoofsa hin jiru — walqunnamtii LoopKeeper ykn beekamtisni isaan ga’a."
   }
 }

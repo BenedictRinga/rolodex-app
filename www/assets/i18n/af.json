@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Wat as jy 'n persoonlike sekretaresse gehad het wat nooit slaap nie?*\n\nOntmoet *LoopKeeper* — die app wat jou help om roetinetake, herinneringe en daaglikse aktiwiteite te bestuur.\n\nProbeer dit 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Ontmoet LoopKeeper — jou digitale sekretaresse!*\n\nMoeg om take, roetines en herinneringe te vergeet? Laat *LoopKeeper* jou georganiseerd hou en bo-op jou dag bly.\n\n👉 Kyk hier: {{url}}\n\nWerk slimmer. Bly op koers. 🔄",
     "walk.doorInvite": "Stuur vir hulle LoopKeeper",
-    "walk.taskCard": "Nuwe Taak-kaart"
+    "walk.taskCard": "Nuwe Taak-kaart",
+    "walk.doorChat": "Gesels in LoopKeeper",
+    "walk.internalFirst": "Geen nommer op hierdie kaart nie — LoopKeeper-chat of die uitnodiging sal hulle bereik."
   }
 }

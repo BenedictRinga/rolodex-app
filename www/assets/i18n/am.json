@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *ማታ ላይ የማያውቅ የግል ፀሐፊ ቢኖርዎት?*\n\n*LoopKeeper*ን ይወቁ — መደበኛ ተግባራትን፣ አስታዋሽን እና ዕለታዊ እንቅስቃሴዎችዎን እንዲያስተዳድር የተነደፈ መተግበሪያ።\n\nይሞክሩት 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *LoopKeeperን ይወቁ — ዲጂታል ፀሐፊዎ!*\n\nተግባራትን፣ ተራፎችን እና አስታዋሾችን መርሳት አዝናል? *LoopKeeper* እንዲያዘጋጅዎት እና ቀንዎን እንዲመራ ይፍቀዱት።\n\n👉 እዚህ ይመልከቱ፦ {{url}}\n\nብልህ ይሁኑ። በመንገዱ ይቆዩ። 🔄",
     "walk.doorInvite": "LoopKeeperን ላካፍሏቸው",
-    "walk.taskCard": "አዲስ የተግባር ካርድ"
+    "walk.taskCard": "አዲስ የተግባር ካርድ",
+    "walk.doorChat": "LoopKeeper ውስጥ ይነጋገሩ",
+    "walk.internalFirst": "በዚህ ካርድ ላይ ስልክ የለም — LoopKeeper ውይይት ወይም ግብዣ ያደርሳቸዋል።"
   }
 }

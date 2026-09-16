@@ -185,14 +185,18 @@
       <div class="sw-words-label">{{ 'loopkeeper.walk.wordsTitle' | translate }}</div>
       <div class="sw-words-text">{{ scriptBody() }}</div>
     </div>
-    <!-- 2026-09-16 BUILD 218 (founder: "no reference to LoopKeeper's own
-         array of communication tools, internal or external, presented
-         coherently... copy is okay within said array of options, but no
-         longer as standalone exclusive option"): the WHOLE array, one
-         grid — WhatsApp / Call / SMS / Email when the card carries a
-         destination, Copy always, and LoopKeeper's own door (the invite,
-         the OG-carded app link) always. Nothing hides behind a toggle. -->
-    <div class="sw-doors">
+    <!-- 2026-09-16 BUILD 219 (founder: "LoopKeeper has its own internal
+         messaging (a chat interface). I don't get the impression that this
+         is covered" + "if no destination, that is about prompting
+         elegance"): the array is COMPLETE — the in-house CHAT joins, and
+         when the card carries no destination the grid re-orders itself so
+         Chat and the invite LEAD, with a line that guides instead of a
+         line that dead-ends. -->
+    <div *ngIf="!hasPhone && !hasEmail" class="sw-nophone sw-guided">{{ 'loopkeeper.walk.internalFirst' | translate }}</div>
+    <div class="sw-doors" [class.sw-doors-guided]="!hasPhone && !hasEmail">
+      <button *ngIf="who?.contact" class="sw-door sw-door-chat" type="button" (click)="openChat()" [disabled]="busy">
+        {{ 'loopkeeper.walk.doorChat' | translate }}
+      </button>
       <button *ngIf="hasPhone" class="sw-door sw-door-wa" type="button" (click)="fire('whatsapp')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
       </button>
@@ -211,7 +215,6 @@
       <button class="sw-door sw-door-invite" type="button" (click)="handThemLoopKeeper()" [disabled]="busy">
         {{ 'loopkeeper.walk.doorInvite' | translate }}
       </button>
-      <div *ngIf="!hasPhone && !hasEmail" class="sw-nophone">{{ 'loopkeeper.walk.tNoPhone' | translate }}</div>
     </div>
 
     <!-- 2026-08-31 BUILD 159 (founder): the demo's MINE door, and we wait for

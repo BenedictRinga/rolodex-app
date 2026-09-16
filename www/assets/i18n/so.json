@@ -729,6 +729,8 @@
     "share.voiceE": "👀 *Maxay dhacay haddii aad lahaato xafiis gaar ah oo aan waligiin seexdin?*\n\nBaro *LoopKeeper* — abka ku caawina in aad maamusho hawlaha caadiga ah, xasuusiinta iyo waxqabadka maalintii.\n\nIsku day 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Baro LoopKeeper — xafiiskaada dijitalka ah!*\n\nDaalaysay in aad ilowdo hawlaha, caadooyinka iyo xasuusiinta? U dhaa *LoopKeeper* inuu kuu diyaariyo nidaamka iyo maalintaada.\n👉 Fiiri halkan: {{url}}\n\nSi xariif ah u shaqee. Jidka ku sii jir. 🔄",
     "walk.doorInvite": "U dir LoopKeeper",
-    "walk.taskCard": "Kaarid hawl cusub"
+    "walk.taskCard": "Kaarid hawl cusub",
+    "walk.doorChat": "Walax ka wada LoopKeeper",
+    "walk.internalFirst": "Lambarka kaarka ma jiro — walaax LoopKeeper ama martiqaadku waa gaaraya."
   }
 }

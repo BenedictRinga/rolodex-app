@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Kí ní ọ bá ṣe tí o bá ní akọ̀wé tìtàí kì í sùn?*\n\nPade *LoopKeeper* — app kan tó ń ran ọ lọ́wọ́ láti ṣàkóso iṣẹ́ tó ṣeṣe, ìrántí àti iṣẹ́ ojoojúmọ́ rẹ.\n\nGbìyànjú ọ́ 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Pade LoopKeeper — akọ̀wé digital rẹ!*\n\nRẹ́rẹ́lẹ́ ní ìfọkàn mó àwọn iṣẹ́, ìmọ̀sẹ́ àti ìrántí? Jẹ́ kí *LoopKeeper* tọrọ ọ́ dárúgà, kí o sì jẹ́ olùdarí ọjọ́ rẹ.\n\n👉 Wò níbí: {{url}}\n\nṢiṣẹ́ pẹ̀lú ọgbọ́n. Dúró sójí. 🔄",
     "walk.doorInvite": "Fi LoopKeeper ranṣẹ́ sí wọn",
-    "walk.taskCard": "Kààdì iṣẹ́ tuntun"
+    "walk.taskCard": "Kààdì iṣẹ́ tuntun",
+    "walk.doorChat": "Bá sọ̀rọ̀ ní LoopKeeper",
+    "walk.internalFirst": "Kò sí fọ́n nínú kààdì yìí — Ìjápọ̀ LoopKeeper tàbí ìpè yóò de wọn."
   }
 }

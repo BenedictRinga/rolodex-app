@@ -807,6 +807,8 @@
     "share.voiceE": "👀 *Tänk om du hade en personlig sekreterare som aldrig sover?*\n\nMöt *LoopKeeper* — appen som hjälper dig att hantera rutinuppgifter, påminnelser och vardagsaktiviteter.\n\nProva den 👇\n🔗 {{url}}",
     "share.voiceF": "🤖 *Möt LoopKeeper — din digitala sekreterare!*\n\nTrött på att glömma uppgifter, rutiner och påminnelser? Låt *LoopKeeper* hålla dig ordnad och i topp av dagen.\n\n👉 Se den här: {{url}}\n\nArbeta smartare. Håll kursen. 🔄",
     "walk.doorInvite": "Skicka dem LoopKeeper",
-    "walk.taskCard": "Nytt uppgiftskort"
+    "walk.taskCard": "Nytt uppgiftskort",
+    "walk.doorChat": "Chatta i LoopKeeper",
+    "walk.internalFirst": "Inget nummer på detta kort — LoopKeeper-chatt eller inbjudan når dem."
   }
 }

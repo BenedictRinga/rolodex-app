@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ModalController } from '@ionic/angular';
+import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
+import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { Loop, LoopChannel, LoopKind, LoopsService } from '../../services/loops/loops.service';
 import { KeeperAgentService } from '../../services/agents/keeper-agent.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
@@ -134,7 +137,35 @@ export class SendWalkComponent implements OnInit, OnChanges {
     private sounds: SoundService,
     private translate: TranslateService,
     private draftEngine: DraftEngineService,
+    private modalController: ModalController,
+    private cardChat: CardChatService,
   ) {}
+
+  /** 2026-09-16 BUILD 219 THE INTERNAL DOOR (founder: "LoopKeeper has its
+   *  own internal messaging (a chat interface)"): slide 4 opens the card's
+   *  OWN chat thread — the same interface the card surface uses — for the
+   *  armed subject, destination or not. It IS the coherent array's
+   *  in-house path. */
+  async openChat(): Promise<void> {
+    const c = this.who?.contact;
+    if (!c || this.busy) return;
+    try {
+      const thread = await this.cardChat.seedThread(c);
+      const modal = await this.modalController.create({
+        component: CardChatModalComponent,
+        componentProps: {
+          thread,
+          sendeePhone: c?.phones?.[0]?.number || '',
+          sendeePhones: (c?.phones || []).map((p: any) => p?.number).filter(Boolean),
+        },
+        cssClass: 'card-chat-modal-sheet',
+        breakpoints: [0, 0.7, 0.95, 1],
+        initialBreakpoint: 1,
+        keyboardClose: false,
+      });
+      await modal.present();
+    } catch { /* best effort */ }
+  }
 
   tr(key: string, params?: Record<string, unknown>): string {
     return this.translate.instant(key, params);
