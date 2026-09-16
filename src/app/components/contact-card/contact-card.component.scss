@@ -1281,3 +1281,14 @@ ion-item.demo-card::after {
   padding: 4px 10px 0;
   color: var(--rolodex-text-tertiary);
 }
+
+/* 2026-09-16 BUILD 233 PHASE E THE VIDEO COVER: the clip fills the same
+   circular space the photo and emoji stand in — muted, looping, silent
+   (autoplay requires muted). */
+.cover-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}

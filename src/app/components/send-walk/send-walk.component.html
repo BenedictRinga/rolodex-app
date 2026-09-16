@@ -23,8 +23,11 @@
       <!-- 2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: the emoji stands in
            the avatar's own circular space — the breadth of LoopKeeper
            visible at slide 1, no separate badge. -->
-      <img *ngIf="!who.contact?.coverEmoji" class="sw-avatar" [src]="avatarOf(who.contact)" alt="">
-      <div *ngIf="who.contact?.coverEmoji" class="sw-avatar sw-avatar-face">{{ who.contact.coverEmoji }}</div>
+      <img *ngIf="!who.contact?.coverEmoji && !who.contact?.coverVideo" class="sw-avatar" [src]="avatarOf(who.contact)" alt="">
+      <!-- 2026-09-16 BUILD 233 PHASE E: the video cover stands in the Who
+           circle too — muted, looping, silent. -->
+      <video *ngIf="who.contact?.coverVideo" class="sw-avatar sw-avatar-video" [src]="who.contact.coverVideo" autoplay muted loop playsinline></video>
+      <div *ngIf="who.contact?.coverEmoji && !who.contact?.coverVideo" class="sw-avatar sw-avatar-face">{{ who.contact.coverEmoji }}</div>
       <div class="sw-name">{{ whoName }}</div>
       <!-- 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: kill the anxiety
            that their contacts were accessed without permission): a demo Who

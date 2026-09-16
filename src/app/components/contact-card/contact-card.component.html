@@ -28,9 +28,10 @@
                    wrapper lets it ride the corner for real. -->
               <div class="cover-wrap" slot="start">
                 <ion-avatar class="default-view-avatar">
-                  <img *ngIf="!seg.contact.coverEmoji" [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
+                  <img *ngIf="!seg.contact.coverEmoji && !seg.contact.coverVideo" [src]="seg.contact.image?.base64String || avatarFor(seg.contact)" alt="Contact Image"
                     (error)="handleImageError($event)">
-                  <span *ngIf="seg.contact.coverEmoji" class="cover-face">{{ seg.contact.coverEmoji }}</span>
+                  <video *ngIf="seg.contact.coverVideo" class="cover-video" [src]="seg.contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="seg.contact.coverEmoji && !seg.contact.coverVideo" class="cover-face">{{ seg.contact.coverEmoji }}</span>
                 </ion-avatar>
               </div>
               <ion-label class="default-view-label">
@@ -64,9 +65,10 @@
                   <!-- 2026-09-16 BUILD 226: the emoji cover STANDS IN here too —
                        the flipped card wears the same alternative as its deck row
                        (founder: it was missing "when tapped and flipped"). -->
-                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                  <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)" />
-                  <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
+                  <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face">{{ contact.coverEmoji }}</span>
                 </ion-avatar>
                 <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p class="card-subtitle">{{ rowSubtitle(contact) }}</p>
@@ -274,8 +276,9 @@
           <ion-card-header class="card-header">
             <ion-avatar class="professional-avatar">
               <!-- BUILD 228: the emoji cover stands in the BUSINESS circle too. -->
-              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
-              <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
+              <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face">{{ contact.coverEmoji }}</span>
             </ion-avatar>
             <ion-card-title class="card-title">
               {{ contact.name?.display || 'Unknown Contact' }}
@@ -358,9 +361,10 @@
           <ion-card-header class="family-header">
             <ion-avatar class="family-avatar">
               <!-- BUILD 228: the emoji cover stands in the FAMILY circle too. -->
-              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+              <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                 (error)="handleImageError($event)" />
-              <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
+              <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face">{{ contact.coverEmoji }}</span>
             </ion-avatar>
             <ion-card-title class="family-title">
               {{ contact.name?.display || 'Unknown Family Member' }}
@@ -483,8 +487,9 @@
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
                 <!-- BUILD 228: the emoji cover stands in the compact/list row too. -->
-                <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
-                <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
+                <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ rowSubtitle(contact) }}</p>
                 <p>{{ rowExtra(contact) }}</p>
@@ -504,8 +509,9 @@
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
                 <!-- BUILD 228: the emoji cover stands in the compact/list row too. -->
-                <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
-                <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
+                <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ rowSubtitle(contact) }}</p>
                 <p>{{ rowExtra(contact) }}</p>
@@ -527,8 +533,9 @@
             <!-- Social Header -->
             <div class="social-header">
               <!-- BUILD 228: the emoji cover stands in the SOCIAL circle too. -->
-              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
-              <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
+              <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
               <div class="social-info">
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p>{{ rowSubtitle(contact) }}</p>
@@ -614,8 +621,9 @@
                 </div>
                 <div class="timeline-content">
                   <!-- BUILD 228: the emoji cover stands in the detailed/timeline row too. -->
-                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
-                  <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
+                  <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ rowSubtitle(contact) }}</p>
                   <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
@@ -642,8 +650,9 @@
                 </div>
                 <div class="timeline-content">
                   <!-- BUILD 228: the emoji cover stands in the detailed/timeline row too. -->
-                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
-                  <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
+                  <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
                   <p>{{ rowSubtitle(contact) }}</p>
                   <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
@@ -671,9 +680,10 @@
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
                 <div class="cover-wrap" slot="start">
                   <ion-avatar class="default-view-avatar">
-                    <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                    <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                       (error)="handleImageError($event)">
-                    <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
+                    <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face">{{ contact.coverEmoji }}</span>
                   </ion-avatar>
                 </div>
                 <ion-label class="default-view-label">
@@ -698,9 +708,10 @@
               <div class="contact-card-content" (click)="onContactTap(contact, $event)">
                 <div class="cover-wrap" slot="start">
                   <ion-avatar class="default-view-avatar">
-                    <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                    <img *ngIf="!contact.coverEmoji && !contact.coverVideo" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                       (error)="handleImageError($event)">
-                    <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
+                    <video *ngIf="contact.coverVideo" class="cover-video" [src]="contact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="contact.coverEmoji && !contact.coverVideo" class="cover-face">{{ contact.coverEmoji }}</span>
                   </ion-avatar>
                 </div>
                 <ion-label class="default-view-label">
@@ -1431,6 +1442,12 @@
               <ion-icon name="images-outline" slot="start" color="medium"></ion-icon>
               <ion-label class="ion-text-wrap">Choose a cover from your Gallery</ion-label>
             </ion-item>
+            <!-- 2026-09-16 BUILD 233 PHASE E THE VIDEO COVER: a short clip
+                 stands in the same circle — muted, looping, silent. -->
+            <ion-item button detail="false" (click)="setContactVideo(editedContact)">
+              <ion-icon name="videocam-outline" slot="start" color="medium"></ion-icon>
+              <ion-label class="ion-text-wrap">Choose a video cover (short clip, muted)</ion-label>
+            </ion-item>
 
             <!-- Name Section -->
             <ng-container formGroupName="name">
@@ -1812,9 +1829,10 @@
             <!-- 2026-09-16 BUILD 226: the emoji cover stands in the gridcard's
                  circle too — same alternative, same precedence (emoji wins the
                  space; a gallery pick clears it). -->
-            <img *ngIf="!activeContact.coverEmoji" [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
+            <img *ngIf="!activeContact.coverEmoji && !activeContact.coverVideo" [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
               (error)="handleImageError($event)" />
-            <span *ngIf="activeContact.coverEmoji" class="cover-face">{{ activeContact.coverEmoji }}</span>
+            <video *ngIf="activeContact.coverVideo" class="cover-video" [src]="activeContact.coverVideo" autoplay muted loop playsinline></video>
+<span *ngIf="activeContact.coverEmoji && !activeContact.coverVideo" class="cover-face">{{ activeContact.coverEmoji }}</span>
           </ion-avatar>
           <ion-label>
             <h2>{{ activeContact.name?.display || 'Unknown Contact' }}</h2>

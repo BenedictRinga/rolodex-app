@@ -131,6 +131,13 @@ export interface ContactInfo extends BaseContactInfo, CustomContactInfo {
    *  Device photos stay via the avatar image; video covers are a later
    *  conversation. Set from the card edit sheet's picker. */
   coverEmoji?: string;
+  /** 2026-09-16 BUILD 233 PHASE E THE VIDEO COVER: a short clip stands in
+   *  the SAME circular cover space — muted, looping, silent. Picking one
+   *  clears the emoji AND the photo (media beats emoji; the most recent
+   *  explicit choice always wins — the 225 rule extended to video). Size
+   *  guarded at pick time (~3MB raw); it rides the additive sync as a
+   *  data URL. */
+  coverVideo?: string;
   /** 2026-09-16 BUILD 227 PHASE A THE CARD KIND: 'person' | 'task'.
    *  Missing kind = 'person' (boot normalizer in home.loadContacts). */
   kind?: CardKind;

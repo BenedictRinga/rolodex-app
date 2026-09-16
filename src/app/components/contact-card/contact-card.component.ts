@@ -901,7 +901,40 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!dataUrl) return;
     contact.image = { base64String: dataUrl };
     if (contact.coverEmoji) contact.coverEmoji = '';
+    // BUILD 233 PHASE E: the most recent explicit choice wins — a photo pick
+    // clears a video cover back (the 225 rule extended to video).
+    if (contact.coverVideo) contact.coverVideo = '';
     this.editContact.emit(contact);
+  }
+
+  /** 2026-09-16 BUILD 233 PHASE E THE VIDEO COVER: pick a short clip from
+   *  the device — it stands in the SAME circular cover space, muted and
+   *  looping. Media beats emoji: the pick clears the emoji AND the photo
+   *  (the 225 most-recent rule, extended). Size-guarded at ~3MB raw — the
+   *  cover rides the additive sync as a data URL and the sync document cap
+   *  is real. */
+  setContactVideo(contact: any): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'video/*';
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      if (file.size > 3 * 1024 * 1024) {
+        void this.alertService.showToast('Too heavy for a cover — trim it under 3MB', 3200);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        contact.coverVideo = String(reader.result || '');
+        contact.coverEmoji = '';
+        if (contact.image) contact.image = { base64String: null };
+        this.contactsDirty.emit();
+        void this.alertService.showToast('Video cover set — tap Save to keep it', 2600);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
   }
 
   /**
