@@ -162,6 +162,9 @@ export class UpdatesService {
   /** Apply the update: persist version, clear caches + SW, hard reload. */
   async forceUpdate(newVersion: string): Promise<void> {
     try {
+      // 2026-09-16 BUILD 222: an update-apply reload is MACHINE-driven —
+      // the next boot skips app_launch/session_start/landing_source.
+      try { sessionStorage.setItem('lk_machine_reload', String(Date.now())); } catch { /* private mode */ }
       await this.setVersion(newVersion);
       await this.alertsService.showToast(`Updating LoopKeeper to v${newVersion}…`, 2500);
       await this.clearCachesAndReload();

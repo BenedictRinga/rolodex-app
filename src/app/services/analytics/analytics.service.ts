@@ -125,6 +125,21 @@ export class AnalyticsService {
     // 2026-09-14 BUILD 205 THE PHANTOM-ID FIX: await the FINAL device identity
     // before queueing anything - a cold-start provisional id must never flush.
     try { await this.rolodexSync.getDeviceIdFinal(); } catch { /* flush stamps live anyway */ }
+    // 2026-09-16 BUILD 222 THE HONEST ARRIVAL: a boot that follows a
+    // machine-driven reload (the stale-chunk heal, or an update apply)
+    // within 90s is the SAME visit in the SAME minute - it fires ONE
+    // categorical machine_reload event and SKIPS app_launch, session_start
+    // and landing_source. Without this, every heal and every update painted
+    // the board with false arrivals (the founder caught the surge: device
+    // growth 0, activation flat, sessions up - the false-positive family).
+    try {
+      const marked = Number(sessionStorage.getItem('lk_machine_reload') || 0);
+      if (marked && Date.now() - marked < 90_000) {
+        try { sessionStorage.removeItem('lk_machine_reload'); } catch { /* private mode */ }
+        this.track('machine_reload', { kind: marked > 0 ? 'heal-or-update' : 'unknown' });
+        return; // the same visit, already counted
+      }
+    } catch { /* private mode: count the boot normally */ }
     const now = Date.now();
     this.visitNumber = (this.visitNumber || 0) + 1;
     if (!this.firstSeenAt) this.firstSeenAt = now;

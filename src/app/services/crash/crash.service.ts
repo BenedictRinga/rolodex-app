@@ -125,6 +125,11 @@ export class CrashReporterService {
     try { reloaded = !!sessionStorage.getItem('lk_chunk_reloaded'); } catch { /* private mode */ }
     if (reloaded) return;
     try { sessionStorage.setItem('lk_chunk_reloaded', String(Date.now())); } catch { /* private mode */ }
+    // 2026-09-16 BUILD 222: mark this reload MACHINE-DRIVEN — the next boot
+    // must not count it as app_launch/session_start/landing_source (the
+    // founder's false-positive doubt: the heal fixed the death; the meter
+    // must not count the resurrection as a birth).
+    try { sessionStorage.setItem('lk_machine_reload', String(Date.now())); } catch { /* private mode */ }
     setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 150);
   }
 
