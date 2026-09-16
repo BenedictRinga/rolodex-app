@@ -1037,6 +1037,11 @@ export class HomePage implements OnInit, OnDestroy {
       this.contacts = this.mockEnabled ? mockContacts : [];
       await this.contactsSyncService.automateContactSetup(this.operationContacts());
     }
+    // 2026-09-16 BUILD 227 PHASE A THE CARD KIND: the boot-time lazy
+    // normalizer — any card without a kind IS a person. Additive, no
+    // migration: the field rides the additive serialize-merge from here on.
+    // The 8 demo task cards carry kind:'task' in the fixtures themselves.
+    for (const c of this.contacts) { if (c && !c.kind) c.kind = 'person'; }
     this.loading = false;
     // 2026-08-16 DEMO SYNC: the moment contacts are ready, talk to the fresh
     // rolodex database — the investor peek view shows this device LIVE.
