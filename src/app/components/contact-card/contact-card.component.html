@@ -59,8 +59,12 @@
               <!-- Front Side -->
               <div class="card-front">
                 <ion-avatar class="rolodex-avatar">
-                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+                  <!-- 2026-09-16 BUILD 226: the emoji cover STANDS IN here too —
+                       the flipped card wears the same alternative as its deck row
+                       (founder: it was missing "when tapped and flipped"). -->
+                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                     (error)="handleImageError($event)" />
+                  <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
                 </ion-avatar>
                 <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
                 <p class="card-subtitle">{{ contact.organization?.company || 'No Company Info' }}</p>
@@ -1725,8 +1729,12 @@
         <!-- Card Front -->
         <div class="card-front" [class.flipped]="isFlipped">
           <ion-avatar class="modal-avatar">
-            <img [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
+            <!-- 2026-09-16 BUILD 226: the emoji cover stands in the gridcard's
+                 circle too — same alternative, same precedence (emoji wins the
+                 space; a gallery pick clears it). -->
+            <img *ngIf="!activeContact.coverEmoji" [src]="activeContact.image?.base64String || avatarImage" alt="Contact Image"
               (error)="handleImageError($event)" />
+            <span *ngIf="activeContact.coverEmoji" class="cover-face">{{ activeContact.coverEmoji }}</span>
           </ion-avatar>
           <ion-label>
             <h2>{{ activeContact.name?.display || 'Unknown Contact' }}</h2>

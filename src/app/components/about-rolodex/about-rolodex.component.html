@@ -1082,13 +1082,22 @@
   </div>
 
 
-  <!-- 2026-09-14 BUILD 190: THE COMMAND CENTER modal — in-template ion-modal
-       (the build-178 lesson: controller-presented overlays are fragile).
-       Full-screen operations console fed by the same investorStats object. -->
-  <ion-modal [isOpen]="commandCenterOpen" cssClass="command-center-modal">
-    <ng-template>
-      <app-command-center [stats]="investorStats" (closed)="commandCenterOpen = false"></app-command-center>
-    </ng-template>
-  </ion-modal>
-
 </ion-content>
+
+<!-- 2026-09-14 BUILD 190: THE COMMAND CENTER modal — in-template ion-modal
+     (the build-178 lesson: controller-presented overlays are fragile).
+     Full-screen operations console fed by the same investorStats object.
+     2026-09-16 BUILD 226 THE FROZEN CONSOLE FIX (founder: opened within
+     Settings it is "frozen, not opening fully - no scrolling, no direct
+     access. Just a static image"): the modal lived INSIDE <ion-content>.
+     An inline modal is position:absolute inset:0, so it anchored to
+     ion-content's inner-scroll (position:relative) — the SCROLL CONTENT
+     box, not the viewport. Opened deep in the scrolled portal, the console
+     landed at content-top: off-view, partial, unscrollable. OUT HERE it
+     anchors to the portal's own .ion-page (viewport-sized) and always
+     covers the screen, scrolling internally via cc-body. -->
+<ion-modal [isOpen]="commandCenterOpen" cssClass="command-center-modal">
+  <ng-template>
+    <app-command-center [stats]="investorStats" (closed)="commandCenterOpen = false"></app-command-center>
+  </ng-template>
+</ion-modal>

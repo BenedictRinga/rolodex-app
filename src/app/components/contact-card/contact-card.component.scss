@@ -1226,6 +1226,11 @@ ion-item.demo-card::after {
   background: rgba(255, 178, 92, .14);
 }
 
+/* BUILD 226: the gridcard's 100px modal avatar wears the emoji bigger. */
+.gridcard .modal-avatar .cover-face {
+  font-size: 48px;
+}
+
 .cover-emoji {
   position: absolute;
   right: -6px;

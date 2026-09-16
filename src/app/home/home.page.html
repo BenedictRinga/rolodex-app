@@ -302,13 +302,19 @@
        Its door (openSearchModal) moved to the TOP PANEL, beside the storage
        toggle (class search-toggle, same tab-hidden discipline). -->
 
-  <!-- 2026-09-01 BUILD 178 (founder: the in-template ion-modal, the Zyppar
-       pattern - no ModalController timing to juggle): the "I'll type one in"
-       door raises this DECLARED create form; when it answers, the contact
-       joins the top of the deck exactly like a device import. -->
-  <ion-modal [isOpen]="manualAddOpen" cssClass="contact-edit-fullscreen" [keyboardClose]="false" (didDismiss)="manualAddClosed($event)">
-    <ng-template>
-      <app-contact-card [contact]="manualDraft" [selectedMode]="'createContact'"></app-contact-card>
-    </ng-template>
-  </ion-modal>
 </ion-content>
+
+<!-- 2026-09-01 BUILD 178 (founder: the in-template ion-modal, the Zyppar
+     pattern - no ModalController timing to juggle): the "I'll type one in"
+     door raises this DECLARED create form; when it answers, the contact
+     joins the top of the deck exactly like a device import.
+     2026-09-16 BUILD 226: hoisted OUT of <ion-content> — the same containment
+     lesson as the portal's Command Center modal (an inline modal anchors to
+     inner-scroll, so opening the form over a scrolled deck would anchor it
+     at content-top instead of the screen). Out here it always fills the
+     page, whatever the scroll position. -->
+<ion-modal [isOpen]="manualAddOpen" cssClass="contact-edit-fullscreen" [keyboardClose]="false" (didDismiss)="manualAddClosed($event)">
+  <ng-template>
+    <app-contact-card [contact]="manualDraft" [selectedMode]="'createContact'"></app-contact-card>
+  </ng-template>
+</ion-modal>
