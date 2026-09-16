@@ -58,7 +58,8 @@
       (addRequest)="addRequest.emit()"
       (whoRequest)="whoRequest.emit()"
       (inviteRequest)="inviteRequest.emit()"
-      (taskCardRequest)="taskCardRequest.emit()">
+      (taskCardRequest)="taskCardRequest.emit()"
+      (noteRequest)="noteRequest.emit($event)">
     </app-send-walk>
 
     <ng-container *ngIf="loopsSurface === 'shelf'">

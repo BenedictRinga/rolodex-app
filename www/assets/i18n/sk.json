@@ -817,6 +817,11 @@
     "task.quarterly": "Štvrťročne",
     "task.yearly": "Ročne",
     "task.never": "Jednorazovo",
-    "task.noRhythm": "Zatiaľ bez rytmu"
+    "task.noRhythm": "Zatiaľ bez rytmu",
+    "walk.doorDone": "Hotovo",
+    "walk.doorSnooze": "Neskôr",
+    "walk.doorNote": "Poznámka pre seba",
+    "walk.doorDelegate": "Delegovať",
+    "walk.tSnoozed": "Odkladované — vráti sa vo svojom rytme"
   }
 }

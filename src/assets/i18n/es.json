@@ -817,6 +817,11 @@
     "task.quarterly": "Trimestral",
     "task.yearly": "Anual",
     "task.never": "Puntual",
-    "task.noRhythm": "Aún sin ritmo"
+    "task.noRhythm": "Aún sin ritmo",
+    "walk.doorDone": "Hecho",
+    "walk.doorSnooze": "Más tarde",
+    "walk.doorNote": "Nota para mí",
+    "walk.doorDelegate": "Delegar",
+    "walk.tSnoozed": "Aplazada — vuelve con su ritmo"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "Kwa ọnwa atọ",
     "task.yearly": "Kwa afọ",
     "task.never": "Otu ugboro",
-    "task.noRhythm": "Enweghị usoro ugbu a"
+    "task.noRhythm": "Enweghị usoro ugbu a",
+    "walk.doorDone": "Emeecha",
+    "walk.doorSnooze": "Mgbe e mesịrị",
+    "walk.doorNote": "Dee ede onwe m",
+    "walk.doorDelegate": "Nyefee",
+    "walk.tSnoozed": "Ekwọchịrịla — ọ ga-alọ na usoro ya"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "รายไตรมาส",
     "task.yearly": "รายปี",
     "task.never": "ครั้งเดียว",
-    "task.noRhythm": "ยังไม่มีจังหวะ"
+    "task.noRhythm": "ยังไม่มีจังหวะ",
+    "walk.doorDone": "เสร็จแล้ว",
+    "walk.doorSnooze": "ไปก่อน",
+    "walk.doorNote": "โน้ตถึงตัวเอง",
+    "walk.doorDelegate": "ส่งต่อ",
+    "walk.tSnoozed": "เลื่อนออกไป — จะกลับมาตามจังหวะของมัน"
   }
 }

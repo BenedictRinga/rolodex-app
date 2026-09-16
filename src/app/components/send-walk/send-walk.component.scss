@@ -440,6 +440,16 @@
   font-weight: 700;
 }
 
+/* 2026-09-16 BUILD 229 PHASE C THE TASK DOORS: Done wears the keep-green,
+   Snooze the quiet slate, Note the soft violet, Delegate the copy-blue —
+   four doors, one grid, the task's own array. */
+.sw-doors-task {
+  .sw-door-done     { border-color: rgba(63, 185, 80, .55);  color: #3fb950; background: rgba(63, 185, 80, .10);  font-weight: 700; }
+  .sw-door-snooze   { border-color: rgba(154, 161, 166, .5); color: #9ba1a6; background: rgba(154, 161, 166, .10); }
+  .sw-door-note     { border-color: rgba(124, 92, 252, .5);  color: #7c5cfc; background: rgba(124, 92, 252, .10); }
+  .sw-door-delegate { border-color: rgba(122, 184, 255, .5); color: #7ab8ff; background: rgba(122, 184, 255, .10); }
+}
+
 .sw-whoadd-task {
   margin-top: 8px;
 }

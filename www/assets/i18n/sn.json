@@ -817,6 +817,11 @@
     "task.quarterly": "Kota nekota",
     "task.yearly": "Gore negore",
     "task.never": "Kamwe chete",
-    "task.noRhythm": "Hapana chaizvoizvo chakarongwa"
+    "task.noRhythm": "Hapana chaizvoizvo chakarongwa",
+    "walk.doorDone": "Zvaitwa",
+    "walk.doorSnooze": "Deredzera",
+    "walk.doorNote": "Nhora yangu",
+    "walk.doorDelegate": "Tumira kumwe",
+    "walk.tSnoozed": "Yaderedzerwa — inodzokera nekufamba kwayo"
   }
 }

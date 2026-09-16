@@ -817,6 +817,11 @@
     "task.quarterly": "Co kwartał",
     "task.yearly": "Co rok",
     "task.never": "Jednorazowo",
-    "task.noRhythm": "Jeszcze bez rytmu"
+    "task.noRhythm": "Jeszcze bez rytmu",
+    "walk.doorDone": "Zrobione",
+    "walk.doorSnooze": "Później",
+    "walk.doorNote": "Notatka dla mnie",
+    "walk.doorDelegate": "Deleguj",
+    "walk.tSnoozed": "Odłożone — wróci ze swoim rytmem"
   }
 }

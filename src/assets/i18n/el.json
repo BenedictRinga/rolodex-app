@@ -817,6 +817,11 @@
     "task.quarterly": "Τριμηνιαία",
     "task.yearly": "Ετήσια",
     "task.never": "Μία φορά",
-    "task.noRhythm": "Χωρίς ρυθμό ακόμα"
+    "task.noRhythm": "Χωρίς ρυθμό ακόμα",
+    "walk.doorDone": "Έγινε",
+    "walk.doorSnooze": "Αργότερα",
+    "walk.doorNote": "Σημείωση σε μένα",
+    "walk.doorDelegate": "Αναθέτω",
+    "walk.tSnoozed": "Αναβλήθηκε — επιστρέφει με τον ρυθμό του"
   }
 }

@@ -80,6 +80,9 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
   /** 2026-09-16 BUILD 218: the walk's own doors, relayed. */
   @Output() inviteRequest = new EventEmitter<void>();
   @Output() taskCardRequest = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 229 PHASE C: the task's Note-to-self door, relayed —
+   *  home opens the card's surface (its rolling story). */
+  @Output() noteRequest = new EventEmitter<any>();
 
   // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
   // (always the default) or this packed shelf. The flip icon switches it for

@@ -193,30 +193,53 @@
          when the card carries no destination the grid re-orders itself so
          Chat and the invite LEAD, with a line that guides instead of a
          line that dead-ends. -->
-    <div *ngIf="!hasPhone && !hasEmail" class="sw-nophone sw-guided">{{ 'loopkeeper.walk.internalFirst' | translate }}</div>
-    <div class="sw-doors" [class.sw-doors-guided]="!hasPhone && !hasEmail">
-      <button *ngIf="who?.contact" class="sw-door sw-door-chat" type="button" (click)="openChat()" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorChat' | translate }}
-      </button>
-      <button *ngIf="hasPhone" class="sw-door sw-door-wa" type="button" (click)="fire('whatsapp')" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
-      </button>
-      <button *ngIf="hasPhone" class="sw-door sw-door-call" type="button" (click)="fire('call')" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorCall' | translate }}
-      </button>
-      <button *ngIf="hasPhone" class="sw-door sw-door-copy" type="button" (click)="fire('sms')" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorSms' | translate }}
-      </button>
-      <button *ngIf="hasEmail" class="sw-door sw-door-copy" type="button" (click)="fire('email')" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorEmail' | translate }}
-      </button>
-      <button class="sw-door sw-door-copy" type="button" (click)="fire('copy')" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorCopy' | translate }}
-      </button>
-      <button class="sw-door sw-door-invite" type="button" (click)="handThemLoopKeeper()" [disabled]="busy">
-        {{ 'loopkeeper.walk.doorInvite' | translate }}
-      </button>
-    </div>
+    <!-- PERSON SUBJECT: the full array — Chat leads when there is no
+         destination, then the destinations, Copy always, the invite last. -->
+    <ng-container *ngIf="!isTaskSubject()">
+      <div *ngIf="!hasPhone && !hasEmail" class="sw-nophone sw-guided">{{ 'loopkeeper.walk.internalFirst' | translate }}</div>
+      <div class="sw-doors" [class.sw-doors-guided]="!hasPhone && !hasEmail">
+        <button *ngIf="who?.contact" class="sw-door sw-door-chat" type="button" (click)="openChat()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorChat' | translate }}
+        </button>
+        <button *ngIf="hasPhone" class="sw-door sw-door-wa" type="button" (click)="fire('whatsapp')" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
+        </button>
+        <button *ngIf="hasPhone" class="sw-door sw-door-call" type="button" (click)="fire('call')" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorCall' | translate }}
+        </button>
+        <button *ngIf="hasPhone" class="sw-door sw-door-copy" type="button" (click)="fire('sms')" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorSms' | translate }}
+        </button>
+        <button *ngIf="hasEmail" class="sw-door sw-door-copy" type="button" (click)="fire('email')" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorEmail' | translate }}
+        </button>
+        <button class="sw-door sw-door-copy" type="button" (click)="fire('copy')" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorCopy' | translate }}
+        </button>
+        <button class="sw-door sw-door-invite" type="button" (click)="handThemLoopKeeper()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorInvite' | translate }}
+        </button>
+      </div>
+    </ng-container>
+    <!-- 2026-09-16 BUILD 229 PHASE C: TASK SUBJECT — Done / Snooze / Note to
+         self / Delegate. The card has no reader, so the doors act on the task
+         itself instead of dispatching words to a person. -->
+    <ng-container *ngIf="isTaskSubject()">
+      <div class="sw-doors sw-doors-task">
+        <button class="sw-door sw-door-done" type="button" (click)="taskDone()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorDone' | translate }}
+        </button>
+        <button class="sw-door sw-door-snooze" type="button" (click)="taskSnooze()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorSnooze' | translate }}
+        </button>
+        <button class="sw-door sw-door-note" type="button" (click)="taskNote()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorNote' | translate }}
+        </button>
+        <button class="sw-door sw-door-delegate" type="button" (click)="taskDelegate()" [disabled]="busy">
+          {{ 'loopkeeper.walk.doorDelegate' | translate }}
+        </button>
+      </div>
+    </ng-container>
 
     <!-- 2026-08-31 BUILD 159 (founder): the demo's MINE door, and we wait for
          exactly this stage to show it. A sample name walked them here; this

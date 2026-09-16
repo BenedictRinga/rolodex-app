@@ -47,6 +47,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  invite (the OG-carded app link) and the manual Task card. */
   @Output() inviteRequest = new EventEmitter<void>();
   @Output() taskCardRequest = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 229 PHASE C: the task's Note-to-self door — the walk
+   *  hands the CARD to home, which opens its surface (the contextRotation
+   *  story). The walk stays on slide 4 beneath it. */
+  @Output() noteRequest = new EventEmitter<any>();
 
   /** 2026-09-16 BUILD 218: the pick from the Who sheet lands AS the Who.
    *  Home relays it through the inbox; the walk brings it to slide 1 so
@@ -528,6 +532,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     if (this.armedContact) {
       const c = this.armedContact;
       const promise = kind === 'promise' ? (this.loops.extractPromiseFromContact(c) || summary || undefined) : undefined;
+      // 2026-09-16 BUILD 229 PHASE C: a loop born from a TASK card carries
+      // the card's kind and its rhythm — the nudge ladder, the words and the
+      // snooze all read the task's own cadence/due from here on.
+      const isTask = (c as any)?.kind === 'task';
       this.loop = this.loops.create({
         person: this.armedName(),
         kind,
@@ -538,6 +546,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
         relation: this.whereOf(c) || undefined,
         lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
         promise,
+        ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
       });
     } else {
       // The handle path: no card, no relation — the nickname the user chose
@@ -594,6 +603,11 @@ export class SendWalkComponent implements OnInit, OnChanges {
       const contact = this.armedContact || undefined;
       const parsed = this.loops.parseCapture(sentence, contact);
       if (this.armedHandle) parsed.person = this.armedHandle;
+      // BUILD 229 PHASE C: the parsed path carries the card's kind too.
+      if ((this.armedContact as any)?.kind === 'task') {
+        parsed.cardKind = 'task';
+        (parsed as any).taskSeed = { cadence: (this.armedContact as any).task?.cadence, due: (this.armedContact as any).task?.due };
+      }
       this.loop = this.loops.create(parsed);
       this.whatInput = '';
       this.enterWords(true);
@@ -747,6 +761,68 @@ export class SendWalkComponent implements OnInit, OnChanges {
     } finally {
       this.busy = false;
     }
+  }
+
+  // ── 2026-09-16 BUILD 229 PHASE C: THE TASK DOORS ──────────────────────────
+  // A task subject's slide-4 array is Done / Snooze / Note to self / Delegate
+  // — not the person array (WhatsApp/Call/SMS/Email/Copy/Chat/Invite). The
+  // doors do not fabricate sends: Done closes via the REAL close path
+  // (first-close share and celebration stay), Snooze rides the existing
+  // waiting machinery (wake ping + Stack), Note opens the card's own story,
+  // Delegate hands the words out through the copy channel (sent IS the close).
+
+  isTaskSubject(): boolean { return (this.sel() as any)?.cardKind === 'task'; }
+
+  /** DONE — the task is finished: the card's task flips done, the loop
+   *  closes through closeFully (first-close share + celebration stay). */
+  async taskDone(): Promise<void> {
+    const l = this.sel(); if (!l || this.busy) return;
+    this.busy = true;
+    try {
+      void this.analytics.track('send_exit', { channel: 'task-done', surface: 'walk' });
+      const card = this.cardFor(l) || this.armedContact;
+      if (card) {
+        const t = (card as any).task;
+        if (t) { t.done = true; t.doneAt = Date.now(); }
+        this.draftEngine.pushContext(card, 'Marked the task done (' + new Date().toLocaleDateString() + ')');
+        card.lastInteraction = new Date();
+        this.contactsDirty.emit();
+      }
+      this.doneLabel = 'Done';
+      this.loops.closeFully(l.id);
+      this.go(5);
+      void this.sounds.playCompletionChime(0.35);
+      this.loopsChanged.emit();
+    } finally {
+      this.busy = false;
+    }
+  }
+
+  /** SNOOZE — the loop waits on the task's OWN rhythm (the wake ping and the
+   *  Stack carry it), and the walk's feet keep moving to the next card. */
+  taskSnooze(): void {
+    const l = this.sel(); if (!l || this.busy) return;
+    void this.analytics.track('send_exit', { channel: 'task-snooze', surface: 'walk' });
+    const card = this.cardFor(l) || this.armedContact;
+    this.loops.snoozeByRhythm(l.id, (card as any)?.task || (this.sel() as any)?.taskRhythm);
+    void this.alerts.showToast(this.tr('loopkeeper.walk.tSnoozed'), 3000);
+    this.nextOne();
+  }
+
+  /** NOTE TO SELF — opens the card's own surface (its rolling story), the
+   *  walk waits beneath it. */
+  taskNote(): void {
+    const l = this.sel(); if (!l) return;
+    void this.analytics.track('send_exit', { channel: 'task-note', surface: 'walk' });
+    const card = this.cardFor(l) || this.armedContact;
+    if (card) this.noteRequest.emit(card);
+  }
+
+  /** DELEGATE — the words leave through the copy channel: the task leaves
+   *  this tray and rides in someone else's hands (sent IS the close). */
+  async taskDelegate(): Promise<void> {
+    void this.analytics.track('send_exit', { channel: 'task-delegate', surface: 'walk' });
+    await this.fire('copy');
   }
 
   nextOne(): void {

@@ -817,6 +817,11 @@
     "task.quarterly": "Četrtletno",
     "task.yearly": "Letno",
     "task.never": "Enkratno",
-    "task.noRhythm": "Še ni ritma"
+    "task.noRhythm": "Še ni ritma",
+    "walk.doorDone": "Opravljeno",
+    "walk.doorSnooze": "Kasneje",
+    "walk.doorNote": "Opomba zase",
+    "walk.doorDelegate": "Delegiraj",
+    "walk.tSnoozed": "Odloženo — vrne se v svojem ritmu"
   }
 }

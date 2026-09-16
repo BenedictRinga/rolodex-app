@@ -817,6 +817,11 @@
     "task.quarterly": "كل ربع سنة",
     "task.yearly": "سنوي",
     "task.never": "مرة واحدة",
-    "task.noRhythm": "لا إيقاع بعد"
+    "task.noRhythm": "لا إيقاع بعد",
+    "walk.doorDone": "تم",
+    "walk.doorSnooze": "لاحقًا",
+    "walk.doorNote": "ملاحظة لنفسي",
+    "walk.doorDelegate": "تفويض",
+    "walk.tSnoozed": "تم التأجيل — تعود بإيقاعها"
   }
 }

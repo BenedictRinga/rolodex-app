@@ -817,6 +817,11 @@
     "task.quarterly": "四半期ごと",
     "task.yearly": "毎年",
     "task.never": "一度きり",
-    "task.noRhythm": "まだリズムはありません"
+    "task.noRhythm": "まだリズムはありません",
+    "walk.doorDone": "完了",
+    "walk.doorSnooze": "後で",
+    "walk.doorNote": "自分へのメモ",
+    "walk.doorDelegate": "任せる",
+    "walk.tSnoozed": "先送りにしました — そのリズムで戻ります"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "Quarterly",
     "task.yearly": "Yearly",
     "task.never": "One-off",
-    "task.noRhythm": "No rhythm yet"
+    "task.noRhythm": "No rhythm yet",
+    "walk.doorDone": "Done",
+    "walk.doorSnooze": "Snooze",
+    "walk.doorNote": "Note to self",
+    "walk.doorDelegate": "Delegate",
+    "walk.tSnoozed": "Snoozed — it returns on its rhythm"
   }
 }

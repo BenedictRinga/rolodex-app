@@ -54,6 +54,16 @@ export interface Loop {
   introBDone?: boolean;
   sourceContactId?: string;       // device-only provenance: which card fed this loop
 
+  // ── 2026-09-16 BUILD 229 PHASE C THE CARD KIND ON THE LOOP ──
+  /** Which KIND of card raised this loop — 'task' loops read their rhythm
+   *  from the card's task payload (cadence/due); 'person'/absent keeps the
+   *  generic rising nudge ladder. (Loop.kind stays the narrative kind —
+   *  pay/renew/check-in… — untouched.) */
+  cardKind?: 'person' | 'task';
+  /** The task card's own rhythm, snapshotted at capture — the words, the
+   *  snooze and the nudge ladder all read it. */
+  taskRhythm?: { cadence?: string; due?: number };
+
   // ── State ──
   status: LoopStatus;
   waitUntil?: number;             // snooze date (18)
@@ -174,7 +184,7 @@ export class LoopsService {
 
   private touch(l: Loop): void { l.updatedAt = Date.now(); }
 
-  create(partial: Partial<Loop>): Loop {
+  create(partial: Partial<Loop> & { taskSeed?: { cadence?: string; due?: number } }): Loop {
     const now = Date.now();
     const loop: Loop = {
       id: now.toString(36) + Math.random().toString(36).slice(2, 7),
@@ -192,13 +202,31 @@ export class LoopsService {
       ...partial,
       draft: partial.draft || '',
     };
+    // BUILD 229 PHASE C: the create-time seed hint becomes the loop's own
+    // persisted rhythm — the words, the snooze and Done all read it later.
+    if (partial.taskSeed) {
+      loop.taskRhythm = { cadence: partial.taskSeed.cadence, due: partial.taskSeed.due };
+      delete (loop as any).taskSeed;
+    }
     loop.draft = loop.draft || this.generateDraft(loop);
     loop.pretext = loop.pretext || this.suggestPretext(loop);
     loop.channel = loop.channel || this.suggestChannel(loop);
     loop.nextNudgeAt = now + RISING_NUDGE_DAYS[0] * DAY;
+    // BUILD 229 PHASE C: a loop born from a TASK card is woken by the task's
+    // OWN rhythm — the card's cadence/due — not the generic 2-day step. Due
+    // in the future wakes at the due date; no due wakes on the cadence.
+    if (loop.cardKind === 'task') {
+      const cadenceDays: Record<string, number> = { daily: 1, weekly: 7, monthly: 30, quarterly: 91, yearly: 365, never: 7 };
+      const cad = loop.taskRhythm?.cadence;
+      const due = loop.taskRhythm?.due;
+      if (due && due > now) loop.nextNudgeAt = due;
+      else if (cad && cadenceDays[cad]) loop.nextNudgeAt = now + cadenceDays[cad] * DAY;
+    }
     this.cache!.unshift(loop);
     void this.persist();
-    this.analytics.track('loop_captured');
+    // BUILD 229 PHASE C: loop events carry the CARD kind (categorical only) —
+    // the Command Center's person/task split reads this.
+    this.analytics.track('loop_captured', loop.cardKind === 'task' ? { kind: 'task' } : { kind: 'person' });
     // 2026-09-15 BUILD 209 (Grok review gaps 2+3): (a) THE DIGEST ARMS ON THE
     // DEED - create() was the only loop mutation that never called
     // resyncDigest; the first loop stayed silent until some later mutation
@@ -736,6 +764,24 @@ No pressure either way — replying here connects you directly.`;
 
   generateDraft(l: Loop, tone: LoopTone = l.tone || 'short'): string {
     l.tone = tone;
+    // 2026-09-16 BUILD 229 PHASE C THE TASK TONE: a task card's words are a
+    // reminder to ONESELF — the tone table below speaks "Hi <name>", which
+    // has no reader on a subject with no phone. The task draft says what the
+    // thing is and when it returns, in the deck's own cadence vocabulary.
+    if ((l as any).cardKind === 'task') {
+      const what = (l.summary || l.person || 'the task').trim();
+      const rhythm: string[] = [];
+      const due = (l as any).taskRhythm?.due;
+      const cad = (l as any).taskRhythm?.cadence;
+      if (due) rhythm.push('due ' + new Date(due).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }));
+      if (cad) {
+        try { rhythm.push(this.translate.instant('loopkeeper.task.' + cad)); } catch { rhythm.push(cad); }
+      }
+      const tail = rhythm.length ? ' — ' + rhythm.join(' · ') : '';
+      if (tone === 'honest') return `Reminder to self, no more dodging: ${what}${tail}.`;
+      if (tone === 'light') return `Reminder to self: ${what}${tail}. You've got this.`;
+      return `Reminder to self: ${what}${tail}.`;
+    }
     // Localized wedge drafts first (short tone only) — see localizedShort.
     if (tone === 'short') {
       const loc = this.localizedShort(l);
@@ -903,7 +949,7 @@ No pressure either way — replying here connects you directly.`;
     this.touch(l);
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: dropped with dignity — the ping goes too
-    this.analytics.track('loop_closed', { mode: 'dropped' });
+    this.analytics.track('loop_closed', { mode: 'dropped', kind: l.cardKind === 'task' ? 'task' : 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
   }
 
@@ -925,8 +971,8 @@ No pressure either way — replying here connects you directly.`;
     // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: the door tap IS the deed here
     // (fire-and-close), so message_sent carries the CHANNEL — the per-channel
     // exit funnel the founder asked for, cross-matchable against send_exit.
-    this.analytics.track('message_sent', { channel, surface: 'loop' });
-    this.analytics.track('loop_closed', { mode: 'sent' });
+    this.analytics.track('message_sent', { channel, surface: 'loop', kind: l.cardKind === 'task' ? 'task' : 'person' });
+    this.analytics.track('loop_closed', { mode: 'sent', kind: l.cardKind === 'task' ? 'task' : 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
   }
@@ -956,9 +1002,30 @@ No pressure either way — replying here connects you directly.`;
     this.touch(l);
     void this.persist();
     void this.loopWake.resyncDigest(this.cache); // — BUILD 189: done — the ping goes quiet
-    this.analytics.track('loop_closed');
+    this.analytics.track('loop_closed', { kind: l.cardKind === 'task' ? 'task' : 'person' });
     this.maybeFirstCloseShare(); // BUILD 216: the first close invites the user to become the channel
     this.maybeCelebrateAchievement();
+  }
+
+  /**
+   * 2026-09-16 BUILD 229 PHASE C THE TASK SNOOZE: the same waiting-state
+   * machinery as the hand-written snooze (wake ping, Stack, bringBack) — but
+   * the date comes from the task's OWN rhythm (cadence/due), not a picked
+   * day. Due in the future wakes at the due date; no due wakes on the
+   * cadence; neither falls back to a week.
+   */
+  snoozeByRhythm(id: string, task?: { cadence?: string; due?: number }): void {
+    const l = this.cache?.find(x => x.id === id);
+    if (!l) return;
+    const now = Date.now();
+    const cadenceDays: Record<string, number> = { daily: 1, weekly: 7, monthly: 30, quarterly: 91, yearly: 365, never: 7 };
+    let at = now + (cadenceDays[String(task?.cadence || '')] || 7) * DAY;
+    if (task?.due && task.due > now) at = Math.min(at, task.due);
+    if (at <= now) at = now + DAY; // never schedule in the past — tomorrow minimum
+    this.waitUntil(id, new Date(at).toISOString().slice(0, 10));
+    l.nextNudgeAt = at;
+    this.touch(l);
+    void this.persist();
   }
 
   /**

@@ -817,6 +817,11 @@
     "task.quarterly": "त्रैमासिक",
     "task.yearly": "वार्षिक",
     "task.never": "एक बार",
-    "task.noRhythm": "अभी कोई लय नहीं"
+    "task.noRhythm": "अभी कोई लय नहीं",
+    "walk.doorDone": "हो गया",
+    "walk.doorSnooze": "बाद में",
+    "walk.doorNote": "अपने लिए नोट",
+    "walk.doorDelegate": "सौंप दें",
+    "walk.tSnoozed": "टाल दिया — अपनी लय से लौटेगा"
   }
 }

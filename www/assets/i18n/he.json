@@ -817,6 +817,11 @@
     "task.quarterly": "רבעוני",
     "task.yearly": "שנתי",
     "task.never": "חד-פעמי",
-    "task.noRhythm": "עדיין אין קצב"
+    "task.noRhythm": "עדיין אין קצב",
+    "walk.doorDone": "בוצע",
+    "walk.doorSnooze": "מאוחר יותר",
+    "walk.doorNote": "פתק לעצמי",
+    "walk.doorDelegate": "להאציל",
+    "walk.tSnoozed": "נדחה — חוזר בקצב שלו"
   }
 }

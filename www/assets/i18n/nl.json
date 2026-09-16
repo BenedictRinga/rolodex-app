@@ -817,6 +817,11 @@
     "task.quarterly": "Per kwartaal",
     "task.yearly": "Jaarlijks",
     "task.never": "Eenmalig",
-    "task.noRhythm": "Nog geen ritme"
+    "task.noRhythm": "Nog geen ritme",
+    "walk.doorDone": "Klaar",
+    "walk.doorSnooze": "Later",
+    "walk.doorNote": "Notitie voor mezelf",
+    "walk.doorDelegate": "Delegeren",
+    "walk.tSnoozed": "Uitgesteld — komt terug op zijn ritme"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "每季度",
     "task.yearly": "每年",
     "task.never": "一次性",
-    "task.noRhythm": "还没有节奏"
+    "task.noRhythm": "还没有节奏",
+    "walk.doorDone": "完成",
+    "walk.doorSnooze": "稍后",
+    "walk.doorNote": "给自己的便条",
+    "walk.doorDelegate": "交出去",
+    "walk.tSnoozed": "已顺延 — 会按自己的节奏回来"
   }
 }

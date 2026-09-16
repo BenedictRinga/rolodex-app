@@ -817,6 +817,11 @@
     "task.quarterly": "Ìgbà-ìgbà",
     "task.yearly": "Ọdún-ọdún",
     "task.never": "Ìgbà kan",
-    "task.noRhythm": "A kò tíì ní ìròrì"
+    "task.noRhythm": "A kò tíì ní ìròrì",
+    "walk.doorDone": "Àṣeyí",
+    "walk.doorSnooze": "Láìpẹ́",
+    "walk.doorNote": "Ìwé fún ara mi",
+    "walk.doorDelegate": "Fi fún ẹlòmíràn",
+    "walk.tSnoozed": "A fọ́rí fá — yóò padà pẹ̀lú ìgbàgà rẹ̀"
   }
 }

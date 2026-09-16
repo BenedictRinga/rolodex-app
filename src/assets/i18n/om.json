@@ -823,6 +823,11 @@
     "task.quarterly": "Affurtama affurtamaan",
     "task.yearly": "Bara bara",
     "task.never": "Yoo tokko",
-    "task.noRhythm": "Riikmoo hin jiru"
+    "task.noRhythm": "Riikmoo hin jiru",
+    "walk.doorDone": "Xumay",
+    "walk.doorSnooze": "Booda",
+    "walk.doorNote": "Gorfama naaf",
+    "walk.doorDelegate": "Maxxansiisi",
+    "walk.tSnoozed": "Dheeraffame — ofiin deebi’a"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "Üç aylık",
     "task.yearly": "Yıllık",
     "task.never": "Tek seferlik",
-    "task.noRhythm": "Henüz ritim yok"
+    "task.noRhythm": "Henüz ritim yok",
+    "walk.doorDone": "Tamam",
+    "walk.doorSnooze": "Sonra",
+    "walk.doorNote": "Kendime not",
+    "walk.doorDelegate": "Devret",
+    "walk.tSnoozed": "Ertelendi — kendi ritmiyle döner"
   }
 }

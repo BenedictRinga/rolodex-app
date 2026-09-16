@@ -817,6 +817,11 @@
     "task.quarterly": "Kila robo mwaka",
     "task.yearly": "Kila mwaka",
     "task.never": "Mara moja",
-    "task.noRhythm": "Hakuna mzunguko bado"
+    "task.noRhythm": "Hakuna mzunguko bado",
+    "walk.doorDone": "Imekamilika",
+    "walk.doorSnooze": "Pumzisha",
+    "walk.doorNote": "Kumbuka mwenyewe",
+    "walk.doorDelegate": "Kabidhi",
+    "walk.tSnoozed": "Imepumzishwa — inarudi kwa mzunguko wake"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "Ежеквартально",
     "task.yearly": "Ежегодно",
     "task.never": "Разово",
-    "task.noRhythm": "Ритма пока нет"
+    "task.noRhythm": "Ритма пока нет",
+    "walk.doorDone": "Готово",
+    "walk.doorSnooze": "Позже",
+    "walk.doorNote": "Заметка себе",
+    "walk.doorDelegate": "Делегировать",
+    "walk.tSnoozed": "Отложено — вернётся по своему ритму"
   }
 }

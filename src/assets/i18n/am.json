@@ -817,6 +817,11 @@
     "task.quarterly": "በየሩብ ዓመት",
     "task.yearly": "በየዓመት",
     "task.never": "አንድ ጊዜ",
-    "task.noRhythm": "ገና ሥርዓት የለም"
+    "task.noRhythm": "ገና ሥርዓት የለም",
+    "walk.doorDone": "ተጠናቋል",
+    "walk.doorSnooze": "ቆይ በል",
+    "walk.doorNote": "ለራሴ ማስታወሻ",
+    "walk.doorDelegate": "አስተላልፍ",
+    "walk.tSnoozed": "ተለይቷል — በራሱ ሥርዓት ይመለሳል"
   }
 }

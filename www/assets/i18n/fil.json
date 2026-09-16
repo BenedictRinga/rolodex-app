@@ -817,6 +817,11 @@
     "task.quarterly": "Bawat tatlong buwan",
     "task.yearly": "Taun-taon",
     "task.never": "Minsan lang",
-    "task.noRhythm": "Wala pang ritmo"
+    "task.noRhythm": "Wala pang ritmo",
+    "walk.doorDone": "Tapos na",
+    "walk.doorSnooze": "Mamaya",
+    "walk.doorNote": "Paalala sa sarili",
+    "walk.doorDelegate": "Ipasa",
+    "walk.tSnoozed": "Naantala — babalik sa sariling ritmo"
   }
 }

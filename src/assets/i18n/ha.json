@@ -817,6 +817,11 @@
     "task.quarterly": "Kowane kwata",
     "task.yearly": "Kowace shekara",
     "task.never": "Sau daya",
-    "task.noRhythm": "Babu miti har yanzu"
+    "task.noRhythm": "Babu miti har yanzu",
+    "walk.doorDone": "An gama",
+    "walk.doorSnooze": "Daga baya",
+    "walk.doorNote": "Rubutu wa kai",
+    "walk.doorDelegate": "Miƙa wa wani",
+    "walk.tSnoozed": "An jinkirta — zai dawo da ritimar sa"
   }
 }

@@ -817,6 +817,11 @@
     "task.quarterly": "Шаквартала",
     "task.yearly": "Шагоду",
     "task.never": "Адзін раз",
-    "task.noRhythm": "Рытму яшчэ няма"
+    "task.noRhythm": "Рытму яшчэ няма",
+    "walk.doorDone": "Гатова",
+    "walk.doorSnooze": "Пазней",
+    "walk.doorNote": "Нататка сабе",
+    "walk.doorDelegate": "Дэлегаваць",
+    "walk.tSnoozed": "Адкладзена — вернецца па сваім рытме"
   }
 }

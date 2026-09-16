@@ -817,6 +817,11 @@
     "task.quarterly": "Kvartalsvis",
     "task.yearly": "Årligen",
     "task.never": "Engångs",
-    "task.noRhythm": "Ingen rytm ännu"
+    "task.noRhythm": "Ingen rytm ännu",
+    "walk.doorDone": "Klar",
+    "walk.doorSnooze": "Senare",
+    "walk.doorNote": "Anteckning till mig själv",
+    "walk.doorDelegate": "Delegera",
+    "walk.tSnoozed": "Skjutet upp — kommer tillbaka i sin rytm"
   }
 }

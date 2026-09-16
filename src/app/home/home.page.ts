@@ -717,6 +717,13 @@ export class HomePage implements OnInit, OnDestroy {
     this.manualAddOpen = true;
   }
 
+  /** 2026-09-16 BUILD 229 PHASE C: the walk's Note-to-self door — home opens
+   *  the card's OWN surface (its rolling story), exactly like a deck tap.
+   *  The walk waits on slide 4 beneath the surface; Done/Snooze still there. */
+  openCardNoteFromWalk(card: ContactInfo | null | undefined): void {
+    if (card) this.onContactTap(card);
+  }
+
   /**
    * 2026-09-14 BUILD 197: the search-context device door. The web Contact
    * Picker API is PICK-ONLY — the OS picker's own search bar is how a device

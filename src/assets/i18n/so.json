@@ -739,6 +739,11 @@
     "task.quarterly": "Rubuc kasta",
     "task.yearly": "Sanad kasta",
     "task.never": "Hal mar",
-    "task.noRhythm": "Weli nidaam ma jiro"
+    "task.noRhythm": "Weli nidaam ma jiro",
+    "walk.doorDone": "La qaaday",
+    "walk.doorSnooze": "Mar dambe",
+    "walk.doorNote": "Xasuus naftaada",
+    "walk.doorDelegate": "U dhiibo qof",
+    "walk.tSnoozed": "Dib loo dhigay — wuu ku noqon doonaa qaddaraddiisa"
   }
 }

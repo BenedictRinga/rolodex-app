@@ -817,6 +817,11 @@
     "task.quarterly": "Hiruhilabetero",
     "task.yearly": "Urtero",
     "task.never": "Behin",
-    "task.noRhythm": "Oraindik erritmorik gabe"
+    "task.noRhythm": "Oraindik erritmorik gabe",
+    "walk.doorDone": "Eginda",
+    "walk.doorSnooze": "Geroago",
+    "walk.doorNote": "Neri buruzko oharra",
+    "walk.doorDelegate": "Esleitu",
+    "walk.tSnoozed": "Atzeratu da — bere erritmoan itzuliko da"
   }
 }
