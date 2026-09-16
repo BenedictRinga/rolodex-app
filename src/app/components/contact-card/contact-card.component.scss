@@ -1244,3 +1244,40 @@ ion-item.demo-card::after {
   box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
   z-index: 3;
 }
+
+/* ═══ 2026-09-16 BUILD 228 PHASE B — COVERS EVERYWHERE + THE TASK FORM ═══ */
+
+/* The emoji stand-in for the BARE-img views (social/compact/list/detailed/
+   timeline) — the ion-avatar views fill their circle via .cover-face alone;
+   these rows have no avatar box, so the span carries its own 48px circle
+   (the social header's img size, the row rhythm everywhere else). */
+.cover-face.cover-inline {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 178, 92, .14);
+}
+
+/* The task form's checklist rows. */
+.task-fields .task-checklist {
+  margin: 6px 0 2px;
+}
+
+.task-fields .checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 10px;
+
+  ion-checkbox { flex-shrink: 0; }
+  ion-input { flex: 1; }
+  ion-button { flex-shrink: 0; }
+}
+
+.task-fields .checklist-title {
+  font-size: 12.5px;
+  padding: 4px 10px 0;
+  color: var(--rolodex-text-tertiary);
+}

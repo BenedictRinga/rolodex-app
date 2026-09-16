@@ -35,8 +35,10 @@
               </div>
               <ion-label class="default-view-label">
                 <h2>{{ seg.contact.name?.display || 'Unknown Contact' }}</h2>
-                <p>{{ seg.contact.organization?.company || 'No Company Info' }}</p>
-                <p class="default-view-extra">{{ seg.contact.rolodex?.followUp || seg.contact.note || seg.contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
+                <!-- BUILD 228 PHASE B: the row labels READ kind — task cards
+                     wear the cadence/due line, persons keep company + follow-up. -->
+                <p>{{ rowSubtitle(seg.contact) }}</p>
+                <p class="default-view-extra">{{ rowExtra(seg.contact) }}</p>
               </ion-label>
             </div>
             <!-- 2026-08-19 ONE CARD TYPE: the chevron opens the SAME full
@@ -67,7 +69,7 @@
                   <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
                 </ion-avatar>
                 <h2 class="card-title">{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                <p class="card-subtitle">{{ contact.organization?.company || 'No Company Info' }}</p>
+                <p class="card-subtitle">{{ rowSubtitle(contact) }}</p>
                 <p class="card-job">{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
                 <!-- 2026-08-28 BUILD 124: WHO = who introduced you / who else was
                      at the first meeting — never a "last interaction" label. -->
@@ -271,13 +273,15 @@
           <!-- Header Section -->
           <ion-card-header class="card-header">
             <ion-avatar class="professional-avatar">
-              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <!-- BUILD 228: the emoji cover stands in the BUSINESS circle too. -->
+              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
             </ion-avatar>
             <ion-card-title class="card-title">
               {{ contact.name?.display || 'Unknown Contact' }}
             </ion-card-title>
             <ion-card-subtitle class="card-subtitle">
-              {{ contact.organization?.company || 'No Company Info' }}
+              {{ rowSubtitle(contact) }}
             </ion-card-subtitle>
           </ion-card-header>
       
@@ -353,8 +357,10 @@
           <!-- Header: Image and Name -->
           <ion-card-header class="family-header">
             <ion-avatar class="family-avatar">
-              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
+              <!-- BUILD 228: the emoji cover stands in the FAMILY circle too. -->
+              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image"
                 (error)="handleImageError($event)" />
+              <span *ngIf="contact.coverEmoji" class="cover-face">{{ contact.coverEmoji }}</span>
             </ion-avatar>
             <ion-card-title class="family-title">
               {{ contact.name?.display || 'Unknown Family Member' }}
@@ -476,10 +482,12 @@
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
-                <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <!-- BUILD 228: the emoji cover stands in the compact/list row too. -->
+                <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+                <p>{{ rowSubtitle(contact) }}</p>
+                <p>{{ rowExtra(contact) }}</p>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
                 <ion-icon name="create-outline"></ion-icon>
@@ -495,10 +503,12 @@
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
-                <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <!-- BUILD 228: the emoji cover stands in the compact/list row too. -->
+                <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)" />
+                <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                <p>{{ contact.organization?.jobTitle || 'No Job Title' }}</p>
+                <p>{{ rowSubtitle(contact) }}</p>
+                <p>{{ rowExtra(contact) }}</p>
               </div>
               <ion-button fill="clear" slot="end" size="small" (click)="onEditContact(contact); $event.stopPropagation()" appTooltip="Open card">
                 <ion-icon name="create-outline"></ion-icon>
@@ -516,10 +526,12 @@
               <ng-container *ngIf="seg.contact as contact">
             <!-- Social Header -->
             <div class="social-header">
-              <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <!-- BUILD 228: the emoji cover stands in the SOCIAL circle too. -->
+              <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+              <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
               <div class="social-info">
                 <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                <p>{{ rowSubtitle(contact) }}</p>
               </div>
             </div>
       
@@ -601,9 +613,11 @@
                   {{ contact.rolodex?.when || 'No Date' }}
                 </div>
                 <div class="timeline-content">
-                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <!-- BUILD 228: the emoji cover stands in the detailed/timeline row too. -->
+                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                  <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                  <p>{{ rowSubtitle(contact) }}</p>
                   <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
                        it was mislabeled "Last Interaction". True label restored. -->
                   <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
@@ -627,9 +641,11 @@
                   {{ contact.rolodex?.when || 'No Date' }}
                 </div>
                 <div class="timeline-content">
-                  <img [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <!-- BUILD 228: the emoji cover stands in the detailed/timeline row too. -->
+                  <img *ngIf="!contact.coverEmoji" [src]="contact.image?.base64String || avatarFor(contact)" alt="Contact Image" (error)="handleImageError($event)">
+                  <span *ngIf="contact.coverEmoji" class="cover-face cover-inline">{{ contact.coverEmoji }}</span>
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                  <p>{{ contact.organization?.company || 'No Company Info' }}</p>
+                  <p>{{ rowSubtitle(contact) }}</p>
                   <!-- 2026-08-28 BUILD 124: this row shows FOLLOW-UP (next contact) —
                        it was mislabeled "Last Interaction". True label restored. -->
                   <p><strong>Follow-Up:</strong> {{ contact.rolodex?.followUp || 'Nothing scheduled yet — let the assistant set one' }}</p>
@@ -662,8 +678,9 @@
                 </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                  <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
+                  <!-- BUILD 228 PHASE B: kind-aware row labels (task = cadence/due). -->
+                  <p>{{ rowSubtitle(contact) }}</p>
+                  <p class="default-view-extra">{{ rowExtra(contact) }}</p>
                 </ion-label>
               </div>
               <ion-icon name="chevron-forward-outline" slot="end"
@@ -688,8 +705,9 @@
                 </div>
                 <ion-label class="default-view-label">
                   <h2>{{ contact.name?.display || 'Unknown Contact' }}</h2>
-                  <p>{{ contact.organization?.company || 'No Company Info' }}</p>
-                  <p class="default-view-extra">{{ contact.rolodex?.followUp || contact.note || contact.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one' }}</p>
+                  <!-- BUILD 228 PHASE B: kind-aware row labels (task = cadence/due). -->
+                  <p>{{ rowSubtitle(contact) }}</p>
+                  <p class="default-view-extra">{{ rowExtra(contact) }}</p>
                 </ion-label>
               </div>
               <ion-icon name="chevron-forward-outline" slot="end"
@@ -814,7 +832,69 @@
 <ion-content class="contact-edit-body" *ngIf="selectedMode === 'createContact' || selectedMode === 'editContact'">
   <div class="no-scrollbar">
 
-    <ng-container *ngIf="selectedMode === 'createContact'">
+    <!-- 2026-09-16 BUILD 228 PHASE B THE TASK FORM: kind==='task' cards build
+         and edit as TASKS — title, rhythm, due, checklist, cover — instead of
+         the person fields. Same reactive form, additive merge on save. -->
+    <ng-container *ngIf="isTaskForm">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ selectedMode === 'editContact' ? 'Edit Task' : 'New Task Card' }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div formGroupName="name">
+              <ion-item>
+                <ion-label position="stacked">Task title</ion-label>
+                <ion-input formControlName="display" placeholder="e.g. The car insurance"></ion-input>
+              </ion-item>
+            </div>
+            <div formGroupName="task">
+              <ion-item>
+                <ion-label position="stacked">Rhythm (cadence)</ion-label>
+                <ion-select formControlName="cadence" interface="popover">
+                  <ion-select-option value="daily">Daily</ion-select-option>
+                  <ion-select-option value="weekly">Weekly</ion-select-option>
+                  <ion-select-option value="monthly">Monthly</ion-select-option>
+                  <ion-select-option value="quarterly">Quarterly</ion-select-option>
+                  <ion-select-option value="yearly">Yearly</ion-select-option>
+                  <ion-select-option value="never">One-off</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Due (optional)</ion-label>
+                <ion-datetime formControlName="due" presentation="date"></ion-datetime>
+              </ion-item>
+              <div formArrayName="checklist" class="task-checklist">
+                <ion-label class="checklist-title">Checklist (optional)</ion-label>
+                <div *ngFor="let grp of taskChecklistArr.controls; let i = index" [formGroupName]="i" class="checklist-row">
+                  <ion-checkbox formControlName="done" aria-label="Done"></ion-checkbox>
+                  <ion-input formControlName="text" placeholder="Checklist item"></ion-input>
+                  <ion-button fill="clear" color="danger" (click)="removeChecklistItem(i)" aria-label="Remove item">
+                    <ion-icon name="close-outline"></ion-icon>
+                  </ion-button>
+                </div>
+                <ion-button expand="block" fill="outline" (click)="addChecklistItem()">Add checklist item</ion-button>
+              </div>
+            </div>
+            <ion-item>
+              <ion-label position="stacked">Card cover (optional emoji)</ion-label>
+              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
+                <ion-select-option value="">Default cover</ion-select-option>
+                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Details</ion-label>
+              <ion-textarea formControlName="note" placeholder="Anything the task should remember"></ion-textarea>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="selectedMode === 'createContact' && !isTaskForm">
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <ion-card>
           <ion-card-header>
@@ -1326,7 +1406,7 @@
       </form>
     </ng-container>
 
-    <ng-container *ngIf="selectedMode === 'editContact'">
+    <ng-container *ngIf="selectedMode === 'editContact' && !isTaskForm">
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
         <ion-card>
           <ion-card-header>
@@ -1710,7 +1790,7 @@
 
     <!-- Submit Button -->
     <ion-buttons slot="end"><ion-button [disabled]="!saveEnabled" (click)="onSubmit()">
-        {{ selectedMode === 'editContact' ? 'Save Changes' : 'Create Contact' }}
+        {{ selectedMode === 'editContact' ? (isTaskForm ? 'Save Task' : 'Save Changes') : (isTaskForm ? 'Create Task' : 'Create Contact') }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

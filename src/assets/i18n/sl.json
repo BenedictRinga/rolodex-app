@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo kartice",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Nova kartica naloge",
     "walk.doorChat": "Klepetajte v LoopKeeper",
     "walk.internalFirst": "Na tej kartici ni telefona — klepet LoopKeeper ali povabilo ju bo doseglo.",
-    "updates.welcomeBack": "Posodobljeno ✓ — LoopKeeper je nazaj: bolj tekoč, bogatejši in zanesljivejši."
+    "updates.welcomeBack": "Posodobljeno ✓ — LoopKeeper je nazaj: bolj tekoč, bogatejši in zanesljivejši.",
+    "task.daily": "Dnevno",
+    "task.weekly": "Tedensko",
+    "task.monthly": "Mesečno",
+    "task.quarterly": "Četrtletno",
+    "task.yearly": "Letno",
+    "task.never": "Enkratno",
+    "task.noRhythm": "Še ni ritma"
   }
 }

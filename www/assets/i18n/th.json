@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "การ์ดตัวอย่าง",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "การ์ดงานใหม่",
     "walk.doorChat": "แชทใน LoopKeeper",
     "walk.internalFirst": "ไม่มีเบอร์ในการ์ดนี้ — แชท LoopKeeper หรือคำเชิญจะถึงพวกเขา",
-    "updates.welcomeBack": "อัปเดตแล้ว ✓ — LoopKeeper กลับมาแล้ว: ลื่นไหล ยิ่งใหญ่ และเชื่อถือได้มากขึ้น"
+    "updates.welcomeBack": "อัปเดตแล้ว ✓ — LoopKeeper กลับมาแล้ว: ลื่นไหล ยิ่งใหญ่ และเชื่อถือได้มากขึ้น",
+    "task.daily": "รายวัน",
+    "task.weekly": "รายสัปดาห์",
+    "task.monthly": "รายเดือน",
+    "task.quarterly": "รายไตรมาส",
+    "task.yearly": "รายปี",
+    "task.never": "ครั้งเดียว",
+    "task.noRhythm": "ยังไม่มีจังหวะ"
   }
 }

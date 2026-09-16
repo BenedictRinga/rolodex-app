@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Дэма-карткі",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Новая картка задачы",
     "walk.doorChat": "Размаўляйце ў LoopKeeper",
     "walk.internalFirst": "На гэтай картке няма нумара — дойдзе размова ў LoopKeeper або запрашэнне.",
-    "updates.welcomeBack": "Абноўлена ✓ — LoopKeeper вярнуўся: плынней, багацей і надзейней."
+    "updates.welcomeBack": "Абноўлена ✓ — LoopKeeper вярнуўся: плынней, багацей і надзейней.",
+    "task.daily": "Штодня",
+    "task.weekly": "Шотыдню",
+    "task.monthly": "Шомесяча",
+    "task.quarterly": "Шаквартала",
+    "task.yearly": "Шагоду",
+    "task.never": "Адзін раз",
+    "task.noRhythm": "Рытму яшчэ няма"
   }
 }

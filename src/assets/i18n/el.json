@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Κάρτες δείγματος",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Νέα κάρτα εργασίας",
     "walk.doorChat": "Συνομιλήστε στο LoopKeeper",
     "walk.internalFirst": "Χωρίς αριθμό σε αυτή την κάρτα — η συνομιλία LoopKeeper ή η πρόσκληση θα τους φτάσει.",
-    "updates.welcomeBack": "Ενημερώθηκε ✓ — Το LoopKeeper επιστρέφει: πιο ομαλό, πλουσιότερο και πιο αξιόπιστο."
+    "updates.welcomeBack": "Ενημερώθηκε ✓ — Το LoopKeeper επιστρέφει: πιο ομαλό, πλουσιότερο και πιο αξιόπιστο.",
+    "task.daily": "Ημερήσια",
+    "task.weekly": "Εβδομαδιαία",
+    "task.monthly": "Μηνιαία",
+    "task.quarterly": "Τριμηνιαία",
+    "task.yearly": "Ετήσια",
+    "task.never": "Μία φορά",
+    "task.noRhythm": "Χωρίς ρυθμό ακόμα"
   }
 }

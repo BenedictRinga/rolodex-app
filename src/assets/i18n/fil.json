@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Mga demo card",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Bagong Task card",
     "walk.doorChat": "Usap sa LoopKeeper",
     "walk.internalFirst": "Walang numero sa card na ito —aabot sa kanila ang LoopKeeper Chat o ang imbitasyon.",
-    "updates.welcomeBack": "Na-update ✓ — Bumalik ang LoopKeeper: mas makinis, mas mayaman, at mas maaasahan."
+    "updates.welcomeBack": "Na-update ✓ — Bumalik ang LoopKeeper: mas makinis, mas mayaman, at mas maaasahan.",
+    "task.daily": "Araw-araw",
+    "task.weekly": "Lingguhan",
+    "task.monthly": "Buwanan",
+    "task.quarterly": "Bawat tatlong buwan",
+    "task.yearly": "Taun-taon",
+    "task.never": "Minsan lang",
+    "task.noRhythm": "Wala pang ritmo"
   }
 }

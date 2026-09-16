@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo-txartelak",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Zeregin-txartel berria",
     "walk.doorChat": "Berriketan LoopKeeperen",
     "walk.internalFirst": "Egunaizik zenbakirik txartel honetan — LoopKeeper txata edo gonbita iritsiko zaie.",
-    "updates.welcomeBack": "Eguneratua ✓ — LoopKeeper ituli da: leunago, aberatsago eta fidagarriago."
+    "updates.welcomeBack": "Eguneratua ✓ — LoopKeeper ituli da: leunago, aberatsago eta fidagarriago.",
+    "task.daily": "Egunero",
+    "task.weekly": "Astero",
+    "task.monthly": "Hilero",
+    "task.quarterly": "Hiruhilabetero",
+    "task.yearly": "Urtero",
+    "task.never": "Behin",
+    "task.noRhythm": "Oraindik erritmorik gabe"
   }
 }

@@ -256,7 +256,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo cards",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -816,6 +816,13 @@
     "walk.taskCard": "New Task card",
     "walk.doorChat": "Chat in LoopKeeper",
     "walk.internalFirst": "No phone on this card — LoopKeeper Chat or the invite will reach them.",
-    "updates.welcomeBack": "Updated ✓ — LoopKeeper is back: smoother, richer, and more reliable."
+    "updates.welcomeBack": "Updated ✓ — LoopKeeper is back: smoother, richer, and more reliable.",
+    "task.daily": "Daily",
+    "task.weekly": "Weekly",
+    "task.monthly": "Monthly",
+    "task.quarterly": "Quarterly",
+    "task.yearly": "Yearly",
+    "task.never": "One-off",
+    "task.noRhythm": "No rhythm yet"
   }
 }

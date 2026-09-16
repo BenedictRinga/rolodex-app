@@ -84,6 +84,10 @@ export class HomePage implements OnInit, OnDestroy {
    *  ModalController again. */
   manualAddOpen = false;
   manualDraft: ContactInfo = {} as ContactInfo;
+  /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
+   *  walk's New Task door raises it as a TASK card, every other door as a
+   *  person. Bound to the create modal as [createKind]. */
+  manualKind: 'person' | 'task' = 'person';
   loading: boolean = false;
   /** 2026-08-21 OPENLOOP CHAT: the AI Assistant above the deck — the first face. */
   rolodexAiChatOpen = true;
@@ -688,6 +692,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (will?.role === 'phone') { void this.searchPhoneContacts(); return; }
     if (will?.role === 'vcf') { this.importVcfContacts(will.data?.contacts || []); return; }
     if (will?.role === 'manual') {
+      this.manualKind = 'person';
       this.manualDraft = {} as ContactInfo;
       this.manualAddOpen = true;
       return;
@@ -703,8 +708,11 @@ export class HomePage implements OnInit, OnDestroy {
     if (res?.data?.contact) this.inboxRef?.armWalkPick?.(res.data.contact);
   }
 
-  /** BUILD 218: the walk's New Task card door — the manual add sheet. */
+  /** BUILD 218: the walk's New Task card door — the manual add sheet.
+   *  BUILD 228 PHASE B: it opens the create form as a TASK card (kind flows
+   *  through manualKind -> [createKind] -> the task form fields). */
   openManualTaskCard(): void {
+    this.manualKind = 'task';
     this.manualDraft = {} as ContactInfo;
     this.manualAddOpen = true;
   }
@@ -1928,6 +1936,12 @@ export class HomePage implements OnInit, OnDestroy {
       nextInteraction: null,
       reminders: [],
       appointments: [],
+      // BUILD 228 PHASE B: the rebuilt card keeps its kind, task payload and
+      // cover — the old rebuild SILENTLY DROPPED them (and the emoji: a latent
+      // build-217 leak on the manual-create path).
+      kind: raw?.kind === 'task' ? 'task' : 'person',
+      task: raw?.task || undefined,
+      coverEmoji: raw?.coverEmoji || undefined,
       isMockData: false,
       isContactInfo: true,
       createdAt: now,

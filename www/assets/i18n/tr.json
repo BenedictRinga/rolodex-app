@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo kartlar",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Yeni Görev kartı",
     "walk.doorChat": "LoopKeeper’da sohbet et",
     "walk.internalFirst": "Bu kartta telefon yok — LoopKeeper Sohbeti veya davet onlara ulaşacak.",
-    "updates.welcomeBack": "Güncellendi ✓ — LoopKeeper geri döndü: daha akıcı, daha zengin ve daha güvenilir."
+    "updates.welcomeBack": "Güncellendi ✓ — LoopKeeper geri döndü: daha akıcı, daha zengin ve daha güvenilir.",
+    "task.daily": "Günlük",
+    "task.weekly": "Haftalık",
+    "task.monthly": "Aylık",
+    "task.quarterly": "Üç aylık",
+    "task.yearly": "Yıllık",
+    "task.never": "Tek seferlik",
+    "task.noRhythm": "Henüz ritim yok"
   }
 }

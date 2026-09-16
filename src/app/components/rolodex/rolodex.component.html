@@ -30,7 +30,7 @@
             <ion-button *ngIf="investorGate.unlockedThisSession" (click)="onCommandCenter()" appTooltip="See Command Center">
               <ion-icon name="aperture-outline" class="fabcolor"></ion-icon>
             </ion-button>
-            <ion-button (click)="onCreateContact()" appTooltip="Create Contacts">
+            <ion-button (click)="onCreateContact()" appTooltip="Create a card">
               <ion-icon name="add-circle-outline" class="fabcolor"></ion-icon>
             </ion-button>
             <ion-button (click)="showSettingsView()" appTooltip="Settings">
@@ -93,7 +93,9 @@
     <ng-container *ngSwitchCase="RolodexView.Search">
       <ion-list class="seriescontact">
         <ion-list-header>
-          <ion-label class="fabcolor">Contacts to be Rolodexed</ion-label>
+          <!-- 2026-09-16 BUILD 228 THE RENAME: the deck stops calling itself
+               "Contacts" — it is cards, people AND tasks now. -->
+          <ion-label class="fabcolor">Cards — people &amp; tasks</ion-label>
           <ion-buttons>
             <ion-button (click)="closeSearchView()">
               <ion-icon name="home-outline"></ion-icon>
@@ -105,7 +107,7 @@
         </ion-list-header>
 
         <div *ngIf="displayedContacts.length === 0" class="no-results">
-          <ion-label>No contacts found.</ion-label>
+          <ion-label>No cards found.</ion-label>
         </div>
 
         <app-contact-card 
@@ -160,7 +162,7 @@
         <ion-item>
           <ion-label>Groups:</ion-label>
           <ion-select [(ngModel)]="selectedGroup" (ionChange)="onApplyGroupFilter($event)">
-            <ion-select-option value="all">All Contacts</ion-select-option>
+            <ion-select-option value="all">All cards</ion-select-option>
             <ion-select-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</ion-select-option>
           </ion-select>
         </ion-item>

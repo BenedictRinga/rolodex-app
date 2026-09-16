@@ -250,7 +250,7 @@
     "settings.faqhelp": "Maswali na Usaidizi",
     "settings.remindersfull": "Vikumbusho na ufuatiliaji",
     "settings.welcomefull": "Karibu Tena",
-    "settings.demofull": "Wasiliani wa Demo",
+    "settings.demofull": "Kadi za majaribio",
     "settings.backupfull": "Hifadhi rudufu ya ndani",
     "settings.install": "Sakinisha",
     "settings.share": "Shiriki",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Kadi mpya ya kazi",
     "walk.doorChat": "Ongea ndani ya LoopKeeper",
     "walk.internalFirst": "Hakuna namba kwenye kadi hii — Soga ya LoopKeeper au mwaliko itawafikia.",
-    "updates.welcomeBack": "Imesasishwa ✓ — LoopKeeper amepya: laini zaidi, tajiri zaidi na kuaminika zaidi."
+    "updates.welcomeBack": "Imesasishwa ✓ — LoopKeeper amepya: laini zaidi, tajiri zaidi na kuaminika zaidi.",
+    "task.daily": "Kila siku",
+    "task.weekly": "Kila wiki",
+    "task.monthly": "Kila mwezi",
+    "task.quarterly": "Kila robo mwaka",
+    "task.yearly": "Kila mwaka",
+    "task.never": "Mara moja",
+    "task.noRhythm": "Hakuna mzunguko bado"
   }
 }

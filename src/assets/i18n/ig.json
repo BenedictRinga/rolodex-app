@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Kaadị nlele",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Kaadị ọrụ ọhụrụ",
     "walk.doorChat": "Ya mkparịta ụka na LoopKeeper",
     "walk.internalFirst": "Ọ nweghị oku na kaadị a — LoopKeeper Chat ma ọ bụ mmịme ahụ ga-eru ha.",
-    "updates.welcomeBack": "Emelite ✓ — LoopKeeper lọghachila: dị mfe, baa ọgaranya, ma pụrụ ịdakọrọ."
+    "updates.welcomeBack": "Emelite ✓ — LoopKeeper lọghachila: dị mfe, baa ọgaranya, ma pụrụ ịdakọrọ.",
+    "task.daily": "Kwa ụbọchị",
+    "task.weekly": "Kwa izu",
+    "task.monthly": "Kwa ọnwa",
+    "task.quarterly": "Kwa ọnwa atọ",
+    "task.yearly": "Kwa afọ",
+    "task.never": "Otu ugboro",
+    "task.noRhythm": "Enweghị usoro ugbu a"
   }
 }

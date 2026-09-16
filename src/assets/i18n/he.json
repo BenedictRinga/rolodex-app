@@ -250,7 +250,7 @@
     "settings.faqhelp": "שאלות ועזרה",
     "settings.remindersfull": "תזכורות ומעקבים",
     "settings.welcomefull": "קבלת פנים שוב",
-    "settings.demofull": "אנשי קשר לדוגמה",
+    "settings.demofull": "כרטיסי הדגמה",
     "settings.backupfull": "גיבוי מקומי",
     "settings.install": "התקנה",
     "settings.share": "שיתוף",
@@ -810,6 +810,13 @@
     "walk.taskCard": "כרטיס משימה חדש",
     "walk.doorChat": "שיחה ב-LoopKeeper",
     "walk.internalFirst": "אין טלפון בכרטיס הזה — צ׳אט LoopKeeper או ההזמנה יגיעו אליהם.",
-    "updates.welcomeBack": "עודכן ✓ — LoopKeeper חזר: חלק יותר, עשיר יותר ואמין יותר."
+    "updates.welcomeBack": "עודכן ✓ — LoopKeeper חזר: חלק יותר, עשיר יותר ואמין יותר.",
+    "task.daily": "יומי",
+    "task.weekly": "שבועי",
+    "task.monthly": "חודשי",
+    "task.quarterly": "רבעוני",
+    "task.yearly": "שנתי",
+    "task.never": "חד-פעמי",
+    "task.noRhythm": "עדיין אין קצב"
   }
 }

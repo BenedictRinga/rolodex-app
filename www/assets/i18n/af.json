@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo-kaarte",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Nuwe Taak-kaart",
     "walk.doorChat": "Gesels in LoopKeeper",
     "walk.internalFirst": "Geen nommer op hierdie kaart nie — LoopKeeper-chat of die uitnodiging sal hulle bereik.",
-    "updates.welcomeBack": "Opgedateer ✓ — LoopKeeper is terug: gladder, ryker en betroubaarder."
+    "updates.welcomeBack": "Opgedateer ✓ — LoopKeeper is terug: gladder, ryker en betroubaarder.",
+    "task.daily": "Daaglikse",
+    "task.weekly": "Weeklikse",
+    "task.monthly": "Maandelikse",
+    "task.quarterly": "Kwartaalliks",
+    "task.yearly": "Jaarliks",
+    "task.never": "Eenmalig",
+    "task.noRhythm": "Nog geen ritme nie"
   }
 }

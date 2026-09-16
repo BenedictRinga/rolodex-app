@@ -250,7 +250,7 @@
     "settings.faqhelp": "الأسئلة والمساعدة",
     "settings.remindersfull": "التذكيرات والمتابعات",
     "settings.welcomefull": "مرحباً مجدداً",
-    "settings.demofull": "جهات اتصال تجريبية",
+    "settings.demofull": "بطاقات تجريبية",
     "settings.backupfull": "نسخ احتياطي محلي",
     "settings.install": "تثبيت",
     "settings.share": "مشاركة",
@@ -810,6 +810,13 @@
     "walk.taskCard": "بطاقة مهمة جديدة",
     "walk.doorChat": "دردش في LoopKeeper",
     "walk.internalFirst": "لا رقم على هذه البطاقة — ستصلهم محادثة LoopKeeper أو الدعوة.",
-    "updates.welcomeBack": "تم التحديث ✓ — عاد LoopKeeper: أنعم وأغنى وأكثر موثوقية."
+    "updates.welcomeBack": "تم التحديث ✓ — عاد LoopKeeper: أنعم وأغنى وأكثر موثوقية.",
+    "task.daily": "يومي",
+    "task.weekly": "أسبوعي",
+    "task.monthly": "شهري",
+    "task.quarterly": "كل ربع سنة",
+    "task.yearly": "سنوي",
+    "task.never": "مرة واحدة",
+    "task.noRhythm": "لا إيقاع بعد"
   }
 }

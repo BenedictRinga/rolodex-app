@@ -172,7 +172,7 @@
     "settings.faqhelp": "Su'aalo & Caawimo",
     "settings.remindersfull": "Xusuusin iyo dabagal",
     "settings.welcomefull": "Mar kale soo dhawow",
-    "settings.demofull": "Xiriirrada Muujinta",
+    "settings.demofull": "Kaararka tijaabada",
     "settings.backupfull": "Kaydka gudaha",
     "settings.install": "Ku rakib",
     "settings.share": "La wadaag",
@@ -732,6 +732,13 @@
     "walk.taskCard": "Kaarid hawl cusub",
     "walk.doorChat": "Walax ka wada LoopKeeper",
     "walk.internalFirst": "Lambarka kaarka ma jiro — walaax LoopKeeper ama martiqaadku waa gaaraya.",
-    "updates.welcomeBack": "La cusboonaysiiyay ✓ — LoopKeeper waa la soo noqday: oo fudud, oo qani ah, oo kalsooni leh."
+    "updates.welcomeBack": "La cusboonaysiiyay ✓ — LoopKeeper waa la soo noqday: oo fudud, oo qani ah, oo kalsooni leh.",
+    "task.daily": "Maal kasta",
+    "task.weekly": "Toddobaad kasta",
+    "task.monthly": "Bil kasta",
+    "task.quarterly": "Rubuc kasta",
+    "task.yearly": "Sanad kasta",
+    "task.never": "Hal mar",
+    "task.noRhythm": "Weli nidaam ma jiro"
   }
 }

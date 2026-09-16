@@ -250,7 +250,7 @@
     "settings.faqhelp": "常见问题与帮助",
     "settings.remindersfull": "提醒与跟进",
     "settings.welcomefull": "欢迎回来",
-    "settings.demofull": "演示联系人",
+    "settings.demofull": "演示卡片",
     "settings.backupfull": "本地备份",
     "settings.install": "安装",
     "settings.share": "分享",
@@ -810,6 +810,13 @@
     "walk.taskCard": "新建任务卡片",
     "walk.doorChat": "在 LoopKeeper 里聊天",
     "walk.internalFirst": "这张卡片上没有电话 — LoopKeeper 聊天或邀请会送达他们。",
-    "updates.welcomeBack": "已更新 ✓ — LoopKeeper 回来了：更流畅、更丰富、更可靠。"
+    "updates.welcomeBack": "已更新 ✓ — LoopKeeper 回来了：更流畅、更丰富、更可靠。",
+    "task.daily": "每天",
+    "task.weekly": "每周",
+    "task.monthly": "每月",
+    "task.quarterly": "每季度",
+    "task.yearly": "每年",
+    "task.never": "一次性",
+    "task.noRhythm": "还没有节奏"
   }
 }

@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Cartões de demonstração",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Novo cartão de tarefa",
     "walk.doorChat": "Converse no LoopKeeper",
     "walk.internalFirst": "Sem telefone neste cartão — o chat do LoopKeeper ou o convite chegará a eles.",
-    "updates.welcomeBack": "Atualizado ✓ — O LoopKeeper está de volta: mais fluido, mais rico e mais confiável."
+    "updates.welcomeBack": "Atualizado ✓ — O LoopKeeper está de volta: mais fluido, mais rico e mais confiável.",
+    "task.daily": "Diária",
+    "task.weekly": "Semanal",
+    "task.monthly": "Mensal",
+    "task.quarterly": "Trimestral",
+    "task.yearly": "Anual",
+    "task.never": "Pontual",
+    "task.noRhythm": "Ainda sem ritmo"
   }
 }

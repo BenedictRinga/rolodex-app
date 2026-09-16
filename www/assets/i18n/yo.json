@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Àwọn kàádì àpẹẹrẹ",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Kààdì iṣẹ́ tuntun",
     "walk.doorChat": "Bá sọ̀rọ̀ ní LoopKeeper",
     "walk.internalFirst": "Kò sí fọ́n nínú kààdì yìí — Ìjápọ̀ LoopKeeper tàbí ìpè yóò de wọn.",
-    "updates.welcomeBack": "Ṣe ìdègbàṣe ✓ — LoopKeeper ti padà wá: aláìpẹ̀jú, ọlọrọ̀ jù, ó sì ní ìgbẹ́kẹ̀ jù."
+    "updates.welcomeBack": "Ṣe ìdègbàṣe ✓ — LoopKeeper ti padà wá: aláìpẹ̀jú, ọlọrọ̀ jù, ó sì ní ìgbẹ́kẹ̀ jù.",
+    "task.daily": "Òjò-òjò",
+    "task.weekly": "Ọ̀sẹ̀-ọ̀sẹ̀",
+    "task.monthly": "Oṣù-oṣù",
+    "task.quarterly": "Ìgbà-ìgbà",
+    "task.yearly": "Ọdún-ọdún",
+    "task.never": "Ìgbà kan",
+    "task.noRhythm": "A kò tíì ní ìròrì"
   }
 }

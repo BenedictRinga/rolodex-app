@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demo karty",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Nová karta úlohy",
     "walk.doorChat": "Chatujte v LoopKeeper",
     "walk.internalFirst": "Na tejto karte nie je telefón — chat LoopKeeper alebo pozvánka k nim dorazí.",
-    "updates.welcomeBack": "Aktualizované ✓ — LoopKeeper je späť: plynulejšie, bohatšie a spoľahlivejšie."
+    "updates.welcomeBack": "Aktualizované ✓ — LoopKeeper je späť: plynulejšie, bohatšie a spoľahlivejšie.",
+    "task.daily": "Denne",
+    "task.weekly": "Týždenne",
+    "task.monthly": "Mesačne",
+    "task.quarterly": "Štvrťročne",
+    "task.yearly": "Ročne",
+    "task.never": "Jednorazovo",
+    "task.noRhythm": "Zatiaľ bez rytmu"
   }
 }

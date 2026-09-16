@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Demokort",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Nytt uppgiftskort",
     "walk.doorChat": "Chatta i LoopKeeper",
     "walk.internalFirst": "Inget nummer på detta kort — LoopKeeper-chatt eller inbjudan når dem.",
-    "updates.welcomeBack": "Uppdaterad ✓ — LoopKeeper är tillbaka: smidigare, rikare och mer pålitlig."
+    "updates.welcomeBack": "Uppdaterad ✓ — LoopKeeper är tillbaka: smidigare, rikare och mer pålitlig.",
+    "task.daily": "Dagligen",
+    "task.weekly": "Veckovis",
+    "task.monthly": "Månadsvis",
+    "task.quarterly": "Kvartalsvis",
+    "task.yearly": "Årligen",
+    "task.never": "Engångs",
+    "task.noRhythm": "Ingen rytm ännu"
   }
 }

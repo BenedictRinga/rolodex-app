@@ -250,7 +250,7 @@
     "settings.faqhelp": "FAQ & Help",
     "settings.remindersfull": "Reminders & follow-ups",
     "settings.welcomefull": "Welcome Again",
-    "settings.demofull": "Demo Contacts",
+    "settings.demofull": "Makadhi emuenzaniso",
     "settings.backupfull": "Local Backup",
     "settings.install": "Install",
     "settings.share": "Share",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Muta webasa mutsva",
     "walk.doorChat": "Tauradzana muLoopKeeper",
     "walk.internalFirst": "Hapana nhare iyi kadhi — LoopKeeper Chat kana kukokwa kunosvika kwavari.",
-    "updates.welcomeBack": "Zvawandudzwa ✓ — LoopKeeper vadzokera: zviri nyore, zvakapfuma uye zvakavimbika."
+    "updates.welcomeBack": "Zvawandudzwa ✓ — LoopKeeper vadzokera: zviri nyore, zvakapfuma uye zvakavimbika.",
+    "task.daily": "Zuva nezuva",
+    "task.weekly": "Vhiki nevhiki",
+    "task.monthly": "Mwedzi nemwedzi",
+    "task.quarterly": "Kota nekota",
+    "task.yearly": "Gore negore",
+    "task.never": "Kamwe chete",
+    "task.noRhythm": "Hapana chaizvoizvo chakarongwa"
   }
 }

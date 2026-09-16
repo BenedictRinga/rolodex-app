@@ -40,6 +40,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() zyppars: ContactInfo[] = [];
   @Input() providers: ContactInfo[] = [];
   @Input() searchQuery: string = '';
+  /** 2026-09-16 BUILD 228 PHASE B: the create form's kind — the walk's New
+   *  Task door opens the create form as a TASK card (task fields); every
+   *  other door creates a person exactly as before. */
+  @Input() createKind: 'person' | 'task' = 'person';
 
   @Output() editContact = new EventEmitter<ContactInfo>();
   // 2026-08-27 FULL-SCREEN EDIT: inside the surface modal (embedded), Edit no
@@ -122,6 +126,18 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
   editedContact: ContactInfo = {} as ContactInfo;
+
+  /** 2026-09-16 BUILD 228 PHASE B: does THIS form instance build/edit a task
+   *  card? Create reads the door's createKind; edit reads the card's own kind. */
+  get isTaskForm(): boolean {
+    return this.selectedMode === 'createContact'
+      ? this.createKind === 'task'
+      : this.editedContact?.kind === 'task';
+  }
+
+  get taskChecklistArr(): FormArray {
+    return (this.contactForm?.get('task.checklist') as FormArray) ?? this.fb.array([]);
+  }
   contactForm!: FormGroup;
 
   /** 2026-09-16 BUILD 217 THE CARD COVER: the curated picker set — routine
@@ -1213,6 +1229,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     const emails = this.contactForm.get('emails') as FormArray;
     const postalAddresses = this.contactForm.get('postalAddresses') as FormArray;
 
+    // BUILD 228 PHASE B: a TASK card saves on its title alone — no phone is
+    // required (the person rule below stays untouched).
+    if (this.isTaskForm) {
+      this.saveEnabled = !!nameDisplay && nameDisplay.length >= 2;
+      return;
+    }
+
     // Base minimum: name.display is filled AND at least one contact method exists
     this.saveEnabled =
       !!nameDisplay && nameDisplay.length >= 2 && // Matches Validators.required and minLength(2)
@@ -1239,6 +1262,45 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
+  // ── 2026-09-16 BUILD 228 PHASE B: THE TASK FIELDS + KIND-AWARE ROWS ──
+  addChecklistItem(item?: { text: string; done: boolean }): void {
+    (this.contactForm.get('task.checklist') as FormArray)
+      ?.push(this.fb.group({ text: [item?.text || ''], done: [!!item?.done] }));
+  }
+
+  removeChecklistItem(index: number): void {
+    (this.contactForm.get('task.checklist') as FormArray)?.removeAt(index);
+  }
+
+  /** The deck's cadence · due line for a TASK card. */
+  taskLine(c?: ContactInfo | null): string {
+    const t = (c as any)?.task;
+    const cadence = t?.cadence ? this.cadenceLabel(t.cadence) : '';
+    const due = t?.due
+      ? new Date(t.due).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+      : '';
+    return [cadence, due].filter(Boolean).join(' · ') || this.translate.instant('loopkeeper.task.noRhythm');
+  }
+
+  cadenceLabel(cad: string): string {
+    try { return this.translate.instant('loopkeeper.task.' + cad); } catch { return cad; }
+  }
+
+  /** BUILD 228 PHASE B: the deck labels READ kind — a task card wears the
+   *  cadence/due line where a person wears the company. */
+  rowSubtitle(c?: ContactInfo | null): string {
+    return (c as any)?.kind === 'task'
+      ? this.taskLine(c)
+      : (c?.organization?.company || 'No Company Info');
+  }
+
+  rowExtra(c?: ContactInfo | null): string {
+    if ((c as any)?.kind === 'task') {
+      return c?.rolodex?.followUp || c?.note || this.translate.instant('loopkeeper.task.noRhythm');
+    }
+    return c?.rolodex?.followUp || c?.note || c?.organization?.jobTitle || 'Nothing scheduled yet — let the assistant set one';
+  }
+
   async onSubmit() {
     if (this.saveEnabled) {
 
@@ -1257,6 +1319,24 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         groups: toList(formValue.groups),
         privacy: this.contactForm.get('privacy')?.value,
       };
+      // 2026-09-16 BUILD 228 PHASE B: shape the task payload — the model wants
+      // due as epoch-ms (the control holds an ISO date) and the checklist as
+      // real {text, done} rows; a task card is always kind 'task'.
+      if (this.isTaskForm) {
+        payload.kind = 'task';
+        const rawDue = formValue?.task?.due;
+        const checklist = (formValue?.task?.checklist || [])
+          .map((item: any) => ({ text: String(item?.text || '').trim(), done: !!item?.done }))
+          .filter((item: any) => item.text);
+        payload.task = {
+          ...((this.selectedMode === 'editContact' ? this.editedContact?.task : {}) || {}),
+          cadence: formValue?.task?.cadence || undefined,
+          due: rawDue ? (typeof rawDue === 'number' ? rawDue : Date.parse(rawDue)) : undefined,
+          checklist: checklist.length ? checklist : undefined,
+        };
+        if (!payload.task.due) delete payload.task.due;
+        if (!payload.task.cadence) delete payload.task.cadence;
+      }
       this.editedContact = payload;
 
       if (this.selectedMode === 'createContact') {
@@ -1295,6 +1375,19 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // 2026-09-16 BUILD 217 THE CARD COVER: optional emoji cover — patches
       // from the contact on edit, serializes with the form on save.
       coverEmoji: [this.editedContact?.coverEmoji || ''],
+
+      // 2026-09-16 BUILD 228 PHASE B THE TASK FIELDS: only a task form carries
+      // them — person payloads stay exactly as they were (additive merge).
+      // `due` rides the control as an ISO date for ion-datetime and is
+      // converted to the model's epoch-ms in onSubmit().
+      ...(this.isTaskForm ? {
+        kind: ['task'],
+        task: this.fb.group({
+          cadence: ['monthly'],
+          due: [''],
+          checklist: this.fb.array([]),
+        }),
+      } : {}),
 
       // Name group
       name: this.fb.group({
@@ -1399,8 +1492,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         theme: [''], // 20g
       }),
     }, {
-      // Global validator ensuring at least one contact method is present
-      validators: [atLeastOneContactMethod(), this.fomvalidation.atLeastOnePhoneOrEmail2],
+      // Global validator ensuring at least one contact method is present —
+      // BUILD 228: a TASK card carries a title, not a phone; the person
+      // validators would make every task form unsaveable. Task mode skips them.
+      validators: this.isTaskForm ? [] : [atLeastOneContactMethod(), this.fomvalidation.atLeastOnePhoneOrEmail2],
     });
 
 
@@ -1419,9 +1514,20 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         // !environment.production && console.log('Form Control Value AFTER .setValue:', this.contactForm.get('birthday')?.value);
       }
 
-      // Patch other values excluding birthday
-      const { birthday, ...rest } = this.editedContact;
+      // Patch other values excluding birthday — and BUILD 228: excluding task,
+      // whose shape the controls carry differently (due as ISO, checklist as a
+      // FormArray) — both are set explicitly below.
+      const { birthday, task, ...rest } = this.editedContact;
       this.contactForm.patchValue(rest, { emitEvent: false });
+
+      // BUILD 228 PHASE B: prefill the task fields on a task card.
+      if (this.isTaskForm) {
+        this.contactForm.get('task.cadence')?.setValue(task?.cadence || 'monthly');
+        this.contactForm.get('task.due')?.setValue(task?.due ? new Date(task.due).toISOString().slice(0, 10) : '');
+        const arr = this.contactForm.get('task.checklist') as FormArray;
+        arr.clear();
+        for (const item of (task?.checklist || [])) this.addChecklistItem(item);
+      }
 
       // Populate phones FormArray
       if (this.editedContact.phones) {

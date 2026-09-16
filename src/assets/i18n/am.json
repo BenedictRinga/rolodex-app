@@ -250,7 +250,7 @@
     "settings.faqhelp": "ጥያቄዎች እና እገዛ",
     "settings.remindersfull": "ማስታወሻዎች እና ክትትል",
     "settings.welcomefull": "እንደገና እንኳን ደህና መጡ",
-    "settings.demofull": "የማሳያ እውቂያዎች",
+    "settings.demofull": "የማሳያ ካርዶች",
     "settings.backupfull": "የአካባቢ መጠባበቂያ",
     "settings.install": "ጫን",
     "settings.share": "አጋራ",
@@ -810,6 +810,13 @@
     "walk.taskCard": "አዲስ የተግባር ካርድ",
     "walk.doorChat": "LoopKeeper ውስጥ ይነጋገሩ",
     "walk.internalFirst": "በዚህ ካርድ ላይ ስልክ የለም — LoopKeeper ውይይት ወይም ግብዣ ያደርሳቸዋል።",
-    "updates.welcomeBack": "ዘመናፈቅደል ✓ — LoopKeeper ተመልሷል፦ ተሻሽሏል፣ ሀብታም እና አስተማማኝ።"
+    "updates.welcomeBack": "ዘመናፈቅደል ✓ — LoopKeeper ተመልሷል፦ ተሻሽሏል፣ ሀብታም እና አስተማማኝ።",
+    "task.daily": "በየቀን",
+    "task.weekly": "በየሳምንት",
+    "task.monthly": "በየወር",
+    "task.quarterly": "በየሩብ ዓመት",
+    "task.yearly": "በየዓመት",
+    "task.never": "አንድ ጊዜ",
+    "task.noRhythm": "ገና ሥርዓት የለም"
   }
 }

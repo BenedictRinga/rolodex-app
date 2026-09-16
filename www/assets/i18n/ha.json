@@ -250,7 +250,7 @@
     "settings.faqhelp": "Tambayoyi & Taimako",
     "settings.remindersfull": "Tunatarwa da bibiya",
     "settings.welcomefull": "Barka da sake dawowa",
-    "settings.demofull": "Abokan Hulɗa na Demo",
+    "settings.demofull": "Katin gwaji",
     "settings.backupfull": "Ajiyar gida",
     "settings.install": "Saka",
     "settings.share": "Raba",
@@ -810,6 +810,13 @@
     "walk.taskCard": "Sabuwar katin aiki",
     "walk.doorChat": "Yi hira a LoopKeeper",
     "walk.internalFirst": "Babu lambar tarho a wannan katin — hirar LoopKeeper ko gayyatar za ta iso gare su.",
-    "updates.welcomeBack": "An sabunta ✓ — LoopKeeper ya dawo: mai saurin gudana, mai arziki, kuma mafi amana."
+    "updates.welcomeBack": "An sabunta ✓ — LoopKeeper ya dawo: mai saurin gudana, mai arziki, kuma mafi amana.",
+    "task.daily": "Kowace rana",
+    "task.weekly": "Kowace mako",
+    "task.monthly": "Kowace wata",
+    "task.quarterly": "Kowane kwata",
+    "task.yearly": "Kowace shekara",
+    "task.never": "Sau daya",
+    "task.noRhythm": "Babu miti har yanzu"
   }
 }
