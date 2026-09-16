@@ -450,6 +450,19 @@ ion-modal.command-center-modal {
   --max-width: 100%;
 }
 
+/* 2026-09-16 BUILD 237 THE CHECK-INS PANEL: a tall sheet — the escalator
+   list on demand. ModalController-presented (overlay layer), so the inline
+   modal containment rule does not apply. */
+ion-modal.checkins-panel-modal {
+  --border-radius: 16px;
+  --height: 86%;
+  --width: min(560px, 100%);
+  @media (max-width: 767px) {
+    --width: 100%;
+    --height: 92%;
+  }
+}
+
 .contact-edit-fullscreen app-contact-card {
   display: flex;
   flex-direction: column;

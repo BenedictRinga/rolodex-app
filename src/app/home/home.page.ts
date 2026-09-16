@@ -45,6 +45,8 @@ import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.componen
 // 2026-09-14 BUILD 199 THE ACHIEVEMENT SHARE + THE TRIAL STITCH: the dock's
 // celebration tap and the trial-end stitch both open the share sheet.
 import { ShareAppModalComponent } from '../components/share-app-modal/share-app-modal.component';
+// 2026-09-16 BUILD 237 THE CHECK-INS PANEL: the escalator list on demand.
+import { CheckinsPanelComponent } from '../components/checkins-panel/checkins-panel.component';
 // 2026-09-15 BUILD 206 MANAGING CARDS: the first add attempt passes through it.
 import { ManagingCardsModalComponent } from '../components/managing-cards-modal/managing-cards-modal.component';
 // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
@@ -562,6 +564,28 @@ export class HomePage implements OnInit, OnDestroy {
     this.inboxRef.tab = 'loops';
     this.inboxRef.nudgeArrived(contact, loopId);
     void this.sound.playLoopReady();
+  }
+
+  /** 2026-09-16 BUILD 237 THE CHECK-INS PANEL (founder: "I wanted that
+   *  escalator list presented at will from within the Settings sections, so I
+   *  could then test the tap or just regular use when not wanting to wait for
+   *  its scheduled appearance"): the panel IS the dock's list — Escalated now
+   *  (live items, the identical tap path) + Coming up (scheduled check-ins,
+   *  escalatable NOW). A 'Coming up' tap hands back through the modal's
+   *  'escalate' role and runs the SAME escalateCheckIn the dock item runs —
+   *  one chain, two entrances, no conflation with the morning digest. */
+  async openCheckinsPanel(): Promise<void> {
+    try {
+      const modal = await this.modalController.create({
+        component: CheckinsPanelComponent,
+        cssClass: 'checkins-panel-modal',
+      });
+      await modal.present();
+      const res = await modal.onWillDismiss();
+      if (res?.role === 'escalate' && (res.data?.contactId || res.data?.name)) {
+        this.escalateCheckIn({ action: 'checkin', contactId: res.data.contactId, name: res.data.name });
+      }
+    } catch { /* the panel is best-effort */ }
   }
 
   /** 2026-09-14 BUILD 199: open the share sheet (the achievement tap and the

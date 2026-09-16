@@ -37,6 +37,7 @@ import { CommandCenterComponent } from './command-center/command-center.componen
 // to the Command Center (the Zyppar CommandCenter retention-chart pattern).
 import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.component';
 import { ManagingCardsModalComponent } from './managing-cards-modal/managing-cards-modal.component';
+import { CheckinsPanelComponent } from './checkins-panel/checkins-panel.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ManagingCardsModalComponent } from './managing-cards-modal/managing-car
     CommandCenterComponent,
     YardstickChartComponent,
     ManagingCardsModalComponent,
+    CheckinsPanelComponent,
   ],
   imports: [
     CommonModule,

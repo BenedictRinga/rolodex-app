@@ -1,0 +1,34 @@
+<!-- 2026-09-16 BUILD 237 THE CHECK-INS PANEL — the escalator list on demand.
+     Group 1 ESCALATED NOW: the live dock items, one code path (tap()).
+     Group 2 COMING UP: the scheduled check-ins, tappable to escalate now. -->
+<div class="cp-shell">
+  <div class="cp-head">
+    <ion-icon name="notifications-outline" class="cp-head-icon"></ion-icon>
+    <span class="cp-title">Check-ins</span>
+    <ion-button fill="clear" size="small" class="cp-close" (click)="close()" aria-label="Close">
+      <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-content class="cp-body">
+    <div class="cp-group">Escalated now</div>
+    <div class="cp-row" *ngFor="let n of live" (click)="tapLive(n)" role="button">
+      <ion-icon [name]="n.kind === 'error' ? 'alert-circle-outline' : (n.kind === 'success' ? 'checkmark-circle-outline' : 'information-circle-outline')" class="cp-row-icon"></ion-icon>
+      <span class="cp-msg">{{ n.message }}</span>
+      <ion-button fill="clear" size="small" class="cp-x" (click)="dismissLive(n); $event.stopPropagation()" aria-label="Dismiss">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="cp-empty" *ngIf="!live.length">Nothing escalated right now — the dock holds these as they fire.</div>
+
+    <div class="cp-group">Coming up</div>
+    <div class="cp-row" *ngFor="let u of upcoming" (click)="escalateUpcoming(u)" role="button">
+      <ion-icon name="time-outline" class="cp-row-icon" [class.overdue]="u.overdue"></ion-icon>
+      <span class="cp-msg">{{ u.title }}<small class="cp-when">{{ u.startLabel }}</small></span>
+      <ion-badge *ngIf="u.overdue" color="warning" class="cp-due">due</ion-badge>
+    </div>
+    <div class="cp-empty" *ngIf="!upcoming.length">No scheduled check-ins yet — the follow-up engine fills this as cards carry rhythms.</div>
+
+    <div class="cp-hint">Tap an item to run the interaction now — the same walk the dock tap arms.</div>
+  </ion-content>
+</div>

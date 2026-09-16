@@ -96,9 +96,11 @@ export class RolodexComponent implements OnInit {
   @Output() toggleWelcome = new EventEmitter<void>();
   @Output() showWelcome = new EventEmitter<void>();
   @Output() mockDataRepeat = new EventEmitter<void>();
-  /** 2026-09-16 BUILD 232 SETTINGS => LOOPS: the manual door to the Loops
-   *  surface — home raises the inbox ON its Loops tab (the digest path). */
-  @Output() loopsRequest = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 232/237 SETTINGS => CHECK-INS: the escalator list on
+   *  demand — the panel presents the dock's check-in nudges (Escalated now)
+   *  AND the scheduled check-ins (Coming up); a tap runs the same escalation
+   *  the dock tap runs. (Was loopsRequest — the conflation rename, step 3.) */
+  @Output() checkinsRequest = new EventEmitter<void>();
   @Output() initMap = new EventEmitter<HTMLElement>();
   @Output() createContact = new EventEmitter<void>();
 

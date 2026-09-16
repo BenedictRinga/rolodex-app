@@ -318,17 +318,19 @@
           </ion-button>
         </ion-item>
 
-        <!-- 2026-09-16 BUILD 232 SETTINGS => LOOPS (founder: "Crucial to have a
-             Settings => Loops so we can manually call it to show" — the manual
-             door to the Loops surface; the digest/wake tap and this section
-             share one open path). In the quicknav map above as a chip too. -->
+        <!-- 2026-09-16 BUILD 232/237 SETTINGS => CHECK-INS (founder: the
+             escalator list presented at will — "I wanted that escalator list
+             presented at will from within the Settings sections, so I could
+             then test the tap or just regular use when not wanting to wait
+             for its scheduled appearance"). The panel is the dock's list:
+             Escalated now + Coming up, one escalation path. -->
         <ion-item lines="none" class="elegant-item" id="settings-loops">
-          <ion-icon name="repeat-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-icon name="notifications-outline" slot="start" color="tertiary"></ion-icon>
           <ion-label>
-            <span class="update-title">{{ 'loopkeeper.settings.loops' | translate }}</span>
-            <p class="profile-guide">The walk, the waiting piles and the garden — one tap brings the Loops surface up from anywhere.</p>
+            <span class="update-title">Check-ins</span>
+            <p class="profile-guide">The escalator list — the check-in nudges on demand. Tap one to run the interaction now, no waiting for the schedule.</p>
           </ion-label>
-          <ion-button slot="end" fill="outline" (click)="loopsRequest.emit()">Open Loops</ion-button>
+          <ion-button slot="end" fill="outline" (click)="checkinsRequest.emit()">Open Check-ins</ion-button>
         </ion-item>
 
         <!-- 2026-08-18 FAQ & HELP: answers to the inevitable questions (forgot

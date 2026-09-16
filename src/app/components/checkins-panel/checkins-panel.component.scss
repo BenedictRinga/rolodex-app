@@ -1,0 +1,109 @@
+/* 2026-09-16 BUILD 237 THE CHECK-INS PANEL — the escalator list on demand.
+   The dock's visual language: dark rows, kind icons, quiet dismiss. */
+
+.cp-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--rolodex-surface, #14161c);
+  color: var(--rolodex-text, #e8eaf0);
+}
+
+.cp-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+  .cp-head-icon {
+    font-size: 20px;
+    color: var(--rolodex-info, #7ab8ff);
+  }
+
+  .cp-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .cp-close {
+    --color: var(--rolodex-text-secondary, #9aa0ae);
+    margin: 0;
+  }
+}
+
+.cp-body {
+  flex: 1;
+  --background: transparent;
+}
+
+.cp-group {
+  padding: 14px 14px 6px;
+  font-size: 11.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--rolodex-text-tertiary, #7c828f);
+}
+
+.cp-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 10px 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .05);
+  cursor: pointer;
+
+  &:active {
+    background: rgba(255, 255, 255, .11);
+  }
+
+  .cp-row-icon {
+    font-size: 20px;
+    flex: none;
+    color: var(--rolodex-info, #7ab8ff);
+
+    &.overdue {
+      color: var(--rolodex-warning, #f0b429);
+    }
+  }
+
+  .cp-msg {
+    flex: 1;
+    min-width: 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .cp-when {
+      font-size: 11.5px;
+      color: var(--rolodex-text-tertiary, #7c828f);
+    }
+  }
+
+  .cp-x {
+    --color: var(--rolodex-text-tertiary, #7c828f);
+    margin: 0;
+  }
+
+  .cp-due {
+    flex: none;
+    font-size: 10px;
+  }
+}
+
+.cp-empty {
+  padding: 4px 16px 10px;
+  font-size: 12.5px;
+  color: var(--rolodex-text-tertiary, #7c828f);
+}
+
+.cp-hint {
+  padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  font-size: 11.5px;
+  color: var(--rolodex-text-tertiary, #7c828f);
+}
