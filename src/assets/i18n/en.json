@@ -811,6 +811,8 @@
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
     "share.voiceE": "👀 *What if you had a personal secretary that never sleeps?*\n\nMeet *LoopKeeper* — the app that helps you manage routine tasks, reminders and daily activities.\n\nGive it a try 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Meet LoopKeeper — your digital secretary!*\n\nTired of forgetting tasks, routines and reminders? Let *LoopKeeper* keep you organised and on top of your day.\n\n👉 Check it out here: {{url}}\n\nWork smarter. Stay on track. 🔄"
+    "share.voiceF": "🤖 *Meet LoopKeeper — your digital secretary!*\n\nTired of forgetting tasks, routines and reminders? Let *LoopKeeper* keep you organised and on top of your day.\n\n👉 Check it out here: {{url}}\n\nWork smarter. Stay on track. 🔄",
+    "walk.doorInvite": "Send them LoopKeeper",
+    "walk.taskCard": "New Task card"
   }
 }

@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
     "share.voiceE": "👀 *Zer litzateke inoiz ez den lo egiten duen idazkari pertsonal bat izatea?*\n\nEzagutu *LoopKeeper* — ohiko zereginak, oroigarriak eta eguneroko jarduerak kudeatzen laguntzen dizun aplikazioa.\n\nProbatu 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Ezagutu LoopKeeper — zure idazkari digitala!*\n\nZereginak, ohiturak eta oroigarriak ahazteaz nekatuta? Utzi *LoopKeeper* antolatuta eta egunaren gainean izaten.\n\n👉 Ikusi hemen: {{url}}\n\nLan egin hobeki. Izan bidean. 🔄"
+    "share.voiceF": "🤖 *Ezagutu LoopKeeper — zure idazkari digitala!*\n\nZereginak, ohiturak eta oroigarriak ahazteaz nekatuta? Utzi *LoopKeeper* antolatuta eta egunaren gainean izaten.\n\n👉 Ikusi hemen: {{url}}\n\nLan egin hobeki. Izan bidean. 🔄",
+    "walk.doorInvite": "Bidali iezaiekie LoopKeeper",
+    "walk.taskCard": "Zeregin-txartel berria"
   }
 }

@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} boucle(s) déplacée(s) : \"{{from}}\" s'appelle désormais \"{{to}}\".",
     "garden.walkBtn": "Parcourir",
     "share.voiceE": "👀 *Et si vous aviez une secrétaire personnelle qui ne dort jamais ?*\n\nVoici *LoopKeeper* — l'appli qui vous aide à gérer tâches routines, rappels et votre quotidien.\n\nEssayez 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Voici LoopKeeper — votre secrétaire numérique !*\n\nFatigué d'oublier tâches, routines et rappels ? Laissez *LoopKeeper* vous garder organisé et au top de votre journée.\n\n👉 Découvrez-le ici : {{url}}\n\nTravaillez mieux. Restez sur la bonne voie. 🔄"
+    "share.voiceF": "🤖 *Voici LoopKeeper — votre secrétaire numérique !*\n\nFatigué d'oublier tâches, routines et rappels ? Laissez *LoopKeeper* vous garder organisé et au top de votre journée.\n\n👉 Découvrez-le ici : {{url}}\n\nTravaillez mieux. Restez sur la bonne voie. 🔄",
+    "walk.doorInvite": "Envoyez-leur LoopKeeper",
+    "walk.taskCard": "Nouvelle carte de tâche"
   }
 }

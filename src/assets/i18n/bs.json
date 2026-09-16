@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
     "share.voiceE": "👀 *Šta bi bilo da imate ličnog sekretara koji nikad ne spava?*\n\nUpoznajte *LoopKeeper* — aplikaciju koja vam pomaže da upravljate svakodnevnim zadacima, podsjecnicima i aktivnostima.\n\nProbajte 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Upoznajte LoopKeeper — vašeg digitalnog sekretara!*\n\nUmorite se od zaboravljanja zadataka, rutina i podsjecnika? Neka *LoopKeeper* vas drži organizovane i na vrhu dana.\n\n👉 Pogledajte ovdje: {{url}}\n\nRadite pametnije. Ostanite na putu. 🔄"
+    "share.voiceF": "🤖 *Upoznajte LoopKeeper — vašeg digitalnog sekretara!*\n\nUmorite se od zaboravljanja zadataka, rutina i podsjecnika? Neka *LoopKeeper* vas drži organizovane i na vrhu dana.\n\n👉 Pogledajte ovdje: {{url}}\n\nRadite pametnije. Ostanite na putu. 🔄",
+    "walk.doorInvite": "Pošaljite im LoopKeeper",
+    "walk.taskCard": "Nova kartica zadatka"
   }
 }

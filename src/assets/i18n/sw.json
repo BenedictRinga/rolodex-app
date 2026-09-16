@@ -805,6 +805,8 @@
     "garden.renamedToast": "Mizunguko {{n}} imehamishwa: \"{{from}}\" sasa ni \"{{to}}\".",
     "garden.walkBtn": "Tembea",
     "share.voiceE": "👀 *Je, ungependa kuwa na karani wa binafsi ambaye hataki usingizi?*\n\nMkutane na *LoopKeeper* — programu inayokusaidia kudhibiti kazi za kawaida, vikumbusho na shughuli za kila siku.\n\nIaribu 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Karibu LoopKeeper — karani wako wa kidijitali!*\n\nUmechoka kusahau kazi, mila na vikumbusho? Acha *LoopKeeper* ikushikilie mpangilio na uwe juu ya siku yako.\n\n👉 Iangalie hapa: {{url}}\n\nFanya kazi kwa akili. Kaa mkondo. 🔄"
+    "share.voiceF": "🤖 *Karibu LoopKeeper — karani wako wa kidijitali!*\n\nUmechoka kusahau kazi, mila na vikumbusho? Acha *LoopKeeper* ikushikilie mpangilio na uwe juu ya siku yako.\n\n👉 Iangalie hapa: {{url}}\n\nFanya kazi kwa akili. Kaa mkondo. 🔄",
+    "walk.doorInvite": "Watumikie LoopKeeper",
+    "walk.taskCard": "Kadi mpya ya kazi"
   }
 }

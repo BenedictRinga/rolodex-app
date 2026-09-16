@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
     "share.voiceE": "👀 *Hva om du hadde en personlig sekretær som aldri sover?*\n\nMøt *LoopKeeper* — appen som hjelper deg med å styre rutineoppgaver, påminnelser og daglige aktiviteter.\n\nPrøv den 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Møt LoopKeeper — din digitale sekretær!*\n\nLei av å glemme oppgaver, rutiner og påminnelser? La *LoopKeeper* holde deg organisert og på topp av dagen.\n\n👉 Se den her: {{url}}\n\nArbeid smartere. Hold kursen. 🔄"
+    "share.voiceF": "🤖 *Møt LoopKeeper — din digitale sekretær!*\n\nLei av å glemme oppgaver, rutiner og påminnelser? La *LoopKeeper* holde deg organisert og på topp av dagen.\n\n👉 Se den her: {{url}}\n\nArbeid smartere. Hold kursen. 🔄",
+    "walk.doorInvite": "Send dem LoopKeeper",
+    "walk.taskCard": "Nytt oppgavekort"
   }
 }

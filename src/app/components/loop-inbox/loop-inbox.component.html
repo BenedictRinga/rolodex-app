@@ -56,7 +56,10 @@
       (loopOpened)="acknowledgeNudge($event)"
       (stepChange)="onWalkStep($event)"
       (addRequest)="addRequest.emit()"
-      (whoRequest)="whoRequest.emit()">
+      (whoRequest)="whoRequest.emit()"
+      (inviteRequest)="inviteRequest.emit()"
+      (taskCardRequest)="taskCardRequest.emit()"
+      [walkArm]="walkArm">
     </app-send-walk>
 
     <ng-container *ngIf="loopsSurface === 'shelf'">

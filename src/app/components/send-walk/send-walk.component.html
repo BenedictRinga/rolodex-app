@@ -104,6 +104,12 @@
       <button class="sw-whoadd" type="button" (click)="mine()">
         {{ 'loopkeeper.walk.whoAdd' | translate }}
       </button>
+      <!-- 2026-09-16 BUILD 218 (founder: "at the very least, present the
+           user with the options to create Task cards or use their Device
+           Contact list"): the second door — a typed Task card. -->
+      <button class="sw-whoadd sw-whoadd-task" type="button" (click)="taskCardRequest.emit()">
+        {{ 'loopkeeper.walk.taskCard' | translate }}
+      </button>
     </div>
   </ng-container>
 
@@ -179,6 +185,13 @@
       <div class="sw-words-label">{{ 'loopkeeper.walk.wordsTitle' | translate }}</div>
       <div class="sw-words-text">{{ scriptBody() }}</div>
     </div>
+    <!-- 2026-09-16 BUILD 218 (founder: "no reference to LoopKeeper's own
+         array of communication tools, internal or external, presented
+         coherently... copy is okay within said array of options, but no
+         longer as standalone exclusive option"): the WHOLE array, one
+         grid — WhatsApp / Call / SMS / Email when the card carries a
+         destination, Copy always, and LoopKeeper's own door (the invite,
+         the OG-carded app link) always. Nothing hides behind a toggle. -->
     <div class="sw-doors">
       <button *ngIf="hasPhone" class="sw-door sw-door-wa" type="button" (click)="fire('whatsapp')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorWhatsapp' | translate }}
@@ -186,20 +199,19 @@
       <button *ngIf="hasPhone" class="sw-door sw-door-call" type="button" (click)="fire('call')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorCall' | translate }}
       </button>
+      <button *ngIf="hasPhone" class="sw-door sw-door-copy" type="button" (click)="fire('sms')" [disabled]="busy">
+        {{ 'loopkeeper.walk.doorSms' | translate }}
+      </button>
+      <button *ngIf="hasEmail" class="sw-door sw-door-copy" type="button" (click)="fire('email')" [disabled]="busy">
+        {{ 'loopkeeper.walk.doorEmail' | translate }}
+      </button>
       <button class="sw-door sw-door-copy" type="button" (click)="fire('copy')" [disabled]="busy">
         {{ 'loopkeeper.walk.doorCopy' | translate }}
       </button>
-      <div class="sw-nophone">{{ 'loopkeeper.walk.weDontSend' | translate }}</div>
-      <div *ngIf="!hasPhone" class="sw-nophone">{{ 'loopkeeper.walk.tNoPhone' | translate }}</div>
-      <button class="sw-ghost" type="button" (click)="toggleMore()">{{ 'loopkeeper.walk.moreWays' | translate }}</button>
-      <div *ngIf="moreOpen" class="sw-moreways">
-        <button *ngIf="hasPhone" class="sw-door sw-door-copy" type="button" (click)="fire('sms')" [disabled]="busy">
-          {{ 'loopkeeper.walk.doorSms' | translate }}
-        </button>
-        <button *ngIf="hasEmail" class="sw-door sw-door-copy" type="button" (click)="fire('email')" [disabled]="busy">
-          {{ 'loopkeeper.walk.doorEmail' | translate }}
-        </button>
-      </div>
+      <button class="sw-door sw-door-invite" type="button" (click)="handThemLoopKeeper()" [disabled]="busy">
+        {{ 'loopkeeper.walk.doorInvite' | translate }}
+      </button>
+      <div *ngIf="!hasPhone && !hasEmail" class="sw-nophone">{{ 'loopkeeper.walk.tNoPhone' | translate }}</div>
     </div>
 
     <!-- 2026-08-31 BUILD 159 (founder): the demo's MINE door, and we wait for

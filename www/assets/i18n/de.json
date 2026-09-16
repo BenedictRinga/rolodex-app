@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} Loop(s) verschoben: \"{{from}}\" heißt jetzt \"{{to}}\".",
     "garden.walkBtn": "Durchgehen",
     "share.voiceE": "👀 *Was, wenn du eine persönliche Sekretärin hättest, die nie schläft?*\n\nLerne *LoopKeeper* kennen — die App, die dir bei Routineaufgaben, Erinnerungen und deinen täglichen Dingen hilft.\n\nProbier sie aus 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Das ist LoopKeeper — deine digitale Sekretärin!*\n\nMüde, Aufgaben, Routinen und Erinnerungen zu vergessen? Lass *LoopKeeper* dich organisiert halten und den Tag im Griff behalten.\n\n👉 Hier ausprobieren: {{url}}\n\nKlug arbeiten. Dranbleiben. 🔄"
+    "share.voiceF": "🤖 *Das ist LoopKeeper — deine digitale Sekretärin!*\n\nMüde, Aufgaben, Routinen und Erinnerungen zu vergessen? Lass *LoopKeeper* dich organisiert halten und den Tag im Griff behalten.\n\n👉 Hier ausprobieren: {{url}}\n\nKlug arbeiten. Dranbleiben. 🔄",
+    "walk.doorInvite": "Schick ihnen LoopKeeper",
+    "walk.taskCard": "Neue Aufgaben-Karte"
   }
 }

@@ -805,6 +805,8 @@
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
     "share.voiceE": "👀 *Kaj če bi imeli osebnega tajnika, ki nikoli ne spi?*\n\nSpoznajte *LoopKeeper* — aplikacijo, ki vam pomaga urejati rutinska opravila, opomnike in dnevne dejavnosti.\n\nPreizkusite 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Spoznajte LoopKeeper — vašega digitalnega tajnika!*\n\nUtrujeni od pozabljanja nalog, rutin in opomnikov? Pustite *LoopKeeper*, da vas drži urejene in na čelu dneva.\n\n👉 Poglejte tukaj: {{url}}\n\nDelujte pametno. Ostnite na poti. 🔄"
+    "share.voiceF": "🤖 *Spoznajte LoopKeeper — vašega digitalnega tajnika!*\n\nUtrujeni od pozabljanja nalog, rutin in opomnikov? Pustite *LoopKeeper*, da vas drži urejene in na čelu dneva.\n\n👉 Poglejte tukaj: {{url}}\n\nDelujte pametno. Ostnite na poti. 🔄",
+    "walk.doorInvite": "Pošljite jim LoopKeeper",
+    "walk.taskCard": "Nova kartica naloge"
   }
 }

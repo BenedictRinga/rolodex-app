@@ -77,6 +77,10 @@ export class LoopInboxComponent implements OnInit, OnDestroy {
    *  agnostic add sheet; the inbox re-emits to home, which opens it and arms
    *  the walk with whatever comes back. */
   @Output() whoRequest = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 218: the walk's own doors + the Who arm, relayed. */
+  @Output() inviteRequest = new EventEmitter<void>();
+  @Output() taskCardRequest = new EventEmitter<void>();
+  @Input() walkArm: any = null;
 
   // 2026-08-31 BUILD 158: which surface fills the Loops tab — the walk
   // (always the default) or this packed shelf. The flip icon switches it for

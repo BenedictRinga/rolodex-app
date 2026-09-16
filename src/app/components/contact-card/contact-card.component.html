@@ -10,7 +10,7 @@
       <ng-container *ngSwitchCase="'default'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
           <ng-container *ngIf="seg.type === 'separator'">
-            <div class="demo-separator"><span>DEMO CONTACTS</span></div>
+            <div class="demo-separator"><span>DEMO TASKS &amp; CONTACTS</span></div>
           </ng-container>
           <ng-container *ngIf="seg.type === 'contact'">
             <!-- 2026-09-15 BUILD 211 THE DEMO WATERMARK (founder: remove the
@@ -47,7 +47,7 @@
       <ng-container *ngSwitchCase="'rolodex'">
         <div class="rolodex-container" #gridView (scroll)="checkRolodexScroll($event)">
           <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-            <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+            <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
             <div *ngIf="seg.type === 'contact'" class="rolodex-card" [class.demo-card]="seg.contact?.isMockData" [class.flipped]="seg.contact.isFlipped">
               <ng-container *ngIf="seg.contact as contact">
             <!-- Main card area triggers flipRolodexcard -->
@@ -226,7 +226,7 @@
             </ion-row>
             <ion-row *ngIf="hasDemoContacts">
               <ion-col size="12">
-                <div class="demo-separator"><span>DEMO CONTACTS</span></div>
+                <div class="demo-separator"><span>DEMO TASKS &amp; CONTACTS</span></div>
               </ion-col>
             </ion-row>
             <ion-row>
@@ -257,7 +257,7 @@
       
       <ng-container *ngSwitchCase="'businesscard'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-card *ngIf="seg.type === 'contact'" class="professional-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
           <!-- Header Section -->
@@ -339,7 +339,7 @@
       
       <ng-container *ngSwitchCase="'family'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-card *ngIf="seg.type === 'contact'" class="family-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
           <!-- Header: Image and Name -->
@@ -464,7 +464,7 @@
       
       <ng-container *ngSwitchCase="'compact'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
@@ -483,7 +483,7 @@
       
       <ng-container *ngSwitchCase="'list'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="grid-container">
@@ -503,7 +503,7 @@
       <ng-container *ngSwitchCase="'social'">
         <div class="social-container">
           <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-            <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+            <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
             <div *ngIf="seg.type === 'contact'" class="social-card" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
               <ng-container *ngIf="seg.contact as contact">
             <!-- Social Header -->
@@ -585,7 +585,7 @@
       
       <ng-container *ngSwitchCase="'detailed'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="timeline-container">
@@ -611,7 +611,7 @@
       
       <ng-container *ngSwitchCase="'timeline'">
         <ng-container *ngFor="let seg of displaySegments; trackBy: trackSegment">
-          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="seg.type === 'separator'"><span>DEMO TASKS &amp; CONTACTS</span></div>
           <ion-item *ngIf="seg.type === 'contact'" [class.demo-card]="seg.contact?.isMockData" (click)="onContactTap(seg.contact, $event)">
             <ng-container *ngIf="seg.contact as contact">
               <div class="timeline-container">
@@ -660,7 +660,7 @@
             </ion-item>
           </ng-container>
 
-          <div class="demo-separator" *ngIf="hasDemoContacts"><span>DEMO CONTACTS</span></div>
+          <div class="demo-separator" *ngIf="hasDemoContacts"><span>DEMO TASKS &amp; CONTACTS</span></div>
 
           <ng-container *ngFor="let group of alphabeticalDemoGroups">
             <ion-list-header>
@@ -763,7 +763,7 @@
           </ion-label>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
-        <div class="demo-separator" *ngIf="demoSortedContacts.length"><span>DEMO CONTACTS</span></div>
+        <div class="demo-separator" *ngIf="demoSortedContacts.length"><span>DEMO TASKS &amp; CONTACTS</span></div>
         <ion-item *ngFor="let contact of demoSortedContacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
           <ion-avatar slot="start"><img [src]="contact.image" alt="Contact Image"></ion-avatar>
           <ion-label>
@@ -783,7 +783,7 @@
           </ion-label>
           <ion-button fill="outline" slot="end" (click)="onEditContact(contact); $event.stopPropagation()">View & Edit</ion-button>
         </ion-item>
-        <div class="demo-separator" *ngIf="demoDisplayedContacts.length"><span>DEMO CONTACTS</span></div>
+        <div class="demo-separator" *ngIf="demoDisplayedContacts.length"><span>DEMO TASKS &amp; CONTACTS</span></div>
         <ion-item *ngFor="let contact of demoDisplayedContacts; trackBy: trackById" (click)="onContactTap(contact, $event)">
           <ion-avatar slot="start"><img [src]="contact.image" alt="Contact Image"></ion-avatar>
           <ion-label>

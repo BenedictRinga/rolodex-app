@@ -40,6 +40,41 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  chooser — it asks home for the ADD SHEET (two tabs, picker, .vcf, the
    *  iPhone ladder), and whatever comes back arms the walk. */
   @Output() whoRequest = new EventEmitter<void>();
+  /** 2026-09-16 BUILD 218: LoopKeeper's own doors, handed to home — the
+   *  invite (the OG-carded app link) and the manual Task card. */
+  @Output() inviteRequest = new EventEmitter<void>();
+  @Output() taskCardRequest = new EventEmitter<void>();
+
+  /** 2026-09-16 BUILD 218: the pick from the Who sheet lands AS the Who.
+   *  Home relays it through the inbox; the walk brings it to slide 1 so
+   *  the user sees "Yes, this one" before continuing the walk. */
+  @Input() set walkArm(v: any) {
+    if (!v) return;
+    const id = String(v?.contactId || '').trim();
+    if (id) this.retiredIds.delete(id);
+    this.queue = [{ contact: v }, ...this.queue.filter((q) => String(q.contact?.contactId || '') !== id)];
+    this.whoIndex = 0;
+    this.go(1);
+  }
+
+  /** BUILD 218: subjects the user sent or rejected this session do not
+   *  resurface — the walk advances instead of falling back to the top. */
+  private retiredIds = new Set<string>();
+  private retiredNames = new Set<string>();
+
+  private retire(c: any): void {
+    const id = String(c?.contactId || '').trim();
+    if (id) this.retiredIds.add(id);
+    const nm = String(c?.name?.display || '').trim().toLowerCase();
+    if (nm) this.retiredNames.add(nm);
+  }
+
+  private isRetired(c: any): boolean {
+    const id = String(c?.contactId || '').trim();
+    if (id && this.retiredIds.has(id)) return true;
+    const nm = String(c?.name?.display || '').trim().toLowerCase();
+    return !!nm && this.retiredNames.has(nm);
+  }
 
   /** 1 who · 2 thing · 3 words · 4 tap · 5 off-your-mind */
   step = 1;
@@ -177,6 +212,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
         demoIds.has(String((l as any)?.sourceContactId || '')) ||
         (card as any)?.isMockData
       )) continue;
+      if (this.isRetired(card)) continue; // BUILD 218: sent/rejected this session
       queue.push({ contact: card, loop: l });
       mark(card);
     }
@@ -184,7 +220,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const deck = (this.contacts || []).filter((c: any) => String(c?.name?.display || '').trim());
     deck.sort((a: any, b: any) => this.tsMs(b?.lastInteraction) - this.tsMs(a?.lastInteraction));
     for (const c of deck) {
-      if (already(c)) continue;
+      if (already(c) || this.isRetired(c)) continue; // BUILD 218: retired skip
       queue.push({ contact: c, loop: this.openLoopFor(c) });
       mark(c);
     }
@@ -327,7 +363,17 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * tap, a picked contact, an import, a typed card) lands as the Who.
    */
   notThisOne(): void {
+    // 2026-09-16 BUILD 218 (founder: "Easy for user to feel a disconnect"):
+    // the rejected card retires for the session, and the pick from the sheet
+    // comes back AS the Who — slide 1, seen and confirmed, before the walk
+    // continues (walkArm). No phase jump, no restart from the top.
+    if (this.who?.contact) this.retire(this.who.contact);
     this.whoRequest.emit();
+  }
+
+  /** BUILD 218: LoopKeeper's own door — the invite, handed to home. */
+  handThemLoopKeeper(): void {
+    this.inviteRequest.emit();
   }
 
   /** The armed person is a demo identity — the Send stage shows the MINE door. */
@@ -661,6 +707,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   nextOne(): void {
+    // 2026-09-16 BUILD 218 (founder: "after getting the 'loop closed' we
+    // fall back to the opening card, and not a next available one"): the
+    // sent subject retires for the session, the queue advances to the NEXT
+    // available card, and when nothing is left the slide offers the doors
+    // (MINE — device contacts — and a New Task card) instead of a rewind.
+    if (this.who?.contact) this.retire(this.who.contact);
     this.loop = null;
     this.armedContact = null;
     this.armedHandle = '';
@@ -669,7 +721,6 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.editingWords = false;
     this.moreOpen = false;
     this.doneLabel = 'Sent';
-    this.whoIndex = 0;
     void this.rebuildWho();
     this.go(1);
   }
