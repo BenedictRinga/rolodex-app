@@ -758,6 +758,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         header: 'Message proffered by your Assistant',
         message: draft,
         buttons: [
+          // 2026-09-16 BUILD 230 CHAT EVERYWHERE (founder: "everywhere external
+          // communication is presented, our own in-house LoopKeeper chat is
+          // equally present"): the card's message menu carried WhatsApp/SMS/
+          // Email/Copy + the socials but NO in-house door — the walk, the card
+          // back and the composer all had it. The thread now LEADS the menu
+          // (the 219 prompting-elegance order: the in-house door first).
+          { text: 'Chat in LoopKeeper', handler: () => { try { this.analytics.track('send_exit', { channel: 'in-app', surface: 'card' }); } catch { /* analytics optional */ } void this.openCardChat(contact); } },
           // 2026-09-14 BUILD 194 THE SIGNAL DETECTOR: every door tap in this
           // menu is an exit signal — tracked before the handoff, completion
           // or not. Categorical channel + surface only, never the draft text.

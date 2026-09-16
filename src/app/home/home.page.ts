@@ -436,14 +436,22 @@ export class HomePage implements OnInit, OnDestroy {
     void this.eventService.wireNativeNotificationTaps();
     this.notifTapSub = this.eventService.notificationTap$.subscribe((extra) => {
       if (extra?.type === 'event' || extra?.action === 'checkin') this.escalateCheckIn(extra);
+      // 2026-09-16 BUILD 230: the NATIVE wake/digest tap (extra.type loopWake)
+      // opens the Loops surface too — it was a dead end like the dock's.
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsFromDigest();
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
       // 2026-09-14 BUILD 199: the achievement share tap opens the share sheet.
       if (n?.data?.action === 'shareAchievement') void this.openShareApp();
-      // BUILD 199: a morning-digest tap — the user is already on home; the
-      // dock dismisses on tap and the deck does the talking.
-      if (n?.data?.action === 'loopDigest') { /* dismiss only */ }
+      // 2026-09-16 BUILD 230 THE DIGEST OPENS (founder: "a tap on a Loop
+      // reminder item actually opens the item — did not last time... Item
+      // depresses to my tap, but nothing opens"): the digest/wake tap now
+      // OPENS the Loops surface — the inbox's Loops tab, Today's 3 and the
+      // Stack. It used to be an explicit no-op ("dismiss only"), so the item
+      // depressed and nothing happened, every recurrence. The dock item still
+      // dismisses on tap (its own behavior); the tab does the talking.
+      if (n?.data?.action === 'loopDigest') this.openLoopsFromDigest();
     });
 
     await this.loadContacts();
@@ -722,6 +730,18 @@ export class HomePage implements OnInit, OnDestroy {
    *  The walk waits on slide 4 beneath the surface; Done/Snooze still there. */
   openCardNoteFromWalk(card: ContactInfo | null | undefined): void {
     if (card) this.onContactTap(card);
+  }
+
+  /** 2026-09-16 BUILD 230 THE DIGEST OPENS: the loop digest / wake reminder
+   *  opens the inbox ON the Loops tab (Today's 3 + the Stack). The inbox is
+   *  *ngIf'd, so one tick lets it mount before the tab is set; when it is
+   *  already open (tap from inside), the field set is immediate. */
+  openLoopsFromDigest(): void {
+    this.rolodexAiChatOpen = true;
+    setTimeout(() => {
+      const ib: any = this.inboxRef;
+      if (ib) ib.tab = 'loops';
+    }, 80);
   }
 
   /**
