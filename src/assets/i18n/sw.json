@@ -823,6 +823,7 @@
     "walk.doorNote": "Kumbuka mwenyewe",
     "walk.doorDelegate": "Kabidhi",
     "walk.tSnoozed": "Imepumzishwa — inarudi kwa mzunguko wake",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "na {{n}} zaidi"
   }
 }

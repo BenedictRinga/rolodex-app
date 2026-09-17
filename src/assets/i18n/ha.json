@@ -823,6 +823,7 @@
     "walk.doorNote": "Rubutu wa kai",
     "walk.doorDelegate": "Miƙa wa wani",
     "walk.tSnoozed": "An jinkirta — zai dawo da ritimar sa",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

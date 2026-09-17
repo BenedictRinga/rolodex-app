@@ -823,6 +823,7 @@
     "walk.doorNote": "Bilješka sebi",
     "walk.doorDelegate": "Delegiraj",
     "walk.tSnoozed": "Odloženo — vraća se svojim ritmom",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

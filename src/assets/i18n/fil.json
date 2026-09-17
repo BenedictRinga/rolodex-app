@@ -823,6 +823,7 @@
     "walk.doorNote": "Paalala sa sarili",
     "walk.doorDelegate": "Ipasa",
     "walk.tSnoozed": "Naantala — babalik sa sariling ritmo",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

@@ -95,6 +95,9 @@
           {{ g.handle }}<span *ngIf="g.open" class="sw-gopen">{{ g.open }}</span>
         </button>
       </div>
+      <!-- 2026-09-17 BUILD 249 THE THREE-SEAT RULE: at most three pills; the
+           rest is a muted count, never a serving. -->
+      <div class="sw-garden-more" *ngIf="gardenMore > 0">{{ 'loopkeeper.walk.gardenMore' | translate: { n: gardenMore } }}</div>
     </div>
     <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the inline chooser is
          retired — "Not this one" opens the contacts modal (pick mode), the

@@ -823,6 +823,7 @@
     "walk.doorNote": "Note til mig selv",
     "walk.doorDelegate": "Delegér",
     "walk.tSnoozed": "Udsat — kommer igen i sin rytme",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

@@ -829,6 +829,7 @@
     "walk.doorNote": "Note to self",
     "walk.doorDelegate": "Delegate",
     "walk.tSnoozed": "Snoozed — it returns on its rhythm",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

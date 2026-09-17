@@ -33,6 +33,11 @@ export class CheckinsPanelComponent implements OnInit, OnDestroy {
     id: string; title: string; startLabel: string;
     contactId?: string; overdue: boolean;
   }[] = [];
+  /** 2026-09-17 BUILD 249 THE THREE-SEAT RULE: overflow is a count, never a
+   *  serving — the waiting engine and the rest of "Coming up" are muted
+   *  transparency lines, not rows. */
+  waiting = 0;
+  upcomingMore = 0;
   private subs: Subscription[] = [];
 
   constructor(
@@ -47,6 +52,7 @@ export class CheckinsPanelComponent implements OnInit, OnDestroy {
     // dismissal in either place updates both.
     this.subs.push(this.inApp.notifications$.subscribe((list) => {
       this.live = (list || []).filter((n) => !!n?.data?.action);
+      this.waiting = this.inApp.waitingCount;
       this.cdr.detectChanges();
     }));
     void this.loadUpcoming();
@@ -61,7 +67,9 @@ export class CheckinsPanelComponent implements OnInit, OnDestroy {
       const events = (await this.events.getEvents()) || [];
       const now = Date.now();
       const DAY = 86400000;
-      this.upcoming = (events || [])
+      // BUILD 249 THE THREE-SEAT RULE: "Coming up" shows the NEXT THREE — the
+        // rest is a muted count, transparency without overwhelm.
+      const all = (events || [])
         .filter((e) => String(e?.title || '').startsWith('Check in with'))
         .map((e) => ({ ev: e, t: new Date(e.start).getTime() }))
         .filter((x) => x.t > now - 2 * DAY) // upcoming + recently due
@@ -76,6 +84,8 @@ export class CheckinsPanelComponent implements OnInit, OnDestroy {
           contactId: x.ev.contactId,
           overdue: x.t <= now,
         }));
+      this.upcoming = all.slice(0, 3);
+      this.upcomingMore = Math.max(0, all.length - 3);
       this.cdr.detectChanges();
     } catch { /* the panel still shows the live pile */ }
   }

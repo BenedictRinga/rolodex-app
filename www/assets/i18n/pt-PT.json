@@ -823,6 +823,7 @@
     "walk.doorNote": "Nota para mim",
     "walk.doorDelegate": "Delegar",
     "walk.tSnoozed": "Adiada — volta ao seu ritmo",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

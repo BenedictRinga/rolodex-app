@@ -823,6 +823,7 @@
     "walk.doorNote": "Anteckning till mig själv",
     "walk.doorDelegate": "Delegera",
     "walk.tSnoozed": "Skjutet upp — kommer tillbaka i sin rytm",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

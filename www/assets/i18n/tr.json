@@ -823,6 +823,7 @@
     "walk.doorNote": "Kendime not",
     "walk.doorDelegate": "Devret",
     "walk.tSnoozed": "Ertelendi — kendi ritmiyle döner",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "ve {{n}} tane daha"
   }
 }

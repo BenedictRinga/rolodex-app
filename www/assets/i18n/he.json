@@ -823,6 +823,7 @@
     "walk.doorNote": "פתק לעצמי",
     "walk.doorDelegate": "להאציל",
     "walk.tSnoozed": "נדחה — חוזר בקצב שלו",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

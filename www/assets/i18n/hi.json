@@ -823,6 +823,7 @@
     "walk.doorNote": "अपने लिए नोट",
     "walk.doorDelegate": "सौंप दें",
     "walk.tSnoozed": "टाल दिया — अपनी लय से लौटेगा",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "और {{n}} अधिक"
   }
 }

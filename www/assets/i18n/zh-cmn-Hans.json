@@ -823,6 +823,7 @@
     "walk.doorNote": "给自己的便条",
     "walk.doorDelegate": "交出去",
     "walk.tSnoozed": "已顺延 — 会按自己的节奏回来",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "还有 {{n}} 个"
   }
 }

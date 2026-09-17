@@ -823,6 +823,7 @@
     "walk.doorNote": "Нататка сабе",
     "walk.doorDelegate": "Дэлегаваць",
     "walk.tSnoozed": "Адкладзена — вернецца па сваім рытме",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

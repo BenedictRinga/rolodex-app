@@ -20,6 +20,9 @@
       </ion-button>
     </div>
     <div class="cp-empty" *ngIf="!live.length">Nothing escalated right now — the dock holds these as they fire.</div>
+    <!-- 2026-09-17 BUILD 249 THE THREE-SEAT RULE: overflow is a count, never
+         a serving — transparency without overwhelm. -->
+    <div class="cp-more" *ngIf="waiting > 0">{{ waiting }} waiting quietly</div>
 
     <div class="cp-group">Coming up</div>
     <div class="cp-row" *ngFor="let u of upcoming" (click)="escalateUpcoming(u)" role="button">
@@ -27,6 +30,7 @@
       <span class="cp-msg">{{ u.title }}<small class="cp-when">{{ u.startLabel }}</small></span>
       <ion-badge *ngIf="u.overdue" color="warning" class="cp-due">due</ion-badge>
     </div>
+    <div class="cp-more" *ngIf="upcomingMore > 0">{{ upcomingMore }} more coming up</div>
     <div class="cp-empty" *ngIf="!upcoming.length">No scheduled check-ins yet — the follow-up engine fills this as cards carry rhythms.</div>
 
     <div class="cp-hint">Tap an item to run the interaction now — the same walk the dock tap arms.</div>

@@ -472,3 +472,11 @@
   object-fit: cover;
   background: #000;
 }
+
+/* 2026-09-17 BUILD 249 THE THREE-SEAT RULE: the garden offers three; the
+   rest is a muted count, never a serving. */
+.sw-garden-more {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--rolodex-text-tertiary, #7c828f);
+}

@@ -823,6 +823,7 @@
     "walk.doorNote": "Ìwé fún ara mi",
     "walk.doorDelegate": "Fi fún ẹlòmíràn",
     "walk.tSnoozed": "A fọ́rí fá — yóò padà pẹ̀lú ìgbàgà rẹ̀",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

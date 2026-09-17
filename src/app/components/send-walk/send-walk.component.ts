@@ -321,10 +321,20 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   /** BUILD 182: garden pills for slide 1 — the on-screen Who card is already
-   *  offered above, so it never doubles as a pill. */
-  get gardenPills(): Array<{ handle: string; open: number }> {
+   *  offered above, so it never doubles as a pill.
+   *  2026-09-17 BUILD 249 THE THREE-SEAT RULE: the garden offers at most
+   *  THREE pills — the rest is a muted "+N more" line, not a serving. */
+  private gardenCandidates(): Array<{ handle: string; open: number }> {
     const who = String(this.whoName || '').trim().toLowerCase();
     return this.garden.filter(g => g.handle && g.handle.toLowerCase() !== who);
+  }
+
+  get gardenPills(): Array<{ handle: string; open: number }> {
+    return this.gardenCandidates().slice(0, 3);
+  }
+
+  get gardenMore(): number {
+    return Math.max(0, this.gardenCandidates().length - 3);
   }
 
   // ── BUILD 182 · THE GARDEN PATH ────────────────────────────────────────────

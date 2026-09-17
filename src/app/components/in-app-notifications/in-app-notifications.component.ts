@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { InAppNotification, InAppNotificationService } from '../../services/in-app-notification/in-app-notification.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { LoopsService } from '../../services/loops/loops.service';
 
 /**
  * 2026-08-18 IN-APP NOTIFICATION DOCK.
@@ -36,7 +37,29 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly service: InAppNotificationService,
     private readonly storage: StorageService,
+    private readonly loops: LoopsService,
   ) {}
+
+  /** 2026-09-17 BUILD 249 THE ACCOMPLISHMENT STRIP: the dock header shows the
+   *  seats ("2 of 3 seated") and the day's closures ("1 closed today") — the
+   *  Zeigarnik relief made visible: the pile is finishable, and finishing is
+   *  counted. */
+  get seatNote(): string {
+    const sticky = this.notifications.filter((n) => n.duration === 0).length;
+    const base = `${sticky} of ${this.service.maxSeats} seated`;
+    const closed = this.closedToday;
+    return closed > 0 ? `${base} · ${closed} closed today` : base;
+  }
+
+  private get closedToday(): number {
+    try {
+      const startOfDay = new Date(); startOfDay.setHours(0, 0, 0, 0);
+      return (this.loops.recentlyClosed(20) || []).filter((l) => {
+        const t = (l.receipt?.sentAt || l.updatedAt || 0) as number;
+        return t >= startOfDay.getTime();
+      }).length;
+    } catch { return 0; }
+  }
 
   ngOnInit(): void {
     // Restore the user's chosen corner from the previous session.

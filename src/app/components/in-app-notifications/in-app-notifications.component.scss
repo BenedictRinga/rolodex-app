@@ -193,3 +193,13 @@
     &:hover { color: #2a2f45; }
   }
 }
+
+/* 2026-09-17 BUILD 249 THE THREE-SEAT RULE: the accomplishment strip. */
+.notify-meta {
+  font-size: 10px;
+  color: #8a90a6;
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

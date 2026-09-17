@@ -823,6 +823,7 @@
     "walk.doorNote": "ملاحظة لنفسي",
     "walk.doorDelegate": "تفويض",
     "walk.tSnoozed": "تم التأجيل — تعود بإيقاعها",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "و{{n}} أخرى"
   }
 }

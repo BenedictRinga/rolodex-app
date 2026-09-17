@@ -145,10 +145,17 @@ export class EventService implements OnDestroy {
         const age = now - notifyTime;
         if (age < 0 || age > TWENTY_FOUR_HOURS_MS) continue; // not yet due, or long past
         if (ledger[event.id]) continue; // already waited for the user
-        this.inAppNotifications.notify(
+        // 2026-09-17 BUILD 249 THE THREE-SEAT RULE: the catch-up FEEDS the
+        // serving engine — only a SEATED prompt is ledger-marked as waited
+        // for. An overflow subject (seats full, or the group's rhythm says
+        // not yet) stays un-ledgered, so it can be served later — on the
+        // next seat opening, or by the next boot's catch-up within the day's
+        // budget. The pile-maker is now a paced server.
+        const { seated } = this.inAppNotifications.notify(
           event.title + (event.notes ? ' — ' + event.notes : ''),
           { kind: 'info', duration: 0, data: { action: 'checkin', contactId: event.contactId } },
         );
+        if (!seated) continue;
         ledger[event.id] = now;
         changed = true;
       }

@@ -823,6 +823,7 @@
     "walk.doorNote": "ለራሴ ማስታወሻ",
     "walk.doorDelegate": "አስተላልፍ",
     "walk.tSnoozed": "ተለይቷል — በራሱ ሥርዓት ይመለሳል",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

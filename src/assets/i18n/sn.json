@@ -823,6 +823,7 @@
     "walk.doorNote": "Nhora yangu",
     "walk.doorDelegate": "Tumira kumwe",
     "walk.tSnoozed": "Yaderedzerwa — inodzokera nekufamba kwayo",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }

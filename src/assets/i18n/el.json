@@ -823,6 +823,7 @@
     "walk.doorNote": "Σημείωση σε μένα",
     "walk.doorDelegate": "Αναθέτω",
     "walk.tSnoozed": "Αναβλήθηκε — επιστρέφει με τον ρυθμό του",
-    "settings.checkins": "Check-ins"
+    "settings.checkins": "Check-ins",
+    "walk.gardenMore": "and {{n}} more"
   }
 }
