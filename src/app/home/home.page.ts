@@ -515,6 +515,18 @@ export class HomePage implements OnInit, OnDestroy {
    */
   private escalateCheckIn(extra: { contactId?: string; action?: string; [k: string]: any }): void {
     try {
+      // 2026-09-17 BUILD 245 THE UNIFIED RULE (founder: "There are two
+      // notifications - the one manually activated from Settings => Check-ins,
+      // and that which the app displays involuntarily... either medium, my
+      // request is that card is replaced with the item, Settings closed, alert
+      // dismissed"): EVERY check-in medium converges HERE, so the rule lives
+      // HERE, once. The escalation takes the screen — the notification alert
+      // closes WHOLE (the service's own tap() only removed the tapped line;
+      // the remaining lines are stale the moment the card takes over). The
+      // dock tap, the native notification tap, and the Check-ins panel's live
+      // row all ride this one point; the card takeover + the Settings exit
+      // follow below (244's deterministic chain + 239's showRegularView).
+      this.inAppNotifications.clear();
       // 2026-08-29 BUILD 152 (founder: "good to know what features people
       // respond to"): a tapped nudge is engagement on the feature itself.
       try { this.analytics.track('nudge_tapped', { matched: !!extra?.contactId || !!extra?.['name'] }); } catch { /* analytics optional */ }
