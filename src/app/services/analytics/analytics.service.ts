@@ -353,12 +353,35 @@ export class AnalyticsService {
     }, 5000);
   }
 
+  // ── 2026-09-17 BUILD 255 THE SESSION GAP (founder: "I suspect we have
+  // opened a further bug inflating sessions" — CONFIRMED, and it predates
+  // this week's builds): EVERY visible-resume fired startSession() — every
+  // app switch, every tab flip, every lock/unlock minted a fresh
+  // session_start (113 session_starts vs 93 app_launches today; the delta IS
+  // the per-flip minting). THE HONEST MODEL: a session ends when the absence
+  // is REAL (hidden for >= 5 minutes, the industry gap); a quick return
+  // continues the SAME session — no event, no minting. Long absences still
+  // open a true new session with session_start.
+  private static readonly SESSION_GAP_MS = 5 * 60_000;
+  private lastHiddenAt = 0;
+  private hiddenEndTimer: ReturnType<typeof setTimeout> | null = null;
+
   private bindVisibility(): void {
     if (this.visibilityBound || typeof document === 'undefined') return;
     this.visibilityBound = true;
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') this.endSession();
-      else if (document.visibilityState === 'visible') this.startSession();
+      if (document.visibilityState === 'hidden') {
+        this.lastHiddenAt = Date.now();
+        // The end is DEFERRED to the gap: a quick return continues the same
+        // session (the timer is cancelled), a real absence ends it at 5 min.
+        if (this.hiddenEndTimer) clearTimeout(this.hiddenEndTimer);
+        this.hiddenEndTimer = setTimeout(() => this.endSession(), AnalyticsService.SESSION_GAP_MS);
+      } else if (document.visibilityState === 'visible') {
+        if (this.hiddenEndTimer) { clearTimeout(this.hiddenEndTimer); this.hiddenEndTimer = null; }
+        // A session that already ended (the gap elapsed while hidden) reopens
+        // as a TRUE new session; a session still live just continues.
+        if (!this.sessionStart) this.startSession();
+      }
     });
     window.addEventListener('pagehide', () => this.endSession());
   }
