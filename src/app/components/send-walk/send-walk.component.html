@@ -14,8 +14,11 @@
        shrinkable spacer — the slide sits lower in the pane, never clipped
        on short screens (it gives its height back when space runs out).
        2026-08-31 FOUNDER DEV ITERATION: slide 4 needs the room — it starts
-       higher, no spacer there. -->
-  <div class="sw-lower" *ngIf="step !== 4" aria-hidden="true"></div>
+       higher, no spacer there.
+       2026-09-17 BUILD 251: slide 3 (the chat dialog) must fit 100% in the
+       viewport — every element visible, never a scroll to reach one — so the
+       spacer leaves slide 3 too and its styles run compact. -->
+  <div class="sw-lower" *ngIf="step !== 4 && step !== 3" aria-hidden="true"></div>
 
   <!-- 1 WHO — the app picked. Confirm or skip. Never a list. -->
   <ng-container *ngIf="step === 1">

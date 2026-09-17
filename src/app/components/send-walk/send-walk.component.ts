@@ -797,6 +797,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const l = this.sel(); if (!l) return;
     this.editBuffer = l.draft;
     this.editingWords = true;
+    // BUILD 251: the cursor lands IN the dialog — "Let me change it" means the
+    // keyboard waits at the words, caret at the end of the draft, ready.
+    setTimeout(() => {
+      const ta = document.querySelector('.sw-editbox textarea') as HTMLTextAreaElement | null;
+      if (!ta) return;
+      ta.focus();
+      try { const end = (this.editBuffer || '').length; ta.setSelectionRange(end, end); } catch { /* not focusable */ }
+    }, 80);
   }
 
   saveEdit(): void {
