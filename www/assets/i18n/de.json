@@ -828,7 +828,7 @@
     "walk.tapCard": "Karte antippen, um zu starten",
     "inbox.moreRows": "{{n}} weitere",
     "walk.createTask": "Aufgabe anlegen",
-    "walk.taskBlank": "Benenne, was du immer wieder nicht tust",
+    "walk.taskBlank": "Benenne diese Karte",
     "walk.taskBlankHint": "Umdrehen zum Schreiben",
     "walk.taskSave": "Speichern",
     "walk.taskCancel": "Abbrechen",

@@ -828,7 +828,7 @@
     "walk.tapCard": "點按卡片開始",
     "inbox.moreRows": "另外 {{n}} 條",
     "walk.createTask": "新建事項",
-    "walk.taskBlank": "說出你一直拖著不做的事",
+    "walk.taskBlank": "給這張卡片命名",
     "walk.taskBlankHint": "翻過來填寫",
     "walk.taskSave": "儲存",
     "walk.taskCancel": "取消",

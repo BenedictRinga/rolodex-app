@@ -828,7 +828,7 @@
     "walk.tapCard": "Touchez la carte pour commencer",
     "inbox.moreRows": "{{n}} de plus",
     "walk.createTask": "Créer une tâche",
-    "walk.taskBlank": "Nommez ce que vous ne faites pas",
+    "walk.taskBlank": "Nommez cette carte",
     "walk.taskBlankHint": "Retournez pour l'écrire",
     "walk.taskSave": "Enregistrer",
     "walk.taskCancel": "Annuler",

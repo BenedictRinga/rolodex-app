@@ -828,7 +828,7 @@
     "walk.tapCard": "शुरू करने के लिए कार्ड पर टैप करें",
     "inbox.moreRows": "{{n}} और",
     "walk.createTask": "काम बनाएँ",
-    "walk.taskBlank": "जिस काम को बार-बार टालते हैं, उसे नाम दें",
+    "walk.taskBlank": "इस कार्ड को नाम दें",
     "walk.taskBlankHint": "लिखने के लिए पलटें",
     "walk.taskSave": "सहेजें",
     "walk.taskCancel": "रद्द",

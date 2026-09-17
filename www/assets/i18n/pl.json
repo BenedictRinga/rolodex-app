@@ -828,7 +828,7 @@
     "walk.tapCard": "Dotknij kartę, aby zacząć",
     "inbox.moreRows": "{{n}} więcej",
     "walk.createTask": "Utwórz zadanie",
-    "walk.taskBlank": "Nazwij to, co wciąż odkładasz",
+    "walk.taskBlank": "Nazwij tę kartę",
     "walk.taskBlankHint": "Odwróć, aby zapisać",
     "walk.taskSave": "Zapisz",
     "walk.taskCancel": "Anuluj",

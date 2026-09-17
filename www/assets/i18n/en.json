@@ -834,7 +834,7 @@
     "walk.tapCard": "Tap Card to start",
     "inbox.moreRows": "{{n}} more",
     "walk.createTask": "Create Task",
-    "walk.taskBlank": "Name the thing you keep not doing",
+    "walk.taskBlank": "Name this card",
     "walk.taskBlankHint": "Flip to write it",
     "walk.taskSave": "Save",
     "walk.taskCancel": "Cancel",

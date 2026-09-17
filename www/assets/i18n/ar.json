@@ -828,7 +828,7 @@
     "walk.tapCard": "اضغط على البطاقة للبدء",
     "inbox.moreRows": "{{n}} أخرى",
     "walk.createTask": "أنشئ مهمة",
-    "walk.taskBlank": "سمِّ الشيء الذي تواصل عدم فعله",
+    "walk.taskBlank": "سمِّ هذه البطاقة",
     "walk.taskBlankHint": "اقلب لكتابته",
     "walk.taskSave": "حفظ",
     "walk.taskCancel": "إلغاء",

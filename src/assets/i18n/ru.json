@@ -828,7 +828,7 @@
     "walk.tapCard": "Нажмите на карточку, чтобы начать",
     "inbox.moreRows": "ещё {{n}}",
     "walk.createTask": "Создать дело",
-    "walk.taskBlank": "Назовите то, что всё не делаете",
+    "walk.taskBlank": "Назовите эту карточку",
     "walk.taskBlankHint": "Переверните, чтобы написать",
     "walk.taskSave": "Сохранить",
     "walk.taskCancel": "Отмена",
