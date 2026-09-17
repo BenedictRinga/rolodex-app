@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "en {{n}} meer",
     "walk.tapCard": "Tik op de kaart om te beginnen",
-    "inbox.moreRows": "{{n}} meer"
+    "inbox.moreRows": "{{n}} meer",
+    "walk.createTask": "Taak aanmaken",
+    "walk.taskBlank": "Noem wat je steeds niet doet",
+    "walk.taskBlankHint": "Draai om te schrijven",
+    "walk.taskSave": "Opslaan",
+    "walk.taskCancel": "Annuleren",
+    "walk.taskWhen": "Wanneer (optioneel)",
+    "walk.taskRhythm": "Ritme (optioneel)"
   }
 }

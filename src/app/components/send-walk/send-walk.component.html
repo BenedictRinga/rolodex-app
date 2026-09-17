@@ -27,8 +27,37 @@
        unmissable. -->
   <ng-container *ngIf="step === 1">
    <div class="sw-whopane">
-    <div class="sw-taphint" *ngIf="who">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
-    <button *ngIf="who" class="sw-card" type="button" (click)="confirmWho()">
+    <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
+
+    <!-- 2026-09-17 BUILD 257 THE TASK COMPLEMENT: when a draft is on, the
+         blank/saved task card IS the Who slot — same .sw-card box, no modal.
+         Tap = flip (nothing to start until it has a name). -->
+    <div *ngIf="taskDraftOn" class="sw-card sw-taskdraft" (click)="flipTaskDraft()">
+      <ng-container *ngIf="taskDraft === 'face'">
+        <div class="sw-avatar sw-taskblank-cover" aria-hidden="true"></div>
+        <div class="sw-name">{{ 'loopkeeper.walk.taskBlank' | translate }}</div>
+        <div class="sw-whisper">{{ 'loopkeeper.walk.taskBlankHint' | translate }}</div>
+      </ng-container>
+      <ng-container *ngIf="taskDraft === 'back'">
+        <div class="sw-taskback" (click)="$event.stopPropagation()">
+          <input class="sw-taskfield sw-tasktitle" type="text" [(ngModel)]="taskTitle"
+            [placeholder]="'loopkeeper.walk.taskBlank' | translate" maxlength="60" />
+          <input class="sw-taskfield" type="date" [(ngModel)]="taskDue"
+            [attr.aria-label]="'loopkeeper.walk.taskWhen' | translate" />
+          <div class="sw-taskchips">
+            <button *ngFor="let c of taskCadences" class="sw-taskchip" type="button"
+              [class.on]="taskCadence === c" (click)="taskCadence = c">{{ cadenceLabel(c) }}</button>
+          </div>
+          <div class="sw-taskactions">
+            <button class="sw-tasksave" type="button" (click)="saveTaskDraft()"
+              [disabled]="taskTitle.trim().length < 2">{{ 'loopkeeper.walk.taskSave' | translate }}</button>
+            <button class="sw-taskcancel" type="button" (click)="cancelTaskDraft()">{{ 'loopkeeper.walk.taskCancel' | translate }}</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <button *ngIf="who && !taskDraftOn" class="sw-card" type="button" (click)="confirmWho()">
       <!-- 2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: the emoji stands in
            the avatar's own circular space — the breadth of LoopKeeper
            visible at slide 1, no separate badge. -->
@@ -48,6 +77,12 @@
     <button *ngIf="who && canSkip" class="sw-ghost" type="button" (click)="notThisOne()">
       {{ 'loopkeeper.walk.notThis' | translate }}
     </button>
+    <!-- 2026-09-17 BUILD 257 THE TASK COMPLEMENT (founder wording): one
+         ghost line, same family as Not this one — naming the postponed act,
+         not listing chores. -->
+    <button *ngIf="!taskDraftOn" class="sw-ghost" type="button" (click)="beginTaskDraft()">
+      {{ 'loopkeeper.walk.createTask' | translate }}
+    </button>
     <!-- 2026-09-17 BUILD 250 ALPHA SIMPLICITY (founder: "Alpha is easily
          rendered as card, 'Not this one', and chat dialog box… usable by my
          4 year-old"): the typed subject line, the self-intent taps and the
@@ -59,7 +94,7 @@
     <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the inline chooser is
          retired — "Not this one" opens the contacts modal (pick mode), the
          roomy sheet design, instead of a cramped list under the card. -->
-    <div *ngIf="!who" class="sw-empty">
+    <div *ngIf="!who && !taskDraftOn" class="sw-empty">
       <div class="sw-empty-title">{{ 'loopkeeper.walk.whoTitle' | translate }}</div>
       <div class="sw-empty-body">{{ 'loopkeeper.walk.whoEmpty' | translate }}</div>
       <!-- 2026-08-31 BUILD 159 (founder): Demo OFF + an empty list must not
@@ -68,11 +103,12 @@
       <button class="sw-whoadd" type="button" (click)="mine()">
         {{ 'loopkeeper.walk.whoAdd' | translate }}
       </button>
-      <!-- 2026-09-16 BUILD 218 (founder: "at the very least, present the
-           user with the options to create Task cards or use their Device
-           Contact list"): the second door — a typed Task card. -->
-      <button class="sw-whoadd sw-whoadd-task" type="button" (click)="taskCardRequest.emit()">
-        {{ 'loopkeeper.walk.taskCard' | translate }}
+      <!-- 2026-09-17 BUILD 257: the modal door (taskCardRequest) retires from
+           Alpha — the same in-place Create Task draft serves the empty deck:
+           the blank card IS the Who slot. The full create form stays Beta's
+           (the add sheet's "I'll type a task"). -->
+      <button class="sw-ghost" type="button" (click)="beginTaskDraft()">
+        {{ 'loopkeeper.walk.createTask' | translate }}
       </button>
     </div>
    </div>

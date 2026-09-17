@@ -832,6 +832,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "and {{n}} more",
     "walk.tapCard": "Tap Card to start",
-    "inbox.moreRows": "{{n}} more"
+    "inbox.moreRows": "{{n}} more",
+    "walk.createTask": "Create Task",
+    "walk.taskBlank": "Name the thing you keep not doing",
+    "walk.taskBlankHint": "Flip to write it",
+    "walk.taskSave": "Save",
+    "walk.taskCancel": "Cancel",
+    "walk.taskWhen": "When (optional)",
+    "walk.taskRhythm": "Rhythm (optional)"
   }
 }

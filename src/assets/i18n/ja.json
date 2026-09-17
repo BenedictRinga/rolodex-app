@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "他{{n}}件",
     "walk.tapCard": "カードをタップして開始",
-    "inbox.moreRows": "他{{n}}件"
+    "inbox.moreRows": "他{{n}}件",
+    "walk.createTask": "タスクを作る",
+    "walk.taskBlank": "やりかねていることを名づける",
+    "walk.taskBlankHint": "裏返して書く",
+    "walk.taskSave": "保存",
+    "walk.taskCancel": "キャンセル",
+    "walk.taskWhen": "いつ（任意）",
+    "walk.taskRhythm": "リズム（任意）"
   }
 }

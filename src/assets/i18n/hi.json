@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "और {{n}} अधिक",
     "walk.tapCard": "शुरू करने के लिए कार्ड पर टैप करें",
-    "inbox.moreRows": "{{n}} और"
+    "inbox.moreRows": "{{n}} और",
+    "walk.createTask": "काम बनाएँ",
+    "walk.taskBlank": "जिस काम को बार-बार टालते हैं, उसे नाम दें",
+    "walk.taskBlankHint": "लिखने के लिए पलटें",
+    "walk.taskSave": "सहेजें",
+    "walk.taskCancel": "रद्द",
+    "walk.taskWhen": "कब (वैकल्पिक)",
+    "walk.taskRhythm": "लय (वैकल्पिक)"
   }
 }

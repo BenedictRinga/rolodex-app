@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "و{{n}} أخرى",
     "walk.tapCard": "اضغط على البطاقة للبدء",
-    "inbox.moreRows": "{{n}} أخرى"
+    "inbox.moreRows": "{{n}} أخرى",
+    "walk.createTask": "أنشئ مهمة",
+    "walk.taskBlank": "سمِّ الشيء الذي تواصل عدم فعله",
+    "walk.taskBlankHint": "اقلب لكتابته",
+    "walk.taskSave": "حفظ",
+    "walk.taskCancel": "إلغاء",
+    "walk.taskWhen": "متى (اختياري)",
+    "walk.taskRhythm": "الإيقاع (اختياري)"
   }
 }

@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "e altre {{n}}",
     "walk.tapCard": "Tocca la scheda per iniziare",
-    "inbox.moreRows": "altre {{n}}"
+    "inbox.moreRows": "altre {{n}}",
+    "walk.createTask": "Crea attività",
+    "walk.taskBlank": "Dai un nome a ciò che continui a non fare",
+    "walk.taskBlankHint": "Gira per scriverlo",
+    "walk.taskSave": "Salva",
+    "walk.taskCancel": "Annulla",
+    "walk.taskWhen": "Quando (facoltativo)",
+    "walk.taskRhythm": "Ritmo (facoltativo)"
   }
 }

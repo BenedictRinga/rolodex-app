@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "und {{n}} weitere",
     "walk.tapCard": "Karte antippen, um zu starten",
-    "inbox.moreRows": "{{n}} weitere"
+    "inbox.moreRows": "{{n}} weitere",
+    "walk.createTask": "Aufgabe anlegen",
+    "walk.taskBlank": "Benenne, was du immer wieder nicht tust",
+    "walk.taskBlankHint": "Umdrehen zum Schreiben",
+    "walk.taskSave": "Speichern",
+    "walk.taskCancel": "Abbrechen",
+    "walk.taskWhen": "Wann (optional)",
+    "walk.taskRhythm": "Rhythmus (optional)"
   }
 }

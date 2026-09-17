@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "还有 {{n}} 个",
     "walk.tapCard": "点按卡片开始",
-    "inbox.moreRows": "另外 {{n}} 条"
+    "inbox.moreRows": "另外 {{n}} 条",
+    "walk.createTask": "新建事项",
+    "walk.taskBlank": "说出你一直拖着不做的事",
+    "walk.taskBlankHint": "翻过来填写",
+    "walk.taskSave": "保存",
+    "walk.taskCancel": "取消",
+    "walk.taskWhen": "何时（可选）",
+    "walk.taskRhythm": "节奏（可选）"
   }
 }

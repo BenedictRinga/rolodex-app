@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "na {{n}} zaidi",
     "walk.tapCard": "Bonyeza Kadi ili kuanza",
-    "inbox.moreRows": "{{n}} zaidi"
+    "inbox.moreRows": "{{n}} zaidi",
+    "walk.createTask": "Anza Kazi",
+    "walk.taskBlank": "Ipe jina jambo unalolihisi kufanya",
+    "walk.taskBlankHint": "Geuza kuandika",
+    "walk.taskSave": "Hifadhi",
+    "walk.taskCancel": "Ghairi",
+    "walk.taskWhen": "Lini (hiari)",
+    "walk.taskRhythm": "Mdundo (hiari)"
   }
 }

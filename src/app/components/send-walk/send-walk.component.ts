@@ -80,6 +80,73 @@ export class SendWalkComponent implements OnInit, OnChanges {
   private retiredIds = new Set<string>();
   private retiredNames = new Set<string>();
 
+  // ── 2026-09-17 BUILD 257 THE TASK COMPLEMENT (Grok's spec, founder: "we
+  // need to see through eyes of first-timer"): Alpha births a task card IN
+  // PLACE — the same Who slot, the same .sw-card box, flip to name it, save,
+  // tap to start the loop. No modal, no list builder: naming the postponed
+  // act, not inventory. The full create form stays Beta's (the add sheet).
+  taskDraft: 'off' | 'face' | 'back' = 'off';
+  private prevWhoSnap: { contact: any; loop?: Loop } | null = null;
+  taskTitle = '';
+  taskDue = '';   // yyyy-mm-dd from the native date field
+  taskCadence: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' = 'monthly';
+  readonly taskCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
+
+  get taskDraftOn(): boolean { return this.taskDraft !== 'off'; }
+
+  cadenceLabel(c: string): string { return this.tr('loopkeeper.task.' + c); }
+
+  /** Remember the previous Who (Cancel restores it) and put the blank card
+   *  in the Who slot — no modal, no taskCardRequest, no layout jump. */
+  beginTaskDraft(): void {
+    if (this.taskDraftOn) return;
+    this.prevWhoSnap = this.selection ? { contact: this.selection.contact, loop: this.selection.loop } : null;
+    this.taskTitle = '';
+    this.taskDue = '';
+    this.taskCadence = 'monthly';
+    this.taskDraft = 'face';
+    void this.analytics.track('task_card_started');
+  }
+
+  /** Tap the blank = flip, not start. There is nothing to start until it has
+   *  a name — the only behavioural fork on Alpha, and only while unsaved. */
+  flipTaskDraft(): void {
+    this.taskDraft = this.taskDraft === 'face' ? 'back' : 'face';
+  }
+
+  /** Save writes a REAL deck card (kind:'task') and arms it as the Who with
+   *  armFromPick (224's deterministic arm). NO auto-start: the saved card
+   *  waits on slide 1 like every Who — the tap that starts the loop is the
+   *  user's own "Yes, this one" beat (218). */
+  saveTaskDraft(): void {
+    const title = this.taskTitle.trim();
+    if (title.length < 2) return;
+    const card: any = {
+      contactId: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      name: { display: title },
+      kind: 'task',
+      task: {
+        cadence: this.taskCadence,
+        ...(this.taskDue ? { due: new Date(this.taskDue + 'T09:00:00').getTime() } : {}),
+      },
+      isMockData: false,
+    };
+    this.contacts.unshift(card);
+    this.contactsDirty.emit();
+    void this.analytics.track('task_card_saved', { source: 'alpha-walk' });
+    void this.analytics.trackListStartedOnce('task');
+    this.taskDraft = 'off';
+    this.armFromPick(card);
+  }
+
+  /** Cancel (or Not this one while drafting) restores the previous Who —
+   *  no half-saved card, nothing written. */
+  cancelTaskDraft(): void {
+    this.taskDraft = 'off';
+    this.selection = this.prevWhoSnap;
+    this.prevWhoSnap = null;
+  }
+
   private retire(c: any): void {
     const id = String(c?.contactId || '').trim();
     if (id) this.retiredIds.add(id);
@@ -427,6 +494,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  carries its own cadence), no chips phase between the card and the words.
    *  The nuance lives in the user's own edit at the dialog. */
   confirmWho(): void {
+    // BUILD 257: an unsaved task draft has nothing to start — the tap FLIPS
+    // it (face -> back -> face). Only a saved Who walks on.
+    if (this.taskDraft !== 'off') { this.flipTaskDraft(); return; }
     const item = this.who;
     if (!item) return;
     this.markStaySeen();
@@ -472,6 +542,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * tap, a picked contact, an import, a typed card) lands as the Who.
    */
   notThisOne(): void {
+    // BUILD 257: while a task draft is on, Not this one IS the Cancel —
+    // the previous Who returns, nothing retires, nothing saves.
+    if (this.taskDraftOn) { this.cancelTaskDraft(); return; }
     // 2026-09-16 BUILD 224 THE IN-PLACE SWAP (founder: "app still skips
     // changing in place for user to see new card. Instead, it just skips
     // that first stage"): "Not this one" retires the current card and

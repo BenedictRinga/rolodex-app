@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "и ещё {{n}}",
     "walk.tapCard": "Нажмите на карточку, чтобы начать",
-    "inbox.moreRows": "ещё {{n}}"
+    "inbox.moreRows": "ещё {{n}}",
+    "walk.createTask": "Создать дело",
+    "walk.taskBlank": "Назовите то, что всё не делаете",
+    "walk.taskBlankHint": "Переверните, чтобы написать",
+    "walk.taskSave": "Сохранить",
+    "walk.taskCancel": "Отмена",
+    "walk.taskWhen": "Когда (необязательно)",
+    "walk.taskRhythm": "Ритм (необязательно)"
   }
 }

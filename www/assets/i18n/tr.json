@@ -826,6 +826,13 @@
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "ve {{n}} tane daha",
     "walk.tapCard": "Başlamak için Karta dokunun",
-    "inbox.moreRows": "{{n}} tane daha"
+    "inbox.moreRows": "{{n}} tane daha",
+    "walk.createTask": "Görev oluştur",
+    "walk.taskBlank": "Yapamadığın şeyi adlandır",
+    "walk.taskBlankHint": "Yazmak için çevir",
+    "walk.taskSave": "Kaydet",
+    "walk.taskCancel": "İptal",
+    "walk.taskWhen": "Ne zaman (isteğe bağlı)",
+    "walk.taskRhythm": "Ritim (isteğe bağlı)"
   }
 }
