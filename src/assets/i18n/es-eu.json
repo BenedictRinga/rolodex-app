@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Esleitu",
     "walk.tSnoozed": "Atzeratu da — bere erritmoan itzuliko da",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }

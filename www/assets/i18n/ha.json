@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Miƙa wa wani",
     "walk.tSnoozed": "An jinkirta — zai dawo da ritimar sa",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }

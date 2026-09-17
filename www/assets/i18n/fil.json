@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Ipasa",
     "walk.tSnoozed": "Naantala — babalik sa sariling ritmo",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }

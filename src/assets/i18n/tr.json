@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Devret",
     "walk.tSnoozed": "Ertelendi — kendi ritmiyle döner",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "ve {{n}} tane daha"
+    "walk.gardenMore": "ve {{n}} tane daha",
+    "walk.tapCard": "Başlamak için Karta dokunun"
   }
 }

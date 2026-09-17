@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Delegeren",
     "walk.tSnoozed": "Uitgesteld — komt terug op zijn ritme",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "en {{n}} meer"
+    "walk.gardenMore": "en {{n}} meer",
+    "walk.tapCard": "Tik op de kaart om te beginnen"
   }
 }

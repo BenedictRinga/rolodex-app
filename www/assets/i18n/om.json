@@ -830,6 +830,7 @@
     "walk.doorDelegate": "Maxxansiisi",
     "walk.tSnoozed": "Dheeraffame — ofiin deebi’a",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }

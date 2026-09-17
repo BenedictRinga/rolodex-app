@@ -91,6 +91,20 @@
 .sw-ghost:active { opacity: .9; }
 .sw-change { font-style: italic; font-weight: 500; }
 
+// ── BUILD 252: the Alpha pane sits 15px lower, the ONE action is named, and
+// the intervention notes are unmissable (+40% type, same color and weight).
+.sw-whopane { padding-top: 15px; }
+.sw-taphint {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: .04em;
+  opacity: .5;
+  margin: 0 0 8px;
+}
+// "Not this one" — scoped to the Alpha pane so other ghost buttons keep
+// their size. 13px -> 18.2px (+40%), same color and opacity.
+.sw-whopane .sw-ghost { font-size: 18.2px; }
+
 .sw-empty { text-align: center; padding: 36px 16px 12px; }
 .sw-empty-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
 .sw-empty-body { font-size: 13.5px; line-height: 1.5; opacity: .55; }
@@ -204,7 +218,9 @@
   background: none;
   color: inherit;
   opacity: .4;
-  font-size: 12px;
+  // BUILD 252: "Let me change it" is an intervention note, not a footnote —
+  // 12px -> 16.8px (+40%), same color and opacity.
+  font-size: 16.8px;
   font-style: italic;
   cursor: pointer;
   padding: 4px;

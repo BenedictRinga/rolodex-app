@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Kabidhi",
     "walk.tSnoozed": "Imepumzishwa — inarudi kwa mzunguko wake",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "na {{n}} zaidi"
+    "walk.gardenMore": "na {{n}} zaidi",
+    "walk.tapCard": "Bonyeza Kadi ili kuanza"
   }
 }

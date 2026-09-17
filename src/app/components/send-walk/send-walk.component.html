@@ -20,8 +20,14 @@
        spacer leaves slide 3 too and its styles run compact. -->
   <div class="sw-lower" *ngIf="step !== 4 && step !== 3" aria-hidden="true"></div>
 
-  <!-- 1 WHO — the app picked. Confirm or skip. Never a list. -->
+  <!-- 1 WHO — the app picked. Confirm or skip. Never a list.
+       2026-09-17 BUILD 252: the pane sits 15px lower (the viewport was
+       decluttered in 250 — the room is there), a thin note names the ONE
+       action ("- Tap Card to start -"), and the intervention notes are
+       unmissable. -->
   <ng-container *ngIf="step === 1">
+   <div class="sw-whopane">
+    <div class="sw-taphint" *ngIf="who">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
     <button *ngIf="who" class="sw-card" type="button" (click)="confirmWho()">
       <!-- 2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: the emoji stands in
            the avatar's own circular space — the breadth of LoopKeeper
@@ -69,6 +75,7 @@
         {{ 'loopkeeper.walk.taskCard' | translate }}
       </button>
     </div>
+   </div>
   </ng-container>
 
   <!-- 2026-09-17 BUILD 250 ALPHA SIMPLICITY: SLIDE 2 (the chips) IS RETIRED

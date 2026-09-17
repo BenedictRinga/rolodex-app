@@ -824,6 +824,7 @@
     "walk.doorDelegate": "להאציל",
     "walk.tSnoozed": "נדחה — חוזר בקצב שלו",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }

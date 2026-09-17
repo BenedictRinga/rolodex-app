@@ -824,6 +824,7 @@
     "walk.doorDelegate": "सौंप दें",
     "walk.tSnoozed": "टाल दिया — अपनी लय से लौटेगा",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "और {{n}} अधिक"
+    "walk.gardenMore": "और {{n}} अधिक",
+    "walk.tapCard": "शुरू करने के लिए कार्ड पर टैप करें"
   }
 }

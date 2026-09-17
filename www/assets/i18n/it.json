@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Delegare",
     "walk.tSnoozed": "Rinviato — torna con il suo ritmo",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "e altre {{n}}"
+    "walk.gardenMore": "e altre {{n}}",
+    "walk.tapCard": "Tocca la scheda per iniziare"
   }
 }

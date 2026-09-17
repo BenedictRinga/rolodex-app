@@ -824,6 +824,7 @@
     "walk.doorDelegate": "Nyefee",
     "walk.tSnoozed": "Ekwọchịrịla — ọ ga-alọ na usoro ya",
     "settings.checkins": "Check-ins",
-    "walk.gardenMore": "and {{n}} more"
+    "walk.gardenMore": "and {{n}} more",
+    "walk.tapCard": "Tap Card to start"
   }
 }
