@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Imepumzishwa — inarudi kwa mzunguko wake",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "na {{n}} zaidi",
-    "walk.tapCard": "Bonyeza Kadi ili kuanza"
+    "walk.tapCard": "Bonyeza Kadi ili kuanza",
+    "inbox.moreRows": "{{n}} zaidi"
   }
 }

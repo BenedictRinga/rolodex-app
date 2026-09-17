@@ -349,15 +349,24 @@ export class SendWalkComponent implements OnInit, OnChanges {
     if (!h) return;
     void this.analytics.trackListStartedOnce('walk');
     const open = this.loops.openMine().find(l => String(l.person || '').trim().toLowerCase() === h.toLowerCase());
-    if (open) { this.pickLoop(open, undefined, true); return; }
+    // BUILD 250/253: a garden pill's walk lands IN THE CHAT DIALOG — the open
+    // loop's draft plumps in; with none open, the default loop is born here
+    // (the retired slide 2 no longer exists in Alpha).
+    if (open) { this.pickLoop(open, undefined); return; }
     this.armedContact = null;
     this.armedHandle = h;
     this.whatInput = '';
     this.lineOpen = false;
     this.editingWords = false;
     this.moreOpen = false;
-    this.backOfStep3 = 2;
-    this.go(2);
+    this.loop = this.loops.create({
+      person: h,
+      kind: 'check-in',
+      summary: '',
+      stance: 'warm',
+      direction: 'mine',
+    });
+    this.enterWords(true);
   }
 
   onHandleEnter(ev: KeyboardEvent): void {
@@ -773,6 +782,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   setTone(t: 'short' | 'honest' | 'light'): void {
     const l = this.sel(); if (!l) return;
+    // 2026-09-17 BUILD 253 THE COMPOSITION SEQUENCE FIXED (founder: "After I
+    // added my own polish to a message on Loops Alpha, it ignored my input
+    // and still sent its own pre-edit message"): the tone tap used to
+    // REGENERATE the draft from the loop's structure — silently wiping the
+    // user's own edit. Now: the tone is recorded, and the draft is only
+    // regenerated while it is still the engine's own — a user-owned draft
+    // (ownWords, set at Save) is THEIRS and stands.
+    if (l.ownWords) { this.loops.update(l.id, { tone: t }); return; }
     this.loops.update(l.id, { tone: t, draft: this.loops.generateDraft(l, t) });
   }
 
@@ -810,7 +827,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
   saveEdit(): void {
     const l = this.sel(); if (!l) return;
     const v = this.editBuffer.trim();
-    if (v) this.loops.update(l.id, { draft: v });
+    // BUILD 253: the saved words are the user's OWN — ownership is recorded
+    // so no tone tap can silently overwrite them afterwards.
+    if (v) this.loops.update(l.id, { draft: v, ownWords: true });
     this.editingWords = false;
   }
 

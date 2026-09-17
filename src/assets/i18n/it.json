@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Rinviato — torna con il suo ritmo",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "e altre {{n}}",
-    "walk.tapCard": "Tocca la scheda per iniziare"
+    "walk.tapCard": "Tocca la scheda per iniziare",
+    "inbox.moreRows": "altre {{n}}"
   }
 }

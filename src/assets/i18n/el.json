@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Αναβλήθηκε — επιστρέφει με τον ρυθμό του",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "and {{n}} more",
-    "walk.tapCard": "Tap Card to start"
+    "walk.tapCard": "Tap Card to start",
+    "inbox.moreRows": "{{n}} more"
   }
 }

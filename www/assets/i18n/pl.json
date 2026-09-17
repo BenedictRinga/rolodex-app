@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Odłożone — wróci ze swoim rytmem",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "i {{n}} więcej",
-    "walk.tapCard": "Dotknij kartę, aby zacząć"
+    "walk.tapCard": "Dotknij kartę, aby zacząć",
+    "inbox.moreRows": "{{n}} więcej"
   }
 }

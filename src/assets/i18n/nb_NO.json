@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Utsett — kommer tilbake i sin rytme",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "and {{n}} more",
-    "walk.tapCard": "Tap Card to start"
+    "walk.tapCard": "Tap Card to start",
+    "inbox.moreRows": "{{n}} more"
   }
 }

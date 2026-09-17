@@ -825,6 +825,7 @@
     "walk.tSnoozed": "تم التأجيل — تعود بإيقاعها",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "و{{n}} أخرى",
-    "walk.tapCard": "اضغط على البطاقة للبدء"
+    "walk.tapCard": "اضغط على البطاقة للبدء",
+    "inbox.moreRows": "{{n}} أخرى"
   }
 }

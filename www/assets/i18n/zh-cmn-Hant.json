@@ -825,6 +825,7 @@
     "walk.tSnoozed": "已順延 — 會按自己的節奏回來",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "還有 {{n}} 個",
-    "walk.tapCard": "點按卡片開始"
+    "walk.tapCard": "點按卡片開始",
+    "inbox.moreRows": "另外 {{n}} 條"
   }
 }

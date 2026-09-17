@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Aufgeschoben — kehrt mit ihrem Rhythmus zurück",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "und {{n}} weitere",
-    "walk.tapCard": "Karte antippen, um zu starten"
+    "walk.tapCard": "Karte antippen, um zu starten",
+    "inbox.moreRows": "{{n}} weitere"
   }
 }

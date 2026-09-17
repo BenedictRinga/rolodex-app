@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Отложено — вернётся по своему ритму",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "и ещё {{n}}",
-    "walk.tapCard": "Нажмите на карточку, чтобы начать"
+    "walk.tapCard": "Нажмите на карточку, чтобы начать",
+    "inbox.moreRows": "ещё {{n}}"
   }
 }

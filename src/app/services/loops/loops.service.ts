@@ -74,6 +74,11 @@ export interface Loop {
   // ── The draft layer (features 5/14/15/16) ──
   tone: LoopTone;
   draft: string;
+  /** 2026-09-17 BUILD 253 THE COMPOSITION SEQUENCE: TRUE once the user has
+   *  written their OWN words at the dialog ("Let me change it" -> Save). A
+   *  user-owned draft is never silently overwritten by a tone tap — the words
+   *  are theirs; the AI retry still polishes FROM their text. */
+  ownWords?: boolean;
   pretext?: string;
   channel?: LoopChannel;
   voiceOutline?: string;

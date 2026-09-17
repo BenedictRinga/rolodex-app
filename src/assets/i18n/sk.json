@@ -825,6 +825,7 @@
     "walk.tSnoozed": "Odkladované — vráti sa vo svojom rytme",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "and {{n}} more",
-    "walk.tapCard": "Tap Card to start"
+    "walk.tapCard": "Tap Card to start",
+    "inbox.moreRows": "{{n}} more"
   }
 }

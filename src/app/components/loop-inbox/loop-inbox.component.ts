@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Outpu
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  LoopsService, Loop, LoopTone, LoopChannel,
+  LoopsService, Loop, LoopKind, LoopTone, LoopChannel,
 } from '../../services/loops/loops.service';
 import { AlertsService } from '../../services/alerts/alerts.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
@@ -142,6 +142,35 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   theirs: Loop[] = [];
   closed: Loop[] = [];
   counts = { mine: 0, theirs: 0, closedThisWeek: 0 };
+
+  // ── 2026-09-17 BUILD 253 THE THREE-SEAT RULE ON BETA ──
+  // The founder: "Right now I am deluged in beta with TODOs." No shelf
+  // section hosts more than THREE rows — the rest is a muted count,
+  // transparency without overwhelm. The full lists stay in the fields above;
+  // the template renders the seats.
+  get mineSeats(): Loop[] { return this.mine.slice(0, 3); }
+  get mineMore(): number { return Math.max(0, this.mine.length - 3); }
+  get theirsSeats(): Loop[] { return this.theirs.slice(0, 3); }
+  get theirsMore(): number { return Math.max(0, this.theirs.length - 3); }
+  get waitingSeats(): Loop[] { return this.stack.waiting.slice(0, 3); }
+  get waitingMore(): number { return Math.max(0, this.stack.waiting.length - 3); }
+  get parkedSeats(): Loop[] { return this.stack.parked.slice(0, 3); }
+  get parkedMore(): number { return Math.max(0, this.stack.parked.length - 3); }
+
+  /** 2026-09-17 BUILD 253 BETA: the self-intent taps RETURN to the shelf —
+   *  "A decision I keep not making" / "Somewhere I must show up" birth PURE
+   *  self-loops (no subject at all) and hand them to the walk's chat dialog
+   *  (the Alpha continuation landing): flip to the walk, the pending-nudge
+   *  channel arms it, the dialog opens with the engine's draft. */
+  selfLoop(kind: LoopKind): void {
+    const loop = this.loops.create({ person: '', kind, summary: '', stance: 'warm', direction: 'mine' });
+    void this.analytics.track('self_loop_started'); // BUILD 184's door, now on Beta
+    this.selectedId = loop.id;
+    this.setLoopsSurface('walk');
+    this.nudgeArrived(null, loop);
+    void this.refresh();
+  }
+
   // 2026-09-08 BUILD 181 THE STACK — the secretary's tray: what's deferred
   // (snoozed with a wake date) and what's parked (someday), kept in view.
   stack: { waiting: Loop[]; parked: Loop[]; dueCount: number } = { waiting: [], parked: [], dueCount: 0 };

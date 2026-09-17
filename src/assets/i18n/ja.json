@@ -825,6 +825,7 @@
     "walk.tSnoozed": "先送りにしました — そのリズムで戻ります",
     "settings.checkins": "Check-ins",
     "walk.gardenMore": "他{{n}}件",
-    "walk.tapCard": "カードをタップして開始"
+    "walk.tapCard": "カードをタップして開始",
+    "inbox.moreRows": "他{{n}}件"
   }
 }
