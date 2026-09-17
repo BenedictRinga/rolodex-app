@@ -492,24 +492,27 @@ export class RolodexComponent implements OnInit {
     try {
       const result = await this.updatesService.manualCheckForUpdates();
       this.updateCurrent = result.currentVersion;
-      this.updateCurrentBuild = this.updatesService.appBuild;
+      this.updateCurrentBuild = result.currentBuild;
       this.updateServer = result.serverVersion || '';
-      // 2026-09-17 BUILD 241: the 232 build-numbers reversal (founder's
-      // order) — the manual check speaks versions again, as it did before.
-      this.updateServerBuild = 0;
+      // 2026-09-17 BUILD 246 ONE TRUTH (founder: the Settings check must be
+      // SATISFIED by the same update that satisfies the global alert): the
+      // manual check speaks the deployed build again (232's shape,
+      // re-applied) — the version-string comparison could never agree
+      // (0.3.162 vs 0.3.1) and recommended a fresh update forever.
+      this.updateServerBuild = result.serverBuild;
       this.updateAvailable = result.isUpdateAvailable;
 
       if (result.gate === 'error') {
         await this.alertService.alertPrompt({
           header: 'Update check failed',
-          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on v${result.currentVersion}; the server version could not be confirmed.`,
+          message: `Could not reach the update source${result.error ? ' — ' + result.error : ''}. You are on build ${result.currentBuild}; the deployed build could not be confirmed.`,
         });
         return;
       }
       if (result.gate === 'offline') {
         await this.alertService.alertPrompt({
           header: 'Offline',
-          message: `No internet connection — the update check was skipped. You are on v${result.currentVersion}.`,
+          message: `No internet connection — the update check was skipped. You are on build ${result.currentBuild}.`,
         });
         return;
       }
@@ -520,10 +523,16 @@ export class RolodexComponent implements OnInit {
 
       if (result.isUpdateAvailable) {
         await this.presentUpdatePrompt();
-      } else {
+      } else if (result.serverBuild > 0) {
         await this.alertService.alertPrompt({
           header: 'Up to date',
-          message: `You're on v${result.currentVersion} — the latest${result.serverVersion ? ` (server v${result.serverVersion})` : ''}.`,
+          message: `You're on build ${result.currentBuild} (v${result.currentVersion}) — the latest deployed build is ${result.serverBuild}. You are current.`,
+        });
+      } else {
+        // A dev origin runs its own code — no deployed build.json to compare.
+        await this.alertService.alertPrompt({
+          header: 'Up to date',
+          message: `You're on build ${result.currentBuild} (v${result.currentVersion}) — this origin runs its own build, so there is nothing to compare against. Checks are meaningful from the deployed app.`,
         });
       }
     } finally {

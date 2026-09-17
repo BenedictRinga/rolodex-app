@@ -97,8 +97,12 @@ export class UpdatesService {
       this.serverBuild = deployed?.build || 0;
       this.lastCheckAt = Date.now();
       this.checked = true;
-      const byBuild = !!deployed && deployed.build > this.appBuild;
-      const available = byBuild || (!deployed && status.isUpdateAvailable);
+      // BUILD 246 ONE TRUTH: the decision is the BUILD NUMBER, everywhere.
+      // The old `|| (!deployed && status.isUpdateAvailable)` fallback was the
+      // version-string lie's last door (a dev origin compared 0.3.162 vs
+      // 0.3.1 and recommended forever); without a deployed build.json the
+      // honest answer is "cannot confirm" — never a recommendation.
+      const available = !!deployed && deployed.build > this.appBuild;
       this.lastResult = {
         available,
         current: this.appVersion,
@@ -125,43 +129,47 @@ export class UpdatesService {
     } catch { return null; }
   }
 
-  /** 2026-08-20 THE ZYPPAR CHECK — /api/loopkeeper/updates/check?clientVersion=...
-   *  2026-09-17 BUILD 241: the 232 build-gate here is REVERSED (founder:
-   *  "Reverse the updates detection logic altered about 5 commits back. It
-   *  has disrupted what works for what does not.") — this check reads the
-   *  version endpoint exactly as it did before 232. The build.json truth
-   *  machinery stays where 220 put it: check() / the banner / the quiet
-   *  pop-up still compare deployed.build there; only what 232 altered is
-   *  undone. */
+  /** 2026-08-20 THE ZYPPAR CHECK — ONE TRUTH END TO END (2026-09-17 BUILD 246,
+   *  founder: "There is a version discrepancy between updates in Settings and
+   *  that which globally alerts, because tapping the latter and updating,
+   *  never satisfies version control of the former, which goes on still to
+   *  recommend when tapped to check, a fresh update"): the arc, honestly told
+   *  — 232 build-gated this check, 241 reversed it on the founder's order, and
+   *  the reversal RESURRECTED the version-string lie on the Settings surface
+   *  (server version.txt 0.3.162 vs app 0.3.1 can NEVER agree, so the manual
+   *  check recommended a fresh update forever, even seconds after a
+   *  successful apply). ONE TRUTH NOW: every update surface — the global
+   *  banner, the quiet pop-up, and the Settings manual check — reads the
+   *  deployed /loopkeeper/build.json BUILD NUMBER; where that file does not
+   *  exist (a dev origin) the honest answer is "cannot confirm", never a
+   *  recommendation. Updating through ANY surface now satisfies EVERY
+   *  surface. */
   async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string; gate: 'offline' | 'ok' }> {
     if (!navigator.onLine) {
       return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
     }
-    const res = await this.network.safeFetch(
-      `${environment.rolodexApiBase}/updates/check?clientVersion=${encodeURIComponent(this.appVersion)}`,
-      { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
-    );
-    if (!res) {
-      // Offline / network changed — quiet fallback, never console noise.
-      return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
+    const deployed = await this.fetchDeployedBuild();
+    if (deployed) {
+      return {
+        isUpdateAvailable: deployed.build > this.appBuild,
+        type: 'flexible',
+        version: deployed.version || this.appVersion,
+        gate: 'ok',
+      };
     }
-    if (!res.ok) throw new Error('update check failed');
-    const data = await res.json();
-    const version = String(data?.version || '').trim();
-    const type: 'flexible' | 'immediate' = data?.type === 'immediate' ? 'immediate' : 'flexible';
-    return {
-      isUpdateAvailable: version !== '' && version !== this.appVersion,
-      type,
-      version,
-      gate: 'ok',
-    };
+    // No deployed build.json on this origin (a dev origin runs its own code):
+    // the honest answer is "cannot confirm" — never the version-string lie.
+    return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'ok' };
   }
 
   /** 2026-08-20 ZYPPAR MANUAL CHECK — never lies: surfaces the gate reason and
-   *  the exact compared versions, so a failed/blocked check can never be
+   *  the exact compared builds, so a failed/blocked check can never be
    *  presented as "up to date".
-   *  2026-09-17 BUILD 241: REVERSED to the pre-232 shape (founder's order) —
-   *  the version strings the Settings page always compared. */
+   *  2026-09-17 BUILD 246: the result carries the REAL BUILD NUMBERS again
+   *  (232's shape, re-applied as the one-truth convergence — see
+   *  checkForUpdates): the Settings page and the pop-up speak builds, and an
+   *  applied update satisfies this check the same way it satisfies the
+   *  global alert. */
   async manualCheckForUpdates(): Promise<{
     isUpdateAvailable: boolean;
     type: 'flexible' | 'immediate';
@@ -169,14 +177,23 @@ export class UpdatesService {
     gate: 'offline' | 'ok' | 'error';
     currentVersion: string;
     serverVersion: string;
+    currentBuild: number;
+    serverBuild: number;
     error?: string;
   }> {
     try {
       const status = await this.checkForUpdates();
+      let serverBuild = 0;
+      try {
+        const deployed = await this.fetchDeployedBuild();
+        serverBuild = deployed?.build || 0;
+      } catch { /* build.json absent — the dev-origin honest answer governs */ }
       return {
         ...status,
         currentVersion: this.appVersion,
         serverVersion: status.version,
+        currentBuild: this.appBuild,
+        serverBuild,
       };
     } catch (err) {
       return {
@@ -186,6 +203,8 @@ export class UpdatesService {
         gate: 'error',
         currentVersion: this.appVersion,
         serverVersion: '',
+        currentBuild: this.appBuild,
+        serverBuild: 0,
         error: String((err as Error)?.message || err),
       };
     }
