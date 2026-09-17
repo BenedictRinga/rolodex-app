@@ -410,24 +410,43 @@ export class SendWalkComponent implements OnInit, OnChanges {
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
-  /** Confirm the one person on screen. */
+  /** Confirm the one person on screen.
+   *  2026-09-17 BUILD 250 ALPHA SIMPLICITY (founder: "Alpha is easily rendered
+   *  as card, 'Not this one', and chat dialog box… Alpha of Loops must be
+   *  usable by my 4 year-old"): the card tap goes STRAIGHT to the chat dialog
+   *  — the loop is born here (the default intent: a check-in; a task card
+   *  carries its own cadence), no chips phase between the card and the words.
+   *  The nuance lives in the user's own edit at the dialog. */
   confirmWho(): void {
     const item = this.who;
     if (!item) return;
     this.markStaySeen();
     if (item.loop) {
-      this.pickLoop(item.loop, item.contact);
+      this.pickLoop(item.loop, item.contact); // the card tap PROCEEDS — straight to the words
       return;
     }
     // 2026-08-31 BUILD 159: confirming a REAL person is the moment their list
     // has begun — logged once ever per device, whatever door it came through.
     if (!item.contact?.isMockData) void this.analytics.trackListStartedOnce('walk');
-    this.armedContact = item.contact;
+    const c = item.contact;
+    this.armedContact = c;
     this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
-    this.backOfStep3 = 2;
-    this.go(2);
+    const isTask = (c as any)?.kind === 'task';
+    this.loop = this.loops.create({
+      person: String(c?.name?.display || '').trim(),
+      kind: isTask ? 'decide' : 'check-in',
+      summary: '',
+      stance: 'warm',
+      direction: 'mine',
+      sourceContactId: String(c?.contactId || '') || undefined,
+      relation: this.whereOf(c) || undefined,
+      lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
+      ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
+    });
+    this.select(c, this.loop);
+    this.enterWords(true);
   }
 
   /** 2026-09-01 BUILD 179 (founder): the deck-split era is over — "Not this
@@ -556,46 +575,50 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   /**
-   * A nudge (or chat handoff) arrives with a loop armed. 2026-09-17 BUILD 242:
-   * the armed subject now TAKES OVER the operational card — the walk lands ON
-   * the card (slide 1), so the selection is seen replacing the default/current
-   * card, and the words are one tap away. (Pre-242 this skipped Who and landed
-   * on the words, which is why the founder never saw the card take over.)
-   * Same doors as confirming by hand.
+   * A nudge (or chat handoff) arrives with a loop armed.
+   * 2026-09-17 BUILD 250 THE CONTINUATION (founder: "we plump their message or
+   * one derived from it into the chat dialog on arrival back into Loops"):
+   * the arrival lands IN THE CHAT DIALOG — the loop's draft (written from the
+   * alert's own subject when the loop was born) is already in the box, so the
+   * alert's promise continues in two taps: words → send. The selection is
+   * still written first (244), so the card behind the dialog is this subject.
+   * A bare contact births its default loop here (the same birth confirmWho
+   * uses) — the dialog opens with the engine's draft.
    * 2026-09-01 BUILD 179: also the landing for "Not this one" row taps (home
    * routes them here), so the once-ever list marker rides along like it did
    * in the old chooser.
-   * 2026-09-17 BUILD 244 THE DETERMINISTIC ARM (founder: "Rather than be
-   * hostage to time, adopt deterministic coding"): the caller now hands the
-   * LOOP OBJECT it resolved at the tap — this method performs ZERO lookups
-   * (no getLoop, no openLoopFor), so storage hydration, cache warmth and
-   * mount order cannot change which branch runs. The subject+loop arrive as
-   * data; the arm is field writes; the card is the selection. The default
-   * walk happens ONLY for a genuinely empty payload.
+   * 2026-09-17 BUILD 244 THE DETERMINISTIC ARM: the caller hands the LOOP
+   * OBJECT it resolved at the tap — zero lookups; the default walk happens
+   * ONLY for a genuinely empty payload.
    */
   armFromNudge(contact: any | null, loop?: Loop | null): void {
     if (contact && !contact.isMockData) void this.analytics.trackListStartedOnce('walk');
     if (loop) {
-      // The caller's loop, carried — not re-resolved. Open or waiting, its
-      // story IS the payload (the 239 seal, now unconditional by data).
-      this.pickLoop(loop, contact || this.cardFor(loop), true); // BUILD 242: the selection takes the card first
+      // The caller's loop, carried — not re-resolved. The continuation IS the
+      // dialog: the draft plumps in, the send is one tap away.
+      this.pickLoop(loop, contact || this.cardFor(loop));
       return;
     }
     if (contact) {
-      this.armedContact = contact;
+      const c = contact;
+      this.armedContact = c;
       this.armedHandle = '';
-      // BUILD 243: a bare contact carries no loop — clear whatever loop the
-      // walk in progress had armed, so the card's context is exactly this
-      // subject (the words are written from the card, never a stale draft).
-      this.loop = null;
       this.whatInput = '';
       this.lineOpen = false;
-      this.backOfStep3 = 2;
-      // BUILD 240/242: the escalated subject DISPLACES the operational card
-      // and the takeover IS the landing — the thing slide is one tap away
-      // (tap the card), never skipped over.
-      this.select(contact, undefined);
-      this.go(1);
+      const isTask = (c as any)?.kind === 'task';
+      this.loop = this.loops.create({
+        person: String(c?.name?.display || '').trim(),
+        kind: isTask ? 'decide' : 'check-in',
+        summary: '',
+        stance: 'warm',
+        direction: 'mine',
+        sourceContactId: String(c?.contactId || '') || undefined,
+        relation: this.whereOf(c) || undefined,
+        lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
+        ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
+      });
+      this.select(c, this.loop);
+      this.enterWords(true);
       return;
     }
     // A genuinely EMPTY payload is the ONLY path to the default walk —
@@ -617,6 +640,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // is a SELECTION, the selection is what stands there (BUILD 241's clear
     // here handed the default pick straight back to the founder). Only
     // deliberate moves end a held selection: Not this one, Next one, MINE.
+    // BUILD 250: with the chips retired from Alpha, back from the words goes
+    // straight to the card — there is no phase between them.
     void this.rebuildWho();
     this.go(1);
   }
@@ -796,8 +821,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   backFromWords(): void {
-    if (this.backOfStep3 === 1) { this.backToWho(); return; }
-    this.go(2);
+    // BUILD 250 ALPHA: back from the words is always the card — the chips
+    // phase is retired from Alpha (the machinery stays for Beta).
+    this.backToWho();
   }
 
   backFromTap(): void { this.go(3); }
