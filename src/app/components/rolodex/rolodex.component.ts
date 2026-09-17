@@ -492,26 +492,24 @@ export class RolodexComponent implements OnInit {
     try {
       const result = await this.updatesService.manualCheckForUpdates();
       this.updateCurrent = result.currentVersion;
-      this.updateCurrentBuild = result.currentBuild;
+      this.updateCurrentBuild = this.updatesService.appBuild;
       this.updateServer = result.serverVersion || '';
-      // 2026-09-16 BUILD 232 THE UPDATE TRUTH: the REAL deployed build — the
-      // hardcoded 0 made the prompt read "build 0" and the check rode the
-      // version strings that can never agree (0.3.1 vs 0.3.162), so every
-      // successful apply still read "update available". Builds compare now.
-      this.updateServerBuild = result.serverBuild;
+      // 2026-09-17 BUILD 241: the 232 build-numbers reversal (founder's
+      // order) — the manual check speaks versions again, as it did before.
+      this.updateServerBuild = 0;
       this.updateAvailable = result.isUpdateAvailable;
 
       if (result.gate === 'error') {
         await this.alertService.alertPrompt({
           header: 'Update check failed',
-          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on build ${result.currentBuild}; the deployed build could not be confirmed.`,
+          message: `Could not reach the update server${result.error ? ' — ' + result.error : ''}. You are on v${result.currentVersion}; the server version could not be confirmed.`,
         });
         return;
       }
       if (result.gate === 'offline') {
         await this.alertService.alertPrompt({
           header: 'Offline',
-          message: `No internet connection — the update check was skipped. You are on build ${result.currentBuild}.`,
+          message: `No internet connection — the update check was skipped. You are on v${result.currentVersion}.`,
         });
         return;
       }
@@ -525,7 +523,7 @@ export class RolodexComponent implements OnInit {
       } else {
         await this.alertService.alertPrompt({
           header: 'Up to date',
-          message: `You're on build ${result.currentBuild} (v${result.currentVersion}) — the latest deployed build${result.serverBuild ? ` is ${result.serverBuild}` : ''}. You are current.`,
+          message: `You're on v${result.currentVersion} — the latest${result.serverVersion ? ` (server v${result.serverVersion})` : ''}.`,
         });
       }
     } finally {

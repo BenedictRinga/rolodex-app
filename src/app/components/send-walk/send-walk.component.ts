@@ -64,6 +64,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     if (!v) return;
     const id = String(v?.contactId || '').trim();
     if (id) this.retiredIds.delete(id);
+    // BUILD 241: the pick leads too — held against the async rebuild's tail.
+    this.displacedLead = { contact: v };
     this.queue = [{ contact: v }, ...this.queue.filter((q) => String(q.contact?.contactId || '') !== id)];
     this.whoIndex = 0;
     this.go(1);
@@ -94,6 +96,15 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** One-at-a-time Who queue: today's three first, then the deck. */
   private queue: Array<{ contact: any; loop?: Loop }> = [];
   whoIndex = 0;
+
+  /** 2026-09-17 BUILD 241: the displaced subject, HELD. ngOnInit's queue
+   *  rebuild is async (todaysThree awaits storage) — an arm that lands while
+   *  it is in flight (the held-nudge delivery at inboxReady) lays its subject
+   *  on the queue first, and the rebuild's tail used to rewrite the queue
+   *  with the default pick, taking the card back. The held lead re-applies
+   *  at the rebuild's tail while the walk stays armed; a deliberate default
+   *  return (backToWho / nextOne / mine) clears it. */
+  private displacedLead: { contact: any; loop?: Loop } | null = null;
 
   armedContact: any = null;
   // 2026-09-08 BUILD 182 THE GARDEN PATH: the walk can arm a HANDLE instead of
@@ -279,6 +290,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
       return;
     }
     if (this.whoIndex >= this.queue.length) this.whoIndex = 0;
+    // BUILD 241: a displacement that landed while this async rebuild was in
+    // flight re-applies HERE — the armed subject keeps the card. A deliberate
+    // default return (backToWho / nextOne / mine / the 239 explicit default)
+    // clears displacedLead before rebuilding, so it does not.
+    const lead = this.displacedLead;
+    if (lead && (lead.contact || lead.loop)) {
+      this.displaceWho(lead.contact, lead.loop);
+    }
   }
 
   get who(): { contact: any; loop?: Loop } | null {
@@ -452,6 +471,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.lineOpen = false;
     this.editingWords = false;
     this.moreOpen = false;
+    // BUILD 241: MINE hands the walk back — the held displacement ends here.
+    this.displacedLead = null;
     this.preWalkRealIds = new Set(
       (this.contacts || []).map((c: any) => String(c?.contactId || '')).filter(Boolean),
     );
@@ -482,6 +503,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  — the escalation/pill no longer coexists with the default pick. */
   private displaceWho(contact: any, loop?: Loop): void {
     if (!contact && !loop) return;
+    // BUILD 241: hold the displacement — the async ngOnInit rebuild (still in
+    // flight when the held nudge lands) re-applies it at its tail.
+    this.displacedLead = { contact: contact || null, loop };
     const id = String(contact?.contactId || '').trim();
     const name = String(contact?.name?.display || '').trim().toLowerCase();
     const rest = this.queue.filter((q) => {
@@ -530,6 +554,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.pickLoop(byId, this.cardFor(byId));
       return;
     }
+    // 239's explicit default IS a deliberate walk-from-the-top: any held
+    // displacement ends here (BUILD 241).
+    this.displacedLead = null;
     void this.rebuildWho();
     this.go(1);
   }
@@ -542,6 +569,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.lineOpen = false;
     this.editingWords = false;
     this.moreOpen = false;
+    // BUILD 241: back is a deliberate return to the walk — the held
+    // displacement ends here; the rebuild re-leads with the default pick.
+    this.displacedLead = null;
     void this.rebuildWho();
     this.go(1);
   }
@@ -883,6 +913,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.editingWords = false;
     this.moreOpen = false;
     this.doneLabel = 'Sent';
+    // BUILD 241: the walk moves on — the held displacement ends with it.
+    this.displacedLead = null;
     void this.rebuildWho();
     this.go(1);
   }

@@ -125,29 +125,17 @@ export class UpdatesService {
     } catch { return null; }
   }
 
-  /** 2026-08-20 THE ZYPPAR CHECK — now BUILD-GATED (2026-09-16 BUILD 232 THE
-   *  UPDATE TRUTH, founder: "it did not deliver the full update despite
-   *  reloading page"): the version-string endpoint can NEVER agree with the
-   *  app — the server's own version (0.3.162) is not the app's version
-   *  (0.3.1) — so a version comparison reads "update available" FOREVER, even
-   *  minutes after a successful apply, which reads exactly as "the update did
-   *  not deliver". The deployed build.json BUILD NUMBER is the truth:
-   *  compare builds; the version endpoint is only the fallback where no
-   *  build.json exists (dev, first deploy). Every consumer — the home banner,
-   *  the Settings manual check, the quiet pop-up — reads through here, so all
-   *  surfaces now tell the same truth. */
+  /** 2026-08-20 THE ZYPPAR CHECK — /api/loopkeeper/updates/check?clientVersion=...
+   *  2026-09-17 BUILD 241: the 232 build-gate here is REVERSED (founder:
+   *  "Reverse the updates detection logic altered about 5 commits back. It
+   *  has disrupted what works for what does not.") — this check reads the
+   *  version endpoint exactly as it did before 232. The build.json truth
+   *  machinery stays where 220 put it: check() / the banner / the quiet
+   *  pop-up still compare deployed.build there; only what 232 altered is
+   *  undone. */
   async checkForUpdates(): Promise<{ isUpdateAvailable: boolean; type: 'flexible' | 'immediate'; version: string; gate: 'offline' | 'ok' }> {
     if (!navigator.onLine) {
       return { isUpdateAvailable: false, type: 'flexible', version: this.appVersion, gate: 'offline' };
-    }
-    const deployed = await this.fetchDeployedBuild();
-    if (deployed) {
-      return {
-        isUpdateAvailable: deployed.build > this.appBuild,
-        type: 'flexible',
-        version: deployed.version || this.appVersion,
-        gate: 'ok',
-      };
     }
     const res = await this.network.safeFetch(
       `${environment.rolodexApiBase}/updates/check?clientVersion=${encodeURIComponent(this.appVersion)}`,
@@ -172,10 +160,8 @@ export class UpdatesService {
   /** 2026-08-20 ZYPPAR MANUAL CHECK — never lies: surfaces the gate reason and
    *  the exact compared versions, so a failed/blocked check can never be
    *  presented as "up to date".
-   *  2026-09-16 BUILD 232: the result carries the REAL BUILD NUMBERS — the
-   *  version strings can never agree (server 0.3.162 vs app 0.3.1), so the
-   *  Settings page and the pop-up speak builds: "build 231 is live — you're
-   *  on build 231". */
+   *  2026-09-17 BUILD 241: REVERSED to the pre-232 shape (founder's order) —
+   *  the version strings the Settings page always compared. */
   async manualCheckForUpdates(): Promise<{
     isUpdateAvailable: boolean;
     type: 'flexible' | 'immediate';
@@ -183,23 +169,14 @@ export class UpdatesService {
     gate: 'offline' | 'ok' | 'error';
     currentVersion: string;
     serverVersion: string;
-    currentBuild: number;
-    serverBuild: number;
     error?: string;
   }> {
     try {
       const status = await this.checkForUpdates();
-      let serverBuild = 0;
-      try {
-        const deployed = await this.fetchDeployedBuild();
-        serverBuild = deployed?.build || 0;
-      } catch { /* build.json absent — the version fallback governs */ }
       return {
         ...status,
         currentVersion: this.appVersion,
         serverVersion: status.version,
-        currentBuild: this.appBuild,
-        serverBuild,
       };
     } catch (err) {
       return {
@@ -209,8 +186,6 @@ export class UpdatesService {
         gate: 'error',
         currentVersion: this.appVersion,
         serverVersion: '',
-        currentBuild: this.appBuild,
-        serverBuild: 0,
         error: String((err as Error)?.message || err),
       };
     }
