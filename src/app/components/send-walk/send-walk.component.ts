@@ -575,6 +575,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
       if (open) { this.pickLoop(open, contact, true); return; }
       this.armedContact = contact;
       this.armedHandle = '';
+      // BUILD 243: a bare contact carries no loop — clear whatever loop the
+      // walk in progress had armed, so the card's context is exactly this
+      // subject (the words are written from the card, never a stale draft).
+      this.loop = null;
       this.whatInput = '';
       this.lineOpen = false;
       this.backOfStep3 = 2;

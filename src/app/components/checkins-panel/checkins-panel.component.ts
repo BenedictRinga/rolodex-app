@@ -82,9 +82,21 @@ export class CheckinsPanelComponent implements OnInit, OnDestroy {
 
   /** The IDENTICAL escalation path as the dock: tap() fires tapped$ (home
    *  routes: checkin -> the walk armed with the item as the payload) and
-   *  dismisses the item — the dock updates from the same pile. */
+   *  dismisses the item — the dock updates from the same pile.
+   *  2026-09-17 BUILD 243 (founder: "I am clicking on listed items of
+   *  'Check-ins' from inside Settings => Check-ins ... Now it does not escape
+   *  from Settings to arrive in Loops"): the tap now ALSO closes this panel.
+   *  The escalation itself always ran — home leaves Settings and opens the walk
+   *  BEHIND the modal — but this panel is a full-height sheet, so it stayed on
+   *  top and the destination was invisible: the tap read as "nothing happened,
+   *  still in Settings". The COMING UP rows already dismiss themselves (role
+   *  'escalate'); this removes the asymmetry. Dismissing with NO role is
+   *  deliberate: home's onWillDismiss only escalates on role 'escalate', and
+   *  the live row's escalation already fired through tapped$ — exactly ONE
+   *  escalation per tap, never two. */
   tapLive(n: InAppNotification): void {
     this.inApp.tap(n);
+    void this.modalCtrl.dismiss();
   }
 
   dismissLive(n: InAppNotification): void {
