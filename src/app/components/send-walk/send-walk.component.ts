@@ -65,6 +65,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const id = String(v?.contactId || '').trim();
     if (id) this.retiredIds.delete(id);
     // BUILD 241: the pick leads too — held against the async rebuild's tail.
+    // BUILD 242: a fresh pick is a NEW subject — no stale loop or handle from
+    // the walk in progress rides with it; the card below IS the takeover.
+    this.loop = null;
+    this.armedHandle = '';
     this.displacedLead = { contact: v };
     this.queue = [{ contact: v }, ...this.queue.filter((q) => String(q.contact?.contactId || '') !== id)];
     this.whoIndex = 0;
@@ -287,15 +291,19 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.queue = [...front, ...rest];
       this.pendingFreshIds = null;
       this.whoIndex = 0;
-      return;
+      // BUILD 242: NO early return — the held selection re-applies below,
+      // after whatever the fresh ordering led with. The earlier return was the
+      // hole where a pending device pick silently outranked the selection.
     }
     if (this.whoIndex >= this.queue.length) this.whoIndex = 0;
     // BUILD 241: a displacement that landed while this async rebuild was in
     // flight re-applies HERE — the armed subject keeps the card. A deliberate
-    // default return (backToWho / nextOne / mine / the 239 explicit default)
-    // clears displacedLead before rebuilding, so it does not.
+    // default return (Not this one / Next one / MINE / the 239 explicit
+    // default) clears displacedLead before rebuilding, so it does not.
+    // BUILD 242: and a subject retired this session is never resurrected by
+    // the held lead — a skipped or sent card cannot ride back in.
     const lead = this.displacedLead;
-    if (lead && (lead.contact || lead.loop)) {
+    if (lead && (lead.contact || lead.loop) && !this.isRetired(lead.contact)) {
       this.displaceWho(lead.contact, lead.loop);
     }
   }
@@ -318,16 +326,17 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   // ── BUILD 182 · THE GARDEN PATH ────────────────────────────────────────────
   // Arm a handle (a garden pill, or one typed fresh). An open loop for that
-  // subject lands straight on the words; otherwise the thing slide arms it.
-  // A handle can be a person, a place, or a thing — "my decision" is as
-  // welcome as "Ma's doctor". It never leaves this phone.
+  // subject — a PILL is a selection — lands ON its card first (BUILD 242);
+  // otherwise the thing slide arms the handle. A handle can be a person, a
+  // place, or a thing — "my decision" is as welcome as "Ma's doctor". It never
+  // leaves this phone.
 
   armHandle(handle: string): void {
     const h = String(handle || '').trim();
     if (!h) return;
     void this.analytics.trackListStartedOnce('walk');
     const open = this.loops.openMine().find(l => String(l.person || '').trim().toLowerCase() === h.toLowerCase());
-    if (open) { this.pickLoop(open); return; }
+    if (open) { this.pickLoop(open, undefined, true); return; }
     this.armedContact = null;
     this.armedHandle = h;
     this.whatInput = '';
@@ -429,6 +438,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // "Not this one" still there to keep walking. The sheet opens ONLY
     // when the queue is exhausted.
     if (this.who?.contact) this.retire(this.who.contact);
+    // BUILD 242: skipping THIS card is a deliberate move — the held selection
+    // ends here, or the rebuild's tail would put the skipped card straight
+    // back on screen.
+    this.displacedLead = null;
     void this.rebuildWho();
     if (!this.who) {
       this.whoRequest.emit(); // queue exhausted — bring the sheet
@@ -481,7 +494,16 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.addRequest.emit();
   }
 
-  pickLoop(l: Loop, contact?: any): void {
+  /**
+   * 2026-09-17 BUILD 242 THE CARD TAKEOVER: `landOnCard` is the SELECTION
+   * door — an escalation, a check-in tap, a garden pill. Those do not advance
+   * the walk over the card; they land ON the card they just displaced, so the
+   * selected subject is SEEN taking over from the default/current card (the
+   * founder's standing rule: "a selection of contact/task must not proceed to
+   * next phase but first replace operational card"). Default false keeps every
+   * PROCEEDING caller (the tap on the card, a chip) walking on to the words.
+   */
+  pickLoop(l: Loop, contact?: any, landOnCard = false): void {
     this.loop = l;
     // 2026-09-08 BUILD 182: a loop with no deck card behind it arms its subject
     // as a HANDLE — "my decision" walks exactly like "Ma's doctor".
@@ -495,6 +517,18 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.displaceWho(this.armedContact || this.ghostFromLoop(l), l);
     this.backOfStep3 = 1;
     this.loopOpened.emit(l.id);
+    if (landOnCard) {
+      // BUILD 242: the selection STANDS on the card. Nothing is carried over
+      // from a walk in progress, the card is the phase, and the subject stays
+      // armed (this.loop + the lead) so the user's own tap walks it on with
+      // the same card — the phase is never skipped over the selection.
+      this.whatInput = '';
+      this.lineOpen = false;
+      this.editingWords = false;
+      this.moreOpen = false;
+      this.go(1);
+      return;
+    }
     this.enterWords(false);
   }
 
@@ -519,8 +553,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   /**
-   * A nudge (or chat handoff) arrives with a loop armed — skip Who, land on
-   * the words. Same doors as confirming by hand.
+   * A nudge (or chat handoff) arrives with a loop armed. 2026-09-17 BUILD 242:
+   * the armed subject now TAKES OVER the operational card — the walk lands ON
+   * the card (slide 1), so the selection is seen replacing the default/current
+   * card, and the words are one tap away. (Pre-242 this skipped Who and landed
+   * on the words, which is why the founder never saw the card take over.)
+   * Same doors as confirming by hand.
    * 2026-09-01 BUILD 179: also the landing for "Not this one" row taps (home
    * routes them here), so the once-ever list marker rides along like it did
    * in the old chooser.
@@ -529,21 +567,23 @@ export class SendWalkComponent implements OnInit, OnChanges {
     if (contact && !contact.isMockData) void this.analytics.trackListStartedOnce('walk');
     const byId = loopId ? this.loops.getLoop(loopId) : undefined;
     if (byId && byId.status === 'open') {
-      this.pickLoop(byId, contact || this.cardFor(byId));
+      this.pickLoop(byId, contact || this.cardFor(byId), true); // BUILD 242: the selection takes the card first
       return;
     }
     if (contact) {
       const open = this.openLoopFor(contact);
-      if (open) { this.pickLoop(open, contact); return; }
+      if (open) { this.pickLoop(open, contact, true); return; }
       this.armedContact = contact;
       this.armedHandle = '';
       this.whatInput = '';
       this.lineOpen = false;
       this.backOfStep3 = 2;
       // BUILD 240: the escalated subject DISPLACES the operational card
-      // before any phase advance — the Who leads with it.
+      // before any phase advance — the Who leads with it. BUILD 242: the
+      // takeover IS the landing — the thing slide is one tap away (tap the
+      // card), never skipped over.
       this.displaceWho(contact, undefined);
-      this.go(2);
+      this.go(1);
       return;
     }
     // 2026-09-16 BUILD 239: no more silent falls — every held nudge lands
@@ -551,7 +591,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // story is the payload); a nudge with neither contact nor loop walks the
     // explicit default (slide 1, rebuilt) — never the old silent nothing.
     if (byId) {
-      this.pickLoop(byId, this.cardFor(byId));
+      this.pickLoop(byId, this.cardFor(byId), true);
       return;
     }
     // 239's explicit default IS a deliberate walk-from-the-top: any held
@@ -569,9 +609,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.lineOpen = false;
     this.editingWords = false;
     this.moreOpen = false;
-    // BUILD 241: back is a deliberate return to the walk — the held
-    // displacement ends here; the rebuild re-leads with the default pick.
-    this.displacedLead = null;
+    // BUILD 242: back returns to the CARD the walk is on — and when that card
+    // is a SELECTION, the selection is what stands there (BUILD 241's clear
+    // here handed the default pick straight back to the founder). Only
+    // deliberate moves end a held selection: Not this one, Next one, MINE.
     void this.rebuildWho();
     this.go(1);
   }

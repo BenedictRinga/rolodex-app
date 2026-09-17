@@ -460,7 +460,9 @@ export class HomePage implements OnInit, OnDestroy {
       // [name/task] (Recurrence #N)" items are a DIFFERENT dock item — the
       // follow-up engine's CHECK-IN NUDGES — and they ride action 'checkin'
       // above into escalateCheckIn, which arms the WALK with that item as
-      // the payload (the walk takes the armed loop straight to the words).
+      // the payload — and the walk's CARD becomes that item first (BUILD 242:
+      // the selection takes over from the default/current card; the words are
+      // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
       if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
@@ -2628,8 +2630,9 @@ export class HomePage implements OnInit, OnDestroy {
       return;
     }
     // A row tap in the people tab: this person is the next Who — same doors
-    // as arming by hand (open loop lands on the words; bare contact arms at
-    // the thing). Not the add-icon's open-a-card behavior.
+    // as arming by hand (BUILD 242: an open loop's card takes over and the walk
+    // lands on it; a bare contact's card takes over too). Not the add-icon's
+    // open-a-card behavior.
     if (res?.data?.contact) this.inboxRef?.nudgeArrived(res.data.contact);
   }
 
