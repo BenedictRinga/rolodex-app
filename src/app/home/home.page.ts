@@ -552,17 +552,17 @@ export class HomePage implements OnInit, OnDestroy {
     } catch { /* a dead nudge is still better than a crash */ }
   }
 
-  /** 2026-09-16 BUILD 236: the escalation delivery — called immediately when
-   *  the inbox is already open, and again from its inboxReady signal when it
-   *  has just mounted. Idempotent: the pending slot clears on delivery. */
+  /** 2026-09-16 BUILD 236/239: the escalation delivery — called immediately
+   *  when the inbox is already open, and again from its inboxReady signal
+   *  when it has just mounted. Idempotent: the pending slot clears on
+   *  delivery. BUILD 239: delivery goes through the inbox's armEscalation,
+   *  which FORCES the walk surface — a session left on the shelf no longer
+   *  swallows the item into the default list. */
   private deliverPendingEscalation(): void {
     if (!this.pendingEscalation || !this.inboxRef) return;
     const { contact, loopId } = this.pendingEscalation;
     this.pendingEscalation = null;
-    // The walk (default surface) takes the armed loop straight to the words;
-    // the packed shelf keeps its own arm-and-select path (nudgeArrived).
-    this.inboxRef.tab = 'loops';
-    this.inboxRef.nudgeArrived(contact, loopId);
+    this.inboxRef.armEscalation(contact, loopId);
     void this.sound.playLoopReady();
   }
 

@@ -415,6 +415,26 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.presentResponse();
   }
 
+  /**
+   * 2026-09-16 BUILD 239 THE ESCALATION FORCES THE WALK (founder: "Tapping
+   * any item is failing to substitute the default in the Inbox Loops. It does
+   * seem to try, but we end up with default still"): the session's surface
+   * toggle (walk | shelf) survives a PWA resume — an escalation that arrived
+   * while the shelf was up took the SHELF path (arm + select + scroll), which
+   * reads as "the default still". The item IS the payload for the completion
+   * interaction — the WALK — so the escalation now FORCES the walk surface
+   * (the shelf keeps its own manual flip) and delivers through the held-nudge
+   * contract: if the walk has not mounted yet this tick, the nudge is held
+   * and consumed on the next tick.
+   */
+  armEscalation(contact: any | null, loopId?: string): void {
+    this.tab = 'loops';
+    this.loopsSurface = 'walk';
+    this.nudgeArrived(contact, loopId);
+    // The *ngIf renders the walk a tick later — one deterministic consume.
+    setTimeout(() => this.consumePendingNudge(), 0);
+  }
+
   /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: the inbox exists → home may
    *  deliver its pending escalation; and a nudge that arrived before the walk
    *  mounted is consumed here, once, deterministically. */

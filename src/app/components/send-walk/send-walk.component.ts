@@ -494,7 +494,18 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.lineOpen = false;
       this.backOfStep3 = 2;
       this.go(2);
+      return;
     }
+    // 2026-09-16 BUILD 239: no more silent falls — every held nudge lands
+    // SOMEWHERE. A loop that exists but is no longer open still arms (its
+    // story is the payload); a nudge with neither contact nor loop walks the
+    // explicit default (slide 1, rebuilt) — never the old silent nothing.
+    if (byId) {
+      this.pickLoop(byId, this.cardFor(byId));
+      return;
+    }
+    void this.rebuildWho();
+    this.go(1);
   }
 
   backToWho(): void {
