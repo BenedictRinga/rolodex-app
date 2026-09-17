@@ -100,11 +100,11 @@
       {{ 'loopkeeper.walk.wordsSend' | translate }}
     </button>
     <div class="sw-tones">
-      <button class="sw-tone" type="button" (click)="setTone('short')">{{ 'loopkeeper.walk.toneShort' | translate }}</button>
+      <button class="sw-tone" type="button" (click)="setTone('short')" [disabled]="polishing">{{ 'loopkeeper.walk.toneShort' | translate }}</button>
       <span class="sw-dot">·</span>
-      <button class="sw-tone" type="button" (click)="setTone('light')">{{ 'loopkeeper.walk.toneLight' | translate }}</button>
+      <button class="sw-tone" type="button" (click)="setTone('light')" [disabled]="polishing">{{ 'loopkeeper.walk.toneLight' | translate }}</button>
       <span class="sw-dot">·</span>
-      <button class="sw-tone" type="button" (click)="setTone('honest')">{{ 'loopkeeper.walk.toneHonest' | translate }}</button>
+      <button class="sw-tone" type="button" (click)="setTone('honest')" [disabled]="polishing">{{ 'loopkeeper.walk.toneHonest' | translate }}</button>
       <span class="sw-dot">·</span>
       <button class="sw-tone" type="button" (click)="retry()" [disabled]="polishing">
         {{ polishing ? ('loopkeeper.walk.polishStay' | translate) : ('loopkeeper.walk.wordsRetry' | translate) }}

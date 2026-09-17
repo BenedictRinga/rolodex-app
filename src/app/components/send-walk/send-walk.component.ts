@@ -780,16 +780,35 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   sel(): Loop | null { return this.loop ? this.loops.getLoop(this.loop.id) ?? this.loop : null; }
 
-  setTone(t: 'short' | 'honest' | 'light'): void {
+  async setTone(t: 'short' | 'honest' | 'light'): Promise<void> {
     const l = this.sel(); if (!l) return;
-    // 2026-09-17 BUILD 253 THE COMPOSITION SEQUENCE FIXED (founder: "After I
-    // added my own polish to a message on Loops Alpha, it ignored my input
-    // and still sent its own pre-edit message"): the tone tap used to
-    // REGENERATE the draft from the loop's structure — silently wiping the
-    // user's own edit. Now: the tone is recorded, and the draft is only
-    // regenerated while it is still the engine's own — a user-owned draft
-    // (ownWords, set at Save) is THEIRS and stands.
-    if (l.ownWords) { this.loops.update(l.id, { tone: t }); return; }
+    // 2026-09-17 BUILD 253 THE COMPOSITION SEQUENCE (founder: "After I added
+    // my own polish to a message on Loops Alpha, it ignored my input and
+    // still sent its own pre-edit message"): a tone tap must never silently
+    // overwrite the user's words with a regenerated draft.
+    if (l.ownWords) {
+      // 2026-09-17 BUILD 254 (founder: "we should treat it as equivalent to
+      // asking for AI Assistance by sending the user-modified or initiated
+      // words to backend for polish"): the tone tap IS the assist request —
+      // the user's OWN words go to the PolishingUserAlpha agent (server 86,
+      // /polish-alpha) and come back in the requested tone, meaning intact.
+      // Best-effort: on any failure the words stand and the tone is recorded.
+      this.polishing = true;
+      try {
+        void this.analytics.track('loop_draft_ai_polish', { surface: 'alpha-own' });
+        const polished = await this.loops.polishUserAlpha(l, t);
+        if (polished) {
+          this.loops.update(l.id, { tone: t, draft: polished });
+          void this.sounds.playLoopReady();
+        } else {
+          this.loops.update(l.id, { tone: t });
+          void this.alerts.showToast(this.tr('loopkeeper.t.polishErr'), 2200);
+        }
+      } finally {
+        this.polishing = false;
+      }
+      return;
+    }
     this.loops.update(l.id, { tone: t, draft: this.loops.generateDraft(l, t) });
   }
 

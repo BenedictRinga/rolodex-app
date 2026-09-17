@@ -926,6 +926,29 @@ No pressure either way — replying here connects you directly.`;
     } catch { return null; }
   }
 
+  /** 2026-09-17 BUILD 254 THE ALPHA POLISH ROUTE (founder: a tone tap on a
+   *  user-owned draft is AI ASSISTANCE — "sending the user-modified or
+   *  initiated words to backend for polish"): the user's OWN words go to the
+   *  PolishingUserAlpha agent (server build 86, /polish-alpha) and come back
+   *  in the requested tone, meaning intact. Best-effort: null on any failure
+   *  — the user's words stand untouched. */
+  async polishUserAlpha(l: Loop, tone: LoopTone): Promise<string | null> {
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/polish-alpha`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          words: l.draft,
+          tone,
+          lang: userLang(this.translate),
+          engine: 'deepseek',
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      return data?.polished ? String(data.polished) : null;
+    } catch { return null; }
+  }
+
   // ===== Decisions (features 4 / 8 / 18 / 19) ================================
 
   waitUntil(id: string, isoDay: string, condition?: string): void {
