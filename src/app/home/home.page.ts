@@ -65,8 +65,22 @@ export class HomePage implements OnInit, OnDestroy {
   @ViewChild('rolodex') rolodexComp?: RolodexComponent;
   @ViewChild('chatThread') chatThread?: ElementRef<HTMLDivElement>;
   /** 2026-08-29 BUILD 143 (founder #2): the inbox instance — tapped nudges
-   *  escalate THROUGH it (armed loop + destination pill + open Loops tab). */
-  @ViewChild('inboxRef') inboxRef?: LoopInboxComponent;
+   *  escalate THROUGH it (armed loop + destination pill + open Loops tab).
+   *  2026-09-17 BUILD 247 THE INBOX ATTACH HOOK (the founder-approved fix for
+   *  the stranded-escalation diagnosis): the inbox's ATTACHMENT is the
+   *  delivery trigger — no timers, no lost signals. The diagnosis measured
+   *  the strand: inboxReady (the child's ngAfterViewInit) fires BEFORE this
+   *  plain @ViewChild property populated, so deliverPendingEscalation saw a
+   *  null inboxRef and the held payload never had a second trigger. As a
+   *  SETTER, the reference's attach moment IS the consume moment: whatever
+   *  is held is delivered the instant the inbox exists. Idempotent with the
+   *  inboxReady path — the pending slot clears on first delivery. */
+  private _inboxRef: LoopInboxComponent | null = null;
+  @ViewChild('inboxRef') set inboxRef(v: LoopInboxComponent | null) {
+    this._inboxRef = v;
+    if (v) this.deliverPendingEscalation();
+  }
+  get inboxRef(): LoopInboxComponent | null { return this._inboxRef; }
   /** 2026-08-30 BUILD 153 (founder): a tapped nudge takes the viewport — the
    *  home scroller is pulled to the top so the opened inbox leads the screen,
    *  whatever scroll position or view (Settings included) the user was in. */

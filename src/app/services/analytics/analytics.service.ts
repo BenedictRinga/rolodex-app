@@ -48,6 +48,28 @@ export class AnalyticsService {
   private sessionStart = 0;
   private flushTimer: any = null;
   private visibilityBound = false;
+
+  /** 2026-09-17 BUILD 247 THE DEV-ORIGIN GATE (founder: "I think we have
+   *  broken some safeguards around user minting and session resourcing. We
+   *  now suddenly have a surge of users, but without an obvious rise in other
+   *  relevant indicators"): the safeguards were never broken — they were
+   *  never TOLD what a dev origin is. environment.rolodexApiBase points at
+   *  the production ingest from EVERY origin, so every dev boot, every
+   *  live-reload and every automated harness run minted app_launch /
+   *  session_start / landing_source / loop_captured into the FLEET ledger
+   *  (it even carried 'localhost:4400/home' as a landing source) — DAU and
+   *  sessions inflated with no real users behind them (2026-09-17: 112
+   *  session_start, 93 app_launch, 94 loop_captured against deviceGrowth 0).
+   *  THE GUARD: a dev origin never POSTS — its queue is dev-local and is
+   *  dropped at flush. The fleet meters count deployed devices only. */
+  private readonly devOrigin: boolean = (() => {
+    try {
+      if (typeof location === 'undefined') return false;
+      if (location.protocol === 'file:') return true;
+      const h = location.hostname;
+      return /^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|::1)(:\d+)?$/i.test(h) || /\.local$/i.test(h);
+    } catch { return false; }
+  })();
   // 2026-08-31 BUILD 159: in-session backstop when storage is unavailable —
   // device_list_started must still fire at most once per session.
   private listStartedSent = false;
@@ -295,6 +317,13 @@ export class AnalyticsService {
   }
 
   async flush(): Promise<void> {
+    // BUILD 247 THE DEV-ORIGIN GATE: a dev origin never feeds the fleet
+    // meters — its queue is dev-local and is dropped here, deterministically.
+    if (this.devOrigin) {
+      this.queue = [];
+      try { await this.storage.set(this.QUEUE_KEY, this.queue); } catch { /* memory-only */ }
+      return;
+    }
     if (!this.enabled || !this.queue.length || typeof navigator === 'undefined' || !navigator.onLine) return;
     const batch = this.queue.splice(0, 50);
     try {
