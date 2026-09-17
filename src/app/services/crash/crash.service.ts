@@ -130,7 +130,17 @@ export class CrashReporterService {
     // founder's false-positive doubt: the heal fixed the death; the meter
     // must not count the resurrection as a birth).
     try { sessionStorage.setItem('lk_machine_reload', String(Date.now())); } catch { /* private mode */ }
-    setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 150);
+    // 2026-09-17 BUILD 248 THE EVIDENCE SURVIVES THE HEAL: the 220-era heal
+    // reloaded at +150ms while the crash evidence's IndexedDB write was
+    // debounced at +800ms — the heal destroyed its own evidence (crashes7d
+    // read 0 while the founder sat through crashes). Now the queue is
+    // written THROUGH and awaited, and the analytics app_error rides its
+    // keepalive POST (keepalive survives the unload), before the reload.
+    void (async () => {
+      try { await this.storage.set(CrashReporterService.QUEUE_KEY, this.queue); } catch { /* best effort */ }
+      try { await this.analytics.flush(); } catch { /* best effort */ }
+      setTimeout(() => { try { window.location.reload(); } catch { /* ignore */ } }, 60);
+    })();
   }
 
   /** Resolve + cache the analytics consent flag once per session. */

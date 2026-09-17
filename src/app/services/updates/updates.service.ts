@@ -34,6 +34,41 @@ export class UpdatesService {
     private readonly translate: TranslateService,
   ) {
     void this.initializeVersion();
+    this.bindResumeRefresh();
+  }
+
+  // ═══ 2026-09-17 BUILD 248: THE RESUME REFRESH — the crash killer ══════════
+  // A RESUMED tab runs the OLD bundle in memory; the moment a new build is
+  // deployed, its lazy chunks are orphaned and the next lazy navigation dies
+  // (the stale-chunk crash the founder rode through today's deploy waves —
+  // "it crashed as it was checking for updates" is the exact moment: the
+  // check detecting a newer build PROVES the tab just went stale, and the
+  // very next Settings/panel navigation 404s the old chunk). The banner
+  // cannot save a resumed tab — the crash lands before any tap. THE FIX: on
+  // visible-resume (throttled 5 min), compare the deployed build and
+  // silently reload ONTO the new bundle BEFORE the user navigates; the 222
+  // machine-reload mark keeps the refresh out of the meters.
+  private resumeBound = false;
+  private lastResumeCheck = 0;
+  private bindResumeRefresh(): void {
+    if (this.resumeBound || typeof document === 'undefined') return;
+    this.resumeBound = true;
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) void this.maybeResumeRefresh();
+    });
+  }
+  async maybeResumeRefresh(): Promise<void> {
+    try {
+      if (document.hidden || !navigator.onLine) return;
+      const now = Date.now();
+      if (now - this.lastResumeCheck < 5 * 60_000) return;
+      this.lastResumeCheck = now;
+      const deployed = await this.fetchDeployedBuild();
+      if (deployed && deployed.build > this.appBuild) {
+        try { sessionStorage.setItem('lk_machine_reload', String(Date.now())); } catch { /* private mode */ }
+        window.location.reload();
+      }
+    } catch { /* best effort — the banner remains the fallback */ }
   }
 
   /** 2026-09-16 BUILD 223 THE WELCOME-BACK BEAT (founder: "can we not do
