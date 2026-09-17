@@ -51,7 +51,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
    *  moment it exists, and nudges that arrive before the walk mounts are
    *  HELD — not silently dropped — then consumed on the walk's first render. */
   @Output() inboxReady = new EventEmitter<void>();
-  private pendingNudge: { contact: any | null; loopId?: string } | null = null;
+  private pendingNudge: { contact: any | null; loop?: Loop | null } | null = null;
   // 2026-09-15 BUILD 211 (founder: the boot reveal "should not commence until
   // the Demo or real contacts have populated their component"): the setter
   // watches the deck arrive and only then allows the reveal to run.
@@ -94,7 +94,24 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   // the session only; BUILD 162 removed the cross-launch persistence.
   loopsSurface: 'walk' | 'shelf' = 'walk';
   walkStep = 1;
-  @ViewChild('walkRef') walkRef?: SendWalkComponent;
+
+  /** 2026-09-17 BUILD 244 THE ATTACH HOOK (founder: "Rather than be hostage
+   *  to time, adopt deterministic coding"): the walk's ATTACHMENT is the
+   *  delivery trigger — no setTimeout, no tick counting. Angular calls this
+   *  setter exactly when a walk instance attaches (surface flip, *ngIf
+   *  mount, re-render), and THAT moment consumes whatever is pending. A
+   *  payload held here survives until a walk exists — never dropped, never
+   *  early, never late. */
+  private _walkRef: SendWalkComponent | null = null;
+  private pendingHandle: string | null = null;
+  @ViewChild('walkRef') set walkRef(v: SendWalkComponent | null) {
+    this._walkRef = v;
+    if (v) {
+      this.consumePendingNudge();
+      this.consumePendingHandle();
+    }
+  }
+  get walkRef(): SendWalkComponent | null { return this._walkRef; }
 
   /** 2026-09-16 BUILD 224: home hands the pick straight to the walk —
    *  a deterministic method call replaces the two-hop @Input relay that
@@ -370,8 +387,9 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
       void this.refresh();
     }
     // BUILD 236: a nudge held while the shelf was up delivers the moment the
-    // walk returns — the hold never outlives its surface.
-    if (s === 'walk') this.consumePendingNudge();
+    // walk returns — the hold never outlives its surface. BUILD 244: the
+    // held garden handle rides the same moment.
+    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); }
     this.expandedChange.emit(this.shellExpanded);
   }
 
@@ -392,25 +410,28 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * 2026-08-30 BUILD 157: the home page's tapped-nudge escalation arrives
    * here (was: direct armDestination/selectedId manipulation). With the walk
-   * as the default surface, the nudge lands IN the walk — armed loop goes
-   * straight to slide 3 (the words). The two-pass retry in HomePage covers
-   * the first render; until walkRef exists we hold, we do not fall through.
+   * as the default surface, the nudge lands IN the walk — the walk takes the
+   * card. Until walkRef exists we hold; we do not fall through.
+   * 2026-09-17 BUILD 244 THE DETERMINISTIC PAYLOAD (founder: "Rather than be
+   * hostage to time, adopt deterministic coding"): the payload now carries
+   * the LOOP OBJECT home resolved at the tap — no getLoop re-resolution
+   * downstream, so storage hydration cannot change the arm.
    */
-  nudgeArrived(contact: any | null, loopId?: string): void {
+  nudgeArrived(contact: any | null, loop?: Loop | null): void {
     if (this.loopsSurface === 'walk') {
-      // 2026-09-16 BUILD 236: the old hold was a SILENT DROP — walkRef null
-      // meant the nudge vanished (chime played, nothing opened). Now the
-      // nudge is HELD and consumed the moment the walk mounts (ngAfterViewInit
-      // / the surface toggle), so the arm is deterministic.
+      // 2026-09-16 BUILD 236: the nudge is HELD when no walk exists and
+      // consumed by the walkRef ATTACH HOOK (244) — the setter fires exactly
+      // when the walk attaches, so there is no tick to count and nothing to
+      // time out.
       if (this.walkRef) {
-        this.walkRef.armFromNudge(contact, loopId);
+        this.walkRef.armFromNudge(contact, loop);
       } else {
-        this.pendingNudge = { contact, loopId };
+        this.pendingNudge = { contact, loop };
       }
       return;
     }
     if (contact) this.armDestination(contact);
-    if (loopId) this.selectedId = loopId;
+    if (loop) this.selectedId = loop.id;
     void this.refresh();
     this.presentResponse();
   }
@@ -422,17 +443,16 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
    * toggle (walk | shelf) survives a PWA resume — an escalation that arrived
    * while the shelf was up took the SHELF path (arm + select + scroll), which
    * reads as "the default still". The item IS the payload for the completion
-   * interaction — the WALK — so the escalation now FORCES the walk surface
-   * (the shelf keeps its own manual flip) and delivers through the held-nudge
-   * contract: if the walk has not mounted yet this tick, the nudge is held
-   * and consumed on the next tick.
+   * interaction — the WALK — so the escalation FORCES the walk surface
+   * (the shelf keeps its own manual flip).
+   * 2026-09-17 BUILD 244: the delivery needs NO timer — if the walk is live
+   * it arms synchronously; if not, the payload is held and the walkRef
+   * attach hook consumes it the instant the walk mounts.
    */
-  armEscalation(contact: any | null, loopId?: string): void {
+  armEscalation(contact: any | null, loop?: Loop | null): void {
     this.tab = 'loops';
     this.loopsSurface = 'walk';
-    this.nudgeArrived(contact, loopId);
-    // The *ngIf renders the walk a tick later — one deterministic consume.
-    setTimeout(() => this.consumePendingNudge(), 0);
+    this.nudgeArrived(contact, loop);
   }
 
   /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: the inbox exists → home may
@@ -445,9 +465,20 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private consumePendingNudge(): void {
     if (!this.pendingNudge || !this.walkRef) return;
-    const { contact, loopId } = this.pendingNudge;
+    const { contact, loop } = this.pendingNudge;
     this.pendingNudge = null;
-    this.walkRef.armFromNudge(contact, loopId);
+    this.walkRef.armFromNudge(contact, loop);
+  }
+
+  /** 2026-09-17 BUILD 244: the inbox garden's Walk button held the arm on a
+   *  setTimeout tick — the same timing hostage, removed. If the walk is live
+   *  it arms synchronously; if not, the handle is held and the attach hook
+   *  consumes it. */
+  private consumePendingHandle(): void {
+    if (!this.pendingHandle || !this.walkRef) return;
+    const h = this.pendingHandle;
+    this.pendingHandle = null;
+    this.walkRef.armHandle(h);
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the home page escalates a tapped
@@ -1223,7 +1254,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!h) return;
     this.setLoopsSurface('walk');
     void this.analytics.track('garden_pill_walk');
-    // The *ngIf needs one tick to mount the walk before it can be armed.
-    setTimeout(() => this.walkRef?.armHandle(h), 60);
+    // 2026-09-17 BUILD 244 DETERMINISTIC: the old setTimeout(60) tick was the
+    // same timing hostage — if the walk mounted slower than one tick the arm
+    // was silently dropped. Now: live walk arms synchronously; otherwise the
+    // handle is HELD and the walkRef attach hook consumes it.
+    if (this.walkRef) { this.walkRef.armHandle(h); return; }
+    this.pendingHandle = h;
   }
 }

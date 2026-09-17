@@ -50,7 +50,7 @@ import { CheckinsPanelComponent } from '../components/checkins-panel/checkins-pa
 // 2026-09-15 BUILD 206 MANAGING CARDS: the first add attempt passes through it.
 import { ManagingCardsModalComponent } from '../components/managing-cards-modal/managing-cards-modal.component';
 // 2026-08-30 BUILD 155 (founder: demo contacts must be excluded from every process when Demo is off).
-import { LoopsService } from '../services/loops/loops.service';
+import { LoopsService, Loop } from '../services/loops/loops.service';
 import { UpdatesService } from '../services/updates/updates.service';
 
 
@@ -98,8 +98,13 @@ export class HomePage implements OnInit, OnDestroy {
   inboxExpanded = false;
   /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: an escalation whose inbox has
    *  not mounted yet is HELD here and delivered on the inbox's inboxReady
-   *  signal — no fixed timers, no silent drops. */
-  private pendingEscalation: { contact: any; loopId?: string } | null = null;
+   *  signal — no fixed timers, no silent drops.
+   *  2026-09-17 BUILD 244 THE DETERMINISTIC PAYLOAD (founder: "Rather than be
+   *  hostage to time, adopt deterministic coding"): the payload carries the
+   *  CONTACT and the LOOP OBJECT resolved ONCE here, at the tap — everything
+   *  downstream (inbox hold, walk arm) consumes data, never re-resolves ids
+   *  against a cache whose hydration timing could change the outcome. */
+  private pendingEscalation: { contact: any; loop?: Loop | null } | null = null;
   /** 2026-08-26 SETTINGS/INBOX SWAP: remember the Inbox was open so it can be
    *  restored the moment Settings closes. */
   private inboxWasOpenBeforeSettings = false;
@@ -522,7 +527,12 @@ export class HomePage implements OnInit, OnDestroy {
       const name = contact?.name?.display || extra?.['name'] || '';
       const sentence = name ? `Check in with ${name}` : 'Check in';
       const envelope = this.keeper.capture(sentence, this.contacts, contact || undefined);
-      const loopId = envelope.ok ? envelope.output?.id : undefined;
+      // 2026-09-17 BUILD 244 THE DETERMINISTIC PAYLOAD: the loop OBJECT is
+      // resolved HERE, once, at the tap — capture just created it, so it is
+      // in the loops cache with certainty; no downstream step ever re-looks
+      // it up against hydration timing (the old chain carried only the id
+      // and made the walk re-resolve it at arm time).
+      const loop = envelope.ok && envelope.output ? envelope.output : undefined;
 
       // 2026-08-29 BUILD 151 (founder: "I tap, and it is not evident that
       // anything happens immediately"): the tap now ANSWERS — a chime at the
@@ -547,7 +557,7 @@ export class HomePage implements OnInit, OnDestroy {
       try { this.rolodexComp?.showRegularView(); } catch { /* deck not mounted */ }
       void this.homeContent?.scrollToTop(0);
       window.scrollTo({ top: 0, behavior: 'auto' }); // native scroller parity
-      this.pendingEscalation = { contact: contact || null, loopId: loopId || undefined };
+      this.pendingEscalation = { contact: contact || null, loop: loop || undefined };
       this.rolodexAiChatOpen = true;
       this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
       this.deliverPendingEscalation();
@@ -559,12 +569,13 @@ export class HomePage implements OnInit, OnDestroy {
    *  when it has just mounted. Idempotent: the pending slot clears on
    *  delivery. BUILD 239: delivery goes through the inbox's armEscalation,
    *  which FORCES the walk surface — a session left on the shelf no longer
-   *  swallows the item into the default list. */
+   *  swallows the item into the default list. BUILD 244: the payload is the
+   *  resolved contact + loop OBJECT — data end to end, no re-resolution. */
   private deliverPendingEscalation(): void {
     if (!this.pendingEscalation || !this.inboxRef) return;
-    const { contact, loopId } = this.pendingEscalation;
+    const { contact, loop } = this.pendingEscalation;
     this.pendingEscalation = null;
-    this.inboxRef.armEscalation(contact, loopId);
+    this.inboxRef.armEscalation(contact, loop);
     void this.sound.playLoopReady();
   }
 
