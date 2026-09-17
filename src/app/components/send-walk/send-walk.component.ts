@@ -466,9 +466,32 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // as a HANDLE — "my decision" walks exactly like "Ma's doctor".
     this.armedContact = contact || this.cardFor(l) || null;
     this.armedHandle = this.armedContact ? '' : String(l.person || '').trim();
+    // 2026-09-17 BUILD 240 THE SELECTION DISPLACES THE CARD (founder: "a
+    // selection of contact/task must not proceed to next phase but first
+    // replace operational card"): the armed subject REPLACES the walk's
+    // operational card — the queue leads with it — so every phase reads the
+    // same subject instead of the default pick, and back-navigation too.
+    this.displaceWho(this.armedContact || this.ghostFromLoop(l), l);
     this.backOfStep3 = 1;
     this.loopOpened.emit(l.id);
     this.enterWords(false);
+  }
+
+  /** 2026-09-17 BUILD 240 THE DISPLACEMENT: the selected subject leads the
+   *  Who queue (duplicates removed), so the operational card IS the selection
+   *  — the escalation/pill no longer coexists with the default pick. */
+  private displaceWho(contact: any, loop?: Loop): void {
+    if (!contact && !loop) return;
+    const id = String(contact?.contactId || '').trim();
+    const name = String(contact?.name?.display || '').trim().toLowerCase();
+    const rest = this.queue.filter((q) => {
+      const qid = String(q.contact?.contactId || '').trim();
+      const qname = String(q.contact?.name?.display || '').trim().toLowerCase();
+      const same = (id && qid && qid === id) || (name && qname && qname === name);
+      return !same;
+    });
+    this.queue = [{ contact: contact || null, loop }, ...rest];
+    this.whoIndex = 0;
   }
 
   /**
@@ -493,6 +516,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.whatInput = '';
       this.lineOpen = false;
       this.backOfStep3 = 2;
+      // BUILD 240: the escalated subject DISPLACES the operational card
+      // before any phase advance — the Who leads with it.
+      this.displaceWho(contact, undefined);
       this.go(2);
       return;
     }
