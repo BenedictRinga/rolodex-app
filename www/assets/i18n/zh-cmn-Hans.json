@@ -834,6 +834,8 @@
     "walk.taskCancel": "取消",
     "walk.taskWhen": "何时（可选）",
     "walk.taskRhythm": "节奏（可选）",
-    "walk.taskAt": "时间（可选）"
+    "walk.taskAt": "时间（可选）",
+    "storage.serverConsentNote": "首先：在设置中给予同意 — Backend sync consent。在此之前，任何数据都不会离开本设备。",
+    "storage.serverConsentOpen": "打开同意"
   }
 }

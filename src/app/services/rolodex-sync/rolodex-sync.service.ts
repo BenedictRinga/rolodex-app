@@ -194,12 +194,18 @@ export class RolodexSyncService {
    *  you MUST carry kind + task + coverEmoji across, or task cards will
    *  silently degrade to person cards on restore (missing kind reads as
    *  person everywhere). Demo cards never ride: home pushes realContacts()
-   *  only (the 209 exclusion). Loops (cardKind/taskRhythm) are device-local
-   *  by design and never sync. */
-  async push(contacts: ContactInfo[], followUps?: any[]): Promise<void> {
+   *  only (the 209 exclusion).
+   *  2026-09-18 BUILD 93/262 THE LOOPS RIDE TOO (founder: "I want to backup
+   *  my loops so the date transfers to any other device"): the tray's loops
+   *  join the payload behind the SAME consent gate and restore beside the
+   *  deck — device-local until consent, never after. */
+  async push(contacts: ContactInfo[], followUps?: any[], loops?: any[]): Promise<{ ok: boolean; stored: number; error?: string }> {
     // 2026-08-20 PRIVACY GATE: no contact data leaves the device unless the
     // user has explicitly enabled backend sync. Default OFF.
-    if (!(await this.isBackendSyncEnabled())) return;
+    // 2026-09-18 BUILD 262 THE TRUTHFUL PUSH (founder: "Push says success,
+    // but pull says nothing was pushed"): the gate and every failure now
+    // SPEAK — the caller knows whether anything left the device.
+    if (!(await this.isBackendSyncEnabled())) return { ok: false, stored: 0, error: 'consent-off' };
     try {
       const trialStartedAt = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
       const trialEndsAt = (await this.storage.get<number>('rolodex_trial_until')) || 0;
@@ -216,37 +222,44 @@ export class RolodexSyncService {
           ownerName: this.ownerName,
           contacts: (contacts || []).slice(0, 500),
           followUps: (followUps || []).slice(0, 200),
+          // 2026-09-18 BUILD 93: the loops ride beside the deck (same consent).
+          loops: (loops || []).slice(0, 500),
           trial: { startedAt: trialStartedAt || null, endsAt: trialEndsAt || null },
         }),
         keepalive: true,
       });
-      if (res.ok) {
-        const data = await res.json().catch(() => null);
-        if (data?.welcome) this.welcome$.next(String(data.welcome));
-        // 2026-08-19 server trial is the source of truth on first contact
-        if (data?.trial) {
-          const existingStart = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
-          const existingEnd = (await this.storage.get<number>('rolodex_trial_until')) || 0;
-          const serverStart = data.trial.startedAt ? new Date(data.trial.startedAt).getTime() : 0;
-          const serverEnd = data.trial.endsAt ? new Date(data.trial.endsAt).getTime() : 0;
-          if (!existingStart && serverStart > 0) await this.storage.set('rolodex_trial_started_at', serverStart);
-          if (!existingEnd && serverEnd > 0) await this.storage.set('rolodex_trial_until', serverEnd);
-        }
+      if (!res.ok) return { ok: false, stored: 0, error: 'server-' + res.status };
+      const data = await res.json().catch(() => null);
+      if (data?.welcome) this.welcome$.next(String(data.welcome));
+      // 2026-08-19 server trial is the source of truth on first contact
+      if (data?.trial) {
+        const existingStart = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
+        const existingEnd = (await this.storage.get<number>('rolodex_trial_until')) || 0;
+        const serverStart = data.trial.startedAt ? new Date(data.trial.startedAt).getTime() : 0;
+        const serverEnd = data.trial.endsAt ? new Date(data.trial.endsAt).getTime() : 0;
+        if (!existingStart && serverStart > 0) await this.storage.set('rolodex_trial_started_at', serverStart);
+        if (!existingEnd && serverEnd > 0) await this.storage.set('rolodex_trial_until', serverEnd);
       }
-    } catch { /* ignore */ }
+      return { ok: true, stored: (contacts || []).length + (loops || []).length };
+    } catch (e: any) {
+      return { ok: false, stored: 0, error: e?.message ? String(e.message).slice(0, 80) : 'network' };
+    }
   }
 
-  /** Restore the device's full contact list from the Rolodex server.
-   *  Returns null when the server has nothing (or is unreachable) — the
-   *  caller keeps its local list. Privacy: still gated behind consent. */
-  async restore(): Promise<ContactInfo[] | null> {
-    if (!(await this.isBackendSyncEnabled())) return null;
+  /** Restore the device's full state (deck + loops) from the Rolodex server.
+   *  2026-09-18 BUILD 262 THE HONEST PULL: the result SPEAKS — 'ok' with the
+   *  contacts and loops, 'empty' (the server genuinely has nothing for this
+   *  device), 'off' (consent is off), 'error' (the server did not answer).
+   *  The caller can tell the founder the truth instead of one vague line. */
+  async restore(): Promise<{ status: 'ok' | 'empty' | 'off' | 'error'; contacts: ContactInfo[]; loops: any[] }> {
+    if (!(await this.isBackendSyncEnabled())) return { status: 'off', contacts: [], loops: [] };
     try {
       const res = await fetch(`${this.apiBase()}/state/${encodeURIComponent(this.deviceId)}`, { headers: { Accept: 'application/json' } });
-      if (!res.ok) return null;
+      if (!res.ok) return { status: 'empty', contacts: [], loops: [] }; // 404 = nothing stored yet
       const data = await res.json();
-      if (!Array.isArray(data?.contacts)) return null;
-      return data.contacts as ContactInfo[];
-    } catch { return null; }
+      const contacts = Array.isArray(data?.contacts) ? data.contacts as ContactInfo[] : [];
+      const loops = Array.isArray(data?.loops) ? data.loops : [];
+      return { status: contacts.length || loops.length ? 'ok' : 'empty', contacts, loops };
+    } catch { return { status: 'error', contacts: [], loops: [] }; }
   }
 }

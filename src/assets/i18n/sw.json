@@ -834,6 +834,8 @@
     "walk.taskCancel": "Ghairi",
     "walk.taskWhen": "Lini (hiari)",
     "walk.taskRhythm": "Mdundo (hiari)",
-    "walk.taskAt": "Saa (hiari)"
+    "walk.taskAt": "Saa (hiari)",
+    "storage.serverConsentNote": "Kwanza: idhini kwenye Mipangilio — Backend sync consent. Hakuna kinachaondoka kwenye kifaa hako kabla ya hapo.",
+    "storage.serverConsentOpen": "Fungua idhini"
   }
 }

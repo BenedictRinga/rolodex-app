@@ -834,6 +834,8 @@
     "walk.taskCancel": "Annuleren",
     "walk.taskWhen": "Wanneer (optioneel)",
     "walk.taskRhythm": "Ritme (optioneel)",
-    "walk.taskAt": "Om (optioneel)"
+    "walk.taskAt": "Om (optioneel)",
+    "storage.serverConsentNote": "Eerst: geef toestemming in Instellingen — Backend sync consent. Niets verlaat dit apparaat vóór die tijd.",
+    "storage.serverConsentOpen": "Toestemming openen"
   }
 }

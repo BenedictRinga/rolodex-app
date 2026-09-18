@@ -130,7 +130,12 @@
     </div>
 
     <!-- LOOPKEEPER SERVER: truthful until consent is explicitly given; then
-         strip + deck. Real cards only - demo cards never copy. -->
+         strip + deck. Real cards only - demo cards never copy.
+         2026-09-18 BUILD 262: the pane POINTS AT CONSENT like the Cloud tab
+         (the founder: "the remote storage interface should have pointed that
+         out... LoopKeeper Server did not do that") — the consent note names
+         Settings → Backend sync consent, and push/pull SPEAK their truth
+         ("Pushed N cards + M loops" / the exact reason nothing left). -->
     <div *ngSwitchCase="'rolodex-server'" class="storage-pane">
       <div *ngIf="!serverSyncEnabled" class="storage-card">
         <div class="storage-head">
@@ -140,6 +145,11 @@
         <p class="storage-truth">{{ 'loopkeeper.storage.serverOffBody' | translate }}</p>
         <p class="storage-note">{{ 'loopkeeper.storage.serverDeviceId' | translate }}: <code>{{ serverDeviceId }}</code></p>
         <p class="storage-note">{{ 'loopkeeper.storage.serverExplain' | translate }}</p>
+        <div class="storage-step" [class.done]="backendSyncConsentSeen">
+          <span class="step-dot">1</span>
+          <span class="step-label">{{ 'loopkeeper.storage.serverConsentNote' | translate }}</span>
+          <ion-button fill="outline" size="small" (click)="openStorageSettings()">{{ 'loopkeeper.storage.serverConsentOpen' | translate }}</ion-button>
+        </div>
         <div class="storage-step-actions">
           <ion-button size="small" (click)="enableServerSync(true)">{{ 'loopkeeper.storage.serverEnablePush' | translate }}</ion-button>
           <ion-button fill="outline" size="small" (click)="enableServerSync(false)">{{ 'loopkeeper.storage.serverEnableOnly' | translate }}</ion-button>

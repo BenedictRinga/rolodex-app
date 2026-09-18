@@ -135,6 +135,31 @@ export class LoopsService {
 
   // ===== Persistence ========================================================
 
+  /** 2026-09-18 BUILD 262 THE BACKUP EXPORT (founder: "I want to backup my
+   *  loops so the date transfers to any other device"): every loop in the
+   *  cache, verbatim — the sync payload rides them behind the backend-sync
+   *  consent gate. */
+  exportLoops(): Loop[] { return [...(this.cache || [])]; }
+
+  /** 2026-09-18 BUILD 262 THE BACKUP RESTORE: upsert-by-id — loops the device
+   *  already has stand untouched; loops from the server's slot are added.
+   *  Returns how many arrived. Never deletes anything local. */
+  mergeRestored(restored: Loop[]): number {
+    if (!Array.isArray(restored) || !restored.length) return 0;
+    void this.all();
+    this.cache = this.cache || [];
+    const ids = new Set(this.cache.map((l) => String(l?.id || '')));
+    let added = 0;
+    for (const l of restored) {
+      if (!l || !l.id || ids.has(String(l.id))) continue;
+      this.cache.push(l);
+      ids.add(String(l.id));
+      added++;
+    }
+    if (added) void this.persist();
+    return added;
+  }
+
   async all(): Promise<Loop[]> {
     if (this.cache) return this.cache;
     try {

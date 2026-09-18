@@ -834,6 +834,8 @@
     "walk.taskCancel": "रद्द",
     "walk.taskWhen": "कब (वैकल्पिक)",
     "walk.taskRhythm": "लय (वैकल्पिक)",
-    "walk.taskAt": "बजे (वैकल्पिक)"
+    "walk.taskAt": "बजे (वैकल्पिक)",
+    "storage.serverConsentNote": "पहले: सेटिंग्स में सहमति दें — Backend sync consent. उससे पहले इस डिवाइस से कुछ नहीं जाता।",
+    "storage.serverConsentOpen": "सहमति खोलें"
   }
 }

@@ -834,6 +834,8 @@
     "walk.taskCancel": "キャンセル",
     "walk.taskWhen": "いつ（任意）",
     "walk.taskRhythm": "リズム（任意）",
-    "walk.taskAt": "時刻（任意）"
+    "walk.taskAt": "時刻（任意）",
+    "storage.serverConsentNote": "まず：設定で同意してください — Backend sync consent。同意の前に何も送信されません。",
+    "storage.serverConsentOpen": "同意を開く"
   }
 }

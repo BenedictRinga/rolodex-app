@@ -834,6 +834,8 @@
     "walk.taskCancel": "Отмена",
     "walk.taskWhen": "Когда (необязательно)",
     "walk.taskRhythm": "Ритм (необязательно)",
-    "walk.taskAt": "Во сколько (необязательно)"
+    "walk.taskAt": "Во сколько (необязательно)",
+    "storage.serverConsentNote": "Сначала: дайте согласие в Настройках — Backend sync consent. До него ничего не покидает устройство.",
+    "storage.serverConsentOpen": "Открыть согласие"
   }
 }

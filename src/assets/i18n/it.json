@@ -834,6 +834,8 @@
     "walk.taskCancel": "Annulla",
     "walk.taskWhen": "Quando (facoltativo)",
     "walk.taskRhythm": "Ritmo (facoltativo)",
-    "walk.taskAt": "Alle (facoltativo)"
+    "walk.taskAt": "Alle (facoltativo)",
+    "storage.serverConsentNote": "Prima: dai il consenso in Impostazioni — Backend sync consent. Nulla lascia questo dispositivo prima.",
+    "storage.serverConsentOpen": "Apri consenso"
   }
 }

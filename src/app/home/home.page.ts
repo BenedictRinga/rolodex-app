@@ -186,6 +186,10 @@ export class HomePage implements OnInit, OnDestroy {
   serverLastPushed: string | null = null;
   serverLastPulled: string | null = null;
   serverBusy: boolean = false;
+  // BUILD 262: the Server pane's consent step points at Settings like the
+  // Cloud pane does; it starts not-done and the pane is replaced wholesale
+  // once consent exists.
+  backendSyncConsentSeen: boolean = false;
 
   constructor(
     private contactsSyncService: ContactsSyncService,
@@ -500,11 +504,12 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-16: when the server is the chosen home, restore the full list
     // from it (fall back to the local list when the server has nothing).
     if (this.storageLocation === 'rolodex-server') {
-      const restored = await this.rolodexSync.restore();
-      if (restored && restored.length) {
-        this.contacts = restored;
+      const out = await this.rolodexSync.restore();
+      if (out.status === 'ok' && out.contacts.length) {
+        this.contacts = out.contacts;
+        this.loops.mergeRestored(out.loops as any);
         this.loading = false;
-        this.rolodexSync.push(this.realContacts());
+        this.rolodexSync.push(this.realContacts(), undefined, this.loops.exportLoops());
       }
     }
   }
@@ -712,11 +717,12 @@ export class HomePage implements OnInit, OnDestroy {
     try { await this.storageService.set('rolodex_storage', loc); } catch { /* ignore */ }
     void this.refreshServerTabState();
     if (loc === 'rolodex-server') {
-      const restored = await this.rolodexSync.restore();
-      if (restored && restored.length) {
-        this.contacts = restored;
+      const out = await this.rolodexSync.restore();
+      if (out.status === 'ok' && out.contacts.length) {
+        this.contacts = out.contacts;
+        this.loops.mergeRestored(out.loops as any);
         this.loading = false;
-        this.rolodexSync.push(this.realContacts());
+        this.rolodexSync.push(this.realContacts(), undefined, this.loops.exportLoops());
       }
     }
   }
@@ -1298,35 +1304,54 @@ export class HomePage implements OnInit, OnDestroy {
     if (pushToo) await this.serverPush();
   }
 
-  /** Push the real deck to the LoopKeeper server and record the evidence. */
+  /** Push the real deck + the loops to the LoopKeeper server — and SPEAK the
+   *  truth: what left, or exactly why nothing did (BUILD 262; the founder's
+   *  "Push says success, but pull says nothing was pushed" dies here). */
   async serverPush(): Promise<void> {
     this.serverBusy = true;
     try {
-      await this.rolodexSync.push(this.realContacts());
+      const cards = this.realContacts();
+      const loops = this.loops.exportLoops();
+      const out = await this.rolodexSync.push(cards, undefined, loops);
       const now = new Date().toISOString();
-      this.serverLastPushed = now;
-      try { await this.storageService.set('loopkeeper_server_last_push', now); } catch { /* best effort */ }
-      await this.alertsService.showToast('Pushed to the LoopKeeper server', 2800);
+      if (out.ok) {
+        this.serverLastPushed = now;
+        try { await this.storageService.set('loopkeeper_server_last_push', now); } catch { /* best effort */ }
+        await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops to the LoopKeeper server', 3200);
+      } else {
+        const why = out.error === 'consent-off'
+          ? 'Nothing pushed — backend-sync consent is OFF. Enable it above (or Settings → Backend sync consent).'
+          : out.error === 'network'
+            ? 'Push failed — the server did not answer. Nothing left the device.'
+            : 'Push failed (' + (out.error || 'unknown') + '). Nothing left the device.';
+        await this.alertsService.showToast(why, 4200);
+      }
     } finally {
       this.serverBusy = false;
     }
   }
 
-  /** Pull this device's list back from the server (or say plainly there is
-   *  nothing there - never silently pretend). */
+  /** Pull this device's state (deck + loops) from the server — every outcome
+   *  speaks its truth: restored counts, genuinely empty, consent off, or the
+   *  server unreachable (BUILD 262). */
   async serverPull(): Promise<void> {
     this.serverBusy = true;
     try {
-      const restored = await this.rolodexSync.restore();
-      if (restored && restored.length) {
-        this.contacts = restored;
+      const out = await this.rolodexSync.restore();
+      if (out.status === 'ok') {
+        this.contacts = out.contacts;
+        const arrived = this.loops.mergeRestored(out.loops as any);
         const now = new Date().toISOString();
         this.serverLastPulled = now;
         try { await this.storageService.set('loopkeeper_server_last_pull', now); } catch { /* best effort */ }
-        await this.alertsService.showToast('Restored ' + restored.length + ' cards from the server', 3200);
+        await this.alertsService.showToast('Restored ' + out.contacts.length + ' cards + ' + arrived + ' loops from the server', 3400);
         await this.runAutomation();
-      } else {
+      } else if (out.status === 'empty') {
         await this.alertsService.showToast('The server has nothing for this device yet — push first', 3200);
+      } else if (out.status === 'off') {
+        await this.alertsService.showToast('Nothing pulled — backend-sync consent is OFF. Enable it above.', 3600);
+      } else {
+        await this.alertsService.showToast('The server did not answer — try again', 3200);
       }
     } finally {
       this.serverBusy = false;

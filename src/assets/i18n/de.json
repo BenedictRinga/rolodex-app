@@ -834,6 +834,8 @@
     "walk.taskCancel": "Abbrechen",
     "walk.taskWhen": "Wann (optional)",
     "walk.taskRhythm": "Rhythmus (optional)",
-    "walk.taskAt": "Um (optional)"
+    "walk.taskAt": "Um (optional)",
+    "storage.serverConsentNote": "Zuerst: Zustimmung in Einstellungen — Backend sync consent. Nichts verlässt dieses Gerät vorher.",
+    "storage.serverConsentOpen": "Zustimmung öffnen"
   }
 }
