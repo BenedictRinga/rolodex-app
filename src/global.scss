@@ -450,6 +450,16 @@ ion-modal.command-center-modal {
   --max-width: 100%;
 }
 
+/* BUILD 270 THE REAL TOAST — width-capped so long diagnostics wrap in the
+   dialog column, never one-letter-per-line at the page border. */
+ion-toast.lk-toast {
+  --max-width: min(92vw, 460px);
+  --border-radius: 14px;
+  --box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
 /* 2026-09-16 BUILD 237 THE CHECK-INS PANEL: a tall sheet — the escalator
    list on demand. ModalController-presented (overlay layer), so the inline
    modal containment rule does not apply. */

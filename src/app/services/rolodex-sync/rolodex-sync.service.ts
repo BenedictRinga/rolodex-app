@@ -199,7 +199,7 @@ export class RolodexSyncService {
    *  my loops so the date transfers to any other device"): the tray's loops
    *  join the payload behind the SAME consent gate and restore beside the
    *  deck — device-local until consent, never after. */
-  async push(contacts: ContactInfo[], followUps?: any[], loops?: any[]): Promise<{ ok: boolean; stored: number; error?: string }> {
+  async push(contacts: ContactInfo[], followUps?: any[], loops?: any[]): Promise<{ ok: boolean; stored: number; error?: string; coversStripped?: boolean }> {
     // 2026-08-20 PRIVACY GATE: no contact data leaves the device unless the
     // user has explicitly enabled backend sync. Default OFF.
     // 2026-09-18 BUILD 262 THE TRUTHFUL PUSH (founder: "Push says success,
@@ -209,26 +209,45 @@ export class RolodexSyncService {
     try {
       const trialStartedAt = (await this.storage.get<number>('rolodex_trial_started_at')) || 0;
       const trialEndsAt = (await this.storage.get<number>('rolodex_trial_until')) || 0;
+      // BUILD 270 THE SIZE-AWARE PUSH (measured: the server's nginx cap
+      // rejects bodies over ~1 MB with HTTP 413 — an 84-card deck with
+      // base64 photo/video covers is far over it, so EVERY push from a real
+      // deck died at the door while small test payloads sailed through).
+      // Heavy device-local media (base64 photos, video covers) is shed from
+      // the payload when it would blow the cap — the text, tasks, dates and
+      // loops still ride; the covers stay on the device.
+      const makeBody = (list: any[]) => JSON.stringify({
+        deviceId: this.deviceId,
+        deviceName: this.deviceLabel(),
+        room: this.room,
+        // 2026-08-18 THE USERS DB: the sync registers the owner's identity so
+        // the chat can tell a sender whether a sendee is reachable in-app.
+        ownerPhone: this.ownerPhone,
+        ownerName: this.ownerName,
+        contacts: (list || []).slice(0, 500),
+        followUps: (followUps || []).slice(0, 200),
+        // 2026-09-18 BUILD 93: the loops ride beside the deck (same consent).
+        loops: (loops || []).slice(0, 500),
+        trial: { startedAt: trialStartedAt || null, endsAt: trialEndsAt || null },
+      });
+      const LIMIT = 900_000; // a safe margin under the measured ~1 MB cap
+      let payloadContacts = contacts || [];
+      let coversStripped = false;
+      if (makeBody(payloadContacts).length > LIMIT) {
+        payloadContacts = payloadContacts.map((c: any) => {
+          if (!c || (!c.image && !c.coverVideo)) return c;
+          const { image, coverVideo, ...rest } = c;
+          return rest;
+        });
+        coversStripped = true;
+      }
       const res = await fetch(`${this.apiBase()}/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          deviceId: this.deviceId,
-          deviceName: this.deviceLabel(),
-          room: this.room,
-          // 2026-08-18 THE USERS DB: the sync registers the owner's identity so
-          // the chat can tell a sender whether a sendee is reachable in-app.
-          ownerPhone: this.ownerPhone,
-          ownerName: this.ownerName,
-          contacts: (contacts || []).slice(0, 500),
-          followUps: (followUps || []).slice(0, 200),
-          // 2026-09-18 BUILD 93: the loops ride beside the deck (same consent).
-          loops: (loops || []).slice(0, 500),
-          trial: { startedAt: trialStartedAt || null, endsAt: trialEndsAt || null },
-        }),
+        body: makeBody(payloadContacts),
         keepalive: true,
       });
-      if (!res.ok) return { ok: false, stored: 0, error: 'server-' + res.status };
+      if (!res.ok) return { ok: false, stored: 0, error: 'server-' + res.status, coversStripped };
       const data = await res.json().catch(() => null);
       if (data?.welcome) this.welcome$.next(String(data.welcome));
       // 2026-08-19 server trial is the source of truth on first contact
@@ -240,7 +259,7 @@ export class RolodexSyncService {
         if (!existingStart && serverStart > 0) await this.storage.set('rolodex_trial_started_at', serverStart);
         if (!existingEnd && serverEnd > 0) await this.storage.set('rolodex_trial_until', serverEnd);
       }
-      return { ok: true, stored: (contacts || []).length + (loops || []).length };
+      return { ok: true, stored: (contacts || []).length + (loops || []).length, coversStripped };
     } catch (e: any) {
       return { ok: false, stored: 0, error: e?.message ? String(e.message).slice(0, 80) : 'network' };
     }

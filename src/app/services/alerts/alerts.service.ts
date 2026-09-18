@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
 
 export interface AlertPayload {
@@ -20,6 +20,7 @@ export class AlertsService {
     private readonly alertController: AlertController,
     private readonly actionSheetController: ActionSheetController,
     private readonly inAppNotifications: InAppNotificationService,
+    private readonly toastController: ToastController,
   ) {}
 
   /** 2026-08-16: action sheet with roles — resolves the tapped button's role. */
@@ -88,10 +89,27 @@ export class AlertsService {
 
   // ---- In-app toast ------------------------------------------------------
 
-  /** 2026-08-18 SHOWTOAST IS NOW THE DRAGGABLE IN-APP DOCK: the Ionic dock
-   *  renders inside the app, can be dragged to a convenient corner, and never
-   *  stacks like browser/system notifications. `interval` = auto-dismiss ms. */
+  /** 2026-09-18 BUILD 270 THE REAL TOAST RETURNS (founder: the success and
+   *  failure notifications render "as a single thread, each letter vertically
+   *  stacked at the page border, and beyond" — even the create-card count
+   *  that is accurate). ROOT CAUSE: since 2026-08-18 showToast fed the
+   *  IN-APP NOTIFICATION DOCK, whose narrow corner items wrap long text one
+   *  letter per line — every "toast" in the app was a dock item. A toast is
+   *  a transient confirmation, not a dock notification: it is a real
+   *  ion-toast again (ToastController, width-capped), and the dock keeps
+   *  the STICKY actionable notifications (check-ins, digest) it was built
+   *  for. `interval` = auto-dismiss ms. */
   async showToast(message: string, interval: number = 2000): Promise<void> {
-    this.inAppNotifications.notify(message, { kind: 'info', duration: interval });
+    try {
+      const toast = await this.toastController.create({
+        message,
+        duration: Math.max(1200, interval),
+        position: 'bottom',
+        cssClass: 'lk-toast',
+      });
+      await toast.present();
+    } catch {
+      this.inAppNotifications.notify(message, { kind: 'info', duration: interval });
+    }
   }
 }

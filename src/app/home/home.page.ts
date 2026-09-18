@@ -1361,7 +1361,7 @@ export class HomePage implements OnInit, OnDestroy {
         // BUILD 266/267 THE SELF-EVIDENCING SUCCESS: the toast carries the
         // slot id and the deck source, so "success" is checkable.
         const slot = String(this.rolodexSync.getDeviceId() || '').slice(0, 22);
-        await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops (from the stored deck) — server slot ' + slot + '… updated just now', 4600);
+        await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops (from the stored deck) — server slot ' + slot + '… updated just now' + (out.coversStripped ? ' — photo/video covers stayed on this device (payload cap)' : ''), 4600);
       } else {
         // BUILD 269: failures speak as DIALOGS too — the letter-stack toast
         // class is retired for every long diagnostic in this pane.
@@ -1369,7 +1369,9 @@ export class HomePage implements OnInit, OnDestroy {
           ? 'Backend-sync consent is OFF. Enable it above (or Settings → Backend sync consent), then push again.'
           : out.error === 'network'
             ? 'The server did not answer. Nothing left the device — check your connection and push again.'
-            : 'The push failed (' + (out.error || 'unknown') + '). Nothing left the device.';
+            : out.error === 'server-413' || out.error === 'server-413-even-light'
+              ? 'The server rejected the deck as too large (HTTP 413). Even with photo/video covers shed, the deck exceeds the server\'s upload cap — the nginx body limit (client_max_body_size) needs raising to 32M on the droplet.'
+              : 'The push failed (' + (out.error || 'unknown') + '). Nothing left the device.';
         await this.alertDialog('Push failed', why);
       }
     } finally {
