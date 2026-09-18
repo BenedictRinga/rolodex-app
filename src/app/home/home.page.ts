@@ -1324,13 +1324,19 @@ export class HomePage implements OnInit, OnDestroy {
         this.contacts = this.mockEnabled ? [...cards, ...mockContacts] : cards;
       }
       const loops = this.loops.exportLoops();
-      // BUILD 265/266 THE EMPTY PUSH IS NOT A PUSH: zero real cards means
-      // nothing rides — and the message states the deck's actual truth.
+      // BUILD 265/266/268 THE EMPTY PUSH IS NOT A PUSH: zero real cards means
+      // nothing rides. The message shows BOTH meters (the Device tab's count
+      // vs what the push read) so a disagreement is VISIBLE, and answers the
+      // Export-File question: push never needs it — it reads the deck
+      // directly (the founder's exact supposition, now retired in the UI).
       if (!cards.length && !loops.length) {
         const total = (this.contacts || []).length;
-        await this.alertsService.showToast(total > 0
-          ? 'Nothing to push — all ' + total + ' cards in THIS app\'s stored deck are demo cards, and demo cards never leave the device. If you can see real cards elsewhere, that is a different app window or profile — open LoopKeeper there and push from it.'
-          : 'Nothing to push — this app has no cards stored yet. Create one card, then push.', 6200);
+        const deviceTabSays = this.realContactCount();
+        await this.alertsService.showToast(deviceTabSays > 0
+          ? 'Nothing pushed — the stored deck this push read holds 0 real cards, while this panel\'s Device tab counts ' + deviceTabSays + '. The two must agree; if they still disagree after reopening the app, that is an app bug — tell the founder. Export File is NOT needed for push — push reads the deck directly.'
+          : total > 0
+            ? 'Nothing to push — all ' + total + ' cards in THIS app\'s stored deck are demo cards, and demo cards never leave the device. If you can see real cards elsewhere, that is a different app window or profile — open LoopKeeper there and push from it.'
+            : 'Nothing to push — this app has no cards stored yet. Create one card, then push.', 8000);
         return;
       }
       const out = await this.rolodexSync.push(cards, undefined, loops);
