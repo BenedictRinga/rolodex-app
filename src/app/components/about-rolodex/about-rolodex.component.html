@@ -831,20 +831,35 @@
             <ion-button size="small" fill="solid" (click)="commandCenterOpen = true">Open Command Center</ion-button>
           </div>
 
-          <!-- 2026-09-02 BUILD 181 (founder directive): THE CONTACTLESS REDESIGN —
-               the framework from loopkeeper redesign.txt, packed for investors as a
-               segmented panel. Six tabs; the source document is the authority. -->
+          <!-- 2026-09-02 BUILD 181 (founder directive): THE CONTACTLESS REDESIGN.
+               2026-09-18 BUILD 261 (founder: "Purge the Investors portal of
+               legacy 'contactless' era material... except to the extent that
+               relevant policy matters are discussed, or it is useful for
+               historical record. Note also the chase towards similar but
+               distinguishable markets occupied by Muse and Instinct"): the
+               section now LEADS with the standing policy + the market line;
+               the full memo lives on as a collapsed historical record. -->
           <div class="investor-section sec-redesign" id="inv-redesign">
             <div class="section-head">
-              <span class="section-num">07</span>
-              <div class="section-title"><span class="section-kicker">Redesign</span><strong>The contactless framework</strong></div>
+              <span class="section-num">08</span>
+              <div class="section-title"><span class="section-kicker">Policy</span><strong>Privacy, by construction</strong></div>
             </div>
 
             <div class="lpred-hero">
-              <p>LoopKeeper is not a safer rolodex.<br>
-                 It is a tray for unfinished acts whose counterparties<br>
-                 the software is not allowed to know.</p>
+              <p>LoopKeeper is the app for chronic procrastination — a tray for unfinished acts<br>
+                 whose counterparties the software is not allowed to know.<br>
+                 Where Muse and Instinct reflect and remind, LoopKeeper <strong>closes</strong>:
+                 different market, adjacent aisle — the follow-through engine, not the mirror.</p>
             </div>
+
+            <div class="lpred-card" style="margin:0 0 12px;">
+              <h4>The standing privacy policy</h4>
+              <p>No contact permission — <code>READ_CONTACTS</code> is never requested. No account. The identity lives in the user's head (a nickname only they understand); the deck is device-local; a loop's subject may be a thing, a place, or a decision — a person is one kind of subject, never the gate. Names stay on the device in every path, including notifications.</p>
+            </div>
+
+            <details class="inv-details">
+              <summary>Historical record — the full contactless redesign memo (Sep 2026)</summary>
+              <div class="inv-details-body">
 
             <div class="lpred-tabs">
               <button *ngFor="let t of redesignTabs" class="lpred-tab" [class.active]="redesignTab === t.id" (click)="redesignTab = t.id">{{ t.label }}</button>
@@ -1001,6 +1016,8 @@
             </div>
 
             <p class="investor-chart-note">Source: the founder's redesign memo ("loopkeeper redesign.txt"), packed verbatim in spirit — the memo is the authority.</p>
+              </div>
+            </details>
           </div>
 
           <p class="investor-live-note">
