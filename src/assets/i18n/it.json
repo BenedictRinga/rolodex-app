@@ -833,6 +833,7 @@
     "walk.taskSave": "Salva",
     "walk.taskCancel": "Annulla",
     "walk.taskWhen": "Quando (facoltativo)",
-    "walk.taskRhythm": "Ritmo (facoltativo)"
+    "walk.taskRhythm": "Ritmo (facoltativo)",
+    "walk.taskAt": "Alle (facoltativo)"
   }
 }

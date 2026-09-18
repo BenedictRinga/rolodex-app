@@ -155,6 +155,15 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
    *  tasks, money, places, people, dates, moods. A "myriad" is one scroll
    *  away; device photos stay via the avatar picker. */
   coverEmojiOptions = ['💰', '🏠', '🚗', '🛂', '💊', '💧', '🏋️', '🎓', '🤝', '⏰', '📝', '📚', '📞', '🎉', '🎁', '🎂', '☕', '✈️', '🛠️', '📍', '🧾', '🪴', '💼', '🏫', '⚽', '🎵', '💡', '🔧', '🌱', '🐶', '🐱', '❤️', '⭐', '🔥', '✅', '🎯', '📅', '🗒️', '🧠', '🙏'];
+
+  /** 2026-09-18 BUILD 259 THE COVER GRID (founder: "Task image selection
+   *  could do with more space - its drop-down is within a very small
+   *  aperture, unlike that used to add Display Photo/Emoji for Contact
+   *  Card"): the popover select is retired — the emoji choices stand as
+   *  tappable tiles, full width, no aperture. */
+  setCover(e: string): void { this.contactForm.get('coverEmoji')?.setValue(e); }
+  get coverPicked(): string { return String(this.contactForm?.get('coverEmoji')?.value || ''); }
+
   showNameDetails = false;
   showPhoneDetails = false;
   showEmailDetails = false;

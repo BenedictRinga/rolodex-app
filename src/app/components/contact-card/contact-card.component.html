@@ -903,13 +903,16 @@
                 <ion-button expand="block" fill="outline" (click)="addChecklistItem()">Add checklist item</ion-button>
               </div>
             </div>
-            <ion-item>
+            <!-- 2026-09-18 BUILD 259 THE COVER GRID: no popover aperture — the
+                 emoji choices stand as tappable tiles, full width. -->
+            <ion-item lines="none">
               <ion-label position="stacked">Card cover (optional emoji)</ion-label>
-              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
-                <ion-select-option value="">Default cover</ion-select-option>
-                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
-              </ion-select>
             </ion-item>
+            <div class="cover-picker" role="listbox" aria-label="Card cover">
+              <button type="button" class="cover-tile cover-tile-none" [class.on]="!coverPicked" (click)="setCover('')">Default</button>
+              <button type="button" *ngFor="let e of coverEmojiOptions" class="cover-tile"
+                [class.on]="coverPicked === e" (click)="setCover(e)">{{ e }}</button>
+            </div>
             <ion-item>
               <ion-label position="stacked">Details</ion-label>
               <ion-textarea formControlName="note" placeholder="Anything the task should remember"></ion-textarea>
@@ -938,13 +941,14 @@
               <ion-label position="stacked">The note</ion-label>
               <ion-textarea formControlName="note" rows="5" placeholder="The body — it shows on the deck row"></ion-textarea>
             </ion-item>
-            <ion-item>
+            <ion-item lines="none">
               <ion-label position="stacked">Card cover (optional emoji)</ion-label>
-              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
-                <ion-select-option value="">Default cover</ion-select-option>
-                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
-              </ion-select>
             </ion-item>
+            <div class="cover-picker" role="listbox" aria-label="Card cover">
+              <button type="button" class="cover-tile cover-tile-none" [class.on]="!coverPicked" (click)="setCover('')">Default</button>
+              <button type="button" *ngFor="let e of coverEmojiOptions" class="cover-tile"
+                [class.on]="coverPicked === e" (click)="setCover(e)">{{ e }}</button>
+            </div>
           </ion-card-content>
         </ion-card>
       </form>
@@ -969,13 +973,14 @@
               <ion-label position="stacked">Address</ion-label>
               <ion-input formControlName="placeAddress" placeholder="The street or landmark"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item lines="none">
               <ion-label position="stacked">Card cover (optional emoji)</ion-label>
-              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
-                <ion-select-option value="">Default cover</ion-select-option>
-                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
-              </ion-select>
             </ion-item>
+            <div class="cover-picker" role="listbox" aria-label="Card cover">
+              <button type="button" class="cover-tile cover-tile-none" [class.on]="!coverPicked" (click)="setCover('')">Default</button>
+              <button type="button" *ngFor="let e of coverEmojiOptions" class="cover-tile"
+                [class.on]="coverPicked === e" (click)="setCover(e)">{{ e }}</button>
+            </div>
           </ion-card-content>
         </ion-card>
       </form>
@@ -994,13 +999,14 @@
 
             <!-- 2026-09-16 BUILD 217 THE CARD COVER: pick an emoji (or leave
                  the default cover) — the deck row and the walk wear it. -->
-            <ion-item>
+            <ion-item lines="none">
               <ion-label position="stacked">Card cover (optional emoji)</ion-label>
-              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
-                <ion-select-option value="">Default cover</ion-select-option>
-                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
-              </ion-select>
             </ion-item>
+            <div class="cover-picker" role="listbox" aria-label="Card cover">
+              <button type="button" class="cover-tile cover-tile-none" [class.on]="!coverPicked" (click)="setCover('')">Default</button>
+              <button type="button" *ngFor="let e of coverEmojiOptions" class="cover-tile"
+                [class.on]="coverPicked === e" (click)="setCover(e)">{{ e }}</button>
+            </div>
 
             <!-- Accordion group for additional sections -->
             <ion-accordion-group expand="inset">
@@ -1502,13 +1508,14 @@
           <ion-card-content>
             <!-- 2026-09-16 BUILD 217 THE CARD COVER: pick an emoji (or leave
                  the default cover) — the deck row and the walk wear it. -->
-            <ion-item>
+            <ion-item lines="none">
               <ion-label position="stacked">Card cover (optional emoji)</ion-label>
-              <ion-select formControlName="coverEmoji" interface="popover" placeholder="Default cover">
-                <ion-select-option value="">Default cover</ion-select-option>
-                <ion-select-option *ngFor="let e of coverEmojiOptions" [value]="e">{{ e }}</ion-select-option>
-              </ion-select>
             </ion-item>
+            <div class="cover-picker" role="listbox" aria-label="Card cover">
+              <button type="button" class="cover-tile cover-tile-none" [class.on]="!coverPicked" (click)="setCover('')">Default</button>
+              <button type="button" *ngFor="let e of coverEmojiOptions" class="cover-tile"
+                [class.on]="coverPicked === e" (click)="setCover(e)">{{ e }}</button>
+            </div>
             <!-- 2026-09-16 BUILD 221 THE GALLERY DOOR (founder: "the cover
                  interface does not provide for using device Gallery to chose
                  a cover as it does for my own personal card"): the same

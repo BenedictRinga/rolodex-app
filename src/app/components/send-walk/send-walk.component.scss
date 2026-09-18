@@ -433,12 +433,21 @@
    in the walk — the breadth of LoopKeeper visible at slide 1. */
 /* 2026-09-16 BUILD 219: the INTERNAL door — LoopKeeper's own chat, in-house
    blue; and when no destination exists, the grid re-orders so the in-house
-   paths (chat, invite) lead and copy falls last. */
+   paths (chat, invite) lead and copy falls last.
+   2026-09-18 BUILD 259 (founder: "LoopKeeper Chat is unimpressive and
+   eclipsed by the bold WhatsApp. The former should be in a strong combo of
+   green and teal (our color). And no shaded background, just clean like
+   text, email, and copy are"): the door drops the blue wash — a strong
+   green→teal gradient TYPE on the clean transparent door. */
 .sw-door-chat {
-  border-color: rgba(122, 184, 255, .55);
-  color: #7ab8ff;
-  background: rgba(122, 184, 255, .10);
-  font-weight: 700;
+  border-color: rgba(20, 184, 166, .65);
+  background: transparent;
+  font-weight: 800;
+  background-image: linear-gradient(90deg, #16a34a, #14b8a6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #14b8a6; /* fallback where text-fill is unsupported */
 }
 
 .sw-guided {
@@ -529,6 +538,10 @@
 }
 .sw-taskfield:focus { border-color: rgba(20, 184, 166, .6); }
 .sw-tasktitle { font-size: 15px; }
+/* BUILD 259: date + hour share the when-row — the hour is the user's. */
+.sw-taskwhen { display: flex; gap: 8px; }
+.sw-taskwhen .sw-taskfield { flex: 1; min-width: 0; }
+.sw-taskwhen .sw-tasktime { flex: 0 0 118px; }
 .sw-taskchips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .sw-taskchip {
   border: 1px solid rgba(128, 128, 128, .3);

@@ -839,6 +839,7 @@
     "walk.taskSave": "Save",
     "walk.taskCancel": "Cancel",
     "walk.taskWhen": "When (optional)",
-    "walk.taskRhythm": "Rhythm (optional)"
+    "walk.taskRhythm": "Rhythm (optional)",
+    "walk.taskAt": "At (optional)"
   }
 }

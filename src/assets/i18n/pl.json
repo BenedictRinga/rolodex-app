@@ -833,6 +833,7 @@
     "walk.taskSave": "Zapisz",
     "walk.taskCancel": "Anuluj",
     "walk.taskWhen": "Kiedy (opcjonalnie)",
-    "walk.taskRhythm": "Rytm (opcjonalnie)"
+    "walk.taskRhythm": "Rytm (opcjonalnie)",
+    "walk.taskAt": "O godzinie (opcjonalnie)"
   }
 }

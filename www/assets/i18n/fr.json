@@ -833,6 +833,7 @@
     "walk.taskSave": "Enregistrer",
     "walk.taskCancel": "Annuler",
     "walk.taskWhen": "Quand (facultatif)",
-    "walk.taskRhythm": "Rythme (facultatif)"
+    "walk.taskRhythm": "Rythme (facultatif)",
+    "walk.taskAt": "À (facultatif)"
   }
 }

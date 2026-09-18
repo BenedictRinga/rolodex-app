@@ -833,6 +833,7 @@
     "walk.taskSave": "儲存",
     "walk.taskCancel": "取消",
     "walk.taskWhen": "何時（可選）",
-    "walk.taskRhythm": "節奏（可選）"
+    "walk.taskRhythm": "節奏（可選）",
+    "walk.taskAt": "時間（可選）"
   }
 }

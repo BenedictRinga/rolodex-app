@@ -833,6 +833,7 @@
     "walk.taskSave": "Opslaan",
     "walk.taskCancel": "Annuleren",
     "walk.taskWhen": "Wanneer (optioneel)",
-    "walk.taskRhythm": "Ritme (optioneel)"
+    "walk.taskRhythm": "Ritme (optioneel)",
+    "walk.taskAt": "Om (optioneel)"
   }
 }

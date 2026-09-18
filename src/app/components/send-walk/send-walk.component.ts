@@ -88,7 +88,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
   taskDraft: 'off' | 'face' | 'back' = 'off';
   private prevWhoSnap: { contact: any; loop?: Loop } | null = null;
   taskTitle = '';
-  taskDue = '';   // yyyy-mm-dd from the native date field
+  taskDue = '';      // yyyy-mm-dd from the native date field
+  // 2026-09-18 BUILD 259 THE TIME ELEMENT (founder: "my title was morning
+  // run, and I doubt it is convenient if LoopKeeper brings it up at 3 pm"):
+  // the when-field gains an hour — default 09:00 (the wake-ping hour), the
+  // user's own "morning run" rides the hour they choose.
+  taskTime = '09:00';
   taskCadence: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' = 'monthly';
   readonly taskCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
 
@@ -103,6 +108,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.prevWhoSnap = this.selection ? { contact: this.selection.contact, loop: this.selection.loop } : null;
     this.taskTitle = '';
     this.taskDue = '';
+    this.taskTime = '09:00';
     this.taskCadence = 'monthly';
     this.taskDraft = 'face';
     void this.analytics.track('task_card_started');
@@ -127,7 +133,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
       kind: 'task',
       task: {
         cadence: this.taskCadence,
-        ...(this.taskDue ? { due: new Date(this.taskDue + 'T09:00:00').getTime() } : {}),
+        // BUILD 259: the due epoch carries the user's own HOUR — a "morning
+        // run" comes up in the morning (default 09:00, the wake-ping hour).
+        ...(this.taskDue ? { due: new Date(this.taskDue + 'T' + (this.taskTime || '09:00') + ':00').getTime() } : {}),
       },
       isMockData: false,
     };
@@ -254,6 +262,11 @@ export class SendWalkComponent implements OnInit, OnChanges {
           thread,
           sendeePhone: c?.phones?.[0]?.number || '',
           sendeePhones: (c?.phones || []).map((p: any) => p?.number).filter(Boolean),
+          // 2026-09-18 BUILD 259 THE WORDS RIDE ALONG (founder: the "Here are
+          // words" text "does not transport into LoopKeeper's chat"): the
+          // accepted draft plumps into the chat composer — the modal already
+          // had the prefill door; the walk just never passed it.
+          prefill: this.scriptBody(),
         },
         cssClass: 'card-chat-modal-sheet',
         breakpoints: [0, 0.7, 0.95, 1],

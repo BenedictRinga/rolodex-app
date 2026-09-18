@@ -833,6 +833,7 @@
     "walk.taskSave": "सहेजें",
     "walk.taskCancel": "रद्द",
     "walk.taskWhen": "कब (वैकल्पिक)",
-    "walk.taskRhythm": "लय (वैकल्पिक)"
+    "walk.taskRhythm": "लय (वैकल्पिक)",
+    "walk.taskAt": "बजे (वैकल्पिक)"
   }
 }

@@ -833,6 +833,7 @@
     "walk.taskSave": "Kaydet",
     "walk.taskCancel": "İptal",
     "walk.taskWhen": "Ne zaman (isteğe bağlı)",
-    "walk.taskRhythm": "Ritim (isteğe bağlı)"
+    "walk.taskRhythm": "Ritim (isteğe bağlı)",
+    "walk.taskAt": "Saat (isteğe bağlı)"
   }
 }

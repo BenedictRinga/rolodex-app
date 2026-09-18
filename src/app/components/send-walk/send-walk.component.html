@@ -42,8 +42,16 @@
         <div class="sw-taskback" (click)="$event.stopPropagation()">
           <input class="sw-taskfield sw-tasktitle" type="text" [(ngModel)]="taskTitle"
             [placeholder]="'loopkeeper.walk.taskBlank' | translate" maxlength="60" />
-          <input class="sw-taskfield" type="date" [(ngModel)]="taskDue"
-            [attr.aria-label]="'loopkeeper.walk.taskWhen' | translate" />
+          <!-- 2026-09-18 BUILD 259 THE TIME ELEMENT (founder: "my title was
+               morning run, and I doubt it is convenient if LoopKeeper brings
+               it up at 3 pm"): the when-field carries an hour next to the
+               date — default 09:00, the user's hour wins. -->
+          <div class="sw-taskwhen">
+            <input class="sw-taskfield" type="date" [(ngModel)]="taskDue"
+              [attr.aria-label]="'loopkeeper.walk.taskWhen' | translate" />
+            <input class="sw-taskfield sw-tasktime" type="time" [(ngModel)]="taskTime"
+              [attr.aria-label]="'loopkeeper.walk.taskAt' | translate" />
+          </div>
           <div class="sw-taskchips">
             <button *ngFor="let c of taskCadences" class="sw-taskchip" type="button"
               [class.on]="taskCadence === c" (click)="taskCadence = c">{{ cadenceLabel(c) }}</button>

@@ -833,6 +833,7 @@
     "walk.taskSave": "حفظ",
     "walk.taskCancel": "إلغاء",
     "walk.taskWhen": "متى (اختياري)",
-    "walk.taskRhythm": "الإيقاع (اختياري)"
+    "walk.taskRhythm": "الإيقاع (اختياري)",
+    "walk.taskAt": "في الساعة (اختياري)"
   }
 }

@@ -833,6 +833,7 @@
     "walk.taskSave": "Сохранить",
     "walk.taskCancel": "Отмена",
     "walk.taskWhen": "Когда (необязательно)",
-    "walk.taskRhythm": "Ритм (необязательно)"
+    "walk.taskRhythm": "Ритм (необязательно)",
+    "walk.taskAt": "Во сколько (необязательно)"
   }
 }

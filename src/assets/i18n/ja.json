@@ -833,6 +833,7 @@
     "walk.taskSave": "保存",
     "walk.taskCancel": "キャンセル",
     "walk.taskWhen": "いつ（任意）",
-    "walk.taskRhythm": "リズム（任意）"
+    "walk.taskRhythm": "リズム（任意）",
+    "walk.taskAt": "時刻（任意）"
   }
 }
