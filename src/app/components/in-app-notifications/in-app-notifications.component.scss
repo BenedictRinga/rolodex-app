@@ -132,6 +132,8 @@
 
 .notify-msg {
   flex: 1;
+  min-width: 0;               /* BUILD 272: a flex child may shrink — long text wraps inside the dock, never stacks */
+  overflow-wrap: anywhere;
   color: #e6e8f0;
 }
 

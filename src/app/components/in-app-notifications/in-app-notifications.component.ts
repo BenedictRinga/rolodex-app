@@ -65,7 +65,20 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
     // Restore the user's chosen corner from the previous session.
     void this.storage.get<{ x: number; y: number }>(InAppNotificationsComponent.POS_KEY).then((saved) => {
       if (saved && typeof saved.x === 'number' && typeof saved.y === 'number') {
-        this.position = saved;
+        // BUILD 272 THE CLAMPED CORNER (founder: notifications render "as a
+        // single thread, each letter vertically stacked at the page border,
+        // and beyond"): a corner dragged or persisted on a LARGER screen can
+        // sit beyond the current viewport edge — the dock renders in the
+        // sliver and its text wraps one letter per line. Every restore is
+        // clamped back inside the visible window; the drag handler already
+        // clamps during the drag.
+        const margin = 8;
+        const maxX = Math.max(margin, window.innerWidth - 340 - margin);
+        const maxY = Math.max(margin, window.innerHeight - 120 - margin);
+        this.position = {
+          x: Math.min(Math.max(margin, saved.x), maxX),
+          y: Math.min(Math.max(margin, saved.y), maxY),
+        };
         this.initialized = true;
       }
     });
