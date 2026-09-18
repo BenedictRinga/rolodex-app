@@ -1310,28 +1310,27 @@ export class HomePage implements OnInit, OnDestroy {
   async serverPush(): Promise<void> {
     this.serverBusy = true;
     try {
-      let cards = this.realContacts();
-      let loops = this.loops.exportLoops();
-      // BUILD 266 THE STORAGE IS THE TRUTH (founder: "the 262 fixes were
-      // incomplete — push says nothing to push while I HAVE contacts"): the
-      // in-memory deck can be empty while the PERSISTED deck is not (any
-      // hydration order). Before declaring "nothing to push", read the
-      // persisted deck and push what IT holds.
-      if (!cards.length) {
-        const persisted = (await this.readPersistedContacts() || []).filter((c: any) => !c?.isMockData);
-        if (persisted.length) {
-          this.contacts = this.mockEnabled ? [...persisted, ...mockContacts] : persisted;
-          cards = persisted;
-        }
+      // BUILD 267 THE PERSISTED DECK IS THE BACKUP SOURCE (founder: "certainly
+      // it is not in-memory that should be backing up to cloud or server -
+      // that was, in itself, bad code"): the push reads the deck from STORAGE
+      // FIRST — the same persisted deck every checkpoint counts — and only
+      // falls back to memory if the storage read comes back empty. The
+      // in-memory array is a cache, never the backup's source of truth.
+      let stored = (await this.readPersistedContacts() || []).filter((c: any) => !c?.isMockData);
+      if (!stored.length) stored = this.realContacts();
+      const cards = stored;
+      if (cards.length) {
+        // keep the live deck in step with what we just proved storage holds
+        this.contacts = this.mockEnabled ? [...cards, ...mockContacts] : cards;
       }
-      // BUILD 265/266 THE EMPTY PUSH IS NOT A PUSH: a deck with zero real
-      // cards (all demo, or genuinely empty) pushes nothing and must SAY so
-      // with the deck's actual truth — never a bare "0 cards".
+      const loops = this.loops.exportLoops();
+      // BUILD 265/266 THE EMPTY PUSH IS NOT A PUSH: zero real cards means
+      // nothing rides — and the message states the deck's actual truth.
       if (!cards.length && !loops.length) {
         const total = (this.contacts || []).length;
         await this.alertsService.showToast(total > 0
-          ? 'Nothing to push — all ' + total + ' cards on this device are demo cards, and demo cards never leave the device. Bring in one real card first (or pull from your other device below).'
-          : 'Nothing to push — this device has no cards stored yet. Create one card, then push.', 5200);
+          ? 'Nothing to push — all ' + total + ' cards in THIS app\'s stored deck are demo cards, and demo cards never leave the device. If you can see real cards elsewhere, that is a different app window or profile — open LoopKeeper there and push from it.'
+          : 'Nothing to push — this app has no cards stored yet. Create one card, then push.', 6200);
         return;
       }
       const out = await this.rolodexSync.push(cards, undefined, loops);
@@ -1339,10 +1338,10 @@ export class HomePage implements OnInit, OnDestroy {
       if (out.ok) {
         this.serverLastPushed = now;
         try { await this.storageService.set('loopkeeper_server_last_push', now); } catch { /* best effort */ }
-        // BUILD 266 THE SELF-EVIDENCING SUCCESS: the toast carries the slot
-        // id and the count, so "success" is checkable against the ledger.
+        // BUILD 266/267 THE SELF-EVIDENCING SUCCESS: the toast carries the
+        // slot id and the deck source, so "success" is checkable.
         const slot = String(this.rolodexSync.getDeviceId() || '').slice(0, 22);
-        await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops — server slot ' + slot + '… updated just now', 4200);
+        await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops (from the stored deck) — server slot ' + slot + '… updated just now', 4600);
       } else {
         const why = out.error === 'consent-off'
           ? 'Nothing pushed — backend-sync consent is OFF. Enable it above (or Settings → Backend sync consent).'
