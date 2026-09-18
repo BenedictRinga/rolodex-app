@@ -230,22 +230,50 @@ export class RolodexSyncService {
         loops: (loops || []).slice(0, 500),
         trial: { startedAt: trialStartedAt || null, endsAt: trialEndsAt || null },
       });
-      const LIMIT = 900_000; // a safe margin under the measured ~1 MB cap
+      // BUILD 271 THE COMPRESSED PUSH (founder: "is there any way to also
+      // compress the push payload before it arrives at backend?"): YES —
+      // gzip via the browser's CompressionStream, sent as
+      // Content-Encoding: gzip; the server's body-parser inflates it
+      // natively (inflate defaults on). ORDER: small decks ride plain;
+      // big decks gzip WITH covers first (the founder's deck rides whole
+      // after the nginx cap is raised); covers are shed only as the LAST
+      // resort when gzip is unavailable. keepalive is GONE — Chromium caps
+      // keepalive bodies at 64 KB, another silent killer for a real deck
+      // (this is a user-initiated push, not an unload flush).
+      const gzipBody = async (body: string): Promise<Uint8Array | null> => {
+        try {
+          if (typeof CompressionStream === 'undefined') return null;
+          const stream = new Blob([body]).stream().pipeThrough(new CompressionStream('gzip'));
+          return new Uint8Array(await new Response(stream).arrayBuffer());
+        } catch { return null; }
+      };
+      const LIMIT = 900_000;   // plain-text margin under the measured ~1 MB cap
+      const WIRE_LIMIT = 3_500_000; // safe under the server's 32 MB / 5 MB decode
       let payloadContacts = contacts || [];
       let coversStripped = false;
-      if (makeBody(payloadContacts).length > LIMIT) {
-        payloadContacts = payloadContacts.map((c: any) => {
-          if (!c || (!c.image && !c.coverVideo)) return c;
-          const { image, coverVideo, ...rest } = c;
-          return rest;
-        });
-        coversStripped = true;
+      let plain = makeBody(payloadContacts);
+      let wireBody: Uint8Array | string = plain;
+      let wireHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (plain.length > LIMIT) {
+        const gz = await gzipBody(plain);
+        if (gz && gz.length <= WIRE_LIMIT) {
+          wireBody = gz;
+          wireHeaders = { 'Content-Type': 'application/json', 'Content-Encoding': 'gzip' };
+        } else {
+          // gzip unavailable or still enormous — shed covers as the last resort
+          payloadContacts = payloadContacts.map((c: any) => {
+            if (!c || (!c.image && !c.coverVideo)) return c;
+            const { image, coverVideo, ...rest } = c;
+            return rest;
+          });
+          coversStripped = true;
+          plain = makeBody(payloadContacts);
+        }
       }
       const res = await fetch(`${this.apiBase()}/sync`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: makeBody(payloadContacts),
-        keepalive: true,
+        headers: wireHeaders,
+        body: wireBody,
       });
       if (!res.ok) return { ok: false, stored: 0, error: 'server-' + res.status, coversStripped };
       const data = await res.json().catch(() => null);
