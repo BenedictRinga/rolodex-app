@@ -1,7 +1,7 @@
 {
     "name": "LoopKeeper",
     "short_name": "LoopKeeper",
-    "theme_color": "#FF5A36",
+    "theme_color": "#14b8a6",
     "background_color": "#FAF8F5",
     "display": "standalone",
     "scope": "/loopkeeper/",
