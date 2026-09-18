@@ -387,10 +387,20 @@
 
   <!-- 2026-08-16 THE PADLOCK: investors only — exclusive, mysterious. -->
   <div class="about-section investors-section">
-    <h3 (click)="promptPassword()" class="investors-title">
-      <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
-      Investors
-    </h3>
+    <!-- 2026-09-18 BUILD 273 THE ACCESSIBLE PULSE (founder: "Might the Refresh
+         Now button be an icon in the header, opposite end of Investors title,
+         more accessible?"): the refresh lives in the TITLE ROW now — the word
+         on the left, the pulse on the right — no more scrolling to the bottom
+         of the portal to move the live record. -->
+    <div class="investors-title-row">
+      <h3 (click)="promptPassword()" class="investors-title">
+        <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
+        Investors
+      </h3>
+      <ion-button *ngIf="unlocked" fill="clear" class="inv-refresh-btn" (click)="loadInvestorStats()" [disabled]="statsLoading" aria-label="Refresh the live record">
+        <ion-icon name="refresh-outline" slot="icon-only" [ngClass]="{ 'inv-refresh-spin': statsLoading }"></ion-icon>
+      </ion-button>
+    </div>
     <p class="investors-hint" *ngIf="!unlocked">
       Some doors are opened with a word. The roadmap lives behind it.
     </p>
@@ -589,7 +599,7 @@
                 </span>
               </div>
             </div>
-            <p class="investor-chart-note">Compared with the snapshot saved when you last closed this portal.</p>
+            <p class="investor-chart-note">Compared with the snapshot saved when you last closed this portal. The same baseline drives the change chips in 03, 05 and 06 — and every refresh (the icon by the Investors title) recomputes them live.</p>
           </div>
           <div class="investor-section sec-changed" id="inv-changed" *ngIf="investorStats && !statsDelta?.length">
             <div class="section-head">
@@ -642,33 +652,42 @@
               <!-- 2026-08-30 BUILD 154 (founder: "absolute integrity, no noise"):
                    the top line is ORGANIC — the founder's own dev/tester devices
                    are excluded server-side and reported as their own card. -->
+              <!-- BUILD 273 THE LIVE COMPASS: every presence card carries its
+                   change-since-baseline chip — the section-01 percent story,
+                   told where the number lives. -->
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.dau }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('dau')" [ngClass]="deltaClass('dau')">{{ deltaText('dau') }}</div>
                 <div class="kpi-label">DAU</div>
                 <div class="kpi-caption">Anonymous devices active in last 24h — organic, own fleet excluded.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.wau }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('wau')" [ngClass]="deltaClass('wau')">{{ deltaText('wau') }}</div>
                 <div class="kpi-label">WAU</div>
                 <div class="kpi-caption">Organic devices active in last 7 days.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.mau }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('mau')" [ngClass]="deltaClass('mau')">{{ deltaText('mau') }}</div>
                 <div class="kpi-label">MAU</div>
                 <div class="kpi-caption">Organic devices active in last 30 days.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.ownFleet?.devices || 0 }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('ownFleet')" [ngClass]="deltaClass('ownFleet')">{{ deltaText('ownFleet') }}</div>
                 <div class="kpi-label">Own fleet</div>
                 <div class="kpi-caption">Dev + tester devices, reported separately — never mixed into the market line ({{ investorStats.analytics.ownFleet?.mau || 0 }} active 30d).</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.sessions?.last7d }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('sessions7d')" [ngClass]="deltaClass('sessions7d')">{{ deltaText('sessions7d') }}</div>
                 <div class="kpi-label">Sessions (7d)</div>
                 <div class="kpi-caption">Session starts in the last 7 days.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.avgSessionSeconds }}s</div>
+                <div class="kpi-delta" *ngIf="deltaText('avgSessionSeconds')" [ngClass]="deltaClass('avgSessionSeconds')">{{ deltaText('avgSessionSeconds') }}</div>
                 <div class="kpi-label">Avg session</div>
                 <div class="kpi-caption">Average session_end duration, last 30 days.</div>
               </div>
@@ -680,16 +699,19 @@
             <div class="investor-kpis" *ngIf="investorStats.analytics.inviteIssues" style="margin-top:10px;">
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last24h }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('inviteIssues24h')" [ngClass]="deltaClass('inviteIssues24h')">{{ deltaText('inviteIssues24h') }}</div>
                 <div class="kpi-label">Invite issues (24h)</div>
                 <div class="kpi-caption">"Something didn't work?" taps on invite links, last 24h.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last7d }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('inviteIssues7d')" [ngClass]="deltaClass('inviteIssues7d')">{{ deltaText('inviteIssues7d') }}</div>
                 <div class="kpi-label">Invite issues (7d)</div>
                 <div class="kpi-caption">The funnel's leak, last 7 days.</div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.inviteIssues.last30d }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('inviteIssues30d')" [ngClass]="deltaClass('inviteIssues30d')">{{ deltaText('inviteIssues30d') }}</div>
                 <div class="kpi-label">Invite issues (30d)</div>
                 <div class="kpi-caption">Last 30 days, by where it happened.</div>
               </div>
@@ -702,11 +724,13 @@
             <div class="investor-kpis" *ngIf="investorStats.analytics.shares || investorStats.analytics.inviteFunnel" style="margin-top:10px;">
               <div class="kpi-card" *ngIf="investorStats.analytics.shares">
                 <div class="kpi-value">{{ investorStats.analytics.shares.total30d }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('shares30d')" [ngClass]="deltaClass('shares30d')">{{ deltaText('shares30d') }}</div>
                 <div class="kpi-label">Shares (30d)</div>
                 <div class="kpi-caption">Message sends + app shares + invites created, last 30d.</div>
               </div>
               <div class="kpi-card" *ngIf="investorStats.analytics.inviteFunnel">
                 <div class="kpi-value">{{ investorStats.analytics.inviteFunnel.invites30d }}</div>
+                <div class="kpi-delta" *ngIf="deltaText('invites30d')" [ngClass]="deltaClass('invites30d')">{{ deltaText('invites30d') }}</div>
                 <div class="kpi-label">Invites (30d)</div>
                 <div class="kpi-caption">{{ investorStats.analytics.inviteFunnel.landed30d }} landed · {{ investorStats.analytics.inviteFunnel.accepted30d }} confirmed knowing the sender.</div>
               </div>
@@ -792,15 +816,16 @@
               <!-- 2026-08-31 BUILD 159 (founder): leads the table — the moment a real person's card is added (device pick, manual entry, invite accepted, walk confirm); the app fires it once ever per device. -->
               <!-- 2026-09-13 BUILD 188 (founder: rows that can never move do not fit the bill): "Added a card" counted card_added, fired by NO code path anywhere, and "Created a follow-up" counted followup_created, dead with the follow-up engine (build 183) — both rows read 0 by definition. Swapped for milestones the app actually emits: Captured a loop (loop_captured) and Talked to the Assistant (confidante_message — home tab + modal). -->
               <!-- 2026-09-14 BUILD 205 (Grok plan #1): STARTED THEIR FIRST LOOP leads - the very first loop of any kind (a self-loop needs no contacts, no permissions) is the deed that proves a landing became a user. -->
-              <div class="retention-row"><span>Started their first loop</span><span>{{ investorStats.analytics.activation.firstloopstarted || 0 }}</span></div>
-              <div class="retention-row"><span>Started their list</span><span>{{ investorStats.analytics.activation.deviceliststarted || 0 }}</span></div>
-              <div class="retention-row"><span>Captured a loop</span><span>{{ investorStats.analytics.activation.loopcaptured || 0 }}</span></div>
-              <div class="retention-row"><span>Talked to the Assistant</span><span>{{ investorStats.analytics.activation.confidantemessage || 0 }}</span></div>
-              <div class="retention-row"><span>Sent a message</span><span>{{ investorStats.analytics.activation.messagesent || 0 }}</span></div>
-              <div class="retention-row"><span>Closed a loop</span><span>{{ investorStats.analytics.activation.loopclosed || 0 }}</span></div>
-              <div class="retention-row"><span>Created an invite</span><span>{{ investorStats.analytics.activation.invitecreated || 0 }}</span></div>
-              <div class="retention-row"><span>Started billing</span><span>{{ investorStats.analytics.activation.billingstarted || 0 }}</span></div>
-              <div class="retention-row"><span>Billing succeeded</span><span>{{ investorStats.analytics.activation.billingsucceeded || 0 }}</span></div>
+              <!-- BUILD 273: each milestone rides its change chip (vs the portal-exit baseline) — the section-01 percent story, told where the number lives. -->
+              <div class="retention-row"><span>Started their first loop</span><span>{{ investorStats.analytics.activation.firstloopstarted || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.firstloopstarted')" [ngClass]="deltaClass('activation.firstloopstarted')">{{ deltaText('activation.firstloopstarted') }}</span></span></div>
+              <div class="retention-row"><span>Started their list</span><span>{{ investorStats.analytics.activation.deviceliststarted || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.deviceliststarted')" [ngClass]="deltaClass('activation.deviceliststarted')">{{ deltaText('activation.deviceliststarted') }}</span></span></div>
+              <div class="retention-row"><span>Captured a loop</span><span>{{ investorStats.analytics.activation.loopcaptured || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.loopcaptured')" [ngClass]="deltaClass('activation.loopcaptured')">{{ deltaText('activation.loopcaptured') }}</span></span></div>
+              <div class="retention-row"><span>Talked to the Assistant</span><span>{{ investorStats.analytics.activation.confidantemessage || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.confidantemessage')" [ngClass]="deltaClass('activation.confidantemessage')">{{ deltaText('activation.confidantemessage') }}</span></span></div>
+              <div class="retention-row"><span>Sent a message</span><span>{{ investorStats.analytics.activation.messagesent || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.messagesent')" [ngClass]="deltaClass('activation.messagesent')">{{ deltaText('activation.messagesent') }}</span></span></div>
+              <div class="retention-row"><span>Closed a loop</span><span>{{ investorStats.analytics.activation.loopclosed || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.loopclosed')" [ngClass]="deltaClass('activation.loopclosed')">{{ deltaText('activation.loopclosed') }}</span></span></div>
+              <div class="retention-row"><span>Created an invite</span><span>{{ investorStats.analytics.activation.invitecreated || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.invitecreated')" [ngClass]="deltaClass('activation.invitecreated')">{{ deltaText('activation.invitecreated') }}</span></span></div>
+              <div class="retention-row"><span>Started billing</span><span>{{ investorStats.analytics.activation.billingstarted || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.billingstarted')" [ngClass]="deltaClass('activation.billingstarted')">{{ deltaText('activation.billingstarted') }}</span></span></div>
+              <div class="retention-row"><span>Billing succeeded</span><span>{{ investorStats.analytics.activation.billingsucceeded || 0 }} <span class="delta-chip" *ngIf="deltaText('activation.billingsucceeded')" [ngClass]="deltaClass('activation.billingsucceeded')">{{ deltaText('activation.billingsucceeded') }}</span></span></div>
             </div>
             <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill); 2026-09-13 BUILD 188: the card_added apology is retired with the dead row. -->
             <p class="investor-chart-note">Devices = all-time distinct organic devices that ever fired the milestone. "Started their first loop" (build 205) leads: the very first loop of any kind - a self-loop needs no contacts and no permissions - is the deed that proves a landing became a user. "Started their list" (build 159) fires once ever per device, at the first real person's card — device pick, manual entry, accepted invite, or confirming someone in the Loops walk. "Captured a loop" fires every time the Send Walk or a capture box turns words into an open loop. "Talked to the Assistant" fires every Confidante send — the home chat tab and the modal.</p>
@@ -813,8 +838,9 @@
             </div>
             <div class="retention-table">
               <div class="retention-row retention-head"><span>Event</span><span>Count</span></div>
+              <!-- BUILD 273: each event rides its change chip (vs the portal-exit baseline). -->
               <div class="retention-row" *ngFor="let e of investorStats.analytics.topEvents">
-                <span>{{ e._id }}</span><span>{{ e.count }}</span>
+                <span>{{ e._id }}</span><span>{{ e.count }} <span class="delta-chip" *ngIf="deltaText('event.' + e._id)" [ngClass]="deltaClass('event.' + e._id)">{{ deltaText('event.' + e._id) }}</span></span>
               </div>
             </div>
             <!-- 2026-08-30 HONEST CAPTIONS (founder: ambiguous labels do not fit the bill): a bare "Count" column must say its window and whose events are counted. -->
@@ -1020,11 +1046,11 @@
             </details>
           </div>
 
+          <!-- BUILD 273: the Refresh now button MOVED to the Investors title
+               row (the header icon, opposite the word) — this note keeps the
+               last-refreshed stamp only. -->
           <p class="investor-live-note">
             <span *ngIf="statsUpdatedLabel">Last refreshed: {{ statsUpdatedLabel }} · auto-refreshes hourly.</span>
-            <ion-button size="small" fill="clear" (click)="loadInvestorStats()" [disabled]="statsLoading">
-              {{ statsLoading ? 'Refreshing…' : 'Refresh now' }}
-            </ion-button>
           </p>
           <p class="investor-live-note" *ngIf="statsError">Live record could not be refreshed: {{ statsError }}</p>
         </div>

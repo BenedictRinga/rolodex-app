@@ -2,7 +2,16 @@
      Two hosts: the portal's in-template modal ([stats] passed in) and the
      RolodexPage sessional-aperture view (self-fetches /investor/summary).
      Header carries the external Home icon (Settings-view mirror) plus this
-     component's own internal Close. -->
+     component's own internal Close.
+     2026-09-18 BUILD 273 THE CONSOLE UNSTUCK (founder: the console "does not
+     scroll, or show all its content, and is static" + "Might the Refresh Now
+     button be an icon in the header, opposite end of Investors title?"):
+     (1) THE SCROLL — the body now rides ion-content (Ionic's own guaranteed
+     scroller) instead of a hand-rolled overflow div whose height chain
+     through the modal's .ion-page collapsed on-device; every section is
+     reachable, always. (2) THE PULSE — a refresh icon sits in the console's
+     own header (opposite the Investors·Operations title), spinning while the
+     fresh summary loads; the console is never static again. -->
 <div class="cc-shell">
 
   <div class="cc-head">
@@ -11,6 +20,10 @@
       <strong>Command Center</strong>
     </div>
     <ion-buttons class="cc-actions">
+      <!-- BUILD 273: the console's own pulse — forced fresh summary, spins while loading. -->
+      <ion-button (click)="refresh()" fill="clear" [disabled]="loading" aria-label="Refresh the console">
+        <ion-icon name="refresh-outline" class="fabcolor" [class.cc-spin]="loading" appTooltip="Refresh"></ion-icon>
+      </ion-button>
       <!-- BUILD 191: the external Home icon, mirroring the Settings view. -->
       <ion-button (click)="goHome()" fill="clear">
         <ion-icon name="home-outline" class="fabcolor" appTooltip="Home"></ion-icon>
@@ -21,13 +34,15 @@
     </ion-buttons>
   </div>
 
-  <div class="cc-body">
+  <ion-content class="cc-body-content">
+    <div class="cc-body">
+
+    <div class="investor-section" *ngIf="loadError">
+      <p class="investor-live-note">{{ loadError }}</p>
+    </div>
 
     <div class="investor-section" *ngIf="loading && !stats">
       <p class="investor-live-note">Reading the live record…</p>
-    </div>
-    <div class="investor-section" *ngIf="loadError && !stats">
-      <p class="investor-live-note">{{ loadError }}</p>
     </div>
 
     <!-- 01 · RELIABILITY (moved from the portal, 2026-09-14) — the founder's
@@ -219,8 +234,9 @@
     </div>
 
     <div class="investor-section" *ngIf="!stats && !loading && !loadError">
-      <p class="investor-live-note">Telemetry has not loaded yet — leave and reopen the console.</p>
+      <p class="investor-live-note">Telemetry has not loaded yet — tap the refresh icon in the header.</p>
     </div>
 
-  </div>
+    </div>
+  </ion-content>
 </div>

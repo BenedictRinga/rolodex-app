@@ -109,6 +109,32 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   // 2026-08-24 WHAT CHANGED: snapshot of the last portal visit, compared on load.
   private readonly SNAPSHOT_KEY = 'loopkeeper_investor_snapshot';
   statsDelta: any = null;
+  // 2026-09-18 BUILD 273 THE LIVE COMPASS (founder: "can we see percentage
+  // changes between visits or refresh Sections 03, 05, and 06, like we do in
+  // 01?"): the same snapshot comparison, KEYED — sections 03/05/06 look up
+  // their own metric ('dau', 'activation.loopclosed', 'event.app_launch'…)
+  // and render the change chip beside the value. One baseline, every section.
+  statsDeltaMap: Record<string, { prev: number; curr: number; diff: number; pct: number }> = {};
+
+  /** The keyed delta for a metric path, or null when no baseline covers it. */
+  deltaFor(key: string): { prev: number; curr: number; diff: number; pct: number } | null {
+    return this.statsDeltaMap?.[key] || null;
+  }
+
+  /** "▲ +5 (12.5%)" — the section-01 change cell, compressed for inline use. */
+  deltaText(key: string): string {
+    const d = this.deltaFor(key);
+    if (!d) return '';
+    const sign = d.diff > 0 ? '▲ +' : d.diff < 0 ? '▼ ' : '● ';
+    return `${sign}${d.diff} (${d.pct}%)`;
+  }
+
+  /** Color class for the chip: up green, down red, unchanged grey. */
+  deltaClass(key: string): string {
+    const d = this.deltaFor(key);
+    if (!d) return '';
+    return d.diff > 0 ? 'delta-up' : d.diff < 0 ? 'delta-down' : 'delta-flat';
+  }
 
   // 2026-08-24 READER MODE: tired-eyes controls (font size + soft contrast),
   // same spirit as Zyppar's AudioTextReader.
@@ -171,8 +197,15 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   private async loadSnapshot(): Promise<void> {
     try {
       const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
-      if (prev) this.statsDelta = this.computeStatsDelta(prev, this.investorStats);
+      if (prev) this.applyDelta(prev);
     } catch { /* first visit */ }
+  }
+
+  /** BUILD 273: one unpack — the section-01 rows AND the keyed map together. */
+  private applyDelta(prev: any): void {
+    const result = this.computeStatsDelta(prev, this.investorStats);
+    this.statsDelta = result?.items || null;
+    this.statsDeltaMap = result?.map || {};
   }
 
   /** Start hourly refresh of the live-record analysis once the portal opens. */
@@ -198,9 +231,11 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       this.investorStats = data;
       this.statsUpdatedLabel = this.time.format(data?.generatedAt || new Date(), 'datetime');
       // 2026-08-24 WHAT CHANGED: compare current with the snapshot from last exit.
+      // BUILD 273: on every refresh too — the header refresh icon recomputes
+      // the deltas against the same baseline, so 03/05/06 move live.
       try {
         const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
-        if (prev) this.statsDelta = this.computeStatsDelta(prev, data);
+        if (prev) this.applyDelta(prev);
       } catch { /* first visit */ }
     } catch (e: any) {
       this.statsError = e?.message || 'could not reach the live record';
@@ -209,10 +244,14 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** 2026-08-24 WHAT CHANGED: numeric deltas between two investor summaries. */
-  private computeStatsDelta(prev: any, curr: any): any {
+  /** 2026-08-24 WHAT CHANGED: numeric deltas between two investor summaries.
+   *  BUILD 273: also returns the KEYED map that sections 03/05/06 read —
+   *  the section-01 table keeps its exact rows, the map adds every metric
+   *  those sections render (presence KPIs, activation milestones, top events). */
+  private computeStatsDelta(prev: any, curr: any): { items: any[]; map: Record<string, { prev: number; curr: number; diff: number; pct: number }> } | null {
     if (!prev || !curr) return null;
     const n = (v: any) => Number(v) || 0;
+    const map: Record<string, { prev: number; curr: number; diff: number; pct: number }> = {};
     const row = (label: string, p: any, c: any) => {
       const prevV = n(p);
       const currV = n(c);
@@ -220,6 +259,10 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       const diff = currV - prevV;
       const pct = prevV ? Math.round((diff / prevV) * 1000) / 10 : (currV ? 100 : 0);
       return { label, prev: prevV, curr: currV, diff, pct };
+    };
+    const put = (key: string, p: any, c: any) => {
+      const r = row('', p, c);
+      if (r) map[key] = r;
     };
     const items = [
       row('Devices synced', prev?.totals?.devices, curr?.totals?.devices),
@@ -235,7 +278,26 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       // invitees tapping "Something didn't work?" on the landing.
       row('Invite issues (7d)', prev?.analytics?.inviteIssues?.last7d, curr?.analytics?.inviteIssues?.last7d),
     ].filter(Boolean);
-    return items.length ? items : null;
+    // BUILD 273 — the keyed extension (never rendered in 01, read by 03/05/06).
+    put('dau', prev?.analytics?.dau, curr?.analytics?.dau);
+    put('wau', prev?.analytics?.wau, curr?.analytics?.wau);
+    put('mau', prev?.analytics?.mau, curr?.analytics?.mau);
+    put('ownFleet', prev?.analytics?.ownFleet?.devices, curr?.analytics?.ownFleet?.devices);
+    put('sessions7d', prev?.analytics?.sessions?.last7d, curr?.analytics?.sessions?.last7d);
+    put('avgSessionSeconds', prev?.analytics?.avgSessionSeconds, curr?.analytics?.avgSessionSeconds);
+    put('inviteIssues24h', prev?.analytics?.inviteIssues?.last24h, curr?.analytics?.inviteIssues?.last24h);
+    put('inviteIssues7d', prev?.analytics?.inviteIssues?.last7d, curr?.analytics?.inviteIssues?.last7d);
+    put('inviteIssues30d', prev?.analytics?.inviteIssues?.last30d, curr?.analytics?.inviteIssues?.last30d);
+    put('shares30d', prev?.analytics?.shares?.total30d, curr?.analytics?.shares?.total30d);
+    put('invites30d', prev?.analytics?.inviteFunnel?.invites30d, curr?.analytics?.inviteFunnel?.invites30d);
+    for (const k of Object.keys(curr?.analytics?.activation || {})) {
+      put('activation.' + k, prev?.analytics?.activation?.[k], curr?.analytics?.activation?.[k]);
+    }
+    for (const e of curr?.analytics?.topEvents || []) {
+      const matched = (prev?.analytics?.topEvents || []).find((x: any) => x?._id === e?._id);
+      put('event.' + e?._id, matched?.count, e?.count);
+    }
+    return { items: items.length ? items : [], map };
   }
 
   /* 2026-08-29 BUILD 149: pairs the top regions with the top app languages

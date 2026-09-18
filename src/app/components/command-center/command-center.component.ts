@@ -91,11 +91,14 @@ export class CommandCenterComponent implements OnInit, OnChanges {
   }
 
   /**
-   * BUILD 191: the aperture path arrives with no [stats] — fetch the summary
-   * directly (same endpoint the portal reads; quiet via safeFetch).
+   * BUILD 273 THE CONSOLE UNSTUCK (founder: the Command Center "does not
+   * act normal, does not scroll, or show all its content, and is static"):
+   * the STATIC half is fixed here — a refresh icon in the console's own
+   * header forces a fresh /investor/summary no matter which host supplied
+   * the first stats (portal binding or self-fetch). The console is no
+   * longer a prisoner of whatever data it was born with.
    */
-  private async ensureStats(): Promise<void> {
-    if (this.stats) return;
+  async refresh(): Promise<void> {
     if (this.loading) return;
     this.loading = true;
     this.loadError = '';
@@ -111,6 +114,15 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     } finally {
       this.loading = false;
     }
+  }
+
+  /**
+   * BUILD 191: the aperture path arrives with no [stats] — fetch the summary
+   * directly (same endpoint the portal reads; quiet via safeFetch).
+   */
+  private async ensureStats(): Promise<void> {
+    if (this.stats) return;
+    await this.refresh();
   }
 
   close(): void {

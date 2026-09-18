@@ -43,11 +43,27 @@
   }
 }
 
+/* BUILD 273 THE CONSOLE UNSTUCK: the body rides ion-content — Ionic's own
+   scroller, whose height never depends on a fragile 100% chain through the
+   modal's .ion-page. The content takes the space under the sticky header
+   and scrolls internally; every section is reachable on every device. */
+ion-content.cc-body-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  --background: var(--ion-background-color, var(--rolodex-surface, #f7f4ee));
+}
+
 .cc-body {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   padding: 10px 12px 24px;
+}
+
+/* BUILD 273: the header refresh icon spins while the fresh summary loads. */
+.cc-spin {
+  animation: cc-spin 0.9s linear infinite;
+}
+
+@keyframes cc-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* --- ported section chrome (investor-section + heads) --- */

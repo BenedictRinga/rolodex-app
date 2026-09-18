@@ -441,13 +441,23 @@ ion-modal.contact-edit-fullscreen {
 
 /* 2026-09-14 BUILD 190 COMMAND CENTER: full-screen operations console opened
    from the Investors portal's button/chip (in-template ion-modal, b178
-   pattern — the content styles ride with the command-center component). */
+   pattern — the content styles ride with the command-center component).
+   BUILD 273 THE CONSOLE UNSTUCK (founder: the console "does not scroll, or
+   show all its content, and is static"): the ROOT of the frozen console —
+   the inline modal's .ion-page carried no explicit height, so the console's
+   height:100% chain resolved to content-height, the wrapper clipped it, and
+   nothing scrolled. Pin the page wrapper to the modal box; the console's
+   ion-content body takes over the scrolling from there. */
 ion-modal.command-center-modal {
   --height: 100%;
   --width: 100%;
   --border-radius: 0;
   --max-height: 100%;
   --max-width: 100%;
+
+  .ion-page {
+    height: 100%;
+  }
 }
 
 /* BUILD 270 THE REAL TOAST — width-capped so long diagnostics wrap in the

@@ -63,6 +63,57 @@ ion-content::part(scroll) {
   color: var(--rolodex-accent);
 }
 
+/* 2026-09-18 BUILD 273 THE ACCESSIBLE PULSE (founder: "Might the Refresh Now
+   button be an icon in the header, opposite end of Investors title, more
+   accessible?"): the word on the left, the pulse on the right — one row. */
+.investors-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  .investors-title {
+    margin: 0;
+  }
+}
+
+.inv-refresh-btn {
+  --padding-start: 6px;
+  --padding-end: 6px;
+  color: var(--rolodex-accent);
+}
+
+.inv-refresh-spin {
+  animation: inv-refresh-spin 0.9s linear infinite;
+}
+
+@keyframes inv-refresh-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 2026-09-18 BUILD 273 THE LIVE COMPASS (founder: "can we see percentage
+   changes between visits or refresh Sections 03, 05, and 06, like we do in
+   01?"): the section-01 change cell, compressed into chips that ride beside
+   the numbers in 03 (presence KPIs), 05 (activation milestones) and 06
+   (top events) — up green, down red, unchanged grey. */
+.kpi-delta {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.delta-chip {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.delta-up { color: #00A344; }
+.delta-down { color: #EF476F; }
+.delta-flat { color: #9BA1A6; }
+
 .lock-icon {
   vertical-align: -2px;
   margin-right: 4px;
