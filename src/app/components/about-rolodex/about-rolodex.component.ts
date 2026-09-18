@@ -30,7 +30,10 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   @Input() openInvestors = false;
   @Input() unlocked = false;
 
-  version: string = environment.version || '0.1.0';
+  // BUILD 263 THE VERSION THAT TICKS: the portal's version composes from the
+  // build counter (0.3.<build>) — the static environment.version ("0.3.1")
+  // never ruled a display anywhere.
+  version: string = `0.3.${Number(environment.build) || 0}`;
 
   /** 2026-08-23 LIGHTBOX: click any era/hero image for a full-screen view. */
   lightboxUrl: string | null = null;

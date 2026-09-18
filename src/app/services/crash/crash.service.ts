@@ -187,7 +187,10 @@ export class CrashReporterService {
       type,
       msg,
       stack,
-      ver: `${environment.version || ''}/b${environment.build}`,
+      // BUILD 263: the crash row's ver composes from the build (0.3.<build>)
+      // — the static "0.3.1" never ticked, and the ledger must say which
+      // bundle died, in the same version language Settings speaks.
+      ver: `0.3.${Number(environment.build) || 0}/b${environment.build}`,
       plat: Capacitor.isNativePlatform() ? `native:${Capacitor.getPlatform()}` : 'web',
       lang: (typeof navigator !== 'undefined' && navigator.language) || '',
       page: this.safePage(),

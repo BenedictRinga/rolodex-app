@@ -207,7 +207,9 @@ export class UpdatesService {
       return {
         isUpdateAvailable: deployed.build > this.appBuild,
         type: 'flexible',
-        version: deployed.version || this.appVersion,
+        // BUILD 263: the deployed version composes from the deployed build
+        // (0.3.<deployedBuild>) — build.json's static "0.3.1" never ticks.
+        version: this.composeVersion(deployed.build),
         gate: 'ok',
       };
     }
