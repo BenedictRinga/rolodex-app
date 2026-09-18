@@ -168,6 +168,16 @@
         <ion-button fill="clear" size="small" [disabled]="serverBusy" (click)="serverPush()">{{ 'loopkeeper.storage.pushNow' | translate }}</ion-button>
         <ion-button fill="clear" size="small" [disabled]="serverBusy" (click)="serverPull()">{{ 'loopkeeper.storage.pull' | translate }}</ion-button>
       </div>
+      <!-- BUILD 265: the transfer pull (paste the OTHER device's anonymous id)
+           + the return to pristine (founder: "I am stuck in that phase, not
+           able to return to the pristine"). Nothing stored is erased. -->
+      <div *ngIf="serverSyncEnabled" class="storage-strip" style="margin-top:6px;">
+        <span class="strip-text">
+          <small class="strip-sub">Transfer: copy your OTHER device's id (Settings → This device), then pull its cards and loops here.</small>
+        </span>
+        <ion-button fill="clear" size="small" [disabled]="serverBusy" (click)="pullFromOtherDevice()">Pull from another device</ion-button>
+        <ion-button fill="clear" size="small" color="medium" (click)="resetServerSetup()">Reset setup</ion-button>
+      </div>
     </div>
   </ng-container>
   </div>

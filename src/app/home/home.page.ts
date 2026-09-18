@@ -1312,6 +1312,14 @@ export class HomePage implements OnInit, OnDestroy {
     try {
       const cards = this.realContacts();
       const loops = this.loops.exportLoops();
+      // BUILD 265 THE EMPTY PUSH IS NOT A PUSH: a deck with zero real cards
+      // (all demo, or a fresh second device) pushed "0 cards + 0 loops" and
+      // the founder read the follow-up pull as "I pushed, it lost it". A
+      // demo deck never leaves the device — say exactly that, touch nothing.
+      if (!cards.length && !loops.length) {
+        await this.alertsService.showToast('Nothing to push — this deck is all demo cards, and demo cards never leave the device. Bring in one real card first (or pull from your other device below).', 5200);
+        return;
+      }
       const out = await this.rolodexSync.push(cards, undefined, loops);
       const now = new Date().toISOString();
       if (out.ok) {
@@ -1356,6 +1364,67 @@ export class HomePage implements OnInit, OnDestroy {
     } finally {
       this.serverBusy = false;
     }
+  }
+
+  /** 2026-09-18 BUILD 265 THE TRANSFER PULL — the founder's December-card
+   *  goal ("the date transfers to any other device I use"): the sync slot is
+   *  DEVICE-KEYED, so a second device's own pull reads nothing. Paste the
+   *  OTHER device's anonymous id (Settings → This device shows and copies
+   *  it) and its deck + loops merge in — nothing local is ever deleted. */
+  async pullFromOtherDevice(): Promise<void> {
+    const dialog = await this.alertController.create({
+      header: 'Pull from another device',
+      message: 'On your OTHER device: Settings → This device (anonymous id) → copy. Paste that id here — its cards and loops merge into this device.',
+      inputs: [{ name: 'id', type: 'text', placeholder: 'rolodex-…' }],
+      buttons: [{ text: 'Cancel', role: 'cancel' }, { text: 'Pull', role: 'confirm' }],
+    });
+    await dialog.present();
+    const { data } = await dialog.onDidDismiss();
+    const id = String(data?.values?.id || '').trim();
+    if (!id) return;
+    this.serverBusy = true;
+    try {
+      const out = await this.rolodexSync.restoreFrom(id);
+      if (out.status === 'ok') {
+        const have = new Set((this.contacts || []).map((c: any) => String(c?.contactId || c?.id || '')));
+        let added = 0;
+        for (const c of out.contacts) {
+          const key = String((c as any)?.contactId || (c as any)?.id || '');
+          if (key && have.has(key)) continue;
+          this.contacts = [c, ...this.contacts];
+          if (key) have.add(key);
+          added++;
+        }
+        const arrived = this.loops.mergeRestored(out.loops as any);
+        try { await this.persistContacts(this.contacts); } catch { /* best effort */ }
+        const now = new Date().toISOString();
+        this.serverLastPulled = now;
+        try { await this.storageService.set('loopkeeper_server_last_pull', now); } catch { /* best effort */ }
+        await this.alertsService.showToast('Pulled from ' + id.slice(0, 18) + '…: ' + added + ' new cards + ' + arrived + ' loops merged in', 4200);
+        await this.runAutomation();
+      } else if (out.status === 'empty') {
+        await this.alertsService.showToast('That device has nothing stored yet — open LoopKeeper there, enable sync, and Push first (its id is under Settings → This device).', 4800);
+      } else if (out.status === 'off') {
+        await this.alertsService.showToast('Nothing pulled — backend-sync consent is OFF. Enable it above first.', 3600);
+      } else {
+        await this.alertsService.showToast('The server did not answer — try again', 3200);
+      }
+    } finally {
+      this.serverBusy = false;
+    }
+  }
+
+  /** 2026-09-18 BUILD 265 THE RETURN TO PRISTINE (founder: "I am stuck in
+   *  that phase, not able to return to the pristine"): the enabled strip
+   *  gains a reset — consent goes OFF and the pane walks back to the setup
+   *  card (the consent step + enable actions). Nothing stored is erased. */
+  async resetServerSetup(): Promise<void> {
+    await this.rolodexSync.setBackendSyncEnabled(false);
+    this.serverSyncEnabled = false;
+    this.backendSyncConsentSeen = false;
+    this.serverLastPushed = null;
+    this.serverLastPulled = null;
+    await this.alertsService.showToast('Server sync reset — consent off. The setup card is back; nothing stored was erased.', 3600);
   }
 
   /** 2026-08-27 FOUNDER: one storage icon (top right of the viewport) owns

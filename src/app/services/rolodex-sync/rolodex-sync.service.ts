@@ -246,6 +246,26 @@ export class RolodexSyncService {
     }
   }
 
+  /** 2026-09-18 BUILD 265 THE TRANSFER PULL (founder: "I want to backup my
+   *  loops so the date transfers to any other device"): the sync slot is
+   *  DEVICE-KEYED — a second device pulling its OWN slot reads nothing. The
+   *  transfer pull reads ANY device's slot by its anonymous id (Settings ->
+   *  This device shows and copies it). Same consent gate, same discriminated
+   *  result as restore(). */
+  async restoreFrom(deviceId: string): Promise<{ status: 'ok' | 'empty' | 'off' | 'error'; contacts: ContactInfo[]; loops: any[] }> {
+    if (!(await this.isBackendSyncEnabled())) return { status: 'off', contacts: [], loops: [] };
+    const id = String(deviceId || '').trim();
+    if (!id) return { status: 'empty', contacts: [], loops: [] };
+    try {
+      const res = await fetch(`${this.apiBase()}/state/${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } });
+      if (!res.ok) return { status: 'empty', contacts: [], loops: [] };
+      const data = await res.json();
+      const contacts = Array.isArray(data?.contacts) ? data.contacts as ContactInfo[] : [];
+      const loops = Array.isArray(data?.loops) ? data.loops : [];
+      return { status: contacts.length || loops.length ? 'ok' : 'empty', contacts, loops };
+    } catch { return { status: 'error', contacts: [], loops: [] }; }
+  }
+
   /** Restore the device's full state (deck + loops) from the Rolodex server.
    *  2026-09-18 BUILD 262 THE HONEST PULL: the result SPEAKS — 'ok' with the
    *  contacts and loops, 'empty' (the server genuinely has nothing for this
