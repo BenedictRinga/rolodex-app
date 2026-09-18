@@ -18,7 +18,14 @@ import { NetworkService } from '../network/network.service';
   providedIn: 'root',
 })
 export class UpdatesService {
-  appVersion: string = environment.version || '0.0.0';
+  // 2026-09-18 BUILD 263 THE VERSION THAT TICKS (founder: "increase the
+  // digits/integers of update version in Settings to properly reflect
+  // version state. Currently, it abbreviates so that we can appear to be
+  // perpetually stuck on .31 instead of showing increments like .316"):
+  // the displayed version COMPOSES from the build counter — 0.3.<build> —
+  // so every build visibly ticks the third digit (0.3.263 today). The
+  // static "0.3.1" string was our own first-draft value, never updated.
+  appVersion: string = '';
   appBuild: number = Number(environment.build) || 0;
   serverVersion = '';
   serverBuild = 0;
@@ -27,12 +34,21 @@ export class UpdatesService {
   private checked = false;
   private hasShownOfflineWarning = false;
 
+  /** The version that ticks: the base pair from environment.version ("0.3")
+   *  + the live build counter as the third digit. */
+  composeVersion(build: number = this.appBuild): string {
+    const parts = String(environment.version || '0.3.0').split('.');
+    const base = parts.slice(0, 2).join('.') || '0.3';
+    return `${base}.${Math.max(0, Number(build) || 0)}`;
+  }
+
   constructor(
     private readonly storageService: StorageService,
     private readonly alertsService: AlertsService,
     private readonly network: NetworkService,
     private readonly translate: TranslateService,
   ) {
+    this.appVersion = this.composeVersion();
     void this.initializeVersion();
     this.bindResumeRefresh();
   }
@@ -92,22 +108,23 @@ export class UpdatesService {
     } catch { /* best effort */ }
   }
 
-  /** Persisted version — so a reload knows what it just updated TO. */
+  /** Persisted version — so a reload knows what it just updated TO.
+   *  BUILD 263: the LIVE build composes the version (0.3.<build>) — the
+   *  persisted string was the old string-compare era's ledger; it never
+   *  rules the display, because the running bundle IS the truth. */
   async initializeVersion(): Promise<void> {
+    this.appVersion = this.composeVersion();
     try {
-      const persisted = await this.getPersistedVersion();
-      if (persisted) {
-        this.appVersion = persisted;
-      }
+      await this.getPersistedVersion(); // kept for the legacy storage contract
     } catch { /* first run */ }
   }
 
   async getPersistedVersion(): Promise<string> {
     try {
       const version = await this.storageService.get<string>('appVersion');
-      return version || environment.version || '0.0.0';
+      return version || this.composeVersion();
     } catch {
-      return environment.version || '0.0.0';
+      return this.composeVersion();
     }
   }
 
@@ -128,7 +145,9 @@ export class UpdatesService {
       // static file every build:prod drops — and compared BY BUILD NUMBER.
       const deployed = await this.fetchDeployedBuild();
       const status = await this.checkForUpdates();
-      this.serverVersion = deployed?.version || status.version;
+      // BUILD 263: the server's version speaks ITS build (0.3.<serverBuild>)
+      // — build.json's static "0.3.1" never ticks either.
+      this.serverVersion = deployed ? this.composeVersion(deployed.build) : (status.version || '');
       this.serverBuild = deployed?.build || 0;
       this.lastCheckAt = Date.now();
       this.checked = true;
