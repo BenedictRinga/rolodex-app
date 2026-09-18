@@ -1307,6 +1307,17 @@ export class HomePage implements OnInit, OnDestroy {
   /** Push the real deck + the loops to the LoopKeeper server — and SPEAK the
    *  truth: what left, or exactly why nothing did (BUILD 262; the founder's
    *  "Push says success, but pull says nothing was pushed" dies here). */
+  /** BUILD 269 THE READABLE DIAGNOSTIC: long push/pull messages are ALERT
+   *  DIALOGS, never toasts — the founder's letter-stack toast (each letter
+   *  vertically stacked at the page border) dies here. An alert is a fixed
+   *  dialog: wrapped, centered, every word readable. */
+  private async alertDialog(header: string, message: string): Promise<void> {
+    try {
+      const dialog = await this.alertController.create({ header, message, buttons: ['OK'] });
+      await dialog.present();
+    } catch { /* never break the flow on a dialog failure */ }
+  }
+
   async serverPush(): Promise<void> {
     this.serverBusy = true;
     try {
@@ -1324,19 +1335,22 @@ export class HomePage implements OnInit, OnDestroy {
         this.contacts = this.mockEnabled ? [...cards, ...mockContacts] : cards;
       }
       const loops = this.loops.exportLoops();
-      // BUILD 265/266/268 THE EMPTY PUSH IS NOT A PUSH: zero real cards means
-      // nothing rides. The message shows BOTH meters (the Device tab's count
-      // vs what the push read) so a disagreement is VISIBLE, and answers the
-      // Export-File question: push never needs it — it reads the deck
-      // directly (the founder's exact supposition, now retired in the UI).
+      // BUILD 265/266/268/269 THE EMPTY PUSH IS NOT A PUSH — AS A DIALOG, NOT
+      // A TOAST (founder: "the notification in case of failure appears... but
+      // is wrongly formatted as it is running as a single thread, each letter
+      // vertically stacked at the page border, and beyond"): the long
+      // diagnostics are now ALERT DIALOGS — always formatted properly, every
+      // word readable. The message shows BOTH meters (the Device tab's count
+      // vs what the push read) and answers the Export-File question.
       if (!cards.length && !loops.length) {
         const total = (this.contacts || []).length;
         const deviceTabSays = this.realContactCount();
-        await this.alertsService.showToast(deviceTabSays > 0
-          ? 'Nothing pushed — the stored deck this push read holds 0 real cards, while this panel\'s Device tab counts ' + deviceTabSays + '. The two must agree; if they still disagree after reopening the app, that is an app bug — tell the founder. Export File is NOT needed for push — push reads the deck directly.'
+        const msg = deviceTabSays > 0
+          ? 'The stored deck this push read holds 0 real cards, while this panel\'s Device tab counts ' + deviceTabSays + '. The two must agree; if they still disagree after reopening the app, that is an app bug — tell the founder.\n\nExport File is NOT needed for push — push reads the deck directly.'
           : total > 0
-            ? 'Nothing to push — all ' + total + ' cards in THIS app\'s stored deck are demo cards, and demo cards never leave the device. If you can see real cards elsewhere, that is a different app window or profile — open LoopKeeper there and push from it.'
-            : 'Nothing to push — this app has no cards stored yet. Create one card, then push.', 8000);
+            ? 'All ' + total + ' cards in THIS app\'s stored deck are demo cards, and demo cards never leave the device. If you can see real cards elsewhere, that is a different app window or profile — open LoopKeeper there and push from it.'
+            : 'This app has no cards stored yet. Create one card, then push.';
+        await this.alertDialog('Nothing to push', msg);
         return;
       }
       const out = await this.rolodexSync.push(cards, undefined, loops);
@@ -1349,12 +1363,14 @@ export class HomePage implements OnInit, OnDestroy {
         const slot = String(this.rolodexSync.getDeviceId() || '').slice(0, 22);
         await this.alertsService.showToast('Pushed ' + cards.length + ' cards + ' + loops.length + ' loops (from the stored deck) — server slot ' + slot + '… updated just now', 4600);
       } else {
+        // BUILD 269: failures speak as DIALOGS too — the letter-stack toast
+        // class is retired for every long diagnostic in this pane.
         const why = out.error === 'consent-off'
-          ? 'Nothing pushed — backend-sync consent is OFF. Enable it above (or Settings → Backend sync consent).'
+          ? 'Backend-sync consent is OFF. Enable it above (or Settings → Backend sync consent), then push again.'
           : out.error === 'network'
-            ? 'Push failed — the server did not answer. Nothing left the device.'
-            : 'Push failed (' + (out.error || 'unknown') + '). Nothing left the device.';
-        await this.alertsService.showToast(why, 4200);
+            ? 'The server did not answer. Nothing left the device — check your connection and push again.'
+            : 'The push failed (' + (out.error || 'unknown') + '). Nothing left the device.';
+        await this.alertDialog('Push failed', why);
       }
     } finally {
       this.serverBusy = false;

@@ -174,8 +174,19 @@ export class UpdatesService {
    *  file (dev, first deploy) -> null and the old version check applies. */
   private async fetchDeployedBuild(): Promise<{ version: string; build: number } | null> {
     try {
-      const res = await this.network.safeFetch(`${location.origin}/loopkeeper/build.json?b=${this.appBuild}`,
-        { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
+      // BUILD 269 THE INSTANT DETECTION (founder: "Even after I deployed,
+      // there was no instant detection at frontend. It still did not detect
+      // when I tapped Update check in Settings. The auto detection from
+      // app.component.ts did not detect either"): the old cache-buster was
+      // ?b=${this.appBuild} — CONSTANT for the session, so every check hit
+      // the SAME URL. The page's cache:'no-store' does not survive the
+      // service worker's pass-through re-fetch, and nginx serves build.json
+      // with NO Cache-Control (heuristic caching) — every check read the
+      // STALE build.json until the cache aged out ("it finally came round").
+      // The buster is now UNIQUE per fetch: no cache, anywhere, can answer.
+      const res = await this.network.safeFetch(
+        `${location.origin}/loopkeeper/build.json?b=${this.appBuild}&t=${Date.now()}`,
+        { cache: 'no-store', headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } });
       if (!res || !res.ok) return null;
       const data = await res.json();
       const build = Number(data?.build || 0);
