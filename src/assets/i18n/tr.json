@@ -836,6 +836,16 @@
     "walk.taskRhythm": "Ritim (isteğe bağlı)",
     "walk.taskAt": "Saat (isteğe bağlı)",
     "storage.serverConsentNote": "Önce: Ayarlar'da onay ver — Backend sync consent. Ondan önce bu cihazdan hiçbir şey çıkmaz.",
-    "storage.serverConsentOpen": "Onayı aç"
+    "storage.serverConsentOpen": "Onayı aç",
+    "fm.title": "Sürekli yapmadığın şeyi adlandır.",
+    "fm.hint": "Tek cümle. Asistan sözleri yazar — sen gönderirsin — aklındaki sekme kapanır.",
+    "fm.capture": "Yakala",
+    "fm.showme": "Önce göster",
+    "fm.skip": "Şimdilik atla",
+    "fm.beat1": "Sen yazarsın.",
+    "fm.beat2": "Sözler senin için yazılır.",
+    "fm.beat3": "Zaten kullandığın uygulamadan gönderirsin.",
+    "fm.beat4": "Döngü kapanır. Aklındaki sekme kapanır.",
+    "fm.gotit": "Anladım — benimkini adlandır"
   }
 }

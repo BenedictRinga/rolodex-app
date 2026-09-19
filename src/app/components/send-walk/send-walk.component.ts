@@ -934,7 +934,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const v = this.editBuffer.trim();
     // BUILD 253: the saved words are the user's OWN — ownership is recorded
     // so no tone tap can silently overwrite them afterwards.
-    if (v) this.loops.update(l.id, { draft: v, ownWords: true });
+    // BUILD 275 CORRIDOR LIGHT: the user's own edit is a funnel station —
+    // capture → draft → EDITED → send. An edit is engagement, not noise.
+    if (v) {
+      this.loops.update(l.id, { draft: v, ownWords: true });
+      void this.analytics.track('draft_edited', { kind: l.cardKind || 'person' });
+    }
     this.editingWords = false;
   }
 
@@ -998,6 +1003,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   async fire(channel: LoopChannel): Promise<void> {
     const l = this.sel(); if (!l || this.busy) return;
+    // BUILD 275 CORRIDOR LIGHT: the send hand-off opens — the funnel station
+    // between the draft and the deed (message_sent). Paired with send_exit.
+    void this.analytics.track('send_opened', { channel, surface: 'walk' });
     this.busy = true;
     try {
       if (channel === 'email') {

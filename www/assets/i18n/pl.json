@@ -836,6 +836,16 @@
     "walk.taskRhythm": "Rytm (opcjonalnie)",
     "walk.taskAt": "O godzinie (opcjonalnie)",
     "storage.serverConsentNote": "Najpierw: wyraź zgodę w Ustawieniach — Backend sync consent. Nic nie opuszcza tego urządzenia przedtem.",
-    "storage.serverConsentOpen": "Otwórz zgodę"
+    "storage.serverConsentOpen": "Otwórz zgodę",
+    "fm.title": "Nazwij rzecz, której wciąż nie robisz.",
+    "fm.hint": "Jedno zdanie. Asystent pisze słowa — ty wysyłasz — karta w głowie się zamyka.",
+    "fm.capture": "Zapisz",
+    "fm.showme": "Najpierw pokaż",
+    "fm.skip": "Pomiń na razie",
+    "fm.beat1": "Ty wpisujesz.",
+    "fm.beat2": "Słowa piszą się za ciebie.",
+    "fm.beat3": "Wysyłasz z aplikacji, której już używasz.",
+    "fm.beat4": "Pętla zamknięta. Karta w głowie zamknięta.",
+    "fm.gotit": "Jasne — nazwę swoją"
   }
 }

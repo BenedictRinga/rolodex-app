@@ -238,7 +238,15 @@ export class LoopsService {
       loop.taskRhythm = { cadence: partial.taskSeed.cadence, due: partial.taskSeed.due };
       delete (loop as any).taskSeed;
     }
+    // BUILD 275 THE CORRIDOR LIGHT (founder: "are features failing, and why
+    // are we not seeing it?"): the corridor between capture and send was DARK
+    // — loop_captured 94 in a day rode straight into message_sent 2 with
+    // nothing between. The FIRST draft generation is now its own event, so
+    // the funnel reads capture → draft → edit → send. Fires only when no
+    // draft rode in with the loop (the engine's first write, never re-drafts).
+    const engineDrafts = !partial.draft;
     loop.draft = loop.draft || this.generateDraft(loop);
+    if (engineDrafts) this.analytics.track('draft_generated', { kind: loop.cardKind || 'person' });
     loop.pretext = loop.pretext || this.suggestPretext(loop);
     loop.channel = loop.channel || this.suggestChannel(loop);
     loop.nextNudgeAt = now + RISING_NUDGE_DAYS[0] * DAY;

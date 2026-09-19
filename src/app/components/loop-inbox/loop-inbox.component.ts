@@ -839,6 +839,9 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   /** One-tap send (6) → receipt (8) */
   async send(l: Loop): Promise<void> {
     const channel = l.channel || 'sms';
+    // BUILD 275 CORRIDOR LIGHT: the send hand-off opens — the funnel station
+    // between the draft and the deed (message_sent). Paired with send_exit.
+    void this.analytics.track('send_opened', { channel, surface: 'inbox' });
 
     // 2026-09-08 BUILD 181: COPY is a first-class shelf door now — the default
     // channel for subject-less loops (decide, someday). No recipient to ask
@@ -877,7 +880,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
         ],
       });
       await ask.present();
-      if (target === '__cancel__') return;
+      if (target === '__cancel__') { void this.analytics.track('send_cancelled', { channel: 'linkedin' }); return; }
       if (target && target !== l.handle) this.loops.update(l.id, { handle: target }); // remembered for next time
       const bundle = this.loops.buildSend('linkedin', l);
       try { await navigator.clipboard.writeText(bundle.copyText); } catch { /* belt-and-suspenders */ }
@@ -910,7 +913,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
         ],
       });
       await ask.present();
-      if (target === '__cancel__') return;
+      if (target === '__cancel__') { void this.analytics.track('send_cancelled', { channel: 'telegram' }); return; }
       if (target) this.loops.update(l.id, { handle: target }); // remembered for next time
     }
 
@@ -934,7 +937,10 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
         ],
       });
       await ask.present();
-      if (!handle) return;
+      // BUILD 275 CORRIDOR LIGHT: backing out of the stranger's handle ask is
+      // a funnel station too — the words were ready, the door was open, the
+      // hand stopped. Without this event, the death is invisible.
+      if (!handle) { void this.analytics.track('send_cancelled', { channel, stage: 'handle-ask' }); return; }
     }
     if (handle && handle !== l.handle) this.loops.update(l.id, { handle }); // remembered for next time
     const bundle = this.keeper.send(l);

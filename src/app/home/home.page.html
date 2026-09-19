@@ -341,3 +341,12 @@
     <app-contact-card [contact]="manualDraft" [selectedMode]="'createContact'" [createKind]="manualKind"></app-contact-card>
   </ng-template>
 </ion-modal>
+
+<!-- 2026-09-19 BUILD 275 THE FIRST MINUTE: the untouched device's own capture
+     box — a fixed veil above the mounted home; the regular view takes over at
+     the first deed or the skip (the gate lives in home.page.ts, and a device
+     holding ANY real card or loop never sees it). -->
+<app-first-minute *ngIf="firstMinuteActive"
+  (captured)="onFirstMinuteCaptured($event)"
+  (skipped)="onFirstMinuteSkipped()">
+</app-first-minute>

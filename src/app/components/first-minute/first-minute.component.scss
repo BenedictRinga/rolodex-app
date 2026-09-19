@@ -1,0 +1,113 @@
+/* 2026-09-19 BUILD 275 THE FIRST MINUTE — a full-viewport veil over the
+   regular home (which stays mounted untouched beneath). Calm, brand-teal,
+   one box, two quiet doors. No carousel, no timer, no lecture. */
+
+.fm-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--ion-background-color, #f7f4ee);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fm-card {
+  width: 100%;
+  max-width: 460px;
+  margin: auto;
+}
+
+.fm-brand {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rolodex-accent, #14b8a6);
+  margin: 0 0 18px;
+}
+
+.fm-title {
+  font-size: 27px;
+  line-height: 1.22;
+  font-weight: 800;
+  color: var(--rolodex-text, #17252a);
+  margin: 0 0 10px;
+}
+
+.fm-hint {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--rolodex-text-secondary, #4b5563);
+  margin: 0 0 20px;
+}
+
+.fm-box {
+  margin-bottom: 14px;
+  --background: var(--rolodex-surface-alt, #fff);
+}
+
+.fm-go {
+  --background: var(--rolodex-accent, #14b8a6);
+  --border-radius: 14px;
+  font-weight: 700;
+}
+
+.fm-quiet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.fm-quietbtn {
+  background: none;
+  border: none;
+  padding: 6px 4px;
+  font-size: 13px;
+  color: var(--rolodex-text-secondary, #4b5563);
+  cursor: pointer;
+}
+
+.fm-dot {
+  color: var(--rolodex-border, #cbd5e1);
+}
+
+/* THE BEAT — four steps, one screen. */
+.fm-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 4px 0 22px;
+}
+
+.fm-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  .fm-num {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    background: var(--rolodex-accent, #14b8a6);
+  }
+
+  p {
+    margin: 2px 0 0;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--rolodex-text, #17252a);
+  }
+}

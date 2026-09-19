@@ -836,6 +836,16 @@
     "walk.taskRhythm": "Rhythmus (optional)",
     "walk.taskAt": "Um (optional)",
     "storage.serverConsentNote": "Zuerst: Zustimmung in Einstellungen — Backend sync consent. Nichts verlässt dieses Gerät vorher.",
-    "storage.serverConsentOpen": "Zustimmung öffnen"
+    "storage.serverConsentOpen": "Zustimmung öffnen",
+    "fm.title": "Benenne die Sache, die du immer wieder nicht tust.",
+    "fm.hint": "Ein Satz. Der Assistent schreibt die Worte — du schickst sie — der Tab in deinem Kopf schließt sich.",
+    "fm.capture": "Festhalten",
+    "fm.showme": "Zeig es mir zuerst",
+    "fm.skip": "Später",
+    "fm.beat1": "Du tippst es.",
+    "fm.beat2": "Die Worte werden für dich geschrieben.",
+    "fm.beat3": "Du sendest aus der App, die du schon nutzt.",
+    "fm.beat4": "Die Schleife schließt sich. Der Tab schließt sich.",
+    "fm.gotit": "Verstanden — meinen benennen"
   }
 }

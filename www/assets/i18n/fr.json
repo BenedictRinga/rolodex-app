@@ -836,6 +836,16 @@
     "walk.taskRhythm": "Rythme (facultatif)",
     "walk.taskAt": "À (facultatif)",
     "storage.serverConsentNote": "D'abord : donnez le consentement dans Réglages — Backend sync consent. Rien ne quitte cet appareil avant.",
-    "storage.serverConsentOpen": "Ouvrir le consentement"
+    "storage.serverConsentOpen": "Ouvrir le consentement",
+    "fm.title": "Nommez ce que vous ne faites pas, encore et encore.",
+    "fm.hint": "Une phrase. L'Assistant écrit les mots — vous les envoyez — l'onglet dans votre tête se ferme.",
+    "fm.capture": "Capturer",
+    "fm.showme": "Montrez-moi d'abord",
+    "fm.skip": "Passer pour le moment",
+    "fm.beat1": "Vous le tapez.",
+    "fm.beat2": "Les mots sont écrits pour vous.",
+    "fm.beat3": "Vous envoyez depuis l'app que vous utilisez déjà.",
+    "fm.beat4": "La boucle se referme. L'onglet se ferme.",
+    "fm.gotit": "Compris — nommer le mien"
   }
 }

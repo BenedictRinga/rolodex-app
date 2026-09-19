@@ -836,6 +836,16 @@
     "walk.taskRhythm": "Rhythm (optional)",
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
-    "storage.serverConsentOpen": "Open consent"
+    "storage.serverConsentOpen": "Open consent",
+    "fm.title": "Name the thing you keep not doing.",
+    "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
+    "fm.capture": "Capture it",
+    "fm.showme": "Show me first",
+    "fm.skip": "Skip for now",
+    "fm.beat1": "You type it.",
+    "fm.beat2": "The words are written for you.",
+    "fm.beat3": "You send from the app you already use.",
+    "fm.beat4": "The loop closes. The tab in your head shuts.",
+    "fm.gotit": "Got it — name mine"
   }
 }

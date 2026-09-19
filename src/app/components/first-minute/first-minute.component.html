@@ -1,0 +1,47 @@
+<!-- 2026-09-19 BUILD 275 THE FIRST MINUTE — the one screen a first-timer
+     meets: their own sentence, nothing else. Full-viewport overlay above the
+     regular home (which stays mounted untouched beneath — the transition is
+     a dissolve, never a rebuild). -->
+<div class="fm-veil">
+
+  <div class="fm-card" *ngIf="!showMe">
+    <p class="fm-brand">LoopKeeper</p>
+    <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
+    <p class="fm-hint">{{ 'loopkeeper.fm.hint' | translate }}</p>
+
+    <ion-textarea
+      class="fm-box"
+      [value]="text"
+      (ionInput)="onInput($event)"
+      [placeholder]="'loopkeeper.capture.placeholder' | translate"
+      auto-grow
+      rows="2"
+      fill="outline"></ion-textarea>
+
+    <ion-button expand="block" class="fm-go" [disabled]="!text.trim()" (click)="capture()">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.fm.capture' | translate }}
+    </ion-button>
+
+    <div class="fm-quiet">
+      <button class="fm-quietbtn" type="button" (click)="openShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
+      <span class="fm-dot">·</span>
+      <button class="fm-quietbtn" type="button" (click)="skip()">{{ 'loopkeeper.fm.skip' | translate }}</button>
+    </div>
+  </div>
+
+  <!-- THE BEAT: the exact first-minute path, four steps, one screen. -->
+  <div class="fm-card fm-beat" *ngIf="showMe">
+    <p class="fm-brand">LoopKeeper</p>
+    <div class="fm-steps">
+      <div class="fm-step"><span class="fm-num">1</span><p>{{ 'loopkeeper.fm.beat1' | translate }}</p></div>
+      <div class="fm-step"><span class="fm-num">2</span><p>{{ 'loopkeeper.fm.beat2' | translate }}</p></div>
+      <div class="fm-step"><span class="fm-num">3</span><p>{{ 'loopkeeper.fm.beat3' | translate }}</p></div>
+      <div class="fm-step"><span class="fm-num">4</span><p>{{ 'loopkeeper.fm.beat4' | translate }}</p></div>
+    </div>
+    <ion-button expand="block" class="fm-go" (click)="closeShowMe()">
+      {{ 'loopkeeper.fm.gotit' | translate }}
+    </ion-button>
+  </div>
+
+</div>

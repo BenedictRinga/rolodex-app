@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { RolodexModule } from '../components/rolodex.module';
 import { PrivacySettingsModalComponent } from '../components/privacy-settings-modal/privacy-settings-modal.component';
+import { FirstMinuteComponent } from '../components/first-minute/first-minute.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { PrivacySettingsModalComponent } from '../components/privacy-settings-mo
     RolodexModule,
     TranslateModule,
   ],
-  declarations: [HomePage, PrivacySettingsModalComponent],
+  declarations: [HomePage, PrivacySettingsModalComponent, FirstMinuteComponent],
 })
 export class HomePageModule {}
