@@ -447,13 +447,23 @@ ion-modal.contact-edit-fullscreen {
    the inline modal's .ion-page carried no explicit height, so the console's
    height:100% chain resolved to content-height, the wrapper clipped it, and
    nothing scrolled. Pin the page wrapper to the modal box; the console's
-   ion-content body takes over the scrolling from there. */
+   ion-content body takes over the scrolling from there.
+   BUILD 274 THE FULL RULER (founder: the console scrolls "but loses ~30%
+   bottom of viewport - should be leaving only about 5%"): the light-DOM
+   .ion-page pin below cannot cross Ionic 8's SHADOW boundary to size the
+   modal's real wrapper — the console fell back to its 70vh floor. The
+   shadow part IS reachable from global styles: ::part(content) IS the
+   modal's content wrapper, pinned to the full modal box. */
 ion-modal.command-center-modal {
   --height: 100%;
   --width: 100%;
   --border-radius: 0;
   --max-height: 100%;
   --max-width: 100%;
+
+  &::part(content) {
+    height: 100%;
+  }
 
   .ion-page {
     height: 100%;

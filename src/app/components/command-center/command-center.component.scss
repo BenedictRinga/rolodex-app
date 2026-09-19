@@ -6,11 +6,22 @@
 .cc-shell {
   /* BUILD 191: works in BOTH hosts — the portal's full-screen modal (the
      inner .ion-page provides the height) and the RolodexPage view (flow
-     layout with a generous floor; the page behind scrolls normally). */
+     layout with a generous floor; the page behind scrolls normally).
+     BUILD 274 THE FULL RULER (founder: the console scrolls now "but loses
+     ~30% bottom of viewport - should be leaving only about 5%"): MEASURED
+     ARITHMETIC - the lost bottom (~30vh) equals this floor (70vh) exactly:
+     the 100% chain through the inline modal's wrapper does not resolve (the
+     wrapper lives behind Ionic 8's shadow boundary, where the light-DOM
+     .ion-page pin of 273 cannot reach), so the shell sat AT ITS FLOOR and
+     ion-content scrolled inside ~70vh. The floor is now 96dvh - the console
+     commands ~95%+ of the viewport in EVERY host, chain resolved or not
+     (global.scss also pins the modal's ::part(content) to 100% for the
+     chain's sake). */
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 70vh;
+  min-height: 96vh; /* fallback for webviews without dvh */
+  min-height: 96dvh;
   background: var(--ion-background-color, var(--rolodex-surface, #f7f4ee));
 }
 
