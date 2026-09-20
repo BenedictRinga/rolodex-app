@@ -260,6 +260,9 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     const n = (v: any) => Number(v) || 0;
     const map: Record<string, { prev: number; curr: number; diff: number; pct: number }> = {};
     const row = (label: string, p: any, c: any) => {
+      // BUILD 282: a chip needs a REAL baseline — an undefined/null prev field
+      // (a reconstructed or first-day ledger) is NO chip, never a fake +100%.
+      if (p === undefined || p === null) return null;
       const prevV = n(p);
       const currV = n(c);
       if (prevV === 0 && currV === 0) return null;

@@ -1161,7 +1161,20 @@ export class HomePage implements OnInit, OnDestroy {
   /** The deck as shown: real contacts + demo filler when enabled. */
   private deckWithDemo(): ContactInfo[] {
     const real = this.realContacts();
-    return this.mockEnabled ? [...real, ...shuffledMockContacts()] : real;
+    const deck = this.mockEnabled ? [...real, ...shuffledMockContacts()] : real;
+    // 2026-09-20 BUILD 282 THE EQUAL CLASSES (founder: "Neither type is
+    // inferior to the other, so unless alphabetical, sorting order should
+    // treat both classes as equal"): the deck's default order is the card's
+    // own MOMENT — lastInteraction, falling back to updatedAt/createdAt —
+    // persons and tasks interleaved by activity, never grouped by kind.
+    // The alphabetical mode keeps its own grouping.
+    const moment = (c: any): number => {
+      const t = c?.lastInteraction ? new Date(c.lastInteraction as any).getTime()
+        : c?.updatedAt ? new Date(c.updatedAt as any).getTime()
+        : c?.createdAt ? new Date(c.createdAt as any).getTime() : 0;
+      return Number.isFinite(t) ? t : 0;
+    };
+    return deck.sort((a: any, b: any) => moment(b) - moment(a));
   }
 
   // ==========================================================================
