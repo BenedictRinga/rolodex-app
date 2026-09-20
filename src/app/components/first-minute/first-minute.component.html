@@ -7,15 +7,17 @@
 
   <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
 
-  <!-- Section 2: two of our REGULAR cards, reduced, side by side. -->
+  <!-- Section 2: two of our REGULAR cards, reduced, side by side. The labels
+       are TRANSLATED (283: the founder named Hausa, Amharic, Somali, Hebrew —
+       and TASK/PERSON belong to every language). -->
   <div class="fm-doors">
     <button class="fm-door" type="button" (click)="task.emit()">
       <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
-      <span class="fm-door-label">TASK</span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
     </button>
     <button class="fm-door" type="button" (click)="person.emit()">
       <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
-      <span class="fm-door-label">PERSON</span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
     </button>
   </div>
 

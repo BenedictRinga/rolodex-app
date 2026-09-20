@@ -849,6 +849,8 @@
     "fm.gotit": "समझ गए — मेरा नाम दूँ",
     "fm.chat": "इसके बजाय LoopKeeper से बात करें",
     "fm.courtesy": "🌱 LoopKeeper में आपका स्वागत है — टालमटोल पर काबू, एक व्यक्ति, एक काम एक बार में।",
-    "settings.exit": "बाहर"
+    "settings.exit": "बाहर",
+    "fm.taskLabel": "काम",
+    "fm.personLabel": "व्यक्ति"
   }
 }

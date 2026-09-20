@@ -849,6 +849,8 @@
     "fm.gotit": "明白了——說我的",
     "fm.chat": "改和 LoopKeeper 聊聊",
     "fm.courtesy": "🌱 歡迎來到 LoopKeeper——告別拖延，一個人，一件事，一次一件。",
-    "settings.exit": "退出"
+    "settings.exit": "退出",
+    "fm.taskLabel": "任務",
+    "fm.personLabel": "人物"
   }
 }

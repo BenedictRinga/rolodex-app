@@ -837,18 +837,20 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "Name the first task or person loop you need to close",
+    "fm.title": "Sunanta farkon aiki ko zangamin mutum da kake bukatar rufewa",
     "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
     "fm.capture": "Capture it",
-    "fm.showme": "Show me first",
+    "fm.showme": "Nuna mini farko",
     "fm.skip": "Skip for now",
-    "fm.beat1": "You type it.",
-    "fm.beat2": "The words are written for you.",
-    "fm.beat3": "You send from the app you already use.",
-    "fm.beat4": "The loop closes. The delay worry in your head disappears.",
+    "fm.beat1": "Ku rubuta shi",
+    "fm.beat2": "An rubuta muku kalamai",
+    "fm.beat3": "Ku tura daga app din da kuka saba",
+    "fm.beat4": "Zangamiya ta rufe. Damuwa da jinkiri a kai ta bace.",
     "fm.gotit": "Got it — name mine",
     "fm.chat": "Talk to LoopKeeper instead",
-    "fm.courtesy": "🌱 Welcome to LoopKeeper — clearing procrastination, one person, one task at a time.",
-    "settings.exit": "Exiting"
+    "fm.courtesy": "🌱 Barka da zuwa LoopKeeper — kawar da jinkirin aiki, mutum daya, aiki daya a lokaci guda.",
+    "settings.exit": "Exiting",
+    "fm.taskLabel": "AIKI",
+    "fm.personLabel": "MUTUM"
   }
 }

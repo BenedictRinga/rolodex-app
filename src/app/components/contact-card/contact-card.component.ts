@@ -481,6 +481,10 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.demoContacts.length > 0;
   }
 
+  /** 2026-09-20 BUILD 283 THE ARMED SEPARATOR: the DEMO TASKS & CONTACTS
+   *  label is a door — tap opens the demo deck larger, tap again closes. */
+  demoExpanded = false;
+
   get alphabeticalRealGroups(): Array<{ key: string; contacts: ContactInfo[] }> {
     return Object.keys(this.groupedContactsReal).sort().map((key) => ({ key, contacts: this.groupedContactsReal[key] }));
   }

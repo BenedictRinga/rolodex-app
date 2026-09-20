@@ -849,6 +849,8 @@
     "fm.gotit": "Entendi — nomear o meu",
     "fm.chat": "Falar com o LoopKeeper em vez disso",
     "fm.courtesy": "🌱 Boas-vindas ao LoopKeeper — vencendo a procrastinação, uma pessoa, uma tarefa por vez.",
-    "settings.exit": "Saindo"
+    "settings.exit": "Saindo",
+    "fm.taskLabel": "TAREFA",
+    "fm.personLabel": "PESSOA"
   }
 }

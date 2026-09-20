@@ -849,6 +849,8 @@
     "fm.gotit": "Jasne — nazwę swoją",
     "fm.chat": "Porozmawiaj raczej z LoopKeeper",
     "fm.courtesy": "🌱 Witaj w LoopKeeper — pokonujemy prokrastynację: jedna osoba, jedno zadanie na raz.",
-    "settings.exit": "Wyjście"
+    "settings.exit": "Wyjście",
+    "fm.taskLabel": "ZADANIE",
+    "fm.personLabel": "OSOBA"
   }
 }

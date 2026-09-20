@@ -849,6 +849,8 @@
     "fm.gotit": "Begrepen — de mijne noemen",
     "fm.chat": "Praat liever met LoopKeeper",
     "fm.courtesy": "🌱 Welkom bij LoopKeeper — uitstel verslaan, één persoon, één taak tegelijk.",
-    "settings.exit": "Afsluiten"
+    "settings.exit": "Afsluiten",
+    "fm.taskLabel": "TAAK",
+    "fm.personLabel": "PERSOON"
   }
 }

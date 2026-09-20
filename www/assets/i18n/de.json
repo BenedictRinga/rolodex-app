@@ -849,6 +849,8 @@
     "fm.gotit": "Verstanden — meinen benennen",
     "fm.chat": "Lieber mit LoopKeeper sprechen",
     "fm.courtesy": "🌱 Willkommen bei LoopKeeper — Prokrastination überwinden, ein Mensch, eine Aufgabe nach der anderen.",
-    "settings.exit": "Beenden"
+    "settings.exit": "Beenden",
+    "fm.taskLabel": "AUFGABE",
+    "fm.personLabel": "PERSON"
   }
 }

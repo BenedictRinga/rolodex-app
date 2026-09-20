@@ -849,6 +849,8 @@
     "fm.gotit": "わかった — 自分のを名づける",
     "fm.chat": "LoopKeeper に話しかける",
     "fm.courtesy": "🌱 LoopKeeperへようこそ — 先延ばしをなくす。ひとり、ひとつずつ。",
-    "settings.exit": "終了"
+    "settings.exit": "終了",
+    "fm.taskLabel": "タスク",
+    "fm.personLabel": "人物"
   }
 }

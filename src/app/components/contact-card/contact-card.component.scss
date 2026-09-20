@@ -1006,6 +1006,38 @@ ion-content {
   background: linear-gradient(90deg, transparent, var(--rolodex-border), transparent);
 }
 
+/* 2026-09-20 BUILD 283 THE ARMED SEPARATOR (founder: "arm it like the
+   loopKeeper icon to open into and close a larger view. Easy to see some
+   users tapping it intuitively, expecting a reaction"): the label carries a
+   chevron and a tap target; the open block renders the demo deck LARGER. */
+.demo-separator.armed {
+  cursor: pointer;
+
+  ion-icon {
+    color: var(--rolodex-accent, #FFD93D);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  &:active { opacity: .7; }
+}
+
+.demo-block.open {
+  ion-avatar.default-view-avatar {
+    width: 56px;
+    height: 56px;
+  }
+
+  .default-view-label h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .default-view-extra {
+    display: block;
+  }
+}
+
 /* 2026-08-18 THE EDIT FORM: the CANCEL / SAVE CHANGES footer is always
    visible - the form flows into the page scroll (no internal scroll) and
    the footer sticks to the bottom, exactly like the chat sheet. */

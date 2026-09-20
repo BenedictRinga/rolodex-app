@@ -849,6 +849,8 @@
     "fm.gotit": "Sawa — taja yangu",
     "fm.chat": "Zungumza na LoopKeeper badala yake",
     "fm.courtesy": "🌱 Karibu LoopKeeper — kuondoa kuchelewa, mtu mmoja, kazi moja kwa wakati.",
-    "settings.exit": "Kutoka"
+    "settings.exit": "Kutoka",
+    "fm.taskLabel": "KAZI",
+    "fm.personLabel": "MTU"
   }
 }

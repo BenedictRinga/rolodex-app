@@ -849,6 +849,8 @@
     "fm.gotit": "فهمت — سمِّ ما لي",
     "fm.chat": "تحدث مع LoopKeeper بدلاً من ذلك",
     "fm.courtesy": "🌱 مرحبًا بك في LoopKeeper — نتغلب على التسويف، شخص واحد، مهمة واحدة في كل مرة.",
-    "settings.exit": "الخروج"
+    "settings.exit": "الخروج",
+    "fm.taskLabel": "مهمة",
+    "fm.personLabel": "شخص"
   }
 }

@@ -698,8 +698,18 @@
             </ion-item>
           </ng-container>
 
-          <div class="demo-separator" *ngIf="hasDemoContacts"><span>DEMO TASKS &amp; CONTACTS</span></div>
+          <!-- 2026-09-20 BUILD 283 THE ARMED SEPARATOR (founder: "Demo Tasks &
+               Contacts ... appears at bottom of home page default view. Can
+               you similarly arm it like the loopKeeper icon to open into and
+               close a larger view. Easy to see some users tapping it
+               intuitively, expecting a reaction."): the label is a DOOR now —
+               tap opens the demo deck larger (chevron up), tap again closes. -->
+          <div class="demo-separator armed" *ngIf="hasDemoContacts" role="button" (click)="demoExpanded = !demoExpanded">
+            <span>DEMO TASKS &amp; CONTACTS</span>
+            <ion-icon [name]="demoExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </div>
 
+          <div class="demo-block" [class.open]="demoExpanded" *ngIf="demoExpanded">
           <ng-container *ngFor="let group of alphabeticalDemoGroups">
             <ion-list-header>
               <ion-label>{{ group.key }}</ion-label>
@@ -725,9 +735,10 @@
                 (click)="onContactTap(contact, $event)"></ion-icon>
             </ion-item>
           </ng-container>
+          </div><!-- /demo-block (283: the larger demo view) -->
         </ion-list>
       </ng-container>
-      
+
       <!-- Details Card for the Selected Contact -->
       <div *ngIf="activeContact" class="details-card">
         <ion-card>

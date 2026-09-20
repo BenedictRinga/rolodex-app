@@ -849,6 +849,8 @@
     "fm.gotit": "Понятно — назвать своё",
     "fm.chat": "Лучше поговорить с LoopKeeper",
     "fm.courtesy": "🌱 Добро пожаловать в LoopKeeper — побеждаем прокрастинацию: один человек, одно дело за раз.",
-    "settings.exit": "Выход"
+    "settings.exit": "Выход",
+    "fm.taskLabel": "ЗАДАЧА",
+    "fm.personLabel": "ЧЕЛОВЕК"
   }
 }

@@ -849,6 +849,8 @@
     "fm.gotit": "Anladım — benimkini adlandır",
     "fm.chat": "Bunun yerine LoopKeeper ile konuş",
     "fm.courtesy": "🌱 LoopKeeper'e hoş geldin — ertelemeyi yeniyoruz: bir kişi, bir iş, tek tek.",
-    "settings.exit": "Çıkış"
+    "settings.exit": "Çıkış",
+    "fm.taskLabel": "GÖREV",
+    "fm.personLabel": "KİŞİ"
   }
 }

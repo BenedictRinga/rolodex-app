@@ -47,13 +47,18 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  border: 2px dashed var(--rolodex-border, #cbd5e1);
+  // 2026-09-20 BUILD 283 THE SHARPER YELLOW (founder: "The icons in
+  // first-timer view TASK || PERSON mini-cards are a dull yellow, barely
+  // legible. Can the yellow be a bit sharper, more legible."): the icon was
+  // the theme accent (#FFD93D — pale on white); it now carries a deep amber
+  // icon on a sharper dashed ring.
+  border: 2px dashed #EAB308;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--rolodex-accent, #14b8a6);
+  color: #B45309;
 
-  ion-icon { font-size: 24px; }
+  ion-icon { font-size: 24px; font-weight: 700; }
 }
 
 .fm-door-label {
