@@ -41,15 +41,22 @@ export class FirstMinuteComponent implements OnDestroy {
   demoBeat = 0;
   /** The characters typed so far into the active beat's editing space. */
   demoTyped = '';
+  /** BUILD 284: words that FINISHED — each completed stage holds its own. */
+  demoDone: string[] = ['', '', '', ''];
 
   private demoTimer: any = null;
   /** BUILD 279: the demo strip — scrolled into view when Show me first opens. */
   @ViewChild('demoEl') demoEl?: ElementRef<HTMLDivElement>;
+  // 2026-09-20 BUILD 284 THE BENEFIT SHOW (founder: the old beats "say, You
+  // type it, and, the words are written for you — Hilarious. Nothing gained.
+  // That is no demo of benefit"): the four beats now show what the ALGO and
+  // the AI ASSISTANT do for the user — the one line, the remember-back, the
+  // drafted words, the closed loop.
   private readonly demoWords = [
     'Reply to Amina about Saturday',
+    "Tue 9:00 — Amina's reply is due",
     'Hi Amina — are we still on for Saturday, 3 pm?',
-    'Sent via WhatsApp',
-    'Closed — mind free',
+    'Sent · Closed — mind free',
   ];
 
   constructor(private readonly analytics: AnalyticsService) {}
@@ -76,6 +83,7 @@ export class FirstMinuteComponent implements OnDestroy {
     this.stopDemo();
     this.demoBeat = 0;
     this.demoTyped = '';
+    this.demoDone = ['', '', '', ''];
     let char = 0;
     this.demoTimer = setInterval(() => {
       const words = this.demoWords[this.demoBeat];
@@ -84,10 +92,14 @@ export class FirstMinuteComponent implements OnDestroy {
         this.demoTyped = words.slice(0, char);
         return;
       }
-      // Hold the completed beat, then flow to the next one.
+      // Hold the completed beat, then flow to the next one. The finished
+      // words PERSIST in their own stage (284) — each surface keeps what it
+      // produced, exactly like the real flow leaves its artefacts behind.
       setTimeout(() => {
         if (!this.showMe) return;
+        this.demoDone[this.demoBeat] = this.demoWords[this.demoBeat];
         this.demoBeat = (this.demoBeat + 1) % this.demoWords.length;
+        if (this.demoBeat === 0) this.demoDone = ['', '', '', ''];
         char = 0;
         this.demoTyped = '';
       }, 1300);

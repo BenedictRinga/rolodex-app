@@ -1,8 +1,16 @@
-<!-- 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW — the panel lives
+<!-- 2026-09-20 BUILD 278/284 THE FIRST MINUTE, IN THE FLOW — the panel lives
      INSIDE the walk's slide 1 (send-walk) for an untouched device: title
      above, two reduced regular cards side by side (TASK / PERSON), Show me
      first, and the courtesy line. The ambience is the regular one; both
-     doors plug into the existing flows; nothing new is invented. -->
+     doors plug into the existing flows; nothing new is invented.
+     BUILD 284 THE BENEFIT SHOW (founder: the old beats said "you type it"
+     and "the words are written for you" — "Hilarious. Nothing gained. That
+     is no demo of benefit"): the four stages now show what the ALGO and the
+     AI ASSISTANT DO for the user —
+       1. You type it once               (the capture box)
+       2. LoopKeeper brings it back      (the algo's nudge — bell)
+       3. The Assistant drafts the words (the card, ✨ Assistant chip)
+       4. One tap sends it; it closes    (WhatsApp + the closed check). -->
 <div class="fm-panel">
 
   <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
@@ -27,36 +35,47 @@
 
   <div class="fm-demo" #demoEl *ngIf="showMe">
 
+    <!-- BEAT 1 — you type it once (the capture). -->
     <div class="fm-stage" [class.on]="demoBeat === 0">
       <div class="fm-stage-head"><span class="fm-stage-num">1</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat1' | translate }}</span></div>
       <div class="fm-cap">
-        <span class="fm-typed">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 0"></i></span>
+        <span class="fm-typed" *ngIf="demoBeat > 0">{{ demoDone[0] }}</span>
+        <ng-container *ngIf="demoBeat === 0"><span class="fm-typed">{{ demoTyped }}<i class="fm-caret"></i></span></ng-container>
       </div>
     </div>
 
+    <!-- BEAT 2 — the ALGO brings it back at the right moment (the nudge). -->
     <div class="fm-stage" [class.on]="demoBeat === 1">
       <div class="fm-stage-head"><span class="fm-stage-num">2</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat2' | translate }}</span></div>
-      <div class="fm-cardmin">
-        <span class="fm-cardmin-name">Amina</span>
-        <span class="fm-typed" *ngIf="demoBeat >= 1">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 1"></i></span>
+      <div class="fm-nudgerow">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span class="fm-typed" *ngIf="demoBeat > 1">{{ demoDone[1] }}</span>
+        <ng-container *ngIf="demoBeat === 1"><span class="fm-typed">{{ demoTyped }}<i class="fm-caret"></i></span></ng-container>
         <span class="fm-cardmin-line" *ngIf="demoBeat < 1">&nbsp;</span>
       </div>
     </div>
 
+    <!-- BEAT 3 — the ASSISTANT drafts the words (the card, its own chip). -->
     <div class="fm-stage" [class.on]="demoBeat === 2">
       <div class="fm-stage-head"><span class="fm-stage-num">3</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat3' | translate }}</span></div>
-      <div class="fm-sendrow">
-        <ion-icon name="logo-whatsapp"></ion-icon>
-        <span class="fm-typed" *ngIf="demoBeat >= 2">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 2"></i></span>
+      <div class="fm-cardmin">
+        <div class="fm-cardmin-top">
+          <span class="fm-cardmin-name">Amina</span>
+          <span class="fm-aichip"><ion-icon name="sparkles-outline"></ion-icon>AI</span>
+        </div>
+        <span class="fm-typed" *ngIf="demoBeat > 2">{{ demoDone[2] }}</span>
+        <ng-container *ngIf="demoBeat === 2"><span class="fm-typed">{{ demoTyped }}<i class="fm-caret"></i></span></ng-container>
         <span class="fm-cardmin-line" *ngIf="demoBeat < 2">&nbsp;</span>
       </div>
     </div>
 
+    <!-- BEAT 4 — one tap sends it; the loop closes itself. -->
     <div class="fm-stage fm-stage-done" [class.on]="demoBeat === 3">
       <div class="fm-stage-head"><span class="fm-stage-num">4</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat4' | translate }}</span></div>
       <div class="fm-donerow">
-        <ion-icon name="checkmark-circle"></ion-icon>
-        <span class="fm-typed" *ngIf="demoBeat >= 3">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 3"></i></span>
+        <ion-icon name="logo-whatsapp"></ion-icon>
+        <span class="fm-typed" *ngIf="demoBeat > 3 || demoDone[3]">{{ demoDone[3] }}</span>
+        <ng-container *ngIf="demoBeat === 3"><span class="fm-typed">{{ demoTyped }}<i class="fm-caret"></i></span></ng-container>
         <span class="fm-cardmin-line" *ngIf="demoBeat < 3">&nbsp;</span>
       </div>
     </div>
