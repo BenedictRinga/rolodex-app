@@ -23,11 +23,23 @@
       {{ 'loopkeeper.fm.capture' | translate }}
     </ion-button>
 
+    <!-- BUILD 276 THE CHAT DOOR (founder: "Always include the LoopKeeper Chat
+         option"): talking IS capturing — the Assistant opens over the veil. -->
+    <ion-button expand="block" fill="clear" class="fm-chat" (click)="openChat()">
+      <ion-icon name="chatbubble-ellipses-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.fm.chat' | translate }}
+    </ion-button>
+
     <div class="fm-quiet">
       <button class="fm-quietbtn" type="button" (click)="openShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
       <span class="fm-dot">·</span>
       <button class="fm-quietbtn" type="button" (click)="skip()">{{ 'loopkeeper.fm.skip' | translate }}</button>
     </div>
+
+    <!-- BUILD 276 THE COURTESY LINE (founder: "a courtesy one-line welcome...
+         Not 80s Budapest cold, neither San Fran at its craziest"): one warm
+         line at the bottom of their first screen — brand voice, one sprout. -->
+    <p class="fm-courtesy">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
   </div>
 
   <!-- THE BEAT: the exact first-minute path, four steps, one screen. -->

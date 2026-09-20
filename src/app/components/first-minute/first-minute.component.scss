@@ -56,6 +56,24 @@
   font-weight: 700;
 }
 
+/* BUILD 276 THE CHAT DOOR — same weight family as the capture, quieter fill. */
+.fm-chat {
+  --border-radius: 14px;
+  --color: var(--rolodex-accent, #14b8a6);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* BUILD 276 THE COURTESY LINE — one warm line, muted, never a banner. */
+.fm-courtesy {
+  margin: 22px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary, #4b5563);
+  text-align: center;
+  opacity: .9;
+}
+
 .fm-quiet {
   display: flex;
   align-items: center;

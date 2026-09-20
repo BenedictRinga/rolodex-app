@@ -37,6 +37,15 @@ export class CommandCenterComponent implements OnInit, OnChanges {
   noiseSelected = new Set<string>();
   noiseCopied = false;
 
+  // 2026-09-20 APP 276 / SERVER 97 THE LAST THREE: which recent devices are
+  // tapped open (component-local — the server payload stays pure).
+  recentOpen = new Set<string>();
+
+  toggleRecent(id: string): void {
+    if (this.recentOpen.has(id)) this.recentOpen.delete(id);
+    else this.recentOpen.add(id);
+  }
+
   toggleNoise(id: string): void {
     if (this.noiseSelected.has(id)) this.noiseSelected.delete(id);
     else this.noiseSelected.add(id);

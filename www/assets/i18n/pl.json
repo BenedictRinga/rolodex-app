@@ -837,7 +837,7 @@
     "walk.taskAt": "O godzinie (opcjonalnie)",
     "storage.serverConsentNote": "Najpierw: wyraź zgodę w Ustawieniach — Backend sync consent. Nic nie opuszcza tego urządzenia przedtem.",
     "storage.serverConsentOpen": "Otwórz zgodę",
-    "fm.title": "Nazwij rzecz, której wciąż nie robisz.",
+    "fm.title": "Nazwij pierwszą rzecz — zadanie lub osobę — której pętlę chcesz zamknąć.",
     "fm.hint": "Jedno zdanie. Asystent pisze słowa — ty wysyłasz — karta w głowie się zamyka.",
     "fm.capture": "Zapisz",
     "fm.showme": "Najpierw pokaż",
@@ -846,6 +846,8 @@
     "fm.beat2": "Słowa piszą się za ciebie.",
     "fm.beat3": "Wysyłasz z aplikacji, której już używasz.",
     "fm.beat4": "Pętla zamknięta. Karta w głowie zamknięta.",
-    "fm.gotit": "Jasne — nazwę swoją"
+    "fm.gotit": "Jasne — nazwę swoją",
+    "fm.chat": "Porozmawiaj raczej z LoopKeeper",
+    "fm.courtesy": "🌱 Karibu — pierwsze pętle są nieśmiałe. Twoja jest tu bezpieczna."
   }
 }

@@ -453,6 +453,63 @@ export class RolodexComponent implements OnInit {
     } catch { /* clipboard unavailable — the id is selectable text */ }
   }
 
+  // ═══ 2026-09-20 BUILD 276 THE CLEAN SLATE ════════════════════════════════
+  // (founder: "a clear my LoopKeeper data which resets the device... Total
+  // wipe of all persistence in frontend. Page reload. In which case, we then
+  // see the first-timer UX.")
+  // Everything app-shaped lives in THREE drawers: the 'rolodex' IndexedDB
+  // (all state — cards, loops, chat words, drafts, settings, AND the
+  // device's anonymous id rolodex_device_id), web storage (localStorage/
+  // sessionStorage), and the SW + its caches. Wipe all three, hard reload.
+  // THE BACKEND TREATS THE DEVICE AS NEW AUTOMATICALLY: the id is minted at
+  // boot from the now-empty storage — the next launch is a genuinely new
+  // device to the analytics ledger, the sync slots and the retention cohorts
+  // (the server already words it: a wiped device is a new cohort member).
+  // The reload deliberately carries NO machine-reload mark — the fresh boot
+  // is a real birth and the meters should say so; the first-minute veil and
+  // the fresh 7-day trial return with it.
+  async confirmWipeAll(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Clear my LoopKeeper data?',
+      message: 'Everything on this device is erased — cards, loops, chat words, drafts, settings, this device\'s anonymous id. The server keeps only what you already pushed (your old backup slot stays until it ages out). After the wipe the device is brand new: the first-timer screen returns and the trial restarts.',
+      buttons: [
+        { text: 'Keep my data', role: 'cancel' },
+        { text: 'Erase everything', role: 'destructive', handler: () => { void this.wipeAllAndReload(); } },
+      ],
+    });
+    await alert.present();
+  }
+
+  private async wipeAllAndReload(): Promise<void> {
+    // 1. the service worker + every cache
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister().catch(() => { /* already gone */ })));
+      }
+      const names = await caches.keys();
+      await Promise.all(names.map((n) => caches.delete(n)));
+    } catch { /* SW-less contexts wipe fine without it */ }
+    // 2. web storage
+    try { localStorage.clear(); } catch { /* private mode */ }
+    try { sessionStorage.clear(); } catch { /* private mode */ }
+    // 3. every IndexedDB database — the 'rolodex' DB carries all app state
+    try {
+      const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };
+      const dbs = typeof anyIdx.databases === 'function' ? await anyIdx.databases() : [{ name: 'rolodex' }];
+      await Promise.all((dbs || []).map((d) => new Promise<void>((res) => {
+        try {
+          const rq = indexedDB.deleteDatabase(String(d?.name || 'rolodex'));
+          rq.onsuccess = () => res(); rq.onerror = () => res(); rq.onblocked = () => res();
+        } catch { res(); }
+      })));
+    } catch { /* best effort — the fresh boot retries nothing; state is state */ }
+    // 4. THE FRESH BIRTH: no machine-reload mark — the next boot counts.
+    await new Promise((r) => setTimeout(r, 350));
+    const sep = location.href.includes('?') ? '&' : '?';
+    window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
+  }
+
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a
    *  user who already tapped "Update now" is not nagged again after reload. */
   private async initUpdates(): Promise<void> {

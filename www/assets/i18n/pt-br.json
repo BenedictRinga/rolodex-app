@@ -837,7 +837,7 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "Diga o que você vive adiando.",
+    "fm.title": "Diga a primeira tarefa — ou pessoa — cujo ciclo você precisa fechar.",
     "fm.hint": "Uma frase. O Assistente escreve as palavras — você envia — a aba na sua cabeça se fecha.",
     "fm.capture": "Capturar",
     "fm.showme": "Mostre-me primeiro",
@@ -846,6 +846,8 @@
     "fm.beat2": "As palavras são escritas para você.",
     "fm.beat3": "Você envia pelo app que já usa.",
     "fm.beat4": "O ciclo se fecha. A aba se fecha.",
-    "fm.gotit": "Entendi — nomear o meu"
+    "fm.gotit": "Entendi — nomear o meu",
+    "fm.chat": "Falar com o LoopKeeper em vez disso",
+    "fm.courtesy": "🌱 Karibu — os primeiros ciclos são tímidos. O seu está seguro aqui."
   }
 }

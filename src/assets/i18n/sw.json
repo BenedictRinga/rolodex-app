@@ -837,7 +837,7 @@
     "walk.taskAt": "Saa (hiari)",
     "storage.serverConsentNote": "Kwanza: idhini kwenye Mipangilio — Backend sync consent. Hakuna kinachaondoka kwenye kifaa hako kabla ya hapo.",
     "storage.serverConsentOpen": "Fungua idhini",
-    "fm.title": "Taja jambo usilofanya.",
+    "fm.title": "Taja kazi ya kwanza au mstari wa mtu unahitaji kufunga.",
     "fm.hint": "Sentensi moja. Msaidizi anaandika maneno — wewe hutuma — kichwa kinapumzika.",
     "fm.capture": "Iweke",
     "fm.showme": "Nionyeshe kwanza",
@@ -846,6 +846,8 @@
     "fm.beat2": "Maneno huaandikwa kwako.",
     "fm.beat3": "Unatuma kutoka programu unayoitumia.",
     "fm.beat4": "Mstari unafungwa. Kichwa kinapumzika.",
-    "fm.gotit": "Sawa — taja yangu"
+    "fm.gotit": "Sawa — taja yangu",
+    "fm.chat": "Zungumza na LoopKeeper badala yake",
+    "fm.courtesy": "🌱 Karibu — mistari ya kwanza huwa haina ujasiri. Yako iko salama hapa."
   }
 }

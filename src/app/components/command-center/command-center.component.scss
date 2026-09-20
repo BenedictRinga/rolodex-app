@@ -319,3 +319,70 @@ ion-content.cc-body-content {
 .noise-tz { opacity: .75; margin-left: 6px; }
 .noise-tester { margin-left: 6px; color: #3fb950; font-weight: 700; }
 .noise-copy { margin-top: 10px; }
+
+/* 2026-09-20 APP 276 / SERVER 97 THE LAST THREE — tap-and-reveal trails. */
+.sec-recent .recent-block {
+  border: 1px solid var(--rolodex-border-light);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.recent-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  background: var(--rolodex-surface-alt);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+
+  ion-icon { color: var(--rolodex-text-tertiary); flex-shrink: 0; }
+}
+
+.recent-meta {
+  flex: 1;
+  font-size: 11.5px;
+  color: var(--rolodex-text-secondary);
+}
+
+.recent-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.tag-own { background: rgba(124, 92, 252, .16); color: #7C5CFC; }
+.tag-tester { background: rgba(63, 185, 80, .16); color: #3fb950; }
+
+.recent-events {
+  border-top: 1px solid var(--rolodex-border-light);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* Relaxed grid for the trail rows (when · event · page). */
+.sec-recent .retention-row.recent-row {
+  grid-template-columns: minmax(96px, 0.9fr) minmax(110px, 1.2fr) 1fr;
+  min-width: 0;
+  font-size: 11.5px;
+  padding: 6px 10px;
+}
+
+.recent-when { color: var(--rolodex-text-tertiary); white-space: nowrap; }
+.recent-ev { color: var(--rolodex-text); font-weight: 600; }
+.recent-ev.recent-session { color: var(--rolodex-text-secondary); font-weight: 500; }
+.recent-dur { color: var(--rolodex-accent, #14b8a6); font-weight: 700; }
+.recent-page {
+  color: var(--rolodex-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

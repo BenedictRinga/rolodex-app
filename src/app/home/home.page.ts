@@ -347,6 +347,22 @@ export class HomePage implements OnInit, OnDestroy {
     this.inboxRef?.beginReveal(); // today's home, byte for byte
   }
 
+  /** 2026-09-20 BUILD 276 THE CHAT DOOR (founder: "Always include the
+   *  LoopKeeper Chat option"): the Assistant opens OVER the veil — talking is
+   *  the same deed as typing, in conversation. The veil stays beneath until
+   *  they capture or skip, so returning from the chat lands back on it. */
+  async onFirstMinuteChat(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ChatWithRolodexModalComponent,
+      componentProps: { startMode: 'situation' },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
   /** 2026-08-19 THE TASTE: the welcome demo's surprise — a guided real-loop
    *  session in Chat with RolodexAI (situation mode). */
   async openTasteFlow(): Promise<void> {

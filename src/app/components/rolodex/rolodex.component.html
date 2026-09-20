@@ -568,6 +568,24 @@
           </ion-button>
         </ion-item>
 
+        <!-- 2026-09-20 BUILD 276 THE CLEAN SLATE (founder: "a clear my
+             LoopKeeper data which resets the device"): total frontend wipe —
+             the anonymous id included — then reload; the device is brand new
+             to the backend (fresh id, fresh cohort, fresh trial) and the
+             first-timer screen returns. -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="trash-outline" slot="start" color="danger"></ion-icon>
+          <ion-label>
+            Clear my LoopKeeper data
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+              Erases everything on this device and restarts as brand new — the backend then treats this device as a first-timer.
+            </p>
+          </ion-label>
+          <ion-button slot="end" fill="outline" size="small" color="danger" (click)="confirmWipeAll()">
+            Erase
+          </ion-button>
+        </ion-item>
+
         <!-- Passphrase -->
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="lock-closed-outline" slot="start" [color]="syncHasPassphrase ? 'success' : 'danger'"></ion-icon>

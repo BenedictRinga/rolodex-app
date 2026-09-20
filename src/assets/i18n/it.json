@@ -837,7 +837,7 @@
     "walk.taskAt": "Alle (facoltativo)",
     "storage.serverConsentNote": "Prima: dai il consenso in Impostazioni — Backend sync consent. Nulla lascia questo dispositivo prima.",
     "storage.serverConsentOpen": "Apri consenso",
-    "fm.title": "Dai un nome alla cosa che continui a non fare.",
+    "fm.title": "Dai un nome alla prima cosa — un compito o una persona — di cui chiudere il ciclo.",
     "fm.hint": "Una frase. L'Assistente scrive le parole — tu le invii — la scheda nella tua testa si chiude.",
     "fm.capture": "Acquisisci",
     "fm.showme": "Mostrami prima",
@@ -846,6 +846,8 @@
     "fm.beat2": "Le parole sono scritte per te.",
     "fm.beat3": "Invii dall'app che già usi.",
     "fm.beat4": "Il ciclo si chiude. La scheda si chiude.",
-    "fm.gotit": "Chiaro — nomina la mia"
+    "fm.gotit": "Chiaro — nomina la mia",
+    "fm.chat": "Parla piuttosto con LoopKeeper",
+    "fm.courtesy": "🌱 Karibu — i primi cicli sono timidi. Il tuo è al sicuro qui."
   }
 }

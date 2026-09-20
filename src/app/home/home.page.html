@@ -348,5 +348,6 @@
      holding ANY real card or loop never sees it). -->
 <app-first-minute *ngIf="firstMinuteActive"
   (captured)="onFirstMinuteCaptured($event)"
-  (skipped)="onFirstMinuteSkipped()">
+  (skipped)="onFirstMinuteSkipped()"
+  (chat)="onFirstMinuteChat()">
 </app-first-minute>
