@@ -23,7 +23,7 @@
        demo words ticking into the editing spaces. -->
   <button class="fm-showme" type="button" (click)="toggleShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
 
-  <div class="fm-demo" *ngIf="showMe">
+  <div class="fm-demo" #demoEl *ngIf="showMe">
 
     <div class="fm-stage" [class.on]="demoBeat === 0">
       <div class="fm-stage-head"><span class="fm-stage-num">1</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat1' | translate }}</span></div>
@@ -58,6 +58,12 @@
         <span class="fm-cardmin-line" *ngIf="demoBeat < 3">&nbsp;</span>
       </div>
     </div>
+
+    <!-- BUILD 279 THE RETURN (founder: "The next phase needs a return button.
+         So user never suffers anxiety of changing their mind or forgot
+         something behind in that first-timer screen"): the way back is one
+         tap, always visible under the animation. -->
+    <button class="fm-return" type="button" (click)="toggleShowMe()">Return</button>
 
   </div>
 

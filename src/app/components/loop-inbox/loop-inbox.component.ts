@@ -62,6 +62,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() firstMinute = false;
   /** The panel-door tap — relayed up; home retires the panel. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
+  /** BUILD 279: Close demo on a demo loop — home flips to the regular home. */
+  @Output() exitDemo = new EventEmitter<void>();
+  /** BUILD 279: the demo view is open — home hides the lower sections so the
+   *  Inbox takes the full screen (the founder's show-me full-screen rule). */
+  @Output() demoView = new EventEmitter<boolean>();
   @Input() set contacts(v: any[] | null | undefined) {
     this.contactsValue = v || [];
     if (!this.deckReady && this.contactsValue.length > 0) {
@@ -843,6 +848,26 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** One-tap send (6) → receipt (8) */
   async send(l: Loop): Promise<void> {
+    // 2026-09-20 BUILD 279 THE DEMO REMINDER AT THE FULFILMENT MEDIUMS
+    // (founder: "Continue demo, leading normal current flow until exact
+    // point where options for fulfilment mediums are presented. Any tap
+    // reminds again that it is demo - close demo returns to home screen
+    // (regular now) or Contact (once more leading to their contacts) or
+    // Create Task (normal task builder)"): a demo-born loop never sends —
+    // the send tap is the reminder moment, with the three doors.
+    if ((l as any).demo) {
+      const demo = await this.alertCtrl.create({
+        header: 'Demo loop',
+        message: 'This loop was born from a demo card — sending is where the real thing begins. What would you like?',
+        buttons: [
+          { text: 'Close demo', role: 'destructive', handler: () => { this.exitDemo.emit(); } },
+          { text: 'Contact', handler: () => { this.addRequest.emit(); } },
+          { text: 'Create Task', handler: () => { this.taskCardRequest.emit(); } },
+        ],
+      });
+      await demo.present();
+      return;
+    }
     const channel = l.channel || 'sms';
     // BUILD 275 CORRIDOR LIGHT: the send hand-off opens — the funnel station
     // between the draft and the deed (message_sent). Paired with send_exit.

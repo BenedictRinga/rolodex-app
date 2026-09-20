@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 /**
@@ -32,6 +32,9 @@ export class FirstMinuteComponent implements OnDestroy {
   @Output() task = new EventEmitter<void>();
   /** PERSON door — the existing device-contacts pick flow, via the walk. */
   @Output() person = new EventEmitter<void>();
+  /** BUILD 279: the demo view opened/closed — home hides the lower sections
+   *  so the Inbox takes the full screen while the animation plays. */
+  @Output() demoView = new EventEmitter<boolean>();
 
   showMe = false;
   /** The demo beat currently animating (0..3). */
@@ -40,6 +43,8 @@ export class FirstMinuteComponent implements OnDestroy {
   demoTyped = '';
 
   private demoTimer: any = null;
+  /** BUILD 279: the demo strip — scrolled into view when Show me first opens. */
+  @ViewChild('demoEl') demoEl?: ElementRef<HTMLDivElement>;
   private readonly demoWords = [
     'Reply to Amina about Saturday',
     'Hi Amina — are we still on for Saturday, 3 pm?',
@@ -51,9 +56,15 @@ export class FirstMinuteComponent implements OnDestroy {
 
   toggleShowMe(): void {
     this.showMe = !this.showMe;
+    this.demoView.emit(this.showMe);
     if (this.showMe) {
       void this.analytics.track('firstminute_showme');
       this.startDemo();
+      // BUILD 279: scroll the animation into view — the demo lives below the
+      // doors; without the scroll the user misses it (founder's rule).
+      setTimeout(() => {
+        try { this.demoEl?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch { /* best effort */ }
+      }, 120);
     } else {
       this.stopDemo();
     }

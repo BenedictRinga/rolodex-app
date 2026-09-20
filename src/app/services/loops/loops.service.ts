@@ -79,6 +79,10 @@ export interface Loop {
    *  user-owned draft is never silently overwritten by a tone tap — the words
    *  are theirs; the AI retry still polishes FROM their text. */
   ownWords?: boolean;
+  /** 2026-09-20 BUILD 279 THE DEMO MARK: TRUE when the loop was born from a
+   *  demo card — the walk sets it; the inbox's send door reads it and shows
+   *  the reminder (Close demo / Contact / Create Task) instead of sending. */
+  demo?: boolean;
   pretext?: string;
   channel?: LoopChannel;
   voiceOutline?: string;
@@ -278,14 +282,19 @@ export class LoopsService {
       this.firstLoopDone = true;
       void this.storage.set('lk_first_loop_started', true);
       this.analytics.track('first_loop_started');
-      void this.appInstall.promptInstallNow('first loop captured');
+      // 2026-09-20 BUILD 279 THE RETENTION BREAKER, RETIRED (founder: "When
+      // we tap demo card the start, the message that comes is 'Install
+      // manually.... etc' and that is totally wrong. It is a retention
+      // breaker - makes no sense"): the first-capture install prompt is
+      // GONE — the deed's moment belongs to the words and the flow, not an
+      // install lecture. The demo path speaks for itself (279's demo door
+      // and the send-time reminder).
     } else if (this.firstLoopDone === null) {
       void this.storage.get<boolean>('lk_first_loop_started').then((done) => {
         if (done || this.firstLoopDone === true) return;
         this.firstLoopDone = true;
         void this.storage.set('lk_first_loop_started', true);
         this.analytics.track('first_loop_started');
-        void this.appInstall.promptInstallNow('first loop captured');
       });
     }
     return loop;

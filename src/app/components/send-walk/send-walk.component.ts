@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { Loop, LoopChannel, LoopKind, LoopsService } from '../../services/loops/loops.service';
@@ -36,6 +36,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** The tap on either panel door — home retires the panel; the flow that
    *  follows is the regular one (the 257 draft, or the add sheet). */
   @Output() firstMinuteDeed = new EventEmitter<void>();
+  /** BUILD 279: the demo view opened/closed inside the panel — relayed up so
+   *  home can hide the lower sections and give the Inbox the full screen. */
+  @Output() demoView = new EventEmitter<boolean>();
   @Output() shelfRequest = new EventEmitter<void>();
   @Output() loopsChanged = new EventEmitter<void>();
   @Output() contactsDirty = new EventEmitter<void>();
@@ -255,6 +258,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     private draftEngine: DraftEngineService,
     private modalController: ModalController,
     private cardChat: CardChatService,
+    private alertCtrl: AlertController,
   ) {}
 
   /** 2026-09-16 BUILD 219 THE INTERNAL DOOR (founder: "LoopKeeper has its
@@ -528,10 +532,36 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.pickLoop(item.loop, item.contact); // the card tap PROCEEDS — straight to the words
       return;
     }
+    // 2026-09-20 BUILD 279 THE DEMO DOOR (founder: "When we tap demo card the
+    // start, the message that comes is 'Install manually.... etc' and that is
+    // totally wrong. It is a retention breaker - makes no sense. It should
+    // instead point out that 1. use real contact cards... or Continue demo,
+    // leading normal current flow until exact point where options for
+    // fulfilment mediums are presented"): a demo Who asks FIRST — the real
+    // door (their device contacts, via the same add sheet) or the walk-on.
+    if (item.contact?.isMockData) { void this.offerDemoCard(item.contact); return; }
+    this.birthFromWho(item.contact, false);
+  }
+
+  /** BUILD 279: the demo card's ask — the real door or the walk-on. */
+  private async offerDemoCard(c: any): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Demo card',
+      message: 'This card is a demo — it shows the flow, nothing here is real. Use a real contact card to loop for real, or keep walking the demo.',
+      buttons: [
+        { text: 'Use real contact card', handler: () => { this.mine(); } },
+        { text: 'Continue demo', handler: () => { this.birthFromWho(c, true); } },
+      ],
+    });
+    await alert.present();
+  }
+
+  /** BUILD 279: the loop birth, extracted — the demo mark rides the loop so
+   *  the inbox's send door can remind at the fulfilment mediums. */
+  private birthFromWho(c: any, isDemo: boolean): void {
     // 2026-08-31 BUILD 159: confirming a REAL person is the moment their list
     // has begun — logged once ever per device, whatever door it came through.
-    if (!item.contact?.isMockData) void this.analytics.trackListStartedOnce('walk');
-    const c = item.contact;
+    if (!c?.isMockData) void this.analytics.trackListStartedOnce('walk');
     this.armedContact = c;
     this.armedHandle = '';
     this.whatInput = '';
@@ -546,6 +576,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
       sourceContactId: String(c?.contactId || '') || undefined,
       relation: this.whereOf(c) || undefined,
       lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
+      ...(isDemo ? { demo: true } : {}),
       ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
     });
     this.select(c, this.loop);

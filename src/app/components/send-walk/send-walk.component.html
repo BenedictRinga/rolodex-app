@@ -41,7 +41,7 @@
     <!-- The doors call the walk's OWN methods directly (278: "as normal after
          user tapped Create Task" = the in-place 257 draft; PERSON = the same
          door the empty state uses — the add sheet / device pick). -->
-    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="mine()"></app-first-minute>
+    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="mine()" (demoView)="demoView.emit($event)"></app-first-minute>
     <ng-container *ngIf="!firstMinute">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 

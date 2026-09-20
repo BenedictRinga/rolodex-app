@@ -257,42 +257,33 @@ export class HomePage implements OnInit, OnDestroy {
         this.inboxRef?.beginReveal();
         return false; // 2026-08-18 IndexedDB
       }
+      // 2026-09-20 BUILD 279 THE REDUNDANT LECTURE, RETIRED (founder: "You
+      // mistakenly reinjected the Welcome modal/slides. If our current work
+      // is efficient, that becomes redundant"): the first-minute panel IS
+      // the welcome now — the six-slide modal NEVER auto-opens again. The
+      // Settings replay door stays (an explicit choice, never an injection);
+      // isReplay only reaches here through Settings → Welcome Again.
       if (!isReplay) {
-        // BUILD 210 WALK-FIRST: first run defers to the walk; the tour is
-        // offered exactly once, on the second open. Not on the first deed —
-        // the install door owns that moment (no double interruption).
-        const opens = ((await this.storageService.get<number>('lk_open_count')) || 0) + 1;
-        void this.storageService.set('lk_open_count', opens);
-        const offered = await this.storageService.get<boolean>('lk_welcome_offered');
-        if (opens <= 1 || offered) {
-          this.inboxRef?.beginReveal();
-          // belt-and-braces: beginReveal guards on booting, so a retry is a
-          // no-op if the first call already landed.
-          setTimeout(() => this.inboxRef?.beginReveal(), 1500);
-          return false;
-        }
-        void this.storageService.set('lk_welcome_offered', true);
+        this.inboxRef?.beginReveal();
+        setTimeout(() => this.inboxRef?.beginReveal(), 1500);
+        return false;
       }
       const modal = await this.modalController.create({
         component: WelcomeModalComponent,
         componentProps: { isReplay },
         cssClass: 'card-chat-modal-sheet',
-        // 2026-08-27 SHEET-FIT FIX: add breakpoint 1 — the pledge+copy outgrew
-        // the 0.95 fold, so users need a way to expand fully instead of
-        // fighting the drag gesture against an unreachable bottom edge.
         breakpoints: [0, 0.7, 0.95, 1],
         initialBreakpoint: 0.95,
         keyboardClose: false,
       });
       await modal.present();
       const res = await modal.onDidDismiss();
-      // BUILD 207/208: Welcome gone — NOW the Inbox may grow.
       this.inboxRef?.beginReveal();
       if (res?.role === 'taste') void this.openTasteFlow();
       else if (res?.role === 'start') void this.openHelp();
       return true;
     } catch {
-      this.inboxRef?.beginReveal(); // BUILD 208: a failed modal must not hold the reveal
+      this.inboxRef?.beginReveal();
       return false;
     }
   }
@@ -309,6 +300,9 @@ export class HomePage implements OnInit, OnDestroy {
   // to done, and the per-device demo deck retires — the walk is armed with
   // THEIR card. There is no skip door by design (the founder's "Finito").
   firstMinuteActive = false;
+  /** BUILD 279: the demo view is open — the lower sections (the LoopKeeper
+   *  icon panel + the deck) hide so the Inbox takes the full screen. */
+  firstMinuteDemo = false;
   /** BUILD 278: a panel door was tapped — the panel retires; the deed's
    *  contactsDirty then flips the done flag and retires the demo deck. */
   private firstMinuteTapped = false;
@@ -334,6 +328,18 @@ export class HomePage implements OnInit, OnDestroy {
     this.firstMinuteActive = false;
     this.firstMinuteTapped = true;
     void this.storageService.set('lk_firstminute_seen', true).catch(() => { /* best effort */ });
+  }
+
+  /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
+   *  screen (regular now)"): the demo deck retires and the regular home —
+   *  empty or real, never demo — is what they see. */
+  onExitDemo(): void {
+    this.firstMinuteActive = false;
+    this.firstMinuteDemo = false;
+    this.firstMinuteTapped = true;
+    this.mockEnabled = false;
+    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+    void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
   }
   // 2026-09-20 BUILD 278: onFirstMinuteCaptured/onFirstMinuteSkipped are
   // RETIRED with the veil — the deed flip lives in onContactsDirty (either
