@@ -551,3 +551,15 @@ export const mockContacts: ContactInfo[] = [
     preferences: { refreshContacts: false },
   },
 ];
+// 2026-09-20 BUILD 281 THE RANDOM MIX (founder: "The demo cards should be a
+// random sequenced mix and not determined by type as currently is"): a
+// Fisher-Yates copy — every session presents the demo deck in a fresh,
+// type-agnostic order. The file keeps its canonical list; callers shuffle.
+export function shuffledMockContacts(): ContactInfo[] {
+  const a = [...mockContacts];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}

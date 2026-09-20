@@ -29,7 +29,7 @@ import { InviteLandingComponent } from '../components/invite-landing/invite-land
 import { InviteService } from '../services/invite/invite.service';
 import { DraftEngineService } from '../services/draft-engine/draft-engine.service';
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
-import { mockContacts } from '../data/mock-contacts';
+import { mockContacts, shuffledMockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
 import { AnalyticsService } from '../services/analytics/analytics.service';
 import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
@@ -313,7 +313,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   private async maybeFirstMinute(): Promise<void> {
     try {
-      if (await this.storageService.get<boolean>('lk_firstminute_seen')) return;
+      // 2026-09-20 BUILD 281 EVERY VISIT UNTIL ENGAGED (founder: "Until user
+      // has actively engaged with the app, loggable and evident in Investor
+      // portal and CommandCenter logs, let us continue showing them just that
+      // first timer UX on every visit. This is crucial."): the old seen flag
+      // RETIRES — a door tap is not engagement. The panel arms EVERY visit
+      // until the done flag (set only by a real card's arrival).
       if (await this.storageService.get<boolean>('lk_firstminute_done')) return;
       if (this.realContacts().length > 0) return; // any real card = not a first-timer
       const openLoops = await this.loops.all();
@@ -328,20 +333,23 @@ export class HomePage implements OnInit, OnDestroy {
    *  sheet). The deed's own contactsDirty completes the flip (done flag +
    *  demo-deck retirement) in onContactsDirty. */
   onFirstMinuteDeed(): void {
+    // BUILD 281: a tap retires the panel for THIS VISIT only — no persisted
+    // seen flag; the next visit greets again until a real deed lands.
     this.firstMinuteActive = false;
     this.firstMinuteTapped = true;
-    void this.storageService.set('lk_firstminute_seen', true).catch(() => { /* best effort */ });
   }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
    *  screen (regular now)"): the demo deck retires and the regular home —
    *  empty or real, never demo — is what they see. */
   onExitDemo(): void {
+    // BUILD 281: Close demo retires the DEMO DECK (the regular home for this
+    // visit) but is NOT engagement — the next visit still greets, until a
+    // real card lands (the founder's every-visit rule).
     this.firstMinuteActive = false;
     this.firstMinuteDemo = false;
     this.firstMinuteTapped = true;
     this.mockEnabled = false;
-    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
     void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
   }
   // 2026-09-20 BUILD 278: onFirstMinuteCaptured/onFirstMinuteSkipped are
@@ -1153,7 +1161,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** The deck as shown: real contacts + demo filler when enabled. */
   private deckWithDemo(): ContactInfo[] {
     const real = this.realContacts();
-    return this.mockEnabled ? [...real, ...mockContacts] : real;
+    return this.mockEnabled ? [...real, ...shuffledMockContacts()] : real;
   }
 
   // ==========================================================================
@@ -1213,7 +1221,7 @@ export class HomePage implements OnInit, OnDestroy {
         // before the real/demo separation. Only REAL persisted contacts are
         // loaded; demo filler is added exactly once from mockContacts.
         const realPersisted = (persisted || []).filter((c: any) => !(c as any)?.isMockData);
-        this.contacts = this.mockEnabled ? [...realPersisted, ...mockContacts] : realPersisted;
+        this.contacts = this.mockEnabled ? [...realPersisted, ...shuffledMockContacts()] : realPersisted;
       } else {
         // 2026-08-20 PRIVACY: never auto-read the device address book. The user
         // must explicitly pick contacts (Add from phone) or enable device sync.
@@ -1907,6 +1915,21 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   onContactTap(contact: ContactInfo) {
+    // 2026-09-20 BUILD 281 THE DINNER-TABLE DOOR (founder: demo cards "most
+    // importantly tappable to any investor at a moment's notice, even across
+    // a dinner table for the first time LoopKeeper is introduced to them"):
+    // a demo card tap does NOT open the card surface — it raises the WALK
+    // with the card armed, where the demo door, the words and the send
+    // reminder play the full show. The surface stays the real cards' home.
+    if ((contact as any)?.isMockData) {
+      try { this.rolodexComp?.showRegularView(); } catch { /* deck not mounted */ }
+      void this.homeContent?.scrollToTop(0);
+      this.pendingEscalation = { contact: contact as any, loop: undefined };
+      this.rolodexAiChatOpen = true;
+      this.inboxExpanded = false;
+      this.deliverPendingEscalation();
+      return;
+    }
     // 2026-08-16: the card tap opens the FULL feature surface - flip it for
     // chat, reminders, the confidante, edit, call, email, map, remove.
     // 2026-08-18: edits/removals made INSIDE the surface come back on dismiss.
@@ -1973,6 +1996,10 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.lastRealCount !== null && realCount > this.lastRealCount) {
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
+      // BUILD 281: the real-card ARRIVAL is the engagement the founder named
+      // — logged (card_added), evident in the portal — the first-minute UX
+      // hands over for good.
+      void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload

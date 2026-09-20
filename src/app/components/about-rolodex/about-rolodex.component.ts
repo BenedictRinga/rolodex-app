@@ -230,13 +230,20 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       const data = await res.json();
       this.investorStats = data;
       this.statsUpdatedLabel = this.time.format(data?.generatedAt || new Date(), 'datetime');
-      // 2026-08-24 WHAT CHANGED: compare current with the snapshot from last exit.
-      // BUILD 273: on every refresh too — the header refresh icon recomputes
-      // the deltas against the same baseline, so 03/05/06 move live.
-      try {
-        const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
-        if (prev) this.applyDelta(prev);
-      } catch { /* first visit */ }
+      // 2026-09-20 BUILD 281 THE TIME CAPSULE (founder: "on a new device, an
+      // investor sees nothing, until fresh records build. Fails the usefulness
+      // test."): the SERVER carries the daily snapshot ledger — its previous-
+      // day numbers are the "what changed" baseline for ANY device, first
+      // visit included. The device-local snapshot stays only as the fallback
+      // for a brand-new backend with no ledger yet.
+      if (data?.prev) {
+        this.applyDelta(data.prev);
+      } else {
+        try {
+          const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
+          if (prev) this.applyDelta(prev);
+        } catch { /* first visit on a ledger-less backend */ }
+      }
     } catch (e: any) {
       this.statsError = e?.message || 'could not reach the live record';
     } finally {
