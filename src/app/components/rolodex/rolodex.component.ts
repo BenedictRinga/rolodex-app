@@ -833,7 +833,9 @@ export class RolodexComponent implements OnInit {
   }
 
   changeProfilePhone(): void {
-    const phone = window.prompt('Your phone number - how contacts reach you, and how the chat knows you are on Rolodex', this.profile.phone || '');
+    // 2026-09-20 BUILD 285 THE BRAND RULING (AGENTS.md: user-visible strings
+    // say LoopKeeper): the Profile phone prompt still said "on Rolodex".
+    const phone = window.prompt('Your phone number - how contacts reach you, and how the chat knows you are on LoopKeeper', this.profile.phone || '');
     if (phone == null) return;
     this.profile.phone = phone.trim().slice(0, 20) || this.profile.phone;
     this.saveProfile();
