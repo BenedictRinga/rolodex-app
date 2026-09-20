@@ -848,6 +848,7 @@
     "fm.beat4": "Il ciclo si chiude. La scheda si chiude.",
     "fm.gotit": "Chiaro — nomina la mia",
     "fm.chat": "Parla piuttosto con LoopKeeper",
-    "fm.courtesy": "🌱 Karibu — i primi cicli sono timidi. Il tuo è al sicuro qui."
+    "fm.courtesy": "🌱 Benvenuto in LoopKeeper — sconfiggere la procrastinazione, una persona, un compito alla volta.",
+    "settings.exit": "Uscita"
   }
 }

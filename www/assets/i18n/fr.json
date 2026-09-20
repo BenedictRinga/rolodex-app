@@ -848,6 +848,7 @@
     "fm.beat4": "La boucle se referme. L'onglet se ferme.",
     "fm.gotit": "Compris — nommer le mien",
     "fm.chat": "Parler à LoopKeeper plutôt",
-    "fm.courtesy": "🌱 Karibu — les premières boucles sont timides. La vôtre est en sécurité ici."
+    "fm.courtesy": "🌱 Bienvenue dans LoopKeeper — vaincre la procrastination, une personne, une tâche à la fois.",
+    "settings.exit": "Quitter"
   }
 }

@@ -40,9 +40,10 @@ export class FirstMinuteComponent {
   @Output() captured = new EventEmitter<string>();
   /** "Skip for now" — home records lk_firstminute_seen and shows today's home. */
   @Output() skipped = new EventEmitter<void>();
-  /** BUILD 276: the LoopKeeper Chat door — the Assistant, from the first
-   *  minute. Home opens the situation-mode chat over the veil. */
-  @Output() chat = new EventEmitter<void>();
+  // 2026-09-20 BUILD 277: the Chat output is PARKED (founder: untested doors
+  // complicate the obstacle hunt — "stick with exact same interface, but text
+  // only... Stay lean"). The @Output and openChat() return when the flow's
+  // obstacles are measured and the door is warranted.
 
   text = '';
   showMe = false;
@@ -67,13 +68,6 @@ export class FirstMinuteComponent {
 
   closeShowMe(): void {
     this.showMe = false;
-  }
-
-  /** BUILD 276: the Chat door — talking IS capturing; the Assistant's
-   *  situation-mode chat does the same deed in conversation. */
-  openChat(): void {
-    void this.analytics.track('firstminute_chat');
-    this.chat.emit();
   }
 
   skip(): void {

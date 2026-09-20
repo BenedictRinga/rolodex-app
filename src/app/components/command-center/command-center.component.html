@@ -233,27 +233,23 @@
       </ion-button>
     </div>
 
-    <!-- 2026-09-20 APP 276 / SERVER 97 THE LAST THREE (founder: "a specific
-         section that captures our most recent 3 users, with tap and reveal
-         granularity on what they touched, and for how long"): the three most
-         recently active devices, ANY fleet (own-fleet and tester rows are
-         tagged — this is the lens where the founder's own testing finally
-         shows), tap a row to reveal its last 40 events with timestamps,
-         pages, and session durations. Anonymous ids only. -->
-    <div class="investor-section sec-recent" *ngIf="stats?.recentUsers?.length">
+    <!-- 2026-09-20 APP 276/SERVER 97, REFINED APP 277/SERVER 98 THE LAST
+         THREE (founder: "Make the last 3 separate from testers, which we can
+         also see" + "we do no assurances of safety to users"): section 08
+         now reads TWO lists — the three most recently active ORGANIC devices
+         (not yours, not testers: real users), then the testers, also
+         tappable. Tap a row to reveal its last 40 events with timestamps,
+         pages, and session durations. The assurance sentence is gone: the
+         meters themselves are the fact. -->
+    <div class="investor-section sec-recent" *ngIf="stats?.recentUsers?.length || stats?.recentTesters?.length">
       <div class="section-head">
         <span class="section-num">08</span>
         <div class="section-title"><span class="section-kicker">Recent</span><strong>The last three doors</strong></div>
       </div>
-      <p class="investor-chart-note">The three most recently active devices — own fleet and testers tagged, so your own testing finally shows somewhere. Tap a row to reveal what they touched and how long they stayed. Anonymous ids only; nothing here knows a name.</p>
       <div class="recent-block" *ngFor="let u of stats.recentUsers">
         <button class="recent-head" type="button" (click)="toggleRecent(u.id)">
           <span class="noise-id">{{ shortId(u.id) }}</span>
-          <span class="recent-meta">
-            {{ u.total }} events · last seen {{ seenLabel(u.lastSeen) }}
-            <span *ngIf="u.ownFleet" class="recent-tag tag-own">own fleet</span>
-            <span *ngIf="u.tester" class="recent-tag tag-tester">tester</span>
-          </span>
+          <span class="recent-meta">{{ u.total }} events · last seen {{ seenLabel(u.lastSeen) }}</span>
           <ion-icon [name]="recentOpen.has(u.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
         </button>
         <div class="recent-events" *ngIf="recentOpen.has(u.id)">
@@ -266,6 +262,25 @@
           </div>
         </div>
       </div>
+      <ng-container *ngIf="stats?.recentTesters?.length">
+        <div class="recent-divider">Testers</div>
+        <div class="recent-block" *ngFor="let t of stats.recentTesters">
+          <button class="recent-head" type="button" (click)="toggleRecent(t.id)">
+            <span class="noise-id">{{ shortId(t.id) }}</span>
+            <span class="recent-meta">{{ t.total }} events · last seen {{ seenLabel(t.lastSeen) }}<span class="recent-tag tag-tester">tester</span></span>
+            <ion-icon [name]="recentOpen.has(t.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </button>
+          <div class="recent-events" *ngIf="recentOpen.has(t.id)">
+            <div class="retention-row recent-row" *ngFor="let e of t.events">
+              <span class="recent-when">{{ formatTime(e.at) }}</span>
+              <span class="recent-ev" [class.recent-session]="e.ev === 'session_end'">
+                {{ e.ev }}<span *ngIf="e.dur" class="recent-dur"> · {{ e.dur }}s</span>
+              </span>
+              <span class="recent-page">{{ e.page || '' }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="investor-section" *ngIf="!stats && !loading && !loadError">

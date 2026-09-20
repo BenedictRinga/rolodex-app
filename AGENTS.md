@@ -193,3 +193,18 @@ app is sticky, which is best gathered from first adopters." Concretely:
 - Prices ($1 Basic / $5 Assistant) remain advertised in the billing modal but
   are never enforced. Do not add paywalls, trial locks, or nudge-to-pay flows
   until the founder calls the moment.
+
+## No safety assurances (2026-09-20, founder — standing policy)
+We do NOT give users assurances of safety or privacy in copy. It is lame and
+unnecessary; even LLMs have ultimately been deceptive on this score. THE TRUE
+TEST: no one — not even an AI — can catch LoopKeeper secretly collecting data
+a user did not volunteer to LoopKeeper. We win that ambiguity by TRUE ACTION,
+not words; and the lack of incentives is the true measure of likely behavior.
+- Never ship user-facing copy that says "safe", "secure", "your data stays
+  yours", "nothing knows a name", "Anonymous ids only" or similar reassurance
+  framings. State FACTS about behavior instead (e.g., a toggle's default
+  state, what a button erases).
+- Existing offenders are removed as they are found (build 277 removed the
+  first-minute "Yours is safe here" clause and the Command Center's
+  "nothing here knows a name" note).
+- This policy rides every surface: app, portal, chat directive, server copy.

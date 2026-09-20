@@ -20,9 +20,13 @@
       </ion-button>
     </div>
     <div class="cp-empty" *ngIf="!live.length">Nothing escalated right now — the dock holds these as they fire.</div>
-    <!-- 2026-09-17 BUILD 249 THE THREE-SEAT RULE: overflow is a count, never
-         a serving — transparency without overwhelm. -->
-    <div class="cp-more" *ngIf="waiting > 0">{{ waiting }} waiting quietly</div>
+    <!-- 2026-09-20 BUILD 277 THE HORIZON RULE (founder: "we do not then turn
+         around and dump the mind with the information that 48 other
+         notifications are waiting for your attention... These three are the
+         horizon of most critical, easiest to attempt, Nirvana inviting acts.
+         Nothing else exists. Clear them and peace."): the overflow count is
+         GONE — no number, no pile, no 'more waiting'. The seats ARE the
+         horizon; nothing else exists. -->
 
     <div class="cp-group">Coming up</div>
     <div class="cp-row" *ngFor="let u of upcoming" (click)="escalateUpcoming(u)" role="button">

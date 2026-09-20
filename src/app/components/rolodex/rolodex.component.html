@@ -259,6 +259,9 @@
           <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-share')">{{ 'loopkeeper.settings.share' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-translate')">{{ 'loopkeeper.settings.translate' | translate }}</ion-chip>
+          <!-- 2026-09-20 BUILD 277 THE EXIT CHIP: DELETE is its own section —
+               'Exiting LoopKeeper' — and the map carries it like the rest. -->
+          <ion-chip (click)="scrollTo('settings-exit')">{{ 'loopkeeper.settings.exit' | translate }}</ion-chip>
         </div>
         <div class="settings-map-hint">All settings: {{ settingsMapHint() }} — tap a chip to jump.</div>
 
@@ -568,24 +571,6 @@
           </ion-button>
         </ion-item>
 
-        <!-- 2026-09-20 BUILD 276 THE CLEAN SLATE (founder: "a clear my
-             LoopKeeper data which resets the device"): total frontend wipe —
-             the anonymous id included — then reload; the device is brand new
-             to the backend (fresh id, fresh cohort, fresh trial) and the
-             first-timer screen returns. -->
-        <ion-item lines="none" class="elegant-item">
-          <ion-icon name="trash-outline" slot="start" color="danger"></ion-icon>
-          <ion-label>
-            Clear my LoopKeeper data
-            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
-              Erases everything on this device and restarts as brand new — the backend then treats this device as a first-timer.
-            </p>
-          </ion-label>
-          <ion-button slot="end" fill="outline" size="small" color="danger" (click)="confirmWipeAll()">
-            Erase
-          </ion-button>
-        </ion-item>
-
         <!-- Passphrase -->
         <ion-item lines="none" class="elegant-item">
           <ion-icon name="lock-closed-outline" slot="start" [color]="syncHasPassphrase ? 'success' : 'danger'"></ion-icon>
@@ -700,10 +685,53 @@
           <ion-button slot="end" fill="clear" (click)="onShowAbout()">Details</ion-button>
         </ion-item>
 
+        <ion-item-divider id="settings-exit">
+          <ion-icon name="log-out-outline" color="danger" style="margin-right: 8px; font-size: 16px;"></ion-icon>
+          <ion-label color="medium">Exiting LoopKeeper</ion-label>
+        </ion-item-divider>
+
+        <!-- 2026-09-20 BUILD 277 THE EXIT SECTION (founder: "DELETE is so
+             crucial it should have a separate section - 'Exiting LoopKeeper'
+             w/icon" + "no visual for data is clearing or failing... Success
+             should have the usual regrets and come back again soon"): the
+             clean slate lives here, in its OWN section — chip in the map,
+             divider with the icon, and the wipe itself carries its states:
+             an erasing veil, a farewell beat before the reload, and an honest
+             failure line with a retry. -->
+        <ion-item lines="none" class="elegant-item">
+          <ion-icon name="trash-outline" slot="start" color="danger"></ion-icon>
+          <ion-label>
+            Clear my LoopKeeper data
+            <p style="font-size: 11px; color: var(--rolodex-text-secondary);">
+              Erases everything on this device and restarts as brand new — the backend then treats this device as a first-timer.
+            </p>
+          </ion-label>
+          <ion-button slot="end" fill="outline" size="small" color="danger" (click)="confirmWipeAll()">
+            Erase
+          </ion-button>
+        </ion-item>
+
         <ion-item-divider>
           <ion-label color="medium">— End of settings —</ion-label>
         </ion-item-divider>
       </ion-list>
+
+      <!-- 2026-09-20 BUILD 277 THE WIPE STATES: erasing → farewell → reload;
+           on failure, the honest line and a retry (nothing more is lost). -->
+      <div class="wipe-veil" *ngIf="wiping">
+        <ng-container *ngIf="!wipeError && !wipeFarewell">
+          <ion-spinner name="crescent" color="danger"></ion-spinner>
+          <p class="wipe-line">Erasing your LoopKeeper…</p>
+        </ng-container>
+        <ng-container *ngIf="wipeFarewell && !wipeError">
+          <p class="wipe-farewell">LoopKeeper is cleared.<br>We're sorry to see you go — come back soon.</p>
+        </ng-container>
+        <ng-container *ngIf="wipeError">
+          <p class="wipe-err">Erasing failed — {{ wipeError }}<br>Nothing more was lost; try again.</p>
+          <ion-button fill="outline" color="danger" (click)="wipeAllAndReload()">Try again</ion-button>
+          <ion-button fill="clear" (click)="wiping = false">Cancel</ion-button>
+        </ng-container>
+      </div>
     </ng-container>
 
     <!-- 2026-09-14 BUILD 191 THE COMMAND CENTER VIEW (founder: the sessional

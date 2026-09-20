@@ -848,6 +848,7 @@
     "fm.beat4": "ループは閉じ、頭の中のタブも閉じる。",
     "fm.gotit": "わかった — 自分のを名づける",
     "fm.chat": "LoopKeeper に話しかける",
-    "fm.courtesy": "🌱 Karibu — 最初のループは照れ屋さん。あなたの分はここで安全です。"
+    "fm.courtesy": "🌱 LoopKeeperへようこそ — 先延ばしをなくす。ひとり、ひとつずつ。",
+    "settings.exit": "終了"
   }
 }

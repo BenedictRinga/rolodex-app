@@ -848,6 +848,7 @@
     "fm.beat4": "El bucle se cierra. La pestaña se cierra.",
     "fm.gotit": "Entendido — nombrar el mío",
     "fm.chat": "Hablar con LoopKeeper mejor",
-    "fm.courtesy": "🌱 Karibu — los primeros bucles son tímidos. El tuyo está a salvo aquí."
+    "fm.courtesy": "🌱 Bienvenido a LoopKeeper — venciendo la procrastinación, una persona, una tarea a la vez.",
+    "settings.exit": "Salir"
   }
 }

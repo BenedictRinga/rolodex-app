@@ -362,6 +362,16 @@ ion-content.cc-body-content {
 .tag-own { background: rgba(124, 92, 252, .16); color: #7C5CFC; }
 .tag-tester { background: rgba(63, 185, 80, .16); color: #3fb950; }
 
+/* BUILD 277: the testers sub-list caption — separate, small, factual. */
+.recent-divider {
+  margin: 10px 2px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--rolodex-text-tertiary);
+}
+
 .recent-events {
   border-top: 1px solid var(--rolodex-border-light);
   max-height: 320px;

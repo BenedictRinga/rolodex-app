@@ -468,6 +468,15 @@ export class RolodexComponent implements OnInit {
   // The reload deliberately carries NO machine-reload mark — the fresh boot
   // is a real birth and the meters should say so; the first-minute veil and
   // the fresh 7-day trial return with it.
+  // BUILD 277 THE STATES (founder: "no visual for data is clearing or
+  // failing... Success should have the usual regrets and come back again
+  // soon"): wiping (the erasing veil), wipeFarewell (the regrets-and-
+  // come-back beat before the reload), wipeError (the honest failure line +
+  // retry — nothing more is lost on a failed step).
+  wiping = false;
+  wipeFarewell = false;
+  wipeError = '';
+
   async confirmWipeAll(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Clear my LoopKeeper data?',
@@ -480,34 +489,43 @@ export class RolodexComponent implements OnInit {
     await alert.present();
   }
 
-  private async wipeAllAndReload(): Promise<void> {
-    // 1. the service worker + every cache
+  async wipeAllAndReload(): Promise<void> {
+    this.wiping = true;
+    this.wipeError = '';
+    this.wipeFarewell = false;
     try {
-      if ('serviceWorker' in navigator) {
-        const regs = await navigator.serviceWorker.getRegistrations();
-        await Promise.all(regs.map((r) => r.unregister().catch(() => { /* already gone */ })));
-      }
-      const names = await caches.keys();
-      await Promise.all(names.map((n) => caches.delete(n)));
-    } catch { /* SW-less contexts wipe fine without it */ }
-    // 2. web storage
-    try { localStorage.clear(); } catch { /* private mode */ }
-    try { sessionStorage.clear(); } catch { /* private mode */ }
-    // 3. every IndexedDB database — the 'rolodex' DB carries all app state
-    try {
-      const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };
-      const dbs = typeof anyIdx.databases === 'function' ? await anyIdx.databases() : [{ name: 'rolodex' }];
-      await Promise.all((dbs || []).map((d) => new Promise<void>((res) => {
-        try {
-          const rq = indexedDB.deleteDatabase(String(d?.name || 'rolodex'));
-          rq.onsuccess = () => res(); rq.onerror = () => res(); rq.onblocked = () => res();
-        } catch { res(); }
-      })));
-    } catch { /* best effort — the fresh boot retries nothing; state is state */ }
-    // 4. THE FRESH BIRTH: no machine-reload mark — the next boot counts.
-    await new Promise((r) => setTimeout(r, 350));
-    const sep = location.href.includes('?') ? '&' : '?';
-    window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
+      // 1. the service worker + every cache
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.unregister().catch(() => { /* already gone */ })));
+        }
+        const names = await caches.keys();
+        await Promise.all(names.map((n) => caches.delete(n)));
+      } catch { /* SW-less contexts wipe fine without it */ }
+      // 2. web storage
+      try { localStorage.clear(); } catch { /* private mode */ }
+      try { sessionStorage.clear(); } catch { /* private mode */ }
+      // 3. every IndexedDB database — the 'rolodex' DB carries all app state
+      try {
+        const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };
+        const dbs = typeof anyIdx.databases === 'function' ? await anyIdx.databases() : [{ name: 'rolodex' }];
+        await Promise.all((dbs || []).map((d) => new Promise<void>((res) => {
+          try {
+            const rq = indexedDB.deleteDatabase(String(d?.name || 'rolodex'));
+            rq.onsuccess = () => res(); rq.onerror = () => res(); rq.onblocked = () => res();
+          } catch { res(); }
+        })));
+      } catch { /* best effort — the fresh boot retries nothing; state is state */ }
+      // 4. THE FAREWELL — the usual regrets, then the fresh birth. No
+      // machine-reload mark: the next boot counts.
+      this.wipeFarewell = true;
+      await new Promise((r) => setTimeout(r, 2600));
+      const sep = location.href.includes('?') ? '&' : '?';
+      window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
+    } catch (e) {
+      this.wipeError = String((e as Error)?.message || 'unknown error').slice(0, 120);
+    }
   }
 
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a

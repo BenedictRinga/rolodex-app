@@ -848,6 +848,7 @@
     "fm.beat4": "Döngü kapanır. Aklındaki sekme kapanır.",
     "fm.gotit": "Anladım — benimkini adlandır",
     "fm.chat": "Bunun yerine LoopKeeper ile konuş",
-    "fm.courtesy": "🌱 Karibu — ilk döngüler çekingen olur. Seninki burada güvende."
+    "fm.courtesy": "🌱 LoopKeeper'e hoş geldin — ertelemeyi yeniyoruz: bir kişi, bir iş, tek tek.",
+    "settings.exit": "Çıkış"
   }
 }

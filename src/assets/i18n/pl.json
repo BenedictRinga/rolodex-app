@@ -848,6 +848,7 @@
     "fm.beat4": "Pętla zamknięta. Karta w głowie zamknięta.",
     "fm.gotit": "Jasne — nazwę swoją",
     "fm.chat": "Porozmawiaj raczej z LoopKeeper",
-    "fm.courtesy": "🌱 Karibu — pierwsze pętle są nieśmiałe. Twoja jest tu bezpieczna."
+    "fm.courtesy": "🌱 Witaj w LoopKeeper — pokonujemy prokrastynację: jedna osoba, jedno zadanie na raz.",
+    "settings.exit": "Wyjście"
   }
 }
