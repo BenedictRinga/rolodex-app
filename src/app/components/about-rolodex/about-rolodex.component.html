@@ -660,6 +660,11 @@
                 <div class="kpi-delta" *ngIf="deltaText('dau')" [ngClass]="deltaClass('dau')">{{ deltaText('dau') }}</div>
                 <div class="kpi-label">DAU</div>
                 <div class="kpi-caption">Anonymous devices active in last 24h — organic, own fleet excluded.</div>
+                <!-- BUILD 286 THE REPEAT ANSWER (founder: "Either they are
+                     repeat or they are new, is unclear."): the split, in place. -->
+                <div class="kpi-caption kpi-split" *ngIf="investorStats.analytics.dauSplit">
+                  {{ investorStats.analytics.dauSplit.new }} new · {{ investorStats.analytics.dauSplit.returning }} returning
+                </div>
               </div>
               <div class="kpi-card">
                 <div class="kpi-value">{{ investorStats.analytics.wau }}</div>

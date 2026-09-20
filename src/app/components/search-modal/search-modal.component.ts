@@ -128,6 +128,13 @@ export class SearchModalComponent {
     if (this.pickMode && this.excludeId) {
       pool = pool.filter((c) => String(c?.contactId || '') !== this.excludeId);
     }
+    // 2026-09-20 BUILD 286 THE CLEAN PICK LIST (founder: "Under Add a person,
+    // demo contact and task cards are still showing with the DEMO watermark"):
+    // an ADD or PICK flow lists REAL cards only — demo cards are for looking,
+    // never for adding.
+    if (this.addDoors || this.pickMode) {
+      pool = pool.filter((c: any) => !(c as any)?.isMockData);
+    }
     if (!q) return pool.slice(0, 20);
     return pool.filter((c) => {
       const name = String(c.name?.display || '').toLowerCase();

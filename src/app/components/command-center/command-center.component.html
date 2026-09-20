@@ -241,7 +241,7 @@
          tappable. Tap a row to reveal its last 40 events with timestamps,
          pages, and session durations. The assurance sentence is gone: the
          meters themselves are the fact. -->
-    <div class="investor-section sec-recent" *ngIf="stats?.recentUsers?.length || stats?.recentTesters?.length">
+    <div class="investor-section sec-recent" *ngIf="stats?.recentUsers?.length || stats?.recentTesters?.length || stats?.recentNewUsers?.length">
       <div class="section-head">
         <span class="section-num">08</span>
         <div class="section-title"><span class="section-kicker">Recent</span><strong>The last three doors</strong></div>
@@ -262,6 +262,29 @@
           </div>
         </div>
       </div>
+      <!-- 2026-09-20 BUILD 286 THE REFERENCE RECORD (founder: "I still do not
+           see a reference record for most recent 5 new users... Either they
+           are repeat or they are new, is unclear."): the five most recent
+           FIRST-SEEN devices, trails included — an arrival is an arrival. -->
+      <ng-container *ngIf="stats?.recentNewUsers?.length">
+        <div class="recent-divider">New faces — first seen</div>
+        <div class="recent-block" *ngFor="let n of stats.recentNewUsers">
+          <button class="recent-head" type="button" (click)="toggleRecent(n.id)">
+            <span class="noise-id">{{ shortId(n.id) }}</span>
+            <span class="recent-meta">{{ n.total }} events · first seen {{ seenLabel(n.firstSeen) }} · last seen {{ seenLabel(n.lastSeen) }}<span class="recent-tag tag-new">new</span></span>
+            <ion-icon [name]="recentOpen.has(n.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </button>
+          <div class="recent-events" *ngIf="recentOpen.has(n.id)">
+            <div class="retention-row recent-row" *ngFor="let e of n.events">
+              <span class="recent-when">{{ formatTime(e.at) }}</span>
+              <span class="recent-ev" [class.recent-session]="e.ev === 'session_end'">
+                {{ e.ev }}<span *ngIf="e.dur" class="recent-dur"> · {{ e.dur }}s</span>
+              </span>
+              <span class="recent-page">{{ e.page || '' }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
       <ng-container *ngIf="stats?.recentTesters?.length">
         <div class="recent-divider">Testers</div>
         <div class="recent-block" *ngFor="let t of stats.recentTesters">
