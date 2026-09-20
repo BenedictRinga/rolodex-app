@@ -30,6 +30,17 @@ export class StorageService {
   private hydrated = false;
   private nativePrefs = false;
 
+  /** 2026-09-20 BUILD 279b THE CLEAN SLATE'S HELPER: close the live IndexedDB
+   *  connection — the wipe's deleteDatabase is BLOCKED while this page holds
+   *  the handle open, and a blocked deletion is the stuck-erase risk. The
+   *  wipe closes first, then deletes. */
+  close(): void {
+    try { this.db?.close(); } catch { /* already closed */ }
+    this.db = null;
+    this.dbPromise = null;
+    this.hydrated = false;
+  }
+
   constructor() {
     try {
       this.nativePrefs = !!Preferences?.set && typeof (window as any)?.Capacitor?.isNativePlatform === 'function'

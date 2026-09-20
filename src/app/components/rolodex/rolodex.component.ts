@@ -494,6 +494,11 @@ export class RolodexComponent implements OnInit {
     this.wipeError = '';
     this.wipeFarewell = false;
     try {
+      // 0. THE BOOT-TIME VERIFICATION MARK (founder: "this time, we are stuck
+      // in a 7 minutes wait"): set BEFORE anything — if any deletion is
+      // blocked by a dying page's connection, the FRESH BOOT finishes the
+      // job (one capped retry) instead of leaving half a wipe behind.
+      try { localStorage.setItem('lk_wipe_pending', '0'); } catch { /* private mode */ }
       // 1. the service worker + every cache
       try {
         if ('serviceWorker' in navigator) {
@@ -503,24 +508,34 @@ export class RolodexComponent implements OnInit {
         const names = await caches.keys();
         await Promise.all(names.map((n) => caches.delete(n)));
       } catch { /* SW-less contexts wipe fine without it */ }
-      // 2. web storage
-      try { localStorage.clear(); } catch { /* private mode */ }
+      // 2. CLOSE OUR OWN IndexedDB CONNECTION FIRST — deleteDatabase is
+      // BLOCKED while this page holds the handle open; an open handle is
+      // exactly the stuck-erase risk.
+      this.storageService.close();
+      // 3. web storage (the mark is re-set after the clear — it must survive
+      // the reload so the fresh boot can verify)
       try { sessionStorage.clear(); } catch { /* private mode */ }
-      // 3. every IndexedDB database — the 'rolodex' DB carries all app state
+      try { localStorage.clear(); } catch { /* private mode */ }
+      try { localStorage.setItem('lk_wipe_pending', '0'); } catch { /* private mode */ }
+      // 4. every IndexedDB database — EACH deletion is timeout-guarded
+      // (2.5s): a blocked request can never hold the veil again; the fresh
+      // boot's verification pass finishes whatever lingers.
       try {
         const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };
         const dbs = typeof anyIdx.databases === 'function' ? await anyIdx.databases() : [{ name: 'rolodex' }];
         await Promise.all((dbs || []).map((d) => new Promise<void>((res) => {
           try {
             const rq = indexedDB.deleteDatabase(String(d?.name || 'rolodex'));
-            rq.onsuccess = () => res(); rq.onerror = () => res(); rq.onblocked = () => res();
+            const done = () => res();
+            rq.onsuccess = done; rq.onerror = done; rq.onblocked = done;
+            setTimeout(done, 2500);
           } catch { res(); }
         })));
-      } catch { /* best effort — the fresh boot retries nothing; state is state */ }
-      // 4. THE FAREWELL — the usual regrets, then the fresh birth. No
+      } catch { /* best effort — the boot-time pass is the guarantee */ }
+      // 5. THE FAREWELL — the usual regrets, then the fresh birth. No
       // machine-reload mark: the next boot counts.
       this.wipeFarewell = true;
-      await new Promise((r) => setTimeout(r, 2600));
+      await new Promise((r) => setTimeout(r, 2200));
       const sep = location.href.includes('?') ? '&' : '?';
       window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
     } catch (e) {

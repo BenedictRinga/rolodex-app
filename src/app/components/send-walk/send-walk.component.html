@@ -41,7 +41,11 @@
     <!-- The doors call the walk's OWN methods directly (278: "as normal after
          user tapped Create Task" = the in-place 257 draft; PERSON = the same
          door the empty state uses — the add sheet / device pick). -->
-    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="mine()" (demoView)="demoView.emit($event)"></app-first-minute>
+    <!-- 279b: PERSON goes through the ADD SHEET (whoRequest) — the honest
+         ladder (Contact Picker on Android, the .vcf ladder on iPhone) — NOT
+         the bare create form a picker-less device fell into before (the
+         founder's "PERSON still shows me Create Task"). -->
+    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="whoRequest.emit()" (demoView)="demoView.emit($event)"></app-first-minute>
     <ng-container *ngIf="!firstMinute">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 
@@ -80,6 +84,15 @@
         </div>
       </ng-container>
     </div>
+
+    <!-- 2026-09-20 BUILD 279b THE COMPENSATORY DETOUR (founder: "under TASKS,
+         if I chose that pathway, a compensatory detour to Open Person"): the
+         task draft never walls the person path off — one ghost, right under
+         the draft, opens the add sheet (device Contacts / the ladder). -->
+    <button *ngIf="taskDraftOn" class="sw-ghost" type="button" (click)="mine()">
+      <ion-icon name="person-add-outline" slot="start"></ion-icon>
+      {{ 'loopkeeper.walk.whoAdd' | translate }}
+    </button>
 
     <button *ngIf="who && !taskDraftOn" class="sw-card" type="button" (click)="confirmWho()">
       <!-- 2026-09-16 BUILD 225 THE COVER AS ALTERNATIVE: the emoji stands in

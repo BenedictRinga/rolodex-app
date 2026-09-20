@@ -376,6 +376,12 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const deck = (this.contacts || []).filter((c: any) => String(c?.name?.display || '').trim());
     deck.sort((a: any, b: any) => this.tsMs(b?.lastInteraction) - this.tsMs(a?.lastInteraction));
     for (const c of deck) {
+      // 2026-09-20 BUILD 279b THE ROTATION RULE (founder: "a tap of Not this
+      // one when real contacts exist cannot be rotating demo contacts. That
+      // logic is somewhere, or was regressed"): with real cards on the deck,
+      // demo cards NEVER enter the rotation — the same gate the pills loop
+      // already had, now on the deck loop where the hole lived.
+      if (realOnDeck && (c as any)?.isMockData) continue;
       if (already(c) || this.isRetired(c)) continue; // BUILD 218: retired skip
       queue.push({ contact: c, loop: this.openLoopFor(c) });
       mark(c);

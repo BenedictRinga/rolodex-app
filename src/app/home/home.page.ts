@@ -303,6 +303,9 @@ export class HomePage implements OnInit, OnDestroy {
   /** BUILD 279: the demo view is open — the lower sections (the LoopKeeper
    *  icon panel + the deck) hide so the Inbox takes the full screen. */
   firstMinuteDemo = false;
+  /** BUILD 279b: the real-card count baseline — an ARRIVAL above it flips
+   *  the demo off, persisted (the founder's demo default). */
+  private lastRealCount: number | null = null;
   /** BUILD 278: a panel door was tapped — the panel retires; the deed's
    *  contactsDirty then flips the done flag and retires the demo deck. */
   private firstMinuteTapped = false;
@@ -444,6 +447,11 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS (founder: "this time,
+    // we are stuck in a 7 minutes wait"): if a wipe left its pending mark,
+    // the fresh boot FINISHES the job — clear everything again (one capped
+    // retry) and reload — before a single byte of old state can resurrect.
+    void this.finishPendingWipe();
     // 2026-08-18 THE APP LOCK: gate the app for the authorized user.
     void this.enforceAppLock();
     // 2026-08-19 THE 7-DAY TRIAL: first use starts it on the client too (the
@@ -1925,8 +1933,48 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
+  /** 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS: the fresh boot
+   *  finishes a wipe whose deletions were blocked by a dying page — clear
+   *  everything again and reload once; attempt 2 stands down (no loops). */
+  private finishPendingWipe(): void {
+    try {
+      const attempt = Number(localStorage.getItem('lk_wipe_pending') || '0');
+      if (!attempt) return;
+      localStorage.removeItem('lk_wipe_pending');
+      if (attempt >= 2) return; // two passes is the cap — never a loop
+      try { sessionStorage.clear(); } catch { /* private mode */ }
+      try { localStorage.clear(); } catch { /* private mode */ }
+      try { localStorage.setItem('lk_wipe_pending', String(attempt + 1)); } catch { /* private mode */ }
+      try {
+        const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };
+        if (typeof anyIdx.databases === 'function') {
+          void anyIdx.databases().then((dbs) => {
+            for (const d of (dbs || [])) {
+              try { indexedDB.deleteDatabase(String(d?.name || 'rolodex')); } catch { /* fire and reload */ }
+            }
+          }).catch(() => { /* the reload carries it */ });
+        } else {
+          try { indexedDB.deleteDatabase('rolodex'); } catch { /* fire and reload */ }
+        }
+      } catch { /* the reload carries it */ }
+      const sep = location.href.includes('?') ? '&' : '?';
+      window.location.replace(`${location.href}${sep}_wipe2=${Date.now()}`);
+    } catch { try { localStorage.removeItem('lk_wipe_pending'); } catch { /* ignore */ } }
+  }
+
   onContactsChange(contacts: ContactInfo[]) {
     this.contacts = contacts;
+    // 2026-09-20 BUILD 279b THE DEMO DEFAULT (founder: "once real cards, or
+    // tasks, come on into LoopKeeper Contacts, demo contacts default to
+    // false. persisted, they stop showing, unless Settings => Demo calls for
+    // them to return showing"): a real-card ARRIVAL flips the demo off,
+    // persisted — Settings can always call it back.
+    const realCount = (contacts || []).filter((c: any) => !(c as any)?.isMockData).length;
+    if (this.lastRealCount !== null && realCount > this.lastRealCount) {
+      this.mockEnabled = false;
+      void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
+    }
+    this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
     this.rolodexSync.push(this.realContacts()); // 2026-08-16: the server home updates live
     void this.rolodexAiNudge(contacts); // 2026-08-18: the agent never sits comatose
