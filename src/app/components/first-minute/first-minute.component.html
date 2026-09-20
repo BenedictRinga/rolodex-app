@@ -1,59 +1,67 @@
-<!-- 2026-09-19 BUILD 275 THE FIRST MINUTE — the one screen a first-timer
-     meets: their own sentence, nothing else. Full-viewport overlay above the
-     regular home (which stays mounted untouched beneath — the transition is
-     a dissolve, never a rebuild). -->
-<div class="fm-veil">
+<!-- 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW — the panel lives
+     INSIDE the walk's slide 1 (send-walk) for an untouched device: title
+     above, two reduced regular cards side by side (TASK / PERSON), Show me
+     first, and the courtesy line. The ambience is the regular one; both
+     doors plug into the existing flows; nothing new is invented. -->
+<div class="fm-panel">
 
-  <div class="fm-card" *ngIf="!showMe">
-    <p class="fm-brand">LoopKeeper</p>
-    <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
-    <p class="fm-hint">{{ 'loopkeeper.fm.hint' | translate }}</p>
+  <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
 
-    <ion-textarea
-      class="fm-box"
-      [value]="text"
-      (ionInput)="onInput($event)"
-      [placeholder]="'loopkeeper.capture.placeholder' | translate"
-      auto-grow
-      rows="2"
-      fill="outline"></ion-textarea>
-
-    <ion-button expand="block" class="fm-go" [disabled]="!text.trim()" (click)="capture()">
-      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-      {{ 'loopkeeper.fm.capture' | translate }}
-    </ion-button>
-
-    <!-- 2026-09-20 BUILD 277 THE PARKED DOOR (founder: "Talk to LoopKeeper is
-         untested, why not park it first, and stick with exact same interface,
-         but text only. Let us get engagement first. Stay lean."): the Chat
-         door is REMOVED from the first-minute surface — the veil is the exact
-         same interface, text only, until the repeat-user flow's obstacles are
-         measured. The fm.chat copy key stays parked for the future. -->
-
-    <div class="fm-quiet">
-      <button class="fm-quietbtn" type="button" (click)="openShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
-      <span class="fm-dot">·</span>
-      <button class="fm-quietbtn" type="button" (click)="skip()">{{ 'loopkeeper.fm.skip' | translate }}</button>
-    </div>
-
-    <!-- BUILD 276 THE COURTESY LINE (founder: "a courtesy one-line welcome...
-         Not 80s Budapest cold, neither San Fran at its craziest"): one warm
-         line at the bottom of their first screen — brand voice, one sprout. -->
-    <p class="fm-courtesy">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
+  <!-- Section 2: two of our REGULAR cards, reduced, side by side. -->
+  <div class="fm-doors">
+    <button class="fm-door" type="button" (click)="task.emit()">
+      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
+      <span class="fm-door-label">TASK</span>
+    </button>
+    <button class="fm-door" type="button" (click)="person.emit()">
+      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
+      <span class="fm-door-label">PERSON</span>
+    </button>
   </div>
 
-  <!-- THE BEAT: the exact first-minute path, four steps, one screen. -->
-  <div class="fm-card fm-beat" *ngIf="showMe">
-    <p class="fm-brand">LoopKeeper</p>
-    <div class="fm-steps">
-      <div class="fm-step"><span class="fm-num">1</span><p>{{ 'loopkeeper.fm.beat1' | translate }}</p></div>
-      <div class="fm-step"><span class="fm-num">2</span><p>{{ 'loopkeeper.fm.beat2' | translate }}</p></div>
-      <div class="fm-step"><span class="fm-num">3</span><p>{{ 'loopkeeper.fm.beat3' | translate }}</p></div>
-      <div class="fm-step"><span class="fm-num">4</span><p>{{ 'loopkeeper.fm.beat4' | translate }}</p></div>
+  <!-- Section 4: Show me first — the four beats of the normal flow, the
+       demo words ticking into the editing spaces. -->
+  <button class="fm-showme" type="button" (click)="toggleShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
+
+  <div class="fm-demo" *ngIf="showMe">
+
+    <div class="fm-stage" [class.on]="demoBeat === 0">
+      <div class="fm-stage-head"><span class="fm-stage-num">1</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat1' | translate }}</span></div>
+      <div class="fm-cap">
+        <span class="fm-typed">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 0"></i></span>
+      </div>
     </div>
-    <ion-button expand="block" class="fm-go" (click)="closeShowMe()">
-      {{ 'loopkeeper.fm.gotit' | translate }}
-    </ion-button>
+
+    <div class="fm-stage" [class.on]="demoBeat === 1">
+      <div class="fm-stage-head"><span class="fm-stage-num">2</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat2' | translate }}</span></div>
+      <div class="fm-cardmin">
+        <span class="fm-cardmin-name">Amina</span>
+        <span class="fm-typed" *ngIf="demoBeat >= 1">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 1"></i></span>
+        <span class="fm-cardmin-line" *ngIf="demoBeat < 1">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="fm-stage" [class.on]="demoBeat === 2">
+      <div class="fm-stage-head"><span class="fm-stage-num">3</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat3' | translate }}</span></div>
+      <div class="fm-sendrow">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+        <span class="fm-typed" *ngIf="demoBeat >= 2">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 2"></i></span>
+        <span class="fm-cardmin-line" *ngIf="demoBeat < 2">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="fm-stage fm-stage-done" [class.on]="demoBeat === 3">
+      <div class="fm-stage-head"><span class="fm-stage-num">4</span><span class="fm-cap-label">{{ 'loopkeeper.fm.beat4' | translate }}</span></div>
+      <div class="fm-donerow">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <span class="fm-typed" *ngIf="demoBeat >= 3">{{ demoTyped }}<i class="fm-caret" *ngIf="demoBeat === 3"></i></span>
+        <span class="fm-cardmin-line" *ngIf="demoBeat < 3">&nbsp;</span>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Section 3: the courtesy line, at the bottom. -->
+  <p class="fm-courtesy">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
 
 </div>

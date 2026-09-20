@@ -27,6 +27,22 @@
        unmissable. -->
   <ng-container *ngIf="step === 1">
    <div class="sw-whopane">
+    <!-- 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW (founder: "The
+         first time UX must be same as that for return UX... the whole
+         ambience is exactly same as they meet if they were a second-time
+         visitor, just then the difference in communication"): the untouched
+         device's slide 1 carries the first-minute panel INSTEAD of the Who
+         card — title above, two reduced regular cards (TASK / PERSON) side
+         by side, the courtesy line, and Show me first. Both doors plug into
+         the EXISTING flows (TASK → the 257 create-task draft; PERSON → the
+         device-contacts pick); nothing new is invented. The panel VANISHES
+         the moment the deed lands (home flips firstMinute on contactsDirty)
+         and the walk is byte-for-byte the regular one. -->
+    <!-- The doors call the walk's OWN methods directly (278: "as normal after
+         user tapped Create Task" = the in-place 257 draft; PERSON = the same
+         door the empty state uses — the add sheet / device pick). -->
+    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="mine()"></app-first-minute>
+    <ng-container *ngIf="!firstMinute">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 
     <!-- 2026-09-17 BUILD 257 THE TASK COMPLEMENT: when a draft is on, the
@@ -119,6 +135,7 @@
         {{ 'loopkeeper.walk.createTask' | translate }}
       </button>
     </div>
+    </ng-container>
    </div>
   </ng-container>
 

@@ -1,131 +1,198 @@
-/* 2026-09-19 BUILD 275 THE FIRST MINUTE — a full-viewport veil over the
-   regular home (which stays mounted untouched beneath). Calm, brand-teal,
-   one box, two quiet doors. No carousel, no timer, no lecture. */
+/* 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW — the panel lives
+   INSIDE the walk's slide 1: the regular ambience, reduced regular cards,
+   the ticker demo drawn from the flow's own surfaces. No veil. */
 
-.fm-veil {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--ion-background-color, #f7f4ee);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px));
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.fm-card {
+.fm-panel {
   width: 100%;
-  max-width: 460px;
-  margin: auto;
-}
-
-.fm-brand {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--rolodex-accent, #14b8a6);
-  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 8px 0;
 }
 
 .fm-title {
-  font-size: 27px;
-  line-height: 1.22;
+  font-size: 20px;
+  line-height: 1.3;
   font-weight: 800;
   color: var(--rolodex-text, #17252a);
-  margin: 0 0 10px;
-}
-
-.fm-hint {
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--rolodex-text-secondary, #4b5563);
-  margin: 0 0 20px;
-}
-
-.fm-box {
-  margin-bottom: 14px;
-  --background: var(--rolodex-surface-alt, #fff);
-}
-
-.fm-go {
-  --background: var(--rolodex-accent, #14b8a6);
-  --border-radius: 14px;
-  font-weight: 700;
-}
-
-/* BUILD 276 THE CHAT DOOR — same weight family as the capture, quieter fill. */
-.fm-chat {
-  --border-radius: 14px;
-  --color: var(--rolodex-accent, #14b8a6);
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-/* BUILD 276 THE COURTESY LINE — one warm line, muted, never a banner. */
-.fm-courtesy {
-  margin: 22px 0 0;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--rolodex-text-secondary, #4b5563);
   text-align: center;
-  opacity: .9;
+  margin: 0 0 18px;
 }
 
-.fm-quiet {
+/* Section 2: two of our REGULAR cards, reduced, side by side — the walk's
+   .sw-card language (surface, border, dashed cover circle), smaller. */
+.fm-doors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.fm-door {
+  background: var(--rolodex-surface-alt, #fff);
+  border: 1px solid var(--rolodex-border-light, #e2e0d8);
+  border-radius: 16px;
+  padding: 16px 10px 12px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  &:active { transform: scale(.98); }
+}
+
+.fm-cover {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px dashed var(--rolodex-border, #cbd5e1);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  color: var(--rolodex-accent, #14b8a6);
+
+  ion-icon { font-size: 24px; }
 }
 
-.fm-quietbtn {
+.fm-door-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: var(--rolodex-text, #17252a);
+}
+
+/* Section 4: the door + the demo strip. */
+.fm-showme {
+  margin: 16px 0 0;
   background: none;
   border: none;
-  padding: 6px 4px;
+  padding: 4px 6px;
   font-size: 13px;
-  color: var(--rolodex-text-secondary, #4b5563);
+  color: var(--rolodex-accent, #14b8a6);
+  font-weight: 600;
   cursor: pointer;
 }
 
-.fm-dot {
-  color: var(--rolodex-border, #cbd5e1);
-}
-
-/* THE BEAT — four steps, one screen. */
-.fm-steps {
+.fm-demo {
+  width: 100%;
+  max-width: 340px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin: 4px 0 22px;
+  gap: 8px;
 }
 
-.fm-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
+/* Each stage is a mini version of the flow's own surface, dimmed until its
+   beat is the one sounding. */
+.fm-stage {
+  border: 1px solid var(--rolodex-border-light, #e2e0d8);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: var(--rolodex-surface-alt, #fff);
+  opacity: .45;
 
-  .fm-num {
+  &.on { opacity: 1; border-color: var(--rolodex-accent, #14b8a6); }
+}
+
+.fm-stage-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+
+  .fm-stage-num {
     flex: none;
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
     color: #fff;
     background: var(--rolodex-accent, #14b8a6);
   }
 
-  p {
-    margin: 2px 0 0;
-    font-size: 14.5px;
-    line-height: 1.45;
-    color: var(--rolodex-text, #17252a);
+  .fm-cap-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--rolodex-text-tertiary, #9BA1A6);
+    font-weight: 700;
   }
+}
+
+/* The editing spaces — the words tick into THESE. */
+.fm-cap,
+.fm-cardmin,
+.fm-sendrow,
+.fm-donerow {
+  background: var(--rolodex-surface, #f7f4ee);
+  border: 1px solid var(--rolodex-border-light, #e2e0d8);
+  border-radius: 9px;
+  padding: 8px 10px;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.fm-typed {
+  font-size: 12.5px;
+  color: var(--rolodex-text, #17252a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fm-caret {
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  margin-left: 2px;
+  background: var(--rolodex-accent, #14b8a6);
+  vertical-align: -2px;
+  animation: fm-caret-blink .8s step-end infinite;
+}
+
+@keyframes fm-caret-blink {
+  50% { opacity: 0; }
+}
+
+.fm-cardmin {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+
+  .fm-cardmin-name {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--rolodex-text-tertiary, #9BA1A6);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+}
+
+.fm-cardmin-line { color: var(--rolodex-border, #cbd5e1); }
+
+.fm-sendrow ion-icon { color: #25D366; font-size: 16px; flex-shrink: 0; }
+
+.fm-stage-done .fm-donerow ion-icon {
+  color: #00A344;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Section 3: the courtesy line, at the bottom. */
+.fm-courtesy {
+  margin: 16px 0 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--rolodex-text-secondary, #4b5563);
+  text-align: center;
+  opacity: .9;
 }

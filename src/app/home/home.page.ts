@@ -297,24 +297,22 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  // ═══ 2026-09-19 BUILD 275 THE FIRST MINUTE ═══════════════════════════════
-  // The founder's two design questions, answered in code:
+  // ═══ 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW ══════════════════
   // HOW WE KNOW IT IS A FIRST-TIMER — storage is the truth (266/267): the
-  // surface arms ONLY when the device holds ZERO real cards, ZERO open loops,
-  // and has never seen/skipped/done the minute (lk_firstminute_seen/done in
-  // IndexedDB). One real deed or one prior visit disarms it forever, so a
-  // returning user can never be greeted and a loaded device never sees it.
-  // THE TRANSITION, WITHOUT REGRESSION — the regular home stays MOUNTED
-  // beneath the veil; the surface is an overlay that dissolves:
-  // - at the first deed: the sentence rides the SAME inbox chain
-  //   (inboxRef.addCapture — keeper, celebrate, deck, persistence, analytics
-  //   all unchanged), lk_firstminute_done flips, the per-device demo deck
-  //   retires (rolodex_demo_enabled=false — their content now leads), and
-  //   home IS the current setup armed with their loop on slide 1;
-  // - at the skip: lk_firstminute_seen flips and home is EXACTLY today's —
-  //   walk with the demo deck, the six-slide Welcome still offered once on
-  //   open #2, Settings replay intact. Nothing current moves.
+  // flag arms ONLY when the device holds ZERO real cards and ZERO open loops
+  // (a wiped device via Exiting LoopKeeper qualifies by construction). One
+  // real deed disarms it forever; a loaded device never sees it.
+  // THE TRANSITION, WITHOUT REGRESSION — the first-minute panel lives INSIDE
+  // the walk's slide 1 (send-walk [firstMinute]); the ambience is the regular
+  // one byte-for-byte. At the first deed (contactsDirty from either the 257
+  // task draft or the device-pick card), the panel vanishes, the flag flips
+  // to done, and the per-device demo deck retires — the walk is armed with
+  // THEIR card. There is no skip door by design (the founder's "Finito").
   firstMinuteActive = false;
+  /** BUILD 278: a panel door was tapped — the panel retires; the deed's
+   *  contactsDirty then flips the done flag and retires the demo deck. */
+  private firstMinuteTapped = false;
+  private firstMinuteRetired = false;
 
   private async maybeFirstMinute(): Promise<void> {
     try {
@@ -328,29 +326,19 @@ export class HomePage implements OnInit, OnDestroy {
     } catch { /* the gate must never block the app */ }
   }
 
-  async onFirstMinuteCaptured(sentence: string): Promise<void> {
-    try { await this.inboxRef?.addCapture(sentence); } catch { /* the toast chain already spoke */ }
+  /** BUILD 278: the tap on either panel door — the panel retires and the
+   *  regular flow takes over AT THE TAP (the 257 draft card, or the add
+   *  sheet). The deed's own contactsDirty completes the flip (done flag +
+   *  demo-deck retirement) in onContactsDirty. */
+  onFirstMinuteDeed(): void {
     this.firstMinuteActive = false;
-    try {
-      await this.storageService.set('lk_firstminute_done', true);
-      // THE DEMO DECK RETIRES at the first real deed — their content leads
-      // the regular view from here on (Settings' demo toggle still works).
-      this.mockEnabled = false;
-      await this.storageService.set('rolodex_demo_enabled', false);
-    } catch { /* best effort */ }
-    this.inboxRef?.beginReveal(); // the regular view takes over, armed with THEIR loop
-  }
-
-  onFirstMinuteSkipped(): void {
-    this.firstMinuteActive = false;
+    this.firstMinuteTapped = true;
     void this.storageService.set('lk_firstminute_seen', true).catch(() => { /* best effort */ });
-    this.inboxRef?.beginReveal(); // today's home, byte for byte
   }
-  // 2026-09-20 BUILD 277: onFirstMinuteChat() is PARKED with the door — the
-  // founder ruled: untested doors complicate the obstacle hunt; the veil is
-  // text-only until the repeat-user flow's obstacles are measured. The 276
-  // implementation (situation-mode Assistant over the veil) lives in git
-  // history and returns the moment it is warranted.
+  // 2026-09-20 BUILD 278: onFirstMinuteCaptured/onFirstMinuteSkipped are
+  // RETIRED with the veil — the deed flip lives in onContactsDirty (either
+  // door's flow lands there). The parked Chat implementation lives in git
+  // history (build 276) and returns when the flow's obstacles are measured.
 
   /** 2026-08-19 THE TASTE: the welcome demo's surprise — a guided real-loop
    *  session in Chat with RolodexAI (situation mode). */
@@ -1124,6 +1112,16 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-28 BUILD 131: upgrade the flush — persist AND sync-push AND
     // nudge, via the same full path a card save takes (onContactsChange).
     this.onContactsChange(this.contacts);
+    // 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW: the deed has
+    // landed (a task draft saved, or a device-pick card created — both walk
+    // the same persist path). The done flag flips and the per-device demo
+    // deck retires with the deed (Settings' demo toggle still works).
+    if (this.firstMinuteTapped && !this.firstMinuteRetired) {
+      this.firstMinuteRetired = true;
+      void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+      this.mockEnabled = false;
+      void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
+    }
   }
 
   private async readPersistedContacts(): Promise<ContactInfo[] | null> {

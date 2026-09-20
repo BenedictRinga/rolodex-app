@@ -29,6 +29,13 @@ import { DraftEngineService } from '../../services/draft-engine/draft-engine.ser
 })
 export class SendWalkComponent implements OnInit, OnChanges {
   @Input() contacts: any[] = [];
+  // 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW: when home says this
+  // device is untouched, slide 1 carries the first-minute panel instead of
+  // the Who card — same ambience, the doors plug into the existing flows.
+  @Input() firstMinute = false;
+  /** The tap on either panel door — home retires the panel; the flow that
+   *  follows is the regular one (the 257 draft, or the add sheet). */
+  @Output() firstMinuteDeed = new EventEmitter<void>();
   @Output() shelfRequest = new EventEmitter<void>();
   @Output() loopsChanged = new EventEmitter<void>();
   @Output() contactsDirty = new EventEmitter<void>();
@@ -105,6 +112,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  in the Who slot — no modal, no taskCardRequest, no layout jump. */
   beginTaskDraft(): void {
     if (this.taskDraftOn) return;
+    // 2026-09-20 BUILD 278: from the first-minute panel, the tap IS the deed
+    // signal — home retires the panel and the 257 draft card takes the slot,
+    // "as normal after user tapped Create Task".
+    if (this.firstMinute) this.firstMinuteDeed.emit();
     this.prevWhoSnap = this.selection ? { contact: this.selection.contact, loop: this.selection.loop } : null;
     this.taskTitle = '';
     this.taskDue = '';
@@ -604,6 +615,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * card. The practice loop stays (honest storage); nothing is destroyed.
    */
   mine(): void {
+    // 2026-09-20 BUILD 278: from the first-minute panel, the PERSON tap IS
+    // the deed signal — home retires the panel and the add sheet (their own
+    // Contact Picker) takes over, exactly the empty state's door.
+    if (this.firstMinute) this.firstMinuteDeed.emit();
     this.loop = null;
     this.armedContact = null;
     this.armedHandle = '';

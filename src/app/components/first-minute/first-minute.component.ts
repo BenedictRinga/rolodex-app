@@ -1,33 +1,25 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 /**
- * 2026-09-19 BUILD 275 THE FIRST MINUTE (founder: "revisit our Welcome with a
- * view to absolutely showing exactly what a first-time user does" + the two
- * design questions: "How will you know it is a first-timer, and what is the
- * transition to the regular view so we do not regress current setup?").
+ * 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW (founder: "The first
+ * time UX must be same as that for return UX. Mostly same, everything
+ * surrounding, except for content of Loops Alpha" + the four sections:
+ * 1. the title line above; 2. two of our regular cards, reduced, side by
+ * side — TASK and PERSON; 3. the courtesy line; 4. "Show me first").
  *
- * THE DETECTION — STORAGE IS THE TRUTH (the 266/267 ruling): the surface is
- * offered ONLY when the device holds ZERO real cards AND ZERO open loops AND
- * has never seen/skipped/done the surface (lk_firstminute_seen / done in
- * IndexedDB). Any real deed or any prior visit flips the flags, so the
- * surface can never nag and can never greet a returning user.
+ * The panel renders INSIDE the walk's slide 1 (send-walk) for an untouched
+ * device — the veil is gone; the ambience is byte-for-byte the regular one.
+ * Both doors plug into the EXISTING flows and nothing new is invented:
+ * - TASK  → the walk's taskCardRequest chain (the 257 create-task draft).
+ * - PERSON → the walk's whoRequest chain (the device-contacts pick).
+ * The panel vanishes the moment the deed lands (home flips firstMinute on
+ * contactsDirty) and the walk is the regular one from then on.
  *
- * THE TRANSITION — THE REGULAR VIEW TAKES OVER AT THE FIRST DEED:
- * - Capture path: the sentence rides the SAME inbox chain (home calls
- *   inboxRef.addCapture — keeper, celebrate, deck expansion, persistence,
- *   analytics all unchanged), the flag flips to done, the per-device demo
- *   deck retires (rolodex_demo_enabled=false — their content now leads),
- *   and home renders exactly as the current setup renders, armed with THEIR
- *   loop on slide 1.
- * - Skip path: the flag flips to seen and home renders EXACTLY as today
- *   (walk with the demo deck, the six-slide Welcome still offered once on
- *   open #2, Settings replay intact). Nothing about the current setup moves.
- * - Current users (any real card, any loop) NEVER see this surface.
- *
- * THE BEAT ("show me first"): one quiet screen — you type it / the words are
- * written for you / you send from the app you already use / the loop closes —
- * the exact first-minute path, then straight back to the capture box.
+ * "SHOW ME FIRST" is the graphic: the four beats of the normal flow, drawn
+ * as the flow's own surfaces (capture box → card draft → send → closed),
+ * with the demo words TICKING into the editing spaces (the Zyppar
+ * RolodexPage pattern), looping until dismissed.
  */
 @Component({
   selector: 'app-first-minute',
@@ -35,43 +27,67 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
   styleUrls: ['./first-minute.component.scss'],
   standalone: false,
 })
-export class FirstMinuteComponent {
-  /** The user's sentence — home routes it through inboxRef.addCapture. */
-  @Output() captured = new EventEmitter<string>();
-  /** "Skip for now" — home records lk_firstminute_seen and shows today's home. */
-  @Output() skipped = new EventEmitter<void>();
-  // 2026-09-20 BUILD 277: the Chat output is PARKED (founder: untested doors
-  // complicate the obstacle hunt — "stick with exact same interface, but text
-  // only... Stay lean"). The @Output and openChat() return when the flow's
-  // obstacles are measured and the door is warranted.
+export class FirstMinuteComponent implements OnDestroy {
+  /** TASK door — the existing create-task draft flow, via the walk. */
+  @Output() task = new EventEmitter<void>();
+  /** PERSON door — the existing device-contacts pick flow, via the walk. */
+  @Output() person = new EventEmitter<void>();
 
-  text = '';
   showMe = false;
+  /** The demo beat currently animating (0..3). */
+  demoBeat = 0;
+  /** The characters typed so far into the active beat's editing space. */
+  demoTyped = '';
+
+  private demoTimer: any = null;
+  private readonly demoWords = [
+    'Reply to Amina about Saturday',
+    'Hi Amina — are we still on for Saturday, 3 pm?',
+    'Sent via WhatsApp',
+    'Closed — mind free',
+  ];
 
   constructor(private readonly analytics: AnalyticsService) {}
 
-  onInput(ev: CustomEvent): void {
-    this.text = String((ev?.detail as any)?.value ?? '').slice(0, 240);
+  toggleShowMe(): void {
+    this.showMe = !this.showMe;
+    if (this.showMe) {
+      void this.analytics.track('firstminute_showme');
+      this.startDemo();
+    } else {
+      this.stopDemo();
+    }
   }
 
-  capture(): void {
-    const sentence = this.text.trim();
-    if (!sentence) return;
-    void this.analytics.track('firstminute_captured');
-    this.captured.emit(sentence);
+  /** The ticker: types the demo words into each beat's editing space, holds,
+   *  advances — the normal flow, sounding and flowing, on a loop. */
+  private startDemo(): void {
+    this.stopDemo();
+    this.demoBeat = 0;
+    this.demoTyped = '';
+    let char = 0;
+    this.demoTimer = setInterval(() => {
+      const words = this.demoWords[this.demoBeat];
+      if (char < words.length) {
+        char += 1;
+        this.demoTyped = words.slice(0, char);
+        return;
+      }
+      // Hold the completed beat, then flow to the next one.
+      setTimeout(() => {
+        if (!this.showMe) return;
+        this.demoBeat = (this.demoBeat + 1) % this.demoWords.length;
+        char = 0;
+        this.demoTyped = '';
+      }, 1300);
+    }, 42);
   }
 
-  openShowMe(): void {
-    this.showMe = true;
-    void this.analytics.track('firstminute_showme');
+  private stopDemo(): void {
+    if (this.demoTimer) { clearInterval(this.demoTimer); this.demoTimer = null; }
   }
 
-  closeShowMe(): void {
-    this.showMe = false;
-  }
-
-  skip(): void {
-    void this.analytics.track('firstminute_skipped');
-    this.skipped.emit();
+  ngOnDestroy(): void {
+    this.stopDemo();
   }
 }

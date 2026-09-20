@@ -57,6 +57,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   // watches the deck arrive and only then allows the reveal to run.
   private contactsValue: any[] = [];
   private deckReady = false;
+  // 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW: relayed to the walk —
+  // an untouched device's slide 1 carries the first-minute panel.
+  @Input() firstMinute = false;
+  /** The panel-door tap — relayed up; home retires the panel. */
+  @Output() firstMinuteDeed = new EventEmitter<void>();
   @Input() set contacts(v: any[] | null | undefined) {
     this.contactsValue = v || [];
     if (!this.deckReady && this.contactsValue.length > 0) {

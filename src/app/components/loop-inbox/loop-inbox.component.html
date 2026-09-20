@@ -50,6 +50,8 @@
          four slides, one decision. Packed shelf behind I'm good / Smooth. -->
     <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"
       [contacts]="contacts"
+      [firstMinute]="firstMinute"
+      (firstMinuteDeed)="firstMinuteDeed.emit()"
       (shelfRequest)="setLoopsSurface('shelf')"
       (loopsChanged)="refresh()"
       (contactsDirty)="contactsDirty.emit()"

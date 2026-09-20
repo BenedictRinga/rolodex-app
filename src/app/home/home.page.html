@@ -191,7 +191,7 @@
        the matched card's rolling context; HomePage persists the deck now. -->
   <!-- 2026-08-29 BUILD 145: (expandedChange) — when a loop is open the shell
        grows to 75vh and the deck's View toolbar is told to sit up as a footer. -->
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="firstMinuteActive" (firstMinuteDeed)="onFirstMinuteDeed()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -342,11 +342,7 @@
   </ng-template>
 </ion-modal>
 
-<!-- 2026-09-19 BUILD 275 THE FIRST MINUTE: the untouched device's own capture
-     box — a fixed veil above the mounted home; the regular view takes over at
-     the first deed or the skip (the gate lives in home.page.ts, and a device
-     holding ANY real card or loop never sees it). -->
-<app-first-minute *ngIf="firstMinuteActive"
-  (captured)="onFirstMinuteCaptured($event)"
-  (skipped)="onFirstMinuteSkipped()">
-</app-first-minute>
+<!-- 2026-09-20 BUILD 278: the home-level first-minute VEIL is RETIRED — the
+     panel now lives INSIDE the walk's slide 1 ([firstMinute] on the inbox
+     above), the regular ambience byte-for-byte; the deed flip lives in
+     onContactsDirty. -->

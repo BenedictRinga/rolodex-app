@@ -38,6 +38,7 @@ import { CommandCenterComponent } from './command-center/command-center.componen
 import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.component';
 import { ManagingCardsModalComponent } from './managing-cards-modal/managing-cards-modal.component';
 import { CheckinsPanelComponent } from './checkins-panel/checkins-panel.component';
+import { FirstMinuteComponent } from './first-minute/first-minute.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { CheckinsPanelComponent } from './checkins-panel/checkins-panel.componen
     YardstickChartComponent,
     ManagingCardsModalComponent,
     CheckinsPanelComponent,
+    FirstMinuteComponent,
   ],
   imports: [
     CommonModule,
