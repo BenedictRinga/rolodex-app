@@ -1450,3 +1450,71 @@ details.inv-details {
   .lpred-ph { flex: 0 0 64px; font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase;
     color: var(--rolodex-text-secondary, #70757A); border: 1px solid rgba(128, 128, 128, .30); border-radius: 8px; padding: 4px 6px; text-align: center; }
   div { font-size: 13px; line-height: 1.6; color: var(--rolodex-text, #1E2328); } }
+
+/* 2026-09-20 BUILD 287 THE PORTAL MIRROR — the recent doors, in the page. */
+.recentp-divider {
+  margin: 10px 2px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--rolodex-text-tertiary);
+}
+
+.recentp-block { margin: 0 0 6px; }
+
+.recentp-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+
+  &:active { background: rgba(255, 255, 255, .04); }
+
+  .noise-id { font-size: 11px; font-weight: 700; }
+
+  ion-icon { margin-left: auto; color: var(--rolodex-text-tertiary); }
+}
+
+.recentp-meta {
+  font-size: 10.5px;
+  color: var(--rolodex-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.recentp-tag {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(35, 134, 54, .22);
+  color: #56d364;
+  border-radius: 999px;
+  padding: 1px 6px;
+}
+
+.recentp-events {
+  padding: 2px 10px 8px 14px;
+}
+
+.recentp-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 10.5px;
+  padding: 2px 0;
+  color: var(--rolodex-text-secondary);
+}
+
+.recentp-when { flex: none; min-width: 120px; color: var(--rolodex-text-tertiary); }
+.recentp-session { color: #3fb950; }

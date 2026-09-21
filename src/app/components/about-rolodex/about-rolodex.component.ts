@@ -201,6 +201,28 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     } catch { /* first visit */ }
   }
 
+  // ── 2026-09-20 BUILD 287 THE PORTAL MIRROR ── the recent-doors lens, in
+  // the portal body: the same helpers the Command Center uses.
+  recentOpen = new Set<string>();
+  toggleRecent(id: string): void {
+    if (this.recentOpen.has(id)) this.recentOpen.delete(id);
+    else this.recentOpen.add(id);
+  }
+  shortId(id: string): string {
+    return String(id || '').length > 22 ? `${String(id).slice(0, 14)}…${String(id).slice(-6)}` : String(id || '');
+  }
+  seenLabel(ts: any): string {
+    if (!ts) return '—';
+    const ms = new Date(ts).getTime();
+    if (!Number.isFinite(ms)) return '—';
+    const days = Math.floor((Date.now() - ms) / 86_400_000);
+    if (days <= 0) return 'today';
+    if (days === 1) return 'yesterday';
+    return `${days}d ago`;
+  }
+  formatTime(v: any): string {
+    return this.time.format(v, 'datetime') || '—';
+  }
   /** BUILD 273: one unpack — the section-01 rows AND the keyed map together. */
   private applyDelta(prev: any): void {
     const result = this.computeStatsDelta(prev, this.investorStats);

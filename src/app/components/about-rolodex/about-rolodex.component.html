@@ -853,9 +853,57 @@
           </div>
 
           <!-- 2026-09-14 BUILD 190 (founder: the portal must not get too cluttered): THE COMMAND CENTER — the operations console (Reliability · Timeline · Rooms · Translations) moved behind ONE button; the portal keeps the growth story. app_error rows ride the scalable analytics pipeline (build 190); the crash ledger keeps stacks server-side. -->
-          <div class="investor-section sec-command" id="inv-command">
+          <!-- 2026-09-20 BUILD 287 THE PORTAL MIRROR (founder, twice: "the
+               last 3 or 5 users for either claimed category still does not
+               appear anywhere"): the recent-doors record now lives IN THE
+               PORTAL BODY — the last three seen, and the five most recent
+               FIRST-SEEN devices, tap to reveal. The Command Center keeps its
+               fuller section; the portal page is no longer a hunt. -->
+          <div class="investor-section sec-recent-portal" id="inv-recent" *ngIf="investorStats.analytics?.recentUsers?.length || investorStats.analytics?.recentNewUsers?.length">
             <div class="section-head">
               <span class="section-num">07</span>
+              <div class="section-title"><span class="section-kicker">Recent</span><strong>The recent doors</strong></div>
+            </div>
+
+            <ng-container *ngIf="investorStats.analytics?.recentUsers?.length">
+              <div class="recentp-divider">Last seen</div>
+              <div class="recentp-block" *ngFor="let u of investorStats.analytics.recentUsers">
+                <button class="recentp-head" type="button" (click)="toggleRecent(u.id)">
+                  <span class="noise-id">{{ shortId(u.id) }}</span>
+                  <span class="recentp-meta">{{ u.total }} events · last seen {{ seenLabel(u.lastSeen) }}</span>
+                  <ion-icon [name]="recentOpen.has(u.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+                <div class="recentp-events" *ngIf="recentOpen.has(u.id)">
+                  <div class="recentp-row" *ngFor="let e of u.events">
+                    <span class="recentp-when">{{ formatTime(e.at) }}</span>
+                    <span class="recentp-ev" [class.recentp-session]="e.ev === 'session_end'">{{ e.ev }}<span *ngIf="e.dur"> · {{ e.dur }}s</span></span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="investorStats.analytics?.recentNewUsers?.length">
+              <div class="recentp-divider">New faces — first seen</div>
+              <div class="recentp-block" *ngFor="let n of investorStats.analytics.recentNewUsers">
+                <button class="recentp-head" type="button" (click)="toggleRecent(n.id)">
+                  <span class="noise-id">{{ shortId(n.id) }}</span>
+                  <span class="recentp-meta">{{ n.total }} events · first seen {{ seenLabel(n.firstSeen) }}<span class="recentp-tag">new</span></span>
+                  <ion-icon [name]="recentOpen.has(n.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+                <div class="recentp-events" *ngIf="recentOpen.has(n.id)">
+                  <div class="recentp-row" *ngFor="let e of n.events">
+                    <span class="recentp-when">{{ formatTime(e.at) }}</span>
+                    <span class="recentp-ev" [class.recentp-session]="e.ev === 'session_end'">{{ e.ev }}<span *ngIf="e.dur"> · {{ e.dur }}s</span></span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+
+          <div class="investor-section sec-command" id="inv-command">
+            <div class="section-head">
+              <span class="section-num">08</span>
               <div class="section-title"><span class="section-kicker">Operations</span><strong>Command Center</strong></div>
             </div>
             <p class="investor-live-note">Reliability · Timeline · Rooms · Translations — the full telemetry console, one tap away. Errors now ride the scalable analytics pipeline (app_error), with the detailed crash ledger beneath.</p>
@@ -872,7 +920,7 @@
                the full memo lives on as a collapsed historical record. -->
           <div class="investor-section sec-redesign" id="inv-redesign">
             <div class="section-head">
-              <span class="section-num">08</span>
+              <span class="section-num">09</span>
               <div class="section-title"><span class="section-kicker">Policy</span><strong>Privacy, by construction</strong></div>
             </div>
 
