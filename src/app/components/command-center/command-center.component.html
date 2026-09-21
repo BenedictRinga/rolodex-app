@@ -241,12 +241,12 @@
          tappable. Tap a row to reveal its last 40 events with timestamps,
          pages, and session durations. The assurance sentence is gone: the
          meters themselves are the fact. -->
-    <div class="investor-section sec-recent" *ngIf="stats?.recentUsers?.length || stats?.recentTesters?.length || stats?.recentNewUsers?.length">
+    <div class="investor-section sec-recent" *ngIf="stats?.analytics?.recentUsers?.length || stats?.analytics?.recentTesters?.length || stats?.analytics?.recentNewUsers?.length">
       <div class="section-head">
         <span class="section-num">08</span>
         <div class="section-title"><span class="section-kicker">Recent</span><strong>The last three doors</strong></div>
       </div>
-      <div class="recent-block" *ngFor="let u of stats.recentUsers">
+      <div class="recent-block" *ngFor="let u of stats.analytics.recentUsers">
         <button class="recent-head" type="button" (click)="toggleRecent(u.id)">
           <span class="noise-id">{{ shortId(u.id) }}</span>
           <span class="recent-meta">{{ u.total }} events · last seen {{ seenLabel(u.lastSeen) }}</span>
@@ -266,9 +266,9 @@
            see a reference record for most recent 5 new users... Either they
            are repeat or they are new, is unclear."): the five most recent
            FIRST-SEEN devices, trails included — an arrival is an arrival. -->
-      <ng-container *ngIf="stats?.recentNewUsers?.length">
+      <ng-container *ngIf="stats?.analytics?.recentNewUsers?.length">
         <div class="recent-divider">New faces — first seen</div>
-        <div class="recent-block" *ngFor="let n of stats.recentNewUsers">
+        <div class="recent-block" *ngFor="let n of stats.analytics.recentNewUsers">
           <button class="recent-head" type="button" (click)="toggleRecent(n.id)">
             <span class="noise-id">{{ shortId(n.id) }}</span>
             <span class="recent-meta">{{ n.total }} events · first seen {{ seenLabel(n.firstSeen) }} · last seen {{ seenLabel(n.lastSeen) }}<span class="recent-tag tag-new">new</span></span>
@@ -285,9 +285,9 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="stats?.recentTesters?.length">
+      <ng-container *ngIf="stats?.analytics?.recentTesters?.length">
         <div class="recent-divider">Testers</div>
-        <div class="recent-block" *ngFor="let t of stats.recentTesters">
+        <div class="recent-block" *ngFor="let t of stats.analytics.recentTesters">
           <button class="recent-head" type="button" (click)="toggleRecent(t.id)">
             <span class="noise-id">{{ shortId(t.id) }}</span>
             <span class="recent-meta">{{ t.total }} events · last seen {{ seenLabel(t.lastSeen) }}<span class="recent-tag tag-tester">tester</span></span>
