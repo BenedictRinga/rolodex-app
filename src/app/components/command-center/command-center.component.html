@@ -215,7 +215,7 @@
         <span class="section-num">07</span>
         <div class="section-title"><span class="section-kicker">Noise list</span><strong>Catch the devices — yours and the testers'</strong></div>
       </div>
-      <p class="investor-chart-note">Every organic device the analytics stream saw in 30 days — anything already in LK_NOISE_DEVICES is excluded, so the list verifies itself: apply the env line and these rows disappear. Tester rows carry their numeric code (the app tags every tester event with it). Tick the devices that are yours or your testers', copy the line, paste it into /opt/rolodex-server/.env, then run: pm2 restart rolodex-server --update-env</p>
+      <p class="investor-chart-note">Every organic device the analytics stream saw in 30 days — anything already in LK_NOISE_DEVICES is excluded, so the list verifies itself: tick and WRITE, and these rows disappear. Tester rows carry their numeric code (the app tags every tester event with it). The write lands in the server's own .env — no copy, no paste, no restart.</p>
       <div class="noise-rows">
         <label class="noise-row" *ngFor="let d of stats.analytics.knownDevices">
           <input type="checkbox" [checked]="noiseSelected.has(d.id)" (change)="toggleNoise(d.id)">
@@ -227,10 +227,15 @@
           </span>
         </label>
       </div>
-      <ion-button size="small" fill="outline" class="noise-copy" [disabled]="!noiseSelected.size" (click)="copyNoiseEnv()">
-        <ion-icon slot="start" name="copy-outline"></ion-icon>
-        {{ noiseCopied ? 'Copied — paste into .env' : 'Copy LK_NOISE_DEVICES for ' + noiseSelected.size + ' device(s)' }}
+      <!-- 2026-09-20 BUILD 290 THE WRITE COMMAND (founder: "why must I copy
+           and paste it to .env when a command should do it. Write it into the
+           .env."): one tap — the server writes its own .env; no copy, no
+           paste, no restart. -->
+      <ion-button size="small" fill="outline" class="noise-copy" [disabled]="!noiseSelected.size || noiseWriting" (click)="writeNoiseEnv()">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        {{ noiseWriting ? 'Writing…' : 'Write ' + noiseSelected.size + ' device(s) into .env' }}
       </ion-button>
+      <p class="investor-chart-note noise-written" *ngIf="noiseWritten">{{ noiseWritten }}</p>
     </div>
 
     <!-- 2026-09-20 APP 276/SERVER 97, REFINED APP 277/SERVER 98 THE LAST

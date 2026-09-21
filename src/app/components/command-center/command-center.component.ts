@@ -56,32 +56,56 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     return String(id || '').length > 22 ? `${String(id).slice(0, 14)}…${String(id).slice(-6)}` : String(id || '');
   }
 
-  seenLabel(ts: number | null): string {
+  seenLabel(ts: any): string {
+    // 2026-09-20 BUILD 290 THE NaN FIX (founder: "last seen NaNd ago"): the
+    // server sends ISO STRINGS — string minus number is NaN. Parse first.
     if (!ts) return '—';
-    const days = Math.floor((Date.now() - ts) / 86_400_000);
+    const ms = new Date(ts).getTime();
+    if (!Number.isFinite(ms)) return '—';
+    const days = Math.floor((Date.now() - ms) / 86_400_000);
     if (days <= 0) return 'today';
     if (days === 1) return 'yesterday';
     return `${days}d ago`;
   }
 
-  async copyNoiseEnv(): Promise<void> {
-    const ids = [...this.noiseSelected].join(',');
-    if (!ids) return;
-    const line = `LK_NOISE_DEVICES=${ids}`;
+  // 2026-09-20 BUILD 290 THE WRITE COMMAND (founder: "why must I copy and
+  // paste it to .env when a command should do it. Write it into the .env."):
+  // one tap — the server registers the devices in its noise file AND writes
+  // the .env line itself; the meters exclude immediately, no restart. The
+  // admin key is asked once and held for the session.
+  noiseWriting = false;
+  noiseWritten = '';
+  private noiseAdminKey: string | null = null;
+
+  async writeNoiseEnv(): Promise<void> {
+    const ids = [...this.noiseSelected];
+    if (!ids.length || this.noiseWriting) return;
+    if (!this.noiseAdminKey) {
+      const key = window.prompt('Admin key (TESTER_ADMIN_KEY) — asked once this session', '');
+      if (!key) return;
+      this.noiseAdminKey = key;
+    }
+    this.noiseWriting = true;
     try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(line);
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/ownfleet/noise`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: this.noiseAdminKey, deviceIds: ids }),
+      });
+      if (res && res.ok) {
+        this.noiseWritten = `${ids.length} device(s) written to the server's .env — excluded immediately`;
+      } else if (res && res.status === 401) {
+        this.noiseAdminKey = null;
+        this.noiseWritten = 'Key rejected — try again';
       } else {
-        const ta = document.createElement('textarea');
-        ta.value = line;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
+        this.noiseWritten = 'The write did not land — try again';
       }
-      this.noiseCopied = true;
-      setTimeout(() => { this.noiseCopied = false; }, 2600);
-    } catch { /* clipboard unavailable — the ids are selectable in the rows */ }
+    } catch {
+      this.noiseWritten = 'Offline — the write needs a connection';
+    } finally {
+      this.noiseWriting = false;
+      setTimeout(() => { this.noiseWritten = ''; }, 4200);
+    }
   }
 
   constructor(
