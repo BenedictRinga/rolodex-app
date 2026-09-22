@@ -864,44 +864,49 @@ No pressure either way — replying here connects you directly.`;
     const d = this.daysSitting(l);
 
     const P: Record<LoopKind, Record<LoopTone, string>> = {
+      // 2026-09-22 BUILD 304 THE TWO LINES (the brief's move 4: 'Default to
+      // two lines they could send in a grimace... sendable without editing.
+      // Long, polished letters are how loops stay open'): every SHORT draft
+      // is now COMPLETE — two plain lines, no trailing empty body, no
+      // [placeholders] — sendable as-is, a little rough on purpose.
       'owed-reply': {
-        short: `Hi ${f} — sorry for the slow reply on “${topic}”. ${why ? why + ' ' : 'No good excuse — I kept meaning to get back to you.'}Here's where I've landed:\n\n`,
+        short: `Hi ${f} — sorry for the slow reply on “${topic}”. ${why ? 'Still here because ' + l.whySitting + ' — on it now.' : 'No good excuse — I’m on it now.'}`,
         honest: `Hi ${f} — the honest version: I put off answering “${topic}” because ${l.whySitting || 'doing it properly felt heavy'}. That was on me. Doing it now:\n\n`,
         light: `Hey ${f}! Your “${topic}” message got buried under my life — dug it out. 😄\n\n`,
         formal: `Dear ${l.person},\n\nThank you for your patience regarding ${topic}. I apologise for the delayed response.\n\n`,
       },
       'check-in': {
-        short: `Hi ${f} — ${l.pretext || 'crossed my mind today'}. How have you been?\n\n`,
+        short: `Hi ${f} — ${l.pretext || 'crossed my mind today'}. How have you been?`,
         honest: `Hi ${f} — it's been about ${d} days and I didn't want the silence to become a year. ${l.pretext ? l.pretext[0].toUpperCase() + l.pretext.slice(1) + '.' : ''} How are things?\n\n`,
         light: `Hey ${f}! 👋 ${l.pretext ? l.pretext[0].toUpperCase() + l.pretext.slice(1) : 'Random thought'} — how's life treating you?\n\n`,
         formal: `Dear ${l.person},\n\nI hope this finds you well. It has been some time since we last spoke, and I wanted to reconnect.\n\n`,
       },
       'promise': {
-        short: `Hi ${f} — following through on what I said: ${l.promise || topic}. Here it is:\n\n`,
+        short: `Hi ${f} — following through on what I said: ${l.promise || topic}. Here it is, as promised.`,
         honest: `Hi ${f} — I said I'd ${l.promise || 'send this'}, and it's late. Here it is, finally:\n\n`,
         light: `Hey ${f}! Remember ${l.promise || topic}? It exists! 😅\n\n`,
         formal: `Dear ${l.person},\n\nFurther to our conversation, please find the promised ${topic} below.\n\n`,
       },
       'favor': {
-        short: `Hi ${f} — small favour to ask about ${topic}. Totally fine to say no.\n\n`,
+        short: `Hi ${f} — small favour to ask about ${topic}. Totally fine to say no.`,
         honest: `Hi ${f} — I need a hand with ${topic}, and you're the person I trust with it. No pressure either way.\n\n`,
         light: `Hey ${f}! Need a tiny hero moment re: ${topic} 🙏 Say no freely.\n\n`,
         formal: `Dear ${l.person},\n\nI am writing to ask a small favour concerning ${topic}. Please feel free to decline.\n\n`,
       },
       'intro': {
-        short: `Hi ${f} — I promised an intro.${l.secondPerson ? ` Meet ${l.secondPerson}: ` : ' '}[one line on why they're great]. Making the connection because it should happen.\n\n`,
+        short: `Hi ${f} — the intro I promised: ${l.secondPerson || 'a good connection'}. Connecting you two today.`,
         honest: `Hi ${f} — the intro I owe you (${l.secondPerson || 'the connection'}) slipped. Fixing that now: [one line on each of you].\n\n`,
         light: `Hey ${f}! You + ${l.secondPerson || "someone you'll love"} need to know each other. 🤝\n\n`,
         formal: `Dear ${l.person},${l.secondPerson ? `\n\nAllow me to introduce ${l.secondPerson}. ` : '\n\n'}[Context for the introduction.]\n\n`,
       },
       'social': {
-        short: `Hi ${f} — ${l.summary || 'thinking of you today'}. It mattered.\n\n`,
+        short: `Hi ${f} — ${l.summary || 'thinking of you today'}. It mattered.`,
         honest: `Hi ${f} — I won't pretend perfect words exist. ${l.summary || 'I am here, thinking of you.'}\n\n`,
         light: `Hey ${f}! ${l.summary || 'Congratulations!!'} 🎉 Well deserved.\n\n`,
         formal: `Dear ${l.person},\n\n${l.summary || 'Please accept my heartfelt congratulations.'}\n\n`,
       },
       'meeting': {
-        short: `Hi ${f} — good speaking today. Recap: ${topic}. My next step: [x]. Yours: [y]?\n\n`,
+        short: `Hi ${f} — good speaking today about ${topic}. I'll come back with my step, and I'd love yours.`,
         honest: `Hi ${f} — straight recap of today: ${topic}. To keep momentum: [decide x].\n\n`,
         light: `Hey ${f}! Great session 👍 Quick recap + next steps below.\n\n`,
         formal: `Dear ${l.person},\n\nThank you for your time today. Summarising ${topic} and agreed next steps below.\n\n`,
@@ -913,56 +918,56 @@ No pressure either way — replying here connects you directly.`;
         formal: `Dear ${l.person},\n\nWarm wishes on your birthday.\n\nKind regards,\n`,
       },
       'coffee': {
-        short: `Hi ${f} — we keep saying coffee, so let's kill the maybe: does [day] work? I'll book it.`,
+        short: `Hi ${f} — we keep saying coffee. Name a day this week and I'll book it.`,
         honest: `Hi ${f} — “let's grab coffee” has been pending too long. Proposing a real date: [day/time]?\n\n`,
         light: `Hey ${f}! Coffee debt collection ☕ — name a day, I'm there.\n\n`,
         formal: `Dear ${l.person},\n\nMight you have time for coffee in the coming weeks? I would value catching up.\n\n`,
       },
       // ── 2026-09-08 BUILD 181 THE SECRETARY SPREAD — task-shaped drafts ──
       'send': {
-        short: `Hi ${f} — here's the thing I owe: ${topic}.\n\n`,
+        short: `Hi ${f} — here's the thing I owe: ${topic}.`,
         honest: `Hi ${f} — you asked for ${topic}, and it's late. Here it is:\n\n`,
         light: `Hey ${f}! ${topic} — delivered! 📦\n\n`,
         formal: `Dear ${l.person},\n\nPlease find enclosed the promised ${topic}.\n\n`,
       },
       'book': {
-        short: `Hi ${f} — let's get ${topic} on the calendar: does [day] work?\n\n`,
+        short: `Hi ${f} — let's get ${topic} on the calendar. Name a day and it's booked.`,
         honest: `Hi ${f} — ${topic} keeps sliding because nobody proposes a date. Proposing now: [day/time]?\n\n`,
         light: `Hey ${f}! Booking ${topic} before it escapes us again 📅 — [day]?\n\n`,
         formal: `Dear ${l.person},\n\nCould we schedule ${topic} in the coming week? Kindly share a convenient time.\n\n`,
       },
       'pay': {
-        short: `Hi ${f} — sending the payment for ${topic} today.\n\n`,
+        short: `Hi ${f} — sending the payment for ${topic} today.`,
         honest: `Hi ${f} — the payment for ${topic} is late, and that's on me. Sending it now:\n\n`,
         light: `Hey ${f}! Paying up for ${topic} 💸 — it's on the way.\n\n`,
         formal: `Dear ${l.person},\n\nKindly note that the payment for ${topic} is being settled today.\n\n`,
       },
       'chase': {
-        short: `Hi ${f} — gently checking on ${topic}. Any movement?\n\n`,
+        short: `Hi ${f} — gently checking on ${topic}. Any movement?`,
         honest: `Hi ${f} — I don't want to nag, but ${topic} matters to me. Where do things stand?\n\n`,
         light: `Hey ${f}! Nudging ${topic} along 🐝 — any news?\n\n`,
         formal: `Dear ${l.person},\n\nI am writing to follow up on ${topic}. An update would be appreciated when convenient.\n\n`,
       },
       'renew': {
-        short: `Hi ${f} — ${topic} is up for renewal. Sorting it before it lapses.\n\n`,
+        short: `Hi ${f} — ${topic} is up for renewal. Sorting it before it lapses.`,
         honest: `Hi ${f} — ${topic} nearly lapsed on my watch. Renewing it today:\n\n`,
         light: `Renewal alarm for ${topic} ⏰ — handling it now.\n\n`,
         formal: `Dear ${l.person},\n\nI am arranging the renewal of ${topic} ahead of its expiry.\n\n`,
       },
       'decide': {
-        short: `${f !== 'there' ? `Hi ${f} — ` : ''}about ${topic}: I've been sitting on it. Deciding by [day].\n\n`,
+        short: `${f !== 'there' ? `Hi ${f} — ` : ''}about ${topic}: I've been sitting on it. Deciding this week.`,
         honest: `${f !== 'there' ? `Hi ${f} — ` : ''}${topic} — I keep not deciding, and silence is itself a decision. Choosing by [day]:\n\n`,
         light: `Decision time on ${topic} 🎲 — picking [day] and sticking to it.\n\n`,
         formal: `Note to self: reach a decision on ${topic} by the agreed date, then act on it without further delay.\n\n`,
       },
       'show-up': {
-        short: `Hi ${f} — confirming I'll be at ${topic}. See you there.\n\n`,
+        short: `Hi ${f} — confirming I'll be at ${topic}. See you there.`,
         honest: `Hi ${f} — I almost let ${topic} pass without confirming. I'll be there:\n\n`,
         light: `Hey ${f}! ${topic} — count me in 🙌\n\n`,
         formal: `Dear ${l.person},\n\nI am writing to confirm my attendance at ${topic}.\n\n`,
       },
       'someday': {
-        short: `Someday note: ${topic}. Not forgotten — just parked.\n\n`,
+        short: `Someday note: ${topic}. Not forgotten — just parked.`,
         honest: `${topic} keeps waiting for “one day”. Writing it down so it stops weighing:\n\n`,
         light: `Parked for someday: ${topic} 🌱 It will keep.\n\n`,
         formal: `For the record: ${topic} remains on the someday list, to be taken up when time allows.\n\n`,
