@@ -190,7 +190,12 @@
     <button class="sw-primary" type="button" (click)="toTap()">
       {{ 'loopkeeper.walk.wordsSend' | translate }}
     </button>
-    <div class="sw-tones">
+    <!-- 2026-09-22 BUILD 303 NINETY SECONDS, THEN THE BUTTONS (the brief's
+         move 4: 'Let me change it can exist. It must not be the main door.
+         Ninety seconds, then the buttons'): the tones / polish / edit doors
+         stay OUT OF SIGHT for the first ninety seconds — the grimace send
+         first; they arrive after. The edit is a ghost, not the main door. -->
+    <div class="sw-tones" *ngIf="sideDoorsOpen">
       <button class="sw-tone" type="button" (click)="setTone('short')" [disabled]="polishing">{{ 'loopkeeper.walk.toneShort' | translate }}</button>
       <span class="sw-dot">·</span>
       <button class="sw-tone" type="button" (click)="setTone('light')" [disabled]="polishing">{{ 'loopkeeper.walk.toneLight' | translate }}</button>
@@ -201,7 +206,7 @@
         {{ polishing ? ('loopkeeper.walk.polishStay' | translate) : ('loopkeeper.walk.wordsRetry' | translate) }}
       </button>
     </div>
-    <button *ngIf="!editingWords" class="sw-ghost sw-change" type="button" (click)="startEdit()">
+    <button *ngIf="sideDoorsOpen && !editingWords" class="sw-ghost sw-change" type="button" (click)="startEdit()">
       {{ 'loopkeeper.walk.wordsEdit' | translate }}
     </button>
   </ng-container>

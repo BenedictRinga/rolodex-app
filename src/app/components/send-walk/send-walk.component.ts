@@ -1010,9 +1010,35 @@ export class SendWalkComponent implements OnInit, OnChanges {
   private enterWords(chimed: boolean): void {
     this.editingWords = false;
     this.moreOpen = false;
+    // 2026-09-22 BUILD 303 NINETY SECONDS, THEN THE BUTTONS (the brief's
+    // move 4: 'Let me change it can exist. It must not be the main door.
+    // Ninety seconds, then the buttons'): the words slide opens with ONLY
+    // the draft and the send door; the tones / edit / polish doors stay out
+    // of sight for the first ninety seconds — the grimace send first.
+    this.wordsShownAt = Date.now();
+    this.sideDoorsOpen = false;
+    this.armSideDoors();
     this.go(3);
     if (chimed) void this.sounds.playLoopCapture();
     setTimeout(() => void this.sounds.playLoopReady(), chimed ? 420 : 0);
+  }
+
+  // ── 2026-09-22 BUILD 303: THE NINETY-SECOND GATE ───────────────────────────
+  /** When the words slide opened (epoch ms). */
+  wordsShownAt = 0;
+  /** The tones / edit / polish doors: hidden until ninety seconds have passed. */
+  sideDoorsOpen = false;
+  private sideDoorsTimer: any = null;
+
+  /** The timer only REVEALS a UI row — it never drives state, never closes
+   *  anything; disarmed the moment the walk leaves the words slide. */
+  private armSideDoors(): void {
+    this.disarmSideDoors();
+    this.sideDoorsTimer = setTimeout(() => { this.sideDoorsOpen = true; }, 90000);
+  }
+
+  private disarmSideDoors(): void {
+    if (this.sideDoorsTimer) { clearTimeout(this.sideDoorsTimer); this.sideDoorsTimer = null; }
   }
 
   // ── Slide 3 · THE WORDS ────────────────────────────────────────────────────
@@ -1072,6 +1098,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const l = this.sel(); if (!l) return;
     this.editBuffer = l.draft;
     this.editingWords = true;
+    // 2026-09-22 BUILD 303 (the brief's move 4): the edit is the trap —
+    // 'editing is procrastination with a keyboard' — so it is MEASURED:
+    // edit_opened {surface:'walk'} + the draft length, numeric.
+    void this.analytics.track('edit_opened', { surface: 'walk', len: (l.draft || '').length });
     // BUILD 251: the cursor lands IN the dialog — "Let me change it" means the
     // keyboard waits at the words, caret at the end of the draft, ready.
     setTimeout(() => {
@@ -1113,6 +1143,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
   backFromWords(): void {
     // BUILD 250 ALPHA: back from the words is always the card — the chips
     // phase is retired from Alpha (the machinery stays for Beta).
+    // 303: leaving the words disarms the ninety-second reveal.
+    this.disarmSideDoors();
+    this.sideDoorsOpen = false;
     this.backToWho();
   }
 
@@ -1158,7 +1191,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
     const l = this.sel(); if (!l || this.busy) return;
     // BUILD 275 CORRIDOR LIGHT: the send hand-off opens — the funnel station
     // between the draft and the deed (message_sent). Paired with send_exit.
-    void this.analytics.track('send_opened', { channel, surface: 'walk' });
+    // 303: the draft length rides as a numeric prop (the brief's move 4 —
+    // 'long, polished letters are how loops stay open' is now measurable).
+    void this.analytics.track('send_opened', { channel, surface: 'walk', len: (l.draft || '').length });
     this.busy = true;
     try {
       if (channel === 'email') {

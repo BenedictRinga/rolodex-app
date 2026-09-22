@@ -38,6 +38,7 @@
   </button>
 
   <ng-container *ngIf="legacyOpen">
+    <div #legacyBlock>
     <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
     <div class="fm-doors fm-doors-sub">
       <button class="fm-door" type="button" (click)="task.emit()">
@@ -108,6 +109,7 @@
     <button class="fm-return" type="button" (click)="toggleShowMe()">Return</button>
 
   </div>
+    </div>
   </ng-container>
 
   <!-- Section 3: the courtesy line, at the bottom. -->
