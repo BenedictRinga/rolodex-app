@@ -581,6 +581,7 @@
             <button class="index-chip" (click)="scrollToSection('inv-presence')">Presence</button>
             <button class="index-chip" (click)="scrollToSection('inv-retention')">Retention</button>
             <button class="index-chip" (click)="scrollToSection('inv-activation')">Activation</button>
+            <button class="index-chip" (click)="scrollToSection('inv-growth')">Growth</button>
             <button class="index-chip" (click)="scrollToSection('inv-events')">Events</button>
             <!-- 2026-09-14 BUILD 190: Rooms/Translations/Timeline/Reliability moved into the Command Center — the chip opens it. -->
             <button class="index-chip index-chip-command" (click)="commandCenterOpen = true">Command Center</button>
@@ -842,9 +843,27 @@
             <p class="investor-chart-note">Devices = all-time distinct organic devices that ever fired the milestone. "Started their first loop" (build 205) leads: the very first loop of any kind - a self-loop needs no contacts and no permissions - is the deed that proves a landing became a user. "Started their list" (build 159) fires once ever per device, at the first real person's card — device pick, manual entry, accepted invite, or confirming someone in the Loops walk. "Captured a loop" fires every time the Send Walk or a capture box turns words into an open loop. "Talked to the Assistant" fires every Confidante send — the home chat tab and the modal.</p>
           </div>
 
-          <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
+          <!-- 2026-09-22 BUILD 306 THE GROWTH LOOP METER (the strategic brief's
+               move 6: 'The message itself is the only growth loop — meter =
+               message_sent per device per 14 days'): the ONE number the
+               product lives or dies by, served by the summary's growthLoop. -->
+          <div class="investor-section sec-growth" id="inv-growth" *ngIf="investorStats.analytics?.growthLoop">
             <div class="section-head">
               <span class="section-num">06</span>
+              <div class="section-title"><span class="section-kicker">The one meter</span><strong>The growth loop</strong></div>
+            </div>
+            <div class="retention-table">
+              <div class="retention-row retention-head"><span>message_sent · trailing 14 days</span><span>Organic</span></div>
+              <div class="retention-row"><span>Devices that sent at least one message</span><span>{{ investorStats.analytics.growthLoop.senders || 0 }}</span></div>
+              <div class="retention-row"><span>Messages sent</span><span>{{ investorStats.analytics.growthLoop.messages || 0 }}</span></div>
+              <div class="retention-row"><span>Average per sending device</span><span>{{ investorStats.analytics.growthLoop.avgPerSendingDevice || 0 }}</span></div>
+            </div>
+            <p class="investor-chart-note">The one meter the product lives or dies by: real messages sent (message_sent) per device over the trailing 14 days, organic devices only — the copy path's receipt ("did it leave?") counts the same deed the send paths count. No console or tester fleet devices inflate it. No other growth metric is asked to carry the company.</p>
+          </div>
+
+          <div class="investor-section sec-events" id="inv-events" *ngIf="investorStats.analytics?.topEvents?.length">
+            <div class="section-head">
+              <span class="section-num">07</span>
               <div class="section-title"><span class="section-kicker">{{ 'loopkeeper.about.behaviorKicker' | translate }}</span><strong>{{ 'loopkeeper.about.eventsStrong' | translate }}</strong></div>
             </div>
             <div class="retention-table">
@@ -867,7 +886,7 @@
                fuller section; the portal page is no longer a hunt. -->
           <div class="investor-section sec-recent-portal" id="inv-recent" *ngIf="investorStats.analytics?.recentUsers?.length || investorStats.analytics?.recentNewUsers?.length">
             <div class="section-head">
-              <span class="section-num">07</span>
+              <span class="section-num">08</span>
               <div class="section-title"><span class="section-kicker">Recent</span><strong>The recent doors</strong></div>
             </div>
 
@@ -909,7 +928,7 @@
 
           <div class="investor-section sec-command" id="inv-command">
             <div class="section-head">
-              <span class="section-num">08</span>
+              <span class="section-num">09</span>
               <div class="section-title"><span class="section-kicker">Operations</span><strong>Command Center</strong></div>
             </div>
             <p class="investor-live-note">Reliability · Timeline · Rooms · Translations — the full telemetry console, one tap away. Errors now ride the scalable analytics pipeline (app_error), with the detailed crash ledger beneath.</p>
@@ -926,7 +945,7 @@
                the full memo lives on as a collapsed historical record. -->
           <div class="investor-section sec-redesign" id="inv-redesign">
             <div class="section-head">
-              <span class="section-num">09</span>
+              <span class="section-num">10</span>
               <div class="section-title"><span class="section-kicker">Policy</span><strong>Privacy, by construction</strong></div>
             </div>
 
