@@ -36,6 +36,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
   /** The tap on either panel door — home retires the panel; the flow that
    *  follows is the regular one (the 257 draft, or the add sheet). */
   @Output() firstMinuteDeed = new EventEmitter<void>();
+  /** 2026-09-22 BUILD 295 THE GATE HELD (founder: 'State must remain same
+   *  always, even if page reloads, until first-time user takes action on
+   *  that... That is the fundamental entry fee. They must do something at
+   *  that first gate - the cover'): the AVOIDANCE door tap IS the
+   *  engagement — home PERSISTS the gate-passed state so no reload and no
+   *  later visit can resurrect the cover. The per-visit retirement
+   *  (firstMinuteDeed) stays for the demoted TASK/PERSON taps only. */
+  @Output() firstMinuteEntry = new EventEmitter<void>();
   /** BUILD 279: the demo view opened/closed inside the panel — relayed up so
    *  home can hide the lower sections and give the Inbox the full screen. */
   @Output() demoView = new EventEmitter<boolean>();
@@ -909,6 +917,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
   avoidDoor(kind: 'owed-reply' | 'decide'): void {
     if (this.busy) return;
     if (this.firstMinute) this.firstMinuteDeed.emit();
+    // 2026-09-22 BUILD 295 THE GATE HELD: the avoidance tap IS the entry fee —
+    // home persists the gate-passed state; no reload resurrects the cover.
+    if (this.firstMinute) this.firstMinuteEntry.emit();
     this.avoidKind = kind;
     if (kind === 'owed-reply') {
       this.whoRequest.emit();

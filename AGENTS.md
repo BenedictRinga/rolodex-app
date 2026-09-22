@@ -241,8 +241,31 @@ no-budget constraint) and the brief I judged the next thread's plans against.
   helps an admitted avoider send the awkward thing in their own words, it
   is in; if it widens the tray, it is out.
 
+## THE FIRST GATE (2026-09-22, builds 294/295, founder — standing law)
+The first-minute cover (the two avoidance doors) is THE GATE. Founder ruling:
+"State must remain same always, even if page reloads, until first-time user
+takes action on that... It must register on our logs that action was taken.
+That is the fundamental entry fee. They must do something at that first gate
+- the cover."
+- The cover persists — same state, every visit, every reload — until the
+  user TAPS an avoidance door ('The reply I owe' / 'The decision I keep not
+  making'). That tap IS the engagement; it supersedes build 281's
+  per-visit rule FOR THE AVOIDANCE DOORS ONLY.
+- The tap PERSISTS the gate-passed state (`lk_firstminute_done`, set by
+  home.onFirstMinuteEntry via the walk's firstMinuteEntry chain) — no
+  reload and no later visit resurrects the cover. The action is logged at
+  the tap (`firstminute_avoid {kind}`) — that is the registration.
+- The demoted TASK/PERSON taps keep build 281's per-visit retirement —
+  they sit below the fold; they are not the gate.
+- Never regress this: the gate is not a tour, it is a toll. Paying it is
+  doing something at the cover.
+
 **Shipped state at handover:** app 293 (first-minute in-flow + benefit
 show, every-visit-until-engaged, ten-doors lens, wipe verified, probes),
 server 107 pending deploy (polish-alpha path fix — ./deploy.sh ONLY, see
 the server AGENTS.md deploy policy), onboarding stress probes committed
 (scripts/stress-onboarding.cjs, burst-onboarding.cjs).
+UPDATE 2026-09-22: app 294+295 THE AVOIDANCE COVER + THE GATE HELD (above),
+server 107 verified live by probe; server 108 committed (directive —
+THE AVOIDANCE COVER bullet), founder deployed 294 with the gate-reset
+error that 295 fixes.

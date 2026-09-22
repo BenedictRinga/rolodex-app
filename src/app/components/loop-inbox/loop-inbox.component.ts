@@ -62,6 +62,9 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() firstMinute = false;
   /** The panel-door tap — relayed up; home retires the panel. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
+  /** 2026-09-22 BUILD 295 THE GATE HELD: the AVOIDANCE door tap — relayed up;
+   *  home PERSISTS the gate-passed state (the entry fee, founder ruling). */
+  @Output() firstMinuteEntry = new EventEmitter<void>();
   /** BUILD 279: Close demo on a demo loop — home flips to the regular home. */
   @Output() exitDemo = new EventEmitter<void>();
   /** BUILD 279: the demo view is open — home hides the lower sections so the

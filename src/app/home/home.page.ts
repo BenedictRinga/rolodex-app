@@ -339,6 +339,23 @@ export class HomePage implements OnInit, OnDestroy {
     this.firstMinuteTapped = true;
   }
 
+  /** 2026-09-22 BUILD 295 THE GATE HELD (founder: 'State must remain same
+   *  always, even if page reloads, until first-time user takes action on
+   *  that... It must register on our logs that action was taken. That is
+   *  the fundamental entry fee. They must do something at that first gate
+   *  - the cover'): the AVOIDANCE door tap IS the engagement — the entry
+   *  fee, already logged at the tap (firstminute_avoid {kind}). The
+   *  gate-passed state PERSISTS here (lk_firstminute_done, the same flag
+   *  the real-deed paths set), so no reload and no later visit can
+   *  resurrect the cover. The 281 per-visit retirement stays for the
+   *  demoted TASK/PERSON taps only — those are below the fold, not the
+   *  gate. */
+  onFirstMinuteEntry(): void {
+    this.firstMinuteActive = false;
+    this.firstMinuteTapped = true;
+    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+  }
+
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
    *  screen (regular now)"): the demo deck retires and the regular home —
    *  empty or real, never demo — is what they see. */
