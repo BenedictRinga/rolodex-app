@@ -249,7 +249,7 @@
     <div class="investor-section sec-recent" *ngIf="stats?.analytics?.recentUsers?.length || stats?.analytics?.recentTesters?.length || stats?.analytics?.recentNewUsers?.length">
       <div class="section-head">
         <span class="section-num">08</span>
-        <div class="section-title"><span class="section-kicker">Recent</span><strong>The last three doors</strong></div>
+        <div class="section-title"><span class="section-kicker">Recent</span><strong>The last ten doors</strong></div>
       </div>
       <div class="recent-block" *ngFor="let u of stats.analytics.recentUsers">
         <button class="recent-head" type="button" (click)="toggleRecent(u.id)">
