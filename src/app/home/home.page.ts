@@ -314,60 +314,60 @@ export class HomePage implements OnInit, OnDestroy {
    *  contactsDirty then flips the done flag and retires the demo deck. */
   private firstMinuteTapped = false;
   private firstMinuteRetired = false;
-
-  // ── 2026-09-22 BUILD 307 THE OUTER RING ────────────────────────────────────
-  /** The two-door cover is the STANDING FRONT DOOR: it arms on every boot,
-   *  for every device, and nothing retires it (no flag, no card, no send).
-   *  A door tap lifts it for the flow (ringAside=true — onFirstMinuteDeed);
-   *  the 297 return paths re-form it (onRingReturn). While the ring stands
-   *  (ringUp), the deck and the other surfaces stay behind it. */
-  ringAside = false;
-  get ringUp(): boolean { return this.firstMinuteActive && !this.ringAside; }
+  /** 2026-09-22 BUILD 308 THE TWO PHASES (founder, restating the settled
+   *  laws after 307's sweeping drift): the first-timer UX has TWO phases.
+   *  PHASE RING — the two avoidance doors, sealed, on EVERY visit until the
+   *  user taps one AND continues (no matter how often they come back).
+   *  PHASE PANEL — the original first view (the welcome title, TASK ||
+   *  PERSON, Show me first) INTACT, reached only when the ring has been
+   *  surmounted. The flags as agreed: lk_cover_engaged (the ring
+   *  surmounted — tap and continue), lk_firstminute_done (the panel's deed
+   *  done — the regular walk). The 297 return nullifies a bare tap — the
+   *  user is back at the ring as if never past the gate. */
+  fmPhase: 'ring' | 'panel' = 'ring';
 
   private async maybeFirstMinute(): Promise<void> {
     try {
-      // 2026-09-22 BUILD 307 THE OUTER RING (founder, restating Move 1:
-      // 'gated all interaction with the app, so that user is forever a
-      // guest at the outer ring until they tap one'): the two-door cover
-      // is the STANDING FRONT DOOR — it arms on EVERY boot, for EVERY
-      // device, and NO flag and NO card ever retires it. The 296/297
-      // first-timer law is superseded: there is no engaged state to
-      // persist — lk_cover_engaged / lk_firstminute_done are retired and
-      // nothing reads them. A door tap lifts the ring for the flow
-      // (ringAside); the 297 return-to-cover law re-forms it on every
-      // return. The ring is the only first view.
+      // BUILD 308 THE TWO PHASES: the first-timer UX arms on every visit
+      // until the panel's deed is done (the 281 law); the PHASE follows the
+      // settled flags — the ring until it is surmounted (lk_cover_engaged),
+      // then the original panel. A device with real cards is past both.
+      if (this.realContacts().length > 0) return;
+      const done = await this.storageService.get<boolean>('lk_firstminute_done');
+      if (done) return;
+      this.fmPhase = (await this.storageService.get<boolean>('lk_cover_engaged')) ? 'panel' : 'ring';
       this.firstMinuteActive = true;
-      this.ringAside = false;
-      void this.analytics.track('firstminute_shown');
+      void this.analytics.track('firstminute_shown', { phase: this.fmPhase });
     } catch { /* the gate must never block the app */ }
   }
 
-  /** 2026-09-22 BUILD 307: a door tap LIFTS the ring for the flow — the
-   *  walk steps the panel aside; the 297 return paths (nextOne / backToWho /
-   *  cancelTaskDraft) re-form it. */
+  /** BUILD 278/281: a tap on the PANEL phase's doors retires the panel for
+   *  THIS VISIT only — the next visit greets with the panel again until a
+   *  real deed lands (lk_firstminute_done). */
   onFirstMinuteDeed(): void {
-    this.ringAside = true;
+    this.firstMinuteActive = false;
+    this.firstMinuteTapped = true;
   }
 
-  /** 2026-09-22 BUILD 307: the 297 return — the ring re-forms. */
-  onRingReturn(): void {
-    this.ringAside = false;
+  /** 2026-09-22 BUILD 295 THE GATE HELD (restored): a real send persists the
+   *  engagement — the ring is surmounted and the panel's deed is done; no
+   *  reload resurrects either phase. */
+  onFirstMinuteEntry(): void {
+    this.firstMinuteActive = false;
+    this.firstMinuteTapped = true;
+    void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
+    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
   }
-
-  /** 2026-09-22 BUILD 307: a REAL SEND does not retire the ring — the
-   *  receipt's Next one returns to slide 1 and the ring re-forms (the user
-   *  walks to the next avoidance). The lk_cover_engaged /
-   *  lk_firstminute_done writes are retired — nothing reads them any more. */
-  onFirstMinuteEntry(): void { }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
    *  screen (regular now)"): the demo deck retires and the regular home —
    *  empty or real, never demo — is what they see. */
-    onExitDemo(): void {
-    // BUILD 281 + 307: Close demo returns to the RING (the standing front
-    // door), not the regular home; the demo deck flip stays.
+  onExitDemo(): void {
+    // BUILD 281: Close demo retires the DEMO DECK (the regular home for this
+    // visit) but is NOT engagement — the next visit still greets, until a
+    // real card lands (the founder's every-visit rule).
+    this.firstMinuteActive = false;
     this.firstMinuteDemo = false;
-    this.ringAside = false;
     this.firstMinuteTapped = true;
     this.mockEnabled = false;
     void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
@@ -560,7 +560,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.ringAside = true; this.openLoopsSurface(); } // 307: the morning knock lifts the ring
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -694,7 +694,6 @@ export class HomePage implements OnInit, OnDestroy {
    *  resolved contact + loop OBJECT — data end to end, no re-resolution. */
   private deliverPendingEscalation(): void {
     if (!this.pendingEscalation || !this.inboxRef) return;
-    this.ringAside = true; // 307: the nudge's own call lifts the ring — the loop is armed
     const { contact, loop } = this.pendingEscalation;
     this.pendingEscalation = null;
     this.inboxRef.armEscalation(contact, loop);
@@ -2030,11 +2029,15 @@ export class HomePage implements OnInit, OnDestroy {
     // persisted — Settings can always call it back.
     const realCount = (contacts || []).filter((c: any) => !(c as any)?.isMockData).length;
     if (this.lastRealCount !== null && realCount > this.lastRealCount) {
-      // BUILD 281: the real-card ARRIVAL flips the demo off — persisted —
-      // Settings can always call it back. BUILD 307: the arrival closes NO
-      // gate — the ring is the standing front door (nothing retires it).
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
+      // 2026-09-22 BUILD 308 THE TWO PHASES: the arrival SURMOUNTS the ring
+      // (tap and continue — the settled law) — the flag flips, the phase
+      // becomes the original panel, and the armed card shows now (278).
+      this.firstMinuteActive = false;
+      this.firstMinuteTapped = true;
+      this.fmPhase = 'panel';
+      void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload

@@ -60,13 +60,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   // 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW: relayed to the walk —
   // an untouched device's slide 1 carries the first-minute panel.
   @Input() firstMinute = false;
-  /** 2026-09-22 BUILD 307 THE OUTER RING: relayed to the walk — while the
-   *  ring stands (firstMinute && !ringAside) the deck and the other
-   *  surfaces stay behind it; a door tap lifts it for the flow. */
-  @Input() ringAside = false;
-  /** 2026-09-22 BUILD 307: the 297 return — relayed up; home re-forms the
-   *  ring (the deck goes back behind it). */
-  @Output() ringReturn = new EventEmitter<void>();
+  /** 2026-09-22 BUILD 308 THE TWO PHASES: relayed to the walk — PHASE RING
+   *  (the two avoidance doors, sealed on every visit until tap-and-continue)
+   *  then PHASE PANEL (the original first view, intact, after the ring is
+   *  surmounted). */
+  @Input() fmPhase: 'ring' | 'panel' = 'ring';
   /** The panel-door tap — relayed up; home retires the panel. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
   /** 2026-09-22 BUILD 295 THE GATE HELD: the AVOIDANCE door tap — relayed up;

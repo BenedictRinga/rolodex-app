@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 /**
@@ -49,22 +49,17 @@ export class FirstMinuteComponent implements OnDestroy {
    *  so the Inbox takes the full screen while the animation plays. */
   @Output() demoView = new EventEmitter<boolean>();
 
-  showMe = false;
-  /** 2026-09-22 BUILD 301 THE OBVIOUS DOOR: the legacy TASK / PERSON doors
-   *  hide behind the "Or start with" button until the user asks for them. */
-  legacyOpen = false;
+  /** 2026-09-22 BUILD 308 THE TWO PHASES (founder, restating the settled
+   *  laws): PHASE RING — the two avoidance doors ONLY, sealed, side by side
+   *  in the middle of the canvas, on every visit until the ring is
+   *  surmounted (tap and continue). PHASE PANEL — the ORIGINAL first view
+   *  (the welcome title, TASK || PERSON, Show me first, the demo) INTACT,
+   *  reached only when the ring has been surmounted. The 301/302/303
+   *  "Or start with" collapse is retired. */
+  @Input() phase: 'ring' | 'panel' = 'ring';
 
-  toggleLegacy(): void {
-    this.legacyOpen = !this.legacyOpen;
-    void this.analytics.track('fm_legacy', { open: this.legacyOpen ? 1 : 0 });
-    // 2026-09-22 BUILD 303 (founder): the reveal also SCROLLS DOWN, bringing
-    // TASK || PERSON & co. fully into the viewport. A short delay lets the
-    // *ngIf render first; the scroll is gentle (nearest) — a UI courtesy,
-    // never a state driver.
-    if (this.legacyOpen) {
-      setTimeout(() => this.legacyBlock?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
-    }
-  }
+  showMe = false;
+
   /** The demo beat currently animating (0..3). */
   demoBeat = 0;
   /** The characters typed so far into the active beat's editing space. */
@@ -75,10 +70,6 @@ export class FirstMinuteComponent implements OnDestroy {
   private demoTimer: any = null;
   /** BUILD 279: the demo strip — scrolled into view when Show me first opens. */
   @ViewChild('demoEl') demoEl?: ElementRef<HTMLDivElement>;
-  /** 2026-09-22 BUILD 303: the revealed "Or start with" section — scrolled
-   *  into view after it opens, so TASK || PERSON & co. land fully visible
-   *  (the founder's scroll-down ask). */
-  @ViewChild('legacyBlock') legacyBlock?: ElementRef<HTMLDivElement>;
   // 2026-09-20 BUILD 284 THE BENEFIT SHOW (founder: the old beats "say, You
   // type it, and, the words are written for you — Hilarious. Nothing gained.
   // That is no demo of benefit"): the four beats now show what the ALGO and

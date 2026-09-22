@@ -13,47 +13,48 @@
        4. One tap sends it; it closes    (WhatsApp + the closed check). -->
 <div class="fm-panel">
 
-  <!-- 2026-09-22 BUILD 302 THE COVER, WHOLE (founder: "'Name the first...'
-       and 'Show me first' should be equally out of sight behind the
-       'Or start with'"): the panel's face is EXACTLY three things - the two
-       named avoidances, the "Or start with" button, the courtesy line.
-       Everything else (the welcome title, the legacy TASK / PERSON doors,
-       Show me first + the demo) lives BEHIND the button until tapped. -->
+  <!-- 2026-09-22 BUILD 308 THE TWO PHASES (founder, restating the settled
+       laws: 'Only two doors for first-timers, an outer ring that
+       stylistically not far from colors and themes that lie beyond, but sit
+       side by side in middle of canvas' + 'Our old Inbox Loops TASK ||
+       PERSON was to remain intact, a phase only reached when outer ring had
+       been surmounted'). PHASE RING: the two named avoidances ONLY, side by
+       side, sealed on every visit until tap-and-continue. PHASE PANEL (after
+       surmounting): the ORIGINAL first view intact — the welcome title,
+       TASK || PERSON, Show me first + the demo, the courtesy. -->
+
+  <ng-container *ngIf="phase === 'ring'">
+    <div class="fm-doors">
+      <button class="fm-door" type="button" (click)="avoidDoor('owed-reply')">
+        <span class="fm-cover"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
+        <span class="fm-door-label">{{ 'loopkeeper.fm.avoidReply' | translate }}</span>
+      </button>
+      <button class="fm-door" type="button" (click)="avoidDoor('decide')">
+        <span class="fm-cover"><ion-icon name="git-branch-outline"></ion-icon></span>
+        <span class="fm-door-label">{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
+      </button>
+    </div>
+    <p class="fm-courtesy">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
+  </ng-container>
+
+  <ng-container *ngIf="phase === 'panel'">
+
+  <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
+
   <div class="fm-doors">
-    <button class="fm-door" type="button" (click)="avoidDoor('owed-reply')">
-      <span class="fm-cover"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.avoidReply' | translate }}</span>
+    <button class="fm-door" type="button" (click)="task.emit()">
+      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
     </button>
-    <button class="fm-door" type="button" (click)="avoidDoor('decide')">
-      <span class="fm-cover"><ion-icon name="git-branch-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
+    <button class="fm-door" type="button" (click)="person.emit()">
+      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
     </button>
   </div>
 
-  <!-- "Or start with" — the obvious button; what it reveals: the welcome
-       title, the TASK / PERSON doors, Show me first + the demo. -->
-  <button class="fm-orbtn" type="button" (click)="toggleLegacy()">
-    <span>{{ 'loopkeeper.fm.orlabel' | translate }}</span>
-    <ion-icon [name]="legacyOpen ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
-  </button>
-
-  <ng-container *ngIf="legacyOpen">
-    <div #legacyBlock>
-    <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
-    <div class="fm-doors fm-doors-sub">
-      <button class="fm-door" type="button" (click)="task.emit()">
-        <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
-        <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
-      </button>
-      <button class="fm-door" type="button" (click)="person.emit()">
-        <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
-        <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
-      </button>
-    </div>
-
-    <!-- Section 4: Show me first — the four beats of the normal flow, the
-         demo words ticking into the editing spaces. -->
-    <button class="fm-showme" type="button" (click)="toggleShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
+  <!-- Section 4: Show me first — the four beats of the normal flow, the
+       demo words ticking into the editing spaces. -->
+  <button class="fm-showme" type="button" (click)="toggleShowMe()">{{ 'loopkeeper.fm.showme' | translate }}</button>
 
   <div class="fm-demo" #demoEl *ngIf="showMe">
 
@@ -109,7 +110,6 @@
     <button class="fm-return" type="button" (click)="toggleShowMe()">Return</button>
 
   </div>
-    </div>
   </ng-container>
 
   <!-- Section 3: the courtesy line, at the bottom. -->
