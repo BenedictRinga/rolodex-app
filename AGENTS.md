@@ -208,3 +208,41 @@ not words; and the lack of incentives is the true measure of likely behavior.
   first-minute "Yours is safe here" clause and the Command Center's
   "nothing here knows a name" note).
 - This policy rides every surface: app, portal, chat directive, server copy.
+
+## NOTE TO SELF (2026-09-22) — continuity into the next phase
+**The strategic brief for everything from here: `D:\TODOs\USE_NOW.txt`.**
+Read it before drawing ANY refinement plan. It is the Grok differentiation
+audit the founder commissioned (Muse / Instinct / Fo / Ollie vs LoopKeeper,
+no-budget constraint) and the brief I judged the next thread's plans against.
+
+**First impressions, on record:**
+- Its spine is right and the meters already said so: 294 devices but D1≈0
+  and message_sent in single digits while the tray grew — builds 156→293
+  widened the secretary (16 loop kinds, console, admin keys) more than they
+  moved one avoided message out of one stranger's phone. The stress test
+  can prove the doors work; it cannot prove the product works.
+- The one open seat it names is real and ours: the avoider sending the
+  shame-loaded message in THEIR OWN words. The engine already holds the
+  pieces it prizes — dropWithDignity, suggestWhySitting, ownWords (253) —
+  but they live in the engine, not on the face of the product.
+- The hard truths I accept: "You press Send is not a moat" (the WhatsApp
+  handover is the quit point); 16 kinds is the secretary spread; the walk
+  still invites polish (editing is procrastination with a keyboard); the
+  9am digest is a list; RISING_NUDGE_DAYS is a shame machine. The founder
+  already banned streaks — the wake gets the same rule.
+- The six moves (USE_NOW.txt §"Six moves, all of them free"): one real
+  avoidance as the first session; copy is not a close (ask "did it leave?");
+  whySitting ON the card face, one-tap correctable, draft changes with the
+  answer; two-line default draft, edit demoted; one-loop digest + quiet
+  return; the message itself is the growth loop. Everything else (mail
+  reading, calls, payments, more kinds, more locales) is out of scope —
+  their capital advantage or a different company.
+- Judge every plan in the next thread against its score table: if a move
+  helps an admitted avoider send the awkward thing in their own words, it
+  is in; if it widens the tray, it is out.
+
+**Shipped state at handover:** app 293 (first-minute in-flow + benefit
+show, every-visit-until-engaged, ten-doors lens, wipe verified, probes),
+server 107 pending deploy (polish-alpha path fix — ./deploy.sh ONLY, see
+the server AGENTS.md deploy policy), onboarding stress probes committed
+(scripts/stress-onboarding.cjs, burst-onboarding.cjs).
