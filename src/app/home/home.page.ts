@@ -316,13 +316,22 @@ export class HomePage implements OnInit, OnDestroy {
       // 2026-09-20 BUILD 281 EVERY VISIT UNTIL ENGAGED (founder: "Until user
       // has actively engaged with the app, loggable and evident in Investor
       // portal and CommandCenter logs, let us continue showing them just that
-      // first timer UX on every visit. This is crucial."): the old seen flag
-      // RETIRES — a door tap is not engagement. The panel arms EVERY visit
-      // until the done flag (set only by a real card's arrival).
-      if (await this.storageService.get<boolean>('lk_firstminute_done')) return;
+      // first timer UX on every visit. This is crucial.").
+      // 2026-09-22 BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but
+      // cover is still being skipped even though I did not respond to it at
+      // first deployment. I suspect you have mistaen the policy'): TWO leaks
+      // closed the gate without the user acting AT the cover — (1) the old
+      // openLoops check read loops.all(), the ENTIRE loop ledger (open AND
+      // closed AND parked), so any loop history on the device — an abandoned
+      // decide-door test tap, a demo continue-loop, anything — skipped the
+      // cover forever; (2) the gate read lk_firstminute_done, a flag with
+      // three writers. THE LAW (AGENTS.md THE FIRST GATE): the gate answers
+      // ONLY to the user's own action — the avoidance door tap (the entry
+      // fee, logged firstminute_avoid) or a real card's arrival. The gate now
+      // reads the DEDICATED flag lk_cover_engaged and NOTHING else; loop
+      // history can never close the gate again.
+      if (await this.storageService.get<boolean>('lk_cover_engaged')) return;
       if (this.realContacts().length > 0) return; // any real card = not a first-timer
-      const openLoops = await this.loops.all();
-      if (openLoops.length > 0) return;           // any open loop = not a first-timer
       this.firstMinuteActive = true;
       void this.analytics.track('firstminute_shown');
     } catch { /* the gate must never block the app */ }
@@ -339,20 +348,18 @@ export class HomePage implements OnInit, OnDestroy {
     this.firstMinuteTapped = true;
   }
 
-  /** 2026-09-22 BUILD 295 THE GATE HELD (founder: 'State must remain same
-   *  always, even if page reloads, until first-time user takes action on
-   *  that... It must register on our logs that action was taken. That is
-   *  the fundamental entry fee. They must do something at that first gate
-   *  - the cover'): the AVOIDANCE door tap IS the engagement — the entry
-   *  fee, already logged at the tap (firstminute_avoid {kind}). The
-   *  gate-passed state PERSISTS here (lk_firstminute_done, the same flag
-   *  the real-deed paths set), so no reload and no later visit can
-   *  resurrect the cover. The 281 per-visit retirement stays for the
-   *  demoted TASK/PERSON taps only — those are below the fold, not the
-   *  gate. */
+  /** 2026-09-22 BUILD 295 THE GATE HELD + BUILD 296 UNPOLLUTED (founder):
+   *  the AVOIDANCE door tap IS the engagement — the entry fee, logged at the
+   *  tap (firstminute_avoid {kind}). The gate-passed state PERSISTS here so
+   *  no reload and no later visit can resurrect the cover. 296: the gate
+   *  reads the DEDICATED flag lk_cover_engaged — the ONLY flag it answers
+   *  to for the cover action (lk_firstminute_done rides along for its other
+   *  duties). The demoted TASK/PERSON taps keep the 281 per-visit
+   *  retirement — those are below the fold, not the gate. */
   onFirstMinuteEntry(): void {
     this.firstMinuteActive = false;
     this.firstMinuteTapped = true;
+    void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
     void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
   }
 
@@ -1157,6 +1164,9 @@ export class HomePage implements OnInit, OnDestroy {
     // deck retires with the deed (Settings' demo toggle still works).
     if (this.firstMinuteTapped && !this.firstMinuteRetired) {
       this.firstMinuteRetired = true;
+      // BUILD 296: the completed deed ALSO closes the gate — the dedicated
+      // flag (the user acted at the cover, then finished what it named).
+      void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
       void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
@@ -2028,7 +2038,8 @@ export class HomePage implements OnInit, OnDestroy {
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
       // BUILD 281: the real-card ARRIVAL is the engagement the founder named
       // — logged (card_added), evident in the portal — the first-minute UX
-      // hands over for good.
+      // hands over for good. BUILD 296: the dedicated gate flag rides with it.
+      void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
       void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
     }
     this.lastRealCount = realCount;

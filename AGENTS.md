@@ -251,10 +251,20 @@ That is the fundamental entry fee. They must do something at that first gate
   user TAPS an avoidance door ('The reply I owe' / 'The decision I keep not
   making'). That tap IS the engagement; it supersedes build 281's
   per-visit rule FOR THE AVOIDANCE DOORS ONLY.
-- The tap PERSISTS the gate-passed state (`lk_firstminute_done`, set by
-  home.onFirstMinuteEntry via the walk's firstMinuteEntry chain) — no
-  reload and no later visit resurrects the cover. The action is logged at
-  the tap (`firstminute_avoid {kind}`) — that is the registration.
+- The tap PERSISTS the gate-passed state in the DEDICATED flag
+  (`lk_cover_engaged`, build 296 — the gate answers to NOTHING else; set by
+  home.onFirstMinuteEntry via the walk's firstMinuteEntry chain, and by the
+  completed-deed and real-card-arrival paths) — no reload and no later
+  visit resurrects the cover. The action is logged at the tap
+  (`firstminute_avoid {kind}`) — that is the registration.
+- BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but cover is still
+  being skipped even though I did not respond to it at first deployment'):
+  the gate MUST NEVER read loop state — the old `loops.all().length > 0`
+  check counted the ENTIRE loop ledger (open AND closed AND parked), so any
+  loop history skipped the cover without the user acting. Nor may it read
+  any multi-writer flag (`lk_firstminute_done` had three writers). The
+  gate's ONLY closers: the avoidance door tap, the completed deed after it,
+  a real card's arrival. Loop history never closes the gate.
 - The demoted TASK/PERSON taps keep build 281's per-visit retirement —
   they sit below the fold; they are not the gate.
 - Never regress this: the gate is not a tour, it is a toll. Paying it is
@@ -268,4 +278,7 @@ the server AGENTS.md deploy policy), onboarding stress probes committed
 UPDATE 2026-09-22: app 294+295 THE AVOIDANCE COVER + THE GATE HELD (above),
 server 107 verified live by probe; server 108 committed (directive —
 THE AVOIDANCE COVER bullet), founder deployed 294 with the gate-reset
-error that 295 fixes.
+error that 295 fixes. UPDATE: founder deployed 295 and the cover was STILL
+skipped with no user action — 296 THE GATE, UNPOLLUTED: the gate reads only
+lk_cover_engaged (the user's own action) + zero real cards; the
+loops.all()-ledger suppressor is retired.
