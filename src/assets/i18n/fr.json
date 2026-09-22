@@ -859,6 +859,9 @@
     "walk.left": "Oui — c’est parti",
     "walk.notYet": "Pas encore",
     "walk.notYetTitle": "C’est en attente",
-    "walk.notYetSub": "La boucle reste ouverte. LoopKeeper la ramène à 9 h."
+    "walk.notYetSub": "La boucle reste ouverte. LoopKeeper la ramène à 9 h.",
+    "sunny.title": "C’est posé.",
+    "sunny.sub": "La journée t’appartient encore. Ça attendra.",
+    "sunny.return": "Touche pour revenir — quand tu veux."
   }
 }

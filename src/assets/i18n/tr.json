@@ -859,6 +859,9 @@
     "walk.left": "Evet — gitti",
     "walk.notYet": "Henüz değil",
     "walk.notYetTitle": "Bekliyor",
-    "walk.notYetSub": "Döngü açık kalır. LoopKeeper 9’da geri getirir."
+    "walk.notYetSub": "Döngü açık kalır. LoopKeeper 9’da geri getirir.",
+    "sunny.title": "Bıraktın.",
+    "sunny.sub": "Gün hâlâ senin. Bekleyecek.",
+    "sunny.return": "Dönmek için dokun — hazır olduğunda."
   }
 }

@@ -859,6 +859,9 @@
     "walk.left": "Eh — ta fita",
     "walk.notYet": "Ba yanzu ba",
     "walk.notYetTitle": "Tana jira",
-    "walk.notYetSub": "Madauwarsa tana buɗe. LoopKeeper za ta dawo da ita da 9."
+    "walk.notYetSub": "Madauwarsa tana buɗe. LoopKeeper za ta dawo da ita da 9.",
+    "sunny.title": "Ka sauke shi.",
+    "sunny.sub": "Rana har tana naka. Zata jira.",
+    "sunny.return": "Danna don komawa — sa’ad da ka shirya."
   }
 }

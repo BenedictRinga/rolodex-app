@@ -859,6 +859,9 @@
     "walk.left": "כן — זה יצא",
     "walk.notYet": "עוד לא",
     "walk.notYetTitle": "זה ממתין",
-    "walk.notYetSub": "הלולאה נשארת פתוחה. LoopKeeper מחזיר אותה ב-9."
+    "walk.notYetSub": "הלולאה נשארת פתוחה. LoopKeeper מחזיר אותה ב-9.",
+    "sunny.title": "שמת את זה בצד.",
+    "sunny.sub": "היום עדיין שלך. זה ימתין.",
+    "sunny.return": "הקש כדי לחזור — מתי שתרצה."
   }
 }

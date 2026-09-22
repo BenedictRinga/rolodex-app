@@ -859,6 +859,9 @@
     "walk.left": "Ndiyo — imeondoka",
     "walk.notYet": "Bado",
     "walk.notYetTitle": "Inasubiri",
-    "walk.notYetSub": "Loop bado iko wazi. LoopKeeper linalerudisha saa 9 asubuhi."
+    "walk.notYetSub": "Loop bado iko wazi. LoopKeeper linalerudisha saa 9 asubuhi.",
+    "sunny.title": "Umelishusha.",
+    "sunny.sub": "Siku bado ni yako. Itasubiri.",
+    "sunny.return": "Bofya kurudi — ukiwa tayari."
   }
 }

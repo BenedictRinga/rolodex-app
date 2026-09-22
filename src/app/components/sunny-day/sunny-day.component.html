@@ -1,0 +1,24 @@
+<!-- 2026-09-22 BUILD 299 THE SUNNY DAY - the quiet after the drop.
+     No tray, no list, no timer. The armed logo at the base is the only
+     way back - the user's own act. -->
+<div class="sd-sky">
+  <div class="sd-sun" aria-hidden="true"></div>
+  <div class="sd-cloud sd-c1" aria-hidden="true"></div>
+  <div class="sd-cloud sd-c2" aria-hidden="true"></div>
+  <div class="sd-cloud sd-c3" aria-hidden="true"></div>
+
+  <div class="sd-copy">
+    <div class="sd-title">{{ 'loopkeeper.sunny.title' | translate }}</div>
+    <div class="sd-what" *ngIf="what">{{ what }}</div>
+    <div class="sd-sub">{{ 'loopkeeper.sunny.sub' | translate }}</div>
+  </div>
+
+  <div class="sd-ground" aria-hidden="true"></div>
+
+  <button class="sd-logo" type="button" (click)="goBack()">
+    <span class="sd-pulse" aria-hidden="true"></span>
+    <img class="sd-mark" src="assets/loopkeeper/icon-512.svg" alt="" aria-hidden="true">
+    <span class="sd-word" aria-hidden="true">LoopKeeper</span>
+    <span class="sd-hint">{{ 'loopkeeper.sunny.return' | translate }}</span>
+  </button>
+</div>

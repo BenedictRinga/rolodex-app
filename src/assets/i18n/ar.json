@@ -859,6 +859,9 @@
     "walk.left": "نعم — خرجت",
     "walk.notYet": "ليس بعد",
     "walk.notYetTitle": "إنها تنتظر",
-    "walk.notYetSub": "تظل الحلقة مفتوحة. يعيدها LoopKeeper الساعة 9."
+    "walk.notYetSub": "تظل الحلقة مفتوحة. يعيدها LoopKeeper الساعة 9.",
+    "sunny.title": "وضعتها جانبًا.",
+    "sunny.sub": "اليوم ما زال لك. ستبقى في الانتظار.",
+    "sunny.return": "انقر للعودة — متى أردت."
   }
 }

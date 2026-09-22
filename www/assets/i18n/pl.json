@@ -859,6 +859,9 @@
     "walk.left": "Tak — poszło",
     "walk.notYet": "Jeszcze nie",
     "walk.notYetTitle": "Czeka",
-    "walk.notYetSub": "Pętla pozostaje otwarta. LoopKeeper wraca z nią o 9."
+    "walk.notYetSub": "Pętla pozostaje otwarta. LoopKeeper wraca z nią o 9.",
+    "sunny.title": "Odłożone.",
+    "sunny.sub": "Dzień wciąż jest twój. To poczeka.",
+    "sunny.return": "Dotknij, aby wrócić — kiedy będziesz gotowy."
   }
 }

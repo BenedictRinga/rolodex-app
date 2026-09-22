@@ -1,0 +1,178 @@
+// 2026-09-22 BUILD 299 THE SUNNY DAY - pure CSS/SVG for now
+// (founder: 'add such a page with any graphic and the Logo at base.
+// Later we augment with image.').
+
+:host {
+  display: block;
+}
+
+.sd-sky {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #7ec8f2 0%, #a8dcf5 42%, #d8eef8 68%, #f4efdb 100%);
+}
+
+/* the sun - a warm disc with a soft halo, top right */
+.sd-sun {
+  position: absolute;
+  top: 9%;
+  right: 14%;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #fff7d6 0%, #ffd873 58%, #ffc247 100%);
+  box-shadow:
+    0 0 34px 12px rgba(255, 214, 110, 0.55),
+    0 0 110px 44px rgba(255, 214, 110, 0.28);
+  animation: sd-breathe 7s ease-in-out infinite;
+}
+
+@keyframes sd-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+
+/* drifting clouds - slow, three depths */
+.sd-cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  filter: blur(0.4px);
+}
+.sd-cloud::before,
+.sd-cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+.sd-c1 {
+  width: 130px; height: 34px; top: 22%; left: -140px;
+  animation: sd-drift 64s linear infinite;
+}
+.sd-c1::before { width: 54px; height: 54px; top: -26px; left: 22px; }
+.sd-c1::after { width: 40px; height: 40px; top: -16px; left: 62px; }
+.sd-c2 {
+  width: 96px; height: 26px; top: 36%; left: -110px;
+  background: rgba(255, 255, 255, 0.78);
+  animation: sd-drift 88s linear 12s infinite;
+}
+.sd-c2::before { width: 40px; height: 40px; top: -20px; left: 16px; }
+.sd-c2::after { width: 30px; height: 30px; top: -12px; left: 48px; }
+.sd-c3 {
+  width: 74px; height: 20px; top: 12%; left: -90px;
+  background: rgba(255, 255, 255, 0.62);
+  animation: sd-drift 104s linear 40s infinite;
+}
+.sd-c3::before { width: 30px; height: 30px; top: -14px; left: 14px; }
+
+@keyframes sd-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* the quiet copy - upper middle */
+.sd-copy {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 0 30px;
+}
+.sd-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #2c4a63;
+}
+.sd-what {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d5a73;
+  opacity: 0.92;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.sd-sub {
+  margin-top: 12px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #4a657d;
+  opacity: 0.9;
+}
+
+/* the warm ground */
+.sd-ground {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: -40px;
+  height: 130px;
+  border-radius: 50% 50% 0 0 / 62% 62% 0 0;
+  background: linear-gradient(180deg, #b8d98d 0%, #93c26e 70%, #7fb75c 100%);
+}
+
+/* the armed logo at the base - the only way back, the user's act */
+.sd-logo {
+  position: absolute;
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 14px 26px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.sd-pulse {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 68px;
+  height: 68px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  animation: sd-pulse 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes sd-pulse {
+  0% { transform: translateX(-50%) scale(0.72); opacity: 0.75; }
+  70% { transform: translateX(-50%) scale(1.25); opacity: 0; }
+  100% { transform: translateX(-50%) scale(1.25); opacity: 0; }
+}
+.sd-mark {
+  width: 64px;
+  height: 64px;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(44, 74, 99, 0.28));
+  position: relative;
+}
+.sd-word {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: #2c4a63;
+}
+.sd-hint {
+  font-size: 12px;
+  color: #4a657d;
+  opacity: 0.75;
+}

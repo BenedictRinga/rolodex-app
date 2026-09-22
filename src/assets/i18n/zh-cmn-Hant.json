@@ -859,6 +859,9 @@
     "walk.left": "是 — 發出去了",
     "walk.notYet": "還沒有",
     "walk.notYetTitle": "還在等待",
-    "walk.notYetSub": "循環保持打開。LoopKeeper 九點會再提醒你。"
+    "walk.notYetSub": "循環保持打開。LoopKeeper 九點會再提醒你。",
+    "sunny.title": "放下了。",
+    "sunny.sub": "這一天仍然屬於你。它會等你。",
+    "sunny.return": "準備好了，點這裡回來。"
   }
 }

@@ -42,6 +42,10 @@ import { Subscription } from 'rxjs'; // BUILD 143: nudge-tap channel handles
 import { KeeperAgentService } from '../services/agents/keeper-agent.service';
 import { InAppNotificationService } from '../services/in-app-notification/in-app-notification.service';
 import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
+// 2026-09-22 BUILD 299 THE SUNNY DAY: the full page that follows a user's
+// drop - the quiet after the drop; the armed logo at base returns, and the
+// tap is the user's own act (never a timer, never the app dragging them back).
+import { SunnyDayComponent } from '../components/sunny-day/sunny-day.component';
 // 2026-09-14 BUILD 199 THE ACHIEVEMENT SHARE + THE TRIAL STITCH: the dock's
 // celebration tap and the trial-end stitch both open the share sheet.
 import { ShareAppModalComponent } from '../components/share-app-modal/share-app-modal.component';
@@ -310,6 +314,28 @@ export class HomePage implements OnInit, OnDestroy {
    *  contactsDirty then flips the done flag and retires the demo deck. */
   private firstMinuteTapped = false;
   private firstMinuteRetired = false;
+
+  // ── 2026-09-22 BUILD 299 THE SUNNY DAY ─────────────────────────────────────
+  /** The horror-boyfriend rule (founder): a user's drop (exit/delete with
+   *  dignity) must NOT be followed by the app loading them back in. After
+   *  the drop, home presents the FULL-PAGE SUNNY DAY - quiet, no tray, no
+   *  timer. The armed LoopKeeper logo at its base is the only way back, and
+   *  the tap is THE USER'S ACT. The agent's own drops never trigger this. */
+  sunnyOn = false;
+  sunnyWhat = '';
+
+  /** The inbox relayed a USER drop - go quiet on the sunny day. */
+  onDropped(what: string): void {
+    this.sunnyWhat = what;
+    this.sunnyOn = true;
+    void this.analytics.track('sunny_shown');
+  }
+
+  /** THE USER'S ACT: they tapped the armed logo - the app resumes. */
+  sunnyBack(): void {
+    this.sunnyOn = false;
+    this.sunnyWhat = '';
+  }
 
   private async maybeFirstMinute(): Promise<void> {
     try {

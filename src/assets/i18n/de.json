@@ -859,6 +859,9 @@
     "walk.left": "Ja — es ist weg",
     "walk.notYet": "Noch nicht",
     "walk.notYetTitle": "Es wartet",
-    "walk.notYetSub": "Die Schleife bleibt offen. LoopKeeper bringt sie um 9 Uhr zurück."
+    "walk.notYetSub": "Die Schleife bleibt offen. LoopKeeper bringt sie um 9 Uhr zurück.",
+    "sunny.title": "Du hast es abgelegt.",
+    "sunny.sub": "Der Tag gehört dir. Es wartet.",
+    "sunny.return": "Tippe, um zurückzukommen — wann du willst."
   }
 }

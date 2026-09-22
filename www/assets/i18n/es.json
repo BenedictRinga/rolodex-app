@@ -859,6 +859,9 @@
     "walk.left": "Sí — ya se fue",
     "walk.notYet": "Todavía no",
     "walk.notYetTitle": "Está esperando",
-    "walk.notYetSub": "El ciclo queda abierto. LoopKeeper lo trae de vuelta a las 9."
+    "walk.notYetSub": "El ciclo queda abierto. LoopKeeper lo trae de vuelta a las 9.",
+    "sunny.title": "Lo dejaste ir.",
+    "sunny.sub": "El día sigue siendo tuyo. Esperará.",
+    "sunny.return": "Toca para volver — cuando quieras."
   }
 }

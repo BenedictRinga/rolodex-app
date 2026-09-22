@@ -859,6 +859,9 @@
     "walk.left": "Да — ушло",
     "walk.notYet": "Ещё нет",
     "walk.notYetTitle": "Ожидает",
-    "walk.notYetSub": "Цикл остаётся открытым. LoopKeeper вернёт его в 9."
+    "walk.notYetSub": "Цикл остаётся открытым. LoopKeeper вернёт его в 9.",
+    "sunny.title": "Ты отложил это.",
+    "sunny.sub": "День всё ещё твой. Это подождёт.",
+    "sunny.return": "Нажми, чтобы вернуться — когда будешь готов."
   }
 }

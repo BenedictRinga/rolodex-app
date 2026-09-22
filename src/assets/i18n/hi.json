@@ -859,6 +859,9 @@
     "walk.left": "हाँ — चला गया",
     "walk.notYet": "अभी नहीं",
     "walk.notYetTitle": "यह इंतज़ार कर रहा है",
-    "walk.notYetSub": "लूप खुला रहेगा। LoopKeeper इसे 9 बजे वापस लाएगा।"
+    "walk.notYetSub": "लूप खुला रहेगा। LoopKeeper इसे 9 बजे वापस लाएगा।",
+    "sunny.title": "आपने इसे रख दिया।",
+    "sunny.sub": "दिन अभी भी आपका है। यइनतज़र करेगा।",
+    "sunny.return": "वापस आने के लिए टैप करें — जब तैयार हों।"
   }
 }

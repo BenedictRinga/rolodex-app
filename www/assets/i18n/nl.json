@@ -859,6 +859,9 @@
     "walk.left": "Ja — het is weg",
     "walk.notYet": "Nog niet",
     "walk.notYetTitle": "Het wacht",
-    "walk.notYetSub": "De lus blijft open. LoopKeeper brengt het om 9 uur terug."
+    "walk.notYetSub": "De lus blijft open. LoopKeeper brengt het om 9 uur terug.",
+    "sunny.title": "Je hebt het neergelegd.",
+    "sunny.sub": "De dag is nog van jou. Het wacht.",
+    "sunny.return": "Tik om terug te komen — wanneer je klaar bent."
   }
 }

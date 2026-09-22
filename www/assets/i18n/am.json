@@ -859,6 +859,9 @@
     "walk.left": "አዎ — ወጣም",
     "walk.notYet": "ገና ነው",
     "walk.notYetTitle": "እየጠበቀ ነው",
-    "walk.notYetSub": "ዑደቱ ክፍት ይቀጥላል። LoopKeeper በ9 ሰዓት ይመልሰዋል።"
+    "walk.notYetSub": "ዑደቱ ክፍት ይቀጥላል። LoopKeeper በ9 ሰዓት ይመልሰዋል።",
+    "sunny.title": "ተውታል።",
+    "sunny.sub": "ቀን አሁንም የእርስዎ ነወ። ይጠብባል።",
+    "sunny.return": "ሲያስቡበት ይንኩ።"
   }
 }

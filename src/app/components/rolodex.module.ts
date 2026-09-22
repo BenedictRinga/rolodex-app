@@ -39,6 +39,11 @@ import { YardstickChartComponent } from './yardstick-chart/yardstick-chart.compo
 import { ManagingCardsModalComponent } from './managing-cards-modal/managing-cards-modal.component';
 import { CheckinsPanelComponent } from './checkins-panel/checkins-panel.component';
 import { FirstMinuteComponent } from './first-minute/first-minute.component';
+// 2026-09-22 BUILD 299 THE SUNNY DAY: the full page that follows a user's
+// drop - the quiet after the drop; the armed logo at base is the only way
+// back, and the tap is the user's own act (never a timer, never the app
+// dragging them back - the horror-boyfriend rule).
+import { SunnyDayComponent } from './sunny-day/sunny-day.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +77,7 @@ import { FirstMinuteComponent } from './first-minute/first-minute.component';
     ManagingCardsModalComponent,
     CheckinsPanelComponent,
     FirstMinuteComponent,
+    SunnyDayComponent,
   ],
   imports: [
     CommonModule,
@@ -88,6 +94,10 @@ import { FirstMinuteComponent } from './first-minute/first-minute.component';
     CardChatModalComponent,
     PodsModalComponent,
     LoopInboxComponent,
+    // 2026-09-22 BUILD 299 THE SUNNY DAY: home.page's template renders the
+    // full-page sunny day after a user's drop - it must be exported from
+    // this module or home sees an unknown element (the 244 lesson).
+    SunnyDayComponent,
   ],
 })
 export class RolodexModule {}

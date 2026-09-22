@@ -859,6 +859,9 @@
     "walk.left": "はい — 送りました",
     "walk.notYet": "まだです",
     "walk.notYetTitle": "まだ待っています",
-    "walk.notYetSub": "ループは開いたまま。9時にLoopKeeperがまた知らせます。"
+    "walk.notYetSub": "ループは開いたまま。9時にLoopKeeperがまた知らせます。",
+    "sunny.title": "手放しました。",
+    "sunny.sub": "今日はまだあなたのもの。じっと待っています。",
+    "sunny.return": "準備ができたら、タップして戻ってきてね。"
   }
 }

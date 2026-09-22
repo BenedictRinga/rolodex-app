@@ -865,6 +865,9 @@
     "walk.left": "Yes — it's gone",
     "walk.notYet": "Not yet",
     "walk.notYetTitle": "It's waiting",
-    "walk.notYetSub": "The loop stays open. LoopKeeper brings it back at 9."
+    "walk.notYetSub": "The loop stays open. LoopKeeper brings it back at 9.",
+    "sunny.title": "You set it down.",
+    "sunny.sub": "The day is still yours. It will keep.",
+    "sunny.return": "Tap to come back — whenever you’re ready."
   }
 }
