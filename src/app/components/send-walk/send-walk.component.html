@@ -5,7 +5,10 @@
   <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the flip moved ABOVE the
        slide — one mark, both views now lead with it. -->
   <div class="sw-fliprow">
-    <button class="sw-flip" type="button" (click)="imGood()"
+    <!-- 2026-09-22 BUILD 307 THE OUTER RING: the shelf (the Loops list) is
+         BEHIND the ring — the flip shows only once a door has lifted the
+         ring for a flow (or outside the first-timer context). -->
+    <button class="sw-flip" type="button" (click)="imGood()" *ngIf="!firstMinute || ringAside"
       [attr.aria-label]="'loopkeeper.walk.good' | translate">
       <ion-icon name="arrow-redo-outline" aria-hidden="true"></ion-icon>
     </button>
@@ -50,8 +53,8 @@
          (firstMinute && !taskDraftOn), and CANCEL brings it back RESET
          (untapped/undecided); the who-pane shows the regular machinery in
          every other state, and the sheet floats OVER the cover. -->
-    <app-first-minute *ngIf="firstMinute && !taskDraftOn" (task)="beginTaskDraft()" (person)="personDoor()" (demoView)="demoView.emit($event)" (avoid)="avoidDoor($event)"></app-first-minute>
-    <ng-container *ngIf="!firstMinute || taskDraftOn">
+    <app-first-minute *ngIf="firstMinute && !taskDraftOn && !ringAside" (task)="beginTaskDraft()" (person)="personDoor()" (demoView)="demoView.emit($event)" (avoid)="avoidDoor($event)"></app-first-minute>
+    <ng-container *ngIf="!firstMinute || taskDraftOn || ringAside">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 
     <!-- 2026-09-17 BUILD 257 THE TASK COMPLEMENT: when a draft is on, the

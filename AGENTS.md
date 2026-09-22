@@ -270,6 +270,22 @@ That is the fundamental entry fee. They must do something at that first gate
   decide tap RESUMES the open cover-decide loop (never a duplicate). The
   gate's closers: the real card's arrival, the completed task card, the
   real send (walk.fire() → firstMinuteEntry). Nothing else.
+- BUILD 307 THE OUTER RING (founder, restating Move 1: 'gated all
+  interaction with the app, so that user is forever a guest at the outer
+  ring until they tap one' — the 296/297 first-timer law and the 301/302
+  gate-flag machinery are SUPERSEDED): the two-door cover is the STANDING
+  FRONT DOOR. It arms on EVERY boot, for EVERY device — no flag, no card,
+  no send ever retires it (lk_cover_engaged / lk_firstminute_done are
+  retired; nothing reads or writes them). A door tap (any of the four)
+  LIFTS the ring for the flow — walk.firstMinuteDeed → home sets
+  ringAside=true, the deck becomes reachable (ringUp=false). The 297
+  returns (nextOne / backToWho / cancelTaskDraft → walk.ringReturn)
+  RE-FORM the ring: backing out returns to the cover, the deck goes back
+  behind it. The morning digest tap and the nudge escalations are the
+  loop's own call and lift the ring too (the loop is armed). While the
+  ring stands, the shelf flip is hidden (the Loops list is behind the
+  ring). The panel's face remains: the two doors, the "Or start with"
+  button, the courtesy line.
 - BUILD 302 THE EXIT'S SUNNY DAY, RESTORED (founder: 'Exit/delete is in
   Settings... The sunny page has nothing to do with loops. Go back to the
   original request'): the sunny day belongs to ONE moment — the END of the

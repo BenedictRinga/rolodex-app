@@ -33,9 +33,17 @@ export class SendWalkComponent implements OnInit, OnChanges {
   // device is untouched, slide 1 carries the first-minute panel instead of
   // the Who card — same ambience, the doors plug into the existing flows.
   @Input() firstMinute = false;
-  /** The tap on either panel door — home retires the panel; the flow that
-   *  follows is the regular one (the 257 draft, or the add sheet). */
+  /** 2026-09-22 BUILD 307 THE OUTER RING: relayed from home — while the ring
+   *  stands (firstMinute && !ringAside) the panel is the only first view and
+   *  the deck stays behind it; a door tap lifts the ring (home sets
+   *  ringAside=true via firstMinuteDeed) and the 297 returns re-form it. */
+  @Input() ringAside = false;
+  /** The tap on either panel door — the ring LIFTS for the flow (307); the
+   *  297 return paths emit ringReturn and the ring re-forms. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
+  /** 2026-09-22 BUILD 307: the 297 return — the flow ended or backed out;
+   *  the ring re-forms (home sets ringAside=false). */
+  @Output() ringReturn = new EventEmitter<void>();
   /** 2026-09-22 BUILD 295 THE GATE HELD (founder: 'State must remain same
    *  always, even if page reloads, until first-time user takes action on
    *  that... That is the fundamental entry fee. They must do something at
@@ -125,6 +133,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  later pick owed-reply. The sheet floats OVER the cover; an empty
    *  dismissal leaves the cover standing, untouched. */
   personDoor(): void {
+    if (this.firstMinute) this.firstMinuteDeed.emit(); // 307: the door tap lifts the ring
     this.avoidKind = null;
     this.whoRequest.emit();
   }
@@ -139,6 +148,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // open (the *ngIf pair: firstMinute && !taskDraftOn / !firstMinute ||
     // taskDraftOn) — no latch at the tap; CANCEL brings the cover back RESET.
     // The legacy TASK door is not an avoidance door — clear the pending one.
+    if (this.firstMinute) this.firstMinuteDeed.emit(); // 307: the door tap lifts the ring
     if (this.firstMinute) this.avoidKind = null;
     this.prevWhoSnap = this.selection ? { contact: this.selection.contact, loop: this.selection.loop } : null;
     this.taskTitle = '';
@@ -195,6 +205,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.prevWhoSnap = null;
     // 2026-09-22 BUILD 294: a deliberate default clears the pending door.
     this.avoidKind = null;
+    // 307 THE OUTER RING: the 297 return — the ring re-forms.
+    this.ringReturn.emit();
   }
 
   private retire(c: any): void {
@@ -829,6 +841,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.lineOpen = false;
     this.editingWords = false;
     this.moreOpen = false;
+    // 307 THE OUTER RING: the 297 return — the ring re-forms.
+    this.ringReturn.emit();
     // BUILD 242: back returns to the CARD the walk is on — and when that card
     // is a SELECTION, the selection is what stands there (BUILD 241's clear
     // here handed the default pick straight back to the founder). Only
@@ -948,6 +962,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
    */
   async avoidDoor(kind: 'owed-reply' | 'decide'): Promise<void> {
     if (this.busy) return;
+    // 307 THE OUTER RING: the door tap LIFTS the ring for the flow — the
+    // deck is reachable while the flow is live; the 297 returns re-form
+    // the ring (ringReturn).
+    this.firstMinuteDeed.emit();
     this.avoidKind = kind;
     if (kind === 'owed-reply') {
       // 297: the sheet floats OVER the cover — no latch, no retire. An empty
@@ -1389,6 +1407,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // arm starts clean.
     this.copyAsk = false;
     this.copyAnswer = '';
+    // 307 THE OUTER RING: the 297 return — the ring re-forms.
+    this.ringReturn.emit();
     // BUILD 241/244: the walk moves on — the selection ends with it.
     this.selection = null;
     void this.rebuildWho();

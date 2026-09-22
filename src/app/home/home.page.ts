@@ -315,67 +315,59 @@ export class HomePage implements OnInit, OnDestroy {
   private firstMinuteTapped = false;
   private firstMinuteRetired = false;
 
+  // ── 2026-09-22 BUILD 307 THE OUTER RING ────────────────────────────────────
+  /** The two-door cover is the STANDING FRONT DOOR: it arms on every boot,
+   *  for every device, and nothing retires it (no flag, no card, no send).
+   *  A door tap lifts it for the flow (ringAside=true — onFirstMinuteDeed);
+   *  the 297 return paths re-form it (onRingReturn). While the ring stands
+   *  (ringUp), the deck and the other surfaces stay behind it. */
+  ringAside = false;
+  get ringUp(): boolean { return this.firstMinuteActive && !this.ringAside; }
+
   private async maybeFirstMinute(): Promise<void> {
     try {
-      // 2026-09-20 BUILD 281 EVERY VISIT UNTIL ENGAGED (founder: "Until user
-      // has actively engaged with the app, loggable and evident in Investor
-      // portal and CommandCenter logs, let us continue showing them just that
-      // first timer UX on every visit. This is crucial.").
-      // 2026-09-22 BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but
-      // cover is still being skipped even though I did not respond to it at
-      // first deployment. I suspect you have mistaen the policy'): TWO leaks
-      // closed the gate without the user acting AT the cover — (1) the old
-      // openLoops check read loops.all(), the ENTIRE loop ledger (open AND
-      // closed AND parked), so any loop history on the device — an abandoned
-      // decide-door test tap, a demo continue-loop, anything — skipped the
-      // cover forever; (2) the gate read lk_firstminute_done, a flag with
-      // three writers. THE LAW (AGENTS.md THE FIRST GATE): the gate answers
-      // ONLY to the user's own action — the avoidance door tap (the entry
-      // fee, logged firstminute_avoid) or a real card's arrival. The gate now
-      // reads the DEDICATED flag lk_cover_engaged and NOTHING else; loop
-      // history can never close the gate again.
-      if (await this.storageService.get<boolean>('lk_cover_engaged')) return;
-      if (this.realContacts().length > 0) return; // any real card = not a first-timer
+      // 2026-09-22 BUILD 307 THE OUTER RING (founder, restating Move 1:
+      // 'gated all interaction with the app, so that user is forever a
+      // guest at the outer ring until they tap one'): the two-door cover
+      // is the STANDING FRONT DOOR — it arms on EVERY boot, for EVERY
+      // device, and NO flag and NO card ever retires it. The 296/297
+      // first-timer law is superseded: there is no engaged state to
+      // persist — lk_cover_engaged / lk_firstminute_done are retired and
+      // nothing reads them. A door tap lifts the ring for the flow
+      // (ringAside); the 297 return-to-cover law re-forms it on every
+      // return. The ring is the only first view.
       this.firstMinuteActive = true;
+      this.ringAside = false;
       void this.analytics.track('firstminute_shown');
     } catch { /* the gate must never block the app */ }
   }
 
-  /** BUILD 278: the tap on either panel door — the panel retires and the
-   *  regular flow takes over AT THE TAP (the 257 draft card, or the add
-   *  sheet). The deed's own contactsDirty completes the flip (done flag +
-   *  demo-deck retirement) in onContactsDirty. */
+  /** 2026-09-22 BUILD 307: a door tap LIFTS the ring for the flow — the
+   *  walk steps the panel aside; the 297 return paths (nextOne / backToWho /
+   *  cancelTaskDraft) re-form it. */
   onFirstMinuteDeed(): void {
-    // BUILD 281: a tap retires the panel for THIS VISIT only — no persisted
-    // seen flag; the next visit greets again until a real deed lands.
-    this.firstMinuteActive = false;
-    this.firstMinuteTapped = true;
+    this.ringAside = true;
   }
 
-  /** 2026-09-22 BUILD 295 THE GATE HELD + BUILD 296 UNPOLLUTED (founder):
-   *  the AVOIDANCE door tap IS the engagement — the entry fee, logged at the
-   *  tap (firstminute_avoid {kind}). The gate-passed state PERSISTS here so
-   *  no reload and no later visit can resurrect the cover. 296: the gate
-   *  reads the DEDICATED flag lk_cover_engaged — the ONLY flag it answers
-   *  to for the cover action (lk_firstminute_done rides along for its other
-   *  duties). The demoted TASK/PERSON taps keep the 281 per-visit
-   *  retirement — those are below the fold, not the gate. */
-  onFirstMinuteEntry(): void {
-    this.firstMinuteActive = false;
-    this.firstMinuteTapped = true;
-    void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
-    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+  /** 2026-09-22 BUILD 307: the 297 return — the ring re-forms. */
+  onRingReturn(): void {
+    this.ringAside = false;
   }
+
+  /** 2026-09-22 BUILD 307: a REAL SEND does not retire the ring — the
+   *  receipt's Next one returns to slide 1 and the ring re-forms (the user
+   *  walks to the next avoidance). The lk_cover_engaged /
+   *  lk_firstminute_done writes are retired — nothing reads them any more. */
+  onFirstMinuteEntry(): void { }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
    *  screen (regular now)"): the demo deck retires and the regular home —
    *  empty or real, never demo — is what they see. */
-  onExitDemo(): void {
-    // BUILD 281: Close demo retires the DEMO DECK (the regular home for this
-    // visit) but is NOT engagement — the next visit still greets, until a
-    // real card lands (the founder's every-visit rule).
-    this.firstMinuteActive = false;
+    onExitDemo(): void {
+    // BUILD 281 + 307: Close demo returns to the RING (the standing front
+    // door), not the regular home; the demo deck flip stays.
     this.firstMinuteDemo = false;
+    this.ringAside = false;
     this.firstMinuteTapped = true;
     this.mockEnabled = false;
     void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
@@ -568,7 +560,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.ringAside = true; this.openLoopsSurface(); } // 307: the morning knock lifts the ring
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -702,6 +694,7 @@ export class HomePage implements OnInit, OnDestroy {
    *  resolved contact + loop OBJECT — data end to end, no re-resolution. */
   private deliverPendingEscalation(): void {
     if (!this.pendingEscalation || !this.inboxRef) return;
+    this.ringAside = true; // 307: the nudge's own call lifts the ring — the loop is armed
     const { contact, loop } = this.pendingEscalation;
     this.pendingEscalation = null;
     this.inboxRef.armEscalation(contact, loop);
@@ -1168,10 +1161,9 @@ export class HomePage implements OnInit, OnDestroy {
     // deck retires with the deed (Settings' demo toggle still works).
     if (this.firstMinuteTapped && !this.firstMinuteRetired) {
       this.firstMinuteRetired = true;
-      // BUILD 296: the completed deed ALSO closes the gate — the dedicated
-      // flag (the user acted at the cover, then finished what it named).
-      void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
-      void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+      // BUILD 307: the deed no longer closes any gate — the ring is the
+      // standing front door. The per-device demo deck still retires with
+      // the deed (Settings' demo toggle still works).
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
     }
@@ -2038,34 +2030,11 @@ export class HomePage implements OnInit, OnDestroy {
     // persisted — Settings can always call it back.
     const realCount = (contacts || []).filter((c: any) => !(c as any)?.isMockData).length;
     if (this.lastRealCount !== null && realCount > this.lastRealCount) {
+      // BUILD 281: the real-card ARRIVAL flips the demo off — persisted —
+      // Settings can always call it back. BUILD 307: the arrival closes NO
+      // gate — the ring is the standing front door (nothing retires it).
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
-      // BUILD 281: the real-card ARRIVAL is the engagement the founder named
-      // — logged (card_added), evident in the portal — the first-minute UX
-      // hands over for good. BUILD 296: the dedicated gate flag rides with it.
-      // BUILD 297: the journey has STARTED — the cover retires THIS SESSION
-      // too (firstMinuteActive), not only on the next boot.
-      this.firstMinuteActive = false;
-      this.firstMinuteTapped = true;
-      void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
-      void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
-    } else if (this.lastRealCount !== null && realCount < this.lastRealCount) {
-      // 2026-09-22 BUILD 302 THE GATE RESETS WHEN THE JOURNEY UN-STARTS
-      // (the founder's 297 law, verbatim: 'return resets the gate to
-      // untapped/untouched/undecided ie. journey away from procrastination
-      // state has not started'): when the REAL deck EMPTIES, the journey
-      // has demonstrably NOT started — the gate RESETS (both flags cleared)
-      // and the cover returns. The SUNNY DAY does NOT ride deletes — the
-      // founder: 'The sunny page has nothing to do with loops' — it belongs
-      // to the Settings wipe's farewell only (rolodex.wipeAllAndReload).
-      if (realCount === 0) {
-        // The deck is empty - the cover returns THIS SESSION too (the 297
-        // law: the return resets the gate to untapped/untouched/undecided).
-        this.firstMinuteActive = true;
-        this.firstMinuteTapped = false;
-        void this.storageService.set('lk_cover_engaged', false).catch(() => { /* best effort */ });
-        void this.storageService.set('lk_firstminute_done', false).catch(() => { /* best effort */ });
-      }
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
