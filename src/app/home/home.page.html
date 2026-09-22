@@ -1,4 +1,38 @@
 <ion-content #homeContent>
+  <!-- 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS (founder: the home page
+       splits into two views — first-timer vs not first-timer): a BLANK
+       SLATE. PHASE RING stands here: the two gates side by side in the
+       middle, the Welcome below — one Welcome, not two (the modal skips
+       while the canvas stands). 'The reply I owe' transforms the slate to
+       'From my phone' (with the return arrow); the pick opens the dialog
+       IN SITU — all the way to success, in situ. -->
+  <div class="ft-canvas" *ngIf="ftView === 'gates' || ftView === 'phone'">
+    <button class="ft-back" *ngIf="ftView === 'phone'" type="button" (click)="ftReturnToGates()"
+      aria-label="Back to the gates">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <ng-container *ngIf="ftView === 'gates'">
+      <div class="ft-gates">
+        <button class="ft-gate" type="button" (click)="ftReply()">
+          <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+          <span>{{ 'loopkeeper.fm.avoidReply' | translate }}</span>
+        </button>
+        <button class="ft-gate" type="button" (click)="ftDecide()">
+          <ion-icon name="git-branch-outline"></ion-icon>
+          <span>{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
+        </button>
+      </div>
+      <p class="ft-welcome">{{ 'loopkeeper.welcome.title' | translate }}</p>
+    </ng-container>
+    <ng-container *ngIf="ftView === 'phone'">
+      <div class="ft-gates ft-gates-one">
+        <button class="ft-gate" type="button" (click)="ftPhone()">
+          <ion-icon name="phone-portrait-outline"></ion-icon>
+          <span>{{ 'loopkeeper.add.pickPhone' | translate }}</span>
+        </button>
+      </div>
+    </ng-container>
+  </div>
   <!-- 2026-09-14 BUILD 195 THE UPDATE BANNER (founder: "a global notification
        of Updates available — on tap, dismiss and apply"): shows whenever the
        server version differs; tap the strip to APPLY (cache clear + SW
@@ -191,7 +225,7 @@
        the matched card's rolling context; HomePage persists the deck now. -->
   <!-- 2026-08-29 BUILD 145: (expandedChange) — when a loop is open the shell
        grows to 75vh and the deck's View toolbar is told to sit up as a footer. -->
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="firstMinuteActive" [fmPhase]="fmPhase" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="firstMinuteActive" [fmPhase]="fmPhase" [ftCanvas]="ftView === 'flow'" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -246,7 +280,7 @@
 
   <app-rolodex
     #rolodex
-    [class.tab-hidden]="deckHiddenForTab || firstMinuteDemo"
+    [class.tab-hidden]="deckHiddenForTab || firstMinuteDemo || !!ftView"
     [class.inbox-expanded]="inboxExpanded"
     [contacts]="contacts"
     [displayedContacts]="displayedContacts"

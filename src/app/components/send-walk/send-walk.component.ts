@@ -38,6 +38,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  then PHASE PANEL (the original first view, intact, after the ring is
    *  surmounted). */
   @Input() fmPhase: 'ring' | 'panel' = 'ring';
+  /** 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS: the home canvas owns the
+   *  gates and the phone view — the walk's panel stays hidden while it
+   *  stands; 'flow' shows the dialog in situ. */
+  @Input() ftCanvas = false;
   /** The tap on the PANEL phase's doors — the panel retires for the visit
    *  (the 278/281 law); the deed in onContactsDirty flips the done flag. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
@@ -134,6 +138,18 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.avoidKind = null;
     this.whoRequest.emit();
   }
+
+  // ── 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS ────────────────────────────
+  /** The canvas's reply door: the owed-reply branding is armed — the pick's
+   *  card births the loop owed-reply when tapped (confirmWho →
+   *  birthFromWho reads this). */
+  armCoverReply(): void { this.avoidKind = 'owed-reply'; }
+  /** The canvas's return to the gates: the branding is nullified. */
+  clearCoverReply(): void { this.avoidKind = null; }
+  /** The canvas arms a just-picked card as the Who — the tap births the
+   *  loop and the dialog opens in situ (the panel stays hidden via
+   *  ftCanvas; the phase drives the rest). */
+  armFtCard(contact: any): void { this.select(contact, undefined); }
 
   /** Remember the previous Who (Cancel restores it) and put the blank card
    *  in the Who slot — no modal, no taskCardRequest, no layout jump. */

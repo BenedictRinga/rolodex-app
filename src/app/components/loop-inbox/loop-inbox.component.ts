@@ -65,6 +65,21 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
    *  then PHASE PANEL (the original first view, intact, after the ring is
    *  surmounted). */
   @Input() fmPhase: 'ring' | 'panel' = 'ring';
+  /** 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS: the home canvas owns the
+   *  gates and the phone view; the walk's panel stays hidden while the
+   *  canvas stands ('flow' = the walk's dialog in situ). */
+  @Input() ftCanvas = false;
+  /** 309: the canvas's reply door — the owed-reply branding is armed; the
+   *  pick's card births the loop owed-reply when tapped. */
+  startCoverReply(): void { this._walkRef?.armCoverReply(); }
+  /** 309: the canvas nullifies the branding on the return to the gates. */
+  clearCoverReply(): void { this._walkRef?.clearCoverReply(); }
+  /** 309: the canvas arms a just-picked card as the Who — the tap births
+   *  the loop and the dialog opens in situ. */
+  armFtContact(contact: any): void { this._walkRef?.armFtCard(contact); }
+  /** 309: the canvas's decide gate — the 183 self-loop, straight to the
+   *  dialog in situ. */
+  startCoverDecide(): void { this._walkRef?.selfTap('decide', true); }
   /** The panel-door tap — relayed up; home retires the panel. */
   @Output() firstMinuteDeed = new EventEmitter<void>();
   /** 2026-09-22 BUILD 295 THE GATE HELD: the AVOIDANCE door tap — relayed up;

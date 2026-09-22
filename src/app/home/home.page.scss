@@ -493,3 +493,62 @@ app-rolodex.tab-hidden,
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: .45; transform: scale(.82); }
 }
+
+/* 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS (founder: the home page splits
+   into two views): a blank slate — the two gates side by side in the middle,
+   the Welcome below. Same deep-amber cover language as the panel's doors. */
+.ft-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 24px 18px;
+  background: var(--ion-background-color, #fffdf7);
+}
+.ft-back {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(140, 94, 20, .25);
+  background: transparent;
+  color: #8c5e14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.ft-gates {
+  display: flex;
+  gap: 16px;
+}
+.ft-gate {
+  width: 152px;
+  padding: 20px 12px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(140, 94, 20, .3);
+  background: #fff6e0;
+  color: #4a3210;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(140, 94, 20, .12);
+  font-family: inherit;
+}
+.ft-gate ion-icon { font-size: 36px; color: #b3741b; }
+.ft-gate span { font-size: 14px; font-weight: 700; line-height: 1.3; }
+.ft-gates-one { justify-content: center; }
+.ft-welcome {
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a3210;
+  opacity: .8;
+}

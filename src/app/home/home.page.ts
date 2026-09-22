@@ -326,6 +326,41 @@ export class HomePage implements OnInit, OnDestroy {
    *  user is back at the ring as if never past the gate. */
   fmPhase: 'ring' | 'panel' = 'ring';
 
+  // ── 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS (founder): the home page
+  //  splits into TWO VIEWS. THE FIRST-TIMER VIEW: a blank slate — the two
+  //  gates side by side in the middle, the Welcome below. 'The reply I owe'
+  //  transforms the slate to 'From my phone' (with the return arrow); the
+  //  pick opens the dialog IN SITU — all the way to success. 'The decision
+  //  I keep not making' ditto, straight to the dialog. Once concluded and
+  //  the congratulations play, the ORIGINAL panel and the surroundings open
+  //  (a first-timer otherwise gets distracted). '' = the not-first-timer
+  //  home. */
+  ftView: '' | 'gates' | 'phone' | 'flow' = '';
+
+  /** The gates' reply door — the slate transforms to 'From my phone'. */
+  ftReply(): void { this.ftView = 'phone'; }
+
+  /** The 'From my phone' door — the honest ladder's phone pick, with the
+   *  owed-reply branding armed; the pick lands the card and the dialog
+   *  opens in situ. */
+  ftPhone(): void {
+    this.ftView = 'flow';
+    this.inboxRef?.startCoverReply();
+    void this.addFromPhoneContacts(true);
+  }
+
+  /** The decide gate — the 183 self-loop, straight to the dialog in situ. */
+  ftDecide(): void {
+    this.ftView = 'flow';
+    this.inboxRef?.startCoverDecide();
+  }
+
+  /** The return arrow — back to the gates; the branding is nullified. */
+  ftReturnToGates(): void {
+    this.inboxRef?.clearCoverReply();
+    this.ftView = 'gates';
+  }
+
   private async maybeFirstMinute(): Promise<void> {
     try {
       // BUILD 308 THE TWO PHASES: the first-timer UX arms on every visit
@@ -337,6 +372,8 @@ export class HomePage implements OnInit, OnDestroy {
       if (done) return;
       this.fmPhase = (await this.storageService.get<boolean>('lk_cover_engaged')) ? 'panel' : 'ring';
       this.firstMinuteActive = true;
+      // 309: the canvas opens the sequence — the gates are the first view.
+      this.ftView = 'gates';
       void this.analytics.track('firstminute_shown', { phase: this.fmPhase });
     } catch { /* the gate must never block the app */ }
   }
@@ -353,10 +390,15 @@ export class HomePage implements OnInit, OnDestroy {
    *  engagement — the ring is surmounted and the panel's deed is done; no
    *  reload resurrects either phase. */
   onFirstMinuteEntry(): void {
-    this.firstMinuteActive = false;
+    // 309: the SUCCESS — the congratulations open the ORIGINAL panel and the
+    // surroundings. The ring is surmounted (lk_cover_engaged — set at the
+    // pick, or here for the decide path); the panel's own deed retires it
+    // later (278/281).
+    this.ftView = '';
+    this.firstMinuteActive = true;
+    this.fmPhase = 'panel';
     this.firstMinuteTapped = true;
     void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
-    void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
   }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
@@ -495,11 +537,16 @@ export class HomePage implements OnInit, OnDestroy {
     // cards, zero loops, never seen/skipped) meets its OWN capture box before
     // anything else — the regular home stays mounted beneath and takes over
     // at the first deed or the skip. Current users never see it.
-    void this.maybeFirstMinute();
-    // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
-    void this.presentInviteLanding();
-    // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
-    void this.presentWelcome().then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
+    void this.maybeFirstMinute().then(() => {
+      // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
+      void this.presentInviteLanding();
+      // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
+      // 2026-09-22 BUILD 309: the first-timer CANVAS carries its own Welcome
+      // line below the gates — the modal is skipped there (one Welcome, not
+      // two), and the reveal runs for the walk beneath.
+      if (this.ftView) { this.inboxRef?.beginReveal(); }
+      else void this.presentWelcome().then((shown) => { if (!shown) this.inboxRef?.beginReveal(); });
+    });
     // 2026-08-22 THE ROLODEX THAT REMEMBERS: any send path updates the card on device.
     this.assistantCard.updates$.subscribe((ev) => this.applyAssistantCardUpdate(ev));
     // 2026-09-16 BUILD 216 THE FIRST-CLOSE SHARE BEAT: the first close of any
@@ -2031,13 +2078,18 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.lastRealCount !== null && realCount > this.lastRealCount) {
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
-      // 2026-09-22 BUILD 308 THE TWO PHASES: the arrival SURMOUNTS the ring
-      // (tap and continue — the settled law) — the flag flips, the phase
-      // becomes the original panel, and the armed card shows now (278).
-      this.firstMinuteActive = false;
+      // 2026-09-22 BUILD 309: the arrival SURMOUNTS the ring (tap and
+      // continue — the pick's card landed) and flips the phase to the
+      // original panel. The armed card shows only after the SUCCESS (the
+      // ft canvas owns the interim).
       this.firstMinuteTapped = true;
       this.fmPhase = 'panel';
       void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
+      if (!this.ftView) {
+        // The non-canvas arrival (a panel-phase user's own add): the 278
+        // per-visit retirement — the armed card shows.
+        this.firstMinuteActive = false;
+      }
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
@@ -2895,6 +2947,13 @@ export class HomePage implements OnInit, OnDestroy {
       if (!mapped.length) return; // user cancelled
       this.contacts = [...mapped, ...this.contacts]; // 2026-08-18 prepend: the deck's first batch shows the new card
       this.onContactsChange(this.contacts);
+      // 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS: the pick's FIRST card
+      // is armed as the Who — the tap births the owed-reply loop and the
+      // dialog opens in situ (all the way to success).
+      if (this.ftView === 'phone') {
+        this.ftView = 'flow';
+        this.inboxRef?.armFtContact(mapped[0]);
+      }
       // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
       void this.analytics.trackListStartedOnce('picker');
       void this.alertsService.showToast(
