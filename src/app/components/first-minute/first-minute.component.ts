@@ -50,6 +50,14 @@ export class FirstMinuteComponent implements OnDestroy {
   @Output() demoView = new EventEmitter<boolean>();
 
   showMe = false;
+  /** 2026-09-22 BUILD 301 THE OBVIOUS DOOR: the legacy TASK / PERSON doors
+   *  hide behind the "Or start with" button until the user asks for them. */
+  legacyOpen = false;
+
+  toggleLegacy(): void {
+    this.legacyOpen = !this.legacyOpen;
+    void this.analytics.track('fm_legacy', { open: this.legacyOpen ? 1 : 0 });
+  }
   /** The demo beat currently animating (0..3). */
   demoBeat = 0;
   /** The characters typed so far into the active beat's editing space. */

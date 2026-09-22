@@ -270,6 +270,17 @@ That is the fundamental entry fee. They must do something at that first gate
   decide tap RESUMES the open cover-decide loop (never a duplicate). The
   gate's closers: the real card's arrival, the completed task card, the
   real send (walk.fire() → firstMinuteEntry). Nothing else.
+- BUILD 301 THE RESET (founder, after deploying 300 — 'The after-exit sunny
+  day page not showing. Just same old behavior of immediate log in once
+  more of user.' / 'collapsed the cover into the original first page'):
+  a user DELETING from LoopKeeper is an EXIT — the sunny day follows the
+  deck delete (home.onContactsChange decrease branch) exactly as it follows
+  the loop drop; and when the REAL deck EMPTIES the journey has
+  demonstrably NOT started — the gate RESETS (lk_cover_engaged +
+  lk_firstminute_done cleared, firstMinuteActive re-armed) and the cover
+  returns. The panel LEADS with the two avoidance doors (the welcome title
+  pushed down below them), and the legacy TASK / PERSON doors hide behind
+  an obvious "Or start with" button until tapped (fm_legacy {open} logged).
 - BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but cover is still
   being skipped even though I did not respond to it at first deployment'):
   the gate MUST NEVER read loop state — the old `loops.all().length > 0`

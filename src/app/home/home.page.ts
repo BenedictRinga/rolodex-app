@@ -2071,6 +2071,28 @@ export class HomePage implements OnInit, OnDestroy {
       this.firstMinuteTapped = true;
       void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
       void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
+    } else if (this.lastRealCount !== null && realCount < this.lastRealCount) {
+      // 2026-09-22 BUILD 301 THE RESET (founder, after deploying 300: 'The
+      // after-exit sunny day page not showing. Just same old behavior of
+      // immediate log in once more of user.' and 'collapsed the cover into
+      // the original first page'): a user DELETING from LoopKeeper is an
+      // EXIT — the horror-boyfriend rule applies to it exactly as to the
+      // loop drop: the sunny day follows the delete, not the next thing.
+      // And per the 297 law ('return resets the gate... journey away from
+      // procrastination state has not started'): when the REAL deck EMPTIES,
+      // the journey has demonstrably NOT started — the gate RESETS (both
+      // flags cleared) and the cover returns on the next boot.
+      this.sunnyWhat = '';
+      this.sunnyOn = true;
+      void this.analytics.track('sunny_shown', { surface: 'deck-delete' });
+      if (realCount === 0) {
+        // The deck is empty - the cover returns THIS SESSION too (the 297
+        // law: the return resets the gate to untapped/untouched/undecided).
+        this.firstMinuteActive = true;
+        this.firstMinuteTapped = false;
+        void this.storageService.set('lk_cover_engaged', false).catch(() => { /* best effort */ });
+        void this.storageService.set('lk_firstminute_done', false).catch(() => { /* best effort */ });
+      }
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload

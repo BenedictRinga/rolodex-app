@@ -13,15 +13,13 @@
        4. One tap sends it; it closes    (WhatsApp + the closed check). -->
 <div class="fm-panel">
 
-  <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
-
-  <!-- BUILD 294 THE AVOIDANCE COVER (founder: "Avoidance lead, as cover,
-       but maintain styling theme"): the two cover cards are the named
-       avoidances — "The reply I owe" (the PERSON chain: pick, then the
-       words) and "The decision I keep not making" (the 183 pure self-loop,
-       straight to the words). The brief's move 1: the first session is ONE
-       real avoidance — a stranger who closes one real send has felt the
-       product. -->
+  <!-- 2026-09-22 BUILD 301 THE OBVIOUS DOOR (founder: 'Make "Or start with"
+       an obvious button, which when tapped, reveals the TASK || PERSON,
+       pushing down the Welcome to LoopKeeper...' + 'collapsed the cover into
+       the original first page'): THE COVER LEADS — the two named avoidances
+       are the FIRST thing on the page; the welcome title is pushed DOWN
+       below them; and the legacy TASK / PERSON doors hide behind an obvious
+       button until the user asks for them. -->
   <div class="fm-doors">
     <button class="fm-door" type="button" (click)="avoidDoor('owed-reply')">
       <span class="fm-cover"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
@@ -32,6 +30,28 @@
       <span class="fm-door-label">{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
     </button>
   </div>
+
+  <!-- 2026-09-22 BUILD 301: "Or start with" is now an OBVIOUS BUTTON — the
+       legacy TASK / PERSON doors are hidden behind it until tapped; the
+       reveal pushes the welcome title further down the page. -->
+  <button class="fm-orbtn" type="button" (click)="toggleLegacy()">
+    <span>{{ 'loopkeeper.fm.orlabel' | translate }}</span>
+    <ion-icon [name]="legacyOpen ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+  </button>
+  <div class="fm-doors fm-doors-sub" *ngIf="legacyOpen">
+    <button class="fm-door" type="button" (click)="task.emit()">
+      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
+    </button>
+    <button class="fm-door" type="button" (click)="person.emit()">
+      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
+    </button>
+  </div>
+
+  <!-- The welcome title — pushed DOWN below the cover (the founder's
+       "pushing down the Welcome to LoopKeeper..."). -->
+  <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
 
   <!-- Section 4: Show me first — the four beats of the normal flow, the
        demo words ticking into the editing spaces. -->
@@ -90,21 +110,6 @@
          tap, always visible under the animation. -->
     <button class="fm-return" type="button" (click)="toggleShowMe()">Return</button>
 
-  </div>
-
-  <!-- BUILD 294 THE DEMOTED ROW: TASK / PERSON follow BELOW — the same
-       regular cards, the same theme, one fold down (the founder's ruling
-       keeps them; the brief keeps them out of the first minute's face). -->
-  <div class="fm-orlabel">{{ 'loopkeeper.fm.orlabel' | translate }}</div>
-  <div class="fm-doors fm-doors-sub">
-    <button class="fm-door" type="button" (click)="task.emit()">
-      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
-    </button>
-    <button class="fm-door" type="button" (click)="person.emit()">
-      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
-    </button>
   </div>
 
   <!-- Section 3: the courtesy line, at the bottom. -->

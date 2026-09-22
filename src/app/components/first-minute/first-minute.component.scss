@@ -283,3 +283,26 @@
   text-align: center;
   opacity: .9;
 }
+
+/* 2026-09-22 BUILD 301 THE OBVIOUS DOOR: "Or start with" is a real button,
+   not a label - amber-tinted pill, full width, obvious. */
+.fm-orbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 14px 0 4px;
+  padding: 12px 16px;
+  border: 1px solid rgba(180, 83, 9, 0.35);
+  background: rgba(234, 179, 8, 0.10);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #7c4a03;
+  cursor: pointer;
+}
+.fm-orbtn ion-icon {
+  font-size: 16px;
+}
