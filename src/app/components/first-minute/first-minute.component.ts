@@ -6,13 +6,21 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
  * time UX must be same as that for return UX. Mostly same, everything
  * surrounding, except for content of Loops Alpha" + the four sections:
  * 1. the title line above; 2. two of our regular cards, reduced, side by
- * side — TASK and PERSON; 3. the courtesy line; 4. "Show me first").
+ * side; 3. the courtesy line; 4. "Show me first").
+ *
+ * 2026-09-22 BUILD 294 THE AVOIDANCE COVER (founder ruling: "Avoidance
+ * lead, as cover, but maintain styling theme"; the strategic brief
+ * D:/TODOs/USE_NOW.txt move 1: "First session is one human avoidance, and
+ * nothing else"): the two COVER cards are the named avoidances now —
+ * "The reply I owe" (rides the PERSON chain: the add-sheet pick, and the
+ * loop is born owed-reply with its friction named BY THE USER) and
+ * "The decision I keep not making" (rides the 183 pure self-loop, straight
+ * to the words). TASK / PERSON and the demo follow BELOW — same cards,
+ * same theme, one fold down. Nothing new is invented; both doors plug
+ * into the EXISTING flows.
  *
  * The panel renders INSIDE the walk's slide 1 (send-walk) for an untouched
  * device — the veil is gone; the ambience is byte-for-byte the regular one.
- * Both doors plug into the EXISTING flows and nothing new is invented:
- * - TASK  → the walk's taskCardRequest chain (the 257 create-task draft).
- * - PERSON → the walk's whoRequest chain (the device-contacts pick).
  * The panel vanishes the moment the deed lands (home flips firstMinute on
  * contactsDirty) and the walk is the regular one from then on.
  *
@@ -32,6 +40,11 @@ export class FirstMinuteComponent implements OnDestroy {
   @Output() task = new EventEmitter<void>();
   /** PERSON door — the existing device-contacts pick flow, via the walk. */
   @Output() person = new EventEmitter<void>();
+  /** BUILD 294 THE AVOIDANCE DOORS — the cover. 'owed-reply' rides the
+   *  PERSON chain (the add-sheet pick; the walk births the loop as
+   *  owed-reply, friction named by the user); 'decide' rides the 183 pure
+   *  self-loop, straight to the words. */
+  @Output() avoid = new EventEmitter<'owed-reply' | 'decide'>();
   /** BUILD 279: the demo view opened/closed — home hides the lower sections
    *  so the Inbox takes the full screen while the animation plays. */
   @Output() demoView = new EventEmitter<boolean>();
@@ -75,6 +88,14 @@ export class FirstMinuteComponent implements OnDestroy {
     } else {
       this.stopDemo();
     }
+  }
+
+  /** BUILD 294 THE AVOIDANCE COVER: the tap on either cover card — the one
+   *  real avoidance is named, measured, and handed to the walk's EXISTING
+   *  chains (the 278 rule: nothing new is invented). */
+  avoidDoor(kind: 'owed-reply' | 'decide'): void {
+    void this.analytics.track('firstminute_avoid', { kind });
+    this.avoid.emit(kind);
   }
 
   /** The ticker: types the demo words into each beat's editing space, holds,

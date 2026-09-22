@@ -837,7 +837,7 @@
     "walk.taskAt": "时间（可选）",
     "storage.serverConsentNote": "首先：在设置中给予同意 — Backend sync consent。在此之前，任何数据都不会离开本设备。",
     "storage.serverConsentOpen": "打开同意",
-    "fm.title": "说出你需要闭环的第一件事——一个任务，或一个人",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "一句话。助理替你写好词——你发出去——脑子里的那个标签页就关上了。",
     "fm.capture": "记下它",
     "fm.showme": "先给我看看",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 欢迎来到 LoopKeeper——告别拖延，一个人，一件事，一次一件。",
     "settings.exit": "退出",
     "fm.taskLabel": "任务",
-    "fm.personLabel": "人物"
+    "fm.personLabel": "人物",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

@@ -759,7 +759,7 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "Magacaabi hawsha koowaad ama wareegga qofka aad u baahan tahay inaad xirto",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
     "fm.capture": "Capture it",
     "fm.showme": "I tus marka hore",
@@ -773,6 +773,9 @@
     "fm.courtesy": "🌱 Soo dhawoow LoopKeeper — ka takhalufinta daahitaanka, qof hal mar, hawl hal mar.",
     "settings.exit": "Exiting",
     "fm.taskLabel": "HAWSHA",
-    "fm.personLabel": "QOFKA"
+    "fm.personLabel": "QOFKA",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

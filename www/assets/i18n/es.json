@@ -837,7 +837,7 @@
     "walk.taskAt": "A las (opcional)",
     "storage.serverConsentNote": "Primero: da el consentimiento en Ajustes — Backend sync consent. Nada sale de este dispositivo antes.",
     "storage.serverConsentOpen": "Abrir consentimiento",
-    "fm.title": "Nombra la primera tarea — o persona — cuyo bucle necesitas cerrar",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Una frase. El Asistente escribe las palabras — tú las envías — la pestaña de tu cabeza se cierra.",
     "fm.capture": "Capturarlo",
     "fm.showme": "Muéstrame primero",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Bienvenido a LoopKeeper — venciendo la procrastinación, una persona, una tarea a la vez.",
     "settings.exit": "Salir",
     "fm.taskLabel": "TAREA",
-    "fm.personLabel": "PERSONA"
+    "fm.personLabel": "PERSONA",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

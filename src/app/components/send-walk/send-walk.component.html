@@ -45,7 +45,7 @@
          ladder (Contact Picker on Android, the .vcf ladder on iPhone) — NOT
          the bare create form a picker-less device fell into before (the
          founder's "PERSON still shows me Create Task"). -->
-    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="whoRequest.emit()" (demoView)="demoView.emit($event)"></app-first-minute>
+    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="whoRequest.emit()" (demoView)="demoView.emit($event)" (avoid)="avoidDoor($event)"></app-first-minute>
     <ng-container *ngIf="!firstMinute">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 

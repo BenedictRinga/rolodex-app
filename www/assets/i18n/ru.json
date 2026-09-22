@@ -837,7 +837,7 @@
     "walk.taskAt": "Во сколько (необязательно)",
     "storage.serverConsentNote": "Сначала: дайте согласие в Настройках — Backend sync consent. До него ничего не покидает устройство.",
     "storage.serverConsentOpen": "Открыть согласие",
-    "fm.title": "Назовите первую задачу — или человека — чью петлю вам нужно закрыть",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Одно предложение. Ассистент пишет слова — вы отправляете — вкладка в голове закрывается.",
     "fm.capture": "Записать",
     "fm.showme": "Сначала покажите",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Добро пожаловать в LoopKeeper — побеждаем прокрастинацию: один человек, одно дело за раз.",
     "settings.exit": "Выход",
     "fm.taskLabel": "ЗАДАЧА",
-    "fm.personLabel": "ЧЕЛОВЕК"
+    "fm.personLabel": "ЧЕЛОВЕК",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

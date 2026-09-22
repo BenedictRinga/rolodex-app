@@ -843,7 +843,7 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "Name the first task or person loop you need to close",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
     "fm.capture": "Capture it",
     "fm.showme": "Show me first",
@@ -857,6 +857,9 @@
     "fm.courtesy": "🌱 Welcome to LoopKeeper — clearing procrastination, one person, one task at a time.",
     "settings.exit": "Exiting",
     "fm.taskLabel": "TASK",
-    "fm.personLabel": "PERSON"
+    "fm.personLabel": "PERSON",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

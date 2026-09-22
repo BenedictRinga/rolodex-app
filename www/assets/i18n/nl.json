@@ -837,7 +837,7 @@
     "walk.taskAt": "Om (optioneel)",
     "storage.serverConsentNote": "Eerst: geef toestemming in Instellingen — Backend sync consent. Niets verlaat dit apparaat vóór die tijd.",
     "storage.serverConsentOpen": "Toestemming openen",
-    "fm.title": "Noem de eerste taak — of persoon — waarvan je de lus wilt sluiten",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Eén zin. De Assistent schrijft de woorden — jij verstuurt — het tabblad in je hoofd sluit.",
     "fm.capture": "Vastleggen",
     "fm.showme": "Laat het me eerst zien",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Welkom bij LoopKeeper — uitstel verslaan, één persoon, één taak tegelijk.",
     "settings.exit": "Afsluiten",
     "fm.taskLabel": "TAAK",
-    "fm.personLabel": "PERSOON"
+    "fm.personLabel": "PERSOON",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

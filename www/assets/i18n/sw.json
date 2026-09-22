@@ -837,7 +837,7 @@
     "walk.taskAt": "Saa (hiari)",
     "storage.serverConsentNote": "Kwanza: idhini kwenye Mipangilio — Backend sync consent. Hakuna kinachaondoka kwenye kifaa hako kabla ya hapo.",
     "storage.serverConsentOpen": "Fungua idhini",
-    "fm.title": "Taja kazi ya kwanza au mstari wa mtu unahitaji kufunga",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Sentensi moja. Msaidizi anaandika maneno — wewe hutuma — kichwa kinapumzika.",
     "fm.capture": "Iweke",
     "fm.showme": "Nionyeshe kwanza",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Karibu LoopKeeper — kuondoa kuchelewa, mtu mmoja, kazi moja kwa wakati.",
     "settings.exit": "Kutoka",
     "fm.taskLabel": "KAZI",
-    "fm.personLabel": "MTU"
+    "fm.personLabel": "MTU",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

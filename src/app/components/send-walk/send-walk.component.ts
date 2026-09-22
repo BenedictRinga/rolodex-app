@@ -167,6 +167,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.taskDraft = 'off';
     this.selection = this.prevWhoSnap;
     this.prevWhoSnap = null;
+    // 2026-09-22 BUILD 294: a deliberate default clears the pending door.
+    this.avoidKind = null;
   }
 
   private retire(c: any): void {
@@ -573,15 +575,24 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.whatInput = '';
     this.lineOpen = false;
     const isTask = (c as any)?.kind === 'task';
+    // 2026-09-22 BUILD 294 THE AVOIDANCE BIRTH: when the loop is born through
+    // the first-minute "The reply I owe" door, the KIND is the user's own
+    // admission — owed-reply, overdue-apology stance, the friction named by
+    // THEM (whySittingSource 'user'), straight from the engine's chain so the
+    // copy never forks. Consumed here; a default birth stays a default birth.
+    const forced = this.avoidKind;
+    this.avoidKind = null;
+    const why = forced ? this.loops.suggestWhySitting({ kind: forced, summary: '', pretext: undefined, lastTouchAt: undefined, createdAt: Date.now() }) : undefined;
     this.loop = this.loops.create({
       person: String(c?.name?.display || '').trim(),
-      kind: isTask ? 'decide' : 'check-in',
+      kind: forced === 'owed-reply' ? 'owed-reply' : (isTask ? 'decide' : 'check-in'),
       summary: '',
-      stance: 'warm',
+      stance: forced === 'owed-reply' ? 'overdue-apology' : 'warm',
       direction: 'mine',
       sourceContactId: String(c?.contactId || '') || undefined,
       relation: this.whereOf(c) || undefined,
       lastTouchAt: this.tsMs(c?.lastInteraction) || undefined,
+      ...(forced && why ? { whySitting: why, whySittingSource: 'user' as const } : {}),
       ...(isDemo ? { demo: true } : {}),
       ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
     });
@@ -606,6 +617,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // BUILD 257: while a task draft is on, Not this one IS the Cancel —
     // the previous Who returns, nothing retires, nothing saves.
     if (this.taskDraftOn) { this.cancelTaskDraft(); return; }
+    // 2026-09-22 BUILD 294: a deliberate default clears the pending
+    // avoidance door — the flag brands only the loop the user asked for.
+    this.avoidKind = null;
     // 2026-09-16 BUILD 224 THE IN-PLACE SWAP (founder: "app still skips
     // changing in place for user to see new card. Instead, it just skips
     // that first stage"): "Not this one" retires the current card and
@@ -656,6 +670,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // the deed signal — home retires the panel and the add sheet (their own
     // Contact Picker) takes over, exactly the empty state's door.
     if (this.firstMinute) this.firstMinuteDeed.emit();
+    // 2026-09-22 BUILD 294: a deliberate default clears the pending door.
+    this.avoidKind = null;
     this.loop = null;
     this.armedContact = null;
     this.armedHandle = '';
@@ -853,24 +869,57 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * "A decision I keep not making" / "Somewhere I must show up" as PURE
    * self-loops: person '' (b181's subject-less loop), straight to the words.
    * The tray's quietest entry — no card, no handle, no sentence needed.
+   * 2026-09-22 BUILD 294: `userNamed` — the loop was born from the first-
+   * minute AVOIDANCE cover, so the friction is the user's own admission,
+   * not the engine's guess (whySittingSource 'user', from the engine's own
+   * chain so the copy never forks).
    */
-  selfTap(kind: LoopKind): void {
+  selfTap(kind: LoopKind, userNamed = false): void {
     if (this.busy) return;
     void this.analytics.trackListStartedOnce('walk');
     this.armedContact = null;
     this.armedHandle = '';
     this.whatInput = '';
     this.lineOpen = false;
+    const why = userNamed ? this.loops.suggestWhySitting({ kind, summary: '', pretext: undefined, lastTouchAt: undefined, createdAt: Date.now() }) : undefined;
     this.loop = this.loops.create({
       person: '',
       kind,
       summary: '',
       stance: 'warm',
       direction: 'mine',
+      ...(userNamed && why ? { whySitting: why, whySittingSource: 'user' as const } : {}),
     });
     void this.analytics.track('self_loop_started'); // BUILD 184: the no-arming door, measured
     this.enterWords(true);
   }
+
+  /**
+   * 2026-09-22 BUILD 294 THE AVOIDANCE DOORS (the brief's move 1: the first
+   * session is one real avoidance — "The reply I owe" / "The decision I
+   * keep not making"). The doors ride the EXISTING chains, nothing invented:
+   * - 'owed-reply' → the PERSON chain: the add-sheet pick (whoRequest); the
+   *   avoidKind rides along and BIRTHFROMWHO births the loop as owed-reply,
+   *   stance overdue-apology, the friction named by the user's own door tap.
+   * - 'decide' → the 183 pure self-loop, straight to the words.
+   * The flag is consumed by the first birth and cleared on every deliberate
+   * default (mine / notThisOne / nextOne / cancelTaskDraft) so it can never
+   * brand a loop the user did not ask for.
+   */
+  avoidDoor(kind: 'owed-reply' | 'decide'): void {
+    if (this.busy) return;
+    if (this.firstMinute) this.firstMinuteDeed.emit();
+    this.avoidKind = kind;
+    if (kind === 'owed-reply') {
+      this.whoRequest.emit();
+    } else {
+      this.selfTap('decide', true);
+      this.avoidKind = null;
+    }
+  }
+
+  /** The pending avoidance door ('owed-reply' awaiting its pick), if any. */
+  private avoidKind: 'owed-reply' | 'decide' | null = null;
 
   /**
    * Optional line, Enter commits — parseCapture with the armed contact.
@@ -1176,6 +1225,8 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.editingWords = false;
     this.moreOpen = false;
     this.doneLabel = 'Sent';
+    // 2026-09-22 BUILD 294: a deliberate default clears the pending door.
+    this.avoidKind = null;
     // BUILD 241/244: the walk moves on — the selection ends with it.
     this.selection = null;
     void this.rebuildWho();

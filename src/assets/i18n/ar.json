@@ -837,7 +837,7 @@
     "walk.taskAt": "في الساعة (اختياري)",
     "storage.serverConsentNote": "أولاً: امن الموافقة في الإعدادات — Backend sync consent. لا شيء يغادر هذا الجهاز قبلها.",
     "storage.serverConsentOpen": "افتح الموافقة",
-    "fm.title": "سمِّ أول مهمة — أو شخص — تحتاج أن تُغلق حلقتَه",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "جملة واحدة. المساعد يكتب الكلمات — أنت ترسلها — تُغلق النافذة في رأسك.",
     "fm.capture": "احفظه",
     "fm.showme": "أرني أولاً",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 مرحبًا بك في LoopKeeper — نتغلب على التسويف، شخص واحد، مهمة واحدة في كل مرة.",
     "settings.exit": "الخروج",
     "fm.taskLabel": "مهمة",
-    "fm.personLabel": "شخص"
+    "fm.personLabel": "شخص",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

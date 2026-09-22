@@ -837,7 +837,7 @@
     "walk.taskAt": "बजे (वैकल्पिक)",
     "storage.serverConsentNote": "पहले: सेटिंग्स में सहमति दें — Backend sync consent. उससे पहले इस डिवाइस से कुछ नहीं जाता।",
     "storage.serverConsentOpen": "सहमति खोलें",
-    "fm.title": "पहला काम या व्यक्ति नाम दें जिसका लूप आपको बंद करना है",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "एक वाक्य। असिस्टेंट शब्द लिखता है — आप भेजते हैं — दिमाग़ का टैब बंद हो जाता है।",
     "fm.capture": "दर्ज करें",
     "fm.showme": "पहले दिखाएँ",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 LoopKeeper में आपका स्वागत है — टालमटोल पर काबू, एक व्यक्ति, एक काम एक बार में।",
     "settings.exit": "बाहर",
     "fm.taskLabel": "काम",
-    "fm.personLabel": "व्यक्ति"
+    "fm.personLabel": "व्यक्ति",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

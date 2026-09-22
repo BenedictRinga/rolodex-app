@@ -837,7 +837,7 @@
     "walk.taskAt": "時間（可選）",
     "storage.serverConsentNote": "首先：在設定中給予同意 — Backend sync consent。在此之前，任何資料都不會離開本裝置。",
     "storage.serverConsentOpen": "打開同意",
-    "fm.title": "說出你需要閉環的第一件事——一個任務，或一個人",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "一句話。助理替你寫好詞——你送出去——腦中的那個分頁就關上了。",
     "fm.capture": "記下它",
     "fm.showme": "先給我看",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 歡迎來到 LoopKeeper——告別拖延，一個人，一件事，一次一件。",
     "settings.exit": "退出",
     "fm.taskLabel": "任務",
-    "fm.personLabel": "人物"
+    "fm.personLabel": "人物",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

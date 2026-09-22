@@ -837,7 +837,7 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "תנו שם למשימה הראשונה או ללולאת האדם שעליכם לסגור",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
     "fm.capture": "Capture it",
     "fm.showme": "הראו לי קודם",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 ברוכים הבאים ל-LoopKeeper — מנקים דחיינות, אדם אחד, משימה אחת בכל פעם.",
     "settings.exit": "Exiting",
     "fm.taskLabel": "משימה",
-    "fm.personLabel": "אדם"
+    "fm.personLabel": "אדם",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

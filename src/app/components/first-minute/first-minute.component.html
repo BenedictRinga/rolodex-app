@@ -15,17 +15,21 @@
 
   <h1 class="fm-title">{{ 'loopkeeper.fm.title' | translate }}</h1>
 
-  <!-- Section 2: two of our REGULAR cards, reduced, side by side. The labels
-       are TRANSLATED (283: the founder named Hausa, Amharic, Somali, Hebrew —
-       and TASK/PERSON belong to every language). -->
+  <!-- BUILD 294 THE AVOIDANCE COVER (founder: "Avoidance lead, as cover,
+       but maintain styling theme"): the two cover cards are the named
+       avoidances — "The reply I owe" (the PERSON chain: pick, then the
+       words) and "The decision I keep not making" (the 183 pure self-loop,
+       straight to the words). The brief's move 1: the first session is ONE
+       real avoidance — a stranger who closes one real send has felt the
+       product. -->
   <div class="fm-doors">
-    <button class="fm-door" type="button" (click)="task.emit()">
-      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
+    <button class="fm-door" type="button" (click)="avoidDoor('owed-reply')">
+      <span class="fm-cover"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.avoidReply' | translate }}</span>
     </button>
-    <button class="fm-door" type="button" (click)="person.emit()">
-      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
-      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
+    <button class="fm-door" type="button" (click)="avoidDoor('decide')">
+      <span class="fm-cover"><ion-icon name="git-branch-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
     </button>
   </div>
 
@@ -86,6 +90,21 @@
          tap, always visible under the animation. -->
     <button class="fm-return" type="button" (click)="toggleShowMe()">Return</button>
 
+  </div>
+
+  <!-- BUILD 294 THE DEMOTED ROW: TASK / PERSON follow BELOW — the same
+       regular cards, the same theme, one fold down (the founder's ruling
+       keeps them; the brief keeps them out of the first minute's face). -->
+  <div class="fm-orlabel">{{ 'loopkeeper.fm.orlabel' | translate }}</div>
+  <div class="fm-doors fm-doors-sub">
+    <button class="fm-door" type="button" (click)="task.emit()">
+      <span class="fm-cover"><ion-icon name="checkbox-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.taskLabel' | translate }}</span>
+    </button>
+    <button class="fm-door" type="button" (click)="person.emit()">
+      <span class="fm-cover"><ion-icon name="person-outline"></ion-icon></span>
+      <span class="fm-door-label">{{ 'loopkeeper.fm.personLabel' | translate }}</span>
+    </button>
   </div>
 
   <!-- Section 3: the courtesy line, at the bottom. -->

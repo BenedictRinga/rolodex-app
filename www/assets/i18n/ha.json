@@ -837,7 +837,7 @@
     "walk.taskAt": "At (optional)",
     "storage.serverConsentNote": "First: give consent in Settings — Backend sync consent. Nothing leaves this device before it.",
     "storage.serverConsentOpen": "Open consent",
-    "fm.title": "Sunanta farkon aiki ko zangamin mutum da kake bukatar rufewa",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "One sentence. The Assistant writes the words — you send them — the tab in your head shuts.",
     "fm.capture": "Capture it",
     "fm.showme": "Nuna mini farko",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Barka da zuwa LoopKeeper — kawar da jinkirin aiki, mutum daya, aiki daya a lokaci guda.",
     "settings.exit": "Exiting",
     "fm.taskLabel": "AIKI",
-    "fm.personLabel": "MUTUM"
+    "fm.personLabel": "MUTUM",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

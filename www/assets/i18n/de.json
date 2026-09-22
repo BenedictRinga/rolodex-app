@@ -837,7 +837,7 @@
     "walk.taskAt": "Um (optional)",
     "storage.serverConsentNote": "Zuerst: Zustimmung in Einstellungen — Backend sync consent. Nichts verlässt dieses Gerät vorher.",
     "storage.serverConsentOpen": "Zustimmung öffnen",
-    "fm.title": "Benenne die erste Aufgabe — oder Person — deren Schleife du schließen willst",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Ein Satz. Der Assistent schreibt die Worte — du schickst sie — der Tab in deinem Kopf schließt sich.",
     "fm.capture": "Festhalten",
     "fm.showme": "Zeig es mir zuerst",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 Willkommen bei LoopKeeper — Prokrastination überwinden, ein Mensch, eine Aufgabe nach der anderen.",
     "settings.exit": "Beenden",
     "fm.taskLabel": "AUFGABE",
-    "fm.personLabel": "PERSON"
+    "fm.personLabel": "PERSON",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }

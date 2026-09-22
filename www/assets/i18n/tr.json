@@ -837,7 +837,7 @@
     "walk.taskAt": "Saat (isteğe bağlı)",
     "storage.serverConsentNote": "Önce: Ayarlar'da onay ver — Backend sync consent. Ondan önce bu cihazdan hiçbir şey çıkmaz.",
     "storage.serverConsentOpen": "Onayı aç",
-    "fm.title": "Kapatman gereken ilk işi ya da kişiyi adlandır",
+    "fm.title": "Name the first loop you need to close",
     "fm.hint": "Tek cümle. Asistan sözleri yazar — sen gönderirsin — aklındaki sekme kapanır.",
     "fm.capture": "Yakala",
     "fm.showme": "Önce göster",
@@ -851,6 +851,9 @@
     "fm.courtesy": "🌱 LoopKeeper'e hoş geldin — ertelemeyi yeniyoruz: bir kişi, bir iş, tek tek.",
     "settings.exit": "Çıkış",
     "fm.taskLabel": "GÖREV",
-    "fm.personLabel": "KİŞİ"
+    "fm.personLabel": "KİŞİ",
+    "fm.avoidReply": "The reply I owe",
+    "fm.avoidDecide": "The decision I keep not making",
+    "fm.orlabel": "Or start with"
   }
 }
