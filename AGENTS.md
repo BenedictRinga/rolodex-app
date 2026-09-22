@@ -270,17 +270,18 @@ That is the fundamental entry fee. They must do something at that first gate
   decide tap RESUMES the open cover-decide loop (never a duplicate). The
   gate's closers: the real card's arrival, the completed task card, the
   real send (walk.fire() → firstMinuteEntry). Nothing else.
-- BUILD 301 THE RESET (founder, after deploying 300 — 'The after-exit sunny
-  day page not showing. Just same old behavior of immediate log in once
-  more of user.' / 'collapsed the cover into the original first page'):
-  a user DELETING from LoopKeeper is an EXIT — the sunny day follows the
-  deck delete (home.onContactsChange decrease branch) exactly as it follows
-  the loop drop; and when the REAL deck EMPTIES the journey has
-  demonstrably NOT started — the gate RESETS (lk_cover_engaged +
-  lk_firstminute_done cleared, firstMinuteActive re-armed) and the cover
-  returns. The panel LEADS with the two avoidance doors (the welcome title
-  pushed down below them), and the legacy TASK / PERSON doors hide behind
-  an obvious "Or start with" button until tapped (fm_legacy {open} logged).
+- BUILD 302 THE EXIT'S SUNNY DAY, RESTORED (founder: 'Exit/delete is in
+  Settings... The sunny page has nothing to do with loops. Go back to the
+  original request'): the sunny day belongs to ONE moment — the END of the
+  Settings wipe (rolodex.wipeAllAndReload): wipe → the farewell beat (the
+  regrets) → THE SUNNY DAY, NOT the reload. The reload that auto-returned
+  the user is gone; rolodex.finishWipe() performs it ONLY on the armed
+  logo's tap — the user's act. The 299/301 wirings to the loop drop and the
+  deck delete are REVERTED (a drop is a drop). The panel's face is now
+  EXACTLY three things: the two avoidance doors, the "Or start with"
+  button, the courtesy line — the welcome title, TASK / PERSON, and Show
+  me first + the demo ALL live behind the button until tapped. The gate
+  still resets when the real deck empties (the journey un-started).
 - BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but cover is still
   being skipped even though I did not respond to it at first deployment'):
   the gate MUST NEVER read loop state — the old `loops.all().length > 0`

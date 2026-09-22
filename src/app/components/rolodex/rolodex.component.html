@@ -756,4 +756,14 @@
       <app-command-center (closed)="showRegularView()" (home)="showRegularView()"></app-command-center>
     </ng-container>
   </ng-container>
+
+  <!-- 2026-09-22 BUILD 302 THE EXIT'S SUNNY DAY (founder, going back to the
+       original request: 'The sunny page has nothing to do with loops' - the
+       exit/delete is THIS wipe sequence): after the regrets (the farewell
+       beat), the app used to RELOAD the user straight back in. It does not
+       any more. The full-page sunny day follows - no tray, no list, no
+       timer - and the ARMED LoopKeeper logo at the base is the only way
+       back: tapping it performs the fresh birth (the reload), and THAT TAP
+       IS THE USER'S ACT. -->
+  <app-sunny-day *ngIf="sunnyAfterWipe" (return)="finishWipe()"></app-sunny-day>
 </div>

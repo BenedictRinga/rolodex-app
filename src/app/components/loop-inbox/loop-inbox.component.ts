@@ -65,10 +65,6 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 2026-09-22 BUILD 295 THE GATE HELD: the AVOIDANCE door tap — relayed up;
    *  home PERSISTS the gate-passed state (the entry fee, founder ruling). */
   @Output() firstMinuteEntry = new EventEmitter<void>();
-  /** 2026-09-22 BUILD 299 THE SUNNY DAY: the USER's drop — relayed up; home
-   *  presents the full-page sunny day (the quiet after the drop; the armed
-   *  logo at base is the only way back, and the tap is the user's act). */
-  @Output() droppedWhat = new EventEmitter<string>();
   /** BUILD 279: Close demo on a demo loop — home flips to the regular home. */
   @Output() exitDemo = new EventEmitter<void>();
   /** BUILD 279: the demo view is open — home hides the lower sections so the
@@ -875,14 +871,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dropEditingId = null;
     void this.refresh();
     void this.alerts.showToast(this.tr('loopkeeper.t.dropped'), 2800);
-    // 2026-09-22 BUILD 299 THE SUNNY DAY (founder, the horror-boyfriend rule):
-    // 'our regrets when a user exits/deletes from LoopKeeper, should not be
-    // followed immediately by loading them back into the app'. The drop does
-    // NOT shove the next loop at them - home presents the full-page sunny
-    // day; the armed logo at its base is the only way back, and the tap is
-    // THE USER'S ACT. The agent's own drops never trigger this - only a
-    // human's confirmDrop does.
-    this.droppedWhat.emit(String(l.person || l.summary || '').trim());
+    // 2026-09-22 BUILD 302 (founder: 'The sunny page has nothing to do with
+    // loops. Go back to the original request for sunny day'): the sunny day
+    // was never a loop-drop moment — it belongs to the Settings wipe's
+    // farewell only. The 299 emit is gone; a drop is a drop, the tray
+    // refreshes, nothing hijacks the screen.
   }
 
   /** One-tap send (6) → receipt (8) */

@@ -476,6 +476,10 @@ export class RolodexComponent implements OnInit {
   wiping = false;
   wipeFarewell = false;
   wipeError = '';
+  /** 2026-09-22 BUILD 302 THE EXIT'S SUNNY DAY: after the regrets, the app
+   *  goes quiet on the sunny day — no auto-return; the armed logo's tap is
+   *  the user's act of coming back (finishWipe performs the fresh birth). */
+  sunnyAfterWipe = false;
 
   async confirmWipeAll(): Promise<void> {
     const alert = await this.alertController.create({
@@ -532,15 +536,27 @@ export class RolodexComponent implements OnInit {
           } catch { res(); }
         })));
       } catch { /* best effort — the boot-time pass is the guarantee */ }
-      // 5. THE FAREWELL — the usual regrets, then the fresh birth. No
-      // machine-reload mark: the next boot counts.
+      // 5. THE FAREWELL — the usual regrets, then... 2026-09-22 BUILD 302 THE
+      // EXIT'S SUNNY DAY (founder, going back to the original request — the
+      // exit/delete is THIS wipe sequence, and 'The sunny page has nothing
+      // to do with loops'): the reload that immediately returned the user
+      // IS GONE. After the regrets, the app goes quiet on the full-page
+      // sunny day; the ARMED LoopKeeper logo at its base is the only way
+      // back, and tapping it performs the fresh birth (finishWipe) — THE
+      // USER'S ACT, never an automatic return.
       this.wipeFarewell = true;
       await new Promise((r) => setTimeout(r, 2200));
-      const sep = location.href.includes('?') ? '&' : '?';
-      window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
+      this.sunnyAfterWipe = true;
     } catch (e) {
       this.wipeError = String((e as Error)?.message || 'unknown error').slice(0, 120);
     }
+  }
+
+  /** 2026-09-22 BUILD 302: the armed logo's tap — the user's act — performs
+   *  the fresh birth the wipe always promised (the same _wipe reload). */
+  finishWipe(): void {
+    const sep = location.href.includes('?') ? '&' : '?';
+    window.location.replace(`${location.href}${sep}_wipe=${Date.now()}`);
   }
 
   /** 2026-08-19: load the acknowledged build BEFORE the first check, so a

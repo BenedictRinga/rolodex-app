@@ -315,28 +315,6 @@ export class HomePage implements OnInit, OnDestroy {
   private firstMinuteTapped = false;
   private firstMinuteRetired = false;
 
-  // ── 2026-09-22 BUILD 299 THE SUNNY DAY ─────────────────────────────────────
-  /** The horror-boyfriend rule (founder): a user's drop (exit/delete with
-   *  dignity) must NOT be followed by the app loading them back in. After
-   *  the drop, home presents the FULL-PAGE SUNNY DAY - quiet, no tray, no
-   *  timer. The armed LoopKeeper logo at its base is the only way back, and
-   *  the tap is THE USER'S ACT. The agent's own drops never trigger this. */
-  sunnyOn = false;
-  sunnyWhat = '';
-
-  /** The inbox relayed a USER drop - go quiet on the sunny day. */
-  onDropped(what: string): void {
-    this.sunnyWhat = what;
-    this.sunnyOn = true;
-    void this.analytics.track('sunny_shown');
-  }
-
-  /** THE USER'S ACT: they tapped the armed logo - the app resumes. */
-  sunnyBack(): void {
-    this.sunnyOn = false;
-    this.sunnyWhat = '';
-  }
-
   private async maybeFirstMinute(): Promise<void> {
     try {
       // 2026-09-20 BUILD 281 EVERY VISIT UNTIL ENGAGED (founder: "Until user
@@ -2072,19 +2050,14 @@ export class HomePage implements OnInit, OnDestroy {
       void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
       void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
     } else if (this.lastRealCount !== null && realCount < this.lastRealCount) {
-      // 2026-09-22 BUILD 301 THE RESET (founder, after deploying 300: 'The
-      // after-exit sunny day page not showing. Just same old behavior of
-      // immediate log in once more of user.' and 'collapsed the cover into
-      // the original first page'): a user DELETING from LoopKeeper is an
-      // EXIT — the horror-boyfriend rule applies to it exactly as to the
-      // loop drop: the sunny day follows the delete, not the next thing.
-      // And per the 297 law ('return resets the gate... journey away from
-      // procrastination state has not started'): when the REAL deck EMPTIES,
-      // the journey has demonstrably NOT started — the gate RESETS (both
-      // flags cleared) and the cover returns on the next boot.
-      this.sunnyWhat = '';
-      this.sunnyOn = true;
-      void this.analytics.track('sunny_shown', { surface: 'deck-delete' });
+      // 2026-09-22 BUILD 302 THE GATE RESETS WHEN THE JOURNEY UN-STARTS
+      // (the founder's 297 law, verbatim: 'return resets the gate to
+      // untapped/untouched/undecided ie. journey away from procrastination
+      // state has not started'): when the REAL deck EMPTIES, the journey
+      // has demonstrably NOT started — the gate RESETS (both flags cleared)
+      // and the cover returns. The SUNNY DAY does NOT ride deletes — the
+      // founder: 'The sunny page has nothing to do with loops' — it belongs
+      // to the Settings wipe's farewell only (rolodex.wipeAllAndReload).
       if (realCount === 0) {
         // The deck is empty - the cover returns THIS SESSION too (the 297
         // law: the return resets the gate to untapped/untouched/undecided).
