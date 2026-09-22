@@ -2039,6 +2039,10 @@ export class HomePage implements OnInit, OnDestroy {
       // BUILD 281: the real-card ARRIVAL is the engagement the founder named
       // — logged (card_added), evident in the portal — the first-minute UX
       // hands over for good. BUILD 296: the dedicated gate flag rides with it.
+      // BUILD 297: the journey has STARTED — the cover retires THIS SESSION
+      // too (firstMinuteActive), not only on the next boot.
+      this.firstMinuteActive = false;
+      this.firstMinuteTapped = true;
       void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
       void this.storageService.set('lk_firstminute_done', true).catch(() => { /* best effort */ });
     }

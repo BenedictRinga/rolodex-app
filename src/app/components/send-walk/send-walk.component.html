@@ -45,8 +45,13 @@
          ladder (Contact Picker on Android, the .vcf ladder on iPhone) — NOT
          the bare create form a picker-less device fell into before (the
          founder's "PERSON still shows me Create Task"). -->
-    <app-first-minute *ngIf="firstMinute" (task)="beginTaskDraft()" (person)="whoRequest.emit()" (demoView)="demoView.emit($event)" (avoid)="avoidDoor($event)"></app-first-minute>
-    <ng-container *ngIf="!firstMinute">
+    <!-- 2026-09-22 BUILD 297 THE RETURN TO COVER: the cover is the standing
+         face of the first-timer — the task draft HIDES it while open
+         (firstMinute && !taskDraftOn), and CANCEL brings it back RESET
+         (untapped/undecided); the who-pane shows the regular machinery in
+         every other state, and the sheet floats OVER the cover. -->
+    <app-first-minute *ngIf="firstMinute && !taskDraftOn" (task)="beginTaskDraft()" (person)="personDoor()" (demoView)="demoView.emit($event)" (avoid)="avoidDoor($event)"></app-first-minute>
+    <ng-container *ngIf="!firstMinute || taskDraftOn">
     <div class="sw-taphint" *ngIf="who && !taskDraftOn">- {{ 'loopkeeper.walk.tapCard' | translate }} -</div>
 
     <!-- 2026-09-17 BUILD 257 THE TASK COMPLEMENT: when a draft is on, the

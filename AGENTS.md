@@ -251,12 +251,25 @@ That is the fundamental entry fee. They must do something at that first gate
   user TAPS an avoidance door ('The reply I owe' / 'The decision I keep not
   making'). That tap IS the engagement; it supersedes build 281's
   per-visit rule FOR THE AVOIDANCE DOORS ONLY.
-- The tap PERSISTS the gate-passed state in the DEDICATED flag
-  (`lk_cover_engaged`, build 296 — the gate answers to NOTHING else; set by
-  home.onFirstMinuteEntry via the walk's firstMinuteEntry chain, and by the
-  completed-deed and real-card-arrival paths) — no reload and no later
-  visit resurrects the cover. The action is logged at the tap
-  (`firstminute_avoid {kind}`) — that is the registration.
+- The gate closes ONLY when the journey starts — a real card's arrival or
+  a real send — and then PERSISTS in the DEDICATED flag (`lk_cover_engaged`,
+  build 296 — the gate answers to NOTHING else; written by home's
+  arrival path, the completed-deed path, and the walk's fire() →
+  firstMinuteEntry chain) — no reload and no later visit resurrects the
+  cover. The action is logged at the tap (`firstminute_avoid {kind}`) —
+  that is the registration.
+- BUILD 297 THE RETURN TO COVER (founder: 'Whichever door they choose to
+  use of the four available, there must be a return to cover in that next
+  phase, which return resets the gate to untapped/untouched/undecided ie.
+  journey away from procrastination state has not started'): NO door tap
+  latches the gate. The cover is the standing face of the first-timer: a
+  door tap opens its flow; the RETURN to slide 1 brings the cover back
+  RESET (untapped/undecided — the *ngIf remounts it). The reply door's add
+  sheet floats OVER the cover — an empty dismissal leaves it standing. The
+  task draft hides the cover while open; Cancel returns it reset. A second
+  decide tap RESUMES the open cover-decide loop (never a duplicate). The
+  gate's closers: the real card's arrival, the completed task card, the
+  real send (walk.fire() → firstMinuteEntry). Nothing else.
 - BUILD 296 THE GATE, UNPOLLUTED (founder: 'Deployed, but cover is still
   being skipped even though I did not respond to it at first deployment'):
   the gate MUST NEVER read loop state — the old `loops.all().length > 0`

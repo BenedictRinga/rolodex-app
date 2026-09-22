@@ -119,14 +119,27 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   cadenceLabel(c: string): string { return this.tr('loopkeeper.task.' + c); }
 
+  /** 2026-09-22 BUILD 297 THE RETURN TO COVER: the legacy PERSON door is not
+   *  an avoidance door — it clears any pending avoidance branding before it
+   *  opens the SAME add sheet, so a bounced reply-door tap can never brand a
+   *  later pick owed-reply. The sheet floats OVER the cover; an empty
+   *  dismissal leaves the cover standing, untouched. */
+  personDoor(): void {
+    this.avoidKind = null;
+    this.whoRequest.emit();
+  }
+
   /** Remember the previous Who (Cancel restores it) and put the blank card
    *  in the Who slot — no modal, no taskCardRequest, no layout jump. */
   beginTaskDraft(): void {
     if (this.taskDraftOn) return;
-    // 2026-09-20 BUILD 278: from the first-minute panel, the tap IS the deed
-    // signal — home retires the panel and the 257 draft card takes the slot,
-    // "as normal after user tapped Create Task".
-    if (this.firstMinute) this.firstMinuteDeed.emit();
+    // 2026-09-22 BUILD 297 THE RETURN TO COVER (founder: 'Whichever door they
+    // choose... there must be a return to cover in that next phase, which
+    // return resets the gate'): the task draft HIDES the cover while it is
+    // open (the *ngIf pair: firstMinute && !taskDraftOn / !firstMinute ||
+    // taskDraftOn) — no latch at the tap; CANCEL brings the cover back RESET.
+    // The legacy TASK door is not an avoidance door — clear the pending one.
+    if (this.firstMinute) this.avoidKind = null;
     this.prevWhoSnap = this.selection ? { contact: this.selection.contact, loop: this.selection.loop } : null;
     this.taskTitle = '';
     this.taskDue = '';
@@ -163,6 +176,11 @@ export class SendWalkComponent implements OnInit, OnChanges {
     };
     this.contacts.unshift(card);
     this.contactsDirty.emit();
+    // 2026-09-22 BUILD 297 THE RETURN TO COVER: the SAVED task card is a real
+    // card's arrival — the journey has started; the cover retires (home
+    // persists the gate state in the arrival path). The 278 deed signal
+    // moves here from the tap, where it never belonged.
+    if (this.firstMinute) this.firstMinuteDeed.emit();
     void this.analytics.track('task_card_saved', { source: 'alpha-walk' });
     void this.analytics.trackListStartedOnce('task');
     this.taskDraft = 'off';
@@ -902,30 +920,49 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.enterWords(true);
   }
 
-  /**
-   * 2026-09-22 BUILD 294 THE AVOIDANCE DOORS (the brief's move 1: the first
-   * session is one real avoidance — "The reply I owe" / "The decision I
-   * keep not making"). The doors ride the EXISTING chains, nothing invented:
-   * - 'owed-reply' → the PERSON chain: the add-sheet pick (whoRequest); the
-   *   avoidKind rides along and BIRTHFROMWHO births the loop as owed-reply,
-   *   stance overdue-apology, the friction named by the user's own door tap.
-   * - 'decide' → the 183 pure self-loop, straight to the words.
+  /** 2026-09-22 BUILD 294 THE AVOIDANCE DOORS + BUILD 297 THE RETURN TO
+   * COVER (founder: 'Whichever door they choose to use of the four
+   * available, there must be a return to cover in that next phase, which
+   * return resets the gate to untapped/untouched/undecided ie. journey
+   * away from procrastination state has not started'): NO door tap latches
+   * the gate any more. The cover is the standing face of the first-timer:
+   * a door tap opens its flow; the RETURN to slide 1 brings the cover back
+   * RESET (untapped/undecided — the *ngIf remounts it). The gate closes
+   * ONLY when the journey starts: a real card's arrival (the pick / the
+   * saved task draft) or a real send (fire() emits firstMinuteEntry).
+   * - 'owed-reply' → the PERSON chain: the add-sheet pick; the avoidKind
+   *   rides and BIRTHFROMWHO births the loop OWED-REPLY, stance
+   *   overdue-apology, the friction named by the user's own door tap.
+   *   The sheet floats OVER the cover — an empty dismissal leaves the
+   *   cover standing, untouched.
+   * - 'decide' → the 183 pure self-loop, straight to the words; back
+   *   returns to the cover. 297: a SECOND decide tap RESUMES the open
+   *   cover-decide loop instead of birthing a duplicate.
    * The flag is consumed by the first birth and cleared on every deliberate
    * default (mine / notThisOne / nextOne / cancelTaskDraft) so it can never
    * brand a loop the user did not ask for.
    */
-  avoidDoor(kind: 'owed-reply' | 'decide'): void {
+  async avoidDoor(kind: 'owed-reply' | 'decide'): Promise<void> {
     if (this.busy) return;
-    if (this.firstMinute) this.firstMinuteDeed.emit();
-    // 2026-09-22 BUILD 295 THE GATE HELD: the avoidance tap IS the entry fee —
-    // home persists the gate-passed state; no reload resurrects the cover.
-    if (this.firstMinute) this.firstMinuteEntry.emit();
     this.avoidKind = kind;
     if (kind === 'owed-reply') {
+      // 297: the sheet floats OVER the cover — no latch, no retire. An empty
+      // dismissal returns the user to the cover, untouched (the tap was
+      // logged firstminute_avoid; the gate is still open).
       this.whoRequest.emit();
     } else {
-      this.selfTap('decide', true);
-      this.avoidKind = null;
+      // 297 THE RETURN TO COVER: a cover-decide loop may already sit open
+      // from an earlier tap (the user went to the words and came back) —
+      // RESUME it; the door never mints duplicates.
+      const existing = (await this.loops.all()).find(l =>
+        (!l.status || l.status === 'open') && l.kind === 'decide' && !String(l.person || '').trim());
+      if (existing) {
+        this.avoidKind = null;
+        this.pickLoop(existing);
+      } else {
+        this.selfTap('decide', true);
+        this.avoidKind = null;
+      }
     }
   }
 
@@ -1137,6 +1174,11 @@ export class SendWalkComponent implements OnInit, OnChanges {
         : channel === 'copy' ? 'Copied to clipboard'
         : (fresh.draft || '');
       this.loops.markSent(fresh.id, channel, snippet);
+      // 2026-09-22 BUILD 297 THE RETURN TO COVER (founder: '...return resets
+      // the gate... ie. journey away from procrastination state has not
+      // started'): a REAL send is the journey starting — the gate passes
+      // here (home persists lk_cover_engaged), never at the door tap.
+      if (this.firstMinute) this.firstMinuteEntry.emit();
       const card = this.cardFor(fresh) || this.armedContact;
       if (card) {
         this.draftEngine.pushContext(card, `${channel === 'copy' ? 'Copied the words out' : 'Sent via ' + bundle.label} (${new Date().toLocaleDateString()})`);
