@@ -854,6 +854,11 @@
     "fm.personLabel": "人物",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
-    "fm.orlabel": "Or start with"
+    "fm.orlabel": "Or start with",
+    "walk.didLeave": "送りましたか？",
+    "walk.left": "はい — 送りました",
+    "walk.notYet": "まだです",
+    "walk.notYetTitle": "まだ待っています",
+    "walk.notYetSub": "ループは開いたまま。9時にLoopKeeperがまた知らせます。"
   }
 }

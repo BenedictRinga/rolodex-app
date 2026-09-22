@@ -854,6 +854,11 @@
     "fm.personLabel": "KİŞİ",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
-    "fm.orlabel": "Or start with"
+    "fm.orlabel": "Or start with",
+    "walk.didLeave": "Gitti mi?",
+    "walk.left": "Evet — gitti",
+    "walk.notYet": "Henüz değil",
+    "walk.notYetTitle": "Bekliyor",
+    "walk.notYetSub": "Döngü açık kalır. LoopKeeper 9’da geri getirir."
   }
 }

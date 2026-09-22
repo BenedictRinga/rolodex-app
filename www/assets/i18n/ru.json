@@ -854,6 +854,11 @@
     "fm.personLabel": "ЧЕЛОВЕК",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
-    "fm.orlabel": "Or start with"
+    "fm.orlabel": "Or start with",
+    "walk.didLeave": "Ушло?",
+    "walk.left": "Да — ушло",
+    "walk.notYet": "Ещё нет",
+    "walk.notYetTitle": "Ожидает",
+    "walk.notYetSub": "Цикл остаётся открытым. LoopKeeper вернёт его в 9."
   }
 }

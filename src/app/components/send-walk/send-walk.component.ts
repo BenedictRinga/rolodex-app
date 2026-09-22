@@ -761,6 +761,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
   private select(contact: any, loop?: Loop): void {
     if (!contact && !loop) return;
     this.selection = { contact: contact || null, loop };
+    // 2026-09-22 BUILD 298: the copy receipt belongs to ONE loop — a new
+    // arm starts clean.
+    this.copyAsk = false;
+    this.copyAnswer = '';
   }
 
   /**
@@ -1173,6 +1177,27 @@ export class SendWalkComponent implements OnInit, OnChanges {
       const snippet = channel === 'call' ? 'Phone call'
         : channel === 'copy' ? 'Copied to clipboard'
         : (fresh.draft || '');
+      // 2026-09-22 BUILD 298 COPY IS NOT THE CLOSE (the brief's move 2:
+      // 'Copy is not the close - receipt asks once "did it leave?"; if not,
+      // loop stays open'): a clipboard write is a COPY, not a send. The copy
+      // channel stops here — no markSent, no chime, no gate — and the
+      // receipt ASKS ONCE. Only the user's own 'Yes - it's gone' closes the
+      // loop (confirmCopyLeft); 'Not yet' leaves it open for the 9am digest.
+      if (channel === 'copy') {
+        const card = this.cardFor(fresh) || this.armedContact;
+        if (card) {
+          this.draftEngine.pushContext(card, `Copied the words out (${new Date().toLocaleDateString()})`);
+          card.lastInteraction = new Date();
+          this.contactsDirty.emit();
+        }
+        this.doneLabel = bundle.label;
+        this.copyAsk = true;
+        this.copyAnswer = '';
+        this.go(5);
+        this.loopsChanged.emit();
+        void this.alerts.showToast(this.tr('loopkeeper.walk.tCopied'), 3200);
+        return;
+      }
       this.loops.markSent(fresh.id, channel, snippet);
       // 2026-09-22 BUILD 297 THE RETURN TO COVER (founder: '...return resets
       // the gate... ie. journey away from procrastination state has not
@@ -1181,7 +1206,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
       if (this.firstMinute) this.firstMinuteEntry.emit();
       const card = this.cardFor(fresh) || this.armedContact;
       if (card) {
-        this.draftEngine.pushContext(card, `${channel === 'copy' ? 'Copied the words out' : 'Sent via ' + bundle.label} (${new Date().toLocaleDateString()})`);
+        // (298: 'copy' never reaches here any more — the early return above
+        // takes the copy channel to the receipt question.)
+        this.draftEngine.pushContext(card, `Sent via ${bundle.label} (${new Date().toLocaleDateString()})`);
         card.lastInteraction = new Date();
         this.contactsDirty.emit();
       }
@@ -1189,10 +1216,35 @@ export class SendWalkComponent implements OnInit, OnChanges {
       this.go(5);
       void this.sounds.playCompletionChime(0.35);
       this.loopsChanged.emit();
-      if (channel === 'copy') void this.alerts.showToast(this.tr('loopkeeper.walk.tCopied'), 3200);
     } finally {
       this.busy = false;
     }
+  }
+
+  // ── 2026-09-22 BUILD 298 COPY IS NOT THE CLOSE ─────────────────────────────
+  /** The copy receipt asks once: did it leave? '' = unanswered. */
+  copyAsk = false;
+  copyAnswer: '' | 'left' | 'waiting' = '';
+
+  /** 'Yes - it's gone': the words LEFT — the real close (markSent), the
+   *  chime, and the gate passes (297: the journey started). */
+  confirmCopyLeft(): void {
+    const l = this.sel(); if (!l) return;
+    const fresh = this.loops.getLoop(l.id) || l;
+    this.loops.markSent(fresh.id, 'copy', 'Copied to clipboard');
+    if (this.firstMinute) this.firstMinuteEntry.emit();
+    this.copyAnswer = 'left';
+    void this.analytics.track('copy_receipt', { left: 1 });
+    void this.sounds.playCompletionChime(0.35);
+    this.loopsChanged.emit();
+  }
+
+  /** 'Not yet': the loop STAYS OPEN — the 9am digest brings it back. No
+   *  close, no chime, no gate. The brief's rule, verbatim. */
+  copyDidNotLeave(): void {
+    this.copyAnswer = 'waiting';
+    void this.analytics.track('copy_receipt', { left: 0 });
+    this.loopsChanged.emit();
   }
 
   // ── 2026-09-16 BUILD 229 PHASE C: THE TASK DOORS ──────────────────────────
@@ -1280,6 +1332,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.doneLabel = 'Sent';
     // 2026-09-22 BUILD 294: a deliberate default clears the pending door.
     this.avoidKind = null;
+    // 2026-09-22 BUILD 298: the copy receipt belongs to ONE loop — the next
+    // arm starts clean.
+    this.copyAsk = false;
+    this.copyAnswer = '';
     // BUILD 241/244: the walk moves on — the selection ends with it.
     this.selection = null;
     void this.rebuildWho();

@@ -854,6 +854,11 @@
     "fm.personLabel": "人物",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
-    "fm.orlabel": "Or start with"
+    "fm.orlabel": "Or start with",
+    "walk.didLeave": "发出去了吗？",
+    "walk.left": "是 — 发出去了",
+    "walk.notYet": "还没有",
+    "walk.notYetTitle": "还在等待",
+    "walk.notYetSub": "循环保持打开。LoopKeeper 九点会再提醒你。"
   }
 }

@@ -277,8 +277,31 @@
   </ng-container>
 
   <!-- THE BREATH — Zeigarnik closed. The tab in the head shuts. -->
+  <!-- 2026-09-22 BUILD 298 COPY IS NOT THE CLOSE (the brief's move 2): a
+       clipboard write is a COPY, not a send — the receipt asks ONCE 'did it
+       leave?'. Yes → the real close (THE BREATH). Not yet → the loop stays
+       open; the 9am digest brings it back. Same rule for task Delegate. -->
   <ng-container *ngIf="step === 5">
-    <div class="sw-done">
+    <div class="sw-done" *ngIf="copyAsk && !copyAnswer">
+      <div class="sw-done-title">{{ 'loopkeeper.walk.didLeave' | translate }}</div>
+      <div class="sw-done-line">{{ sel()?.person }}</div>
+      <button class="sw-ghost" type="button" (click)="confirmCopyLeft()">
+        {{ 'loopkeeper.walk.left' | translate }}
+      </button>
+      <button class="sw-ghost" type="button" (click)="copyDidNotLeave()">
+        {{ 'loopkeeper.walk.notYet' | translate }}
+      </button>
+    </div>
+    <div class="sw-done" *ngIf="copyAsk && copyAnswer === 'waiting'">
+      <div class="sw-done-check sw-done-wait" aria-hidden="true">&#8986;</div>
+      <div class="sw-done-title">{{ 'loopkeeper.walk.notYetTitle' | translate }}</div>
+      <div class="sw-done-line">{{ sel()?.person }}</div>
+      <div class="sw-done-line">{{ 'loopkeeper.walk.notYetSub' | translate }}</div>
+      <button class="sw-ghost" type="button" (click)="nextOne()">
+        {{ 'loopkeeper.walk.doneNext' | translate }}
+      </button>
+    </div>
+    <div class="sw-done" *ngIf="!copyAsk || copyAnswer === 'left'">
       <div class="sw-done-check">&#10003;</div>
       <div class="sw-done-title">{{ 'loopkeeper.walk.doneTitle' | translate }}</div>
       <div class="sw-done-line">{{ sel()?.person }}</div>

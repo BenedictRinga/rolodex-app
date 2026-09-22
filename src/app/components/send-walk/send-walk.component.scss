@@ -576,3 +576,10 @@
   color: inherit;
   opacity: .7;
 }
+
+/* 2026-09-22 BUILD 298 COPY IS NOT THE CLOSE: the "Not yet" receipt keeps
+   the check circle but wears the clock, muted - the loop is not closed. */
+.sw-done-wait {
+  color: #b45309;
+  background: rgba(234, 179, 8, 0.14);
+}
