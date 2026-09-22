@@ -81,9 +81,11 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     const ids = [...this.noiseSelected];
     if (!ids.length || this.noiseWriting) return;
     if (!this.noiseAdminKey) {
-      // 2026-09-20 BUILD 292 THE TWO KEYS: the write accepts the admin key
-      // OR the Investors portal word — whichever the founder has at hand.
-      const key = window.prompt('Gate key — the TESTER_ADMIN_KEY value or the Investors portal word (asked once this session)', '');
+      // 2026-09-20 BUILD 293 THE ONE KEY (founder: the admin key and the
+      // portal word are "completely different" — the portal word is a
+      // device-local gate, never an admin credential): the write takes the
+      // server's TESTER_ADMIN_KEY, gated server-side through config.
+      const key = window.prompt('Admin key — the server\'s TESTER_ADMIN_KEY (asked once this session)', '');
       if (!key) return;
       this.noiseAdminKey = key;
     }
@@ -98,11 +100,11 @@ export class CommandCenterComponent implements OnInit, OnChanges {
         this.noiseWritten = `${ids.length} device(s) written to the server's .env — excluded immediately`;
       } else if (res && res.status === 401) {
         this.noiseAdminKey = null;
-        this.noiseWritten = 'Key rejected — use the TESTER_ADMIN_KEY value or the Investors portal word';
+        this.noiseWritten = 'Admin key rejected — it must equal the server\'s TESTER_ADMIN_KEY';
       } else if (res && res.status === 404) {
-        // 2026-09-20 BUILD 291: a 404 means the RUNNING server predates the
-        // write endpoint — deploy server build 105 first.
-        this.noiseWritten = 'The server does not know this command yet — deploy server build 105, then try again';
+        // 2026-09-20 BUILD 293: a 404 means the RUNNING server predates the
+        // write endpoint — deploy server build 106 first.
+        this.noiseWritten = 'The server does not know this command yet — deploy server build 106, then try again';
       } else if (res && (res.status === 500 || res.status === 400)) {
         // The server's own words — a missing gate config names the env vars.
         try {
