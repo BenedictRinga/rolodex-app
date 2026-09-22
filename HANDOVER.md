@@ -1,6 +1,9 @@
-# LoopKeeper — Handover Note (2026-08-30, end of thread at build 156)
+# LoopKeeper — Continuity Note (updated 2026-09-22, end of thread at app build 309 / server 121)
 
 New thread? Read AGENTS.md first, then this. Everything below is verified state, not recollection.
+The strategic brief is `D:\TODOs\USE_NOW.txt` — the Grok differentiation audit and its six moves;
+every plan in this thread is judged against its gate: *does it help an admitted avoider send the
+awkward thing in their own words — in; does it widen the tray — out.*
 
 ---
 
@@ -15,163 +18,176 @@ Two repos:
 
 | Repo | Path | Role |
 |---|---|---|
-| `rolodex-app` | `D:\MacBook\noGoogle\rolodex-app` | Ionic/Angular PWA, yarn, served at `https://zyppar.com/loopkeeper/` |
+| `loopkeeper` | `D:\MacBook\noGoogle\loopkeeper` | Ionic/Angular PWA, yarn, served at `https://zyppar.com/loopkeeper/` (**canonical** — `rolodex-app` is a stale parallel copy, archived) |
 | `rolodex-server` | `D:\MacBook\noGoogle\rolodex-server` | Node/Express + Mongoose at `https://zyppar.com/api/loopkeeper/*` (internal alias `/api/rolodex/*`) |
 
-## 2. Current state (verified clean, 2026-08-30)
+## 2. Current state (verified, 2026-09-22 end of thread)
 
-- **App: build 156**, commit `cd0a292` (HEAD), working tree clean.
-- **Server: build 47**, commit `1820166` (HEAD), working tree clean.
-- App build counter lives in BOTH `src/environments/environment.ts` (line 10) and
-  `src/environments/environment.prod.ts` (line 7) as `build: N, // <dated changelog>`.
-  Server counter: `"build": N` in `rolodex-server/package.json` (line 4).
-- The build-counter comment IS the changelog — read it to see what the last build did.
+- **App: build 309**, commit `6938d70` (HEAD), working tree clean.
+- **Server: build 121**, commit `acc7ef1` (HEAD), working tree clean.
+- Counters: app `build:` in BOTH `src/environments/environment.ts` + `environment.prod.ts`
+  (the single-line `//` comment IS the changelog — new entry prepended, previous demoted
+  with "Previous:"); server `"build": N` in `rolodex-server/package.json`.
+- **Deploy queue outstanding (the founder deploys)**: app `www 232-309`; server `./deploy.sh`
+  (121 — fixes the log-analysis 500 that shipped with 117). App deploys: "app www 232-NNN".
+- Proofs passed on 309: base href `/loopkeeper/`; `build:309` ×1 in main; the ft-canvas
+  markers in lazy chunk `www/2688.*.js`; `www/build.json {"build":309}`; i18n parity 690.
 
-## 3. Ship sequence (do this for every user-visible change)
+## 3. THE PLAN vs WHAT WAS DONE — the brief's six moves (all executed)
+
+The brief (`USE_NOW.txt`) named six moves. Status after this thread:
+
+| # | Move (brief, verbatim intent) | Built as | State |
+|---|---|---|---|
+| 1 | First session is one human avoidance — "The reply I owe" / "The decision I keep not making" | **309 THE FIRST-TIMER CANVAS** (supersedes 294→308's gate rework) | DONE — see §6 |
+| 2 | Copy is not the close — the receipt asks once "did it leave?" | **298** (`copyAsk`/`confirmCopyLeft`/`copyDidNotLeave`, `copy_receipt {left}`) | DONE |
+| 3 | whySitting on the face, one-tap correctable, draft changes with the answer | **300** (card-face why + 4 chips; `whyChipKeys`/`nameWhy`, `why_named`) | DONE |
+| 4 | Two-line default draft; 90 seconds then buttons; edit demoted | **303** (the ninety-second gate, `sideDoorsOpen`, `edit_opened`/`send_opened len`) + **304** (16 kinds × two-line drafts; 6 `draft.*` wedges × 39 locales) | DONE |
+| 5 | The 9am digest is ONE loop already drafted; retire RISING_NUDGE_DAYS → quiet return | **305** (`resyncDigest` serves one loop; `QUIET_NUDGE_DAYS = 2`; the "{{n}}d" shame display retired) | DONE |
+| 6 | The message is the only growth loop — message_sent per device per 14 days | **306** portal card + **server 117** (`growthLoop` meter) — the meter's 500 fixed in **121** | DONE (121 pending deploy) |
+
+Plus: **302 the exit's sunny day** (the Settings wipe ends on a full-page sunny day with an
+armed logo; the user's own tap returns — never auto-reload. Founder: "beautiful").
+
+## 4. Founder rulings of this thread (the laws behind the builds)
+
+1. **THE FIRST-TIMER CANVAS (309, the standing law)** — the home page splits into TWO VIEWS:
+   first-timer vs not first-timer. The first-timer view is a BLANK SLATE: the two gates side
+   by side in the middle + the Welcome below (**one Welcome, not two** — the modal skips while
+   the canvas stands). "The reply I owe" transforms the slate to just "From my phone" (with
+   the return arrow; the branding nullifies on return). The pick opens the dialog IN SITU —
+   all the way to success. "The decision I keep not making" ditto (183 self-loop). Once
+   concluded + congratulations, the ORIGINAL panel and the surroundings open (a first-timer
+   otherwise gets distracted — the deck stays veiled until the success). No new component.
+2. **Tap AND continue** is the surmounting (the flags as agreed): `lk_cover_engaged` = the
+   ring surmounted (the real card's arrival — or a real send for the decide path);
+   `lk_firstminute_done` = the panel's deed done → the regular walk. A bare tap is nullified
+   by the return (the 297 law). The 301/302 "Or start with" collapse and 307's
+   "every-launch-forever" sweep are BOTH superseded — do not resurrect either.
+3. **Thou doth apologize too much** — the picker preface lost "kept on your phone" in all 39
+   locales. No privacy disclaimers in the first-timer flow.
+4. **The sunny day has nothing to do with loops** — it belongs to the Settings wipe only.
+5. **Ship discipline**: deploy = `./deploy.sh` on the server, "app www 232-NNN" by the
+   founder. The build-counter comment is the changelog. Never npm.
+
+## 5. Current state of the key mechanisms (where the code lives now)
+
+- **The first-timer canvas**: `home.page.html` (`.ft-canvas`, fixed overlay, gates → phone
+  states) + `home.page.ts` (`ftView: '' | 'gates' | 'phone' | 'flow'`, `ftReply/ftPhone/
+  ftDecide/ftReturnToGates`). The doors call into the inbox's walk: `startCoverReply() →
+  walk.armCoverReply()` (owed-reply branding), `startCoverDecide() → walk.selfTap('decide',
+  true)`, `armFtContact() → walk.armFtCard()` (the pick's first card armed as the Who; the
+  tap births via `confirmWho → birthFromWho` with the branding). The pick's landing hook is
+  in `addFromPhoneContacts` (ftView === 'phone' → ftView='flow' + arm the first card).
+- **The walk's panel** shows ONLY in the panel phase:
+  `firstMinute && fmPhase === 'panel' && !taskDraftOn && !ftCanvas` (send-walk.component.html).
+  Phase rides home → inbox → walk as `[fmPhase]` ('ring' | 'panel'). The first-minute
+  component renders by phase: PHASE RING = the two doors + courtesy; PHASE PANEL = the
+  original 278 view intact (title, TASK/PERSON, Show me + demo, courtesy).
+- **The success**: the walk's `fire()` emits `firstMinuteEntry` → home's `onFirstMinuteEntry`
+  clears `ftView`, keeps `firstMinuteActive`, flips `fmPhase='panel'`, persists
+  `lk_cover_engaged`. The panel's deed (`onContactsDirty`) later flips `lk_firstminute_done`.
+- **The sunny day**: `rolodex.component.ts` `wipeAllAndReload()` → farewell →
+  `sunnyAfterWipe` → `<app-sunny-day>` → `finishWipe()` (the `_wipe` reload on the logo tap).
+  SunnyDayComponent MUST stay exported in `rolodex.module.ts` (the 299 silent-failure lesson).
+- **Copy receipt (298)**: `fire('copy')` early-returns before `markSent`; slide 5 asks
+  "did it leave?" — Yes → real close; Not yet → the loop stays open.
+- **The growth meter**: `rolodex-server/src/index.js` `computeAnalyticsSummary()` →
+  `growthLoop {windowDays, senders, messages, avgPerSendingDevice}` (organic only, guarded
+  try/catch — a meter failure returns null, never a 500). Portal card: about-rolodex
+  section 06 "The growth loop" (id `inv-growth`; later sections renumbered 07-10).
+- **The digest**: `loop-wake.service.ts resyncDigest()` — ONE loop (earliest `nextNudgeAt`),
+  body "The words for {person} are written and waiting."; `QUIET_NUDGE_DAYS = 2` (flat step,
+  no ladder — RISING_NUDGE_DAYS is gone).
+- **The two-line drafts**: `loops.service.ts generateDraft()` — all 16 SHORT tones are
+  complete sendable drafts; the why still weaves; `ownWords` never overwritten.
+
+## 6. Verify 309 on production (the founder's checklist)
+
+Fresh device → the blank slate (two gates + the Welcome below, nothing else) →
+"The reply I owe" → "From my phone" + the return arrow (back → the gates) → the pick →
+the card armed in the walk → tap → the words in situ → send → the receipt →
+**the ORIGINAL panel + the surroundings**. "The decision I keep not making" → straight to
+the words → send → the panel. The welcome modal must NOT double-greet.
+
+## 7. Ship sequence (unchanged, per build)
 
 1. Bump both app environment counters (+ server `package.json` when backend changed).
-2. `yarn build` — typecheck (~40–140s). NEVER npm.
-3. `yarn build:prod` (~60–90s) — runs `[static-block-fix]` + `[index-css-fix]` automatically.
+2. `yarn build` — typecheck. NEVER npm.
+3. `yarn build:prod` — runs `[static-block-fix]` + `[index-css-fix]`, writes `www/build.json`.
 4. **Proofs** (all must pass before commit):
-   - `grep -o 'base href="[^"]*"' www/index.html` → `/loopkeeper/` (build-109 regression guard)
-   - `grep -c "build: ?156" www/main.*.js` → 1 (minifier strips the space)
-   - Feature strings: the about-rolodex component compiles into lazy chunk `www/8635.*.js`
-     (NOT main.js — searching main.js for its captions returns false 0s).
-   - i18n values live in `www/assets/i18n/*.json` (runtime assets, not bundled).
-5. Commit: write `.git-commit-msg-N.txt`, then
-   `git add -A && git reset -q -- .git-commit-msg-N.txt && git commit -q -F .git-commit-msg-N.txt && rm .git-commit-msg-N.txt`,
-   verify `git status --short | wc -l` = 0.
+   - `grep -o 'base href="[^"]*"' www/index.html` → `/loopkeeper/`
+   - `grep -o 'build:[ ]*309' www/main.*.js | wc -l` → 1 (basic-regex `?` is literal in
+     git-bash — use `[ ]*`, not `?`)
+   - Feature strings live in the LAZY chunk — currently `www/2688.*.js` (NOT main.js)
+   - `www/build.json` → `{"build":N}`; i18n values in `www/assets/i18n/*.json`
+5. Commit via `.git-commit-msg-N.txt` (write → `git add -A && git reset -q -- <msg> && git
+   commit -q -F <msg> && rm <msg>` → `git status --short | wc -l` = 0).
 
-## 4. i18n (every user-visible string)
+## 8. i18n (every user-visible string)
 
-- 39 locale files in `src/assets/i18n/*.json`, FLAT dotted keys under a `loopkeeper`
-  root object (e.g. `"consult.kWhere": "Where"`). Currently **519 keys per file**.
-- Majors hand-translated: sw, so, fr, es, de, ar, ru, he, am, hi, ja, zh-cmn-Hans,
-  zh-cmn-Hant. All other riders carry EN deliberately (community-burnish doctrine —
-  the founder seeded Somali himself and expects communities to polish gaps).
-- One-shot Node scripts in `scripts/`: write → run → verify parity (unique flat-key
-  count across all 39) → **DELETE. Never commit them.**
-- Amharic/unicode: encode as `\uXXXX` in scripts (Git Bash wrapper breaks on raw
-  non-ASCII in inline commands).
+- 39 locale files in `src/assets/i18n/*.json`: `{ "loopkeeper": { <flat dotted key>: value } }`
+  — **currently 690 keys per file, parity verified**. Majors hand-translated: sw so fr es de
+  ar ru he am hi ja zh-cmn-Hans zh-cmn-Hant it nl pl tr ha. Minors carry EN deliberately.
+- One-shot Node sweep scripts in `src/`: write → run → verify parity → **DELETE, never commit**.
+- **HARD LESSONS (both hit in build 309)**:
+  - The writer must output `{ "loopkeeper": { <key-without-prefix>: value } }` — flattening
+    from the root and re-wrapping in `loopkeeper` DOUBLE-NESTS the file and breaks every
+    string. The corruption was caught by parity and restored via
+    `git checkout -- src/assets/i18n/` (the committed tree is the recovery point).
+  - Multi-line bash (heredocs, multi-line `node -e`) breaks the shell wrapper (exit 127) —
+    use the Write/Edit tools or single-line commands.
+- Em-dashes/unicode: fine in script FILES; break inline bash — use `\uXXXX` or the Edit tool.
 
-## 5. Environment/tooling gotchas (learned the hard way)
+## 9. Build log (this thread)
 
-- MSYS `/tmp` is invisible to Windows Node — write temp files to the cwd (`inv-probe.json`)
-  and delete after; never `require('/tmp/...')`.
-- Em-dashes/unicode in **inline** bash/perl commands break the shell wrapper (exit 127).
-  Use the Edit/Write tools for unicode content, or `\uXXXX` escapes in scripts.
-- `grep -c` exits 1 on zero matches — it breaks `&&` chains; separate with `;`.
-- Edit tool: bash `sed` reads do NOT register snippets; re-read with the Read tool after
-  any out-of-band edit or you get stale-scope errors. Files are mostly CRLF; Edit preserves.
-- TS strict: index-signature access needs brackets (`obj['tz']`, TS4111).
-- Production static-blocks: the minifier drops JS class `static { }` blocks —
-  `[static-block-fix]` repairs them post-build (watch its output).
+**App 294→309** (commits in order): 294 the avoidance cover · 295 the gate held · 296 the
+gate, unpolluted · 297 the return to cover · 298 copy is not the close · 299 the sunny day ·
+300 the why on the face · 301 the obvious door (superseded) · 302 the cover, whole +
+the exit's sunny day · 303 ninety seconds, then the buttons · 304 the two lines ·
+305 the quiet return · 306 the growth loop meter (portal) · 307 the outer ring (REVERTED by
+308 — a sweeping misread, on the record) · 308 the two phases (superseded by 309's canvas) ·
+**309 the first-timer canvas**.
 
-## 6. Architecture map
+**Server 108→121**: 108 the avoidance-cover directive · 112+ the directive bullets (the
+return to cover, copy is not the close, the sunny day, the why on the face, ninety seconds,
+the two lines, the quiet return) · 117 the growth meter (`growthLoop` in the summary) ·
+119 the two-phases directive · 120 the canvas directive · **121 the log-analysis 500, fixed**
+(`now` out of scope + a stale renamed variable had killed the whole summary endpoint; the
+block is now guarded — the meter can return null, never a 500).
 
-- **home.page.html** is the REAL Assistant surface — its composer/head is projected into
-  the inbox via the `[chat-tab]` slot; the modals (`card-chat-modal`, `chat-with-rolodex`)
-  are separate surfaces. Renamed Chat → Assistant (build 126); "Confidante" is a
-  FORBIDDEN user-facing word (build 132) — internal ids keep `confidante` only.
-- **Loops** (`loops.service.ts`): capture → chime #1 → context packet + draft → chime #2
-  → send (deep-link via `buildSend`, clipboard always) → send IS the close → receipt →
-  celebration. Legacy persisted strings get regex-migrated on load (`all()` migration v2,
-  build 148) — engine phrases are unique so user-written text is never touched.
-- **Notifications** (`event.service.ts`): reminders are in-memory JS timeouts; native
-  `LocalNotifications.schedule` happens ONLY at fire time (`at: new Date()`), never
-  pre-scheduled — so `cleanupTimeout` fully prevents rings; the 200ms debounce batch
-  re-checks liveness against storage (build 155) so a deleted event can never ring.
-  PWA dock notifications carry `data: { action: 'checkin', contactId }` and are
-  tappable (drag-safe, `lastDragEnd` guard).
-- **Analytics — two separate pipelines, never confuse them**:
-  - `DeviceState` (presence/sync cards): pushes fire ONLY on contact changes, not app
-    opens. "Synced in last 24h" = contact-change syncs. Stale-looking data (last sync
-    2026-08-28) is correct behavior, not an outage.
-  - `AnalyticsEvent` (DAU/WAU/MAU, sessions, retention, activation, topEvents,
-    inviteFunnel, shares, locales): the real usage ledger.
-- **Investors portal** (`about-rolodex`, lazy chunk 8635): every metric caption says
-  exactly what it counts (build 156). No minted identifiers on screen; `f.deviceName`
-  in feedback (line ~866) is a user-chosen self-label — permitted.
-- **Backend** `src/index.js`: `/investor/summary` embeds `computeAnalyticsSummary()`
-  (organic top line, ownFleet separate, sha1-idempotent ingest, hourly per-device
-  rate limit). Tester roster + noise-devices console gated by `TESTER_ADMIN_KEY`;
-  dashboard is `src/tester-dashboard.html`.
-
-## 7. Founder doctrine (violating any of these = redo)
-
-1. **Honest-storage**: demo never leaves the device — all 10 `rolodexSync.push` sites
-   push `this.realContacts()` (build 155). Demo OFF purges every artifact it fed:
-   demo-fed loops (sourceContactId match), relationship scores, birthday lists,
-   managed follow-up events.
-2. **Analytics integrity**: organic-only top line; own fleet + testers reported
-   separately (server build 47); no IP/geolocation; invite tokens are anonymous 48h codes.
-3. **Send is the close** (build 130): no "awaiting reply" limbo; next trigger is the
-   app's autonomous nudge or a fresh loop from a received reply.
-4. **Never interrogate the user** — subliminal bedrock (builds 124–125): decisive in
-   the engine, ambiguous in copy; nudges whisper ("I told ya" when the card is thin).
-5. **Human words**: no "open", no "hook", no nerd-speak in the loop UI (builds 146–148).
-   One sense per line; gapnote text pops against its pulse (#fff6ea on amber).
-6. **Chimes**: LOOP tap = falling pluck; app's answer = two-note resolve (`SoundService`).
-7. **Every metric caption must say exactly what it counts** (build 156, founder:
-   "ambiguous labels do not fit the bill").
-
-## 8. Build log (this thread)
-
-App 125→156 (commits in order): 125 subliminal bedrock/softening of 124 · 126
-pill-row restored + Assistant rename · 127 input polish · 128 nudge tap coherence ·
-129 close-it + celebration overlay · 130 send=closes loop + card strip · 131 deep
-fields dossier · 132 social channels + Somali + forbidden lexicon · 133 border/orb ·
-134 orb-per-pill + translation widening · 135 "Start any" · 136 ten-cohorts pill ·
-137 auto-cap + About i18n (sw/so) · 139 era-SVG animation fix · 140 slim sticky
-Settings · 141 demo SHOW/STOP truth + missing translations · 142 invite landing
-redux + ONE language state · 143 nudge escalation + proactive Assistant · 144
-chimes + 80vh expansion + gap pulses · 145 75vh + ONE gap panel + footer toolbar ·
-146 one voice per angle + pulse fix · 147 human words, one open · 148 legacy
-migration v2 · 149 locale signals · 150 card speaks first (no manual phone entry) ·
-151 nudge tap answers · 152 growth voice + standing fulcrum · 153 nudge takes the
-screen · 154 analytics integrity portal + founder console · 155 demo isolation ·
-156 honest captions.
-
-Server 40→47: 40 Assistant rename · 41 send-closes directive · 42 deep-fields
-directive · 43 forbidden lexicon + Telegram · 44 invite-failure line · 45 locales
-section · 46 shares + inviteFunnel · 47 analytics integrity (organic-only,
-idempotent ingest, rate limit, noise-devices admin).
-
-## 9. Production reality check (2026-08-30, live probes)
-
-- Reachability confirmed (app 200, root 200, gated API 401); droplet serves build 155
-  at probe time (served `main.604423c88e0f6a8a.js` = build-155 hash; 156 not yet deployed).
-- Real usage: **DAU 27, WAU 74, MAU 74**, 810 sessions/7d (33/24h), avg session 410s.
-- Locale: 34 devices, 100% Africa/Nairobi, en/en, 0 language switches.
-- Arrivals: 74 new devices in 7d (51 on Aug 28–29). Retention **D1 ≈ 2.7%, D7 = 0** —
-  the funnel break. Activation thin: loop_captured 10, invite_created 6, loop_closed 3,
-  message_sent 1; card_added 0 (invite-born cards never fire `card_added` — documented
-  in the portal caption), followups 0, billing 0. InviteFunnel/shares: 0 (build-152
-  cold start, deployed same day).
+Directive (`chat-directive.js`) current law: THE FIRST-TIMER CANVAS (309) — supersedes the
+avoidance-cover/outer-ring/two-phases bullets. Keep it in-step with every capability change.
 
 ## 10. Open threads for the next session
 
-1. **Retention is the problem, not awareness** — 74 arrived, 2 came back day 1, 0 day 7.
-   Worth a founder conversation before building more features.
-2. `card_added = 0` — could instrument invite-born card creation, or accept the
-   documented semantics (caption already explains it).
-3. Deploy build 156 `www/` to the droplet (156 is committed locally; probe showed 155 live).
-4. `f.deviceName` (about-rolodex line ~866) is a user-chosen self-label — currently
-   permitted; flag if the founder wants it masked.
-5. Device-count reconciliation (239 DeviceState vs 74 analytics vs 34 locale devices) —
-   expected (different pipelines/eras) but worth explaining in the portal someday.
-6. Somali + Amharic locales ride EN for most keys — community-burnish pending.
+1. **Deploy queue**: app `www 232-309`; server `./deploy.sh` (121). Then §6's checklist.
+2. The phone image on the "From my phone" door is a plain ion-icon placeholder — the founder
+   said "I will add later" (a real graphic, as with the sunny day).
+3. Live-check the analytics summary AFTER the server deploy (the 121 fix): portal +
+   Command Center must load (200) and the growth-loop card must show numbers.
+4. The `growthLoop` meter is new — watch its first real numbers before any feature decision
+   (the brief: it is the ONE meter).
+5. Community-burnish i18n: minors still ride EN; the preface sweep left the sysNote copy
+   untouched (deliberate — it explains the OS's own wording).
+6. Someday: explain the device-count reconciliation in the portal (HANDOVER 156-era item,
+   still open).
 
 ## 11. Where things live (quick index)
 
-- Environment counters: `src/environments/environment.ts:10`, `environment.prod.ts:7`
-- Loop engine + migrations: `src/app/services/loops/loops.service.ts`
-- Follow-up engine: `src/app/services/followup-engine/followup-engine.service.ts`
-- Notifications/scheduling: `src/app/services/event/event.service.ts`
-- Share voices + tracking: `src/app/services/share-app/share-app.service.ts`
-- Language ONE state: `src/app/services/translation/translation.service.ts`
-- Investor portal: `src/app/components/about-rolodex/` (lazy chunk 8635)
-- Loops UI: `src/app/components/loop-inbox/`
-- Backend summary: `rolodex-server/src/index.js` → `computeAnalyticsSummary()`
-- Directive (AI facts): `rolodex-server/src/chat-directive.js` — update whenever a
-  capability/copy changes (AGENTS.md obligation)
+- Environment counters: `src/environments/environment.ts` + `environment.prod.ts` (the
+  chained `//` comment IS the changelog; raw newlines in the comment break the file — TS1109)
+- First-timer canvas: `src/app/home/home.page.{ts,html,scss}` (`ftView` machine) + the
+  phase chain `[fmPhase]` home → inbox → walk; panel: `src/app/components/first-minute/`
+- The walk (the dialog in situ): `src/app/components/send-walk/` (slides 1-5, the ftCanvas
+  input, `avoidKind` branding, the copy receipt, the ninety-second gate)
+- Loop engine: `src/app/services/loops/loops.service.ts` (drafts, why chips, QUIET_NUDGE_DAYS)
+- Digest: `src/app/services/loop-wake/loop-wake.service.ts`
+- Sunny day: `src/app/components/sunny-day/` (+ `rolodex.component.ts` wipeAllAndReload)
+- Investors portal: `src/app/components/about-rolodex/` (lazy chunk 2688; section 06 = the
+  growth loop; sections after it renumbered 07-10)
+- Backend summary: `rolodex-server/src/index.js` → `computeAnalyticsSummary()` (the growth
+  block near line 2714 — guarded)
+- Directive (AI facts): `rolodex-server/src/chat-directive.js`
+- Laws: `loopkeeper/AGENTS.md` (THE FIRST GATE history + THE OUTER RING → THE FIRST-TIMER
+  CANVAS succession) — the brief lives at `D:\TODOs\USE_NOW.txt`
