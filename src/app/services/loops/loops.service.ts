@@ -105,7 +105,12 @@ export interface Loop {
 
 const STORE_KEY = 'loopkeeper_loops_v1';
 const DAY = 86_400_000;
-const RISING_NUDGE_DAYS = [2, 4, 7]; // rises, then holds — never spam
+// 2026-09-22 BUILD 305 THE QUIET RETURN (the strategic brief's move 5:
+// 'retire RISING_NUDGE_DAYS shame machine -> quiet return'): nothing rises,
+// nothing shames. One flat quiet step between wakes; the 9AM digest (one
+// loop, already drafted) is the return, and ignored mornings simply stay
+// quiet — the tray never escalates.
+const QUIET_NUDGE_DAYS = 2;
 
 @Injectable({ providedIn: 'root' })
 export class LoopsService {
@@ -253,7 +258,8 @@ export class LoopsService {
     if (engineDrafts) this.analytics.track('draft_generated', { kind: loop.cardKind || 'person' });
     loop.pretext = loop.pretext || this.suggestPretext(loop);
     loop.channel = loop.channel || this.suggestChannel(loop);
-    loop.nextNudgeAt = now + RISING_NUDGE_DAYS[0] * DAY;
+    // 305: the flat quiet step — nothing rises, nothing shames.
+    loop.nextNudgeAt = now + QUIET_NUDGE_DAYS * DAY;
     // BUILD 229 PHASE C: a loop born from a TASK card is woken by the task's
     // OWN rhythm — the card's cadence/due — not the generic 2-day step. Due
     // in the future wakes at the due date; no due wakes on the cadence.
@@ -473,8 +479,10 @@ export class LoopsService {
     const l = this.cache?.find(x => x.id === id);
     if (!l) return;
     l.nudgesSent++;
-    const step = RISING_NUDGE_DAYS[Math.min(l.nudgesSent, RISING_NUDGE_DAYS.length - 1)];
-    l.nextNudgeAt = Date.now() + step * DAY;
+    // 305 THE QUIET RETURN: the step is FLAT now — no rising ladder, no
+    // shame; the 9AM digest (one loop, already drafted) is the return, and
+    // ignored mornings simply stay quiet.
+    l.nextNudgeAt = Date.now() + QUIET_NUDGE_DAYS * DAY;
     void this.persist();
   }
 

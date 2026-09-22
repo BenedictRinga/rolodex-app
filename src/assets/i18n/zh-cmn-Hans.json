@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ AI 润色",
     "draft.voiceOutline": "🎙 语音大纲",
     "parkIt": "搁置",
-    "sittingDays": "{{n}}天 · 提醒{{m}}次",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "还留在这里，因为 {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} 通过{{channel}} · 等待回复",
     "receipt.closeIt": "📤 {{when}} 通过{{channel}} · 没有回复——关闭？",

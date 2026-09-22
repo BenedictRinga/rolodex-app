@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Melhorar com IA",
     "draft.voiceOutline": "🎙 Guião de voz",
     "parkIt": "Arquivar",
-    "sittingDays": "{{n}}d · lembrete {{m}}×",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Still here because {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · à espera de resposta",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · nada — fechar?",

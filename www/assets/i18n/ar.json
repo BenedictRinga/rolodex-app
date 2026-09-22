@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ تحسين بالذكاء الاصطناعي",
     "draft.voiceOutline": "🎙 مخطط صوتي",
     "parkIt": "أجّلها",
-    "sittingDays": "{{n}}ي · تذكير {{m}}×",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "لا تزال هنا لأن {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} عبر {{channel}} · بانتظار الرد",
     "receipt.closeIt": "📤 {{when}} عبر {{channel}} · لا شيء — أُغلق؟",

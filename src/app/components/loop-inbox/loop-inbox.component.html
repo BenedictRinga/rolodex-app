@@ -342,7 +342,7 @@
       <span *ngIf="starred" class="li-star">⭐</span>
       <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
       <span class="li-kind">{{ kindLabel(l.kind) }}</span>
-      <span class="li-meta">{{ 'loopkeeper.sittingDays' | translate:{ n: sitting(l), m: l.nudgesSent } }}</span>
+      <span class="li-meta">{{ 'loopkeeper.sittingDays' | translate:{ n: sitting(l) } }}</span>
       <div class="li-summary">{{ l.summary }}</div>
       <div class="li-why" *ngIf="l.whySitting" role="button" (click)="openWhy(l); $event.stopPropagation()">{{ 'loopkeeper.sittingBecause' | translate:{ reason: l.whySitting } }}</div>
       <!-- 2026-09-22 BUILD 300 THE WHY ON THE FACE (the brief's move 3): the

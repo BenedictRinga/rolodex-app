@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Polish with AI",
     "draft.voiceOutline": "🎙 Voice outline",
     "parkIt": "Park it",
-    "sittingDays": "{{n}}d · nudged {{m}}×",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "まだ残っています — {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} via {{channel}} · awaiting reply",
     "receipt.closeIt": "📤 {{when}} via {{channel}} · nothing — close it?",

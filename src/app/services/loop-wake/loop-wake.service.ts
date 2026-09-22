@@ -95,16 +95,25 @@ export class LoopWakeService {
    * PWA = a same-day catch-up dock nudge (sticky) if the 9AM slot already
    * passed today, plus the in-page timer for tomorrow.
    */
-  async resyncDigest(loops: Array<{ id: string; status: string; waitUntil?: number; handle?: string }> | null | undefined): Promise<void> {
+  async resyncDigest(loops: Array<{ id: string; status: string; waitUntil?: number; handle?: string; person?: string; summary?: string; nextNudgeAt?: number }> | null | undefined): Promise<void> {
     // 2026-09-14 BUILD 205 (Grok plan #4: arm the digest the moment the FIRST
     // loop exists, even a self-loop): OUTSTANDING loops - open AND waiting -
     // are the morning material, not just snoozed ones. Open loops carry no
     // waitUntil, so the filter is status-based.
     const waiting = (loops || []).filter((l) => l.status === 'waiting' || l.status === 'open');
-    const handles = waiting.map((l) => (l.handle || '').trim()).filter(Boolean).slice(0, 3);
+    // 2026-09-22 BUILD 305 THE ONE-LOOP DIGEST (the strategic brief's move 5:
+    // '9am digest is one loop already drafted (not a list)'): the morning is
+    // ONE loop — the most pressing (the earliest nextNudgeAt), named, with
+    // its words already drafted. The COUNT is never the message; the list is
+    // never the message. Tomorrow there is one more, not a list.
+    const pick = [...waiting].sort((a, b) =>
+      (a.nextNudgeAt || Number.MAX_SAFE_INTEGER) - (b.nextNudgeAt || Number.MAX_SAFE_INTEGER))[0];
+    const who = ((pick?.person || pick?.handle || '') as string).trim();
+    const what = ((pick?.summary || '') as string).trim();
     const body = waiting.length === 0 ? ''
-      : `${waiting.length} loop${waiting.length === 1 ? '' : 's'} waiting` +
-        (handles.length ? `: ${handles.join(', ')}${waiting.length > handles.length ? ` +${waiting.length - handles.length} more` : ''}` : '.');
+      : who
+        ? `The words for ${who} are written and waiting.${what ? ` ${what}` : ''}`
+        : `One loop is waiting${what ? ` — ${what}` : ''}. The words are written.`;
 
     // Cancel every previous schedule — legacy per-loop ids AND the digest.
     try {

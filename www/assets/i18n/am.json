@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ በAI አሻሽል",
     "draft.voiceOutline": "🎙 የድምጽ ንድፍ",
     "parkIt": "አስቀምጠው",
-    "sittingDays": "{{n}}ቀ · {{m}}× አስታውሷል",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "እስካሁን እዚህ ነው ምክንያቱም {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} በ{{channel}} · መልስ በመጠበቅ",
     "receipt.closeIt": "📤 {{when}} በ{{channel}} · ምንም — ይዝጋ?",

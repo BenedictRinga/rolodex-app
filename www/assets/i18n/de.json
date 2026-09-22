@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Mit KI verbessern",
     "draft.voiceOutline": "🎙 Sprachskizze",
     "parkIt": "Zur Seite legen",
-    "sittingDays": "{{n}}T · {{m}}× erinnert",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Ist noch da, weil {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} über {{channel}} · auf Antwort wartend",
     "receipt.closeIt": "📤 {{when}} über {{channel}} · nichts — schließen?",

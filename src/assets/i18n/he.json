@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ שיפור עם AI",
     "draft.voiceOutline": "🎙 מתווה קולי",
     "parkIt": "השה",
-    "sittingDays": "{{n}} ימים · תזכורות: {{m}}",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "עדיין כאן כי {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} דרך {{channel}} · מחכים לתשובה",
     "receipt.closeIt": "📤 {{when}} דרך {{channel}} · שתיקה — לסגור?",

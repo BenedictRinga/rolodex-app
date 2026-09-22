@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ AI से निखारें",
     "draft.voiceOutline": "🎙 वॉइस रूपरेखा",
     "parkIt": "अलग रखें",
-    "sittingDays": "{{n}}दिन · {{m}}× याद दिलाया",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "अभी भी यहीं है क्योंकि {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} {{channel}} से · उत्तर की प्रतीक्षा",
     "receipt.closeIt": "📤 {{when}} {{channel}} से · कुछ नहीं — बंद करें?",

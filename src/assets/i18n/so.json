@@ -131,7 +131,7 @@
     "draft.polishAi": "✨ Ku hagaaji AI",
     "draft.voiceOutline": "🎙 Qaab cod",
     "parkIt": "Dhig dhinac",
-    "sittingDays": "{{n}}d · {{m}}× lagu xusuusiyay",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Weli way taagan tahay sababtoo ah {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} iyadoo la adeegsanayo {{channel}} · jawaab la suga",
     "receipt.closeIt": "📤 {{when}} iyadoo la adeegsanayo {{channel}} · waxba — xidh?",

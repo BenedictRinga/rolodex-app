@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Inganta da AI",
     "draft.voiceOutline": "🎙 Tsarin murya",
     "parkIt": "Ajiye",
-    "sittingDays": "{{n}}k · tunatarwa {{m}}×",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Still here because {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} ta {{channel}} · ana jiran amsa",
     "receipt.closeIt": "📤 {{when}} ta {{channel}} · babu — rufe?",

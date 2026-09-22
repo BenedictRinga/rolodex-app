@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Улучшить с ИИ",
     "draft.voiceOutline": "🎙 Голосовой план",
     "parkIt": "Отложить",
-    "sittingDays": "{{n}} дн. · напоминаний: {{m}}",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Всё ещё здесь, потому что {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} через {{channel}} · ждём ответа",
     "receipt.closeIt": "📤 {{when}} через {{channel}} · тишина — закрыть?",

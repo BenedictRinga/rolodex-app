@@ -209,7 +209,7 @@
     "draft.polishAi": "✨ Boresha kwa AI",
     "draft.voiceOutline": "🎙 Muhtasari wa sauti",
     "parkIt": "Weka kando",
-    "sittingDays": "{{n}}d · imekumbushwa {{m}}×",
+    "sittingDays": "{{n}}d",
     "sittingBecause": "Bado ipo kwa sababu {{reason}}",
     "receipt.awaitingReply": "📤 {{when}} kupitia {{channel}} · nasubiri jibu",
     "receipt.closeIt": "📤 {{when}} kupitia {{channel}} · hakuna — funga?",
