@@ -862,6 +862,11 @@
     "walk.notYetSub": "循環保持打開。LoopKeeper 九點會再提醒你。",
     "sunny.title": "放下了。",
     "sunny.sub": "這一天仍然屬於你。它會等你。",
-    "sunny.return": "準備好了，點這裡回來。"
+    "sunny.return": "準備好了，點這裡回來。",
+    "why.label": "為什麼還搁著",
+    "why.chip.awkward": "有點尴尬",
+    "why.chip.think": "我還沒想清楚",
+    "why.chip.fight": "可能會吵起來",
+    "why.chip.boring": "純粹是嫌麻煩"
   }
 }

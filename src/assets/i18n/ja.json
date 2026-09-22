@@ -862,6 +862,11 @@
     "walk.notYetSub": "ループは開いたまま。9時にLoopKeeperがまた知らせます。",
     "sunny.title": "手放しました。",
     "sunny.sub": "今日はまだあなたのもの。じっと待っています。",
-    "sunny.return": "準備ができたら、タップして戻ってきてね。"
+    "sunny.return": "準備ができたら、タップして戻ってきてね。",
+    "why.label": "なぜ動かないのか",
+    "why.chip.awkward": "気まずいから",
+    "why.chip.think": "まだ自分の気持ちがまとまらないから",
+    "why.chip.fight": "けんかになりそうだから",
+    "why.chip.boring": "ただ面倒だから"
   }
 }

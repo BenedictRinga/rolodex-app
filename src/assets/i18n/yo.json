@@ -862,6 +862,11 @@
     "walk.notYetSub": "The loop stays open. LoopKeeper brings it back at 9.",
     "sunny.title": "You set it down.",
     "sunny.sub": "The day is still yours. It will keep.",
-    "sunny.return": "Tap to come back — whenever you’re ready."
+    "sunny.return": "Tap to come back — whenever you’re ready.",
+    "why.label": "Why it’s sitting",
+    "why.chip.awkward": "It’s awkward",
+    "why.chip.think": "I don’t know what I think yet",
+    "why.chip.fight": "It might start a fight",
+    "why.chip.boring": "It’s just boring"
   }
 }

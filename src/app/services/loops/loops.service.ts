@@ -662,6 +662,30 @@ export class LoopsService {
     return undefined;
   }
 
+  /** 2026-09-22 BUILD 300 THE WHY ON THE FACE (the strategic brief's move 3:
+   * 'whySitting on the face of the card, one-tap correctable, draft changes
+   * with the answer'). The four honest frictions, one tap each - the SAME
+   * keys in the inbox face and the walk's slide 3, so the copy never forks.
+   */
+  whyChipKeys(): string[] {
+    return ['awkward', 'think', 'fight', 'boring'];
+  }
+
+  /** The user names the friction in one tap: whySittingSource flips to
+   * 'user' (the engine's suggestion yielded to the human's own naming),
+   * and THE DRAFT CHANGES WITH THE ANSWER - regenerated with the new why
+   * (generateDraft weaves it: 'Still here because ...'), UNLESS the words
+   * are the user's own (ownWords honored - never overwritten). */
+  nameWhy(id: string, reason: string): Loop | undefined {
+    const l = this.getLoop(id); if (!l) return undefined;
+    this.update(id, { whySitting: reason, whySittingSource: 'user' as const });
+    const fresh = this.getLoop(id) || l;
+    if (!fresh.ownWords) {
+      this.update(id, { draft: this.generateDraft(fresh) });
+    }
+    return fresh;
+  }
+
   /** F21 — BOTH sides of the intro, drafted from ONE context, ONE loop. */
   generateIntroNotes(l: Loop): { noteA: string; noteB: string } {
     const noteA = this.generateDraft(l, l.tone);

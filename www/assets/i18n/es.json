@@ -862,6 +862,11 @@
     "walk.notYetSub": "El ciclo queda abierto. LoopKeeper lo trae de vuelta a las 9.",
     "sunny.title": "Lo dejaste ir.",
     "sunny.sub": "El día sigue siendo tuyo. Esperará.",
-    "sunny.return": "Toca para volver — cuando quieras."
+    "sunny.return": "Toca para volver — cuando quieras.",
+    "why.label": "Por qué sigue ahí",
+    "why.chip.awkward": "Da vergüenza",
+    "why.chip.think": "Todavía no sé qué pienso",
+    "why.chip.fight": "Podría empezar una pelea",
+    "why.chip.boring": "Es solo aburrido"
   }
 }

@@ -862,6 +862,11 @@
     "walk.notYetSub": "Die Schleife bleibt offen. LoopKeeper bringt sie um 9 Uhr zurück.",
     "sunny.title": "Du hast es abgelegt.",
     "sunny.sub": "Der Tag gehört dir. Es wartet.",
-    "sunny.return": "Tippe, um zurückzukommen — wann du willst."
+    "sunny.return": "Tippe, um zurückzukommen — wann du willst.",
+    "why.label": "Warum es wartet",
+    "why.chip.awkward": "Es ist unangenehm",
+    "why.chip.think": "Ich weiß noch nicht, was ich denke",
+    "why.chip.fight": "Es könnte einen Streit geben",
+    "why.chip.boring": "Es ist einfach langweilig"
   }
 }

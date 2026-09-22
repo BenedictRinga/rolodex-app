@@ -583,3 +583,38 @@
   color: #b45309;
   background: rgba(234, 179, 8, 0.14);
 }
+
+/* 2026-09-22 BUILD 300 THE WHY ON THE FACE (the brief's move 3): the
+   friction named on the face, one-tap correctable - the chips share the
+   sw-tone pill language; the named one wears the amber. */
+.sw-why {
+  margin: 2px 0 10px;
+}
+.sw-why-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+.sw-why-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sw-why-chip {
+  border: 1px solid rgba(120, 113, 108, 0.35);
+  background: transparent;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  line-height: 1.2;
+  color: inherit;
+  opacity: 0.85;
+  cursor: pointer;
+}
+.sw-why-chip.active {
+  background: rgba(234, 179, 8, 0.16);
+  border-color: rgba(180, 83, 9, 0.5);
+  opacity: 1;
+}

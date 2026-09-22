@@ -250,6 +250,8 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   waitDate = '';
   waitCond = '';
   dropEditingId: string | null = null;
+  /** 2026-09-22 BUILD 300 THE WHY ON THE FACE: the row whose why-chips are open. */
+  whyEditingId: string | null = null;
 
   // ── 2026-08-25 VOICE NOTE STUDIO (F16 completion) — MediaRecorder, fully
   // on-device: the clip lives in memory/object-URLs until shared or discarded.
@@ -846,6 +848,28 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDrop(l: Loop): void { this.waitEditingId = null; this.dropEditingId = l.id; }
+
+  // ── 2026-09-22 BUILD 300 THE WHY ON THE FACE (the strategic brief's move 3)
+  // 'whySitting on the face of the card, one-tap correctable, draft changes
+  // with the answer': the face's why line opens the four honest frictions;
+  // a chip tap names it as the user's own (whySittingSource 'user') and the
+  // service regenerates the draft with the new why (ownWords honored).
+  readonly whyChipKeys = this.loops.whyChipKeys();
+
+  whyChipText(k: string): string { return this.tr('loopkeeper.why.chip.' + k); }
+
+  openWhy(l: Loop): void {
+    this.whyEditingId = this.whyEditingId === l.id ? null : l.id;
+    if (this.whyEditingId) this.waitEditingId = null;
+  }
+
+  nameWhyChip(l: Loop, k: string): void {
+    this.loops.nameWhy(l.id, this.whyChipText(k));
+    this.whyEditingId = null;
+    void this.analytics.track('why_named', { source: 'chip', surface: 'inbox' });
+    void this.refresh();
+  }
+
   confirmDrop(l: Loop, reason: string): void {
     this.loops.dropWithDignity(l.id, reason);
     this.dropEditingId = null;

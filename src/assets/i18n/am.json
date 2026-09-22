@@ -862,6 +862,11 @@
     "walk.notYetSub": "ዑደቱ ክፍት ይቀጥላል። LoopKeeper በ9 ሰዓት ይመልሰዋል።",
     "sunny.title": "ተውታል።",
     "sunny.sub": "ቀን አሁንም የእርስዎ ነወ። ይጠብባል።",
-    "sunny.return": "ሲያስቡበት ይንኩ።"
+    "sunny.return": "ሲያስቡበት ይንኩ።",
+    "why.label": "Why it’s sitting",
+    "why.chip.awkward": "It’s awkward",
+    "why.chip.think": "I don’t know what I think yet",
+    "why.chip.fight": "It might start a fight",
+    "why.chip.boring": "It’s just boring"
   }
 }

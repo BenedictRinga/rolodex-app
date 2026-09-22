@@ -344,7 +344,15 @@
       <span class="li-kind">{{ kindLabel(l.kind) }}</span>
       <span class="li-meta">{{ 'loopkeeper.sittingDays' | translate:{ n: sitting(l), m: l.nudgesSent } }}</span>
       <div class="li-summary">{{ l.summary }}</div>
-      <div class="li-why" *ngIf="l.whySitting">{{ 'loopkeeper.sittingBecause' | translate:{ reason: l.whySitting } }}</div>
+      <div class="li-why" *ngIf="l.whySitting" role="button" (click)="openWhy(l); $event.stopPropagation()">{{ 'loopkeeper.sittingBecause' | translate:{ reason: l.whySitting } }}</div>
+      <!-- 2026-09-22 BUILD 300 THE WHY ON THE FACE (the brief's move 3): the
+           why on the face is ONE-TAP CORRECTABLE - tap the why line, the four
+           honest frictions appear; a chip tap names it as the user's own
+           (whySittingSource 'user') and the draft changes with the answer
+           (regenerated with the new why; ownWords honored). -->
+      <div class="li-whychips" *ngIf="whyEditingId === l.id">
+        <button class="li-whychip" *ngFor="let k of whyChipKeys" type="button" (click)="nameWhyChip(l, k); $event.stopPropagation()" [class.active]="l.whySitting === whyChipText(k)">{{ whyChipText(k) }}</button>
+      </div>
       <div class="li-receipt-inline" *ngIf="l.receipt && l.status !== 'closed'">
         {{ l.receipt.doneMeans === 'closed' ? ('loopkeeper.receipt.closeIt' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) : ('loopkeeper.receipt.awaitingReply' | translate:{ when: rel(l.receipt.sentAt), channel: l.receipt.channel }) }}
         <!-- 2026-08-28 BUILD 129: the reply landed — THIS is the close tap the

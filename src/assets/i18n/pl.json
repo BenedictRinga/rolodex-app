@@ -862,6 +862,11 @@
     "walk.notYetSub": "Pętla pozostaje otwarta. LoopKeeper wraca z nią o 9.",
     "sunny.title": "Odłożone.",
     "sunny.sub": "Dzień wciąż jest twój. To poczeka.",
-    "sunny.return": "Dotknij, aby wrócić — kiedy będziesz gotowy."
+    "sunny.return": "Dotknij, aby wrócić — kiedy będziesz gotowy.",
+    "why.label": "Dlaczego czeka",
+    "why.chip.awkward": "Jest niezręcznie",
+    "why.chip.think": "Jeszcze nie wiem, co myślę",
+    "why.chip.fight": "Może zacząć kłótnię",
+    "why.chip.boring": "Po prostu nudne"
   }
 }

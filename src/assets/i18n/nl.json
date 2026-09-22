@@ -862,6 +862,11 @@
     "walk.notYetSub": "De lus blijft open. LoopKeeper brengt het om 9 uur terug.",
     "sunny.title": "Je hebt het neergelegd.",
     "sunny.sub": "De dag is nog van jou. Het wacht.",
-    "sunny.return": "Tik om terug te komen — wanneer je klaar bent."
+    "sunny.return": "Tik om terug te komen — wanneer je klaar bent.",
+    "why.label": "Waarom het ligt",
+    "why.chip.awkward": "Het is ongemakkelijk",
+    "why.chip.think": "Ik weet nog niet wat ik ervan vind",
+    "why.chip.fight": "Het kan ruzie geven",
+    "why.chip.boring": "Het is gewoon saai"
   }
 }

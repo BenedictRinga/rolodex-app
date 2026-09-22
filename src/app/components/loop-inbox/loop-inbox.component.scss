@@ -355,3 +355,31 @@ count, never a row; the self-intent taps return here. */
   cursor: pointer;
 }
 .li-self:active { opacity: 1; color: #14b8a6; border-color: rgba(20, 184, 166, .5); }
+
+/* 2026-09-22 BUILD 300 THE WHY ON THE FACE: the why line is tappable and
+   the four honest frictions appear right on the row. */
+.li-why {
+  cursor: pointer;
+}
+.li-whychips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 2px;
+}
+.li-whychip {
+  border: 1px solid rgba(120, 113, 108, 0.35);
+  background: transparent;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: inherit;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.li-whychip.active {
+  background: rgba(234, 179, 8, 0.16);
+  border-color: rgba(180, 83, 9, 0.5);
+  opacity: 1;
+}

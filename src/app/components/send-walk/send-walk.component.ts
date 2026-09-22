@@ -1221,6 +1221,24 @@ export class SendWalkComponent implements OnInit, OnChanges {
     }
   }
 
+  // ── 2026-09-22 BUILD 300 THE WHY ON THE FACE (the brief's move 3) ──────────
+  /** The four honest frictions, one tap each - the service's own key list,
+   *  identical to the inbox face so the copy never forks. */
+  readonly whyChipKeys = this.loops.whyChipKeys();
+
+  whyChipText(k: string): string { return this.tr('loopkeeper.why.chip.' + k); }
+
+  /** One tap names the friction: whySittingSource 'user', and the draft
+   *  changes with the answer (the service regenerates it with the new why
+   *  unless the words are the user's own). The display re-renders because
+   *  loops.update() mutates the cached loop in place (the selection's
+   *  object IS the cache entry). */
+  nameWhyChip(k: string): void {
+    const l = this.sel(); if (!l) return;
+    this.loops.nameWhy(l.id, this.whyChipText(k));
+    void this.analytics.track('why_named', { source: 'chip', surface: 'walk' });
+  }
+
   // ── 2026-09-22 BUILD 298 COPY IS NOT THE CLOSE ─────────────────────────────
   /** The copy receipt asks once: did it leave? '' = unanswered. */
   copyAsk = false;

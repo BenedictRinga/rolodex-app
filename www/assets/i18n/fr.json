@@ -862,6 +862,11 @@
     "walk.notYetSub": "La boucle reste ouverte. LoopKeeper la ramène à 9 h.",
     "sunny.title": "C’est posé.",
     "sunny.sub": "La journée t’appartient encore. Ça attendra.",
-    "sunny.return": "Touche pour revenir — quand tu veux."
+    "sunny.return": "Touche pour revenir — quand tu veux.",
+    "why.label": "Pourquoi ça attend",
+    "why.chip.awkward": "C’est gênant",
+    "why.chip.think": "Je ne sais pas encore ce que j’en pense",
+    "why.chip.fight": "Ça pourrait déclencher une dispute",
+    "why.chip.boring": "C’est juste ennuyeux"
   }
 }

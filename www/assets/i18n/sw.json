@@ -862,6 +862,11 @@
     "walk.notYetSub": "Loop bado iko wazi. LoopKeeper linalerudisha saa 9 asubuhi.",
     "sunny.title": "Umelishusha.",
     "sunny.sub": "Siku bado ni yako. Itasubiri.",
-    "sunny.return": "Bofya kurudi — ukiwa tayari."
+    "sunny.return": "Bofya kurudi — ukiwa tayari.",
+    "why.label": "Kwa nini limesimama",
+    "why.chip.awkward": "Ina aibu",
+    "why.chip.think": "Sijui bado ninavyofikiri",
+    "why.chip.fight": "Inaweza kuanza ugomvi",
+    "why.chip.boring": "Ni ya kuchoka tu"
   }
 }

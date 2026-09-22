@@ -170,6 +170,18 @@
       </button>
       <span class="sw-back-name">{{ sel()?.person }}</span>
     </div>
+    <!-- 2026-09-22 BUILD 300 THE WHY ON THE FACE (the brief's move 3): the
+         friction named on the face, one-tap correctable; the draft changes
+         with the answer (generateDraft weaves it; ownWords honored - the
+         user's own words are never overwritten). -->
+    <div class="sw-why">
+      <div class="sw-why-label">{{ 'loopkeeper.why.label' | translate }}</div>
+      <div class="sw-why-chips">
+        <button class="sw-why-chip" *ngFor="let k of whyChipKeys" type="button" (click)="nameWhyChip(k)" [class.active]="sel()?.whySitting === whyChipText(k)">
+          {{ whyChipText(k) }}
+        </button>
+      </div>
+    </div>
     <div class="sw-draft" *ngIf="!editingWords">{{ sel()?.draft }}</div>
     <div class="sw-editbox" *ngIf="editingWords">
       <ion-textarea [ngModel]="editBuffer" (ngModelChange)="editBuffer = $event" auto-grow rows="4" fill="outline"></ion-textarea>

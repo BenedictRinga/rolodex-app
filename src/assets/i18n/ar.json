@@ -862,6 +862,11 @@
     "walk.notYetSub": "تظل الحلقة مفتوحة. يعيدها LoopKeeper الساعة 9.",
     "sunny.title": "وضعتها جانبًا.",
     "sunny.sub": "اليوم ما زال لك. ستبقى في الانتظار.",
-    "sunny.return": "انقر للعودة — متى أردت."
+    "sunny.return": "انقر للعودة — متى أردت.",
+    "why.label": "لماذا تنتظر",
+    "why.chip.awkward": "الأمر محرج",
+    "why.chip.think": "لا أعرف بعد ما أفكر فيه",
+    "why.chip.fight": "قد يبدأ جدالًا",
+    "why.chip.boring": "مملّ فقط"
   }
 }

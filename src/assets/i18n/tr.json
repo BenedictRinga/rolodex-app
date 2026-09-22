@@ -862,6 +862,11 @@
     "walk.notYetSub": "Döngü açık kalır. LoopKeeper 9’da geri getirir.",
     "sunny.title": "Bıraktın.",
     "sunny.sub": "Gün hâlâ senin. Bekleyecek.",
-    "sunny.return": "Dönmek için dokun — hazır olduğunda."
+    "sunny.return": "Dönmek için dokun — hazır olduğunda.",
+    "why.label": "Neden bekliyor",
+    "why.chip.awkward": "Zor geliyor",
+    "why.chip.think": "Henüz ne düşündüğümü bilmiyorum",
+    "why.chip.fight": "Kavga çıkarabilir",
+    "why.chip.boring": "Sadece sıkıcı"
   }
 }

@@ -862,6 +862,11 @@
     "walk.notYetSub": "Madauwarsa tana buɗe. LoopKeeper za ta dawo da ita da 9.",
     "sunny.title": "Ka sauke shi.",
     "sunny.sub": "Rana har tana naka. Zata jira.",
-    "sunny.return": "Danna don komawa — sa’ad da ka shirya."
+    "sunny.return": "Danna don komawa — sa’ad da ka shirya.",
+    "why.label": "Me yasa ya kwanta",
+    "why.chip.awkward": "Yana da kunya",
+    "why.chip.think": "Ban san abin da nake tunani ba tukuna",
+    "why.chip.fight": "Yana iya fara fada",
+    "why.chip.boring": "Ba shi da daɗi"
   }
 }

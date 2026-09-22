@@ -862,6 +862,11 @@
     "walk.notYetSub": "הלולאה נשארת פתוחה. LoopKeeper מחזיר אותה ב-9.",
     "sunny.title": "שמת את זה בצד.",
     "sunny.sub": "היום עדיין שלך. זה ימתין.",
-    "sunny.return": "הקש כדי לחזור — מתי שתרצה."
+    "sunny.return": "הקש כדי לחזור — מתי שתרצה.",
+    "why.label": "למה זה מונח",
+    "why.chip.awkward": "זה מביך",
+    "why.chip.think": "אני עוד לא יודע מה אני חושב",
+    "why.chip.fight": "זה עלול להתחיל ריב",
+    "why.chip.boring": "זה פשוט משעמם"
   }
 }
