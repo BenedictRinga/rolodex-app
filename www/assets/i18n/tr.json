@@ -699,6 +699,7 @@
     "settings.chatidCopied": "Kopyalandı.",
     "settings.chatidReady": "Paylaşmaya hazır.",
     "settings.chatidNote": "Anonimlik için kimlik. Telefon numaranız da çalışır - ikisi de size ulaşır.",
-    "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et."
+    "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et.",
+    "ft.encourage": "Kilometre taslarına yolda - ilki bir döngü uzakta."
   }
 }

@@ -699,6 +699,7 @@
     "settings.chatidCopied": "已复制。",
     "settings.chatidReady": "可以分享了。",
     "settings.chatidNote": "识别码管匿名。手机号同样有效 - 两种都能找到你。",
-    "settings.chatidFail": "识别码申请失败 - 请检查网络。"
+    "settings.chatidFail": "识别码申请失败 - 请检查网络。",
+    "ft.encourage": "正走向里程碑 - 第一个只差一次闭环。"
   }
 }

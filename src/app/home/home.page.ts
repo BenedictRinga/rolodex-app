@@ -435,9 +435,22 @@ export class HomePage implements OnInit, OnDestroy {
     const contact = this.ftBootContact;
     this.ftBoot = '';
     this.ftBootContact = null;
-    if (boot === 'card' && contact) w.openFtCard(contact);
-    else if (boot === 'later') w.openFtLater();
-    else if (boot === 'decide') w.selfTap('decide', true);
+    const bootNow = () => {
+      if (boot === 'card' && contact) w.openFtCard(contact);
+      else if (boot === 'later') w.openFtLater();
+      else if (boot === 'decide') w.selfTap('decide', true);
+      // 2026-09-23 BUILD 320 THE FIRST-TAP GUARANTEE: the boot must LAND on
+      // the cocoon's first flow entry — a swallowed boot left the dialog
+      // blank until reverse-and-repeat. Verify, then one second chance.
+      setTimeout(() => {
+        if (this._ftWalk === w && (!w.loop || w.step !== 3)) {
+          if (boot === 'card' && contact) w.openFtCard(contact);
+          else if (boot === 'later') w.openFtLater();
+          else if (boot === 'decide') w.selfTap('decide', true);
+        }
+      }, 180);
+    };
+    bootNow();
   }
 
   private async maybeFirstMinute(): Promise<void> {
@@ -463,6 +476,9 @@ export class HomePage implements OnInit, OnDestroy {
       this.firstMinuteActive = true;
       this.ftView = 'gates';
       this.ftEnter('gates');
+      // 2026-09-23 BUILD 320 THE COCOON QUIET: no loop counts before the
+      // first completion — the slot encourages instead (the founder's law).
+      this.inAppNotifications.setCocoonQuiet(true, this.translate.instant('loopkeeper.ft.encourage'));
       void this.storageService.set('lk_ft_open', true).catch(() => { /* best effort */ });
       void this.analytics.track('firstminute_shown', { phase: 'gates' });
     } catch { this.ftView = ''; /* the gate must never block the app */ }
@@ -492,16 +508,18 @@ export class HomePage implements OnInit, OnDestroy {
     // BUILD 319: the journey succeeded — the dwell closes as a conclusion.
     this.ftLog('ft_concluded', { dwellMs: this.ftDwellMs() });
     this.ftEnteredAt = 0;
+    // BUILD 320: the cocoon opens — the regular track's notifications return,
+    // and the first completion is celebrated WITHOUT asking for anything
+    // (founder: the share ask after one completed loop is too aggressive,
+    // too soon — the congratulations is purely the achievement).
+    this.inAppNotifications.setCocoonQuiet(false);
+    this.ftSharePending = false;
     this.ftView = '';
     this.firstMinuteActive = true;
     this.fmPhase = 'panel';
     this.firstMinuteTapped = true;
     void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
     void this.storageService.remove('lk_ft_open').catch(() => { /* best effort */ });
-    if (this.ftSharePending) {
-      this.ftSharePending = false;
-      setTimeout(() => void this.openShareApp('share'), 1600);
-    }
   }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
@@ -912,10 +930,14 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** 2026-09-16 BUILD 216: the first close invites the user to become the
-   *  channel — the celebration breathes first, then the sheet opens once. */
+   *  channel — the celebration breathes first, then the sheet opens once.
+   *  2026-09-23 BUILD 320 THE SHARE STANDS DOWN (founder: "I see in
+   *  congratulating them we are already saying they should share the app -
+   *  after just one completed loop. That is too aggressive and unnecessary.
+   *  Too soon."): the first completion is celebrated purely — the share
+   *  lives only where the user CHOOSES it (Settings, the invite doors). */
   private onFirstCloseShare(): void {
-    if (this.ftView) { this.ftSharePending = true; return; }
-    setTimeout(() => void this.openShareApp('share'), 1600);
+    if (this.ftView) return;
   }
 
   /**

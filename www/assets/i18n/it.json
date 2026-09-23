@@ -699,6 +699,7 @@
     "settings.chatidCopied": "Copiato.",
     "settings.chatidReady": "Pronto da condividere.",
     "settings.chatidNote": "ID per l anonimato. Il tuo numero funziona ancora - entrambi ti raggiungono.",
-    "settings.chatidFail": "Richiesta ID non riuscita - controlla la connessione."
+    "settings.chatidFail": "Richiesta ID non riuscita - controlla la connessione.",
+    "ft.encourage": "Verso i traguardi - il primo è a un giro."
   }
 }

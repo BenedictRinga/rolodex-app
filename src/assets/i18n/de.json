@@ -699,6 +699,7 @@
     "settings.chatidCopied": "Kopiert.",
     "settings.chatidReady": "Bereit zum Teilen.",
     "settings.chatidNote": "Kennung für Anonymität. Deine Nummer funktioniert weiter - beide erreichen dich.",
-    "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung."
+    "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung.",
+    "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt."
   }
 }

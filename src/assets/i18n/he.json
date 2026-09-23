@@ -699,6 +699,7 @@
     "settings.chatidCopied": "הועתק.",
     "settings.chatidReady": "מוכן לשיתוף.",
     "settings.chatidNote": "מזהה לאנונימיות. המספר שלכם עדיין עובד - שניהם מגיעים אליכם.",
-    "settings.chatidFail": "הבקשה נכשלה - בדוק את החיבור."
+    "settings.chatidFail": "הבקשה נכשלה - בדוק את החיבור.",
+    "ft.encourage": "בדרך לאבני הדרך - הראשונה בלופ אחד."
   }
 }

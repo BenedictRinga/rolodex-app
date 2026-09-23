@@ -699,6 +699,7 @@
     "settings.chatidCopied": "تم النسخ.",
     "settings.chatidReady": "جاهز للمشاركة.",
     "settings.chatidNote": "المعرف للخصوصية. رقم هاتفك يعمل أيضا - كلاهما يوصلك.",
-    "settings.chatidFail": "تعذر طلب المعرف - تحقق من اتصالك."
+    "settings.chatidFail": "تعذر طلب المعرف - تحقق من اتصالك.",
+    "ft.encourage": "في طريقك إلى المحطات - الأولى تبعد حلقة واحدة."
   }
 }

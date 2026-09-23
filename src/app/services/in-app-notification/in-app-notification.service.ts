@@ -147,6 +147,48 @@ export class InAppNotificationService {
     }
   }
 
+  // ── 2026-09-23 BUILD 320 THE COCOON QUIET (founder: a LoopKeeper
+  // notification announcing ready loops before ONE loop is completed "is a
+  // perfect way to distract and induce procrastination... Only focus is to
+  // bring the person to act and be happy at that achievement" + "We can
+  // actually use that same notification to offer encouragement - On your
+  // way to milestones"): while the first-timer cocoon stands, loop-count
+  // servings (the digest, the check-in nudges) are NEVER seated — the same
+  // slot serves the encouragement note instead, once per cocoon entry. The
+  // REGULAR track keeps its notifications unchanged — there is plenty of
+  // time there for those things.
+  private cocoonQuiet = false;
+  private ftEncouraged = false;
+  get cocoonQuietOn(): boolean { return this.cocoonQuiet; }
+  setCocoonQuiet(on: boolean, encouragement = ''): void {
+    const was = this.cocoonQuiet;
+    this.cocoonQuiet = on;
+    if (on && !was) {
+      // The cocoon opens clean: any seated or waiting loop-count subject
+      // steps down — the cocoon does not count loops; it encourages.
+      this.notifications = this.notifications.filter((n) => {
+        const g = this.groupOf(n);
+        if (g === 'checkin' || g === 'digest') {
+          this.seatedIdentities.delete(this.identityOf(n));
+          const t = this.timers.get(n.id);
+          if (t) { clearTimeout(t); this.timers.delete(n.id); }
+          return false;
+        }
+        return true;
+      });
+      this.backStack = this.backStack.filter((b) => {
+        if (b.group === 'checkin' || b.group === 'digest') { this.seatedIdentities.delete(b.identity); return false; }
+        return true;
+      });
+      if (encouragement && !this.ftEncouraged) {
+        this.pushAndArm({ id: this.nextId++, message: encouragement, kind: 'success', duration: 5200 });
+        this.ftEncouraged = true;
+      }
+      this.emit();
+    }
+    if (!on) this.ftEncouraged = false;
+  }
+
   notify(
     message: string,
     opts?: { kind?: 'info' | 'success' | 'error'; duration?: number; data?: InAppNotification['data'] },
@@ -178,6 +220,10 @@ export class InAppNotificationService {
   }
 
   private admitSticky(n: InAppNotification, group: NotificationGroup, identity: string): boolean {
+    // THE COCOON QUIET (2026-09-23 BUILD 320): a first-timer never hears a
+    // loop count — the digest and the check-in nudges stand down while the
+    // cocoon stands. The regular track is untouched.
+    if (this.cocoonQuiet && (group === 'checkin' || group === 'digest')) return false;
     // ONE SUBJECT, ONE SEAT. The dedupe has two cases:
     //  - the SAME prompt re-fired (identical message) → drop; exactly-once.
     //  - a DIFFERENT task about the same subject ("Renew the insurance" while

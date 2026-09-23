@@ -961,8 +961,16 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * not the engine's guess (whySittingSource 'user', from the engine's own
    * chain so the copy never forks).
    */
-  selfTap(kind: LoopKind, userNamed = false): void {
-    if (this.busy) return;
+  selfTap(kind: LoopKind, userNamed = false, attempt = 0): void {
+    // 2026-09-23 BUILD 320 THE FIRST-TAP GUARANTEE (founder: the decide gate
+    // "easily opens into a totally blank interface, unless you reverse, and
+    // repeat"): a transient busy (the walk's own async init on the cocoon's
+    // first flow entry) swallowed the boot SILENTLY — the first-timer stared
+    // at a blank dialog. A bounded retry instead of a silent return.
+    if (this.busy) {
+      if (attempt < 4) setTimeout(() => this.selfTap(kind, userNamed, attempt + 1), 90);
+      return;
+    }
     void this.analytics.trackListStartedOnce('walk');
     this.armedContact = null;
     this.armedHandle = '';

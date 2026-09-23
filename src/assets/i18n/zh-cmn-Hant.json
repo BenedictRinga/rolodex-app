@@ -699,6 +699,7 @@
     "settings.chatidCopied": "已複製。",
     "settings.chatidReady": "可以分享了。",
     "settings.chatidNote": "識別碼管匿名。手機號同樣有效 - 兩種都找得到你。",
-    "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。"
+    "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。",
+    "ft.encourage": "正走向里程碑 - 第一個只差一次閉環。"
   }
 }

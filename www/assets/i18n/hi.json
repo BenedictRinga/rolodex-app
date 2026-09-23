@@ -699,6 +699,7 @@
     "settings.chatidCopied": "कॉपी हो गया।",
     "settings.chatidReady": "साझा करने के लिए तैयार।",
     "settings.chatidNote": "गोपनीयता के लिए ID। आपका नंबर भी काम करता है - दोनों पहुँचते हैं।",
-    "settings.chatidFail": "आईडी का अनुरोध नहीं हो सका - कनेक्शन जांचें।"
+    "settings.chatidFail": "आईडी का अनुरोध नहीं हो सका - कनेक्शन जांचें।",
+    "ft.encourage": "मील के पत्थरों की ओर - पहला एक लूप दूर है।"
   }
 }
