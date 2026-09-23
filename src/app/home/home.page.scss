@@ -554,23 +554,36 @@ app-rolodex.tab-hidden,
   width: min(480px, 100%);
   flex: 1;
 }
+.ft-caption {
+  /* 2026-09-23 BUILD 321 THE COMPOSITION: the caption under the gates is
+     set, not dropped — a centered column, measured width, one breathing
+     gap from the gates (the canvas gap), the two lines as head + echo. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 330px;
+}
 .ft-welcome {
-  margin: 4px 0 0;
+  margin: 0;
   /* 2026-09-23 BUILD 320: the INBOX'S THINNESS (founder: the Welcome should
      be "in the same typeface and thinness as the regular Inbox Loops. It is
      too fat right now") — the regular body voice, never a headline. */
   font-size: 13px;
   font-weight: 500;
   letter-spacing: .02em;
+  line-height: 1.55;
   color: #4a3210;
-  opacity: .75;
+  opacity: .78;
 }
 .ft-encourage {
-  margin: 10px 0 0;
-  /* BUILD 320: the same thin voice, one step quieter — the milestone words. */
+  margin: 9px 0 0;
+  /* BUILD 320/321: the same thin voice, one step quieter — the milestone
+     words sit as the caption's echo, never competing with the gates. */
   font-size: 12.5px;
   font-weight: 500;
   letter-spacing: .02em;
+  line-height: 1.55;
   color: #4a3210;
-  opacity: .6;
+  opacity: .58;
 }
