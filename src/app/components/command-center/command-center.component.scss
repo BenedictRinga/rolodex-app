@@ -365,6 +365,11 @@ ion-content.cc-body-content {
 /* 2026-09-20 BUILD 286: the new-faces tag — the arrival badge. */
 .tag-new { background: rgba(35, 134, 54, .22); color: #56d364; }
 
+/* 2026-09-23 BUILD 318: the churn tag — the quiet badge (muted rust: a
+   departure, not an alarm). */
+.tag-churn { background: rgba(248, 113, 113, .14); color: #f8a5a5; }
+.churn-divider { color: #f8a5a5; }
+
 /* BUILD 277: the testers sub-list caption — separate, small, factual. */
 .recent-divider {
   margin: 10px 2px 6px;

@@ -309,6 +309,31 @@
           </div>
         </div>
       </ng-container>
+      <!-- 2026-09-23 BUILD 318 THE CHURN LEDGER (founder: "Some users appear
+           to be churning. Can I see last 10 churns in CommandCenter, so one
+           can investigate the places they touched to see if it was deadends
+           or unimpressive"): the 10 most recently quiet ORGANIC devices
+           (7+ days silent, 3+ events of history), each with its last 10
+           events — the dead-end reads straight off the trail. -->
+      <ng-container *ngIf="stats?.analytics?.recentChurns?.length">
+        <div class="recent-divider churn-divider">Churned — quiet 7+ days (tap to see where they stopped)</div>
+        <div class="recent-block" *ngFor="let c of stats.analytics.recentChurns">
+          <button class="recent-head" type="button" (click)="toggleRecent(c.id)">
+            <span class="noise-id">{{ shortId(c.id) }}</span>
+            <span class="recent-meta">{{ c.total }} events · last seen {{ seenLabel(c.lastSeen) }}<span class="recent-tag tag-churn">churned</span></span>
+            <ion-icon [name]="recentOpen.has(c.id) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </button>
+          <div class="recent-events" *ngIf="recentOpen.has(c.id)">
+            <div class="retention-row recent-row" *ngFor="let e of c.events">
+              <span class="recent-when">{{ formatTime(e.at) }}</span>
+              <span class="recent-ev" [class.recent-session]="e.ev === 'session_end'">
+                {{ e.ev }}<span *ngIf="e.dur" class="recent-dur"> · {{ e.dur }}s</span>
+              </span>
+              <span class="recent-page">{{ e.page || '' }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="investor-section" *ngIf="!stats && !loading && !loadError">
