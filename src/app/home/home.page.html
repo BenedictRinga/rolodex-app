@@ -241,7 +241,11 @@
        the matched card's rolling context; HomePage persists the deck now. -->
   <!-- 2026-08-29 BUILD 145: (expandedChange) — when a loop is open the shell
        grows to 75vh and the deck's View toolbar is told to sit up as a footer. -->
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="firstMinuteActive" [fmPhase]="fmPhase" [ftCanvas]="ftView === 'flow'" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
+  <!-- 2026-09-23 BUILD 319 THE COCOON LAW: the Inbox NEVER hosts the
+       first-timer. The journey is the ft-canvas above — its own view at Home
+       level. These inputs are fed constants (the machinery stays, dormant);
+       the analysis of the cocoon is the ft_* stream (home.page.ts). -->
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="false" [fmPhase]="''" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —

@@ -348,6 +348,23 @@ export class HomePage implements OnInit, OnDestroy {
   /** 'pending' is the boot blank — the full home is not painted while we
    *  learn whether this device is still a first-timer. */
   ftView: '' | 'pending' | 'gates' | 'phone' | 'flow' = 'pending';
+  /** ── 2026-09-23 BUILD 319 THE COCOON LEDGER ── the first-timer journey is
+   *  ITS OWN view at Home level (the cocoon), and its analysis is its own
+   *  stream: how the visitor responded to the UI, continued or churned, how
+   *  long they were there, whether they entered a gate and retracted. Every
+   *  ft_* event carries cohort 'ft' — materially separate from the
+   *  non-first-timer stream, readable as one funnel in the portal. */
+  private ftEnteredAt = 0;
+  private ftDwellMs(): number {
+    return this.ftEnteredAt ? Date.now() - this.ftEnteredAt : 0;
+  }
+  private ftLog(event: string, props: Record<string, unknown> = {}): void {
+    void this.analytics.track(event, { cohort: 'ft', ...props });
+  }
+  private ftEnter(view: 'gates' | 'phone' | 'flow'): void {
+    if (view === 'gates' && !this.ftEnteredAt) this.ftEnteredAt = Date.now();
+    this.ftLog('ft_cocoon', { view, dwellMs: this.ftDwellMs() });
+  }
   /** Which gate opened the dialog — return walks back one step, not out. */
   private ftPath: 'reply' | 'decide' = 'reply';
   private ftBoot: '' | 'card' | 'later' | 'decide' = '';
@@ -365,25 +382,26 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** The gates' reply door — the slate transforms to the two phone doors. */
-  ftReply(): void { this.ftPath = 'reply'; this.ftView = 'phone'; }
+  ftReply(): void { this.ftLog('ft_gate', { gate: 'reply' }); this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone'); }
 
   /** From my phone — stay on this page until a person is actually picked.
    *  Cancelling the picker leaves the two doors standing. */
-  ftPhone(): void { void this.addFromPhoneContacts(true); }
+  ftPhone(): void { this.ftLog('ft_choice', { choice: 'phone' }); void this.addFromPhoneContacts(true); }
 
   /** I will add later — the owed-reply words, no card, still on the blank page. */
-  ftLater(): void { this.ftPath = 'reply'; this.openFtFlow('later'); }
+  ftLater(): void { this.ftLog('ft_choice', { choice: 'later' }); this.ftPath = 'reply'; this.openFtFlow('later'); }
 
   /** The decide gate — the 183 self-loop, straight to the dialog in situ. */
-  ftDecide(): void { this.ftPath = 'decide'; this.openFtFlow('decide'); }
+  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftLog('ft_choice', { choice: 'decide' }); this.ftPath = 'decide'; this.openFtFlow('decide'); }
 
   /** The return arrow. Phone → gates. Dialog → one step back inside the
    *  words, or out to the previous blank page if the words are showing. */
   ftBack(): void {
-    if (this.ftView === 'phone') { this.ftView = 'gates'; return; }
+    if (this.ftView === 'phone') { this.ftLog('ft_retract', { from: 'phone', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
     const w = this._ftWalk;
     if (!w || w.step <= 3) {
       w?.abandonFt();
+      this.ftLog('ft_retract', { from: 'flow', to: this.ftPath === 'reply' ? 'phone' : 'gates', dwellMs: this.ftDwellMs() });
       this.onFtDialogReturn();
       return;
     }
@@ -393,6 +411,7 @@ export class HomePage implements OnInit, OnDestroy {
       w.backFromTap();
       return;
     }
+    this.ftLog('ft_retract', { from: 'flow', to: this.ftPath === 'reply' ? 'phone' : 'gates', dwellMs: this.ftDwellMs() });
     this.onFtDialogReturn();
   }
 
@@ -405,6 +424,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.ftBoot = boot;
     this.ftBootContact = contact || null;
     this.ftView = 'flow';
+    this.ftEnter('flow');
     if (this._ftWalk) this.runFtBoot();
   }
 
@@ -442,6 +462,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.fmPhase = 'ring';
       this.firstMinuteActive = true;
       this.ftView = 'gates';
+      this.ftEnter('gates');
       void this.storageService.set('lk_ft_open', true).catch(() => { /* best effort */ });
       void this.analytics.track('firstminute_shown', { phase: 'gates' });
     } catch { this.ftView = ''; /* the gate must never block the app */ }
@@ -468,6 +489,9 @@ export class HomePage implements OnInit, OnDestroy {
   /** The congratulations have played. Now — and only now — the original
    *  panel and the surroundings. */
   onFtConcluded(): void {
+    // BUILD 319: the journey succeeded — the dwell closes as a conclusion.
+    this.ftLog('ft_concluded', { dwellMs: this.ftDwellMs() });
+    this.ftEnteredAt = 0;
     this.ftView = '';
     this.firstMinuteActive = true;
     this.fmPhase = 'panel';
@@ -596,6 +620,9 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // 2026-09-23 BUILD 319: the cocoon's churn beacon rides from boot — it
+    // only ever speaks while the cocoon stands.
+    this.bindFtHidden();
     // 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS (founder: "this time,
     // we are stuck in a 7 minutes wait"): if a wipe left its pending mark,
     // the fresh boot FINISHES the job — clear everything again (one capped
@@ -728,6 +755,22 @@ export class HomePage implements OnInit, OnDestroy {
         this.rolodexSync.push(this.realContacts(), undefined, this.loops.exportLoops());
       }
     }
+  }
+
+  /** 2026-09-23 BUILD 319 THE COCOON CHURN BEACON: when the app hides while the
+   *  first-timer cocoon still stands, the visit closes UNCONCLUDED — the
+   *  churn candidate. ft_hidden carries the view and the dwell; the portal
+   *  reads churn as ft_cocoon/ft_hidden without a later ft_concluded, per
+   *  device. The legacy meters never see this stream (cohort 'ft'). */
+  private ftHiddenBound = false;
+  private bindFtHidden(): void {
+    if (this.ftHiddenBound || typeof document === 'undefined') return;
+    this.ftHiddenBound = true;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && this.ftView) {
+        this.ftLog('ft_hidden', { view: this.ftView, dwellMs: this.ftDwellMs() });
+      }
+    });
   }
 
   ngOnDestroy(): void {

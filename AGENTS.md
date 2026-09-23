@@ -334,3 +334,13 @@ error that 295 fixes. UPDATE: founder deployed 295 and the cover was STILL
 skipped with no user action — 296 THE GATE, UNPOLLUTED: the gate reads only
 lk_cover_engaged (the user's own action) + zero real cards; the
 loops.all()-ledger suppressor is retired.
+
+## THE COCOON (2026-09-23, build 319, founder - standing law)
+
+The first-timer journey is AN ALTERNATIVE VIEW TO THE HOME PAGE - never an element of the Inbox. The Inbox is a component INSIDE the settled Home; it must never host, carry, or show first-timer state. THE LAW:
+
+- Home renders either the FIRST-TIMER VIEW (the cocoon: the two gates, the in-situ journey, the congratulations) or the SETTLED HOME - never both.
+- The settled Home is intact and WRAPPED: the cocoon admits only the first-timer; everyone else sees the original Home beneath.
+- The Inbox [firstMinute]/[fmPhase]/[ftCanvas] inputs are fed CONSTANTS - the machinery stays (additive, dormant), but the Inbox never hosts the journey again.
+- The cocoon analysis is its OWN stream - the ft_* events (cohort ft), materially separate from the non-first-timer meters: ft_cocoon (view + dwellMs), ft_gate {gate}, ft_choice {choice}, ft_retract {from, to, dwellMs}, ft_concluded {dwellMs}, ft_hidden {view, dwellMs} (the churn beacon - the app hid with the cocoon still standing). Churn reads as cocoon/hidden without a later concluded, per device.
+- Card counts never CAUSE the cocoon; the identity flags choose the view.
