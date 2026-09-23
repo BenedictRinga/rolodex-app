@@ -691,6 +691,14 @@
     "why.chip.awkward": "Yana da kunya",
     "why.chip.think": "Ban san abin da nake tunani ba tukuna",
     "why.chip.fight": "Yana iya fara fada",
-    "why.chip.boring": "Ba shi da daɗi"
+    "why.chip.boring": "Ba shi da daɗi",
+    "settings.chatid": "Asalin tattaunawa",
+    "settings.chatidDesc": "Adireshin da za a raba maimakon lambar wayarka.",
+    "settings.chatidRequest": "Nemi",
+    "settings.chatidCopy": "Kwafi",
+    "settings.chatidCopied": "An kwafi.",
+    "settings.chatidReady": "A shirya za a raba.",
+    "settings.chatidNote": "Raba shi maimakon lambarka lokacin da kuka zabi.",
+    "settings.chatidFail": "Neman asalin ya kasa - duba hanyarka."
   }
 }

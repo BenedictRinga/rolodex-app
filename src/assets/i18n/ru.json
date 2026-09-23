@@ -691,6 +691,14 @@
     "why.chip.awkward": "Это неловко",
     "why.chip.think": "Я ещё не знаю, что думаю",
     "why.chip.fight": "Это может начать ссору",
-    "why.chip.boring": "Просто скучно"
+    "why.chip.boring": "Просто скучно",
+    "settings.chatid": "Идентификатор чата",
+    "settings.chatidDesc": "Адрес для обмена вместо номера телефона.",
+    "settings.chatidRequest": "Запросить",
+    "settings.chatidCopy": "Копировать",
+    "settings.chatidCopied": "Скопировано.",
+    "settings.chatidReady": "Готов к обмену.",
+    "settings.chatidNote": "Делитесь им вместо номера, когда выберете.",
+    "settings.chatidFail": "Не удалось запросить идентификатор - проверьте соединение."
   }
 }

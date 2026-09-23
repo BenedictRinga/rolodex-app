@@ -691,6 +691,14 @@
     "why.chip.awkward": "Ina aibu",
     "why.chip.think": "Sijui bado ninavyofikiri",
     "why.chip.fight": "Inaweza kuanza ugomvi",
-    "why.chip.boring": "Ni ya kuchoka tu"
+    "why.chip.boring": "Ni ya kuchoka tu",
+    "settings.chatid": "Kitambulisho cha Mazungumzo",
+    "settings.chatidDesc": "Anwani ya kushiriki badala ya nambari yako ya simu.",
+    "settings.chatidRequest": "Omba",
+    "settings.chatidCopy": "Nakili",
+    "settings.chatidCopied": "Imenakiliwa.",
+    "settings.chatidReady": "Iko tayari kushirikiwa.",
+    "settings.chatidNote": "Ilishiriki badala ya nambari yako ya simu unapochagua.",
+    "settings.chatidFail": "Hakikuwezekana kuomba ID - angalia mtandao wako."
   }
 }

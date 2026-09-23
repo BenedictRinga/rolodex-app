@@ -691,6 +691,14 @@
     "why.chip.awkward": "It’s awkward",
     "why.chip.think": "I don’t know what I think yet",
     "why.chip.fight": "It might start a fight",
-    "why.chip.boring": "It’s just boring"
+    "why.chip.boring": "It’s just boring",
+    "settings.chatid": "Chat ID",
+    "settings.chatidDesc": "A sharable address for LoopKeeper chats - in place of your phone number, if you choose.",
+    "settings.chatidRequest": "Request",
+    "settings.chatidCopy": "Copy",
+    "settings.chatidCopied": "Copied to the clipboard.",
+    "settings.chatidReady": "Ready to share.",
+    "settings.chatidNote": "Share this instead of your phone number, whenever you choose. Cards may carry it too.",
+    "settings.chatidFail": "The chat ID could not be requested - check your connection."
   }
 }

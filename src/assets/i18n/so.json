@@ -691,6 +691,14 @@
     "why.chip.awkward": "It’s awkward",
     "why.chip.think": "I don’t know what I think yet",
     "why.chip.fight": "It might start a fight",
-    "why.chip.boring": "It’s just boring"
+    "why.chip.boring": "It’s just boring",
+    "settings.chatid": "Aqoonsiga Sheekada",
+    "settings.chatidDesc": "Cinwaan la wadaagi karo beddelka telofiirkaada.",
+    "settings.chatidRequest": "Codso",
+    "settings.chatidCopy": "Koobo",
+    "settings.chatidCopied": "La koobiyeeyay.",
+    "settings.chatidReady": "Diyaar u ah wadaagista.",
+    "settings.chatidNote": "La wadaag telafoneekaaga marka aad doorato.",
+    "settings.chatidFail": "Codsiga aqoonsiga waa fashilmay - hubi xiriirkaaga."
   }
 }

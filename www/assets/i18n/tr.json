@@ -691,6 +691,14 @@
     "why.chip.awkward": "Zor geliyor",
     "why.chip.think": "Henüz ne düşündüğümü bilmiyorum",
     "why.chip.fight": "Kavga çıkarabilir",
-    "why.chip.boring": "Sadece sıkıcı"
+    "why.chip.boring": "Sadece sıkıcı",
+    "settings.chatid": "Sohbet kimliği",
+    "settings.chatidDesc": "Telefon numaran yerine paylasilabilecek bir adres.",
+    "settings.chatidRequest": "Talep et",
+    "settings.chatidCopy": "Kopyala",
+    "settings.chatidCopied": "Kopyalandı.",
+    "settings.chatidReady": "Paylaşmaya hazır.",
+    "settings.chatidNote": "Sectiginde numara yerine onu paylas.",
+    "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et."
   }
 }

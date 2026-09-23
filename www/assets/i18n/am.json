@@ -691,6 +691,14 @@
     "why.chip.awkward": "It’s awkward",
     "why.chip.think": "I don’t know what I think yet",
     "why.chip.fight": "It might start a fight",
-    "why.chip.boring": "It’s just boring"
+    "why.chip.boring": "It’s just boring",
+    "settings.chatid": "የውይይት መለያ",
+    "settings.chatidDesc": "ከስልክ ቁጥርዎ ፋንታ የሚጋራ አድራሻ።",
+    "settings.chatidRequest": "ጠይቅ",
+    "settings.chatidCopy": "ቅዳ",
+    "settings.chatidCopied": "ተቀድቷል።",
+    "settings.chatidReady": "ለመለስለስ ዝግጁ ነው።",
+    "settings.chatidNote": "ሲመርጡ በቁጥርዎ ፋንታ ያጋሩት።",
+    "settings.chatidFail": "መለያውን መጠየቅ አልተሳካም - ግንኙነትዎን ያረጋግጡ።"
   }
 }

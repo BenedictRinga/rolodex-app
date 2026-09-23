@@ -691,6 +691,14 @@
     "why.chip.awkward": "有點尴尬",
     "why.chip.think": "我還沒想清楚",
     "why.chip.fight": "可能會吵起來",
-    "why.chip.boring": "純粹是嫌麻煩"
+    "why.chip.boring": "純粹是嫌麻煩",
+    "settings.chatid": "聊天識別碼",
+    "settings.chatidDesc": "可代替手機號分享的地址。",
+    "settings.chatidRequest": "申請",
+    "settings.chatidCopy": "複製",
+    "settings.chatidCopied": "已複製。",
+    "settings.chatidReady": "可以分享了。",
+    "settings.chatidNote": "你選擇時,可代替號碼分享。",
+    "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。"
   }
 }

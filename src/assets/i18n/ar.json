@@ -691,6 +691,14 @@
     "why.chip.awkward": "الأمر محرج",
     "why.chip.think": "لا أعرف بعد ما أفكر فيه",
     "why.chip.fight": "قد يبدأ جدالًا",
-    "why.chip.boring": "مملّ فقط"
+    "why.chip.boring": "مملّ فقط",
+    "settings.chatid": "معرف الدردشة",
+    "settings.chatidDesc": "عنوان للمشاركة بدلا من رقم هاتفك.",
+    "settings.chatidRequest": "اطلب",
+    "settings.chatidCopy": "نسخ",
+    "settings.chatidCopied": "تم النسخ.",
+    "settings.chatidReady": "جاهز للمشاركة.",
+    "settings.chatidNote": "شاركه بدلا من رقمك متى اخترت.",
+    "settings.chatidFail": "تعذر طلب المعرف - تحقق من اتصالك."
   }
 }

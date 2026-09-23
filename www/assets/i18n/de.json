@@ -691,6 +691,14 @@
     "why.chip.awkward": "Es ist unangenehm",
     "why.chip.think": "Ich weiß noch nicht, was ich denke",
     "why.chip.fight": "Es könnte einen Streit geben",
-    "why.chip.boring": "Es ist einfach langweilig"
+    "why.chip.boring": "Es ist einfach langweilig",
+    "settings.chatid": "Chat-Kennung",
+    "settings.chatidDesc": "Eine Adresse zum Teilen, statt deiner Telefonnummer.",
+    "settings.chatidRequest": "Anfordern",
+    "settings.chatidCopy": "Kopieren",
+    "settings.chatidCopied": "Kopiert.",
+    "settings.chatidReady": "Bereit zum Teilen.",
+    "settings.chatidNote": "Teile sie statt deiner Nummer, wann du willst.",
+    "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung."
   }
 }

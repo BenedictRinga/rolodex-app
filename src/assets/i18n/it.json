@@ -691,6 +691,14 @@
     "why.chip.awkward": "Mette imbarazzo",
     "why.chip.think": "Non so ancora cosa penso",
     "why.chip.fight": "Potrebbe far nascere una lite",
-    "why.chip.boring": "È solo noioso"
+    "why.chip.boring": "È solo noioso",
+    "settings.chatid": "ID di chat",
+    "settings.chatidDesc": "Un indirizzo da condividere al posto del tuo numero.",
+    "settings.chatidRequest": "Richiedi",
+    "settings.chatidCopy": "Copia",
+    "settings.chatidCopied": "Copiato.",
+    "settings.chatidReady": "Pronto da condividere.",
+    "settings.chatidNote": "Condividilo al posto del numero, quando scegli tu.",
+    "settings.chatidFail": "Richiesta ID non riuscita - controlla la connessione."
   }
 }

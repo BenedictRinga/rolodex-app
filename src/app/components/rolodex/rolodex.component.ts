@@ -5,6 +5,7 @@ import { AlertsService } from '../../services/alerts/alerts.service';
 import { EventService } from '../../services/event/event.service';
 import { PagemanagerService, RolodexView } from '../../services/pagemanager/pagemanager.service';
 import { StorageService } from '../../services/storage/storage.service';
+import { ChatIdService } from '../../services/chat-id/chat-id.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Capacitor } from '@capacitor/core';
 import type { CloudProvider } from '../../services/cloud-sync/sync.types';
@@ -186,8 +187,40 @@ export class RolodexComponent implements OnInit {
     private readonly translation: TranslationService,
     // 2026-08-29 BUILD 152: share-voice switches are a measurable preference.
     private readonly analytics: AnalyticsService,
+    // 2026-09-23 BUILD 315 THE CHAT ID: the voluntary, sharable address.
+    private readonly chatIdService: ChatIdService,
   ) {
     // no snapshot assignment — currentLang is a live getter now
+  }
+
+  /** 2026-09-23 BUILD 315 THE CHAT ID: shown in Settings (the requesting
+   *  section, beside My Profile); requested from the backend on the user's
+   *  tap (voluntary), cached through the StorageService, copyable. */
+  chatIdValue = '';
+  chatIdCopied = '';
+
+  async requestChatId(): Promise<void> {
+    const id = await this.chatIdService.request();
+    if (!id) {
+      this.chatIdCopied = '';
+      try { this.alertService.showToast(this.translate.instant('loopkeeper.settings.chatidFail'), 3200); } catch { /* quiet */ }
+      return;
+    }
+    this.chatIdValue = id;
+    this.chatIdCopied = this.translate.instant('loopkeeper.settings.chatidReady');
+    void this.analytics.track('chatid_requested', {});
+  }
+
+  async copyChatId(): Promise<void> {
+    if (!this.chatIdValue) return;
+    try {
+      await navigator.clipboard.writeText(this.chatIdValue);
+      this.chatIdCopied = this.translate.instant('loopkeeper.settings.chatidCopied');
+    } catch {
+      this.chatIdCopied = this.chatIdValue; // the raw id is the fallback view
+    }
+    void this.analytics.track('chatid_copied', {});
+    setTimeout(() => { this.chatIdCopied = ''; }, 3200);
   }
 
   /** 2026-08-25 SETTINGS LANGUAGE SWITCH — same selector as the Inbox header.

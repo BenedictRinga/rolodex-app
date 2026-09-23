@@ -691,6 +691,14 @@
     "why.chip.awkward": "यह अजीब लगता है",
     "why.chip.think": "मुझे अभी पता नहीं मैं क्या सोचता हूँ",
     "why.chip.fight": "इससे झगड़ा शुरू हो सकता है",
-    "why.chip.boring": "यह बस उबाऊ है"
+    "why.chip.boring": "यह बस उबाऊ है",
+    "settings.chatid": "चैट आईडी",
+    "settings.chatidDesc": "आपके फ़ोन नंबर की जगह साझा करने का पता।",
+    "settings.chatidRequest": "अनुरोध करें",
+    "settings.chatidCopy": "कॉपी",
+    "settings.chatidCopied": "कॉपी हो गया।",
+    "settings.chatidReady": "साझा करने के लिए तैयार।",
+    "settings.chatidNote": "चुनने पर अपने नंबर की जगह साझा करें।",
+    "settings.chatidFail": "आईडी का अनुरोध नहीं हो सका - कनेक्शन जांचें।"
   }
 }

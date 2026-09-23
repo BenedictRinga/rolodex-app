@@ -691,6 +691,14 @@
     "why.chip.awkward": "気まずいから",
     "why.chip.think": "まだ自分の気持ちがまとまらないから",
     "why.chip.fight": "けんかになりそうだから",
-    "why.chip.boring": "ただ面倒だから"
+    "why.chip.boring": "ただ面倒だから",
+    "settings.chatid": "チャットID",
+    "settings.chatidDesc": "電話番号の代わりに共有できるアドレス。",
+    "settings.chatidRequest": "リクエスト",
+    "settings.chatidCopy": "コピー",
+    "settings.chatidCopied": "コピーしました。",
+    "settings.chatidReady": "共有できます。",
+    "settings.chatidNote": "選んだときは番号の代わりに共有します。",
+    "settings.chatidFail": "IDをリクエストできませんでした - 接続を確認してください。"
   }
 }

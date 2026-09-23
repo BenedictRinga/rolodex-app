@@ -691,6 +691,14 @@
     "why.chip.awkward": "Jest niezręcznie",
     "why.chip.think": "Jeszcze nie wiem, co myślę",
     "why.chip.fight": "Może zacząć kłótnię",
-    "why.chip.boring": "Po prostu nudne"
+    "why.chip.boring": "Po prostu nudne",
+    "settings.chatid": "Identyfikator czatu",
+    "settings.chatidDesc": "Adres do udostępnienia zamiast numeru telefonu.",
+    "settings.chatidRequest": "Poproś",
+    "settings.chatidCopy": "Kopiuj",
+    "settings.chatidCopied": "Skopiowano.",
+    "settings.chatidReady": "Gotowy do udostępnienia.",
+    "settings.chatidNote": "Udostępnij go zamiast numeru, kiedy zdecydujesz.",
+    "settings.chatidFail": "Nie udało się poprosić o identyfikator - sprawdź połączenie."
   }
 }

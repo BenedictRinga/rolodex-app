@@ -691,6 +691,14 @@
     "why.chip.awkward": "Het is ongemakkelijk",
     "why.chip.think": "Ik weet nog niet wat ik ervan vind",
     "why.chip.fight": "Het kan ruzie geven",
-    "why.chip.boring": "Het is gewoon saai"
+    "why.chip.boring": "Het is gewoon saai",
+    "settings.chatid": "Chat-ID",
+    "settings.chatidDesc": "Een adres om te delen in plaats van je telefoonnummer.",
+    "settings.chatidRequest": "Aanvragen",
+    "settings.chatidCopy": "Kopieer",
+    "settings.chatidCopied": "Gekopieerd.",
+    "settings.chatidReady": "Klaar om te delen.",
+    "settings.chatidNote": "Deel het in plaats van je nummer, wanneer jij kiest.",
+    "settings.chatidFail": "De aanvraag mislukte - controleer je verbinding."
   }
 }
