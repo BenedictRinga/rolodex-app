@@ -407,6 +407,13 @@ export class RolodexComponent implements OnInit {
   }
 
   settingsMapHint(): string {
+    // 2026-09-23 BUILD 316: derived from the LIVE map — the hint can never
+    // lag the pills again (a new chip lands in the hint automatically).
+    try {
+      const chips = Array.from(document.querySelectorAll('.settings-quicknav ion-chip'));
+      const names = chips.map((c) => (c.textContent || '').trim()).filter(Boolean);
+      if (names.length) return names.join(' · ');
+    } catch { /* contexts without the map fall back to the static list */ }
     // BUILD 238: Check-ins replaces Loops in the map (the quicknav chips match).
     return 'Updates · Check-ins · FAQ · Card View · Demo · Reminders · Welcome · AI · Billing · About · Privacy · Cloud Sync · Backup';
   }

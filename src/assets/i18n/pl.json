@@ -693,12 +693,12 @@
     "why.chip.fight": "Może zacząć kłótnię",
     "why.chip.boring": "Po prostu nudne",
     "settings.chatid": "Identyfikator czatu",
-    "settings.chatidDesc": "Adres do udostępnienia zamiast numeru telefonu.",
+    "settings.chatidDesc": "Udostępniaj czaty LoopKeeper, nigdy nie podając numeru telefonu - ID to Twój adres.",
     "settings.chatidRequest": "Poproś",
     "settings.chatidCopy": "Kopiuj",
     "settings.chatidCopied": "Skopiowano.",
     "settings.chatidReady": "Gotowy do udostępnienia.",
-    "settings.chatidNote": "Udostępnij go zamiast numeru, kiedy zdecydujesz.",
+    "settings.chatidNote": "Twój numer zostaje przy Tobie. Udostępnij ID zamiast niego - także na karcie.",
     "settings.chatidFail": "Nie udało się poprosić o identyfikator - sprawdź połączenie."
   }
 }

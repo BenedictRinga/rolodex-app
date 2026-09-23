@@ -693,12 +693,12 @@
     "why.chip.fight": "Kavga çıkarabilir",
     "why.chip.boring": "Sadece sıkıcı",
     "settings.chatid": "Sohbet kimliği",
-    "settings.chatidDesc": "Telefon numaran yerine paylasilabilecek bir adres.",
+    "settings.chatidDesc": "LoopKeeper sohbetlerini telefon numaranı asla vermeden paylaş - kimlik senin adresin.",
     "settings.chatidRequest": "Talep et",
     "settings.chatidCopy": "Kopyala",
     "settings.chatidCopied": "Kopyalandı.",
     "settings.chatidReady": "Paylaşmaya hazır.",
-    "settings.chatidNote": "Sectiginde numara yerine onu paylas.",
+    "settings.chatidNote": "Numaran senin kalır. Onun yerine kimliği paylaş - kartta da olur.",
     "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et."
   }
 }

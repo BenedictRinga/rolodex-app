@@ -41,6 +41,8 @@ export class RemindersModalComponent {
   formContactId = '';
   formNote = '';
   formDate: string = new Date().toISOString().slice(0, 10);
+  /** BUILD 316: the datetime's horizon — reminders live in the future. */
+  maxDate: string = new Date(Date.now() + 365 * 86400_000).toISOString().slice(0, 10);
   // 2026-08-27 CHOICE-FIRST CALENDAR: the form carries the push choice
   // itself — pre-seeded with the user's remembered default (off = discrete).
   formAlsoCal = false;

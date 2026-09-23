@@ -1984,3 +1984,34 @@
   </div>
 <!-- </div> -->
 
+<!-- 2026-09-23 BUILD 316 THE MOBILE PICKER: the reminder's declared modal —
+     the alert's inline date input never opened the native picker on mobile.
+     The Zyppar pattern (build 178): a DECLARED ion-modal, no controller. -->
+<ion-modal [isOpen]="reminderOpen" cssClass="reminder-picker-modal" [keyboardClose]="false" (didDismiss)="reminderOpen = false">
+  <ng-template>
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title style="font-size: 15px;">Reminder — {{ draftEngine.contactName(reminderFor) || 'this contact' }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="reminderOpen = false"><ion-icon name="close-outline"></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item lines="none">
+        <ion-label position="stacked">Remind me to…</ion-label>
+        <ion-input [(ngModel)]="reminderNote" autocapitalize="sentences"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">When (morning of the day)</ion-label>
+        <ion-datetime presentation="date" [(ngModel)]="reminderDate" [max]="reminderMaxDate"></ion-datetime>
+      </ion-item>
+      <ion-button expand="block" (click)="saveReminder(true)">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        Set + push to calendar
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="saveReminder(false)">Set reminder (in LoopKeeper only)</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+

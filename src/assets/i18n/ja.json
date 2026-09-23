@@ -693,12 +693,12 @@
     "why.chip.fight": "けんかになりそうだから",
     "why.chip.boring": "ただ面倒だから",
     "settings.chatid": "チャットID",
-    "settings.chatidDesc": "電話番号の代わりに共有できるアドレス。",
+    "settings.chatidDesc": "LoopKeeperのチャットを、電話番号を教えずに共有できます - IDがあなたのアドレスです。",
     "settings.chatidRequest": "リクエスト",
     "settings.chatidCopy": "コピー",
     "settings.chatidCopied": "コピーしました。",
     "settings.chatidReady": "共有できます。",
-    "settings.chatidNote": "選んだときは番号の代わりに共有します。",
+    "settings.chatidNote": "番号はあなたのまま。代わりにIDを共有します - カードにも。",
     "settings.chatidFail": "IDをリクエストできませんでした - 接続を確認してください。"
   }
 }

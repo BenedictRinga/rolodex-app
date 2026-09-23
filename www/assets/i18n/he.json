@@ -693,12 +693,12 @@
     "why.chip.fight": "זה עלול להתחיל ריב",
     "why.chip.boring": "זה פשוט משעמם",
     "settings.chatid": "מזהה צ ות",
-    "settings.chatidDesc": "כתובת לשיתוף במקום מספר הטלפון שלך.",
+    "settings.chatidDesc": "שתף צאטים של LoopKeeper בלי לחשוף את מספר הטלפון - המזהה הוא הכתובת שלך.",
     "settings.chatidRequest": "בקש",
     "settings.chatidCopy": "העתק",
     "settings.chatidCopied": "הועתק.",
     "settings.chatidReady": "מוכן לשיתוף.",
-    "settings.chatidNote": "שתף אותו במקום המספר, כשתבחר.",
+    "settings.chatidNote": "המספר נשאר שלך. שתף את המזהה במקומו - בכרטיס או בכל מקום.",
     "settings.chatidFail": "הבקשה נכשלה - בדוק את החיבור."
   }
 }

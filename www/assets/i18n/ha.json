@@ -693,12 +693,12 @@
     "why.chip.fight": "Yana iya fara fada",
     "why.chip.boring": "Ba shi da daɗi",
     "settings.chatid": "Asalin tattaunawa",
-    "settings.chatidDesc": "Adireshin da za a raba maimakon lambar wayarka.",
+    "settings.chatidDesc": "Raba tattaunawar LoopKeeper ba tare da bayar da lambarka ba - asalin adireshinka ne.",
     "settings.chatidRequest": "Nemi",
     "settings.chatidCopy": "Kwafi",
     "settings.chatidCopied": "An kwafi.",
     "settings.chatidReady": "A shirya za a raba.",
-    "settings.chatidNote": "Raba shi maimakon lambarka lokacin da kuka zabi.",
+    "settings.chatidNote": "Lambarka ta sa. Raba asalin maimakonta - a katin ko ina.",
     "settings.chatidFail": "Neman asalin ya kasa - duba hanyarka."
   }
 }

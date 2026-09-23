@@ -72,6 +72,13 @@ export class UpdatesService {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) void this.maybeResumeRefresh();
     });
+    // 2026-09-23 BUILD 316 THE RESUME, DOUBLED (founder: the automatic
+    // update-on-visibility lookup seemed broken): mobile PWA resumes
+    // sometimes skip visibilitychange (backgrounded then foregrounded) —
+    // pageshow and focus catch the same moment, throttled by the same
+    // 5-minute guard. The deployed-vs-running comparison decides.
+    window.addEventListener('pageshow', () => void this.maybeResumeRefresh());
+    window.addEventListener('focus', () => void this.maybeResumeRefresh());
   }
   async maybeResumeRefresh(): Promise<void> {
     try {

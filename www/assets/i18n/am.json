@@ -693,12 +693,12 @@
     "why.chip.fight": "It might start a fight",
     "why.chip.boring": "It’s just boring",
     "settings.chatid": "የውይይት መለያ",
-    "settings.chatidDesc": "ከስልክ ቁጥርዎ ፋንታ የሚጋራ አድራሻ።",
+    "settings.chatidDesc": "የLoopKeeper ውይይቶችን ያስተላልፉ - የስልክ ቁጥርዎን ሳያሳውቁ፤ መለያው አድራሻዎ ነው።",
     "settings.chatidRequest": "ጠይቅ",
     "settings.chatidCopy": "ቅዳ",
     "settings.chatidCopied": "ተቀድቷል።",
     "settings.chatidReady": "ለመለስለስ ዝግጁ ነው።",
-    "settings.chatidNote": "ሲመርጡ በቁጥርዎ ፋንታ ያጋሩት።",
+    "settings.chatidNote": "ቁጥርዎ የእርስዎ ነው። ፋንታው መለያውን ያጋሩ - በካርድ ወይም በየትም።",
     "settings.chatidFail": "መለያውን መጠየቅ አልተሳካም - ግንኙነትዎን ያረጋግጡ።"
   }
 }

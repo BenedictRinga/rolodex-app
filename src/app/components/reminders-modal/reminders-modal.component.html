@@ -23,7 +23,14 @@
     </ion-select>
     <ion-input class="arm-note" [placeholder]="'loopkeeper.reminders.notePlaceholder' | translate" [(ngModel)]="formNote"></ion-input>
     <div class="arm-row">
-      <ion-input class="arm-date" type="date" [(ngModel)]="formDate"></ion-input>
+      <!-- 2026-09-23 BUILD 316 THE MOBILE PICKER (user report: a reminder
+           could be set on desktop but not on mobile): the raw
+           <ion-input type="date"> does not open the native picker reliably
+           inside Ionic's shadow DOM on mobile — the Ionic-native
+           <ion-datetime> does, on every platform. Same wire value
+           (YYYY-MM-DD), same submit parsing. -->
+      <ion-datetime class="arm-date" presentation="date" [(ngModel)]="formDate"
+        [max]="maxDate" cancelText="Cancel" doneText="Set"></ion-datetime>
       <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim() || !formContactId">
         {{ 'loopkeeper.reminders.set' | translate }}
       </ion-button>

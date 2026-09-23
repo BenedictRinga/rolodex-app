@@ -693,12 +693,12 @@
     "why.chip.fight": "It might start a fight",
     "why.chip.boring": "It’s just boring",
     "settings.chatid": "Chat ID",
-    "settings.chatidDesc": "A sharable address for LoopKeeper chats - in place of your phone number, if you choose.",
+    "settings.chatidDesc": "Share LoopKeeper chats without ever giving out your phone number - the ID is your address.",
     "settings.chatidRequest": "Request",
     "settings.chatidCopy": "Copy",
     "settings.chatidCopied": "Copied to the clipboard.",
     "settings.chatidReady": "Ready to share.",
-    "settings.chatidNote": "Share this instead of your phone number, whenever you choose. Cards may carry it too.",
+    "settings.chatidNote": "Your number stays yours. Share the ID instead - on a card, or anywhere.",
     "settings.chatidFail": "The chat ID could not be requested - check your connection."
   }
 }

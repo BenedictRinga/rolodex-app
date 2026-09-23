@@ -693,12 +693,12 @@
     "why.chip.fight": "It might start a fight",
     "why.chip.boring": "It’s just boring",
     "settings.chatid": "Aqoonsiga Sheekada",
-    "settings.chatidDesc": "Cinwaan la wadaagi karo beddelka telofiirkaada.",
+    "settings.chatidDesc": "Wadaag sheekadaha LoopKeeper adigoon bixin lambarka telefoonkaaga - ID waa cinwaankaaga.",
     "settings.chatidRequest": "Codso",
     "settings.chatidCopy": "Koobo",
     "settings.chatidCopied": "La koobiyeeyay.",
     "settings.chatidReady": "Diyaar u ah wadaagista.",
-    "settings.chatidNote": "La wadaag telafoneekaaga marka aad doorato.",
+    "settings.chatidNote": "Lambarkaagu waa kanaga. Wadaag ID beddelkeeda - karka ama meel kasta.",
     "settings.chatidFail": "Codsiga aqoonsiga waa fashilmay - hubi xiriirkaaga."
   }
 }

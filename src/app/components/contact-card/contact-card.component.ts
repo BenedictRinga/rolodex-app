@@ -46,6 +46,13 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
    *  BUILD 235: the full CardKind union — the create form carries a kind
    *  segment (person/task/note/place/routine) seeded by this input. */
   @Input() createKind: CardKind = 'person';
+  // ── 2026-09-23 BUILD 316 THE MOBILE PICKER: the declared reminder modal's
+  // state (the alert's date input never opened the native picker on mobile).
+  reminderOpen = false;
+  reminderFor: any = null;
+  reminderNote = '';
+  reminderDate: string = new Date().toISOString().slice(0, 10);
+  reminderMaxDate: string = new Date(Date.now() + 365 * 86400_000).toISOString().slice(0, 10);
   /** BUILD 235: the create form's LIVE kind — the segment switches it; edit
    *  forms always read the card's own kind. */
   pickedKind: CardKind = 'person';
@@ -1106,45 +1113,43 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 2026-08-16 REMINDERS: set a reminder right off the card — note + date,
    *  saved into the contact's reminders list (persisted via editContact). */
   async setReminder(contact: any): Promise<void> {
+    // 2026-09-23 BUILD 316 THE MOBILE PICKER (user report: a reminder could
+    // be set on desktop but not on mobile): the IonAlert's inline date input
+    // does not open the native picker reliably inside an alert on mobile —
+    // the choice-first save below is unchanged; the PICKING moves to a
+    // declared in-template ion-modal carrying <ion-datetime> (the Zyppar
+    // pattern, build 178: no ModalController timing to juggle).
+    this.reminderFor = contact;
+    this.reminderNote = String(contact.rolodex?.followUp || '');
+    this.reminderDate = new Date().toISOString().slice(0, 10);
+    this.reminderOpen = true;
+  }
+
+  /** The declared modal's save — the same choice-first body as before. */
+  async saveReminder(alsoCalendar: boolean): Promise<void> {
+    const contact = this.reminderFor;
+    if (!contact) return;
     const name = this.draftEngine.contactName(contact) || 'this contact';
-    const calBtn = this.translate.instant('loopkeeper.cal.pushBtn');
-    // 2026-08-27 CHOICE-FIRST CALENDAR (founder): same as appointments —
-    // [Set + calendar] pushes to the device, [Set reminder] keeps it here.
-    const save = (data: any, alsoCalendar: boolean): boolean => {
-      const note = String(data?.note || '').trim();
-      if (!note) { void this.alertService.showToast('A note is needed for the reminder'); return false; }
-      const when = data?.date ? new Date(data.date + 'T09:00:00') : new Date();
-      const clone = { ...contact, reminders: [...(contact.reminders || []), { note, date: when }] };
-      (clone as any).updatedAt = new Date();
-      this.editContact.emit(clone);
-      void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
-      if (alsoCalendar) {
-        void this.calendar.addEvent({
-          title: note,
-          person: name,
-          start: when,
-          durationMin: 30,
-          localKey: 'rem:' + String(contact.contactId || '') + ':' + when.getTime(),
-        });
-        void this.calendar.rememberPushChoice(true);
-      } else {
-        void this.calendar.rememberPushChoice(false);
-      }
-      return true;
-    };
-    const alert = await this.alertCtrl.create({
-      header: `Reminder for ${name}`,
-      inputs: [
-        { name: 'note', type: 'text', placeholder: 'Remind me to…', value: contact.rolodex?.followUp || '' },
-        { name: 'date', type: 'date', value: new Date().toISOString().slice(0, 10) },
-      ],
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        { text: calBtn, handler: (data: any) => save(data, true) },
-        { text: 'Set reminder', handler: (data: any) => save(data, false) },
-      ],
-    });
-    await alert.present();
+    const note = String(this.reminderNote || '').trim();
+    if (!note) { void this.alertService.showToast('A note is needed for the reminder'); return; }
+    const when = this.reminderDate ? new Date(this.reminderDate + 'T09:00:00') : new Date();
+    const clone = { ...contact, reminders: [...(contact.reminders || []), { note, date: when }] };
+    (clone as any).updatedAt = new Date();
+    this.editContact.emit(clone);
+    this.reminderOpen = false;
+    void this.alertService.showToast(`Reminder set for ${name} — ${when.toLocaleDateString()}`, 2500);
+    if (alsoCalendar) {
+      void this.calendar.addEvent({
+        title: note,
+        person: name,
+        start: when,
+        durationMin: 30,
+        localKey: 'rem:' + String(contact.contactId || '') + ':' + when.getTime(),
+      });
+      void this.calendar.rememberPushChoice(true);
+    } else {
+      void this.calendar.rememberPushChoice(false);
+    }
   }
 
   /** The user's preset — a guide for the agent, or STRICT (deliver as-is). */

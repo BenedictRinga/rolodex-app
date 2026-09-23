@@ -693,12 +693,12 @@
     "why.chip.fight": "قد يبدأ جدالًا",
     "why.chip.boring": "مملّ فقط",
     "settings.chatid": "معرف الدردشة",
-    "settings.chatidDesc": "عنوان للمشاركة بدلا من رقم هاتفك.",
+    "settings.chatidDesc": "شارك دردشات LoopKeeper دون ابدا اعطاء رقم هاتفك - المعرف هو عنوانك.",
     "settings.chatidRequest": "اطلب",
     "settings.chatidCopy": "نسخ",
     "settings.chatidCopied": "تم النسخ.",
     "settings.chatidReady": "جاهز للمشاركة.",
-    "settings.chatidNote": "شاركه بدلا من رقمك متى اخترت.",
+    "settings.chatidNote": "رقمك يبقى لك. شارك المعرف بدلا منه - على بطاقة أو في أي مكان.",
     "settings.chatidFail": "تعذر طلب المعرف - تحقق من اتصالك."
   }
 }
