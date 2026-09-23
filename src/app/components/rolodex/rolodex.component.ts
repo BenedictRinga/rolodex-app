@@ -516,10 +516,12 @@ export class RolodexComponent implements OnInit {
       // BLOCKED while this page holds the handle open; an open handle is
       // exactly the stuck-erase risk.
       this.storageService.close();
-      // 3. web storage (the mark is re-set after the clear — it must survive
-      // the reload so the fresh boot can verify)
+      // 3. web storage — 2026-09-23 BUILD 312 THE CLEAN SLATE, THROUGH THE
+      // SERVICE (founder: "remove all localStorage on app - we have Storage
+      // service"): the raw stores are cleared through the ONE door
+      // (clearWebStorage), keeping only the boot-verification mark.
       try { sessionStorage.clear(); } catch { /* private mode */ }
-      try { localStorage.clear(); } catch { /* private mode */ }
+      this.storageService.clearWebStorage(StorageService.WIPE_KEEP);
       try { localStorage.setItem('lk_wipe_pending', '0'); } catch { /* private mode */ }
       // 4. every IndexedDB database — EACH deletion is timeout-guarded
       // (2.5s): a blocked request can never hold the veil again; the fresh

@@ -241,6 +241,34 @@ export class StorageService {
     await this.idbClear();
   }
 
+  // ── 2026-09-23 BUILD 312 THE CLEAN SLATE, THROUGH THE SERVICE (founder:
+  // "Before deploy, remove all localStorage on app - we have Storage
+  // service"): the wipe's web-storage stage previously called
+  // localStorage.clear() DIRECTLY — the raw store the doctrine forbids.
+  // wipeWebStorage() is the one door: it clears localStorage AND
+  // sessionStorage through here, minus any keys named in the keep list
+  // (the wipe's own boot-verification mark must survive the reload). Every
+  // wipe path (Settings → sunny day; the boot verification pass) goes
+  // through this method — no component touches web storage directly. */
+  /** The keys that must SURVIVE a wipe (the boot-time verification mark). */
+  static readonly WIPE_KEEP = ['lk_wipe_pending'];
+
+  /** Clear localStorage + sessionStorage (the raw stores), preserving the
+   *  given keys. Returns the number of keys cleared. */
+  clearWebStorage(keep: string[] = []): number {
+    let cleared = 0;
+    try {
+      const doomed: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && !keep.includes(k)) doomed.push(k);
+      }
+      for (const k of doomed) { localStorage.removeItem(k); cleared++; }
+      try { sessionStorage.clear(); cleared++; } catch { /* private mode */ }
+    } catch { /* private mode — nothing was reachable */ }
+    return cleared;
+  }
+
   async getAllKeys(): Promise<string[]> {
     await this.ensureHydrated();
     const memKeys = Array.from(this.memory.keys());

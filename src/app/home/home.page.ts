@@ -2127,8 +2127,11 @@ export class HomePage implements OnInit, OnDestroy {
       if (!attempt) return;
       localStorage.removeItem('lk_wipe_pending');
       if (attempt >= 2) return; // two passes is the cap — never a loop
+      // 2026-09-23 BUILD 312: the web-storage stage goes through the ONE
+      // door (clearWebStorage), keeping the attempt mark that drives THIS
+      // verification pass.
       try { sessionStorage.clear(); } catch { /* private mode */ }
-      try { localStorage.clear(); } catch { /* private mode */ }
+      this.storageService.clearWebStorage(StorageService.WIPE_KEEP);
       try { localStorage.setItem('lk_wipe_pending', String(attempt + 1)); } catch { /* private mode */ }
       try {
         const anyIdx = indexedDB as unknown as { databases?: () => Promise<Array<{ name?: string }>> };

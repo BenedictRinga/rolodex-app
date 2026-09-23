@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { ContactInfo } from '../../models/contacts';
 import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
+import { WriteAuthService } from '../write-auth/write-auth.service';
 
 
 /**
@@ -56,6 +57,7 @@ export class RolodexSyncService {
 
   constructor(
     private readonly storage: StorageService,
+    private readonly writeAuth: WriteAuthService,
     ) {
     this.deviceId = this.loadDeviceId();
     this.profileReady = this.hydrateProfile();
@@ -272,9 +274,12 @@ export class RolodexSyncService {
       }
       const res = await fetch(`${this.apiBase()}/sync`, {
         method: 'POST',
-        headers: wireHeaders,
+        // 2026-09-23 BUILD 312: the write token rides beside the wire headers
+        // (server 124's gate; fail-open client, the server has the final word).
+        headers: { ...wireHeaders, ...(await this.writeAuth.authHeaders(this.deviceId)) },
         body: wireBody,
       });
+      if (res.status === 401 || res.status === 403) this.writeAuth.invalidate(this.deviceId);
       if (!res.ok) return { ok: false, stored: 0, error: 'server-' + res.status, coversStripped };
       const data = await res.json().catch(() => null);
       if (data?.welcome) this.welcome$.next(String(data.welcome));

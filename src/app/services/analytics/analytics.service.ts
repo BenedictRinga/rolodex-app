@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
 import { RolodexSyncService } from '../rolodex-sync/rolodex-sync.service';
 import { NetworkService } from '../network/network.service';
+import { WriteAuthService } from '../write-auth/write-auth.service';
 
 export interface AnalyticsEventPayload {
   event: string;
@@ -85,6 +86,7 @@ export class AnalyticsService {
     private readonly storage: StorageService,
     private readonly rolodexSync: RolodexSyncService,
     private readonly network: NetworkService,
+    private readonly writeAuth: WriteAuthService,
   ) {
     void this.hydrate();
   }
@@ -329,10 +331,12 @@ export class AnalyticsService {
     try {
       const res = await this.network.safeFetch(`${environment.rolodexApiBase}/analytics/events`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        // 2026-09-23 BUILD 312: the write token rides (server 124's gate).
+        headers: { 'Content-Type': 'application/json', ...(await this.writeAuth.authHeaders(this.rolodexSync.getDeviceId())) },
         body: JSON.stringify({ deviceId: this.rolodexSync.getDeviceId(), events: batch }),
         keepalive: true,
       });
+      if (res && (res.status === 401 || res.status === 403)) this.writeAuth.invalidate(this.rolodexSync.getDeviceId());
       if (!res || !res.ok) {
         // Put the batch back (bounded) on failure.
         this.queue = [...batch, ...this.queue].slice(-200);
