@@ -693,12 +693,12 @@
     "why.chip.fight": "इससे झगड़ा शुरू हो सकता है",
     "why.chip.boring": "यह बस उबाऊ है",
     "settings.chatid": "चैट आईडी",
-    "settings.chatidDesc": "LoopKeeper चैट साझा करें - फ़ोन नंबर कभी देना नहीं पड़ेगा, ID ही आपका पता है।",
+    "settings.chatidDesc": "गोपनीयता के लिए ID: चाहें तो नंबर की जगह इसे साझा करें।",
     "settings.chatidRequest": "अनुरोध करें",
     "settings.chatidCopy": "कॉपी",
     "settings.chatidCopied": "कॉपी हो गया।",
     "settings.chatidReady": "साझा करने के लिए तैयार।",
-    "settings.chatidNote": "आपका नंबर आपका ही रहेगा। इसकी जगह ID साझा करें - कार्ड में भी।",
+    "settings.chatidNote": "गोपनीयता के लिए ID। आपका नंबर भी काम करता है - दोनों पहुँचते हैं।",
     "settings.chatidFail": "आईडी का अनुरोध नहीं हो सका - कनेक्शन जांचें।"
   }
 }

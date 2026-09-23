@@ -693,12 +693,12 @@
     "why.chip.fight": "Podría empezar una pelea",
     "why.chip.boring": "Es solo aburrido",
     "settings.chatid": "Identificacion de chat",
-    "settings.chatidDesc": "Comparte chats de LoopKeeper sin dar nunca tu numero de telefono - la ID es tu direccion.",
+    "settings.chatidDesc": "ID para el anonimato: compártela en lugar de tu número cuando quieras.",
     "settings.chatidRequest": "Solicitar",
     "settings.chatidCopy": "Copiar",
     "settings.chatidCopied": "Copiado.",
     "settings.chatidReady": "Listo para compartir.",
-    "settings.chatidNote": "Tu numero sigue siendo tuyo. Comparte la ID en su lugar - en una tarjeta o donde quieras.",
+    "settings.chatidNote": "ID para el anonimato. Tu número también funciona - ambos te alcanzan.",
     "settings.chatidFail": "No se pudo solicitar la identificacion - revisa tu conexion."
   }
 }

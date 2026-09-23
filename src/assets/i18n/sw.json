@@ -693,12 +693,12 @@
     "why.chip.fight": "Inaweza kuanza ugomvi",
     "why.chip.boring": "Ni ya kuchoka tu",
     "settings.chatid": "Kitambulisho cha Mazungumzo",
-    "settings.chatidDesc": "Shiriki mazungumzo za LoopKeeper bila kutoa nambari yako ya simu - ID ni anwani yako.",
+    "settings.chatidDesc": "ID kwa kujificha: ishiriki badala ya nambari yako ya simu unapopenda.",
     "settings.chatidRequest": "Omba",
     "settings.chatidCopy": "Nakili",
     "settings.chatidCopied": "Imenakiliwa.",
     "settings.chatidReady": "Iko tayari kushirikiwa.",
-    "settings.chatidNote": "Nambari yako inabaki na wewe. Shiriki ID badala yake - kwenye kadi au popote.",
+    "settings.chatidNote": "ID kwa kujificha. Nambari yako ya simu bado inafanya kazi - zote mbili zinakufikia, na kadi inaweza kubeba ID.",
     "settings.chatidFail": "Hakikuwezekana kuomba ID - angalia mtandao wako."
   }
 }

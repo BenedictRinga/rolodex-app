@@ -693,12 +693,12 @@
     "why.chip.fight": "可能會吵起來",
     "why.chip.boring": "純粹是嫌麻煩",
     "settings.chatid": "聊天識別碼",
-    "settings.chatidDesc": "分享LoopKeeper聊天,從不透露你的手機號 - 識別碼就是你的地址。",
+    "settings.chatidDesc": "識別碼為匿名:願意時,以它代替手機號分享。",
     "settings.chatidRequest": "申請",
     "settings.chatidCopy": "複製",
     "settings.chatidCopied": "已複製。",
     "settings.chatidReady": "可以分享了。",
-    "settings.chatidNote": "號碼仍是你的。代之以識別碼分享 - 卡片上也適用。",
+    "settings.chatidNote": "識別碼管匿名。手機號同樣有效 - 兩種都找得到你。",
     "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。"
   }
 }
