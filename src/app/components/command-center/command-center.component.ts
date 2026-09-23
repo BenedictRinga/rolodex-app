@@ -169,9 +169,14 @@ export class CommandCenterComponent implements OnInit, OnChanges {
   /**
    * BUILD 191: the aperture path arrives with no [stats] — fetch the summary
    * directly (same endpoint the portal reads; quiet via safeFetch).
+   * 2026-09-23 BUILD 314 REFRESH ON ENTRY (founder: the console "no longer
+   * reflects changes on entry ... percentages persist between last entry/
+   * sessions"): a pre-bound [stats] is whatever the portal fetched HOURS ago
+   * — opening the console must fetch the CURRENT record, not short-circuit
+   * on the birth gift. The header's refresh icon stays for in-session
+   * refreshes.
    */
   private async ensureStats(): Promise<void> {
-    if (this.stats) return;
     await this.refresh();
   }
 

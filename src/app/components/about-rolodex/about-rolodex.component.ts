@@ -108,6 +108,11 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
   ];
   // 2026-08-24 WHAT CHANGED: snapshot of the last portal visit, compared on load.
   private readonly SNAPSHOT_KEY = 'loopkeeper_investor_snapshot';
+  /** 2026-09-23 BUILD 314 THE ENTRY RE-BASELINE: the first successful fetch
+   *  of each unlock re-baselines (device last-entry first, the server's
+   *  Time Capsule as a first-visit fallback) and writes the new snapshot;
+   *  hourly in-session refreshes never move the baseline. */
+  private entryBaselined = false;
   statsDelta: any = null;
   // 2026-09-18 BUILD 273 THE LIVE COMPASS (founder: "can we see percentage
   // changes between visits or refresh Sections 03, 05, and 06, like we do in
@@ -181,6 +186,9 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
     if (this.openInvestors) this.portalMode = 'investors';
     // The portal stays LOCKED. The word is NorthStar (case-insensitive).
     this.unlocked = false;
+    // 2026-09-23 BUILD 314: each app session re-baselines at its first
+    // unlock-fetch — an app reload is a new entry, never a pinned baseline.
+    this.entryBaselined = false;
     // 2026-08-24 WHAT CHANGED: load the snapshot from the investor's last exit.
     void this.loadSnapshot();
   }
@@ -252,19 +260,25 @@ export class AboutRolodexComponent implements OnInit, OnDestroy {
       const data = await res.json();
       this.investorStats = data;
       this.statsUpdatedLabel = this.time.format(data?.generatedAt || new Date(), 'datetime');
-      // 2026-09-20 BUILD 281 THE TIME CAPSULE (founder: "on a new device, an
-      // investor sees nothing, until fresh records build. Fails the usefulness
-      // test."): the SERVER carries the daily snapshot ledger — its previous-
-      // day numbers are the "what changed" baseline for ANY device, first
-      // visit included. The device-local snapshot stays only as the fallback
-      // for a brand-new backend with no ledger yet.
-      if (data?.prev) {
-        this.applyDelta(data.prev);
-      } else {
-        try {
-          const prev = await this.storage.get<any>(this.SNAPSHOT_KEY);
-          if (prev) this.applyDelta(prev);
-        } catch { /* first visit on a ledger-less backend */ }
+      // 2026-09-23 BUILD 314 THE ENTRY RE-BASELINE (founder: "the records
+      // percentages persist between last entry/sessions, even an app reload.
+      // It defeats the whole idea of current contrasted against previous"):
+      // since 281 the baseline preferred the SERVER's prior CALENDAR DAY —
+      // entering twice in one day showed the same chips. The baseline is now
+      // THIS DEVICE'S LAST ENTRY (the stored snapshot, written at the first
+      // fetch of each unlock and refreshed at exit); the server's prior-day
+      // Time Capsule stays as the fallback for a device's FIRST visit only.
+      // The hourly in-session refreshes do not move the baseline — only a
+      // real entry does.
+      if (!this.entryBaselined) {
+        this.entryBaselined = true;
+        let devicePrev: any = null;
+        try { devicePrev = await this.storage.get<any>(this.SNAPSHOT_KEY); } catch { /* first visit */ }
+        if (devicePrev) this.applyDelta(devicePrev);
+        else if (data?.prev) this.applyDelta(data.prev); // the Time Capsule, first visit only
+        // Re-baseline NOW: the next entry contrasts against THIS entry —
+        // whatever way the session ends (exit, reload, kill).
+        try { void this.storage.set(this.SNAPSHOT_KEY, data); } catch { /* best effort */ }
       }
     } catch (e: any) {
       this.statsError = e?.message || 'could not reach the live record';
