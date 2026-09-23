@@ -85,7 +85,8 @@ export class CommandCenterComponent implements OnInit, OnChanges {
       // portal word are "completely different" — the portal word is a
       // device-local gate, never an admin credential): the write takes the
       // server's TESTER_ADMIN_KEY, gated server-side through config.
-      const key = window.prompt('Admin key — the server\'s TESTER_ADMIN_KEY (asked once this session)', '');
+      // BUILD 311: trim — a pasted trailing space must not 401.
+      const key = (window.prompt('Admin key — the server\'s TESTER_ADMIN_KEY (asked once this session)', '') || '').trim();
       if (!key) return;
       this.noiseAdminKey = key;
     }

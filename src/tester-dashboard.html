@@ -216,7 +216,18 @@
       .then(function (r) {
         // 2026-08-28 BUILD 124: distinct, actionable messages. A 401 means the
         // KEY is off — the same key works on every device (no device accounts).
-        if (r.status === 401) throw new Error('Key rejected (401). Re-type it carefully — it is the SAME key that works on your other devices (or TESTER_ADMIN_KEY is not set on the server).');
+        // 2026-09-23 BUILD 311 THE STALE LATCH (founder: the dashboard kept
+        // 401ing for ~24h while the server already accepted the .env key):
+        // this page PRE-FILLS the stored key — an OLD value looks identical
+        // behind the dots and re-sends itself on every Open. A 401 now
+        // FORGETS the stored key and clears the field, forcing a fresh type.
+        if (r.status === 401) {
+          try { localStorage.removeItem(KEY_STORE); } catch (e2) { /* ignore */ }
+          key = '';
+          document.getElementById('key').value = '';
+          document.getElementById('forget').style.display = 'none';
+          throw new Error('Key rejected (401) — the stored key was cleared; type the current TESTER_ADMIN_KEY. (Since server 123 the .env file wins — an edit there takes effect without a restart.)');
+        }
         if (!r.ok) throw new Error('Server error ' + r.status + ' — try again in a moment.');
         return r.json();
       })
