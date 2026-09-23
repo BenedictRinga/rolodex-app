@@ -1,14 +1,13 @@
 <ion-content #homeContent>
-  <!-- 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS (founder: the home page
-       splits into two views — first-timer vs not first-timer): a BLANK
-       SLATE. PHASE RING stands here: the two gates side by side in the
-       middle, the Welcome below — one Welcome, not two (the modal skips
-       while the canvas stands). 'The reply I owe' transforms the slate to
-       'From my phone' (with the return arrow); the pick opens the dialog
-       IN SITU — all the way to success, in situ. -->
-  <div class="ft-canvas" *ngIf="ftView === 'gates' || ftView === 'phone'">
-    <button class="ft-back" *ngIf="ftView === 'phone'" type="button" (click)="ftReturnToGates()"
-      aria-label="Back to the gates">
+  <!-- 2026-09-23 BUILD 310 THE CANVAS HELD (founder: the first-timer view
+       is the ONLY view until a loop is concluded). Two ng-containers:
+       this blank page, and — after congratulations — the original home.
+       Gates → From my phone || I will add later → the existing dialog,
+       cloned in, with return, through the congratulations. Nothing else
+       is mounted, so nothing else can distract. One Welcome, on the gates. -->
+  <div class="ft-canvas" *ngIf="ftView" [class.ft-canvas-flow]="ftView === 'flow'">
+    <button class="ft-back" *ngIf="ftShowBack" type="button" (click)="ftBack()"
+      aria-label="Back">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </button>
     <ng-container *ngIf="ftView === 'gates'">
@@ -25,14 +24,31 @@
       <p class="ft-welcome">{{ 'loopkeeper.welcome.title' | translate }}</p>
     </ng-container>
     <ng-container *ngIf="ftView === 'phone'">
-      <div class="ft-gates ft-gates-one">
+      <div class="ft-gates">
         <button class="ft-gate" type="button" (click)="ftPhone()">
           <ion-icon name="phone-portrait-outline"></ion-icon>
-          <span>{{ 'loopkeeper.add.pickPhone' | translate }}</span>
+          <span>{{ 'loopkeeper.ft.fromPhone' | translate }}</span>
+        </button>
+        <button class="ft-gate" type="button" (click)="ftLater()">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ 'loopkeeper.ft.addLater' | translate }}</span>
         </button>
       </div>
     </ng-container>
+    <div class="ft-dialog" *ngIf="ftView === 'flow'">
+      <app-send-walk #ftWalk
+        [contacts]="contacts"
+        [firstMinute]="true"
+        [fmPhase]="'ring'"
+        [ftCanvas]="true"
+        (firstMinuteEntry)="onFirstMinuteEntry()"
+        (ftConcluded)="onFtConcluded()"
+        (ftReturn)="onFtDialogReturn()"
+        (contactsDirty)="onContactsDirty()">
+      </app-send-walk>
+    </div>
   </div>
+  <ng-container *ngIf="!ftView">
   <!-- 2026-09-14 BUILD 195 THE UPDATE BANNER (founder: "a global notification
        of Updates available — on tap, dismiss and apply"): shows whenever the
        server version differs; tap the strip to APPLY (cache clear + SW
@@ -280,7 +296,7 @@
 
   <app-rolodex
     #rolodex
-    [class.tab-hidden]="deckHiddenForTab || firstMinuteDemo || !!ftView"
+    [class.tab-hidden]="deckHiddenForTab || firstMinuteDemo"
     [class.inbox-expanded]="inboxExpanded"
     [contacts]="contacts"
     [displayedContacts]="displayedContacts"
@@ -350,6 +366,7 @@
   >
   </app-rolodex>
   </div>
+  </ng-container>
 
   <!-- 2026-08-19 SEARCH: the missing Search control — a FAB opens the sheet.
        2026-08-27: hidden while an un-setup Cloud/Server panel owns the tab —

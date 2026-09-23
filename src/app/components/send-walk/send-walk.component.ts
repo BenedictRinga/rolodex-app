@@ -53,6 +53,11 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  later visit can resurrect the cover. The per-visit retirement
    *  (firstMinuteDeed) stays for the demoted TASK/PERSON taps only. */
   @Output() firstMinuteEntry = new EventEmitter<void>();
+  /** 2026-09-23 BUILD 310: the canvas dialog's return — an unsent loop is
+   *  dropped; home puts the blank page back one step. */
+  @Output() ftReturn = new EventEmitter<void>();
+  /** The congratulations have played. Home may now open the original panel. */
+  @Output() ftConcluded = new EventEmitter<void>();
   /** BUILD 279: the demo view opened/closed inside the panel — relayed up so
    *  home can hide the lower sections and give the Inbox the full screen. */
   @Output() demoView = new EventEmitter<boolean>();
@@ -150,6 +155,35 @@ export class SendWalkComponent implements OnInit, OnChanges {
    *  loop and the dialog opens in situ (the panel stays hidden via
    *  ftCanvas; the phase drives the rest). */
   armFtCard(contact: any): void { this.select(contact, undefined); }
+
+  /** BUILD 310: the pick opens the WORDS, not the Who card. The canvas
+   *  stays blank around this dialog. */
+  openFtCard(contact: any): void {
+    this.avoidKind = 'owed-reply';
+    this.birthFromWho(contact, !!contact?.isMockData);
+  }
+
+  /** BUILD 310: "I will add later" — the owed-reply words, no card. */
+  openFtLater(): void {
+    this.selfTap('owed-reply', true);
+  }
+
+  /** Return before a send: the unsent loop is not a journey. A closed
+   *  loop (they already sent) is left alone. */
+  abandonFt(): void {
+    const id = this.loop?.id;
+    const status = id ? this.loops.getLoop(id)?.status : undefined;
+    if (id && status !== 'closed') this.loops.remove(id);
+    this.disarmSideDoors();
+    this.sideDoorsOpen = false;
+    this.loop = null;
+    this.armedContact = null;
+    this.armedHandle = '';
+    this.copyAsk = false;
+    this.copyAnswer = '';
+    this.avoidKind = null;
+    this.editingWords = false;
+  }
 
   /** Remember the previous Who (Cancel restores it) and put the blank card
    *  in the Who slot — no modal, no taskCardRequest, no layout jump. */
@@ -1169,6 +1203,9 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // 303: leaving the words disarms the ninety-second reveal.
     this.disarmSideDoors();
     this.sideDoorsOpen = false;
+    // BUILD 310: on the blank page, back leaves the dialog. It does not
+    // reveal the Who card, the inbox, or the deck.
+    if (this.ftCanvas) { this.abandonFt(); this.ftReturn.emit(); return; }
     this.backToWho();
   }
 
@@ -1392,6 +1429,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
   }
 
   nextOne(): void {
+    // BUILD 310: the blank page's congratulations (or the "not yet" receipt)
+    // never falls through into the Who card. Success opens the original
+    // panel; "not yet" returns to the gates and the loop stays open.
+    if (this.ftCanvas) {
+      if (this.copyAsk && this.copyAnswer === 'waiting') { this.ftReturn.emit(); return; }
+      this.ftConcluded.emit();
+      return;
+    }
     // 2026-09-16 BUILD 218 (founder: "after getting the 'loop closed' we
     // fall back to the opening card, and not a next available one"): the
     // sent subject retires for the session, the queue advances to the NEXT

@@ -1,10 +1,10 @@
 <!-- BUILD 158. Zeigarnik walk: one unfinished thing, already named.
      Prevaricator / form-phobic: tap before type, one decision, no field staring.
      The close is "Off your mind" — the tab in the head shuts. -->
-<div class="sw">
+<div class="sw" [class.sw-ft]="ftCanvas">
   <!-- 2026-08-31 FOUNDER DEV ITERATION (unshipped): the flip moved ABOVE the
        slide — one mark, both views now lead with it. -->
-  <div class="sw-fliprow">
+  <div class="sw-fliprow" *ngIf="!ftCanvas">
     <button class="sw-flip" type="button" (click)="imGood()"
       [attr.aria-label]="'loopkeeper.walk.good' | translate">
       <ion-icon name="arrow-redo-outline" aria-hidden="true"></ion-icon>
@@ -18,14 +18,14 @@
        2026-09-17 BUILD 251: slide 3 (the chat dialog) must fit 100% in the
        viewport — every element visible, never a scroll to reach one — so the
        spacer leaves slide 3 too and its styles run compact. -->
-  <div class="sw-lower" *ngIf="step !== 4 && step !== 3" aria-hidden="true"></div>
+  <div class="sw-lower" *ngIf="!ftCanvas && step !== 4 && step !== 3" aria-hidden="true"></div>
 
   <!-- 1 WHO — the app picked. Confirm or skip. Never a list.
        2026-09-17 BUILD 252: the pane sits 15px lower (the viewport was
        decluttered in 250 — the room is there), a thin note names the ONE
        action ("- Tap Card to start -"), and the intervention notes are
        unmissable. -->
-  <ng-container *ngIf="step === 1">
+  <ng-container *ngIf="step === 1 && !ftCanvas">
    <div class="sw-whopane">
     <!-- 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW (founder: "The
          first time UX must be same as that for return UX... the whole

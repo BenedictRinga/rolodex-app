@@ -42,6 +42,7 @@ import { Subscription } from 'rxjs'; // BUILD 143: nudge-tap channel handles
 import { KeeperAgentService } from '../services/agents/keeper-agent.service';
 import { InAppNotificationService } from '../services/in-app-notification/in-app-notification.service';
 import { LoopInboxComponent } from '../components/loop-inbox/loop-inbox.component';
+import { SendWalkComponent } from '../components/send-walk/send-walk.component';
 // 2026-09-22 BUILD 299 THE SUNNY DAY: the full page that follows a user's
 // drop - the quiet after the drop; the armed logo at base returns, and the
 // tap is the user's own act (never a timer, never the app dragging them back).
@@ -85,6 +86,15 @@ export class HomePage implements OnInit, OnDestroy {
     if (v) this.deliverPendingEscalation();
   }
   get inboxRef(): LoopInboxComponent | null { return this._inboxRef; }
+  /** BUILD 310: the walk cloned onto the blank page. The setter is the
+   *  boot — the dialog opens the moment the blank page mounts it. */
+  private _ftWalk: SendWalkComponent | null = null;
+  @ViewChild('ftWalk') set ftWalkRef(v: SendWalkComponent | null) {
+    this._ftWalk = v;
+    // After the walk's own init, so the dialog open is not eaten by it
+    // and does not trip a view-check error.
+    if (v) setTimeout(() => this.runFtBoot(), 0);
+  }
   /** 2026-08-30 BUILD 153 (founder): a tapped nudge takes the viewport — the
    *  home scroller is pulled to the top so the opened inbox leads the screen,
    *  whatever scroll position or view (Settings included) the user was in. */
@@ -335,47 +345,106 @@ export class HomePage implements OnInit, OnDestroy {
   //  the congratulations play, the ORIGINAL panel and the surroundings open
   //  (a first-timer otherwise gets distracted). '' = the not-first-timer
   //  home. */
-  ftView: '' | 'gates' | 'phone' | 'flow' = '';
+  /** 'pending' is the boot blank — the full home is not painted while we
+   *  learn whether this device is still a first-timer. */
+  ftView: '' | 'pending' | 'gates' | 'phone' | 'flow' = 'pending';
+  /** Which gate opened the dialog — return walks back one step, not out. */
+  private ftPath: 'reply' | 'decide' = 'reply';
+  private ftBoot: '' | 'card' | 'later' | 'decide' = '';
+  private ftBootContact: any = null;
+  /** The first-close share waits until the panel is actually open. */
+  private ftSharePending = false;
 
-  /** The gates' reply door — the slate transforms to 'From my phone'. */
-  ftReply(): void { this.ftView = 'phone'; }
-
-  /** The 'From my phone' door — the honest ladder's phone pick, with the
-   *  owed-reply branding armed; the pick lands the card and the dialog
-   *  opens in situ. */
-  ftPhone(): void {
-    this.ftView = 'flow';
-    this.inboxRef?.startCoverReply();
-    void this.addFromPhoneContacts(true);
+  /** Back is on every step except the congratulations themselves. */
+  get ftShowBack(): boolean {
+    if (this.ftView === 'phone') return true;
+    if (this.ftView !== 'flow') return false;
+    const w = this._ftWalk;
+    if (!w) return true;
+    return !(w.step === 5 && (!w.copyAsk || w.copyAnswer === 'left'));
   }
+
+  /** The gates' reply door — the slate transforms to the two phone doors. */
+  ftReply(): void { this.ftPath = 'reply'; this.ftView = 'phone'; }
+
+  /** From my phone — stay on this page until a person is actually picked.
+   *  Cancelling the picker leaves the two doors standing. */
+  ftPhone(): void { void this.addFromPhoneContacts(true); }
+
+  /** I will add later — the owed-reply words, no card, still on the blank page. */
+  ftLater(): void { this.ftPath = 'reply'; this.openFtFlow('later'); }
 
   /** The decide gate — the 183 self-loop, straight to the dialog in situ. */
-  ftDecide(): void {
-    this.ftView = 'flow';
-    this.inboxRef?.startCoverDecide();
+  ftDecide(): void { this.ftPath = 'decide'; this.openFtFlow('decide'); }
+
+  /** The return arrow. Phone → gates. Dialog → one step back inside the
+   *  words, or out to the previous blank page if the words are showing. */
+  ftBack(): void {
+    if (this.ftView === 'phone') { this.ftView = 'gates'; return; }
+    const w = this._ftWalk;
+    if (!w || w.step <= 3) {
+      w?.abandonFt();
+      this.onFtDialogReturn();
+      return;
+    }
+    if (w.step === 4 || (w.step === 5 && w.copyAsk && !w.copyAnswer)) {
+      w.copyAsk = false;
+      w.copyAnswer = '';
+      w.backFromTap();
+      return;
+    }
+    this.onFtDialogReturn();
   }
 
-  /** The return arrow — back to the gates; the branding is nullified. */
-  ftReturnToGates(): void {
-    this.inboxRef?.clearCoverReply();
-    this.ftView = 'gates';
+  /** The walk's own back (from the words) — same landing as the arrow. */
+  onFtDialogReturn(): void {
+    this.ftView = this.ftPath === 'reply' ? 'phone' : 'gates';
+  }
+
+  private openFtFlow(boot: 'card' | 'later' | 'decide', contact?: any): void {
+    this.ftBoot = boot;
+    this.ftBootContact = contact || null;
+    this.ftView = 'flow';
+    if (this._ftWalk) this.runFtBoot();
+  }
+
+  private runFtBoot(): void {
+    const w = this._ftWalk;
+    if (!w || !this.ftBoot) return;
+    const boot = this.ftBoot;
+    const contact = this.ftBootContact;
+    this.ftBoot = '';
+    this.ftBootContact = null;
+    if (boot === 'card' && contact) w.openFtCard(contact);
+    else if (boot === 'later') w.openFtLater();
+    else if (boot === 'decide') w.selfTap('decide', true);
   }
 
   private async maybeFirstMinute(): Promise<void> {
     try {
-      // BUILD 308 THE TWO PHASES: the first-timer UX arms on every visit
-      // until the panel's deed is done (the 281 law); the PHASE follows the
-      // settled flags — the ring until it is surmounted (lk_cover_engaged),
-      // then the original panel. A device with real cards is past both.
-      if (this.realContacts().length > 0) return;
+      // BUILD 310: the blank page holds until a loop is concluded. A card
+      // picked mid-flow must not admit them (lk_ft_open survives the
+      // reload). An existing device — real cards, and this canvas was
+      // never opened — never sees it. A concluded loop opens the original
+      // panel, not the gates.
       const done = await this.storageService.get<boolean>('lk_firstminute_done');
-      if (done) return;
-      this.fmPhase = (await this.storageService.get<boolean>('lk_cover_engaged')) ? 'panel' : 'ring';
+      if (done) { this.ftView = ''; return; }
+      const engaged = await this.storageService.get<boolean>('lk_cover_engaged');
+      const ftOpen = await this.storageService.get<boolean>('lk_ft_open');
+      if (engaged) {
+        this.ftView = '';
+        this.firstMinuteActive = true;
+        this.fmPhase = 'panel';
+        void this.storageService.remove('lk_ft_open').catch(() => { /* best effort */ });
+        return;
+      }
+      if (this.realContacts().length > 0 && !ftOpen) { this.ftView = ''; return; }
+      this.fmPhase = 'ring';
       this.firstMinuteActive = true;
-      // 309: the canvas opens the sequence — the gates are the first view.
       this.ftView = 'gates';
-      void this.analytics.track('firstminute_shown', { phase: this.fmPhase });
-    } catch { /* the gate must never block the app */ }
+      void this.storageService.set('lk_ft_open', true).catch(() => { /* best effort */ });
+      void this.analytics.track('firstminute_shown', { phase: 'gates' });
+    } catch { this.ftView = ''; /* the gate must never block the app */ }
   }
 
   /** BUILD 278/281: a tap on the PANEL phase's doors retires the panel for
@@ -390,15 +459,25 @@ export class HomePage implements OnInit, OnDestroy {
    *  engagement — the ring is surmounted and the panel's deed is done; no
    *  reload resurrects either phase. */
   onFirstMinuteEntry(): void {
-    // 309: the SUCCESS — the congratulations open the ORIGINAL panel and the
-    // surroundings. The ring is surmounted (lk_cover_engaged — set at the
-    // pick, or here for the decide path); the panel's own deed retires it
-    // later (278/281).
+    // BUILD 310: the send is real, so a reload will not resurrect the gates.
+    // The blank page STAYS for the congratulations. The panel opens from
+    // onFtConcluded, when that screen has actually played.
+    void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
+  }
+
+  /** The congratulations have played. Now — and only now — the original
+   *  panel and the surroundings. */
+  onFtConcluded(): void {
     this.ftView = '';
     this.firstMinuteActive = true;
     this.fmPhase = 'panel';
     this.firstMinuteTapped = true;
     void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
+    void this.storageService.remove('lk_ft_open').catch(() => { /* best effort */ });
+    if (this.ftSharePending) {
+      this.ftSharePending = false;
+      setTimeout(() => void this.openShareApp('share'), 1600);
+    }
   }
 
   /** 2026-09-20 BUILD 279 CLOSE DEMO (founder: "close demo returns to home
@@ -792,6 +871,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-09-16 BUILD 216: the first close invites the user to become the
    *  channel — the celebration breathes first, then the sheet opens once. */
   private onFirstCloseShare(): void {
+    if (this.ftView) { this.ftSharePending = true; return; }
     setTimeout(() => void this.openShareApp('share'), 1600);
   }
 
@@ -2075,26 +2155,24 @@ export class HomePage implements OnInit, OnDestroy {
     // them to return showing"): a real-card ARRIVAL flips the demo off,
     // persisted — Settings can always call it back.
     const realCount = (contacts || []).filter((c: any) => !(c as any)?.isMockData).length;
-    if (this.lastRealCount !== null && realCount > this.lastRealCount) {
+    if (!this.ftView && this.lastRealCount !== null && realCount > this.lastRealCount) {
       this.mockEnabled = false;
       void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
-      // 2026-09-22 BUILD 309: the arrival SURMOUNTS the ring (tap and
-      // continue — the pick's card landed) and flips the phase to the
-      // original panel. The armed card shows only after the SUCCESS (the
-      // ft canvas owns the interim).
+      // A card added from the ORIGINAL panel (not the blank page) is that
+      // panel's deed for this visit. A pick on the blank page does NOT
+      // admit — the canvas holds until the loop is concluded.
       this.firstMinuteTapped = true;
       this.fmPhase = 'panel';
       void this.storageService.set('lk_cover_engaged', true).catch(() => { /* best effort */ });
-      if (!this.ftView) {
-        // The non-canvas arrival (a panel-phase user's own add): the 278
-        // per-visit retirement — the armed card shows.
-        this.firstMinuteActive = false;
-      }
+      this.firstMinuteActive = false;
+    } else if (this.ftView && this.lastRealCount !== null && realCount > this.lastRealCount) {
+      this.mockEnabled = false;
+      void this.storageService.set('rolodex_demo_enabled', false).catch(() => { /* best effort */ });
     }
     this.lastRealCount = realCount;
     this.persistContacts(contacts); // 2026-08-18: real contacts survive a reload
     this.rolodexSync.push(this.realContacts()); // 2026-08-16: the server home updates live
-    void this.rolodexAiNudge(contacts); // 2026-08-18: the agent never sits comatose
+    if (!this.ftView) void this.rolodexAiNudge(contacts); // never a toast over the blank page
   }
 
   /** 2026-08-18 THE ALGORITHMIC AGENT NUDGE: when contacts are added without
@@ -2945,18 +3023,15 @@ export class HomePage implements OnInit, OnDestroy {
         mapped.push(c);
       }
       if (!mapped.length) return; // user cancelled
+      const fromCanvas = this.ftView === 'phone';
       this.contacts = [...mapped, ...this.contacts]; // 2026-08-18 prepend: the deck's first batch shows the new card
       this.onContactsChange(this.contacts);
-      // 2026-09-22 BUILD 309 THE FIRST-TIMER CANVAS: the pick's FIRST card
-      // is armed as the Who — the tap births the owed-reply loop and the
-      // dialog opens in situ (all the way to success).
-      if (this.ftView === 'phone') {
-        this.ftView = 'flow';
-        this.inboxRef?.armFtContact(mapped[0]);
-      }
+      // BUILD 310: the pick opens the words on the blank page. It does not
+      // reveal the home, and it does not stop on a Who card.
+      if (fromCanvas) this.openFtFlow('card', mapped[0]);
       // 2026-08-31 BUILD 159 (founder): their list has begun — once ever.
       void this.analytics.trackListStartedOnce('picker');
-      void this.alertsService.showToast(
+      if (!fromCanvas) void this.alertsService.showToast(
         this.translate.instant('loopkeeper.add.stayToast', { n: mapped.length }),
         4200);
     } catch {

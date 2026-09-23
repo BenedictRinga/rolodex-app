@@ -94,6 +94,9 @@ import { SunnyDayComponent } from './sunny-day/sunny-day.component';
     CardChatModalComponent,
     PodsModalComponent,
     LoopInboxComponent,
+    // 2026-09-23 BUILD 310: the first-timer canvas hosts the existing walk
+    // in situ — the dialog is cloned onto the blank page, not a new component.
+    SendWalkComponent,
     // 2026-09-22 BUILD 299 THE SUNNY DAY: home.page's template renders the
     // full-page sunny day after a user's drop - it must be exported from
     // this module or home sees an unknown element (the 244 lesson).

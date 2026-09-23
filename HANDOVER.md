@@ -1,4 +1,4 @@
-# LoopKeeper — Continuity Note (updated 2026-09-22, end of thread at app build 309 / server 121)
+# LoopKeeper — Continuity Note (updated 2026-09-23, app build 310 / server 122)
 
 New thread? Read AGENTS.md first, then this. Everything below is verified state, not recollection.
 The strategic brief is `D:\TODOs\USE_NOW.txt` — the Grok differentiation audit and its six moves;
@@ -23,8 +23,8 @@ Two repos:
 
 ## 2. Current state (verified, 2026-09-22 end of thread)
 
-- **App: build 309**, commit `6938d70` (HEAD), working tree clean.
-- **Server: build 121**, commit `acc7ef1` (HEAD), working tree clean.
+- **App: build 310** (THE CANVAS HELD — local, not yet committed at the time this note was rewritten).
+- **Server: build 122** (directive only — the canvas paragraph).
 - Counters: app `build:` in BOTH `src/environments/environment.ts` + `environment.prod.ts`
   (the single-line `//` comment IS the changelog — new entry prepended, previous demoted
   with "Previous:"); server `"build": N` in `rolodex-server/package.json`.
@@ -51,14 +51,16 @@ armed logo; the user's own tap returns — never auto-reload. Founder: "beautifu
 
 ## 4. Founder rulings of this thread (the laws behind the builds)
 
-1. **THE FIRST-TIMER CANVAS (309, the standing law)** — the home page splits into TWO VIEWS:
-   first-timer vs not first-timer. The first-timer view is a BLANK SLATE: the two gates side
-   by side in the middle + the Welcome below (**one Welcome, not two** — the modal skips while
-   the canvas stands). "The reply I owe" transforms the slate to just "From my phone" (with
-   the return arrow; the branding nullifies on return). The pick opens the dialog IN SITU —
-   all the way to success. "The decision I keep not making" ditto (183 self-loop). Once
-   concluded + congratulations, the ORIGINAL panel and the surroundings open (a first-timer
-   otherwise gets distracted — the deck stays veiled until the success). No new component.
+1. **THE CANVAS HELD (310, the standing law — 309's overlay is superseded)** — the home page
+   splits into TWO VIEWS and only one is mounted. The first-timer view is a BLANK PAGE and
+   it stays the only page until a loop is concluded and the congratulations have played.
+   Gates in the middle + one Welcome below. "The reply I owe" transforms to "From my phone"
+   || "I will add later", with return. Either door opens the existing send-walk dialog
+   cloned onto that page (not the inbox, not the deck), with return, through the send and
+   the congratulations. "The decision I keep not making" opens that same dialog. A picked
+   card does NOT admit. Return before send removes the unsent loop. Then the original panel
+   and the surroundings open. `lk_ft_open` keeps a mid-flow reload on the canvas.
+   `lk_cover_engaged` is written at the real send; the panel opens from the congratulations.
 2. **Tap AND continue** is the surmounting (the flags as agreed): `lk_cover_engaged` = the
    ring surmounted (the real card's arrival — or a real send for the decide path);
    `lk_firstminute_done` = the panel's deed done → the regular walk. A bare tap is nullified
@@ -72,13 +74,15 @@ armed logo; the user's own tap returns — never auto-reload. Founder: "beautifu
 
 ## 5. Current state of the key mechanisms (where the code lives now)
 
-- **The first-timer canvas**: `home.page.html` (`.ft-canvas`, fixed overlay, gates → phone
-  states) + `home.page.ts` (`ftView: '' | 'gates' | 'phone' | 'flow'`, `ftReply/ftPhone/
-  ftDecide/ftReturnToGates`). The doors call into the inbox's walk: `startCoverReply() →
-  walk.armCoverReply()` (owed-reply branding), `startCoverDecide() → walk.selfTap('decide',
-  true)`, `armFtContact() → walk.armFtCard()` (the pick's first card armed as the Who; the
-  tap births via `confirmWho → birthFromWho` with the branding). The pick's landing hook is
-  in `addFromPhoneContacts` (ftView === 'phone' → ftView='flow' + arm the first card).
+- **The first-timer canvas (310)**: `home.page.html` — `*ngIf="ftView"` is the blank page;
+  `*ngIf="!ftView"` is the entire original home (not mounted until congratulations).
+  `ftView: '' | 'gates' | 'phone' | 'flow'`. Phone is two doors (`ft.fromPhone`,
+  `ft.addLater`). Flow hosts `<app-send-walk #ftWalk>` (exported from RolodexModule) with
+  `[ftCanvas]="true"`. Boot: `openFtCard` births straight into the words; `openFtLater` /
+  decide use `selfTap`. Return: `abandonFt` removes an unsent loop. `onFirstMinuteEntry`
+  only persists `lk_cover_engaged`. `onFtConcluded` (the congratulations' Next) clears
+  `ftView` and opens the original panel. A card arrival while `ftView` is set does not
+  engage the gate and does not toast.
 - **The walk's panel** shows ONLY in the panel phase:
   `firstMinute && fmPhase === 'panel' && !taskDraftOn && !ftCanvas` (send-walk.component.html).
   Phase rides home → inbox → walk as `[fmPhase]` ('ring' | 'panel'). The first-minute
@@ -104,11 +108,13 @@ armed logo; the user's own tap returns — never auto-reload. Founder: "beautifu
 
 ## 6. Verify 309 on production (the founder's checklist)
 
-Fresh device → the blank slate (two gates + the Welcome below, nothing else) →
-"The reply I owe" → "From my phone" + the return arrow (back → the gates) → the pick →
-the card armed in the walk → tap → the words in situ → send → the receipt →
-**the ORIGINAL panel + the surroundings**. "The decision I keep not making" → straight to
-the words → send → the panel. The welcome modal must NOT double-greet.
+Fresh device → blank page only (two gates + one Welcome; no header, no inbox, no deck) →
+"The reply I owe" → "From my phone" || "I will add later", return to the gates →
+pick or later → the words on that same blank page, return still there → send →
+the receipt → the congratulations → **then** the original panel and the surroundings.
+Cancelling the picker stays on the two phone doors. "The decision I keep not making"
+opens the words on the blank page and ends the same way. A picked card must not
+reveal the home. The welcome modal must not also greet.
 
 ## 7. Ship sequence (unchanged, per build)
 

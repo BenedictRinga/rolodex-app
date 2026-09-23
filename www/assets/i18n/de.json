@@ -676,6 +676,8 @@
     "fm.personLabel": "PERSON",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
+    "ft.fromPhone": "Von meinem Telefon",
+    "ft.addLater": "Ich ergänze es später",
     "fm.orlabel": "Or start with",
     "walk.didLeave": "Ist es raus?",
     "walk.left": "Ja — es ist weg",

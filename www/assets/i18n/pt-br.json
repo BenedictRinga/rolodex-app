@@ -676,6 +676,8 @@
     "fm.personLabel": "PESSOA",
     "fm.avoidReply": "The reply I owe",
     "fm.avoidDecide": "The decision I keep not making",
+    "ft.fromPhone": "From my phone",
+    "ft.addLater": "I will add later",
     "fm.orlabel": "Or start with",
     "walk.didLeave": "Did it leave?",
     "walk.left": "Yes — it's gone",

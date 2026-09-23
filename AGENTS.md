@@ -242,6 +242,17 @@ no-budget constraint) and the brief I judged the next thread's plans against.
   is in; if it widens the tray, it is out.
 
 ## THE FIRST GATE (2026-09-22, builds 294/295, founder — standing law)
+- **BUILD 310 THE CANVAS HELD (standing).** The first-timer blank page is the
+  only view mounted until one loop is concluded and the congratulations have
+  played. The full home is a separate container and is not in the DOM. Sequence,
+  in situ, each with return: two gates + one Welcome → (reply) "From my phone"
+  || "I will add later" → the existing send-walk dialog cloned onto that page
+  → success → then the original panel and the surroundings. A picked card does
+  not admit. `lk_ft_open` keeps a mid-flow reload on the canvas. `lk_cover_engaged`
+  is written at the real send; the panel opens from the congratulations, not
+  from the pick. Return before send removes the unsent loop. 309's overlay
+  (canvas only over gates/phone, dialog dumped into the full home) is superseded.
+
 The first-minute cover (the two avoidance doors) is THE GATE. Founder ruling:
 "State must remain same always, even if page reloads, until first-time user
 takes action on that... It must register on our logs that action was taken.
