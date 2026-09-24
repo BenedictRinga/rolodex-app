@@ -502,7 +502,15 @@ export class HomePage implements OnInit, OnDestroy {
    *  this button or use the service"): the icon rides ONLY for tester
    *  devices (the absorbed testerId tag); the sheet mints the ChatID on
    *  first open, drops reports, and reads HQ's replies home. */
-  testerChannelOn = false;
+  /* BUILD 332 THE LIVE APERTURE (founder: the icon never showed despite the
+   *  Investor unlock, while the CommandCenter aperture did): the flag was a
+   *  BOOT-TIME SNAPSHOT in ngOnInit - the portal unlock happens minutes
+   *  later and nothing re-runs ngOnInit, so the icon stayed dead all
+   *  session. A LIVE GETTER now: the template re-reads it every change
+   *  detection, exactly like the CommandCenter's aperture icon. */
+  get testerChannelOn(): boolean {
+    return this.analytics.getTesterId() > 0 || this.investorGate.unlockedThisSession;
+  }
   testerChatOpen = false;
   testerChatLoading = false;
   testerChatMsgs: Array<{ from: string; text: string; at: string }> = [];
@@ -821,10 +829,9 @@ export class HomePage implements OnInit, OnDestroy {
     this.bindFtHidden();
     // 2026-09-24 BUILD 327 THE TESTER CHANNEL: the icon rides ONLY for the
     // roster — the absorbed testerId tag is the array membership proof.
-    // BUILD 330: or once the Investor portal has been opened this session —
-    // the same sessional aperture law the Command Center's gate rides — so
-    // the founder can test the channel on a non-tester device.
-    this.testerChannelOn = this.analytics.getTesterId() > 0 || this.investorGate.unlockedThisSession;
+    // (BUILD 332: the assignment moved OUT of ngOnInit — it was a boot-time
+    // snapshot, so a same-session Investor unlock never reached it. The
+    // template now reads the LIVE getter testerChannelOn above.)
     // 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS (founder: "this time,
     // we are stuck in a 7 minutes wait"): if a wipe left its pending mark,
     // the fresh boot FINISHES the job — clear everything again (one capped

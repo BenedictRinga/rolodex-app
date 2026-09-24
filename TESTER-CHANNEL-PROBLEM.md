@@ -1,7 +1,9 @@
-# HANDOVER NOTE — THE TESTER CHANNEL: TWO OPEN PROBLEMS
+# HANDOVER NOTE — THE TESTER CHANNEL: STATUS CORRECTED 2026-09-24
 
-**Date:** 2026-09-24 · **State:** app build 331 (committed, `www 232-331` NOT yet deployed), server build 129 (committed, `./deploy.sh` NOT yet run)
-**Author:** the LoopKeeper build thread (for handover to an external solver — everything below is verified from code and live probes, not recollection)
+**Date:** 2026-09-24 · **State:** app build 332 (the live-aperture fix SHIPPED below), server build 129
+**Author:** the LoopKeeper build thread
+
+**⚠️ CORRECTED BY LIVE PROBE (2026-09-24): the droplet HAS been deployed past server 128.** Probes: the tester-chat inbox route answers **401** (the gate exists and works), the auth/token mint answers **200**, and the investor summary serves the FULL modern shape (`analytics.growthLoop`, `recentChurns`, `knownDevices`, `dauSplit`) with a ticking `generatedAt`. The founder's assumption was right: deploys after 123 carry their effects, and they HAVE run. The earlier "deploys never ran" claim in this note was wrong and is withdrawn. What remains is (A) the icon's stale-snapshot bug — SHIPPED as app 332 — and (B) verifying the key end-to-end with the REAL key (the founder's checklist at the bottom).
 
 ---
 
@@ -74,3 +76,13 @@ get testerChannelOn(): boolean {
 - App: `D:\MacBook\noGoogle\loopkeeper` — home header icon + sheet: `src/app/home/home.page.{ts,html}`; the HQ sheet styles: `src/app/home/home.page.scss` (`.tc-*`); the investor gate: `src/app/services/investor-gate/investor-gate.service.ts`.
 - Server: `D:\MacBook\noGoogle\rolodex-server` — the tester-chat routes + model: `src/index.js` (grep `TesterChat`); the admin-key source: `src/config.js`; the gate: `src/auth.js`; the Assistant's factual base: `src/chat-directive.js`.
 - Commits of record: app 327 `2c690a3`, 330 `38d38e0`, 331 `19ad374` · server 128 `06f92fb`, 129 `375e6c7`.
+
+---
+
+## THE FOUNDER CHECKLIST — execute in order (2026-09-24)
+
+1. **Server side (the droplet)**: `cd /opt/rolodex-server && grep '^TESTER_ADMIN_KEY' .env` — note the exact value (call it KEY). Confirm no trailing spaces or quote variants on that line.
+2. **The gate, from anywhere**: `curl -s "https://zyppar.com/api/rolodex/tester-chat/inbox?key=KEY"` — a wrong key MUST answer 401 (verified live today); the correct key MUST answer `{"ok":true,...}`. If the correct key 401s: `pm2 logs rolodex-server --lines 30 --nostream` and read the `[admin] TESTER_ADMIN_KEY source:` line — if it names the process env, run `pm2 restart rolodex-server --update-env` and probe again; if it names the .env file and still 401s, the `.env` line parse is the suspect (leading spaces / quote variants).
+3. **The app**: deploy `www 232-332` (carries the live-aperture fix). Open the Investor portal, unlock — the chat icon now APPEARS beside search and server in the SAME session (the stale snapshot is gone; restart still re-locks it — the sessional law stands).
+4. **End-to-end**: tap the icon (the ChatID mints) → drop a report → open Command Center → 08 → Open the inbox → paste KEY when asked (trailing spaces are trimmed) → the thread appears → Reply → the tester's sheet shows the reply on the next read (a 15s read while the sheet stands).
+5. **The portal record**: verified LIVE (generatedAt ticks; the full modern shape serves — the fetch is no-store at unlock + hourly). If the nine sections read identical numbers between entries, the likely truth is the numbers did not move (a quiet day; testers + your own fleet excluded). If you want tighter in-session freshness, the hourly refresh can drop to 15 minutes — say the word.
