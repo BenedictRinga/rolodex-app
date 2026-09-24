@@ -714,6 +714,11 @@
     "ft.nameFoot": "Go aann Named waa bar kordhi...",
     "ft.stepsFoot": "Tallaabooyin yar ayaa qaadkaan weyn qaata...",
     "ft.remindFoot": "Midkasta - LoopKeeper wuu kuu soo noqonayaa...",
-    "task.none": "Midna"
+    "task.none": "Midna",
+    "tc.title": "U sheego LoopKeeper HQ",
+    "tc.myId": "Aftigayda:",
+    "tc.empty": "Weli wax sheeko ma jiro — ku bilow ugu horreysa.",
+    "tc.placeholder": "Adeeg, cilad, talo...",
+    "tc.send": "Dir"
   }
 }

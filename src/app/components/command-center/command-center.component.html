@@ -238,6 +238,42 @@
       <p class="investor-chart-note noise-written" *ngIf="noiseWritten">{{ noiseWritten }}</p>
     </div>
 
+    <!-- 2026-09-24 BUILD 327 THE TESTER CHANNEL — the founder's inbox (server
+         128). The testers' reports (features, bugs, suggestions), the thread
+         per ChatId, the reply door per thread. TESTER_ADMIN_KEY gated, the
+         same key the write command holds, asked once this session. -->
+    <div class="investor-section sec-noise" *ngIf="stats?.analytics?.knownDevices">
+      <div class="section-head">
+        <span class="section-num">08</span>
+        <div class="section-title"><span class="section-kicker">Tester channel</span><strong>The reports — features, bugs, suggestions</strong></div>
+      </div>
+      <p class="investor-chart-note">Every tester's thread with HQ — they drop reports through the home-page chat icon (tester devices only); you reply here, and the reply reaches them on their next read. Anonymous: a ChatID, never a name.</p>
+      <ion-button size="small" fill="outline" class="noise-copy" (click)="loadTcInbox()">
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+        {{ tcThreads.length ? 'Refresh the inbox' : 'Open the inbox' }}
+      </ion-button>
+      <div class="noise-rows" *ngIf="tcThreads.length">
+        <div class="noise-row tc-thread" *ngFor="let t of tcThreads">
+          <button class="tc-threadhead" type="button" (click)="tcToggle(t.chatId)">
+            <span class="noise-id">{{ t.chatId }}</span>
+            <span class="noise-meta">{{ t.msgs.length }} messages · last: {{ shortLast(t.msgs) }}</span>
+          </button>
+          <div class="tc-threadbody" *ngIf="tcOpen.has(t.chatId)">
+            <div *ngFor="let m of t.msgs" class="tc-msg" [class.tc-mine]="m.from === 'tester'" [class.tc-hq]="m.from === 'founder'">
+              <div class="tc-bubble">{{ (m.from === 'founder' ? 'You: ' : '') + m.text }}</div>
+              <div class="tc-when">{{ m.from === 'founder' ? 'replied' : 'reported' }} {{ seenLabel(m.at) }}</div>
+            </div>
+            <div class="tc-replyrow" *ngIf="tcReplyFor === t.chatId">
+              <input class="tc-replyinput" type="text" [(ngModel)]="tcReplyText" maxlength="600" placeholder="Reply to the tester" (keydown.enter)="tcSendReply(t.chatId)" />
+              <ion-button size="small" fill="solid" (click)="tcSendReply(t.chatId)">Reply</ion-button>
+            </div>
+            <ion-button *ngIf="tcReplyFor !== t.chatId" size="small" fill="clear" class="tc-replybtn" (click)="tcReplyFor = t.chatId">Reply…</ion-button>
+          </div>
+        </div>
+      </div>
+      <p class="investor-chart-note noise-written" *ngIf="tcStatus">{{ tcStatus }}</p>
+    </div>
+
     <!-- 2026-09-20 APP 276/SERVER 97, REFINED APP 277/SERVER 98 THE LAST
          THREE (founder: "Make the last 3 separate from testers, which we can
          also see" + "we do no assurances of safety to users"): section 08

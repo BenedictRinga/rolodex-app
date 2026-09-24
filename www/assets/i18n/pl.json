@@ -714,6 +714,11 @@
     "ft.nameFoot": "Nazwana decyzja to polowa dzieła...",
     "ft.stepsFoot": "Małe kroki niosą wielkie decyzje...",
     "ft.remindFoot": "Tak czy inaczej - LoopKeeper to przyniesie...",
-    "task.none": "Brak"
+    "task.none": "Brak",
+    "tc.title": "Zglos do LoopKeeper HQ",
+    "tc.myId": "Mój identyfikator:",
+    "tc.empty": "Jeszcze nic - wyslij pierwsze.",
+    "tc.placeholder": "Funkcja, blad, propozycja...",
+    "tc.send": "Wyslij"
   }
 }

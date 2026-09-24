@@ -714,6 +714,11 @@
     "ft.nameFoot": "القرار المسمنى نصف منجز...",
     "ft.stepsFoot": "الخطوات الصغيرة تحمل القرارات الكبيرة...",
     "ft.remindFoot": "على كل حال - LoopKeeper يعيده إليك...",
-    "task.none": "بلا"
+    "task.none": "بلا",
+    "tc.title": "أبلغ إلى LoopKeeper HQ",
+    "tc.myId": "معرّفى:",
+    "tc.empty": "لا تقارير بعد - أرسل الأولى.",
+    "tc.placeholder": "ميزة، خلل، اقتراح...",
+    "tc.send": "أرسل"
   }
 }

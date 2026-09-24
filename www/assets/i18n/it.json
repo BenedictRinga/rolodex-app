@@ -714,6 +714,11 @@
     "ft.nameFoot": "Una decisione con un nome e mezzo fatta...",
     "ft.stepsFoot": "I piccoli passi portano le grandi decisioni...",
     "ft.remindFoot": "In ogni caso - LoopKeeper te lo riporta...",
-    "task.none": "Nessuna"
+    "task.none": "Nessuna",
+    "tc.title": "Segnala a LoopKeeper HQ",
+    "tc.myId": "Il mio ID:",
+    "tc.empty": "Nessuna segnalazione - invia la prima.",
+    "tc.placeholder": "Funzione, bug, suggerimento...",
+    "tc.send": "Invia"
   }
 }

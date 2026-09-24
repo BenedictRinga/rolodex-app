@@ -714,6 +714,11 @@
     "ft.nameFoot": "说出名字，决定就完成了一半...",
     "ft.stepsFoot": "小步骤承载大决定...",
     "ft.remindFoot": "无论如何 - LoopKeeper 会带它回来...",
-    "task.none": "无"
+    "task.none": "无",
+    "tc.title": "向 LoopKeeper 总部报告",
+    "tc.myId": "我的ID:",
+    "tc.empty": "还没有报告 - 发出第一条。",
+    "tc.placeholder": "功能、问题、建议...",
+    "tc.send": "发送"
   }
 }

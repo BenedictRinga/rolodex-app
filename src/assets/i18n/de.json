@@ -714,6 +714,11 @@
     "ft.nameFoot": "Eine benannte Entscheidung ist halb getan...",
     "ft.stepsFoot": "Kleine Schritte tragen grosse Entscheide...",
     "ft.remindFoot": "So oder so - LoopKeeper bringt es zuruck...",
-    "task.none": "Keine"
+    "task.none": "Keine",
+    "tc.title": "LoopKeeper HQ berichten",
+    "tc.myId": "Meine Kennung:",
+    "tc.empty": "Noch keine Meldungen - schicke die erste.",
+    "tc.placeholder": "Funktion, Fehler, Vorschlag...",
+    "tc.send": "Senden"
   }
 }

@@ -56,6 +56,14 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     return String(id || '').length > 22 ? `${String(id).slice(0, 14)}…${String(id).slice(-6)}` : String(id || '');
   }
 
+  /** 2026-09-24 BUILD 327: the inbox row's last-line preview. */
+  shortLast(msgs: Array<{ from: string; text: string }>): string {
+    const last = msgs?.[msgs.length - 1];
+    if (!last) return '—';
+    const t = String(last.text || '');
+    return t.length > 60 ? t.slice(0, 60) + '…' : t;
+  }
+
   seenLabel(ts: any): string {
     // 2026-09-20 BUILD 290 THE NaN FIX (founder: "last seen NaNd ago"): the
     // server sends ISO STRINGS — string minus number is NaN. Parse first.
@@ -130,6 +138,75 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     private readonly time: TimeNormalizerService,
     private readonly network: NetworkService,
   ) {}
+
+  /** ══ 2026-09-24 BUILD 327 THE TESTER CHANNEL — the founder's inbox ══
+   *  (server 128): every tester thread (features, bugs, suggestions), the
+   *  reply door per thread. TESTER_ADMIN_KEY gated, asked once this session
+   *  (the same key the write command holds). */
+  tcThreads: Array<{ chatId: string; deviceId: string; msgs: Array<{ from: string; text: string; at: string }> }> = [];
+  tcOpen = new Set<string>();
+  tcReplyFor = '';
+  tcReplyText = '';
+  tcStatus = '';
+  private tcKey: string | null = null;
+
+  async loadTcInbox(): Promise<void> {
+    if (!this.tcKey) {
+      const key = (window.prompt('Admin key — the server\'s TESTER_ADMIN_KEY (asked once this session)', '') || '').trim();
+      if (!key) return;
+      this.tcKey = key;
+    }
+    try {
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/tester-chat/inbox?key=${encodeURIComponent(this.tcKey)}`);
+      if (res && res.ok) {
+        const j = await res.json().catch(() => null);
+        this.tcThreads = Array.isArray(j?.threads) ? j.threads : [];
+        this.tcStatus = this.tcThreads.length ? '' : 'No tester reports yet.';
+      } else if (res && res.status === 401) {
+        this.tcKey = null;
+        this.tcStatus = 'Admin key rejected.';
+      } else if (res && res.status === 404) {
+        this.tcStatus = 'The server does not know the inbox yet — deploy server build 128.';
+      } else {
+        this.tcStatus = 'The inbox did not load — try again.';
+      }
+    } catch {
+      this.tcStatus = 'Offline — the inbox needs a connection.';
+    }
+  }
+
+  tcToggle(chatId: string): void {
+    if (this.tcOpen.has(chatId)) this.tcOpen.delete(chatId);
+    else this.tcOpen.add(chatId);
+  }
+
+  async tcSendReply(chatId: string): Promise<void> {
+    const text = this.tcReplyText.trim();
+    if (!text || !this.tcKey) return;
+    try {
+      const res = await this.network.safeFetch(`${environment.rolodexApiBase}/tester-chat/reply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: this.tcKey, chatId, text }),
+      });
+      if (res && res.ok) {
+        const j = await res.json().catch(() => null);
+        const th = this.tcThreads.find((t) => t.chatId === chatId);
+        if (th && Array.isArray(j?.msgs)) th.msgs = j.msgs;
+        this.tcReplyFor = '';
+        this.tcReplyText = '';
+        this.tcStatus = 'Reply sent — it reaches the tester on their next read.';
+      } else if (res && res.status === 401) {
+        this.tcKey = null;
+        this.tcStatus = 'Admin key rejected.';
+      } else {
+        this.tcStatus = `The reply did not land (HTTP ${res?.status ?? '?'})`;
+      }
+    } catch {
+      this.tcStatus = 'Offline — the reply needs a connection.';
+    }
+    setTimeout(() => { this.tcStatus = ''; }, 4200);
+  }
 
   ngOnInit(): void {
     void this.ensureStats();

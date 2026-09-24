@@ -714,6 +714,11 @@
     "ft.nameFoot": "Een benoemde beslissing is half gedaan...",
     "ft.stepsFoot": "Kleine stappen dragen grote beslissingen...",
     "ft.remindFoot": "Hoe dan ook - LoopKeeper brengt het terug...",
-    "task.none": "Geen"
+    "task.none": "Geen",
+    "tc.title": "Rapporteer aan LoopKeeper HQ",
+    "tc.myId": "Mijn ID:",
+    "tc.empty": "Nog geen rapporten - stuur de eerste.",
+    "tc.placeholder": "Functie, bug, suggestie...",
+    "tc.send": "Stuur"
   }
 }

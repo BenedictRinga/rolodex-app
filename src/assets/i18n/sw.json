@@ -714,6 +714,11 @@
     "ft.nameFoot": "Uamuzi uliopewa jina ni nusu ya kazi...",
     "ft.stepsFoot": "Hatua ndogo hubeba maamuzi makubwa...",
     "ft.remindFoot": "Vyote viwili - LoopKeeper Haitakuja nayo tena...",
-    "task.none": "Hakuna"
+    "task.none": "Hakuna",
+    "tc.title": "Ripoti kwa LoopKeeper HQ",
+    "tc.myId": "Kitambulisho changu:",
+    "tc.empty": "Hakuna ripoti bado — anza ya kwanza.",
+    "tc.placeholder": "Kipengele, hitilafu, pendekezo...",
+    "tc.send": "Tuma"
   }
 }

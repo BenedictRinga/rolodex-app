@@ -714,6 +714,11 @@
     "ft.nameFoot": "Yanke shawara da suna rabin aikace ne...",
     "ft.stepsFoot": "Kanana mataki na daukar manyan yanke shawara...",
     "ft.remindFoot": "Ko ta yaya - LoopKeeper zai dawo da shi...",
-    "task.none": "Babu"
+    "task.none": "Babu",
+    "tc.title": "Bayar da rahoto ga LoopKeeper HQ",
+    "tc.myId": "ID na:",
+    "tc.empty": "Babu rahoto tukuna - aika na farko.",
+    "tc.placeholder": "Ala'ama, kuskure, shawara...",
+    "tc.send": "Aika"
   }
 }

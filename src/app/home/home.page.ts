@@ -31,6 +31,8 @@ import { DraftEngineService } from '../services/draft-engine/draft-engine.servic
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts, shuffledMockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
+import { ChatIdService } from '../services/chat-id/chat-id.service';
+import { WriteAuthService } from '../services/write-auth/write-auth.service';
 import { AnalyticsService } from '../services/analytics/analytics.service';
 import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
 import { environment } from 'src/environments/environment';
@@ -224,6 +226,8 @@ export class HomePage implements OnInit, OnDestroy {
     private inviteService: InviteService,
     private cardChat: CardChatService,
     private readonly storageService: StorageService,
+    private readonly chatIdService: ChatIdService,
+    private readonly writeAuth: WriteAuthService,
     private readonly security: SecurityService,
     private readonly assistantCard: AssistantCardService,
     private readonly sound: SoundService,
@@ -488,6 +492,74 @@ export class HomePage implements OnInit, OnDestroy {
     this.ftScheduleOpen = true;
   }
 
+  /** ══ 2026-09-24 BUILD 327 THE TESTER CHANNEL ══ (founder: "a reporting
+   *  channel on features, bugs and suggestions... Tapping opens the
+   *  CommandCenter's chat Inbox (first open auto-generates its own ChatID).
+   *  They can then drop messages to which I or any other CommandCenter
+   *  accessed user can reply to. Only users in the array of testers can see
+   *  this button or use the service"): the icon rides ONLY for tester
+   *  devices (the absorbed testerId tag); the sheet mints the ChatID on
+   *  first open, drops reports, and reads HQ's replies home. */
+  testerChannelOn = false;
+  testerChatOpen = false;
+  testerChatLoading = false;
+  testerChatMsgs: Array<{ from: string; text: string; at: string }> = [];
+  testerChatText = '';
+  testerChatId = '';
+  private testerChatTimer: any = null;
+
+  formatTime(at: string): string {
+    const t = at ? new Date(at) : null;
+    if (!t || isNaN(t.getTime())) return '';
+    return t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async openTesterChat(): Promise<void> {
+    if (!this.testerChannelOn) return;
+    this.testerChatOpen = true;
+    void this.analytics.track('tester_chat_opened');
+    try { this.testerChatId = await this.chatIdService.request(); } catch { /* the sheet still opens */ }
+    await this.fetchTesterChat();
+    // HQ's replies come home while the sheet stands — a gentle 15s read.
+    this.testerChatTimer = setInterval(() => void this.fetchTesterChat(), 15000);
+  }
+
+  closeTesterChat(): void {
+    this.testerChatOpen = false;
+    if (this.testerChatTimer) { clearInterval(this.testerChatTimer); this.testerChatTimer = null; }
+  }
+
+  private async fetchTesterChat(): Promise<void> {
+    if (!this.testerChatId) return;
+    this.testerChatLoading = true;
+    try {
+      const url = `${environment.rolodexApiBase}/tester-chat?deviceId=${encodeURIComponent(this.rolodexSync.getDeviceId())}&chatId=${encodeURIComponent(this.testerChatId)}`;
+      const res = await fetch(url, { cache: 'no-store' });
+      const j = await res.json().catch(() => null);
+      if (res.ok && j?.ok) this.testerChatMsgs = Array.isArray(j.msgs) ? j.msgs : [];
+    } catch { /* the channel is quiet offline */ }
+    this.testerChatLoading = false;
+  }
+
+  async sendTesterChat(): Promise<void> {
+    const text = this.testerChatText.trim();
+    if (!text || !this.testerChatId) return;
+    try {
+      const res = await fetch(`${environment.rolodexApiBase}/tester-chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await this.writeAuth.authHeaders(this.rolodexSync.getDeviceId())) },
+        body: JSON.stringify({ deviceId: this.rolodexSync.getDeviceId(), chatId: this.testerChatId, text }),
+      });
+      if (res.status === 401 || res.status === 403) this.writeAuth.invalidate(this.rolodexSync.getDeviceId());
+      const j = await res.json().catch(() => null);
+      if (j?.ok && Array.isArray(j.msgs)) {
+        this.testerChatMsgs = j.msgs;
+        this.testerChatText = '';
+        void this.analytics.track('tester_report_sent');
+      }
+    } catch { /* offline — the report stays in the field */ }
+  }
+
   /** The return arrow. Phone → gates. Dialog → one step back inside the
    *  words, or out to the previous blank page if the words are showing. */
   ftBack(): void {
@@ -745,6 +817,9 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-09-23 BUILD 319: the cocoon's churn beacon rides from boot — it
     // only ever speaks while the cocoon stands.
     this.bindFtHidden();
+    // 2026-09-24 BUILD 327 THE TESTER CHANNEL: the icon rides ONLY for the
+    // roster — the absorbed testerId tag is the array membership proof.
+    this.testerChannelOn = this.analytics.getTesterId() > 0;
     // 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS (founder: "this time,
     // we are stuck in a 7 minutes wait"): if a wipe left its pending mark,
     // the fresh boot FINISHES the job — clear everything again (one capped
@@ -901,6 +976,8 @@ export class HomePage implements OnInit, OnDestroy {
     // 2026-08-29 BUILD 143: release the nudge-tap channels.
     this.notifTapSub?.unsubscribe();
     this.dockTapSub?.unsubscribe();
+    // 2026-09-24 BUILD 327: the tester channel's read timer stands down.
+    this.closeTesterChat();
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the nudge-tap subscription handles. */

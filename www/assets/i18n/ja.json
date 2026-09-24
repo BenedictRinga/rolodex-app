@@ -714,6 +714,11 @@
     "ft.nameFoot": "名前がついたら、決定は半分...",
     "ft.stepsFoot": "小さな一歩が大きな決断を運ぶ...",
     "ft.remindFoot": "どちらでも - LoopKeeperが持ち帰ります...",
-    "task.none": "なし"
+    "task.none": "なし",
+    "tc.title": "LoopKeeper HQへ報告",
+    "tc.myId": "マイID:",
+    "tc.empty": "報告はまだありません - 最初のひとつを。",
+    "tc.placeholder": "機能、バグ、提案...",
+    "tc.send": "送信"
   }
 }

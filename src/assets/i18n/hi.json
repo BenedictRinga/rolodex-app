@@ -714,6 +714,11 @@
     "ft.nameFoot": "नाम दिया हुआ फैसला आधा पूरा है...",
     "ft.stepsFoot": "छोटे कदम बड़े निर्णय उठाते हैं...",
     "ft.remindFoot": "किसी भी तरह - LoopKeeper लौटाएगा...",
-    "task.none": "कोई नहीं"
+    "task.none": "कोई नहीं",
+    "tc.title": "LoopKeeper HQ को रिपोर्ट करें",
+    "tc.myId": "मेरी पहचान:",
+    "tc.empty": "अभी कोई रिपोर्ट नहीं - पहली भेजें।",
+    "tc.placeholder": "फीचर, बग, सुझाव...",
+    "tc.send": "भेजें"
   }
 }
