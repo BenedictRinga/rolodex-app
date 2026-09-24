@@ -553,7 +553,15 @@ export class HomePage implements OnInit, OnDestroy {
 
   async sendTesterChat(): Promise<void> {
     const text = this.testerChatText.trim();
-    if (!text || !this.testerChatId) return;
+    if (!text) return;
+    // 2026-09-24 BUILD 333 THE MINT-IF-MISSING (the founder's report: the
+    // first chat did not go, despite several attempts): a failed ChatID mint
+    // left the sheet id-less and every send silently returned. If the id is
+    // missing, mint NOW (the service self-heals a stale token) — then send.
+    if (!this.testerChatId) {
+      try { this.testerChatId = await this.chatIdService.request(); } catch { /* the guard below still applies */ }
+    }
+    if (!this.testerChatId) return;
     try {
       const res = await fetch(`${environment.rolodexApiBase}/tester-chat`, {
         method: 'POST',

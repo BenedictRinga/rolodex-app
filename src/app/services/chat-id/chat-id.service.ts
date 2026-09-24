@@ -58,6 +58,31 @@ export class ChatIdService {
         headers,
         body: JSON.stringify({ deviceId, name }),
       });
+      // 2026-09-24 BUILD 333 THE SELF-HEALING MINT (the founder's report: the
+      // first chat to CommandCenter did not go, despite several attempts):
+      // a token minted BEFORE the write gate armed carries the old-key
+      // signature — the armed server 401s it — and this service, unlike
+      // sync/analytics/crashes, never invalidated, so the mint kept failing
+      // silently and every send dropped (testerChatId ''). Now: a 401/403
+      // invalidates the stale token and the mint retries ONCE with fresh
+      // headers — the same self-heal the other writes have.
+      if (res.status === 401 || res.status === 403) {
+        this.writeAuth.invalidate(deviceId);
+        const fresh = { 'Content-Type': 'application/json', ...(await this.writeAuth.authHeaders(deviceId)) };
+        const retry = await fetch(`${environment.rolodexApiBase}/chat-id`, {
+          method: 'POST',
+          headers: fresh,
+          body: JSON.stringify({ deviceId, name }),
+        });
+        if (!retry.ok) return '';
+        const data2 = await retry.json().catch(() => null);
+        const chatId2 = String(data2?.chatId || '');
+        if (!chatId2) return '';
+        try {
+          await this.storage.set(ChatIdService.KEY, { chatId: chatId2, name: data2?.name || name || '', createdAt: data2?.createdAt || Date.now() });
+        } catch { /* memory-only */ }
+        return chatId2;
+      }
       if (!res.ok) return '';
       const data = await res.json().catch(() => null);
       const chatId = String(data?.chatId || '');
