@@ -79,6 +79,17 @@ export class UpdatesService {
     // 5-minute guard. The deployed-vs-running comparison decides.
     window.addEventListener('pageshow', () => void this.maybeResumeRefresh());
     window.addEventListener('focus', () => void this.maybeResumeRefresh());
+    // 2026-09-24 BUILD 331 THE FOREGROUND POLL (founder: "Updating this
+    // latest commit on device was very slow... saved by a page reload. Check
+    // to make sure nothing is amiss"): the audit verdict — detection was by
+    // design RESUME-ONLY (visibility/pageshow/focus), so an app left OPEN
+    // and visible through a deploy never re-checked at all, and the 5-minute
+    // throttle could hold even a resume. One quiet poll while visible (10
+    // minutes, the same 5-minute throttle decides) closes the gap: a
+    // foregrounded app catches a deploy within one beat instead of never.
+    setInterval(() => {
+      if (!document.hidden) void this.maybeResumeRefresh();
+    }, 10 * 60_000);
   }
   async maybeResumeRefresh(): Promise<void> {
     try {

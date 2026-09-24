@@ -40,6 +40,15 @@ export class InAppNotificationsComponent implements OnInit, OnDestroy {
     private readonly loops: LoopsService,
   ) {}
 
+  /** 2026-09-24 BUILD 331 THE COCOON'S DOCK LAW (founder: "Add a ngIf to the
+   *  LoopKeeper standard notifier not to show when we are in first-timer
+   *  mode. It is a distraction to a first-timer"): the dock lives at the app
+   *  ROOT — outside home — so the cocoon flag must reach it here: while the
+   *  cocoon stands the dock never renders at all, whatever page is up. */
+  get dockHidden(): boolean {
+    return this.service.cocoonQuietOn;
+  }
+
   /** 2026-09-17 BUILD 249 THE ACCOMPLISHMENT STRIP: the dock header shows the
    *  seats ("2 of 3 seated") and the day's closures ("1 closed today") — the
    *  Zeigarnik relief made visible: the pile is finishable, and finishing is

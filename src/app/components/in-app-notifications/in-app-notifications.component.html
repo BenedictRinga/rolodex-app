@@ -1,7 +1,7 @@
 <div
   class="notify-dock"
   #dock
-  *ngIf="notifications.length"
+  *ngIf="notifications.length && !dockHidden"
   [ngStyle]="{ left: position.x + 'px', top: position.y + 'px' }"
   (pointerdown)="onDragStart($event)"
   (pointermove)="onDragMove($event)"
