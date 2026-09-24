@@ -701,7 +701,18 @@
     "settings.chatidNote": "Chat ID for anonymity. Phone number for convenience - both reach you, and a card may carry the ID.",
     "settings.chatidFail": "The chat ID could not be requested - check your connection.",
     "ft.encourage": "On your way to milestones — the first one is one loop away.",
-    "ft.stepHint": "One thing to do about it",
-    "ft.firststep": "The first step is taken."
+    "ft.firststep": "The first step is taken.",
+    "ft.nameIt": "Name it",
+    "ft.okBtn": "OK",
+    "ft.step1": "One thing to do about it",
+    "ft.step2": "Second thing to do about it",
+    "ft.step3": "Final thing to do about it",
+    "ft.another": "Another?",
+    "ft.doneBtn": "Done",
+    "ft.remindMe": "Remind me",
+    "ft.iSchedule": "I schedule",
+    "ft.nameFoot": "A decision named is half made.",
+    "ft.stepsFoot": "Small steps carry big decisions.",
+    "ft.remindFoot": "Either way - LoopKeeper brings it back."
   }
 }

@@ -701,7 +701,18 @@
     "settings.chatidNote": "ID para el anonimato. Tu número también funciona - ambos te alcanzan.",
     "settings.chatidFail": "No se pudo solicitar la identificacion - revisa tu conexion.",
     "ft.encourage": "En camino a los hitos - el primero esta a un ciclo.",
-    "ft.stepHint": "Una cosa que hacer al respecto",
-    "ft.firststep": "El primer paso está dado."
+    "ft.firststep": "El primer paso está dado.",
+    "ft.nameIt": "Nombralo",
+    "ft.okBtn": "OK",
+    "ft.step1": "Una cosa que hacer al respecto",
+    "ft.step2": "Una segunda cosa que hacer",
+    "ft.step3": "Una ultima cosa que hacer",
+    "ft.another": "Otra?",
+    "ft.doneBtn": "Listo",
+    "ft.remindMe": "Recuerdame",
+    "ft.iSchedule": "Lo programo",
+    "ft.nameFoot": "Una decision nombrada esta a medio hacer.",
+    "ft.stepsFoot": "Los pasos pequenos llevan grandes decisiones.",
+    "ft.remindFoot": "De cualquier forma - LoopKeeper te lo trae."
   }
 }

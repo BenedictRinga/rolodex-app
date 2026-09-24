@@ -701,7 +701,18 @@
     "settings.chatidNote": "匿名にはID。電話番号も使えます - どちらも届きます。",
     "settings.chatidFail": "IDをリクエストできませんでした - 接続を確認してください。",
     "ft.encourage": "マイルストーンへの道 - あと1ループで最初の一つ。",
-    "ft.stepHint": "それについてやること、ひとつ",
-    "ft.firststep": "最初の一歩を踏み出しました。"
+    "ft.firststep": "最初の一歩を踏み出しました。",
+    "ft.nameIt": "名前をつける",
+    "ft.okBtn": "OK",
+    "ft.step1": "それについてやること、ひとつ",
+    "ft.step2": "やること、ふたつめ",
+    "ft.step3": "やること、最後のひとつ",
+    "ft.another": "もうひとつ？",
+    "ft.doneBtn": "できた",
+    "ft.remindMe": "リマインドして",
+    "ft.iSchedule": "自分で予定する",
+    "ft.nameFoot": "名前がついたら、決定は半分。",
+    "ft.stepsFoot": "小さな一歩が大きな決断を運ぶ。",
+    "ft.remindFoot": "どちらでも - LoopKeeperが持ち帰ります。"
   }
 }

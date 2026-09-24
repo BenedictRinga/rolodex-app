@@ -701,7 +701,18 @@
     "settings.chatidNote": "Identifiant pour l anonymat. Votre numero fonctionne aussi - les deux vous atteignent.",
     "settings.chatidFail": "La demande d identifiant a echoue - verifiez votre connexion.",
     "ft.encourage": "En route vers les jalons - le premier est a une boucle.",
-    "ft.stepHint": "Une chose a faire a ce sujet",
-    "ft.firststep": "Le premier pas est fait."
+    "ft.firststep": "Le premier pas est fait.",
+    "ft.nameIt": "Nommez-le",
+    "ft.okBtn": "OK",
+    "ft.step1": "Une chose a faire a ce sujet",
+    "ft.step2": "Une deuxieme chose a faire",
+    "ft.step3": "Une derniere chose a faire",
+    "ft.another": "Une autre ?",
+    "ft.doneBtn": "Termine",
+    "ft.remindMe": "Rappelez-moi",
+    "ft.iSchedule": "Je fixe une date",
+    "ft.nameFoot": "Une decision nommee est a moitie faite.",
+    "ft.stepsFoot": "Les petits pas portent les grandes decisions.",
+    "ft.remindFoot": "Dans tous les cas - LoopKeeper vous le ramene."
   }
 }

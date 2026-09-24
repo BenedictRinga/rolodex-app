@@ -701,7 +701,18 @@
     "settings.chatidNote": "Anonimlik için kimlik. Telefon numaranız da çalışır - ikisi de size ulaşır.",
     "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et.",
     "ft.encourage": "Kilometre taslarına yolda - ilki bir döngü uzakta.",
-    "ft.stepHint": "Hakkında yapılacak bir sey",
-    "ft.firststep": "İlk adım atıldı."
+    "ft.firststep": "İlk adım atıldı.",
+    "ft.nameIt": "Adini ver",
+    "ft.okBtn": "Tamam",
+    "ft.step1": "Hakkında yapılacak bir sey",
+    "ft.step2": "Yapılacak ikinci sey",
+    "ft.step3": "Yapılacak son sey",
+    "ft.another": "Bir tane daha?",
+    "ft.doneBtn": "Tamam",
+    "ft.remindMe": "Bana hatirlat",
+    "ft.iSchedule": "Ben planlarim",
+    "ft.nameFoot": "Adi konulan karar yarı bitmiştir.",
+    "ft.stepsFoot": "Küçük adımlar büyük kararları taşır.",
+    "ft.remindFoot": "Her halükarda - LoopKeeper geri getirir."
   }
 }

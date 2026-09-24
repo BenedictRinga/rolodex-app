@@ -347,7 +347,7 @@ export class HomePage implements OnInit, OnDestroy {
   //  home. */
   /** 'pending' is the boot blank — the full home is not painted while we
    *  learn whether this device is still a first-timer. */
-  ftView: '' | 'pending' | 'gates' | 'phone' | 'card' | 'done' | 'flow' = 'pending';
+  ftView: '' | 'pending' | 'gates' | 'phone' | 'card' | 'steps' | 'remind' | 'done' | 'flow' = 'pending';
   /** ── 2026-09-23 BUILD 319 THE COCOON LEDGER ── the first-timer journey is
    *  ITS OWN view at Home level (the cocoon), and its analysis is its own
    *  stream: how the visitor responded to the UI, continued or churned, how
@@ -374,7 +374,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** Back is on every step except the congratulations themselves. */
   get ftShowBack(): boolean {
-    if (this.ftView === 'phone' || this.ftView === 'card') return true;
+    // 2026-09-24 BUILD 324: every phased card clip carries its return.
+    if (this.ftView === 'phone' || this.ftView === 'card' || this.ftView === 'steps' || this.ftView === 'remind') return true;
     if (this.ftView !== 'flow') return false;
     const w = this._ftWalk;
     if (!w) return true;
@@ -393,29 +394,42 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** 2026-09-24 BUILD 323 THE SECOND TRACK, NOT A DUPLICATION (founder: the
    *  decide gate "should open visitor to a first step - document a goal/task
-   *  or whatever, and hand-off for now. Get the pleasure of having taken a
-   *  first step, and the LoopKeeper algo then continues it later with our
-   *  9am track"): the decide door opens the EMPTY TASK CARD — cloned into
-   *  this canvas (never exported to a component) — the visitor names it,
-   *  records one-to-three things to do about it, schedules it or tells
-   *  LoopKeeper to remind them; the flourish closes the track and the card
-   *  + loop hand off to the 9am algo. */
+   *  or whatever, and hand-off for now... the LoopKeeper algo then continues
+   *  it later with our 9am track"): the decide door opens the EMPTY TASK
+   *  CARD — cloned into this canvas (never exported to a component). */
   ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftLog('ft_choice', { choice: 'card' }); this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card'); }
 
-  /** The decide card's state — cloned from the walk's task draft (257/259)
-   *  so the card is the SAME card, at Home level, in the cocoon. */
+  /** 2026-09-24 BUILD 324 THE PHASED SECOND TRACK — state above; the clips:
+   *  01c the blank card face + "name it"; 02c the flipped card, one thing at
+   *  a time; the two cards (Remind me || I schedule); the flourish. */
   ftCardTitle = '';
   ftCardSteps: string[] = ['', '', ''];
+  ftCardStepIdx = 1;
   ftCardDue = '';
   ftCardTime = '09:00';
   ftCardCadence = 'monthly';
+  ftScheduleOpen = false;
   readonly ftCardCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
   ftCadenceLabel(c: string): string { return this.translate.instant('loopkeeper.task.' + c); }
 
-  /** Save: a REAL deck card (kind task, the steps riding it) + the loop the
-   *  9am algo continues (kind decide, the decide friction named by the
+  /** 01c → 02c: the name is said — the card flips. */
+  ftCardOk(): void {
+    if (this.ftCardTitle.trim().length < 2) return;
+    this.ftLog('ft_choice', { choice: 'named' });
+    this.ftView = 'steps';
+  }
+
+  /** The card's phase-one commit: the name becomes a thing to do about. */
+  ftStepDone(): void {
+    if (this.ftCardSteps.slice(0, this.ftCardStepIdx).every((s) => !s.trim())) return;
+    this.ftLog('ft_choice', { choice: 'steps', n: this.ftCardStepIdx });
+    this.ftView = 'remind';
+  }
+
+  /** The hand-off: a REAL deck card (kind task, the steps riding it) + the
+   *  loop the 9am algo continues (kind decide, the friction named by the
    *  visitor's own door tap) — then the flourish, then the cocoon opens. */
-  ftCardSave(): void {
+  ftCardCommit(): void {
     const title = this.ftCardTitle.trim();
     if (title.length < 2) return;
     const steps = this.ftCardSteps.map((s) => s.trim()).filter(Boolean);
@@ -452,11 +466,28 @@ export class HomePage implements OnInit, OnDestroy {
     setTimeout(() => this.onFtConcluded(), 2600);
   }
 
+  /** Remind me — LoopKeeper owns the when; the two cards collapse into the
+   *  conclusion. */
+  ftRemindMe(): void {
+    this.ftLog('ft_choice', { choice: 'remind' });
+    this.ftCardDue = '';
+    this.ftCardCommit();
+  }
+
+  /** I schedule — the calendar opens on the same view. */
+  ftOpenSchedule(): void {
+    this.ftLog('ft_choice', { choice: 'schedule' });
+    this.ftScheduleOpen = true;
+  }
+
   /** The return arrow. Phone → gates. Dialog → one step back inside the
    *  words, or out to the previous blank page if the words are showing. */
   ftBack(): void {
     if (this.ftView === 'phone') { this.ftLog('ft_retract', { from: 'phone', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
     if (this.ftView === 'card') { this.ftLog('ft_retract', { from: 'card', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
+    // 2026-09-24 BUILD 324: every phased clip returns ONE step back.
+    if (this.ftView === 'steps') { this.ftLog('ft_retract', { from: 'steps', to: 'card', dwellMs: this.ftDwellMs() }); this.ftView = 'card'; return; }
+    if (this.ftView === 'remind') { this.ftLog('ft_retract', { from: 'remind', to: 'steps', dwellMs: this.ftDwellMs() }); this.ftScheduleOpen = false; this.ftView = 'steps'; return; }
     const w = this._ftWalk;
     if (!w || w.step <= 3) {
       w?.abandonFt();

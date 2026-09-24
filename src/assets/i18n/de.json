@@ -701,7 +701,18 @@
     "settings.chatidNote": "Kennung für Anonymität. Deine Nummer funktioniert weiter - beide erreichen dich.",
     "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung.",
     "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt.",
-    "ft.stepHint": "Eine Sache, die es zu tun gilt",
-    "ft.firststep": "Der erste Schritt ist getan."
+    "ft.firststep": "Der erste Schritt ist getan.",
+    "ft.nameIt": "Benenne es",
+    "ft.okBtn": "OK",
+    "ft.step1": "Eine Sache, die es zu tun gilt",
+    "ft.step2": "Eine zweite Sache",
+    "ft.step3": "Eine letzte Sache",
+    "ft.another": "Noch eine?",
+    "ft.doneBtn": "Fertig",
+    "ft.remindMe": "Erinnere mich",
+    "ft.iSchedule": "Ich plane es",
+    "ft.nameFoot": "Eine benannte Entscheidung ist halb getan.",
+    "ft.stepsFoot": "Kleine Schritte tragen grosse Entscheide.",
+    "ft.remindFoot": "So oder so - LoopKeeper bringt es zuruck."
   }
 }

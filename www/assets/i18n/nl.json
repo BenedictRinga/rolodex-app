@@ -701,7 +701,18 @@
     "settings.chatidNote": "ID voor anonimiteit. Je nummer werkt ook - beide bereiken je.",
     "settings.chatidFail": "De aanvraag mislukte - controleer je verbinding.",
     "ft.encourage": "Op weg naar mijlpalen - de eerste is één lus weg.",
-    "ft.stepHint": "Eén ding om te doen",
-    "ft.firststep": "De eerste stap is gezet."
+    "ft.firststep": "De eerste stap is gezet.",
+    "ft.nameIt": "Geef het een naam",
+    "ft.okBtn": "OK",
+    "ft.step1": "Eén ding om te doen",
+    "ft.step2": "Een tweede ding",
+    "ft.step3": "Een laatste ding",
+    "ft.another": "Nog een?",
+    "ft.doneBtn": "Klaar",
+    "ft.remindMe": "Herinner mij",
+    "ft.iSchedule": "Ik plan het",
+    "ft.nameFoot": "Een benoemde beslissing is half gedaan.",
+    "ft.stepsFoot": "Kleine stappen dragen grote beslissingen.",
+    "ft.remindFoot": "Hoe dan ook - LoopKeeper brengt het terug."
   }
 }

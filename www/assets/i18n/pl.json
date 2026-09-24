@@ -701,7 +701,18 @@
     "settings.chatidNote": "ID dla anonimowości. Twój numer też działa - dotrą do Ciebie oba.",
     "settings.chatidFail": "Nie udało się poprosić o identyfikator - sprawdź połączenie.",
     "ft.encourage": "W drodze do kamieni milowych - pierwszy to jedno zamknięcie.",
-    "ft.stepHint": "Jedna rzecz do zrobienia",
-    "ft.firststep": "Pierwszy krok zrobiony."
+    "ft.firststep": "Pierwszy krok zrobiony.",
+    "ft.nameIt": "Nazwij to",
+    "ft.okBtn": "OK",
+    "ft.step1": "Jedna rzecz do zrobienia",
+    "ft.step2": "Druga rzecz do zrobienia",
+    "ft.step3": "Ostatnia rzecz do zrobienia",
+    "ft.another": "Jeszcze jedna?",
+    "ft.doneBtn": "Gotowe",
+    "ft.remindMe": "Przypomnij mi",
+    "ft.iSchedule": "Sam ustalę termin",
+    "ft.nameFoot": "Nazwana decyzja to polowa dzieła.",
+    "ft.stepsFoot": "Małe kroki niosą wielkie decyzje.",
+    "ft.remindFoot": "Tak czy inaczej - LoopKeeper to przyniesie."
   }
 }
