@@ -659,7 +659,7 @@
     "walk.taskAt": "A las (opcional)",
     "storage.serverConsentNote": "Primero: da el consentimiento en Ajustes — Backend sync consent. Nada sale de este dispositivo antes.",
     "storage.serverConsentOpen": "Abrir consentimiento",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "Nombra el siguiente ciclo que necesitas cerrar",
     "fm.hint": "Una frase. El Asistente escribe las palabras — tú las envías — la pestaña de tu cabeza se cierra.",
     "fm.capture": "Capturarlo",
     "fm.showme": "Muéstrame primero",

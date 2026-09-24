@@ -659,7 +659,7 @@
     "walk.taskAt": "Во сколько (необязательно)",
     "storage.serverConsentNote": "Сначала: дайте согласие в Настройках — Backend sync consent. До него ничего не покидает устройство.",
     "storage.serverConsentOpen": "Открыть согласие",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "Назови следующий цикл, который нужно закрыть",
     "fm.hint": "Одно предложение. Ассистент пишет слова — вы отправляете — вкладка в голове закрывается.",
     "fm.capture": "Записать",
     "fm.showme": "Сначала покажите",

@@ -33,6 +33,7 @@ import { mockContacts, shuffledMockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
 import { ChatIdService } from '../services/chat-id/chat-id.service';
 import { WriteAuthService } from '../services/write-auth/write-auth.service';
+import { InvestorGateService } from '../services/investor-gate/investor-gate.service';
 import { AnalyticsService } from '../services/analytics/analytics.service';
 import { AssistantCardService, AssistantCardUpdate } from '../services/assistant-card/assistant-card.service';
 import { environment } from 'src/environments/environment';
@@ -228,6 +229,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly storageService: StorageService,
     private readonly chatIdService: ChatIdService,
     private readonly writeAuth: WriteAuthService,
+    private readonly investorGate: InvestorGateService,
     private readonly security: SecurityService,
     private readonly assistantCard: AssistantCardService,
     private readonly sound: SoundService,
@@ -819,7 +821,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.bindFtHidden();
     // 2026-09-24 BUILD 327 THE TESTER CHANNEL: the icon rides ONLY for the
     // roster — the absorbed testerId tag is the array membership proof.
-    this.testerChannelOn = this.analytics.getTesterId() > 0;
+    // BUILD 330: or once the Investor portal has been opened this session —
+    // the same sessional aperture law the Command Center's gate rides — so
+    // the founder can test the channel on a non-tester device.
+    this.testerChannelOn = this.analytics.getTesterId() > 0 || this.investorGate.unlockedThisSession;
     // 2026-09-20 BUILD 279b THE WIPE VERIFICATION PASS (founder: "this time,
     // we are stuck in a 7 minutes wait"): if a wipe left its pending mark,
     // the fresh boot FINISHES the job — clear everything again (one capped

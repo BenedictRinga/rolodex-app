@@ -659,7 +659,7 @@
     "walk.taskAt": "时间（可选）",
     "storage.serverConsentNote": "首先：在设置中给予同意 — Backend sync consent。在此之前，任何数据都不会离开本设备。",
     "storage.serverConsentOpen": "打开同意",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "为你下一个需要关闭的循环命名",
     "fm.hint": "一句话。助理替你写好词——你发出去——脑子里的那个标签页就关上了。",
     "fm.capture": "记下它",
     "fm.showme": "先给我看看",

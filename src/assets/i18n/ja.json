@@ -659,7 +659,7 @@
     "walk.taskAt": "時刻（任意）",
     "storage.serverConsentNote": "まず：設定で同意してください — Backend sync consent。同意の前に何も送信されません。",
     "storage.serverConsentOpen": "同意を開く",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "次に閉じるべきループに名前をつける",
     "fm.hint": "一文だけ。アシスタントが言葉を書き、あなたは送るだけ。頭の中のタブが閉じます。",
     "fm.capture": "記録する",
     "fm.showme": "先に見せて",

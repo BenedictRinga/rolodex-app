@@ -659,7 +659,7 @@
     "walk.taskAt": "O godzinie (opcjonalnie)",
     "storage.serverConsentNote": "Najpierw: wyraź zgodę w Ustawieniach — Backend sync consent. Nic nie opuszcza tego urządzenia przedtem.",
     "storage.serverConsentOpen": "Otwórz zgodę",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "Nazwij kolejna petle do zamkniecia",
     "fm.hint": "Jedno zdanie. Asystent pisze słowa — ty wysyłasz — karta w głowie się zamyka.",
     "fm.capture": "Zapisz",
     "fm.showme": "Najpierw pokaż",

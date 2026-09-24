@@ -659,7 +659,7 @@
     "walk.taskAt": "Saat (isteğe bağlı)",
     "storage.serverConsentNote": "Önce: Ayarlar'da onay ver — Backend sync consent. Ondan önce bu cihazdan hiçbir şey çıkmaz.",
     "storage.serverConsentOpen": "Onayı aç",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "Kapatman gereken sonraki donguye ad ver",
     "fm.hint": "Tek cümle. Asistan sözleri yazar — sen gönderirsin — aklındaki sekme kapanır.",
     "fm.capture": "Yakala",
     "fm.showme": "Önce göster",

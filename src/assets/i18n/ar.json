@@ -659,7 +659,7 @@
     "walk.taskAt": "في الساعة (اختياري)",
     "storage.serverConsentNote": "أولاً: امن الموافقة في الإعدادات — Backend sync consent. لا شيء يغادر هذا الجهاز قبلها.",
     "storage.serverConsentOpen": "افتح الموافقة",
-    "fm.title": "Name the first loop you need to close",
+    "fm.title": "سمِّ الحلقة التالية التي ينبغى إغلاقها",
     "fm.hint": "جملة واحدة. المساعد يكتب الكلمات — أنت ترسلها — تُغلق النافذة في رأسك.",
     "fm.capture": "احفظه",
     "fm.showme": "أرني أولاً",
