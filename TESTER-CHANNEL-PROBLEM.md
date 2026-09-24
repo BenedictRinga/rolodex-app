@@ -87,3 +87,9 @@ get testerChannelOn(): boolean {
 4. **The two ReferenceErrors in the error log** (`testerDeviceRows is not defined`, `msgRows is not defined`) are PRE-121 HISTORY retained by pm2's log — the LIVE summary (probed 17:42 UTC, after the restart) serves COMPLETE: every analytics key present including `growthLoop` and `recentChurns`, `generatedAt` fresh. If any portal section still reads empty, capture `pm2 logs --timestamp` and name the section.
 5. **Still open, one line**: `AUTH_SECRET` is not in `.env` — the write gate is OPEN by design until the founder adds `AUTH_SECRET=<random>` to `/opt/rolodex-server/.env` (no restart needed; server 123 reads the file first).
 6. **Noise, harmless**: the E11000 duplicate-key ingest errors are retried batches carrying the same event ids — rejected, nothing lost. If they grow noisy, the ingest can upsert instead of insert.
+
+---
+
+## RESOLVED II - THE GATE STAYED OPEN WITH THE SECRET ANCHORED (server 130, 2026-09-24)
+
+The founder anchored the line (19:AUTH_SECRET=xylophil@o), restarted, and the tokenless probe STILL answered 400 (the handler) instead of 401 (the gate). Root cause, proven by probe: src/auth.js called fs.readFileSync but never required fs - the ReferenceError was swallowed by the candidates' try/catch, every candidate silently "failed", and the gate fell back to process.env.AUTH_SECRET, which pm2 does not carry from .env. The gate was therefore open no matter what the .env held. Fixed in server 130 (4125c83): const fs = require('fs') - verified locally that the parse now returns xylophil@o from a .env. One residual: auth.js's header comment says crashes rides unauthenticated by design while 124 wires the gate onto it - the gate stands (the founder's "limit writes"); the comment is stale. After the next ./deploy.sh, re-probe: the tokenless crashes POST must answer 401, and the app's own token-minted writes must pass.
