@@ -700,6 +700,8 @@
     "settings.chatidReady": "Listo para compartir.",
     "settings.chatidNote": "ID para el anonimato. Tu número también funciona - ambos te alcanzan.",
     "settings.chatidFail": "No se pudo solicitar la identificacion - revisa tu conexion.",
-    "ft.encourage": "En camino a los hitos - el primero esta a un ciclo."
+    "ft.encourage": "En camino a los hitos - el primero esta a un ciclo.",
+    "ft.stepHint": "Una cosa que hacer al respecto",
+    "ft.firststep": "El primer paso está dado."
   }
 }

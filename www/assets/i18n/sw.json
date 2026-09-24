@@ -700,6 +700,8 @@
     "settings.chatidReady": "Iko tayari kushirikiwa.",
     "settings.chatidNote": "ID kwa kujificha. Nambari yako ya simu bado inafanya kazi - zote mbili zinakufikia, na kadi inaweza kubeba ID.",
     "settings.chatidFail": "Hakikuwezekana kuomba ID - angalia mtandao wako.",
-    "ft.encourage": "Njiani kwenye milango ya mafanikio - ya kwanza iko loop moja tu."
+    "ft.encourage": "Njiani kwenye milango ya mafanikio - ya kwanza iko loop moja tu.",
+    "ft.stepHint": "Jambo moja la kufanya kuhusu hilo",
+    "ft.firststep": "Hatua ya kwanza imechukuliwa."
   }
 }

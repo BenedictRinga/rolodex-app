@@ -700,6 +700,8 @@
     "settings.chatidReady": "Pret a partager.",
     "settings.chatidNote": "Identifiant pour l anonymat. Votre numero fonctionne aussi - les deux vous atteignent.",
     "settings.chatidFail": "La demande d identifiant a echoue - verifiez votre connexion.",
-    "ft.encourage": "En route vers les jalons - le premier est a une boucle."
+    "ft.encourage": "En route vers les jalons - le premier est a une boucle.",
+    "ft.stepHint": "Une chose a faire a ce sujet",
+    "ft.firststep": "Le premier pas est fait."
   }
 }

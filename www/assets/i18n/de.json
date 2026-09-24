@@ -700,6 +700,8 @@
     "settings.chatidReady": "Bereit zum Teilen.",
     "settings.chatidNote": "Kennung für Anonymität. Deine Nummer funktioniert weiter - beide erreichen dich.",
     "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung.",
-    "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt."
+    "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt.",
+    "ft.stepHint": "Eine Sache, die es zu tun gilt",
+    "ft.firststep": "Der erste Schritt ist getan."
   }
 }

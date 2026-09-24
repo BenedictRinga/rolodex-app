@@ -700,6 +700,8 @@
     "settings.chatidReady": "Ready to share.",
     "settings.chatidNote": "Chat ID for anonymity. Phone number for convenience - both reach you, and a card may carry the ID.",
     "settings.chatidFail": "The chat ID could not be requested - check your connection.",
-    "ft.encourage": "On your way to milestones — the first one is one loop away."
+    "ft.encourage": "On your way to milestones — the first one is one loop away.",
+    "ft.stepHint": "One thing to do about it",
+    "ft.firststep": "The first step is taken."
   }
 }

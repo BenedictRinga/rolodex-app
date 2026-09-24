@@ -700,6 +700,8 @@
     "settings.chatidReady": "Paylaşmaya hazır.",
     "settings.chatidNote": "Anonimlik için kimlik. Telefon numaranız da çalışır - ikisi de size ulaşır.",
     "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et.",
-    "ft.encourage": "Kilometre taslarına yolda - ilki bir döngü uzakta."
+    "ft.encourage": "Kilometre taslarına yolda - ilki bir döngü uzakta.",
+    "ft.stepHint": "Hakkında yapılacak bir sey",
+    "ft.firststep": "İlk adım atıldı."
   }
 }

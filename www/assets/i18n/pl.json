@@ -700,6 +700,8 @@
     "settings.chatidReady": "Gotowy do udostępnienia.",
     "settings.chatidNote": "ID dla anonimowości. Twój numer też działa - dotrą do Ciebie oba.",
     "settings.chatidFail": "Nie udało się poprosić o identyfikator - sprawdź połączenie.",
-    "ft.encourage": "W drodze do kamieni milowych - pierwszy to jedno zamknięcie."
+    "ft.encourage": "W drodze do kamieni milowych - pierwszy to jedno zamknięcie.",
+    "ft.stepHint": "Jedna rzecz do zrobienia",
+    "ft.firststep": "Pierwszy krok zrobiony."
   }
 }

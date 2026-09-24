@@ -31,6 +31,58 @@
         <p class="ft-welcome">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
       </footer>
     </ng-container>
+    <!-- 2026-09-24 BUILD 323 THE SECOND TRACK: 02 = the EMPTY TASK CARD,
+         cloned into the canvas (the 257/259 card, at Home level — never
+         exported). Name it; one-to-three things to do about it; schedule it
+         or tell LoopKeeper to remind them; the encouraging footer under it;
+         then the flourish. -->
+    <ng-container *ngIf="ftView === 'card'">
+      <div class="ft-cardwrap">
+        <div class="ft-taskcard">
+          <div class="ft-taskhead">{{ 'loopkeeper.fm.avoidDecide' | translate }}</div>
+          <input class="ft-taskfield ft-tasktitle" type="text" [(ngModel)]="ftCardTitle"
+            [placeholder]="'loopkeeper.walk.taskBlank' | translate" maxlength="60" />
+          <div class="ft-tasksteps">
+            <span class="ft-stepnum">1</span>
+            <input class="ft-taskfield" type="text" [(ngModel)]="ftCardSteps[0]"
+              [placeholder]="'loopkeeper.ft.stepHint' | translate" maxlength="80" />
+            <span class="ft-stepnum">2</span>
+            <input class="ft-taskfield" type="text" [(ngModel)]="ftCardSteps[1]"
+              [placeholder]="'loopkeeper.ft.stepHint' | translate" maxlength="80" />
+            <span class="ft-stepnum">3</span>
+            <input class="ft-taskfield" type="text" [(ngModel)]="ftCardSteps[2]"
+              [placeholder]="'loopkeeper.ft.stepHint' | translate" maxlength="80" />
+          </div>
+          <div class="sw-taskwhen">
+            <input class="ft-taskfield" type="date" [(ngModel)]="ftCardDue"
+              [attr.aria-label]="'loopkeeper.walk.taskWhen' | translate" />
+            <input class="ft-taskfield ft-tasktime" type="time" [(ngModel)]="ftCardTime"
+              [attr.aria-label]="'loopkeeper.walk.taskAt' | translate" />
+          </div>
+          <div class="ft-taskchips">
+            <button *ngFor="let c of ftCardCadences" class="ft-taskchip" type="button"
+              [class.on]="ftCardCadence === c" (click)="ftCardCadence = c">{{ ftCadenceLabel(c) }}</button>
+          </div>
+          <div class="ft-taskactions">
+            <button class="ft-tasksave" type="button" (click)="ftCardSave()"
+              [disabled]="ftCardTitle.trim().length < 2">{{ 'loopkeeper.walk.taskSave' | translate }}</button>
+            <button class="ft-taskcancel" type="button" (click)="ftBack()">{{ 'loopkeeper.walk.taskCancel' | translate }}</button>
+          </div>
+        </div>
+      </div>
+      <footer class="ft-caption ft-caption-foot">
+        <p class="ft-encourage">{{ 'loopkeeper.ft.encourage' | translate }}</p>
+      </footer>
+    </ng-container>
+    <!-- 2026-09-24 BUILD 323 THE FLOURISH: the same beat the reply earns —
+         one breath with the check, then the cocoon opens to the settled
+         home, where the card and the loop now live. -->
+    <ng-container *ngIf="ftView === 'done'">
+      <div class="ft-done">
+        <div class="ft-done-check">✓</div>
+        <div class="ft-done-line">{{ 'loopkeeper.ft.firststep' | translate }}</div>
+      </div>
+    </ng-container>
     <ng-container *ngIf="ftView === 'phone'">
       <div class="ft-gates">
         <button class="ft-gate" type="button" (click)="ftPhone()">

@@ -700,6 +700,8 @@
     "settings.chatidReady": "共有できます。",
     "settings.chatidNote": "匿名にはID。電話番号も使えます - どちらも届きます。",
     "settings.chatidFail": "IDをリクエストできませんでした - 接続を確認してください。",
-    "ft.encourage": "マイルストーンへの道 - あと1ループで最初の一つ。"
+    "ft.encourage": "マイルストーンへの道 - あと1ループで最初の一つ。",
+    "ft.stepHint": "それについてやること、ひとつ",
+    "ft.firststep": "最初の一歩を踏み出しました。"
   }
 }

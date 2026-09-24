@@ -1082,7 +1082,15 @@ export class SendWalkComponent implements OnInit, OnChanges {
     // of sight for the first ninety seconds — the grimace send first.
     this.wordsShownAt = Date.now();
     this.sideDoorsOpen = false;
-    this.armSideDoors();
+    if (this.ftCanvas) {
+      // 2026-09-24 BUILD 323 THE COCOON'S TOOLS, IN THE OPEN (founder: the
+      // three tune-uppers + "Try again" + "Let me change it" "should not be
+      // hiding at all, but immediately present in support of the dialog
+      // box"): the ninety-second gate stays for the regular track only.
+      this.sideDoorsOpen = true;
+    } else {
+      this.armSideDoors();
+    }
     this.go(3);
     if (chimed) void this.sounds.playLoopCapture();
     setTimeout(() => void this.sounds.playLoopReady(), chimed ? 420 : 0);

@@ -618,3 +618,47 @@
   border-color: rgba(180, 83, 9, 0.5);
   opacity: 1;
 }
+
+/* ═══ 2026-09-24 BUILD 323 THE COCOON'S WORDS, SET (founder, the reply track:
+   "The dialog window should be twice its current height, not looking like an
+   afterthought. It is focal point" + "the possibility of me doing the words
+   myself... should be immediately present" + the three tune-uppers "should
+   not be hiding at all" + "'why it's sitting' should go down to bottom... in
+   a lesser shade (grey perhaps)"). Scoped to the cocoon (.sw-ft) — the
+   regular walk keeps its settled composition. The .sw root is already a flex
+   column, so the order property composes without touching the regular DOM. */
+.sw-ft .sw-draft {
+  min-height: 230px;
+  max-height: 56vh;
+  font-size: 16px;
+  line-height: 1.55;
+  padding: 16px 18px 18px;
+  order: 10;
+}
+.sw-ft .sw-editbox {
+  order: 10;
+}
+.sw-ft .sw-tones {
+  order: 20;
+}
+.sw-ft .sw-change {
+  order: 25;
+}
+.sw-ft .sw-primary {
+  order: 30;
+}
+/* The why drifts to the bottom — the indecisive resting place — in a lesser
+   shade: grey, quieter than the deed above it. */
+.sw-ft .sw-why {
+  order: 90;
+  margin: 14px 0 0;
+  opacity: 0.72;
+}
+.sw-ft .sw-why-label {
+  color: #6b7280;
+}
+.sw-ft .sw-why-chip {
+  color: #6b7280;
+  border-color: rgba(107, 114, 128, 0.35);
+  background: rgba(107, 114, 128, 0.06);
+}

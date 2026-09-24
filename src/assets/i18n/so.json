@@ -700,6 +700,8 @@
     "settings.chatidReady": "Diyaar u ah wadaagista.",
     "settings.chatidNote": "ID-ga qarsoodida. Lambarka telefoonkaaga weli waa shaqeeya - labadaba ayay kuu imaanayaan.",
     "settings.chatidFail": "Codsiga aqoonsiga waa fashilmay - hubi xiriirkaaga.",
-    "ft.encourage": "Waddada astaanaha - midka ugu horreeya waa hal loop."
+    "ft.encourage": "Waddada astaanaha - midka ugu horreeya waa hal loop.",
+    "ft.stepHint": "Hal wax oo lagu qabto arrintaas",
+    "ft.firststep": "Tallaabada ugu horreysa waa la qaaday."
   }
 }

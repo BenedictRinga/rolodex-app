@@ -700,6 +700,8 @@
     "settings.chatidReady": "A shirya za a raba.",
     "settings.chatidNote": "Asali don boye. Lambarka ma tana aiki - dukansu suna zo gare ka.",
     "settings.chatidFail": "Neman asalin ya kasa - duba hanyarka.",
-    "ft.encourage": "A kan hanyar zuwa ganinniyar gaba - na farko daya ne."
+    "ft.encourage": "A kan hanyar zuwa ganinniyar gaba - na farko daya ne.",
+    "ft.stepHint": "Abu daya da za a yi game da shi",
+    "ft.firststep": "An dauki matakin farko."
   }
 }

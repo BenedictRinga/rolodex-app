@@ -347,7 +347,7 @@ export class HomePage implements OnInit, OnDestroy {
   //  home. */
   /** 'pending' is the boot blank — the full home is not painted while we
    *  learn whether this device is still a first-timer. */
-  ftView: '' | 'pending' | 'gates' | 'phone' | 'flow' = 'pending';
+  ftView: '' | 'pending' | 'gates' | 'phone' | 'card' | 'done' | 'flow' = 'pending';
   /** ── 2026-09-23 BUILD 319 THE COCOON LEDGER ── the first-timer journey is
    *  ITS OWN view at Home level (the cocoon), and its analysis is its own
    *  stream: how the visitor responded to the UI, continued or churned, how
@@ -361,7 +361,7 @@ export class HomePage implements OnInit, OnDestroy {
   private ftLog(event: string, props: Record<string, unknown> = {}): void {
     void this.analytics.track(event, { cohort: 'ft', ...props });
   }
-  private ftEnter(view: 'gates' | 'phone' | 'flow'): void {
+  private ftEnter(view: 'gates' | 'phone' | 'card' | 'flow'): void {
     if (view === 'gates' && !this.ftEnteredAt) this.ftEnteredAt = Date.now();
     this.ftLog('ft_cocoon', { view, dwellMs: this.ftDwellMs() });
   }
@@ -374,7 +374,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** Back is on every step except the congratulations themselves. */
   get ftShowBack(): boolean {
-    if (this.ftView === 'phone') return true;
+    if (this.ftView === 'phone' || this.ftView === 'card') return true;
     if (this.ftView !== 'flow') return false;
     const w = this._ftWalk;
     if (!w) return true;
@@ -391,13 +391,72 @@ export class HomePage implements OnInit, OnDestroy {
   /** I will add later — the owed-reply words, no card, still on the blank page. */
   ftLater(): void { this.ftLog('ft_choice', { choice: 'later' }); this.ftPath = 'reply'; this.openFtFlow('later'); }
 
-  /** The decide gate — the 183 self-loop, straight to the dialog in situ. */
-  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftLog('ft_choice', { choice: 'decide' }); this.ftPath = 'decide'; this.openFtFlow('decide'); }
+  /** 2026-09-24 BUILD 323 THE SECOND TRACK, NOT A DUPLICATION (founder: the
+   *  decide gate "should open visitor to a first step - document a goal/task
+   *  or whatever, and hand-off for now. Get the pleasure of having taken a
+   *  first step, and the LoopKeeper algo then continues it later with our
+   *  9am track"): the decide door opens the EMPTY TASK CARD — cloned into
+   *  this canvas (never exported to a component) — the visitor names it,
+   *  records one-to-three things to do about it, schedules it or tells
+   *  LoopKeeper to remind them; the flourish closes the track and the card
+   *  + loop hand off to the 9am algo. */
+  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftLog('ft_choice', { choice: 'card' }); this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card'); }
+
+  /** The decide card's state — cloned from the walk's task draft (257/259)
+   *  so the card is the SAME card, at Home level, in the cocoon. */
+  ftCardTitle = '';
+  ftCardSteps: string[] = ['', '', ''];
+  ftCardDue = '';
+  ftCardTime = '09:00';
+  ftCardCadence = 'monthly';
+  readonly ftCardCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
+  ftCadenceLabel(c: string): string { return this.translate.instant('loopkeeper.task.' + c); }
+
+  /** Save: a REAL deck card (kind task, the steps riding it) + the loop the
+   *  9am algo continues (kind decide, the decide friction named by the
+   *  visitor's own door tap) — then the flourish, then the cocoon opens. */
+  ftCardSave(): void {
+    const title = this.ftCardTitle.trim();
+    if (title.length < 2) return;
+    const steps = this.ftCardSteps.map((s) => s.trim()).filter(Boolean);
+    const card: any = {
+      contactId: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      name: { display: title },
+      kind: 'task',
+      ...(steps.length ? { steps } : {}),
+      task: {
+        cadence: this.ftCardCadence,
+        ...(this.ftCardDue ? { due: new Date(this.ftCardDue + 'T' + (this.ftCardTime || '09:00') + ':00').getTime() } : {}),
+      },
+      isMockData: false,
+    };
+    this.contacts.unshift(card);
+    this.onContactsDirty();
+    // The hand-off: the loop the 9am algo continues — one open mental tab,
+    // already named, the draft standing. QUIET_NUDGE_DAYS decides when it
+    // returns; the digest brings ONE loop, never a list.
+    const why = this.loops.suggestWhySitting({ kind: 'decide', summary: '', pretext: undefined, lastTouchAt: undefined, createdAt: Date.now() });
+    this.loops.create({
+      person: title,
+      kind: 'decide',
+      summary: '',
+      stance: 'warm',
+      direction: 'mine',
+      whySitting: why,
+      whySittingSource: 'user' as const,
+    });
+    void this.analytics.track('task_card_saved', { source: 'ft-cocoon' });
+    // The flourish — the same beat the reply earns: one breath, then the
+    // cocoon opens to the settled home.
+    this.ftView = 'done';
+    setTimeout(() => this.onFtConcluded(), 2600);
+  }
 
   /** The return arrow. Phone → gates. Dialog → one step back inside the
    *  words, or out to the previous blank page if the words are showing. */
   ftBack(): void {
     if (this.ftView === 'phone') { this.ftLog('ft_retract', { from: 'phone', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
+    if (this.ftView === 'card') { this.ftLog('ft_retract', { from: 'card', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
     const w = this._ftWalk;
     if (!w || w.step <= 3) {
       w?.abandonFt();

@@ -700,6 +700,8 @@
     "settings.chatidReady": "ለመለስለስ ዝግጁ ነው።",
     "settings.chatidNote": "መለያ ለስውርነት። የስልክ ቁጥርዎም ይሰራል - ሁለቱም ይደርስዎታል።",
     "settings.chatidFail": "መለያውን መጠየቅ አልተሳካም - ግንኙነትዎን ያረጋግጡ።",
-    "ft.encourage": "ወደ ምዕራፎች በመንገድ ላይ - የመጀመሪያው በአንድ loop ይርቃል።"
+    "ft.encourage": "ወደ ምዕራፎች በመንገድ ላይ - የመጀመሪያው በአንድ loop ይርቃል።",
+    "ft.stepHint": "ስለዚህ የሚከናወን አንድ ነገር",
+    "ft.firststep": "የመጀመሪያው እርምጃ ወስዷል።"
   }
 }

@@ -223,6 +223,10 @@ export class InAppNotificationService {
     // THE COCOON QUIET (2026-09-23 BUILD 320): a first-timer never hears a
     // loop count — the digest and the check-in nudges stand down while the
     // cocoon stands. The regular track is untouched.
+    if (this.cocoonQuiet) return false; // BUILD 323: the cocoon is notification-free — every group stands down
+    // THE COCOON QUIET (2026-09-23 BUILD 320): a first-timer never hears a
+    // loop count — the digest and the check-in nudges stand down while the
+    // cocoon stands. The regular track is untouched.
     if (this.cocoonQuiet && (group === 'checkin' || group === 'digest')) return false;
     // ONE SUBJECT, ONE SEAT. The dedupe has two cases:
     //  - the SAME prompt re-fired (identical message) → drop; exactly-once.
