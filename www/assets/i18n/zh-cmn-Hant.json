@@ -700,9 +700,9 @@
     "settings.chatidReady": "可以分享了。",
     "settings.chatidNote": "識別碼管匿名。手機號同樣有效 - 兩種都找得到你。",
     "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。",
-    "ft.encourage": "正走向里程碑 - 第一個只差一次閉環。",
-    "ft.firststep": "第一步已邁出。",
-    "ft.nameIt": "給它起個名",
+    "ft.encourage": "正走向里程碑 - 第一個只差一次閉環...",
+    "ft.firststep": "第一步已邁出...",
+    "ft.nameIt": "在這張卡片上命名",
     "ft.okBtn": "好",
     "ft.step1": "關於它要做的一件事",
     "ft.step2": "第二件要做的事",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "完成",
     "ft.remindMe": "提醒我",
     "ft.iSchedule": "我來安排",
-    "ft.nameFoot": "說出名字，決定就完成一半。",
-    "ft.stepsFoot": "小步驟承載大決定。",
-    "ft.remindFoot": "無論如何 - LoopKeeper 會帶它回來。"
+    "ft.nameFoot": "說出名字，決定就完成一半...",
+    "ft.stepsFoot": "小步驟承載大決定...",
+    "ft.remindFoot": "無論如何 - LoopKeeper 會帶它回來...",
+    "task.none": "無"
   }
 }

@@ -700,9 +700,9 @@
     "settings.chatidReady": "A shirya za a raba.",
     "settings.chatidNote": "Asali don boye. Lambarka ma tana aiki - dukansu suna zo gare ka.",
     "settings.chatidFail": "Neman asalin ya kasa - duba hanyarka.",
-    "ft.encourage": "A kan hanyar zuwa ganinniyar gaba - na farko daya ne.",
-    "ft.firststep": "An dauki matakin farko.",
-    "ft.nameIt": "Ba shi suna",
+    "ft.encourage": "A kan hanyar zuwa ganinniyar gaba - na farko daya ne...",
+    "ft.firststep": "An dauki matakin farko...",
+    "ft.nameIt": "Ba shi suna a wannan katin",
     "ft.okBtn": "Toh",
     "ft.step1": "Abu daya da za a yi game da shi",
     "ft.step2": "Abu na biyu da za a yi",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "An gama",
     "ft.remindMe": "Tambata mini",
     "ft.iSchedule": "Zan tsara lokaci",
-    "ft.nameFoot": "Yanke shawara da suna rabin aikace ne.",
-    "ft.stepsFoot": "Kanana mataki na daukar manyan yanke shawara.",
-    "ft.remindFoot": "Ko ta yaya - LoopKeeper zai dawo da shi."
+    "ft.nameFoot": "Yanke shawara da suna rabin aikace ne...",
+    "ft.stepsFoot": "Kanana mataki na daukar manyan yanke shawara...",
+    "ft.remindFoot": "Ko ta yaya - LoopKeeper zai dawo da shi...",
+    "task.none": "Babu"
   }
 }

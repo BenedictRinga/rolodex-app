@@ -700,9 +700,9 @@
     "settings.chatidReady": "Iko tayari kushirikiwa.",
     "settings.chatidNote": "ID kwa kujificha. Nambari yako ya simu bado inafanya kazi - zote mbili zinakufikia, na kadi inaweza kubeba ID.",
     "settings.chatidFail": "Hakikuwezekana kuomba ID - angalia mtandao wako.",
-    "ft.encourage": "Njiani kwenye milango ya mafanikio - ya kwanza iko loop moja tu.",
-    "ft.firststep": "Hatua ya kwanza imechukuliwa.",
-    "ft.nameIt": "Ipe jina",
+    "ft.encourage": "Njiani kwenye milango ya mafanikio - ya kwanza iko loop moja tu...",
+    "ft.firststep": "Hatua ya kwanza imechukuliwa...",
+    "ft.nameIt": "Ipe jina kwenye kadi hii",
     "ft.okBtn": "Sawa",
     "ft.step1": "Jambo moja la kufanya kuhusu hilo",
     "ft.step2": "Jambo la pili la kufanya kuhusu hilo",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "Nimemaliza",
     "ft.remindMe": "Nikumbushe",
     "ft.iSchedule": "Nitapanga muda",
-    "ft.nameFoot": "Uamuzi uliopewa jina ni nusu ya kazi.",
-    "ft.stepsFoot": "Hatua ndogo hubeba maamuzi makubwa.",
-    "ft.remindFoot": "Vyote viwili - LoopKeeper Haitakuja nayo tena."
+    "ft.nameFoot": "Uamuzi uliopewa jina ni nusu ya kazi...",
+    "ft.stepsFoot": "Hatua ndogo hubeba maamuzi makubwa...",
+    "ft.remindFoot": "Vyote viwili - LoopKeeper Haitakuja nayo tena...",
+    "task.none": "Hakuna"
   }
 }

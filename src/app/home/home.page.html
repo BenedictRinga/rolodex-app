@@ -6,7 +6,10 @@
        cloned in, with return, through the congratulations. Nothing else
        is mounted, so nothing else can distract. One Welcome, on the gates. -->
   <div class="ft-canvas" *ngIf="ftView" [class.ft-canvas-flow]="ftView === 'flow'">
-    <button class="ft-back" *ngIf="ftShowBack" type="button" (click)="ftBack()"
+    <!-- 2026-09-24 BUILD 325: on the card clips the return sits JUST ABOVE
+         the card (the finger never travels a void); the global corner button
+         yields to it there. -->
+    <button class="ft-back" *ngIf="ftShowBack && ftView !== 'card' && ftView !== 'steps' && ftView !== 'remind'" type="button" (click)="ftBack()"
       aria-label="Back">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </button>
@@ -38,11 +41,16 @@
          it. The return arrow rides every phase; the pep footer is short. -->
     <ng-container *ngIf="ftView === 'card'">
       <div class="ft-cardwrap">
+        <!-- 2026-09-24 BUILD 325: the return sits JUST ABOVE the card — the
+             finger never travels a void, and it is never mistaken for a page
+             return (it backs one clip). -->
+        <button class="ft-back ft-back-card" type="button" (click)="ftBack()" aria-label="Back">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
         <div class="ft-taskcard">
           <div class="ft-taskblank">
             <div class="ft-taskavatar" aria-hidden="true"></div>
             <div class="ft-taskblankname">{{ 'loopkeeper.walk.taskBlank' | translate }}</div>
-            <div class="ft-taskblankhint">{{ 'loopkeeper.walk.taskBlankHint' | translate }}</div>
           </div>
           <input class="ft-taskfield" type="text" [(ngModel)]="ftCardTitle"
             [placeholder]="'loopkeeper.ft.nameIt' | translate" maxlength="60"
@@ -59,6 +67,9 @@
          the Second, then the Final (Done only); the return rides every phase. -->
     <ng-container *ngIf="ftView === 'steps'">
       <div class="ft-cardwrap">
+        <button class="ft-back ft-back-card" type="button" (click)="ftBack()" aria-label="Back">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
         <div class="ft-taskcard">
           <div class="ft-taskname">{{ ftCardTitle }}</div>
           <div class="ft-tasksteps">
@@ -86,6 +97,11 @@
          calendar, and once done, we enter conclusion and fulfilment. -->
     <ng-container *ngIf="ftView === 'remind'">
       <div class="ft-remind" [class.ft-schedopen]="ftScheduleOpen">
+        <!-- BUILD 325: the return rides the phase, just above the pair (and
+             above the calendar when it opens). -->
+        <button class="ft-back ft-back-card" type="button" (click)="ftBack()" aria-label="Back">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
         <ng-container *ngIf="!ftScheduleOpen">
           <div class="ft-remind-pair">
             <button class="ft-gate ft-remindcard" type="button" (click)="ftRemindMe()">

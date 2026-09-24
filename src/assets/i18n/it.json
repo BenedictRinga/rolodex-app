@@ -700,9 +700,9 @@
     "settings.chatidReady": "Pronto da condividere.",
     "settings.chatidNote": "ID per l anonimato. Il tuo numero funziona ancora - entrambi ti raggiungono.",
     "settings.chatidFail": "Richiesta ID non riuscita - controlla la connessione.",
-    "ft.encourage": "Verso i traguardi - il primo è a un giro.",
-    "ft.firststep": "Il primo passo è fatto.",
-    "ft.nameIt": "Dagli un nome",
+    "ft.encourage": "Verso i traguardi - il primo è a un giro...",
+    "ft.firststep": "Il primo passo è fatto...",
+    "ft.nameIt": "Nominalo su questa scheda",
     "ft.okBtn": "OK",
     "ft.step1": "Una cosa da fare al riguardo",
     "ft.step2": "Una seconda cosa da fare",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "Fatto",
     "ft.remindMe": "Ricordamelo",
     "ft.iSchedule": "Lo fisso io",
-    "ft.nameFoot": "Una decisione con un nome e mezzo fatta.",
-    "ft.stepsFoot": "I piccoli passi portano le grandi decisioni.",
-    "ft.remindFoot": "In ogni caso - LoopKeeper te lo riporta."
+    "ft.nameFoot": "Una decisione con un nome e mezzo fatta...",
+    "ft.stepsFoot": "I piccoli passi portano le grandi decisioni...",
+    "ft.remindFoot": "In ogni caso - LoopKeeper te lo riporta...",
+    "task.none": "Nessuna"
   }
 }

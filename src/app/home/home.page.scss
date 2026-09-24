@@ -622,7 +622,13 @@ app-rolodex.tab-hidden,
   border-bottom: 1px solid rgba(140, 94, 20, .2);
 }
 .ft-another { font-weight: 600; }
-.ft-remind { width: 100%; display: flex; justify-content: center; }
+.ft-remind {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .ft-remind-pair {
   display: flex;
   gap: 16px;
@@ -653,9 +659,16 @@ app-rolodex.tab-hidden,
    into the canvas (never a component). The card carries the walk's 257/259
    fields in the canvas's own amber skin; the milestone footer sits beneath. */
 .ft-cardwrap {
+  /* 2026-09-24 BUILD 325: the wrap is a column — the return sits JUST ABOVE
+     the card (the finger never travels a void), centered over it. */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+}
+.ft-back-card {
+  position: static;
+  margin: 0 0 12px;
 }
 .ft-taskcard {
   width: min(340px, 92%);

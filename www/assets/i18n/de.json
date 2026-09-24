@@ -700,9 +700,9 @@
     "settings.chatidReady": "Bereit zum Teilen.",
     "settings.chatidNote": "Kennung für Anonymität. Deine Nummer funktioniert weiter - beide erreichen dich.",
     "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung.",
-    "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt.",
-    "ft.firststep": "Der erste Schritt ist getan.",
-    "ft.nameIt": "Benenne es",
+    "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt...",
+    "ft.firststep": "Der erste Schritt ist getan...",
+    "ft.nameIt": "Benenne es auf dieser Karte",
     "ft.okBtn": "OK",
     "ft.step1": "Eine Sache, die es zu tun gilt",
     "ft.step2": "Eine zweite Sache",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "Fertig",
     "ft.remindMe": "Erinnere mich",
     "ft.iSchedule": "Ich plane es",
-    "ft.nameFoot": "Eine benannte Entscheidung ist halb getan.",
-    "ft.stepsFoot": "Kleine Schritte tragen grosse Entscheide.",
-    "ft.remindFoot": "So oder so - LoopKeeper bringt es zuruck."
+    "ft.nameFoot": "Eine benannte Entscheidung ist halb getan...",
+    "ft.stepsFoot": "Kleine Schritte tragen grosse Entscheide...",
+    "ft.remindFoot": "So oder so - LoopKeeper bringt es zuruck...",
+    "task.none": "Keine"
   }
 }

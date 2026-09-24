@@ -407,9 +407,13 @@ export class HomePage implements OnInit, OnDestroy {
   ftCardStepIdx = 1;
   ftCardDue = '';
   ftCardTime = '09:00';
-  ftCardCadence = 'monthly';
+  // 2026-09-24 BUILD 325 (founder: the calendar needs "a default or option
+  // for no frequency - just 'None', to Daily, Weekly, Monthly, Quarterly,
+  // Yearly"): None leads, and it is the default — the reminder needs no
+  // rhythm to be kept.
+  ftCardCadence = 'none';
   ftScheduleOpen = false;
-  readonly ftCardCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
+  readonly ftCardCadences: Array<'none' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['none', 'daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
   ftCadenceLabel(c: string): string { return this.translate.instant('loopkeeper.task.' + c); }
 
   /** 01c → 02c: the name is said — the card flips. */
@@ -428,10 +432,14 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** The hand-off: a REAL deck card (kind task, the steps riding it) + the
    *  loop the 9am algo continues (kind decide, the friction named by the
-   *  visitor's own door tap) — then the flourish, then the cocoon opens. */
-  ftCardCommit(): void {
+   *  visitor's own door tap) — then the flourish, then the cocoon opens.
+   *  BUILD 325: the loops cache is hydrated FIRST — the cocoon commits can
+   *  run before the service ever loaded (the null-unshift crash the founder
+   *  hit on Remind me and on I schedule). */
+  async ftCardCommit(): Promise<void> {
     const title = this.ftCardTitle.trim();
     if (title.length < 2) return;
+    await this.loops.all();
     const steps = this.ftCardSteps.map((s) => s.trim()).filter(Boolean);
     const card: any = {
       contactId: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -468,10 +476,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   /** Remind me — LoopKeeper owns the when; the two cards collapse into the
    *  conclusion. */
-  ftRemindMe(): void {
+  async ftRemindMe(): Promise<void> {
     this.ftLog('ft_choice', { choice: 'remind' });
     this.ftCardDue = '';
-    this.ftCardCommit();
+    await this.ftCardCommit();
   }
 
   /** I schedule — the calendar opens on the same view. */
@@ -487,7 +495,13 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.ftView === 'card') { this.ftLog('ft_retract', { from: 'card', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
     // 2026-09-24 BUILD 324: every phased clip returns ONE step back.
     if (this.ftView === 'steps') { this.ftLog('ft_retract', { from: 'steps', to: 'card', dwellMs: this.ftDwellMs() }); this.ftView = 'card'; return; }
-    if (this.ftView === 'remind') { this.ftLog('ft_retract', { from: 'remind', to: 'steps', dwellMs: this.ftDwellMs() }); this.ftScheduleOpen = false; this.ftView = 'steps'; return; }
+    if (this.ftView === 'remind') {
+      // BUILD 325: the calendar returns to the pair first, the pair to the steps.
+      if (this.ftScheduleOpen) { this.ftLog('ft_retract', { from: 'calendar', to: 'remind', dwellMs: this.ftDwellMs() }); this.ftScheduleOpen = false; return; }
+      this.ftLog('ft_retract', { from: 'remind', to: 'steps', dwellMs: this.ftDwellMs() });
+      this.ftView = 'steps';
+      return;
+    }
     const w = this._ftWalk;
     if (!w || w.step <= 3) {
       w?.abandonFt();

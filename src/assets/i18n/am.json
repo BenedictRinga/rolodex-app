@@ -700,9 +700,9 @@
     "settings.chatidReady": "ለመለስለስ ዝግጁ ነው።",
     "settings.chatidNote": "መለያ ለስውርነት። የስልክ ቁጥርዎም ይሰራል - ሁለቱም ይደርስዎታል።",
     "settings.chatidFail": "መለያውን መጠየቅ አልተሳካም - ግንኙነትዎን ያረጋግጡ።",
-    "ft.encourage": "ወደ ምዕራፎች በመንገድ ላይ - የመጀመሪያው በአንድ loop ይርቃል።",
-    "ft.firststep": "የመጀመሪያው እርምጃ ወስዷል።",
-    "ft.nameIt": "ስም ስጠው",
+    "ft.encourage": "ወደ ምዕራፎች በመንገድ ላይ - የመጀመሪያው በአንድ loop ይርቃል...",
+    "ft.firststep": "የመጀመሪያው እርምጃ ወስዷል...",
+    "ft.nameIt": "በዚህ ካርድ ላይ ስም ስጠው",
     "ft.okBtn": "እሺ",
     "ft.step1": "ስለዚህ የሚከናወን አንድ ነገር",
     "ft.step2": "ሁለተኛ ነገር",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "ተጠናቋል።",
     "ft.remindMe": "አስታወስኝ",
     "ft.iSchedule": "እበቅላለሁ።",
-    "ft.nameFoot": "የተሰየመ ውሳኔ ገማ ነው።",
-    "ft.stepsFoot": "ትንንሽ እርምጃዎች ትላልቅ ውሳኔዎችን ይሸከማሉ።",
-    "ft.remindFoot": "በማንኛውም - LoopKeeper ያመጣል።"
+    "ft.nameFoot": "የተሰየመ ውሳኔ ገማ ነው...",
+    "ft.stepsFoot": "ትንንሽ እርምጃዎች ትላልቅ ውሳኔዎችን ይሸከማሉ...",
+    "ft.remindFoot": "በማንኛውም - LoopKeeper ያመጣል...",
+    "task.none": "የለም"
   }
 }

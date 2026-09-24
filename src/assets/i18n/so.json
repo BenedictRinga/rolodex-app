@@ -700,9 +700,9 @@
     "settings.chatidReady": "Diyaar u ah wadaagista.",
     "settings.chatidNote": "ID-ga qarsoodida. Lambarka telefoonkaaga weli waa shaqeeya - labadaba ayay kuu imaanayaan.",
     "settings.chatidFail": "Codsiga aqoonsiga waa fashilmay - hubi xiriirkaaga.",
-    "ft.encourage": "Waddada astaanaha - midka ugu horreeya waa hal loop.",
-    "ft.firststep": "Tallaabada ugu horreysa waa la qaaday.",
-    "ft.nameIt": "Magacaw",
+    "ft.encourage": "Waddada astaanaha - midka ugu horreeya waa hal loop...",
+    "ft.firststep": "Tallaabada ugu horreysa waa la qaaday...",
+    "ft.nameIt": "Ku magacaw karka aan",
     "ft.okBtn": "Sax",
     "ft.step1": "Hal wax oo lagu qabto arrintaas",
     "ft.step2": "Mid labaad oo lagu qabto arrintaas",
@@ -711,8 +711,9 @@
     "ft.doneBtn": "Dhammaystay",
     "ft.remindMe": "I xasuusti",
     "ft.iSchedule": "Waqtigaan u dejiyay",
-    "ft.nameFoot": "Go aann Named waa bar kordhi.",
-    "ft.stepsFoot": "Tallaabooyin yar ayaa qaadkaan weyn qaata.",
-    "ft.remindFoot": "Midkasta - LoopKeeper wuu kuu soo noqonayaa."
+    "ft.nameFoot": "Go aann Named waa bar kordhi...",
+    "ft.stepsFoot": "Tallaabooyin yar ayaa qaadkaan weyn qaata...",
+    "ft.remindFoot": "Midkasta - LoopKeeper wuu kuu soo noqonayaa...",
+    "task.none": "Midna"
   }
 }
