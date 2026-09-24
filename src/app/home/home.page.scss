@@ -555,14 +555,21 @@ app-rolodex.tab-hidden,
   flex: 1;
 }
 .ft-caption {
-  /* 2026-09-23 BUILD 321 THE COMPOSITION: the caption under the gates is
-     set, not dropped — a centered column, measured width, one breathing
-     gap from the gates (the canvas gap), the two lines as head + echo. */
+  /* 2026-09-23 BUILD 321→322 THE FOOTER LAW: the caption is a FOOTER —
+     anchored at the base of the frame, centered, measured width. 01 carries
+     only the seedling welcome down here; the milestone words live at the
+     bottom of 02. */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   max-width: 330px;
+  margin: 0 auto;
+  padding: 0 18px;
 }
 .ft-welcome {
   margin: 0;

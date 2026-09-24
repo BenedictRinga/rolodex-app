@@ -21,20 +21,15 @@
           <span>{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
         </button>
       </div>
-      <!-- 2026-09-23 BUILD 320 THE MILESTONE WORDS (founder: the lower part
-           of the page is too empty - the same slot that would have counted
-           loops ENCOURAGES instead): the quiet line under the gates. -->
-      <!-- 2026-09-23 BUILD 321 THE COMPOSITION (founder: "Welcome to
-           LoopKeeper... is the only thing sharing screen with our
-           first-timer 01, and should be set with proper orientation and
-           positioning. Not carelessly." + the milestone words "is
-           sufficient... care to arrange well"): the two lines form ONE
-           caption block under the gates — the welcome as its head, the
-           milestone words as its echo, centered, measured, thin. -->
-      <div class="ft-caption">
+      <!-- 2026-09-23 BUILD 322 THE FOOTER LAW (founder: "Only (seedling)
+           Welcome to LoopKeeper belongs to the 01 two-door, and it should be
+           like a footer" + "On your way to milestones belongs to the second
+           page... also at bottom of 02. It is sufficient as conceived"):
+           01 carries ONLY the seedling welcome - set as a footer, anchored
+           at the base of the frame; the milestone words live on 02. -->
+      <footer class="ft-caption ft-caption-foot">
         <p class="ft-welcome">{{ 'loopkeeper.fm.courtesy' | translate }}</p>
-        <p class="ft-encourage">{{ 'loopkeeper.ft.encourage' | translate }}</p>
-      </div>
+      </footer>
     </ng-container>
     <ng-container *ngIf="ftView === 'phone'">
       <div class="ft-gates">
@@ -47,6 +42,12 @@
           <span>{{ 'loopkeeper.ft.addLater' | translate }}</span>
         </button>
       </div>
+      <!-- 2026-09-23 BUILD 322: the milestone words belong to 02 — anchored
+           at the bottom of the second page, exactly as conceived; no more
+           text joins them. -->
+      <footer class="ft-caption ft-caption-foot">
+        <p class="ft-encourage">{{ 'loopkeeper.ft.encourage' | translate }}</p>
+      </footer>
     </ng-container>
     <div class="ft-dialog" *ngIf="ftView === 'flow'">
       <app-send-walk #ftWalk
