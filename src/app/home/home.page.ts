@@ -574,6 +574,12 @@ export class HomePage implements OnInit, OnDestroy {
         this.testerChatMsgs = j.msgs;
         this.testerChatText = '';
         void this.analytics.track('tester_report_sent');
+      } else {
+        // 2026-09-24 BUILD 334 NO SILENT DROPS (the founder rode three silent
+        // 403s before the cause surfaced): a failed report now SAYS so - the
+        // server's own words in one quiet toast. The text stays in the field.
+        void this.alertsService.showToast(
+          'The report did not go — ' + (j?.error || `HTTP ${res.status}`), 4200);
       }
     } catch { /* offline — the report stays in the field */ }
   }
