@@ -701,7 +701,6 @@
     "settings.chatidNote": "ID-ga qarsoodida. Lambarka telefoonkaaga weli waa shaqeeya - labadaba ayay kuu imaanayaan.",
     "settings.chatidFail": "Codsiga aqoonsiga waa fashilmay - hubi xiriirkaaga.",
     "ft.encourage": "Waddada astaanaha - midka ugu horreeya waa hal loop...",
-    "ft.firststep": "Tallaabada ugu horreysa waa la qaaday...",
     "ft.nameIt": "Ku magacaw karka aan",
     "ft.okBtn": "Sax",
     "ft.step1": "Hal wax oo lagu qabto arrintaas",
@@ -719,6 +718,7 @@
     "tc.myId": "Aftigayda:",
     "tc.empty": "Weli wax sheeko ma jiro — ku bilow ugu horreysa.",
     "tc.placeholder": "Adeeg, cilad, talo...",
-    "tc.send": "Dir"
+    "tc.send": "Dir",
+    "ft.transition": "Ku gelista wax-barashada oo buuxa..."
   }
 }

@@ -701,7 +701,6 @@
     "settings.chatidNote": "識別碼管匿名。手機號同樣有效 - 兩種都找得到你。",
     "settings.chatidFail": "識別碼申請失敗 - 請檢查網路。",
     "ft.encourage": "正走向里程碑 - 第一個只差一次閉環...",
-    "ft.firststep": "第一步已邁出...",
     "ft.nameIt": "在這張卡片上命名",
     "ft.okBtn": "好",
     "ft.step1": "關於它要做的一件事",
@@ -719,6 +718,7 @@
     "tc.myId": "我的ID:",
     "tc.empty": "還沒有報告 - 發出第一條。",
     "tc.placeholder": "功能、問題、建議...",
-    "tc.send": "發送"
+    "tc.send": "發送",
+    "ft.transition": "正在進入完整體驗..."
   }
 }

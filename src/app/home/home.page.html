@@ -140,14 +140,63 @@
          one breath with the check, then the cocoon opens to the settled
          home, where the card and the loop now live. -->
     <ng-container *ngIf="ftView === 'done'">
+      <!-- 2026-09-24 BUILD 328 THE TRANSITION (founder: "an explosion of
+           balloons and/or fireworks for user, along with clear message
+           'transitioning into the full experience....'"): the cocoon closes
+           with the burst - balloons rising, sparks popping - and the one
+           clear line. Pure CSS/SVG, no dependency. -->
       <div class="ft-done">
+        <div class="ft-burst" aria-hidden="true">
+          <span class="ft-balloon ft-b1">🎈</span>
+          <span class="ft-balloon ft-b2">🎈</span>
+          <span class="ft-balloon ft-b3">🎈</span>
+          <span class="ft-balloon ft-b4">🎉</span>
+          <span class="ft-balloon ft-b5">✨</span>
+          <span class="ft-spark ft-s1"></span>
+          <span class="ft-spark ft-s2"></span>
+          <span class="ft-spark ft-s3"></span>
+          <span class="ft-spark ft-s4"></span>
+          <span class="ft-spark ft-s5"></span>
+          <span class="ft-spark ft-s6"></span>
+        </div>
         <div class="ft-done-check">✓</div>
-        <div class="ft-done-line">{{ 'loopkeeper.ft.firststep' | translate }}</div>
+        <div class="ft-done-line">{{ 'loopkeeper.ft.transition' | translate }}</div>
       </div>
     </ng-container>
     <!-- 2026-09-24 BUILD 327 THE TESTER CHANNEL SHEET: the HQ chat - the
          tester's thread with LoopKeeper. The ChatID auto-mints on first open;
          reports drop here and HQ replies come home on the next read. -->
+    <ng-container *ngIf="ftView === 'phone'">
+      <div class="ft-gates">
+        <button class="ft-gate" type="button" (click)="ftPhone()">
+          <ion-icon name="phone-portrait-outline"></ion-icon>
+          <span>{{ 'loopkeeper.ft.fromPhone' | translate }}</span>
+        </button>
+        <button class="ft-gate" type="button" (click)="ftLater()">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ 'loopkeeper.ft.addLater' | translate }}</span>
+        </button>
+      </div>
+      <!-- 2026-09-23 BUILD 322: the milestone words belong to 02 — anchored
+           at the bottom of the second page, exactly as conceived; no more
+           text joins them. -->
+      <footer class="ft-caption ft-caption-foot">
+        <p class="ft-encourage">{{ 'loopkeeper.ft.encourage' | translate }}</p>
+      </footer>
+    </ng-container>
+    <div class="ft-dialog" *ngIf="ftView === 'flow'">
+      <app-send-walk #ftWalk
+        [contacts]="contacts"
+        [firstMinute]="true"
+        [fmPhase]="'ring'"
+        [ftCanvas]="true"
+        (firstMinuteEntry)="onFirstMinuteEntry()"
+        (ftConcluded)="onFtConcluded()"
+        (ftReturn)="onFtDialogReturn()"
+        (contactsDirty)="onContactsDirty()">
+      </app-send-walk>
+    </div>
+  </div>
     <ion-modal [isOpen]="testerChatOpen" cssClass="tester-chat-modal" (didDismiss)="closeTesterChat()">
       <ng-template>
         <ion-header class="ion-no-border">
@@ -182,37 +231,7 @@
         </ion-footer>
       </ng-template>
     </ion-modal>
-    <ng-container *ngIf="ftView === 'phone'">
-      <div class="ft-gates">
-        <button class="ft-gate" type="button" (click)="ftPhone()">
-          <ion-icon name="phone-portrait-outline"></ion-icon>
-          <span>{{ 'loopkeeper.ft.fromPhone' | translate }}</span>
-        </button>
-        <button class="ft-gate" type="button" (click)="ftLater()">
-          <ion-icon name="time-outline"></ion-icon>
-          <span>{{ 'loopkeeper.ft.addLater' | translate }}</span>
-        </button>
-      </div>
-      <!-- 2026-09-23 BUILD 322: the milestone words belong to 02 — anchored
-           at the bottom of the second page, exactly as conceived; no more
-           text joins them. -->
-      <footer class="ft-caption ft-caption-foot">
-        <p class="ft-encourage">{{ 'loopkeeper.ft.encourage' | translate }}</p>
-      </footer>
-    </ng-container>
-    <div class="ft-dialog" *ngIf="ftView === 'flow'">
-      <app-send-walk #ftWalk
-        [contacts]="contacts"
-        [firstMinute]="true"
-        [fmPhase]="'ring'"
-        [ftCanvas]="true"
-        (firstMinuteEntry)="onFirstMinuteEntry()"
-        (ftConcluded)="onFtConcluded()"
-        (ftReturn)="onFtDialogReturn()"
-        (contactsDirty)="onContactsDirty()">
-      </app-send-walk>
-    </div>
-  </div>
+
   <ng-container *ngIf="!ftView">
   <!-- 2026-09-14 BUILD 195 THE UPDATE BANNER (founder: "a global notification
        of Updates available — on tap, dismiss and apply"): shows whenever the
@@ -420,7 +439,17 @@
        first-timer. The journey is the ft-canvas above — its own view at Home
        level. These inputs are fed constants (the machinery stays, dormant);
        the analysis of the cocoon is the ft_* stream (home.page.ts). -->
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="false" [fmPhase]="''" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
+  <!-- 2026-09-24 BUILD 328 THE TWO VIEWS, PLAIN (founder: "There are two
+       views in home page, one the first-timer view, and the other, the
+       regular. Unless done with the former, a visitor will always be met
+       with it, but once done, the former retires, and the visitor, now
+       properly a user, is only ever going to be met, on boot or page reload,
+       with the regular, anti-first-timer view, which has as 01, its default,
+       the TASKS || PERSON dichotomy. Period"): the regular view's 01 is THE
+       PANEL - live wiring, not the 319 starvation. The cocoon canvas stands
+       over it for visitors; once done, every boot and reload opens here, on
+       TASKS || PERSON. -->
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —

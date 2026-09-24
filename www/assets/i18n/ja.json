@@ -701,7 +701,6 @@
     "settings.chatidNote": "匿名にはID。電話番号も使えます - どちらも届きます。",
     "settings.chatidFail": "IDをリクエストできませんでした - 接続を確認してください。",
     "ft.encourage": "マイルストーンへの道 - あと1ループで最初の一つ...",
-    "ft.firststep": "最初の一歩を踏み出しました...",
     "ft.nameIt": "このカードに名前をつける",
     "ft.okBtn": "OK",
     "ft.step1": "それについてやること、ひとつ",
@@ -719,6 +718,7 @@
     "tc.myId": "マイID:",
     "tc.empty": "報告はまだありません - 最初のひとつを。",
     "tc.placeholder": "機能、バグ、提案...",
-    "tc.send": "送信"
+    "tc.send": "送信",
+    "ft.transition": "フル体験へ移行しています..."
   }
 }

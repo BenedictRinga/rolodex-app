@@ -701,7 +701,6 @@
     "settings.chatidNote": "Chat ID for anonymity. Phone number for convenience - both reach you, and a card may carry the ID.",
     "settings.chatidFail": "The chat ID could not be requested - check your connection.",
     "ft.encourage": "On your way to milestones — the first one is one loop away...",
-    "ft.firststep": "The first step is taken...",
     "ft.nameIt": "Name it on this card",
     "ft.okBtn": "OK",
     "ft.step1": "One thing to do about it",
@@ -719,6 +718,7 @@
     "tc.myId": "My ChatID:",
     "tc.empty": "No reports yet — drop the first one.",
     "tc.placeholder": "Feature, bug, suggestion...",
-    "tc.send": "Send"
+    "tc.send": "Send",
+    "ft.transition": "Transitioning into the full experience..."
   }
 }

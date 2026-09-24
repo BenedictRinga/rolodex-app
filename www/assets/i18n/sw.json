@@ -701,7 +701,6 @@
     "settings.chatidNote": "ID kwa kujificha. Nambari yako ya simu bado inafanya kazi - zote mbili zinakufikia, na kadi inaweza kubeba ID.",
     "settings.chatidFail": "Hakikuwezekana kuomba ID - angalia mtandao wako.",
     "ft.encourage": "Njiani kwenye milango ya mafanikio - ya kwanza iko loop moja tu...",
-    "ft.firststep": "Hatua ya kwanza imechukuliwa...",
     "ft.nameIt": "Ipe jina kwenye kadi hii",
     "ft.okBtn": "Sawa",
     "ft.step1": "Jambo moja la kufanya kuhusu hilo",
@@ -719,6 +718,7 @@
     "tc.myId": "Kitambulisho changu:",
     "tc.empty": "Hakuna ripoti bado — anza ya kwanza.",
     "tc.placeholder": "Kipengele, hitilafu, pendekezo...",
-    "tc.send": "Tuma"
+    "tc.send": "Tuma",
+    "ft.transition": "Tunaingia katika uzoefu kamili..."
   }
 }

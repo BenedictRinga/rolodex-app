@@ -701,7 +701,6 @@
     "settings.chatidNote": "ID dla anonimowości. Twój numer też działa - dotrą do Ciebie oba.",
     "settings.chatidFail": "Nie udało się poprosić o identyfikator - sprawdź połączenie.",
     "ft.encourage": "W drodze do kamieni milowych - pierwszy to jedno zamknięcie...",
-    "ft.firststep": "Pierwszy krok zrobiony...",
     "ft.nameIt": "Nazwij to na tej karcie",
     "ft.okBtn": "OK",
     "ft.step1": "Jedna rzecz do zrobienia",
@@ -719,6 +718,7 @@
     "tc.myId": "Mój identyfikator:",
     "tc.empty": "Jeszcze nic - wyslij pierwsze.",
     "tc.placeholder": "Funkcja, blad, propozycja...",
-    "tc.send": "Wyslij"
+    "tc.send": "Wyslij",
+    "ft.transition": "Przejscie do pelnego doswiadczenia..."
   }
 }

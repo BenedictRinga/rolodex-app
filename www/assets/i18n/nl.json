@@ -701,7 +701,6 @@
     "settings.chatidNote": "ID voor anonimiteit. Je nummer werkt ook - beide bereiken je.",
     "settings.chatidFail": "De aanvraag mislukte - controleer je verbinding.",
     "ft.encourage": "Op weg naar mijlpalen - de eerste is één lus weg...",
-    "ft.firststep": "De eerste stap is gezet...",
     "ft.nameIt": "Geef het een naam op deze kaart",
     "ft.okBtn": "OK",
     "ft.step1": "Eén ding om te doen",
@@ -719,6 +718,7 @@
     "tc.myId": "Mijn ID:",
     "tc.empty": "Nog geen rapporten - stuur de eerste.",
     "tc.placeholder": "Functie, bug, suggestie...",
-    "tc.send": "Stuur"
+    "tc.send": "Stuur",
+    "ft.transition": "Overgang naar de volledige ervaring..."
   }
 }

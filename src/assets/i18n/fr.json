@@ -701,7 +701,6 @@
     "settings.chatidNote": "Identifiant pour l anonymat. Votre numero fonctionne aussi - les deux vous atteignent.",
     "settings.chatidFail": "La demande d identifiant a echoue - verifiez votre connexion.",
     "ft.encourage": "En route vers les jalons - le premier est a une boucle...",
-    "ft.firststep": "Le premier pas est fait...",
     "ft.nameIt": "Nommez-le sur cette carte",
     "ft.okBtn": "OK",
     "ft.step1": "Une chose a faire a ce sujet",
@@ -719,6 +718,7 @@
     "tc.myId": "Mon identifiant :",
     "tc.empty": "Aucun rapport - lancez le premier.",
     "tc.placeholder": "Fonction, bug, suggestion...",
-    "tc.send": "Envoyer"
+    "tc.send": "Envoyer",
+    "ft.transition": "Passage a l experience complete..."
   }
 }

@@ -701,7 +701,6 @@
     "settings.chatidNote": "ID per l anonimato. Il tuo numero funziona ancora - entrambi ti raggiungono.",
     "settings.chatidFail": "Richiesta ID non riuscita - controlla la connessione.",
     "ft.encourage": "Verso i traguardi - il primo è a un giro...",
-    "ft.firststep": "Il primo passo è fatto...",
     "ft.nameIt": "Nominalo su questa scheda",
     "ft.okBtn": "OK",
     "ft.step1": "Una cosa da fare al riguardo",
@@ -719,6 +718,7 @@
     "tc.myId": "Il mio ID:",
     "tc.empty": "Nessuna segnalazione - invia la prima.",
     "tc.placeholder": "Funzione, bug, suggerimento...",
-    "tc.send": "Invia"
+    "tc.send": "Invia",
+    "ft.transition": "Transizione verso l esperienza completa..."
   }
 }

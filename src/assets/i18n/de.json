@@ -701,7 +701,6 @@
     "settings.chatidNote": "Kennung für Anonymität. Deine Nummer funktioniert weiter - beide erreichen dich.",
     "settings.chatidFail": "Die Kennung konnte nicht angefordert werden - prufe deine Verbindung.",
     "ft.encourage": "Auf dem Weg zu den Meilensteinen - der erste ist eine Schleife entfernt...",
-    "ft.firststep": "Der erste Schritt ist getan...",
     "ft.nameIt": "Benenne es auf dieser Karte",
     "ft.okBtn": "OK",
     "ft.step1": "Eine Sache, die es zu tun gilt",
@@ -719,6 +718,7 @@
     "tc.myId": "Meine Kennung:",
     "tc.empty": "Noch keine Meldungen - schicke die erste.",
     "tc.placeholder": "Funktion, Fehler, Vorschlag...",
-    "tc.send": "Senden"
+    "tc.send": "Senden",
+    "ft.transition": "Ubergang in das volle Erlebnis..."
   }
 }

@@ -701,7 +701,6 @@
     "settings.chatidNote": "识别码管匿名。手机号同样有效 - 两种都能找到你。",
     "settings.chatidFail": "识别码申请失败 - 请检查网络。",
     "ft.encourage": "正走向里程碑 - 第一个只差一次闭环...",
-    "ft.firststep": "第一步已迈出...",
     "ft.nameIt": "在这张卡片上命名",
     "ft.okBtn": "好",
     "ft.step1": "关于它要做的一件事",
@@ -719,6 +718,7 @@
     "tc.myId": "我的ID:",
     "tc.empty": "还没有报告 - 发出第一条。",
     "tc.placeholder": "功能、问题、建议...",
-    "tc.send": "发送"
+    "tc.send": "发送",
+    "ft.transition": "正在进入完整体验..."
   }
 }

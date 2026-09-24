@@ -701,7 +701,6 @@
     "settings.chatidNote": "Asali don boye. Lambarka ma tana aiki - dukansu suna zo gare ka.",
     "settings.chatidFail": "Neman asalin ya kasa - duba hanyarka.",
     "ft.encourage": "A kan hanyar zuwa ganinniyar gaba - na farko daya ne...",
-    "ft.firststep": "An dauki matakin farko...",
     "ft.nameIt": "Ba shi suna a wannan katin",
     "ft.okBtn": "Toh",
     "ft.step1": "Abu daya da za a yi game da shi",
@@ -719,6 +718,7 @@
     "tc.myId": "ID na:",
     "tc.empty": "Babu rahoto tukuna - aika na farko.",
     "tc.placeholder": "Ala'ama, kuskure, shawara...",
-    "tc.send": "Aika"
+    "tc.send": "Aika",
+    "ft.transition": "Muna sauya zuwa cikakkiyar kwarewa..."
   }
 }

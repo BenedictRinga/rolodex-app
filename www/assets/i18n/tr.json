@@ -701,7 +701,6 @@
     "settings.chatidNote": "Anonimlik için kimlik. Telefon numaranız da çalışır - ikisi de size ulaşır.",
     "settings.chatidFail": "Kimlik talebi basarisiz - baglantini kontrol et.",
     "ft.encourage": "Kilometre taslarına yolda - ilki bir döngü uzakta...",
-    "ft.firststep": "İlk adım atıldı...",
     "ft.nameIt": "Bu kartta adını ver",
     "ft.okBtn": "Tamam",
     "ft.step1": "Hakkında yapılacak bir sey",
@@ -719,6 +718,7 @@
     "tc.myId": "IDim:",
     "tc.empty": "Henuz bildirim yok - ilkini gonder.",
     "tc.placeholder": "Ozellik, hata, oneri...",
-    "tc.send": "Gonder"
+    "tc.send": "Gonder",
+    "ft.transition": "Tam deneyime geciliyor..."
   }
 }
