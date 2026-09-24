@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, IonTextarea } from '@ionic/angular';
 import { CardChatModalComponent } from '../card-chat-modal/card-chat-modal.component';
 import { CardChatService } from '../../services/card-chat/card-chat.service';
 import { Loop, LoopChannel, LoopKind, LoopsService } from '../../services/loops/loops.service';
@@ -28,6 +28,10 @@ import { DraftEngineService } from '../../services/draft-engine/draft-engine.ser
   standalone: false,
 })
 export class SendWalkComponent implements OnInit, OnChanges {
+  /** 2026-09-24 BUILD 326: the edit box's own handle — getInputElement()
+   *  crosses the ion-textarea shadow boundary, so the cursor is SET and
+   *  BLINKING the moment "Let me change it" renders (no second tap). */
+  @ViewChild('editArea') editArea?: IonTextarea;
   @Input() contacts: any[] = [];
   // 2026-09-20 BUILD 278 THE FIRST MINUTE, IN THE FLOW: when home says this
   // device is untouched, slide 1 carries the first-minute panel instead of
@@ -1177,11 +1181,21 @@ export class SendWalkComponent implements OnInit, OnChanges {
     void this.analytics.track('edit_opened', { surface: 'walk', len: (l.draft || '').length });
     // BUILD 251: the cursor lands IN the dialog — "Let me change it" means the
     // keyboard waits at the words, caret at the end of the draft, ready.
-    setTimeout(() => {
-      const ta = document.querySelector('.sw-editbox textarea') as HTMLTextAreaElement | null;
-      if (!ta) return;
-      ta.focus();
-      try { const end = (this.editBuffer || '').length; ta.setSelectionRange(end, end); } catch { /* not focusable */ }
+    // 2026-09-24 BUILD 326 THE CURSOR, GUARANTEED (founder: "Let me change it"
+    // "should produce the edit window with cursor set and blinking. We must
+    // not assume user understands what would happen... or that they should
+    // tap again to input"): the old document.querySelector could NOT pierce
+    // ion-textarea's shadow root, so the focus silently failed and the user
+    // had to tap the box a second time. The component's own getInputElement()
+    // crosses the boundary — focus + caret at the end, every time.
+    setTimeout(async () => {
+      try {
+        const ta = this.editArea ? await this.editArea.getInputElement() : null;
+        if (!ta) return;
+        ta.focus();
+        const end = (this.editBuffer || '').length;
+        ta.setSelectionRange(end, end);
+      } catch { /* not focusable */ }
     }, 80);
   }
 

@@ -648,14 +648,31 @@
   order: 30;
 }
 /* The why drifts to the bottom — the indecisive resting place — in a lesser
-   shade: grey, quieter than the deed above it. */
+   shade: grey, quieter than the deed above it. BUILD 326: it rides ALL THE
+   WAY DOWN to the footer (margin-top: auto against the flex column), never
+   hugging the ready action. */
 .sw-ft .sw-why {
   order: 90;
-  margin: 14px 0 0;
+  margin-top: auto;
+  padding-top: 22px;
   opacity: 0.72;
 }
 .sw-ft .sw-why-label {
   color: #6b7280;
+}
+/* BUILD 326: "Try again" says something is happening — non-blocking,
+   non-loud: the draft breathes once per beat while the polish runs, and the
+   tools row quiets. No spinner, no toast. */
+.sw-ft .sw-draft.polishing {
+  animation: sw-polish-pulse 1.3s ease-in-out infinite;
+}
+@keyframes sw-polish-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.sw-ft .sw-tones.polishing,
+.sw-ft .sw-change.polishing {
+  opacity: 0.45;
 }
 .sw-ft .sw-why-chip {
   color: #6b7280;
