@@ -1,4 +1,4 @@
-# LoopKeeper — Continuity Note (updated 2026-09-23, app build 310 / server 122)
+# LoopKeeper — Continuity Note (updated 2026-09-24, app build 331 / server 129)
 
 New thread? Read AGENTS.md first, then this. Everything below is verified state, not recollection.
 The strategic brief is `D:\TODOs\USE_NOW.txt` — the Grok differentiation audit and its six moves;
@@ -162,20 +162,65 @@ the two lines, the quiet return) · 117 the growth meter (`growthLoop` in the su
 (`now` out of scope + a stale renamed variable had killed the whole summary endpoint; the
 block is now guarded — the meter can return null, never a 500).
 
-Directive (`chat-directive.js`) current law: THE FIRST-TIMER CANVAS (309) — supersedes the
-avoidance-cover/outer-ring/two-phases bullets. Keep it in-step with every capability change.
+**App 311→331** (this thread's second wave, all committed + proven): **311-313** the
+admin-gate incident closed end-to-end (311 the stale latch; server 123 the `.env` file is
+the admin-key source; 312 the StorageService clean-slate wipe + the JWT-shaped write token;
+313 secrets never ride the repo — `.gitignore`) · **314** the entry re-baseline (the
+portal/CommandCenter deltas contrast against THIS device's last entry) · **315/126** the
+Chat ID (voluntary, Settings, anonymity lead — server mints `LK-` ids) · **316** the
+reminder picker (`ion-datetime` — the mobile-native fix) + the resume doubled · **317**
+the anonymity angle + the tester exclusion as a structural guarantee (the `testerId` tag) ·
+**318** the welcome leaf + the churn ledger (Command Center, the last 10 churned devices
+with their trails) + the act-not-person sweep · **319-320** THE COCOON (the first-timer
+view is an alternative Home, the Inbox starved) + the first-tap guarantee + the cocoon
+quiet · **321/322** the composition + the footer law (01 carries only the 🌱 welcome as a
+footer; the milestone words anchor 02) · **323-326** OWN WORDS UP FRONT (the reply dialog
+twice-tall, the tune-uppers immediately present, the why at the foot in grey; the cursor
+guaranteed via `getInputElement`; Copy the words) · **323/324** the second track, not a
+duplication (the decide card as PHASED CLIPS — face + Name it → the flip → One thing /
+Another? / Done → Remind me ‖ I schedule → the flourish; every phase returns) ·
+**325** the movement footers + the return at the card + the None rhythm + the
+null-unshift fix · **327/128** THE TESTER CHANNEL (the home-header chat icon, the HQ
+sheet, the auto-minted Chat ID, Command Center 08 inbox + replies; the server `TesterChat`
+model, double-gated) · **328** THE TWO VIEWS + the transition burst (balloons + sparks +
+"Transitioning into the full experience...") · **329** THE DEAD BINDING (`[fmPhase]` →
+`[phase]` — the regular view's 01 renders) · **330** "Name the next loop you need to
+close" + the test aperture (the chat icon also rides the sessional Investor-portal
+unlock) · **331** the cocoon dock law (the standard notifier never renders in the
+cocoon) + the foreground poll (a left-open app catches a deploy within ~10 min).
+
+**Server 123→129**: 123 the `.env` file is the admin-key source (file-first; the boot log
+names the source) · 124 the JWT-shaped write gate (`auth.js`; `requireWriteAuth` on the
+user-data writes; fails open until `AUTH_SECRET` is set) · 125 deploy.sh `.env`
+guarantees (abort if tracked, timestamped backups, append-only URI) · 126 the Chat ID
+mint + the LK- lookup branch · 127 the churn ledger · **128** THE TESTER CHANNEL
+(`TesterChat`, the double-gated report POST, the thread GET, the admin inbox, the reply
+door) · **129** the directive bullets (THE TWO VIEWS, THE TRANSITION, THE TESTER
+CHANNEL).
+
+Directive (`chat-directive.js`) current law: THE CANVAS (310) + THE TWO VIEWS (319-329)
++ THE TRANSITION (328) + THE TESTER CHANNEL (327/128). Keep it in-step with every
+capability change.
 
 ## 10. Open threads for the next session
 
-1. **Deploy queue**: app `www 232-309`; server `./deploy.sh` (121). Then §6's checklist.
-2. The phone image on the "From my phone" door is a plain ion-icon placeholder — the founder
+1. **Deploy queue**: server `./deploy.sh` FIRST (carries 123→129 — the admin-key source,
+   the write gate, the Chat ID, the churn ledger, the tester channel, the directive); then
+   app `www 232-331`. Then add `AUTH_SECRET=<random>` to the droplet's `.env` — until then
+   the write gate logs and fails open (by design, deploy-order safe).
+2. **Verify after both deploys**: the tester channel end-to-end (tester device sees the
+   chat icon → the ChatID mints → a report lands in Command Center 08 → the reply reaches
+   the tester's sheet; a non-tester sees nothing unless the Investor portal was opened this
+   session); the cocoon journey (the clips → the burst + "Transitioning into the full
+   experience..." → the regular view's TASKS ‖ PERSON 01); the churn ledger rows; the
+   mobile reminder picker; the Investors portal + Command Center load (200) and the
+   growth-loop card shows numbers.
+3. The phone image on the "From my phone" door is a plain ion-icon placeholder — the founder
    said "I will add later" (a real graphic, as with the sunny day).
-3. Live-check the analytics summary AFTER the server deploy (the 121 fix): portal +
-   Command Center must load (200) and the growth-loop card must show numbers.
 4. The `growthLoop` meter is new — watch its first real numbers before any feature decision
    (the brief: it is the ONE meter).
 5. Community-burnish i18n: minors still ride EN; the preface sweep left the sysNote copy
-   untouched (deliberate — it explains the OS's own wording).
+   untouched (deliberate — it explains the OS's own wording). Parity at 720 keys.
 6. Someday: explain the device-count reconciliation in the portal (HANDOVER 156-era item,
    still open).
 
