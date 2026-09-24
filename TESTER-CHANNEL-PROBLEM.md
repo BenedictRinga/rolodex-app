@@ -75,14 +75,15 @@ get testerChannelOn(): boolean {
 
 - App: `D:\MacBook\noGoogle\loopkeeper` — home header icon + sheet: `src/app/home/home.page.{ts,html}`; the HQ sheet styles: `src/app/home/home.page.scss` (`.tc-*`); the investor gate: `src/app/services/investor-gate/investor-gate.service.ts`.
 - Server: `D:\MacBook\noGoogle\rolodex-server` — the tester-chat routes + model: `src/index.js` (grep `TesterChat`); the admin-key source: `src/config.js`; the gate: `src/auth.js`; the Assistant's factual base: `src/chat-directive.js`.
-- Commits of record: app 327 `2c690a3`, 330 `38d38e0`, 331 `19ad374` · server 128 `06f92fb`, 129 `375e6c7`.
+5. **The portal record**: verified LIVE (generatedAt ticks; the full modern shape serves — the fetch is no-store at unlock + hourly). If the nine sections read identical numbers between entries, the likely truth is the numbers did not move (a quiet day; testers + your own fleet excluded). If you want tighter in-session freshness, the hourly refresh can drop to 15 minutes — say the word.
 
 ---
 
-## THE FOUNDER CHECKLIST — execute in order (2026-09-24)
+## RESOLVED 2026-09-24 (the founder's droplet run — backendLogs.txt)
 
-1. **Server side (the droplet)**: `cd /opt/rolodex-server && grep '^TESTER_ADMIN_KEY' .env` — note the exact value (call it KEY). Confirm no trailing spaces or quote variants on that line.
-2. **The gate, from anywhere**: `curl -s "https://zyppar.com/api/rolodex/tester-chat/inbox?key=KEY"` — a wrong key MUST answer 401 (verified live today); the correct key MUST answer `{"ok":true,...}`. If the correct key 401s: `pm2 logs rolodex-server --lines 30 --nostream` and read the `[admin] TESTER_ADMIN_KEY source:` line — if it names the process env, run `pm2 restart rolodex-server --update-env` and probe again; if it names the .env file and still 401s, the `.env` line parse is the suspect (leading spaces / quote variants).
-3. **The app**: deploy `www 232-332` (carries the live-aperture fix). Open the Investor portal, unlock — the chat icon now APPEARS beside search and server in the SAME session (the stale snapshot is gone; restart still re-locks it — the sessional law stands).
-4. **End-to-end**: tap the icon (the ChatID mints) → drop a report → open Command Center → 08 → Open the inbox → paste KEY when asked (trailing spaces are trimmed) → the thread appears → Reply → the tester's sheet shows the reply on the next read (a 15s read while the sheet stands).
-5. **The portal record**: verified LIVE (generatedAt ticks; the full modern shape serves — the fetch is no-store at unlock + hourly). If the nine sections read identical numbers between entries, the likely truth is the numbers did not move (a quiet day; testers + your own fleet excluded). If you want tighter in-session freshness, the hourly refresh can drop to 15 minutes — say the word.
+1. **The key was mistyped.** The curl used `xyloph01` (digit ZERO); the real key is `xylophO1` (capital O — the .env line reads `TESTER_ADMIN_KEY=xylophO1`). The gate's `{"error":"forbidden"}` was CORRECT. Re-run with the exact value: `curl -s "https://zyppar.com/api/rolodex/tester-chat/inbox?key=xylophO1"` → expect `{"ok":true,"threads":[]}` (or the threads list).
+2. **The grep must anchor the NAME, not the value**: `grep '^TESTER_ADMIN_KEY' .env` (the founder's `grep '^xyloph01' .env` greps for the value at line start — nothing matches).
+3. **The boot log is healthy**: `[admin] TESTER_ADMIN_KEY source: .env file` on every restart — the file-first read works and `--update-env` applied. The server side needs nothing.
+4. **The two ReferenceErrors in the error log** (`testerDeviceRows is not defined`, `msgRows is not defined`) are PRE-121 HISTORY retained by pm2's log — the LIVE summary (probed 17:42 UTC, after the restart) serves COMPLETE: every analytics key present including `growthLoop` and `recentChurns`, `generatedAt` fresh. If any portal section still reads empty, capture `pm2 logs --timestamp` and name the section.
+5. **Still open, one line**: `AUTH_SECRET` is not in `.env` — the write gate is OPEN by design until the founder adds `AUTH_SECRET=<random>` to `/opt/rolodex-server/.env` (no restart needed; server 123 reads the file first).
+6. **Noise, harmless**: the E11000 duplicate-key ingest errors are retried batches carrying the same event ids — rejected, nothing lost. If they grow noisy, the ingest can upsert instead of insert.
