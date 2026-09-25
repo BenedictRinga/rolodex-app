@@ -261,7 +261,13 @@
           <div class="tc-threadbody" *ngIf="tcOpen.has(t.chatId)">
             <div *ngFor="let m of t.msgs" class="tc-msg" [class.tc-mine]="m.from === 'tester'" [class.tc-hq]="m.from === 'founder'">
               <div class="tc-bubble">{{ (m.from === 'founder' ? 'You: ' : '') + m.text }}</div>
-              <div class="tc-when">{{ m.from === 'founder' ? 'replied' : 'reported' }} {{ seenLabel(m.at) }}</div>
+              <!-- 2026-09-25 SERVER 135 THE READ RECEIPTS: your replies show
+                   whether the TESTER has seen them (testerReadAt is stamped by
+                   the tester's own read of the thread). -->
+              <div class="tc-when">
+                {{ m.from === 'founder' ? 'replied' : 'reported' }} {{ seenLabel(m.at) }}
+                <span *ngIf="m.from === 'founder' && testerSeen(t, m.at)" class="cc-seen">✓✓ seen by tester</span>
+              </div>
             </div>
             <div class="tc-replyrow" *ngIf="tcReplyFor === t.chatId">
               <input class="tc-replyinput" type="text" [(ngModel)]="tcReplyText" maxlength="600" placeholder="Reply to the tester" (keydown.enter)="tcSendReply(t.chatId)" />

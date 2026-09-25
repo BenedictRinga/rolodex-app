@@ -719,6 +719,8 @@
     "tc.empty": "報告はまだありません - 最初のひとつを。",
     "tc.placeholder": "機能、バグ、提案...",
     "tc.send": "送信",
-    "ft.transition": "フル体験へ移行しています..."
+    "ft.transition": "フル体験へ移行しています...",
+    "tc.today": "今日",
+    "tc.yesterday": "昨日"
   }
 }

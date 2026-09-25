@@ -719,6 +719,8 @@
     "tc.empty": "Nessuna segnalazione - invia la prima.",
     "tc.placeholder": "Funzione, bug, suggerimento...",
     "tc.send": "Invia",
-    "ft.transition": "Transizione verso l esperienza completa..."
+    "ft.transition": "Transizione verso l esperienza completa...",
+    "tc.today": "Oggi",
+    "tc.yesterday": "Ieri"
   }
 }

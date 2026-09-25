@@ -719,6 +719,8 @@
     "tc.empty": "Hakuna ripoti bado — anza ya kwanza.",
     "tc.placeholder": "Kipengele, hitilafu, pendekezo...",
     "tc.send": "Tuma",
-    "ft.transition": "Tunaingia katika uzoefu kamili..."
+    "ft.transition": "Tunaingia katika uzoefu kamili...",
+    "tc.today": "Leo",
+    "tc.yesterday": "Jana"
   }
 }

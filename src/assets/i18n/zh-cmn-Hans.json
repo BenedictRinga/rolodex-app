@@ -719,6 +719,8 @@
     "tc.empty": "还没有报告 - 发出第一条。",
     "tc.placeholder": "功能、问题、建议...",
     "tc.send": "发送",
-    "ft.transition": "正在进入完整体验..."
+    "ft.transition": "正在进入完整体验...",
+    "tc.today": "今天",
+    "tc.yesterday": "昨天"
   }
 }

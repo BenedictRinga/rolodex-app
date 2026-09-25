@@ -56,6 +56,15 @@ export class CommandCenterComponent implements OnInit, OnChanges {
     return String(id || '').length > 22 ? `${String(id).slice(0, 14)}…${String(id).slice(-6)}` : String(id || '');
   }
 
+  /** 2026-09-25 BUILD 336: whether the TESTER has seen this thread since the
+   *  given moment (testerReadAt is stamped by the tester's own read). */
+  testerSeen(thread: { testerReadAt?: string | null }, at: string): boolean {
+    if (!thread?.testerReadAt) return false;
+    const r = new Date(thread.testerReadAt).getTime();
+    const m = new Date(at).getTime();
+    return Number.isFinite(r) && Number.isFinite(m) && m <= r;
+  }
+
   /** 2026-09-24 BUILD 327: the inbox row's last-line preview. */
   shortLast(msgs: Array<{ from: string; text: string }>): string {
     const last = msgs?.[msgs.length - 1];

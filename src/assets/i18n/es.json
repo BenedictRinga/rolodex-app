@@ -719,6 +719,8 @@
     "tc.empty": "Aun no hay reportes - envia el primero.",
     "tc.placeholder": "Funcion, error, sugerencia...",
     "tc.send": "Enviar",
-    "ft.transition": "Transicionando a la experiencia completa..."
+    "ft.transition": "Transicionando a la experiencia completa...",
+    "tc.today": "Hoy",
+    "tc.yesterday": "Ayer"
   }
 }

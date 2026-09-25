@@ -719,6 +719,8 @@
     "tc.empty": "Jeszcze nic - wyslij pierwsze.",
     "tc.placeholder": "Funkcja, blad, propozycja...",
     "tc.send": "Wyslij",
-    "ft.transition": "Przejscie do pelnego doswiadczenia..."
+    "ft.transition": "Przejscie do pelnego doswiadczenia...",
+    "tc.today": "Dzisiaj",
+    "tc.yesterday": "Wczoraj"
   }
 }

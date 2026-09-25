@@ -719,6 +719,8 @@
     "tc.empty": "Henuz bildirim yok - ilkini gonder.",
     "tc.placeholder": "Ozellik, hata, oneri...",
     "tc.send": "Gonder",
-    "ft.transition": "Tam deneyime geciliyor..."
+    "ft.transition": "Tam deneyime geciliyor...",
+    "tc.today": "Bugün",
+    "tc.yesterday": "Dün"
   }
 }

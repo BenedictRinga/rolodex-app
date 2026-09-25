@@ -719,6 +719,8 @@
     "tc.empty": "Babu rahoto tukuna - aika na farko.",
     "tc.placeholder": "Ala'ama, kuskure, shawara...",
     "tc.send": "Aika",
-    "ft.transition": "Muna sauya zuwa cikakkiyar kwarewa..."
+    "ft.transition": "Muna sauya zuwa cikakkiyar kwarewa...",
+    "tc.today": "Yau",
+    "tc.yesterday": "Jiya"
   }
 }

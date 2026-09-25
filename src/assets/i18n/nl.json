@@ -719,6 +719,8 @@
     "tc.empty": "Nog geen rapporten - stuur de eerste.",
     "tc.placeholder": "Functie, bug, suggestie...",
     "tc.send": "Stuur",
-    "ft.transition": "Overgang naar de volledige ervaring..."
+    "ft.transition": "Overgang naar de volledige ervaring...",
+    "tc.today": "Vandaag",
+    "tc.yesterday": "Gisteren"
   }
 }

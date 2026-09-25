@@ -719,6 +719,8 @@
     "tc.empty": "Weli wax sheeko ma jiro — ku bilow ugu horreysa.",
     "tc.placeholder": "Adeeg, cilad, talo...",
     "tc.send": "Dir",
-    "ft.transition": "Ku gelista wax-barashada oo buuxa..."
+    "ft.transition": "Ku gelista wax-barashada oo buuxa...",
+    "tc.today": "Maanta",
+    "tc.yesterday": "Shalay"
   }
 }

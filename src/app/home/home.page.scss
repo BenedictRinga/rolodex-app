@@ -840,8 +840,36 @@ app-rolodex.tab-hidden,
   display: flex;
   gap: 8px;
   align-items: center;
+  /* BUILD 336: the ID row is a COPY button now. */
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  width: calc(100% - 28px);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
 }
 .tc-id b { letter-spacing: .06em; }
+.tc-id-copy { margin-left: auto; font-size: 14px; opacity: .55; }
+/* BUILD 336 THE ACCOUNTABLE SHEET - the day-date separators and the read
+   ticks (the same accountability the card-chat window carries). */
+.tc-daysep {
+  align-self: center;
+  margin: 10px 0 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #8c5e14;
+  opacity: .55;
+}
+.tc-tick {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 4px;
+  font-size: 12px;
+  opacity: .5;
+}
+.tc-tick.tc-tick-read { opacity: .95; color: #14b8a6; }
 .tc-empty {
   margin: 26px 18px;
   text-align: center;

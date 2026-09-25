@@ -524,6 +524,60 @@ export class HomePage implements OnInit, OnDestroy {
     return t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
+  /** ══ 2026-09-25 BUILD 336 THE ACCOUNTABLE SHEET ══ (founder: "Make 'My
+   *  ChatID: <>' inside the chat window copyable, but add more robust
+   *  features for accountability, such as day-date, and read-receipts"):
+   *  (a) the ChatID is a COPY button (the Settings ChatID's own gesture);
+   *  (b) the thread reads with DAY-DATE separators (Today / Yesterday / the
+   *  date); (c) MY reports tick once (delivered) and DOUBLE (READ) once
+   *  founderReadAt - stamped by the CommandCenter inbox fetch - covers them;
+   *  HQ's replies carry no tick (the founder reads in the CommandCenter,
+   *  which shows whether the tester has seen HQ's reply). */
+  testerReadAt: string | null = null;
+  testerChatFounderReadAt: string | null = null;
+
+  async copyTesterChatId(): Promise<void> {
+    if (!this.testerChatId) return;
+    try {
+      await navigator.clipboard.writeText(this.testerChatId);
+      void this.analytics.track('chatid_copied', { surface: 'hq-sheet' });
+      void this.alertsService.showToast(this.translate.instant('loopkeeper.settings.chatidCopied'), 1800);
+    } catch { /* clipboard refused - the id stays visible to hand-copy */ }
+  }
+
+  testerChatRows(): Array<{ sep?: string; msg?: { from: string; text: string; at: string } }> {
+    const rows: Array<{ sep?: string; msg?: { from: string; text: string; at: string } }> = [];
+    let lastDay = '';
+    for (const m of this.testerChatMsgs) {
+      const t = m.at ? new Date(m.at) : null;
+      const day = t && !isNaN(t.getTime()) ? t.toDateString() : '';
+      if (day && day !== lastDay) {
+        lastDay = day;
+        rows.push({ sep: this.dayLabel(m.at) });
+      }
+      rows.push({ msg: m });
+    }
+    return rows;
+  }
+
+  private dayLabel(at: string): string {
+    const t = new Date(at);
+    if (isNaN(t.getTime())) return '';
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const day = new Date(t); day.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - day.getTime()) / 86_400_000);
+    if (diff === 0) return this.translate.instant('loopkeeper.tc.today');
+    if (diff === 1) return this.translate.instant('loopkeeper.tc.yesterday');
+    return day.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  testerMsgRead(at: string): boolean {
+    if (!this.testerChatFounderReadAt) return false;
+    const r = new Date(this.testerChatFounderReadAt).getTime();
+    const m = new Date(at).getTime();
+    return Number.isFinite(r) && Number.isFinite(m) && m <= r;
+  }
+
   async openTesterChat(): Promise<void> {
     if (!this.testerChannelOn) return;
     this.testerChatOpen = true;
@@ -546,7 +600,14 @@ export class HomePage implements OnInit, OnDestroy {
       const url = `${environment.rolodexApiBase}/tester-chat?deviceId=${encodeURIComponent(this.rolodexSync.getDeviceId())}&chatId=${encodeURIComponent(this.testerChatId)}`;
       const res = await fetch(url, { cache: 'no-store' });
       const j = await res.json().catch(() => null);
-      if (res.ok && j?.ok) this.testerChatMsgs = Array.isArray(j.msgs) ? j.msgs : [];
+      if (res.ok && j?.ok) {
+        this.testerChatMsgs = Array.isArray(j.msgs) ? j.msgs : [];
+        // SERVER 135: the read stamps ride the response - the tester's own
+        // read is stamped server-side (this fetch), and founderReadAt drives
+        // the double tick on MY reports.
+        this.testerReadAt = j.testerReadAt || this.testerReadAt;
+        this.testerChatFounderReadAt = j.founderReadAt || null;
+      }
     } catch { /* the channel is quiet offline */ }
     this.testerChatLoading = false;
   }

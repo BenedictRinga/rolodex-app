@@ -208,16 +208,37 @@
           </ion-toolbar>
         </ion-header>
         <ion-content class="tc-body">
-          <div class="tc-id" *ngIf="testerChatId">
+          <!-- 2026-09-25 BUILD 336 THE ACCOUNTABLE SHEET (founder: "Make 'My
+               ChatID: <>' inside the chat window copyable, but add more robust
+               features for accountability, such as day-date, and
+               read-receipts"): the ID is a COPY button now; the thread reads
+               with DAY-DATE separators and the double tick on my reports once
+               HQ has read them (founderReadAt stamped by the CommandCenter
+               inbox) - the same accountability the card-chat window carries. -->
+          <button class="tc-id" type="button" (click)="copyTesterChatId()" *ngIf="testerChatId"
+            [attr.aria-label]="'loopkeeper.settings.chatidCopy' | translate">
             <span>{{ 'loopkeeper.tc.myId' | translate }}</span>
             <b>{{ testerChatId }}</b>
-          </div>
+            <ion-icon name="copy-outline" class="tc-id-copy"></ion-icon>
+          </button>
           <div class="tc-empty" *ngIf="!testerChatMsgs.length && !testerChatLoading">{{ 'loopkeeper.tc.empty' | translate }}</div>
           <div class="tc-msgs">
-            <div *ngFor="let m of testerChatMsgs" class="tc-msg" [class.tc-mine]="m.from === 'tester'" [class.tc-hq]="m.from === 'founder'">
-              <div class="tc-bubble">{{ m.text }}</div>
-              <div class="tc-when">{{ formatTime(m.at) }}</div>
-            </div>
+            <ng-container *ngFor="let row of testerChatRows(); let i = index">
+              <div class="tc-daysep" *ngIf="row.sep">{{ row.sep }}</div>
+              <div *ngIf="row.msg" class="tc-msg" [class.tc-mine]="row.msg.from === 'tester'" [class.tc-hq]="row.msg.from === 'founder'">
+                <div class="tc-bubble">{{ row.msg.text }}</div>
+                <div class="tc-when">
+                  {{ formatTime(row.msg.at) }}
+                  <!-- THE READ RECEIPTS: my reports tick once (delivered) and
+                       double (READ - HQ has opened the thread); HQ's replies
+                       carry no tick (the founder reads in the CommandCenter). -->
+                  <span *ngIf="row.msg.from === 'tester'" class="tc-tick" [class.tc-tick-read]="testerMsgRead(row.msg.at)">
+                    <ion-icon *ngIf="!testerMsgRead(row.msg.at)" name="checkmark-outline"></ion-icon>
+                    <ion-icon *ngIf="testerMsgRead(row.msg.at)" name="checkmark-done-outline"></ion-icon>
+                  </span>
+                </div>
+              </div>
+            </ng-container>
           </div>
         </ion-content>
         <ion-footer class="ion-no-border">

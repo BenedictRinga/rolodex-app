@@ -719,6 +719,8 @@
     "tc.empty": "還沒有報告 - 發出第一條。",
     "tc.placeholder": "功能、問題、建議...",
     "tc.send": "發送",
-    "ft.transition": "正在進入完整體驗..."
+    "ft.transition": "正在進入完整體驗...",
+    "tc.today": "今天",
+    "tc.yesterday": "昨天"
   }
 }

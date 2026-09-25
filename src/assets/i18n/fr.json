@@ -719,6 +719,8 @@
     "tc.empty": "Aucun rapport - lancez le premier.",
     "tc.placeholder": "Fonction, bug, suggestion...",
     "tc.send": "Envoyer",
-    "ft.transition": "Passage a l experience complete..."
+    "ft.transition": "Passage a l experience complete...",
+    "tc.today": "Aujourd'hui",
+    "tc.yesterday": "Hier"
   }
 }
