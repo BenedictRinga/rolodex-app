@@ -105,13 +105,30 @@
             setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
           }
         }
+        // 2026-09-25 BUILD 340 THE SPLASH FAILSAFE (founder: after an update
+        // apply, the app sits on the splash forever until a manual reload):
+        // hide() rode ONLY the window load event - but an update apply clears
+        // EVERY cache and unregisters the SW, so the reload fetches all assets
+        // over the network, and one hung asset (a flaky path holds a request
+        // open) keeps load from ever firing - the splash stayed opaque over a
+        // possibly ALIVE app. Now: DOMContentLoaded proves the bundles are in
+        // (Angular bootstraps from there), so the splash lifts by
+        // DOMContentLoaded + 6s at the latest; an absolute 12s cap from script
+        // start; the brand beat (1900ms after load) still applies when load
+        // arrives normally. hide() is idempotent.
+        var hidden = false;
+        function hideOnce() { if (hidden) return; hidden = true; hide(); }
         if (document.readyState === 'complete') { setTimeout(hide, 1900); }
-        else { window.addEventListener('load', function () { setTimeout(hide, 1900); }); }
+        else {
+          window.addEventListener('load', function () { setTimeout(hideOnce, 1900); });
+          document.addEventListener('DOMContentLoaded', function () { setTimeout(hideOnce, 6000); });
+          setTimeout(hideOnce, 12000);
+        }
       })();
     </script>
   </div>
 
   <app-root></app-root>
-<script src="runtime.029823168c19393b.js" type="module"></script><script src="polyfills.94c5bb18b50b1d90.js" type="module"></script><script src="main.67d52b50e0c4830b.js" type="module"></script></body>
+<script src="runtime.029823168c19393b.js" type="module"></script><script src="polyfills.94c5bb18b50b1d90.js" type="module"></script><script src="main.adbb2ebf8946740e.js" type="module"></script></body>
 
 </html>
