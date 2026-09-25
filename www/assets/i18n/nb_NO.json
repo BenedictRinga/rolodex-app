@@ -721,6 +721,19 @@
     "tc.send": "Send",
     "ft.transition": "Transitioning into the full experience...",
     "tc.today": "Today",
-    "tc.yesterday": "Yesterday"
+    "tc.yesterday": "Yesterday",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Look up a word or a sentence...",
+    "lt.busy": "Looking that up...",
+    "lt.error": "The lookup did not answer - try again in a moment.",
+    "lt.notFound": "Not found as asked - try another spelling, or the whole phrase.",
+    "lt.example": "In use",
+    "lt.etymology": "Where it comes from",
+    "lt.inyourlang": "In your language",
+    "lt.fromCache": "From your device cache",
+    "lt.recent": "Recent lookups",
+    "lt.clear": "Clear",
+    "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
+    "lt.listen": "Say it"
   }
 }

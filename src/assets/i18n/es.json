@@ -721,6 +721,19 @@
     "tc.send": "Enviar",
     "ft.transition": "Transicionando a la experiencia completa...",
     "tc.today": "Hoy",
-    "tc.yesterday": "Ayer"
+    "tc.yesterday": "Ayer",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Busca una palabra o frase...",
+    "lt.busy": "Buscando...",
+    "lt.error": "La búsqueda no respondió - inténtalo en un momento.",
+    "lt.notFound": "No se encontró tal cual - prueba otra grafía o la frase completa.",
+    "lt.example": "En uso",
+    "lt.etymology": "Origen",
+    "lt.inyourlang": "En tu idioma",
+    "lt.fromCache": "De la memoria del dispositivo",
+    "lt.recent": "Búsquedas recientes",
+    "lt.clear": "Borrar",
+    "lt.empty": "Busca cualquier palabra o frase - la respuesta, un ejemplo y su origen, con una voz que lo dice. Tus búsquedas quedan en este dispositivo.",
+    "lt.listen": "Escuchar"
   }
 }

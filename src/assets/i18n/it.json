@@ -721,6 +721,19 @@
     "tc.send": "Invia",
     "ft.transition": "Transizione verso l esperienza completa...",
     "tc.today": "Oggi",
-    "tc.yesterday": "Ieri"
+    "tc.yesterday": "Ieri",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Cerca una parola o una frase...",
+    "lt.busy": "Sto cercando...",
+    "lt.error": "La ricerca non ha risposto - riprova tra poco.",
+    "lt.notFound": "Non trovata così - prova un altro spelling o la frase intera.",
+    "lt.example": "Uso",
+    "lt.etymology": "Origine",
+    "lt.inyourlang": "Nella tua lingua",
+    "lt.fromCache": "Dalla cache del dispositivo",
+    "lt.recent": "Ricerche recenti",
+    "lt.clear": "Cancella",
+    "lt.empty": "Cerca qualsiasi parola o frase - la risposta, un esempio e l’origine, con una voce che la dice. Le tue ricerche restano su questo dispositivo.",
+    "lt.listen": "Pronuncia"
   }
 }

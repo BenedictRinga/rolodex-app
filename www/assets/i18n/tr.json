@@ -721,6 +721,19 @@
     "tc.send": "Gonder",
     "ft.transition": "Tam deneyime geciliyor...",
     "tc.today": "Bugün",
-    "tc.yesterday": "Dün"
+    "tc.yesterday": "Dün",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Bir kelime veya cümle ara...",
+    "lt.busy": "Aranıyor...",
+    "lt.error": "Arama yanıt vermedi - birazdan tekrar dene.",
+    "lt.notFound": "Bu haliyle bulunamadı - başka yazım ya da tüm cümleyi dene.",
+    "lt.example": "Kullanım",
+    "lt.etymology": "Köken",
+    "lt.inyourlang": "Senin dilinde",
+    "lt.fromCache": "Aygıt önbelleğinden",
+    "lt.recent": "Son aramalar",
+    "lt.clear": "Temizle",
+    "lt.empty": "Herhangi bir kelimeyi veya cümleyi ara - cevap, örnek ve köken, söyleyen bir sesle. Aramaların bu aygıtta kalır.",
+    "lt.listen": "Söyle"
   }
 }

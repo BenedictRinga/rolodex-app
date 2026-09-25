@@ -20,6 +20,7 @@ import { ConfidanteComposerModalComponent } from './confidante-composer-modal/co
 import { VideoCallModalComponent } from './video-call-modal/video-call-modal.component';
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
 import { ChatWithRolodexModalComponent } from './chat-with-rolodex/chat-with-rolodex.component';
+import { LooptionaryModalComponent } from './looptionary-modal/looptionary-modal.component';
 import { SearchModalComponent } from './search-modal/search-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { ShareAppModalComponent } from './share-app-modal/share-app-modal.component';
@@ -85,8 +86,13 @@ import { SunnyDayComponent } from './sunny-day/sunny-day.component';
     ReactiveFormsModule,
     IonicModule,
     TranslateModule,
+    // 2026-09-25 BUILD 338 THE LOOP-TIONARY: standalone components are
+    // IMPORTED into an NgModule, never declared (NG6008) - and only then
+    // exportable (NG6004).
+    LooptionaryModalComponent,
   ],
   exports: [
+    LooptionaryModalComponent,
     RolodexComponent,
     ContactCardComponent,
     ImageViewerComponent,

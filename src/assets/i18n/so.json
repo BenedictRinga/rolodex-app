@@ -721,6 +721,19 @@
     "tc.send": "Dir",
     "ft.transition": "Ku gelista wax-barashada oo buuxa...",
     "tc.today": "Maanta",
-    "tc.yesterday": "Shalay"
+    "tc.yesterday": "Shalay",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Raadi erey ama juqraaf...",
+    "lt.busy": "Raadinaya...",
+    "lt.error": "Raadinta uma jawaabin - isku day mar kale.",
+    "lt.notFound": "Lama helin sida aad codsatay - isku day dalabdhe kale ama juqraaf dhan.",
+    "lt.example": "Isticmaal",
+    "lt.etymology": "Meeshuu ka yimid",
+    "lt.inyourlang": "Afkaaga",
+    "lt.fromCache": "Ka garaagedkaaga",
+    "lt.recent": "Raadisyo dhawaan",
+    "lt.clear": "Nadiifi",
+    "lt.empty": "Raadi erey ama juqraaf kasta - jawaab, tusaale, iyo asal, oo codad leh. Raadisyadaadu way ku harayaan galaabtaada.",
+    "lt.listen": "Dhahid"
   }
 }

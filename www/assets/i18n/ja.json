@@ -721,6 +721,19 @@
     "tc.send": "送信",
     "ft.transition": "フル体験へ移行しています...",
     "tc.today": "今日",
-    "tc.yesterday": "昨日"
+    "tc.yesterday": "昨日",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "ことばや文をひこう...",
+    "lt.busy": "しらべています...",
+    "lt.error": "こたえがありません - しばらくしてからもう一度。",
+    "lt.notFound": "そのままでは見つかりません - 別のつづりか文全体で。",
+    "lt.example": "つかいかた",
+    "lt.etymology": "おこり",
+    "lt.inyourlang": "あなたの言語で",
+    "lt.fromCache": "きおくから",
+    "lt.recent": "さいきんの検索",
+    "lt.clear": "けす",
+    "lt.empty": "どのことばや文でも - いみ、れい、おこり、そしてよみあげる声。けんさくはこのきおくにだけ。",
+    "lt.listen": "よむ"
   }
 }

@@ -721,6 +721,19 @@
     "tc.send": "发送",
     "ft.transition": "正在进入完整体验...",
     "tc.today": "今天",
-    "tc.yesterday": "昨天"
+    "tc.yesterday": "昨天",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "查一个词或一句话...",
+    "lt.busy": "查询中...",
+    "lt.error": "没有回应 - 稍后再试。",
+    "lt.notFound": "按原样未找到 - 试试别的拼写或整个句子。",
+    "lt.example": "用法",
+    "lt.etymology": "来源",
+    "lt.inyourlang": "以你的语言",
+    "lt.fromCache": "来自设备缓存",
+    "lt.recent": "最近的查询",
+    "lt.clear": "清除",
+    "lt.empty": "查任何词或句子 - 释义、例句、来源，还有朗读的声音。查询只留在这台设备上。",
+    "lt.listen": "朗读"
   }
 }

@@ -721,6 +721,19 @@
     "tc.send": "Wyslij",
     "ft.transition": "Przejscie do pelnego doswiadczenia...",
     "tc.today": "Dzisiaj",
-    "tc.yesterday": "Wczoraj"
+    "tc.yesterday": "Wczoraj",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Szukaj słowa lub zdania...",
+    "lt.busy": "Szukam...",
+    "lt.error": "Wyszukiwanie nie odpowiedziało - spróbuj za chwilę.",
+    "lt.notFound": "Nie znaleziono w tej formie - spróbuj innej pisowni lub całego zdania.",
+    "lt.example": "W użyciu",
+    "lt.etymology": "Pochodzenie",
+    "lt.inyourlang": "W twoim języku",
+    "lt.fromCache": "Z pamięci urządzenia",
+    "lt.recent": "Ostatnie wyszukiwania",
+    "lt.clear": "Wyczyść",
+    "lt.empty": "Szukaj dowolnego słowa lub zdania - odpowiedź, przykład i pochodzenie, z głosem, który to wypowie. Twoje wyszukiwania zostają na tym urządzeniu.",
+    "lt.listen": "Powiedz"
   }
 }

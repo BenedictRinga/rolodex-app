@@ -721,6 +721,19 @@
     "tc.send": "ላክ",
     "ft.transition": "ወደ ሙሉ ልምዱ እየተሸጋገርን ነው...",
     "tc.today": "ዛሬ",
-    "tc.yesterday": "ትናንት"
+    "tc.yesterday": "ትናንት",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "ቃል ወይ አረፍተ ነገር ይፈልጉ...",
+    "lt.busy": "በመፈለግ ላይ...",
+    "lt.error": "ፍለጋው አላሳየም - ጥቂት ቆይተው ይሞክሩ።",
+    "lt.notFound": "እንደ ጠየቁት አልተገኘም - ሌላ ፅፎ ወይ ሙሉ አረፍተ ነገር ይሞክሩ።",
+    "lt.example": "አጠቃቀም",
+    "lt.etymology": "መነሻ",
+    "lt.inyourlang": "በቋንቋዎ",
+    "lt.fromCache": "ከመሣሪያዎ ማህደር",
+    "lt.recent": "የቅርብ ጊዜ ፍለጋዎች",
+    "lt.clear": "አጽዳ",
+    "lt.empty": "ማንኛውንም ቃል ወይ አረፍተ ነገር ይፈልጉ - መልስ፣ ምሳሌ እና መነሻ፣ የሚናገር ድምፅ ጭምር። ፍለጋዎችዎ በመሣሪያዎ ይቀራሉ።",
+    "lt.listen": "ተናገር"
   }
 }

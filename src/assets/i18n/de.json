@@ -721,6 +721,19 @@
     "tc.send": "Senden",
     "ft.transition": "Ubergang in das volle Erlebnis...",
     "tc.today": "Heute",
-    "tc.yesterday": "Gestern"
+    "tc.yesterday": "Gestern",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Suche ein Wort oder einen Satz...",
+    "lt.busy": "Suche läuft...",
+    "lt.error": "Die Suche antwortete nicht - gleich nochmal versuchen.",
+    "lt.notFound": "So nicht gefunden - andere Schreibweise oder den ganzen Satz probieren.",
+    "lt.example": "Im Gebrauch",
+    "lt.etymology": "Herkunft",
+    "lt.inyourlang": "In deiner Sprache",
+    "lt.fromCache": "Aus dem Gerätespeicher",
+    "lt.recent": "Letzte Suchen",
+    "lt.clear": "Löschen",
+    "lt.empty": "Suche ein Wort oder einen Satz - die Antwort, ein Beispiel und die Herkunft, mit einer Stimme, die es sagt. Deine Suchen bleiben auf diesem Gerät.",
+    "lt.listen": "Anhören"
   }
 }

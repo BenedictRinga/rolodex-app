@@ -253,6 +253,7 @@
       </ng-template>
     </ion-modal>
 
+
   <ng-container *ngIf="!ftView">
   <!-- 2026-09-14 BUILD 195 THE UPDATE BANNER (founder: "a global notification
        of Updates available — on tap, dismiss and apply"): shows whenever the
@@ -294,6 +295,13 @@
     <ion-button fill="clear" size="small" class="storage-toggle" [class.open]="storagePanelOpen"
       (click)="toggleStoragePanel()" [appTooltip]="'loopkeeper.storage.toggle' | translate">
       <ion-icon slot="icon-only" name="server-outline"></ion-icon>
+    </ion-button>
+    <!-- 2026-09-25 BUILD 338 THE LOOP-TIONARY (founder: Loop-tionary icon
+         should be on home page header panel beside search, chat, etc): the
+         book glyph beside search and the chat - the words door. -->
+    <ion-button fill="clear" size="small" class="looptionary-toggle"
+      (click)="openLooptionary()" [appTooltip]="'loopkeeper.lt.title' | translate" aria-label="Loop-tionary">
+      <ion-icon slot="icon-only" name="book-outline"></ion-icon>
     </ion-button>
     <!-- 2026-09-24 BUILD 327 THE TESTER CHANNEL (founder: "a reporting channel
          on features, bugs and suggestions. The chat icon can be at top of home

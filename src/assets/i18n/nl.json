@@ -721,6 +721,19 @@
     "tc.send": "Stuur",
     "ft.transition": "Overgang naar de volledige ervaring...",
     "tc.today": "Vandaag",
-    "tc.yesterday": "Gisteren"
+    "tc.yesterday": "Gisteren",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Zoek een woord of zin...",
+    "lt.busy": "Zoeken...",
+    "lt.error": "De zoekopdracht antwoordde niet - probeer straks opnieuw.",
+    "lt.notFound": "Zo niet gevonden - probeer andere spelling of de hele zin.",
+    "lt.example": "In gebruik",
+    "lt.etymology": "Herkomst",
+    "lt.inyourlang": "In jouw taal",
+    "lt.fromCache": "Vanuit de apparaatcache",
+    "lt.recent": "Recente zoekopdrachten",
+    "lt.clear": "Wissen",
+    "lt.empty": "Zoek elk woord of elke zin - het antwoord, een voorbeeld en de herkomst, met een stem die het uitspreekt. Je zoekopdrachten blijven op dit apparaat.",
+    "lt.listen": "Uitspreken"
   }
 }

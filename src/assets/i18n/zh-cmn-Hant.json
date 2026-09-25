@@ -721,6 +721,19 @@
     "tc.send": "發送",
     "ft.transition": "正在進入完整體驗...",
     "tc.today": "今天",
-    "tc.yesterday": "昨天"
+    "tc.yesterday": "昨天",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "查一個詞或一句話...",
+    "lt.busy": "查詢中...",
+    "lt.error": "沒有回應 - 稍後再試。",
+    "lt.notFound": "按原樣未找到 - 試試別的拼寫或整個句子。",
+    "lt.example": "用法",
+    "lt.etymology": "來源",
+    "lt.inyourlang": "以你的語言",
+    "lt.fromCache": "來自裝置快取",
+    "lt.recent": "最近的查詢",
+    "lt.clear": "清除",
+    "lt.empty": "查任何詞或句子 - 釋義、例句、來源，還有朗讀的聲音。查詢只留在這台裝置上。",
+    "lt.listen": "朗讀"
   }
 }

@@ -31,6 +31,7 @@ import { DraftEngineService } from '../services/draft-engine/draft-engine.servic
 import type { CloudProvider } from '../services/cloud-sync/sync.types';
 import { mockContacts, shuffledMockContacts } from '../data/mock-contacts';
 import { StorageService } from '../services/storage/storage.service';
+import { LooptionaryModalComponent } from '../components/looptionary-modal/looptionary-modal.component';
 import { ChatIdService } from '../services/chat-id/chat-id.service';
 import { WriteAuthService } from '../services/write-auth/write-auth.service';
 import { InvestorGateService } from '../services/investor-gate/investor-gate.service';
@@ -511,11 +512,22 @@ export class HomePage implements OnInit, OnDestroy {
   get testerChannelOn(): boolean {
     return this.analytics.getTesterId() > 0 || this.investorGate.unlockedThisSession;
   }
+  /** 2026-09-25 BUILD 338 THE LOOP-TIONARY: the words door (the Search-modal
+   *  pattern - modalController.create, NOT a template element: home.page is
+   *  non-standalone; a template tag of an unexported component compiles as an
+   *  unknown element, the silent-299 trap). */
+  async openLooptionary(): Promise<void> {
+    void this.analytics.track('looptionary_opened');
+    const modal = await this.modalController.create({ component: LooptionaryModalComponent });
+    await modal.present();
+  }
+
   testerChatOpen = false;
   testerChatLoading = false;
   testerChatMsgs: Array<{ from: string; text: string; at: string }> = [];
   testerChatText = '';
   testerChatId = '';
+  private _tcLastCount = -1;
   private testerChatTimer: any = null;
 
   formatTime(at: string): string {
@@ -581,6 +593,7 @@ export class HomePage implements OnInit, OnDestroy {
   async openTesterChat(): Promise<void> {
     if (!this.testerChannelOn) return;
     this.testerChatOpen = true;
+    this._tcLastCount = -1;
     void this.analytics.track('tester_chat_opened');
     try { this.testerChatId = await this.chatIdService.request(); } catch { /* the sheet still opens */ }
     await this.fetchTesterChat();
@@ -602,6 +615,13 @@ export class HomePage implements OnInit, OnDestroy {
       const j = await res.json().catch(() => null);
       if (res.ok && j?.ok) {
         this.testerChatMsgs = Array.isArray(j.msgs) ? j.msgs : [];
+        // BUILD 338 THE CHAT VOICES: HQ replies chime in while the sheet stands
+        // (a NEW founder message since the last read - not the initial load).
+        if (this.testerChatOpen && this._tcLastCount >= 0 && j.msgs.length > this._tcLastCount) {
+          const hasNewHq = j.msgs.slice(this._tcLastCount).some((x: any) => x.from === 'founder');
+          if (hasNewHq) void this.sound.playChatReceive();
+        }
+        this._tcLastCount = j.msgs.length;
         // SERVER 135: the read stamps ride the response - the tester's own
         // read is stamped server-side (this fetch), and founderReadAt drives
         // the double tick on MY reports.
@@ -623,6 +643,7 @@ export class HomePage implements OnInit, OnDestroy {
       try { this.testerChatId = await this.chatIdService.request(); } catch { /* the guard below still applies */ }
     }
     if (!this.testerChatId) return;
+    void this.sound.playChatSend(); // BUILD 338: the report has a voice too.
     try {
       const res = await fetch(`${environment.rolodexApiBase}/tester-chat`, {
         method: 'POST',

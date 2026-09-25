@@ -721,6 +721,19 @@
     "tc.send": "Tuma",
     "ft.transition": "Tunaingia katika uzoefu kamili...",
     "tc.today": "Leo",
-    "tc.yesterday": "Jana"
+    "tc.yesterday": "Jana",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Tafuta neno au sentensi...",
+    "lt.busy": "Inatafuta...",
+    "lt.error": "Utafutaju hukujibu - jaribu tena kidogo.",
+    "lt.notFound": "Haikupatikana kama ulivyoomba - jaribu mtaziko mwingine au sentensi kamili.",
+    "lt.example": "Matumizi",
+    "lt.etymology": "Inatoka wapi",
+    "lt.inyourlang": "Kwa lugha yako",
+    "lt.fromCache": "Kutokа kifaa chako",
+    "lt.recent": "Utafutaji wa hivi karibuni",
+    "lt.clear": "Futa",
+    "lt.empty": "Tafuta neno au sentensi yoyote - jibu, mfano, na asili yake, kwa sauti inayolisema. Utafutaji wako unabaki kifaa chako.",
+    "lt.listen": "Sema"
   }
 }

@@ -721,6 +721,19 @@
     "tc.send": "Aika",
     "ft.transition": "Muna sauya zuwa cikakkiyar kwarewa...",
     "tc.today": "Yau",
-    "tc.yesterday": "Jiya"
+    "tc.yesterday": "Jiya",
+    "lt.title": "Loop-tionary",
+    "lt.placeholder": "Nemi kalma ko jimla...",
+    "lt.busy": "Ana nema...",
+    "lt.error": "Neman bai amsa ba - gwada nan gaba kaɗan.",
+    "lt.notFound": "Ba a samu kamar yadda aka nema ba - gwada wata rubutun ko jimla cikakke.",
+    "lt.example": "Amfani",
+    "lt.etymology": "Asali",
+    "lt.inyourlang": "A harshenka",
+    "lt.fromCache": "Daga ƙwaƙwalwar na'ura",
+    "lt.recent": "Neman baya-bayan nan",
+    "lt.clear": "Goge",
+    "lt.empty": "Nemi kowace kalma ko jimla - amsa, misali da asali, da murya da ke faɗi. Nematanka na wannan na'ura suke.",
+    "lt.listen": "Fadi"
   }
 }
