@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -7,14 +7,18 @@ import { LooptionaryService, LooptEntry } from '../../services/looptionary/loopt
 import { StudioPlaybackService } from '../../services/studio-playback/studio-playback.service';
 import { SoundService } from '../../services/sound/sound.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
+import { TextsplitterService } from '../../services/textsplitter/textsplitter.service';
+import { AlertsService } from '../../services/alerts/alerts.service';
+import { VoiceOptionsService } from '../../services/voice-options/voice-options.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * 2026-09-25 BUILD 338 THE LOOP-TIONARY (founder: "Google has... a word or
  * sentence lookup that was beautiful. Why don't we start with a module for
  * words/sentences lookup - it is an immediate buy-in for tapping AI
  * services"): a full modal — the search bar up top, the answer as a card
- * (term, pos, meaning, detail, example, etymology), a speaker that SAYS the
- * term (device-first, the Welcome modal's own voice path), and the device's
+ * term (the Welcome path: the backend Piper MP3 first, the device voice as
+ * the fallback), and the device's
  * lookup history below the search the moment it opens (60 entries, IndexedDB).
  *
  * VOICE (founder: "Add voice playback without re-inventing — we already have
@@ -34,7 +38,7 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
       <ion-toolbar>
         <ion-title style="font-size: 15px;">{{ 'loopkeeper.lt.title' | translate }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="close.emit()"><ion-icon slot="icon-only" name="close-outline"></ion-icon></ion-button>
+          <ion-button (click)="closeModal()"><ion-icon slot="icon-only" name="close-outline"></ion-icon></ion-button>
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar class="ion-no-border" style="padding: 0 12px 8px;">
@@ -127,6 +131,15 @@ import { AnalyticsService } from '../../services/analytics/analytics.service';
 })
 export class LooptionaryModalComponent {
   @Output() close = new EventEmitter<void>();
+
+  /** BUILD 339 THE DISMISS: with modalController.create() nobody listens to
+   *  component Outputs - the sheet closes by dismissing ITSELF. */
+  emitClose(): void { this.close.emit(); }
+
+  async closeModal(): Promise<void> {
+    this.emitClose();
+    await this.modalCtrl.dismiss();
+  }
   q = '';
   busy = false;
   error = '';
@@ -135,6 +148,10 @@ export class LooptionaryModalComponent {
   history: Array<LooptEntry & { lookedUpAt: number; q: string; _k?: string }> = [];
 
   constructor(
+    private readonly modalCtrl: ModalController,
+    private readonly alerts: AlertsService,
+    private readonly textsplitter: TextsplitterService,
+    private readonly voiceOptions: VoiceOptionsService,
     private readonly loopt: LooptionaryService,
     private readonly playback: StudioPlaybackService,
     private readonly sound: SoundService,
@@ -170,21 +187,77 @@ export class LooptionaryModalComponent {
     this.entry = { ...entry, cached };
   }
 
-  /** THE VOICE: the Welcome modal's own path — device-first speech of the
-   *  term + meaning (the example would double the length; the term and its
-   *  meaning are what the ear wants). */
+  /** == BUILD 339 THE WELCOME PATH, VERBATIM == (the founder: "No inventing -
+   *  look for exactly how Welcome modal/slides handled audio playback"). The
+   *  Welcome speaks MP3-FIRST (the backend Piper voice, POST /tts with the
+   *  selected qwen voice, 12s timeout, playBlob) and falls to the DEVICE
+   *  voice only when the backend is dead - one honest toast per failed
+   *  streak - and primes the gesture BEFORE the network round-trip so the
+   *  MP3 can start after it (their law, their own comment: stop,
+   *  beginLoading, prime, then the ask - the same tap grants audio). No
+   *  re-inventing: the same two tiers, the same voice pick, the same
+   *  preprocessing, the same honesty. */
+  private backendTtsOk: boolean | null = null; // null = untested, false = dead, true = live
+  private ttsErrorNotified = false;
+
   async speak(): Promise<void> {
     if (!this.entry || this.speaking) return;
-    const text = this.entry.notFound
+    const raw = this.entry.notFound
       ? (this.q || this.entry.term)
       : `${this.entry.term}. ${this.entry.meaning}`;
     this.speaking = true;
+    // The tap IS the grant - the Welcome's own order: stop, beginLoading,
+    // prime, then the ask (their comment: audio command FIRST, the same tap
+    // grants audio).
+    this.playback.stop();
+    this.playback.beginLoading();
+    await this.playback.primeGesturePermission();
+    const text = this.textsplitter.preprocessForTTS(raw, 'All');
     try {
+      // MP3-FIRST (the Welcome tier 1): the backend Piper voice.
+      const r = await this.fetchTtsWithTimeout(text);
+      if (r.status === 501) {
+        this.backendTtsOk = false;
+      } else if (r.ok) {
+        this.backendTtsOk = true;
+        this.ttsErrorNotified = false;
+        await this.playback.playBlob(await r.blob());
+        return;
+      } else {
+        this.backendTtsOk = false;
+      }
+    } catch {
+      this.backendTtsOk = false;
+    }
+    // The Welcome tier 2: the device voice, one toast per failed streak.
+    if (this.backendTtsOk === false && !this.ttsErrorNotified) {
+      this.ttsErrorNotified = true;
+      void this.alerts.showToast(this.translate.instant('loopkeeper.welcome.ttsHiccup'), 3500);
+    }
+    if (this.backendTtsOk === false) {
       await this.playback.speakDeviceFirst(text, this.translate.currentLang || 'en-US');
-    } catch { /* voice refused - the card stays readable */ }
+    }
     this.speaking = false;
   }
 
+  /** The Welcome's fetchTtsWithTimeout, verbatim shape: 12s abort, the qwen
+   *  voice pick (selected when it starts with qwen-, else qwen-echo). */
+  private async fetchTtsWithTimeout(text: string): Promise<Response> {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 12000);
+    const selected = this.voiceOptions.selectedVoiceId;
+    const voice = selected?.startsWith('qwen-') ? selected : 'qwen-echo';
+    try {
+      return await fetch(`${environment.rolodexApiBase}/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice }),
+        signal: ctrl.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
   async clearAll(): Promise<void> {
     await this.loopt.clearHistory();
     this.history = [];
