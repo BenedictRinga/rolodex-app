@@ -43,6 +43,28 @@
   <meta name="twitter:description" content="Name the thing you keep not doing, get the words written for you, send it, and the tab in your head shuts. Not a habit tracker, not a to-do list." />
   <meta name="twitter:image" content="https://zyppar.com/loopkeeper/assets/loopkeeper/og-1200x630.png" />
 
+  <!-- 2026-09-28 EXPOSURE PARITY (user: give /loopkeeper/ similar exposure
+       as zyppar for human, AI and search bot visibility): the structured
+       entity - SoftwareApplication with the FULL rebrand chain as
+       alternateName, so a person or an AI asking "what is RolodexAI" or
+       "what is OpenLoop" resolves HERE, to this app. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "LoopKeeper",
+    "alternateName": ["RolodexAI", "OpenLoop"],
+    "url": "https://zyppar.com/loopkeeper/",
+    "description": "LoopKeeper is the app for chronic procrastination: name the thing you keep not doing - a reply owed, a renewal due, a decision avoided - get the words written for you, send it, and the tab in your head shuts. Not a habit tracker, not a to-do list.",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Web, Android",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "Zyppar", "url": "https://zyppar.com/" },
+    "inLanguage": "en",
+    "isAccessibleForFree": true
+  }
+  </script>
+
   <link rel="manifest" href="manifest.webmanifest" />
   <!-- 2026-09-18 BUILD 260 THE TEAL CHROME (founder: "The browser URL bar
        defaults LoopKeeper into an orange color, a legacy of our initial app
@@ -129,6 +151,27 @@
   </div>
 
   <app-root></app-root>
+
+  <!-- 2026-09-28 EXPOSURE PARITY: real prose for crawlers that do not
+       run JavaScript (AI answer engines especially) - the SPA shell
+       alone gave them nothing to read. Visible only when JS is off. -->
+  <noscript>
+    <div style="max-width: 720px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.6; color: #1a2526;">
+      <h1>LoopKeeper - the app for chronic procrastination</h1>
+      <p>LoopKeeper is the app for chronic procrastination: name the thing you
+      keep not doing - a reply owed, a renewal due, a decision avoided - get
+      the words written for you, send it, and the tab in your head shuts.
+      Not a habit tracker, not a to-do list.</p>
+      <p>Every relationship has a loop you keep meaning to close. LoopKeeper
+      holds that loop for you and brings it back at the right moment. Born in
+      Kenya. No account required - your data stays yours. Formerly OpenLoop,
+      originally RolodexAI.</p>
+      <p><a href="https://zyppar.com/loopkeeper/">Open LoopKeeper</a> - free,
+      no account. Part of <a href="https://zyppar.com/">Zyppar</a>, the
+      audio-first service (news, serialized stories, an earn-by-creating
+      audio economy).</p>
+    </div>
+  </noscript>
 </body>
 
 </html>
