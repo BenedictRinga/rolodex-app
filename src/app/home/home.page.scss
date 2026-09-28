@@ -524,6 +524,20 @@ app-rolodex.tab-hidden,
   justify-content: center;
   font-size: 22px;
 }
+.ft-nudge {
+  margin: 0 auto 14px;
+  /* 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE: the returning visitor's one
+     gentle line above the doors - the same thin welcome voice (the 320 law:
+     never a headline, never pressure), one step warmer than the seedling. */
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.55;
+  color: #4a3210;
+  opacity: .85;
+  max-width: 330px;
+  text-align: center;
+}
 .ft-gates {
   display: flex;
   gap: 16px;

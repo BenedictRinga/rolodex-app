@@ -206,9 +206,9 @@
     "drop.reason2": "Non ne vale la pena, a dire il vero",
     "drop.reason3": "Il rapporto si è raffreddato",
     "drop.reason4": "Sistemato fuori dall'app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "C'è una risposta che da tempo vuoi mandare — ti gira in testa. LoopKeeper trova il contesto e la scrive; ti resta solo premere Invia: {{url}}",
+    "share.voiceB": "Quello «dobbiamo vederci presto» ti pesa in silenzio. LoopKeeper lo trasforma in un messaggio vero con un tocco — e il peso sparisce: {{url}}",
+    "share.voiceC": "Ti sei detto che rispondi «più tardi». Più tardi non arriva mai — così LoopKeeper la scrive per te adesso. Un tocco ed è davvero inviata: {{url}}",
     "t.openErr": "Impossibile aprire quel loop — riprova.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop aperto con {{person}} — bozza pronta.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "Vive sul tuo telefono — la risposta che pensi sempre di mandare, già stesa; premi tu Invia: {{url}}",
+    "share.voiceD": "Sii l'amico che dà davvero notizie. LoopKeeper la scrive, tu l'approvi, la mandi con le tue parole — una promessa mantenuta alla volta: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Annulla",
     "garden.renamedToast": "{{n}} loop spostati: \"{{from}}\" ora è \"{{to}}\".",
     "garden.walkBtn": "Percorrere",
-    "share.voiceE": "👀 *E se avessi una segretaria personale che non dorme mai?*\n\nEcco *LoopKeeper* — l'app che ti aiuta a gestire mansioni di routine, promemoria e attività quotidiane.\n\nProvala 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Ecco LoopKeeper — la tua segretaria digitale!*\n\nStanco di dimenticare compiti, routine e promemoria? Lascia che *LoopKeeper* ti tenga organizzato e al comando della giornata.\n\n👉 Scoprilo qui: {{url}}\n\nLavora meglio. Resta in carreggiata. 🔄",
+    "share.voiceE": "😏 *C'è un messaggio che rimandi da una vita. Sai benissimo quale.*\n\n*LoopKeeper* lo scrive per te — contesto trovato, parole scelte. Tocca *Invia* e finalmente ti togli quel peso dal petto.\n\nProvalo 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Nessuno è ignorato apposta — non so solo da dove cominciare.*\n\n*LoopKeeper* trasforma la pila ferma in bozze pronte da inviare. Un messaggio via, un giro chiuso, la pila continua a calare.\n\n👉 Comincia da una: {{url}}\n\nManda quella che devi. 🔄",
     "walk.doorInvite": "Manda loro LoopKeeper",
     "walk.taskCard": "Nuova card attività",
     "walk.doorChat": "Chatta in LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Ricerche recenti",
     "lt.clear": "Cancella",
     "lt.empty": "Cerca qualsiasi parola o frase - la risposta, un esempio e l’origine, con una voce che la dice. Le tue ricerche restano su questo dispositivo.",
-    "lt.listen": "Pronuncia"
+    "lt.listen": "Pronuncia",
+    "ft.nudge": "Fai quel singolo passo gentile — fai qualcosa qui, e entriamo nell'esperienza completa di LoopKeeper."
   }
 }

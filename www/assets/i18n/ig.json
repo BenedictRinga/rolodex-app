@@ -206,9 +206,9 @@
     "drop.reason2": "N'eziokwu, ọ dịghị uru",
     "drop.reason3": "Mmekọrịta ahụ jụrụ oyi",
     "drop.reason4": "E doziri ya na mpụga app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Enwere nzaghachi ị na-achọ iziga ogologo oge — ọ nọ na uche gị. LoopKeeper ga-achọta ọnọdụ ma dee ya; ị pịa Ziga naanị: {{url}}",
+    "share.voiceB": "Nke ahụ 'ka anyị zute otu ụbọchị' na-ebu gị uzo n'ime mkpọ. LoopKeeper ga-eme ka ọ bụrụ ozi ezigbo n'otu pịa — ibu ahụ ga-agbada: {{url}}",
+    "share.voiceC": "Ị kwuru na ị ga-aza ya 'mgbe e mesịrị'. Mgbe e mesịrị anaghị abịa — ya mere LoopKeeper ga-ede ya ugbu a. Otu pịa, ezigaala ya n'ezie: {{url}}",
     "t.openErr": "Enweghị ike imeghe loop a — nwalee ọzọ.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Emeghere loop na {{person}} — edeturu dị njikere.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Bụrụ enyi na-eso n'ezie. LoopKeeper na-ede, ị kwadoro, ị zigara n'okwu gị — nkwa ruru otu mgbe: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Olee ma ị nwee onye odeakwụkwọ onwe gị na-amaghị ura?*\n\nMara *LoopKeeper* — ngwa na-enyere gị aka ilekọta ọrụ oge niile, ncheta na omume kwa ụbọchị.\n\nNwalee ya 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Mara LoopKeeper — odeakwụkwọ dijitalụ gị!*\n\nIke ịgwụ gị n'icheta ọrụ, omume na ncheta? Hapụ *LoopKeeper* idowe gị n'usoro ma duru gị n'ụbọchị gị.\n\n👉 Lelee ya ebe a: {{url}}\n\nRụọ ọrụ nke ọma. Nọgide n'ụzọ. 🔄",
+    "share.voiceE": "😏 *Enwere ozi ị na-egbu oge mgbe niile. Ị maara nke ahụ.*\n\n*LoopKeeper* ga-ede ya nye gị — ọnọdụ ahụrụla, okwu ahọpụtala. Pịa *Ziga* naanị, obi gaa n'ala n'ikpeazụ.\n\nNwale ya 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Ọ dịghị onye a na-leghara anya n'ezie — ama m ama ebee ka m ga-esi bido.*\n\n*LoopKeeper* ga-agbanwe mkpokọta kwụsịrị ka ọ bụrụ ihe ederede ndị dị iziga. Ozi otu pụta, mkpa otu mechie, mkpokọta na-ebelata n'ihu.\n\n👉 Malite na otu: {{url}}\n\nZiga nke ahụ. 🔄",
     "walk.doorInvite": "Ziga ha LoopKeeper",
     "walk.taskCard": "Kaadị ọrụ ọhụrụ",
     "walk.doorChat": "Ya mkparịta ụka na LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Were nzọụkwụ dị nro ahụ — mee ihe ebe a, anyị banye n'ahụmịhe LoopKeeper zuru ezu."
   }
 }

@@ -206,9 +206,9 @@
     "drop.reason2": "Ça n'en vaut pas la peine, honnêtement",
     "drop.reason3": "La relation s'est refroidie",
     "drop.reason4": "Réglé en dehors de l'appli",
-    "share.voiceA": "Tu connais cette réponse que tu dois toujours envoyer ? LoopKeeper a trouvé le contexte et rédigé le message — tu n'as plus qu'à envoyer : {{url}}",
-    "share.voiceB": "LoopKeeper rédige le message que vous devez à un proche — les mots et le moment, prêts à partir. Les liens, conservés. {{url}}",
-    "share.voiceC": "J'ai capturé la ligne avant que le café refroidisse — LoopKeeper l'a transformée en message prêt : {{url}}",
+    "share.voiceA": "Il y a une réponse que tu repousses depuis des semaines — elle te trotte dans la tête. LoopKeeper trouve le contexte et la rédige ; tu n'as plus qu'à appuyer sur Envoyer : {{url}}",
+    "share.voiceB": "Ce « on devrait se voir un de ces jours » te pèse en silence. LoopKeeper en fait un vrai message en un geste — et le poids s'envole : {{url}}",
+    "share.voiceC": "Tu t'es dit que tu répondrais « plus tard ». Plus tard ne vient jamais — alors LoopKeeper la rédige pour toi maintenant. Un geste, et c'est vraiment parti : {{url}}",
     "t.openErr": "Impossible d'ouvrir cette boucle — réessayez.",
     "t.sampleBlocked": "C'est le texte d'exemple — remplace-le par une vraie promesse pour la capturer.",
     "t.opened": "Boucle ouverte avec {{person}} — le brouillon est prêt.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Choisir depuis votre téléphone demande Android Chrome — ou ajoutez cette personne à la main.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Trouver quelqu'un",
-    "share.voiceD": "Il vit dans votre téléphone — la réponse que vous voulez toujours envoyer, déjà rédigée ; vous appuyez sur Envoyer : {{url}}",
+    "share.voiceD": "Sois l'ami qui donne vraiment des nouvelles. LoopKeeper rédige, tu approuves, tu envoies avec tes mots — une promesse tenue à la fois : {{url}}",
     "privacy.madeBy": "LoopKeeper est fait par Zyppar. Ajoutez https://zyppar.com/loopkeeper/ à vos favoris.",
     "privacy.analyticsTitle": "Usage anonyme (sans noms)",
     "privacy.analyticsBody": "Lancements, sessions, envois, clôtures — jamais de contacts, de noms ni de texte de message. Désactivez si vous voulez.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Annuler",
     "garden.renamedToast": "{{n}} boucle(s) déplacée(s) : \"{{from}}\" s'appelle désormais \"{{to}}\".",
     "garden.walkBtn": "Parcourir",
-    "share.voiceE": "👀 *Et si vous aviez une secrétaire personnelle qui ne dort jamais ?*\n\nVoici *LoopKeeper* — l'appli qui vous aide à gérer tâches routines, rappels et votre quotidien.\n\nEssayez 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Voici LoopKeeper — votre secrétaire numérique !*\n\nFatigué d'oublier tâches, routines et rappels ? Laissez *LoopKeeper* vous garder organisé et au top de votre journée.\n\n👉 Découvrez-le ici : {{url}}\n\nTravaillez mieux. Restez sur la bonne voie. 🔄",
+    "share.voiceE": "😏 *Il y a un message que tu repousses sans fin. Tu sais très bien lequel.*\n\n*LoopKeeper* le rédige pour toi — contexte trouvé, mots choisis. Un appui sur *Envoyer* et enfin, ça pèse moins lourd.\n\nEssaie 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Personne n'est ignoré exprès — je ne sais juste pas par où commencer.*\n\n*LoopKeeper* transforme la pile bloquée en brouillons prêts à partir. Un message parti, une boucle refermée, la pile continue de fondre.\n\n👉 Commence par un : {{url}}\n\nEnvoie celui que tu dois. 🔄",
     "walk.doorInvite": "Envoyez-leur LoopKeeper",
     "walk.taskCard": "Nouvelle carte de tâche",
     "walk.doorChat": "Discutez dans LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recherches récentes",
     "lt.clear": "Effacer",
     "lt.empty": "Cherchez un mot ou une phrase - la réponse, un exemple, et son origine, avec une voix qui le dit. Vos recherches restent sur cet appareil.",
-    "lt.listen": "Écouter"
+    "lt.listen": "Écouter",
+    "ft.nudge": "Fais ce seul pas tout doux — fais quelque chose ici, et nous entrons dans toute l'expérience LoopKeeper."
   }
 }

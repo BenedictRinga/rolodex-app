@@ -206,9 +206,9 @@
     "drop.reason2": "Not worth it, honestly",
     "drop.reason3": "The relationship cooled",
     "drop.reason4": "Handled outside the app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Bidali nahi duzun erantzun bat dago — buruan duzu gelditzen. LoopKeeperek testuingurua aurkitu eta idazten du; Zuk Bidali sakatu besterik ez: {{url}}",
+    "share.voiceB": "«Egun batean elkar ikusi behar dugu» hura isilik ari zaizu astuna. LoopKeeperek ukitu bakarrean benetako mezu bihurtzen du — eta pisua arintzen da: {{url}}",
+    "share.voiceC": "«Geroago» erantzungo zenuela esan zenuen. Geroago ez da inoiz iristen — beraz, LoopKeeperek orain idazten dizu. Ukitu bat eta benetan bidalita: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Elegir de tu teléfono necesita Android Chrome — o añade a la persona a mano.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Buscar a alguien",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Izan jarraitzen duen laguna. LoopKeeperek idazten du, zuk onartzen duzu, zure hitzekin bidaltzen duzu — betetako itun bat aldi bakoitzean: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Zer litzateke inoiz ez den lo egiten duen idazkari pertsonal bat izatea?*\n\nEzagutu *LoopKeeper* — ohiko zereginak, oroigarriak eta eguneroko jarduerak kudeatzen laguntzen dizun aplikazioa.\n\nProbatu 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Ezagutu LoopKeeper — zure idazkari digitala!*\n\nZereginak, ohiturak eta oroigarriak ahazteaz nekatuta? Utzi *LoopKeeper* antolatuta eta egunaren gainean izaten.\n\n👉 Ikusi hemen: {{url}}\n\nLan egin hobeki. Izan bidean. 🔄",
+    "share.voiceE": "😏 *Beterik beteri mezu bat dago. Zein den badakizu.*\n\n*LoopKeeper*ek zuretzat idazten du — testuingurua aurkituta, hitzak hautatuta. *Bidali* besterik ez, eta azkenik arinduko zara.\n\nProbatu 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Ez dut inor nahita aldettetzen — non hasi besterik ez dakit.*\n\n*LoopKeeper*ek pilatutakoak bidaltzeko prest dauden zirriborro bihurtzen ditu. Mezu bat kanpo, begizta bat itxita, pila txikitzeari eusten dio.\n\n👉 Baten hasi: {{url}}\n\nZor duzuna bidali. 🔄",
     "walk.doorInvite": "Bidali iezaiekie LoopKeeper",
     "walk.taskCard": "Zeregin-txartel berria",
     "walk.doorChat": "Berriketan LoopKeeperen",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Eman urrats leun bakur hura — egin zerbait hemen, eta LoopKeeper esperientzia osoan sartuko gara."
   }
 }

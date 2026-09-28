@@ -206,9 +206,9 @@
     "drop.reason2": "በእውነቱ አይገባም",
     "drop.reason3": "ግንኙነቱ አበረደ",
     "drop.reason4": "ከመተግበሪያው ውጭ ተሟልቷል",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper ለጓደኛዎ የሚገባውን መልእክት ይጽፋል — ቃላቱና ጊዜው፣ ለመላክ ዝግጁ። ግንኙነቶች፣ የተጠበቁ። {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "ሁልጊዜ መላክ የሚፈልጉት ምላሽ አለ — በአእምሮዎ ላይ ተቀምጧል። LoopKeeper አውዱን በማግኘት ይጽፈዋል፤ እርስዎ መላክ ብቻ እንበል: {{url}}",
+    "share.voiceB": "ያ «በኋላ እንገናኝ» የሚለው ወሬ በጸጥታ ይጫናል። LoopKeeper በአንድ ተርጫም ወደ እውነተኛ መልዕክት ይቀይረዋል — እና ክብደቱ ይወጣል: {{url}}",
+    "share.voiceC": "«በኋላ ላስተላልፈዋለሁ» አሉ። በኋላ ሁለት አይመጣም — ስለዚህ LoopKeeper አሁን ይጽፈዋል። አንድ ተርጫም በእውነት ተልኳል: {{url}}",
     "t.openErr": "ያንን ዑደት መክፈት አልተቻለም — እንደገና ይሞክሩ።",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "ከ{{person}} ጋር ዑደት ተከፈተ — ረቂቁ ዝግጁ ነው።",
@@ -577,7 +577,7 @@
     "add.pickToast": "ከስልክ መምረጥ Android Chrome ይፈልጋል — ወይም ሰዉን በእጅ ያስገቡ።",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "ሰው መፈለግ",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "በእውነት የሚከታተል ጓደኛ ይሁኑ። LoopKeeper ይጽፋል፣ እርስዎ ያረጋግጣሉ፣ በራስዎ ቃላት ይላካሉ — አንድ ተፈጽሞ ቃል በአንድ ጊዜ: {{url}}",
     "privacy.madeBy": "LoopKeeper በ Zyppar ነው። https://zyppar.com/loopkeeper/ ያስቀምጡ።",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *ማታ ላይ የማያውቅ የግል ፀሐፊ ቢኖርዎት?*\n\n*LoopKeeper*ን ይወቁ — መደበኛ ተግባራትን፣ አስታዋሽን እና ዕለታዊ እንቅስቃሴዎችዎን እንዲያስተዳድር የተነደፈ መተግበሪያ።\n\nይሞክሩት 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *LoopKeeperን ይወቁ — ዲጂታል ፀሐፊዎ!*\n\nተግባራትን፣ ተራፎችን እና አስታዋሾችን መርሳት አዝናል? *LoopKeeper* እንዲያዘጋጅዎት እና ቀንዎን እንዲመራ ይፍቀዱት።\n\n👉 እዚህ ይመልከቱ፦ {{url}}\n\nብልህ ይሁኑ። በመንገዱ ይቆዩ። 🔄",
+    "share.voiceE": "😏 *መላክ ያሸነፉት መልዕክት አለ። ምንድን እንደሆነ ያውቃሉ።*\n\n*LoopKeeper* ለእርስዎ ይጽፋል — አውዱ ተገኝቷል፣ ቃላቱ ተመርጠዋል። መላክ ብቻ ይተርጫሙ እና ከዳሌዎ ይወርዳል።\n\nይሞክሩት 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *በሆነ ምክንያት ሰውን አልተቻልኩም የለም — ከየት እንደምጀምር ግን አልተወሰንኩም።*\n\n*LoopKeeper* የቆመውን ቁልል ወደ ሚላኩ ጽሑፎች ይቀይረዋል። አንድ መልዕክት ወጣ፣ አንድ ዙር ተዘጋ፣ ቁልሉ ማሳከክ ይቀጥላል።\n\n👉 በአንድ ይጀምሩ: {{url}}\n\nየሚገባዎትን ይላኩ። 🔄",
     "walk.doorInvite": "LoopKeeperን ላካፍሏቸው",
     "walk.taskCard": "አዲስ የተግባር ካርድ",
     "walk.doorChat": "LoopKeeper ውስጥ ይነጋገሩ",
@@ -734,6 +734,7 @@
     "lt.recent": "የቅርብ ጊዜ ፍለጋዎች",
     "lt.clear": "አጽዳ",
     "lt.empty": "ማንኛውንም ቃል ወይ አረፍተ ነገር ይፈልጉ - መልስ፣ ምሳሌ እና መነሻ፣ የሚናገር ድምፅ ጭምር። ፍለጋዎችዎ በመሣሪያዎ ይቀራሉ።",
-    "lt.listen": "ተናገር"
+    "lt.listen": "ተናገር",
+    "ft.nudge": "ያ አንዱን ለስላሳ ስልት ይውሰዱ — እዚህ ያድርጉት፣ እና ወደ ሙሉው LoopKeeper ጉዞ እንገባለን።"
   }
 }

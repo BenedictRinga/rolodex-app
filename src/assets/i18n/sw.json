@@ -206,9 +206,9 @@
     "drop.reason2": "Haistahili, kwa ukweli",
     "drop.reason3": "Uhusiano umezima",
     "drop.reason4": "Imetatuliwa nje ya programu",
-    "share.voiceA": "Ujumbe unaudia kuumtumia? LoopKeeper amepata muktadha na ameandika rasimu — wewe bonyeza Tuma tu: {{url}}",
-    "share.voiceB": "LoopKeeper huandaa ujumbe unamdeni rafiki — maneno na wakati, tayari kutumwa. Mahusiano, yakibaki. {{url}}",
-    "share.voiceC": "Nilinasa mstari kabla ya kahawa kupoa — LoopKeeper akaufanya ujumbe kamili: {{url}}",
+    "share.voiceA": "Kuna jibu ambalo muda mrefu umekuwa unakusudia kuutuma — limekaa kichwani mwako. LoopKeeper hupata muktadha na huliandika; wewe bonyeza Tuma tu: {{url}}",
+    "share.voiceB": "Hilo 'tujone wakati mwingine' linakuzomea kimya. LoopKeeper linafanya kuwa ujumbe halisi kwa mgusa mmoja — na mzigo unainuka: {{url}}",
+    "share.voiceC": "Ulijiambia utajibu 'baadaye'. Baadaye hairudi kamwe — basi LoopKeeper huliandikia sasa. Mguso mmoja na umetumwa kweli: {{url}}",
     "t.openErr": "Haiwezi kufungua loop hiyo — jaribu tena.",
     "t.sampleBlocked": "Hiyo ni mfano tu — andika ahadi yako halisi ili hifadhiwe.",
     "t.opened": "Loop imefunguliwa na {{person}} — rasimu iko tayari.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Kuchagua kutoka kwa simu kunahitaji Android Chrome — au anda mtu huyo kwa mkono.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Tafuta mtu",
-    "share.voiceD": "Kinaishi kwenye simu yako — jibu ulilokuwa unapanga kutuma, limeandaliwa; wewe unabonyeza Tuma: {{url}}",
+    "share.voiceD": "Kuwa rafiki anayefuatilia kweli. LoopKeeper huliandika, wewe uidhinisha, wewe huituma kwa maneno yako — ahadi moja iliyotimizwa kwa wakati mmoja: {{url}}",
     "privacy.madeBy": "LoopKeeper imetengenezwa na Zyppar. Weka alama https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Matumizi yasiyojulikana (bila majina)",
     "privacy.analyticsBody": "Ufunguaji, vipindi, kutuma, kufunga — kamwe anwani, majina, wala maandishi ya ujumbe. Zima ukitaka.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Ghairi",
     "garden.renamedToast": "Mizunguko {{n}} imehamishwa: \"{{from}}\" sasa ni \"{{to}}\".",
     "garden.walkBtn": "Tembea",
-    "share.voiceE": "👀 *Je, ungependa kuwa na karani wa binafsi ambaye hataki usingizi?*\n\nMkutane na *LoopKeeper* — programu inayokusaidia kudhibiti kazi za kawaida, vikumbusho na shughuli za kila siku.\n\nIaribu 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Karibu LoopKeeper — karani wako wa kidijitali!*\n\nUmechoka kusahau kazi, mila na vikumbusho? Acha *LoopKeeper* ikushikilie mpangilio na uwe juu ya siku yako.\n\n👉 Iangalie hapa: {{url}}\n\nFanya kazi kwa akili. Kaa mkondo. 🔄",
+    "share.voiceE": "😏 *Kuna ujumbe unaouchelewesha bila kuisha. Unajua ipi hasa.*\n\n*LoopKeeper* huliandikia wewe — muktadha umepatikana, maneno yamechaguliwa. Bonyeza *Tuma* tu na mwishowe mzigo unashuka kifua.\n\nIjaribu 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Hakuna anayepuuzwa makusudi — sijaui tu pa kuanzia.*\n\n*LoopKeeper* hubadilisha rundo lililosimama kuwa rasimu tayari kutumwa. Ujumbe mmoja nje, mzunguko mmoja umefungwa, rundo linaendelea kupungua.\n\n👉 Anza na moja: {{url}}\n\nTuma lile unalodaiwa. 🔄",
     "walk.doorInvite": "Watumikie LoopKeeper",
     "walk.taskCard": "Kadi mpya ya kazi",
     "walk.doorChat": "Ongea ndani ya LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Utafutaji wa hivi karibuni",
     "lt.clear": "Futa",
     "lt.empty": "Tafuta neno au sentensi yoyote - jibu, mfano, na asili yake, kwa sauti inayolisema. Utafutaji wako unabaki kifaa chako.",
-    "lt.listen": "Sema"
+    "lt.listen": "Sema",
+    "ft.nudge": "Chukua hatua hiyo moja la kupendeza — fanya kitu hapa, nao tunaingia kwenye uzoefu kamili wa LoopKeeper."
   }
 }

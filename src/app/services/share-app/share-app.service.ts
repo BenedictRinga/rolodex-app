@@ -98,7 +98,10 @@ export class ShareAppService {
     try { this.analytics.track('app_shared', { channel, voice, moment }); } catch { /* never block a share */ }
   }
 
-  /** 2026-08-27 GENERIC APP SHARE TEXT (three voices, localized). */
+  /** 2026-08-27 GENERIC APP SHARE TEXT (six voices, localized; 2026-09-28
+   *  BUILD 341: each voice carries ONE behavioural mechanism - the nagging
+   *  open loop, relief, 'later' never comes, identity, the awkward one, the
+   *  pile shrinking - so the per-send funnel tests angles, not phrasings). */
   async buildAppShareText(url: string, voice?: 'A' | 'B' | 'C' | 'D' | 'E' | 'F'): Promise<string> {
     const id = voice || this.resolveVoice();
     const key = this.voiceKey(id);
@@ -108,7 +111,7 @@ export class ShareAppService {
       // fall back to English so a broken locale file never shares garbage.
       if (text && text !== key) return text;
     } catch { /* fall through to English default */ }
-    return `LoopKeeper drafts the message you keep meaning to send — context found, words chosen, you hit Send: ${url}`;
+    return `There's a reply you keep meaning to send — LoopKeeper finds the context and drafts it; you just hit Send: ${url}`;
   }
 
   /** 2026-08-18 REAL SENDER: prefer the caller's explicit `from`, else the

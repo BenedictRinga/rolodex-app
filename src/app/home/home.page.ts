@@ -379,6 +379,13 @@ export class HomePage implements OnInit, OnDestroy {
   /** The first-close share waits until the panel is actually open. */
   private ftSharePending = false;
 
+  /** 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE: the gentle line above the
+   *  doors for a returning visitor whose cocoon still stands. Once per
+   *  session, never louder; the watch rides the ft_* stream. */
+  ftNudgeOn = false;
+  private ftNudgeShownSession = false;
+  private ftNudgeAtMs = 0;
+
   /** Back is on every step except the congratulations themselves. */
   get ftShowBack(): boolean {
     // 2026-09-24 BUILD 324: every phased card clip carries its return.
@@ -390,7 +397,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** The gates' reply door — the slate transforms to the two phone doors. */
-  ftReply(): void { this.ftLog('ft_gate', { gate: 'reply' }); this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone'); }
+  ftReply(): void { this.ftLog('ft_gate', { gate: 'reply' }); this.ftNudgeResponded(); this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone'); }
+
+  /** BUILD 341: the nudge's whole purpose - did the gentle line move them?
+   *  The FIRST gate tap after the nudge closes the watch; one event per session. */
+  private ftNudgeResponded(): void {
+    if (!this.ftNudgeOn) return;
+    this.ftNudgeOn = false;
+    void this.analytics.track('ft_nudge_responded', { latencyMs: this.ftNudgeAtMs ? Date.now() - this.ftNudgeAtMs : 0 });
+  }
 
   /** From my phone — stay on this page until a person is actually picked.
    *  Cancelling the picker leaves the two doors standing. */
@@ -404,7 +419,7 @@ export class HomePage implements OnInit, OnDestroy {
    *  or whatever, and hand-off for now... the LoopKeeper algo then continues
    *  it later with our 9am track"): the decide door opens the EMPTY TASK
    *  CARD — cloned into this canvas (never exported to a component). */
-  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftLog('ft_choice', { choice: 'card' }); this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card'); }
+  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftNudgeResponded(); this.ftLog('ft_choice', { choice: 'card' }); this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card'); }
 
   /** 2026-09-24 BUILD 324 THE PHASED SECOND TRACK — state above; the clips:
    *  01c the blank card face + "name it"; 02c the flipped card, one thing at
@@ -763,6 +778,23 @@ export class HomePage implements OnInit, OnDestroy {
       this.inAppNotifications.setCocoonQuiet(true, this.translate.instant('loopkeeper.ft.encourage'));
       void this.storageService.set('lk_ft_open', true).catch(() => { /* best effort */ });
       void this.analytics.track('firstminute_shown', { phase: 'gates' });
+      // 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE (founder: "By the second
+      // visit we know this is serious. Can we show them a gentle nudge 'Take
+      // that one gentle step - do something here, and we enter into the full
+      // LoopKeeper experience'. Then we start watching again: did they respond
+      // to nudge. Did they keep coming back. What to do next. All TBD."):
+      // visit 2+ with the cocoon STILL standing gets the gentle line once per
+      // session; ft_nudge_shown (with the visit number) arms the watch, and
+      // the first gate tap fires ft_nudge_responded - the funnel reads
+      // shown -> responded -> ft_concluded, and the repeat boots keep logging
+      // shown so "did they keep coming back" reads straight off the stream.
+      const visits = this.analytics.getVisitNumber();
+      if (visits >= 2 && !this.ftNudgeShownSession) {
+        this.ftNudgeOn = true;
+        this.ftNudgeShownSession = true;
+        this.ftNudgeAtMs = Date.now();
+        void this.analytics.track('ft_nudge_shown', { visitNumber: visits });
+      }
     } catch { this.ftView = ''; /* the gate must never block the app */ }
   }
 

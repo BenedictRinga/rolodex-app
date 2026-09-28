@@ -206,9 +206,9 @@
     "drop.reason2": "Not worth it, honestly",
     "drop.reason3": "The relationship cooled",
     "drop.reason4": "Handled outside the app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Ergaa yeroo dheeraa ergeessaa jirtu — sammuu kee irratti taatee jirti. LoopKeeper riqeecha argatee barreessa; atis Ergu qofaa dhiibaa: {{url}}",
+    "share.voiceB": "'Yeroo tokko wal arginna' jechu kunis tasaa siitti ulfaata. LoopKeeper taaca tokkoon ergaa dhugaa taasisa— ulfaatni gadi bu'a: {{url}}",
+    "share.voiceC": "Odoo 'boodaan' deebisi jedhe ture. Boodaan hin dhufu — kanaafuu LoopKeeper amma siif barreesa. Taaca tokko ergaa dhugumaan ergame: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Fira waadaa guutu ta'i. LoopKeeper barreessa, ati mirkaneessa, ati jecha keetiin ergita — waadaa tokko yeroo tokko: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Yoo ogessa dhuunfaa hin hortu qabaatta?*\n\n*LoopKeeper* beeksi — hojiiwwan qopheessuu, yaadachiisaa fi sochii guyyaa kee bulchina.\n\nDhiyaata 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *LoopKeeper beeksi — ogeessa dijitaalaa kee!*\n\nHojiwwan, caasaa fi yaadachiisaa dagachaa dhabdaa? *LoopKeeper* qindoomina siif qabi, guyyaa kee fuldura bahi.\n\n👉 As ilaali: {{url}}\n\nSafi hojjedhu. Karaa irratti booda'uu. 🔄",
+    "share.voiceE": "😏 *Ergaa yeroo yeroo dhaabaa jirtu jira. Kam akka ta'e beekta.*\n\n*LoopKeeper* siif barreessa — riqeechatu argame, jecha filatame. *Ergu* qofaa dhiibi, dhaga'ama booda gadi siiraa.\n\nYaali 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Namni tokko sobaan hin dhabaman — kan cinat kennaan jalqabuu keessa jira.*\n\n*LoopKeeper* wantoota dhaabdan gara barreeffama erguu qabeetti jijjiira. Ergaa tokko bahaa, maraa tokko cufama, wantoonni gadi dhaaba.\n\n👉 Tokko irraa jalqabaa: {{url}}\n\nKan si qabu ergaa. 🔄",
     "walk.doorInvite": "LoopKeeper isini ergi",
     "walk.taskCard": "Kaarata hojii haaraa",
     "walk.doorChat": "LoopKeeper keessatti walqabsiisi",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Tarkii miidhaa tokko fudhaa — asitti waan tokko hojjedhu, yeroo san nuti LoopKeeper guutuu seenna."
   }
 }

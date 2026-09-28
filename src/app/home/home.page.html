@@ -14,6 +14,11 @@
       <ion-icon name="arrow-back-outline"></ion-icon>
     </button>
     <ng-container *ngIf="ftView === 'gates'">
+      <!-- 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE (founder): a returning
+           visitor still behind the doors gets ONE gentle line - do something
+           here, and the full experience opens. The watch: ft_nudge_shown ->
+           ft_nudge_responded (the first gate tap) -> ft_concluded. -->
+      <p class="ft-nudge" *ngIf="ftNudgeOn">{{ 'loopkeeper.ft.nudge' | translate }}</p>
       <div class="ft-gates">
         <button class="ft-gate" type="button" (click)="ftReply()">
           <ion-icon name="chatbubble-ellipses-outline"></ion-icon>

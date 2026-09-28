@@ -206,9 +206,9 @@
     "drop.reason2": "ईमानदारी से, इसका कोई मूल्य नहीं",
     "drop.reason3": "रिश्ता ठंडा हो गया",
     "drop.reason4": "ऐप से बाहर निपटा लिया",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper वह संदेश लिखता है जो आप मित्र के लिए देना चाहते हैं — शब्द और समय, भेजने को तैयार। रिश्ते, संभाले हुए। {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "एक जवाब है जिसे भेजने का मन बनाते आ रहे हैं — दिमाग़ में बैठा है। LoopKeeper संदर्भ ढूँढकर उसे लिख देता है; आपको बस भेजें दबाना है: {{url}}",
+    "share.voiceB": "वह 'कभी मिलते हैं' वाली बात चुपचाप वज़न बन रही है। LoopKeeper उसे एक टैप में सच्चा संदेश बना देता है — और बोझ उठ जाता है: {{url}}",
+    "share.voiceC": "आपने खुद से कहा था कि 'बाद में' जवाब दूँगा। बाद में कभी नहीं आता — इसलिए LoopKeeper अब लिख देता है। एक टैप और वाकई भेज दिया: {{url}}",
     "t.openErr": "वह लूप नहीं खुला — फिर कोशिश करें।",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "{{person}} के साथ लूप खुला — मसौदा तैयार।",
@@ -577,7 +577,7 @@
     "add.pickToast": "फ़ोन से चुनने के लिए Android Chrome चाहिए — या उस व्यक्ति को खुद जोड़ें।",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "कोई ढूँढें",
-    "share.voiceD": "यह आपके फ़ोन पर रहता है — वह जवाब जो आप भेजना चाहते थे, पहले से लिखा; Send आप दबाते हैं: {{url}}",
+    "share.voiceD": "वह दोस्त बनिए जो सच में ख़बर लेता है। LoopKeeper लिखता है, आप मंज़ूर करते हैं, अपने शब्दों में भेजते हैं — एक बार में एक निभाया वादा: {{url}}",
     "privacy.madeBy": "LoopKeeper Zyppar का है। https://zyppar.com/loopkeeper/ बुकमार्क करें।",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "रद्द करें",
     "garden.renamedToast": "{{n}} लूप खिसके: \"{{from}}\" अब \"{{to}}\" है।",
     "garden.walkBtn": "चलें",
-    "share.voiceE": "👀 *अगर आपके पास एक निजी सचिव हो जो कभी न सोए?*\n\nमिलिए *LoopKeeper* से — वह ऐप जो रोज़मर्रा के काम, रिमाइंडर और दैनिक गतिविधियाँ संभालने में आपकी मदद करता है।\n\nआज़माएँ 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *मिलिए LoopKeeper से — आपका डिजिटल सचिव!*\n\nकाम, दिनचर्या और रिमाइंडर भूलने से थक गए? *LoopKeeper* को आपको व्यवस्थित और दिन के सबसे आगे रखने दें।\n\n👉 यहाँ देखें: {{url}}\n\nसमझदारी से काम करें। ट्रैक पर बने रहें। 🔄",
+    "share.voiceE": "😏 *एक संदेश है जिसे आप टाल ही जा रहे हैं। आपको पता है कौन-सा।*\n\n*LoopKeeper* आपके लिए लिख देगा — संदर्भ मिल गया, शब्द चुन लिए। बस *भेजें* दबाइए और आख़िरकार सीना हल्का होगा।\n\nआज़माइए 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *किसी को जान-बूझकर नहीं टाला — बस शुरुआत कहाँ से करें, समझ नहीं आ रहा।*\n\n*LoopKeeper* अटके हुए ढेर को भेजने-योग्य ड्राफ़्ट में बदल देता है। एक संदेश गया, एक लूप बंद हुआ, ढेर घटता रहता है।\n\n👉 एक से शुरू करें: {{url}}\n\nजो चुकाना बाकी है, भेज दीजिए। 🔄",
     "walk.doorInvite": "उन्हें LoopKeeper भेजें",
     "walk.taskCard": "नया कार्ड कार्ड",
     "walk.doorChat": "LoopKeeper में चैट करें",
@@ -734,6 +734,7 @@
     "lt.recent": "हाल की खोजें",
     "lt.clear": "मिटाएँ",
     "lt.empty": "कोई भी शब्द या वाक्य खोजें - उत्तर, उदाहरण और उद्गम, बोलने वाली आवाज़ के साथ। आपकी खोजें इसी डिवाइस पर रहती हैं।",
-    "lt.listen": "बोलो"
+    "lt.listen": "बोलो",
+    "ft.nudge": "वह एक कोमल कदम उठाइए — यहाँ कुछ कीजिए, और हम पूरे LoopKeeper अनुभव में प्रवेश करते हैं।"
   }
 }

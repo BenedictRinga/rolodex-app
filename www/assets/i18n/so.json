@@ -206,9 +206,9 @@
     "drop.reason2": "Xaqiiqda ah, ma laha qiimo",
     "drop.reason3": "Xiriirku wuu diiray",
     "drop.reason4": "Waa la dhammeeyay ka baxsan app-ka",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper wuxuu qoraa fariinta aad sahlaysid saaxiib — ereyada iyo waqtiga, diyaar u dir. Xiriirrada, waa la hayaa. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Waxaa jira jawaab aad uga tahay inaad dirto — way ku galaysay maskaaxdaada. LoopKeeper wuxuu helaa macnaha xilliga oo qoraa; adiguna waa kaliya oo riix Dir: {{url}}",
+    "share.voiceB": "Bal 'mar dambe ayaynu kulannaa' — si qarsoodi ah ayuu kugu culays yahay. LoopKeeper hal guji wuu ka dhigaa farriin dhab ah — culayskana wuu dhoofaa: {{url}}",
+    "share.voiceC": "Waxaad u sheegtay inaad 'dabadeen' ka jawaabi doonto. Dabadeen ma yimaado — sidaas darted LoopKeeper hadda wuu qoraa. Hal guji, runtii la diray: {{url}}",
     "t.openErr": "Loop-kaan ma furmin — isku day mar kale.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop la furay {{person}} — qoraalka waa diyaar.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Ka soo qaadista telefoonka waxay u baahan tahay Android Chrome — ama si gacanta ah ugu dar qofka.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Raadi qof",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Noqo saaxiibka runtii xogka isku deeya. LoopKeeper wuu qoraa, adigu aqbal, adigoo erayadaada ah dira — balan qaad lafulay mar walba: {{url}}",
     "privacy.madeBy": "LoopKeeper waxaa sameeyay Zyppar. Calaamadee https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Maxay dhacay haddii aad lahaato xafiis gaar ah oo aan waligiin seexdin?*\n\nBaro *LoopKeeper* — abka ku caawina in aad maamusho hawlaha caadiga ah, xasuusiinta iyo waxqabadka maalintii.\n\nIsku day 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Baro LoopKeeper — xafiiskaada dijitalka ah!*\n\nDaalaysay in aad ilowdo hawlaha, caadooyinka iyo xasuusiinta? U dhaa *LoopKeeper* inuu kuu diyaariyo nidaamka iyo maalintaada.\n👉 Fiiri halkan: {{url}}\n\nSi xariif ah u shaqee. Jidka ku sii jir. 🔄",
+    "share.voiceE": "😏 *Waxaa jira farriin aad si joogto ah u dib u dhigto. Waad ogtahay midka ay tahay.*\n\n*LoopKeeper* wuu kuu qorayaa — macnaha xilliga laga helay, erayada la doortay. Riix *Dir* oo ugu dambeyn lafahaaga ka da'ayaa.\n\nIsku day 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Qofna lama dhaafin si gooni ah — waxaa kaliya oo aan garanayn xaggee laga bilaabo.*\n\n*LoopKeeper* wuxuu badalaa xabbadaha xannintay oo qoraallo diyaar ah. Hal farriin baxday, hal wareeg la xiray, xabbaduhu way yaraanayaan.\n\n👉 Bilow mid: {{url}}\n\nDir tan aad qabto. 🔄",
     "walk.doorInvite": "U dir LoopKeeper",
     "walk.taskCard": "Kaarid hawl cusub",
     "walk.doorChat": "Walax ka wada LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Raadisyo dhawaan",
     "lt.clear": "Nadiifi",
     "lt.empty": "Raadi erey ama juqraaf kasta - jawaab, tusaale, iyo asal, oo codad leh. Raadisyadaadu way ku harayaan galaabtaada.",
-    "lt.listen": "Dhahid"
+    "lt.listen": "Dhahid",
+    "ft.nudge": "Tallaabada naxariisiga ah ee keliya qaado — halkan wax qabso, oo waxaan galnaa waayo-aragnimada LoopKeeper oo dhan."
   }
 }

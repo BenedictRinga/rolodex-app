@@ -206,9 +206,9 @@
     "drop.reason2": "Úprimne, nestojí to za to",
     "drop.reason3": "Vzťah ochladol",
     "drop.reason4": "Vyriešené mimo aplikácie",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Je tu odpoveď, ktorú dlho plánuješ poslať — usadila sa ti v hlave. LoopKeeper nájde kontext a napíše ju; tebe zostáva len stlačiť Poslať: {{url}}",
+    "share.voiceB": "To „niekedy sa musíme vidieť\" ti potichu leží na srdci. LoopKeeper z toho jedným dotykom spraví skutočnú správu — a bremeno sa zľaví: {{url}}",
+    "share.voiceC": "Povedal si si, že odpovieš „neskôr\". Neskôr nikdy nepríde — tak ju LoopKeeper napíše za teba teraz. Jeden dotyk a naozaj je odoslaná: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Buď priateľom, ktorý sa naozaj dáva o sebe vedieť. LoopKeeper napíše, ty schváliš, ty pošleš vlastnými slovami — jedno dodržané sľúbenie za druhým: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Čo keby ste mali osobného sekretára, ktorý nikdy nespí?*\n\nSpoznajte *LoopKeeper* — aplikáciu, ktorá vám pomáha zvládať bežné úlohy, pripomienky a každodenné aktivity.\n\nVyskúšajte 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Spoznajte LoopKeeper — vášho digitálneho sekretára!*\n\nUnavuje vás zabúdanie na úlohy, rutiny a pripomienky? Nechajte *LoopKeeper*, aby vás držal v poriadku a na špici dňa.\n\n👉 Pozrite tu: {{url}}\n\nPracujte múdre. Zostaňte na kurze. 🔄",
+    "share.voiceE": "😏 *Je tu správa, ktorú stále odkladáš. Presne vieš, ktorá.*\n\n*LoopKeeper* ju napíše za teba — kontext nájdený, slová vybrané. Len stlačiť *Poslať* a konečne ľahšie dýchaš.\n\nVyskúšaj 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Nikto nie je ignorovaný naschvál — len neviem, kde začať.*\n\n*LoopKeeper* premení zamrznutú kopu na koncepty pripravené na odoslanie. Jedna správa von, jedna slučka zatvorená, kopa sa stále zmenšuje.\n\n👉 Začni jednou: {{url}}\n\nPošli tú, ktorú dlhuješ. 🔄",
     "walk.doorInvite": "Pošlite im LoopKeeper",
     "walk.taskCard": "Nová karta úlohy",
     "walk.doorChat": "Chatujte v LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Urob ten jeden jemný krok — urob tu niečo, a vstúpime do celého zážitku LoopKeeper."
   }
 }

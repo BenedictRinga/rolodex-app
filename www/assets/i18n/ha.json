@@ -206,9 +206,9 @@
     "drop.reason2": "Ba ya cancanta, a gaskiya",
     "drop.reason3": "Alaka ta sanyaya",
     "drop.reason4": "An warware ta waje da app din",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Akwai saƙon da kake tunanin za ka aika tun da daɗe — yana kwance a zuciyarka. LoopKeeper ya samu yanayi ya rubuta shi; kai kawai danna Aika: {{url}}",
+    "share.voiceB": "Wancan 'mu sha wata rana' yana ba ka nauyi a asirce. LoopKeeper da bugu daya ya mai da shi saƙo na gaskiya — nauyin ya ɗaga: {{url}}",
+    "share.voiceC": "Ka ce da kanka za ka amsa 'daga baya'. Daga baya ba ta zo ba — saboda haka LoopKeeper yana rubuta masa yanzu. Bugu daya aka tura gaskiya: {{url}}",
     "t.openErr": "Ba a iya buɗe wannan madauwali ba — a sake gwadawa.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "An buɗe madauwali da {{person}} — daftari ya shirya.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Ka zama abokin da yake biya alkawari. LoopKeeper ya rubuta, ka amince, kai ka aika da kalmominka — alkwari guda a sau daya: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Me za ka yi idan ka sami sakatarenka na kebe wanda bai taɓa barci ba?*\n\nGa *LoopKeeper* — app ɗin da zai taimaka maka ka kula da ayyukan yau da kullum, tunatarwa da harkokinka.\n\nGwada shi 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Ga LoopKeeper — sakatarenka na dijital!*\n\nGajiya da mantawa da ayyuka, aladu da tunatarwa? Bari *LoopKeeper* ya tsayar da kai a tsari, ka kasan ci gaba da ranarka.\n\n👉 Duba nan: {{url}}\n\nYi aiki da hikima. Ka kasance a hanya. 🔄",
+    "share.voiceE": "😏 *Akwai saƙon da kake jinkirtawa har abada. Ka san wane ne.*\n\n*LoopKeeper* zai rubuta maki — an samu yanayi, an zabi kalmomi. Danna *Aika* kawai, daga bisani kafanka ya sauqa.\n\nGwada shi 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Ba wanda ake watsi da shi da gangan ba — dai dai ba a san inda za a fara ba.*\n\n*LoopKeeper* ya mai da tarin da ya tsaya cik saƙonnan da aka shirya aikawa. Saƙo daya ya fito, zagaye daya ya rufe, tarin yana raguwa.\n\n👉 Ka fara da daya: {{url}}\n\nAika wanda kake da bashinsa. 🔄",
     "walk.doorInvite": "Aika musu da LoopKeeper",
     "walk.taskCard": "Sabuwar katin aiki",
     "walk.doorChat": "Yi hira a LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Neman baya-bayan nan",
     "lt.clear": "Goge",
     "lt.empty": "Nemi kowace kalma ko jimla - amsa, misali da asali, da murya da ke faɗi. Nematanka na wannan na'ura suke.",
-    "lt.listen": "Fadi"
+    "lt.listen": "Fadi",
+    "ft.nudge": "Ka dauki wannan mataki daya mai laushi — ka yi wani abu a nan, za mu shiga cikakkiyar gwajiwar LoopKeeper."
   }
 }

@@ -206,9 +206,9 @@
     "drop.reason2": "בכנות — לא שווה",
     "drop.reason3": "הקשר התקרר",
     "drop.reason4": "טופל מחוץ לאפליקציה",
-    "share.voiceA": "את התשובה שתמיד התכוונתם לשלוח? LoopKeeper מצא את ההקשר וכתב טיוטה — לכם נשאר ללחוץ שלח: {{url}}",
-    "share.voiceB": "LoopKeeper נסח את ההודעה שאתה חייב לחבר — המילים והרגע, מוכנים לשליחה. קשרים, נשמרים. {{url}}",
-    "share.voiceC": "תפסתי את השורה עוד לפני שהקפה התקררה — LoopKeeper הפך אותה להודעה מוכנה לשליחה: {{url}}",
+    "share.voiceA": "יש תשובה שאתה כבר הרבה זמן מתכוון לשלוח — היא לא נותנת לך מנוחה. LoopKeeper מוצא את ההקשר ומנסח אותה; רק תלחץ שלח: {{url}}",
+    "share.voiceB": "ה'חייבים להיפגש מתישהו' ההוא שוקל עליך בשקט. LoopKeeper הופך אותו להודעה אמיתית בנגיעה אחת — והמשקל מתרומם: {{url}}",
+    "share.voiceC": "אמרת לעצמך שתענה 'מאוחר יותר'. מאוחר יותר לא מגיע לעולם — אז LoopKeeper מנסח לך עכשיו. נגיעה אחת וזה באמת נשלח: {{url}}",
     "t.openErr": "לא הצלחנו לפתוח את הלולאה — נסו שוב.",
     "t.sampleBlocked": "זוהי דוגמה בלבד — כתבו הבטחה אמיתית משלכם כדי לתעד אותה.",
     "t.opened": "הלולאה עם {{person}} נפתחה — הטיוטה מוכנה.",
@@ -577,7 +577,7 @@
     "add.pickToast": "בחירה מהטלפון דורשת Android Chrome — או הקלידו את האיש ידנית.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "למצוא מישהו",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "היה החבר שבאמת מתעדכן. LoopKeeper מנסח, אתה מאשר, אתה שולח במילים שלך — הבטחה שנשמרת בכל פעם: {{url}}",
     "privacy.madeBy": "LoopKeeper מבית Zyppar. שמרו https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *מה אם היה לכם מזכיר אישי שלא ישן לעולם?*\n\nהכירו את *LoopKeeper* — האפליקציה שעוזרת לכם לנהל מטלות שגרתיות, תזכורות ופעילויות יומיומיות.\n\nנסו אותה 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *הכירו את LoopKeeper — המזכירה הדיגיטלית שלכם!*\n\nנמאס לכם לשכוח מטלות, שגרות ותזכורות? תנו ל-*LoopKeeper* לשמור עליכם מסודרים ובשליטה על היום.\n\n👉 ראו כאן: {{url}}\n\nעבדו חכם. הישארו בעקבות. 🔄",
+    "share.voiceE": "😏 *יש הודעה שאתה דוחה שוב ושוב. אתה יודע בדיוק איזו.*\n\n*LoopKeeper* מנסח אותה בשבילך — ההקשר נמצא, המילים נבחרו. רק ללחוץ *שלח* ולבסוף זה יורד מהלב.\n\nנסה 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *אף אחד לא מוזנח בכוונה — פשוט לא יודע מאיפה להתחיל.*\n\n*LoopKeeper* הופך את הערימה התקועה לטיוטות מוכנות לשליחה. הודעה אחת יצאה, לולאה אחת נסגרה, הערימה ממשיכה לקטון.\n\n👉 התחל באחת: {{url}}\n\nשלח את זו שאתה חייב. 🔄",
     "walk.doorInvite": "שלחו להם את LoopKeeper",
     "walk.taskCard": "כרטיס משימה חדש",
     "walk.doorChat": "שיחה ב-LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "חיפושים אחרונים",
     "lt.clear": "נקה",
     "lt.empty": "חפשו כל מילה או משפט - התשובה, דוגמה ומקור, עם קול שאומר את זה. החיפושים שלכם נשארים במכשיר.",
-    "lt.listen": "הקרא"
+    "lt.listen": "הקרא",
+    "ft.nudge": "עשה את הצעד העדין ההוא — עשה משהו כאן, ואנחנו נכנסים לחוויית LoopKeeper המלאה."
   }
 }

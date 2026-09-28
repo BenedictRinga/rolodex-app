@@ -206,9 +206,9 @@
     "drop.reason2": "Not worth it, honestly",
     "drop.reason3": "The relationship cooled",
     "drop.reason4": "Handled outside the app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "มีข้อความตอบที่คุณตั้งใจจะส่งมานาน — มันค้างอยู่ในใจ LoopKeeper หาบริบทและร่างให้ คุณแค่กดส่ง: {{url}}",
+    "share.voiceB": "ประโยค 'วันหน้าค่อยนัดเจอกัน' มันกดดันคุณเงียบ ๆ LoopKeeper เปลี่ยนเป็นข้อความจริงในการแตะเดียว — และน้ำหนักนั้นก็ยกลงได้: {{url}}",
+    "share.voiceC": "คุณบอกตัวเองว่าจะตอบ 'ทีหลัง' ทีหลังไม่มีวันมา — เพราะงั้น LoopKeeper ร่างให้คุณตอนนี้เลย แตะเดียวและส่งไปจริง ๆ: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "เป็นเพื่อนที่ตามข่าวจริง ๆ LoopKeeper ร่าง คุณอนุมัติ คุณส่งด้วยคำพูดของคุณเอง — สัญญาที่รักษาไว้ทีละข้อ: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *ถ้าคุณมีเลขานุการส่วนตัวที่ไม่เคยหลับล่ะ?*\n\nรู้จัก *LoopKeeper* — แอปที่ช่วยคุณจัดการงานประจำ การเตือนความจำ และกิจกรรมประจำวัน\n\nลองใช้เลย 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *รู้จัก LoopKeeper — เลขานุการดิจิทัลของคุณ!*\n\nเบื่อไหมที่ลืมงาน กิจวัตร และการเตือนความจำ ปล่อยให้ *LoopKeeper* จัดระเบียบให้คุณและนำหน้าวันของคุณ\n\n👉 ดูได้ที่นี่: {{url}}\n\nทำงานฉลาดขึ้น อยู่บนเส้นทาง 🔄",
+    "share.voiceE": "😏 *มีข้อความที่คุณเลื่อนไปเรื่อย ๆ คุณรู้ว่าเป็นข้อไหนดี*\n\n*LoopKeeper* ร่างให้คุณ — บริบทเจอแล้ว คำพูดเลือกแล้ว แค่กด *ส่ง* และในที่สุดก็หลุดออกจากอก\n\nลองเลย 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *ไม่ได้เมินใครตั้งใจ — แค่ไม่รู้จะเริ่มจากตรงไหน*\n\n*LoopKeeper* เปลี่ยนกองที่ติดขัดให้เป็นร่างพร้อมส่ง ข้อความออกไปหนึ่ง ลูปปิดหนึ่ง กองยังเล็กลงต่อไป\n\n👉 เริ่มจากหนึ่ง: {{url}}\n\nส่งข้อความที่คุณค้างไว้ 🔄",
     "walk.doorInvite": "ส่ง LoopKeeper ให้พวกเขา",
     "walk.taskCard": "การ์ดงานใหม่",
     "walk.doorChat": "แชทใน LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "ก้าวเดียวที่อ่อนโยนนั้น — ทำอะไรสักอย่างที่นี่ แล้วเราจะเข้าสู่ประสบการณ์ LoopKeeper เต็มรูปแบบ"
   }
 }

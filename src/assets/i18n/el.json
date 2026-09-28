@@ -206,9 +206,9 @@
     "drop.reason2": "Ειλικρινά δεν αξίζει τον κόπο",
     "drop.reason3": "Η σχέση κρύωσε",
     "drop.reason4": "Επιλύθηκε εκτός εφαρμογής",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Υπάρχει μια απάντηση που καιρό θέλεις να στείλεις — σε βαραίνει. Το LoopKeeper βρίσκει το πλαίσιο και τη συντάσσει· εσύ πατάς απλώς Αποστολή: {{url}}",
+    "share.voiceB": "Εκείνο το «πρέπει να βρεούμε καμιά μέρα» σε ζυγίζει σιωπηλά. Το LoopKeeper το κάνει πραγματικό μήνυμα με ένα άγγιγμα — και το βάρος φεύγει: {{url}}",
+    "share.voiceC": "Είπες στον εαυτό σου ότι θα απαντήσεις «αργότερα». Το αργότερα δεν έρχεται ποτέ — οπότε το LoopKeeper το συντάσσει τώρα για σένα. Ένα άγγιγμα και έχει σταλεί για τα καλά: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Γίνε ο φίλος που πραγματικά δίνει σημεία ζωής. Το LoopKeeper το συντάσσει, εσύ το εγκρίνεις, εσύ το στέλνεις με δικά σου λόγια — μια εκπληρωμένη υπόσχεση τη φορά: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Τι αν είχατε μια προσωπική γραμματέα που δεν κοιμάται ποτέ;*\n\nΓνωρίστε το *LoopKeeper* — την εφαρμογή που σας βοηθά να διαχειρίζεστε ρουτίνας, υπενθυμίσεις και καθημερινές δραστηριότητες.\n\nΔοκιμάστε την 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Γνωρίστε το LoopKeeper — τον ψηφιακό σας γραμματέα!*\n\nΚουραστήκατε να ξεχνάτε εργασίες, ρουτίνες και υπενθυμίσεις; Αφήστε το *LoopKeeper* να σας κρατά οργανωμένους και μπροστά στην ημέρα σας.\n\n👉 Δείτε το εδώ: {{url}}\n\nΔουλέψτε έξυπνα. Μείνετε σε πορεία. 🔄",
+    "share.voiceE": "😏 *Υπάρχει ένα μήνυμα που συνεχώς αναβάλλεις. Ξέρεις ποιο.*\n\nΤο *LoopKeeper* το συντάσσει για σένα — το πλαίσιο βρέθηκε, οι λέξεις διαλέχτηκαν. Πάτα *Αποστολή* και επιτέλους ελαφραίνει.\n\nΔοκίμασέ το 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Κανείς δεν αγνοείται επίτηδες — απλώς δεν ξέρω από πού να ξεκινήσω.*\n\nΤο *LoopKeeper* μετατρέπει το στοιβαγμένο σωρό σε έτοιμα προσχέδια. Ένα μήνυμα έφυγε, ένας βρόχος έκλεισε, ο σωρός συνεχίζει να μικραίνει.\n\n👉 Ξεκίνα με ένα: {{url}}\n\nΣτείλε αυτό που χρωστάς. 🔄",
     "walk.doorInvite": "Στείλτε τους το LoopKeeper",
     "walk.taskCard": "Νέα κάρτα εργασίας",
     "walk.doorChat": "Συνομιλήστε στο LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Κάνε εκείνο το ένα απαλό βήμα — κάνε κάτι εδώ, και μπαίνουμε στην πλήρη εμπειρία του LoopKeeper."
   }
 }

@@ -206,9 +206,9 @@
     "drop.reason2": "说实话，不太值得",
     "drop.reason3": "关系淡了",
     "drop.reason4": "已经在应用外处理好了",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper 帮你起草欠朋友的那句话 — 措辞和时机，随时可发。关系，常青。{{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "有一条你一直想着要回的消息 — 一直悬在心里。LoopKeeper 找到上下文并替你拟好，你只需按下发送：{{url}}",
+    "share.voiceB": "那句「改天聚聚」悄悄压着你。LoopKeeper 一点就能把它变成真正的消息 — 心里的担子就放下了：{{url}}",
+    "share.voiceC": "你对自己说过「回头再回」。回头永远不会来 — 所以 LoopKeeper 现在就替你写好。一点，真的就发出去了：{{url}}",
     "t.openErr": "未能打开该回路——请重试。",
     "t.sampleBlocked": "这是示例文字——写下你自己的真实承诺才能记录。",
     "t.opened": "与 {{person}} 的新回路已开启——草稿就绪。",
@@ -577,7 +577,7 @@
     "add.pickToast": "从手机选取需要 Android Chrome——或者手动输入这一个人。",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "找一个人",
-    "share.voiceD": "它就在你的手机上——那条你一直想回的回复已写好草稿；按“发送”的是你：{{url}}",
+    "share.voiceD": "做那个真正会跟进的朋友。LoopKeeper 拟稿，你确认，你用自己的话发出 — 一次兑现一个承诺：{{url}}",
     "privacy.madeBy": "LoopKeeper 由 Zyppar 制作。请收藏 https://zyppar.com/loopkeeper/。",
     "privacy.analyticsTitle": "匿名使用（不含姓名）",
     "privacy.analyticsBody": "启动、会话、发送、关闭——从没有联系人、姓名或正文。可随时关掉。",
@@ -626,8 +626,8 @@
     "garden.cancel": "取消",
     "garden.renamedToast": "已移动 {{n}} 个循环：\"{{from}}\" 现在是\"{{to}}\"。",
     "garden.walkBtn": "走一走",
-    "share.voiceE": "👀 *如果你有一位从不睡觉的私人秘书呢？*\n\n认识一下 *LoopKeeper* — 帮你打理日常事务、提醒和每天活动的应用。\n\n试试看 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *认识 LoopKeeper — 你的数字秘书！*\n\n厌倦了忘记任务、惯例和提醒？让 *LoopKeeper* 帮你保持井井有条，走在一天的前面。\n\n👉 在这里看看: {{url}}\n\n更聪明地工作。保持在轨道上。 🔄",
+    "share.voiceE": "😏 *有一条消息你一直在拖。你知道是哪一条。*\n\n*LoopKeeper* 替你拟好 — 上下文找到，措辞选好。只需按下 *发送*，胸口的石头终于落地。\n\n试试看 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *没有故意晾着谁 — 只是不知从哪儿开始。*\n\n*LoopKeeper* 把卡住的堆积变成待发的草稿。发出一条，闭环一个，堆头不断变小。\n\n👉 从一条开始：{{url}}\n\n把欠的那条发出去。 🔄",
     "walk.doorInvite": "把 LoopKeeper 发给他们",
     "walk.taskCard": "新建任务卡片",
     "walk.doorChat": "在 LoopKeeper 里聊天",
@@ -734,6 +734,7 @@
     "lt.recent": "最近的查询",
     "lt.clear": "清除",
     "lt.empty": "查任何词或句子 - 释义、例句、来源，还有朗读的声音。查询只留在这台设备上。",
-    "lt.listen": "朗读"
+    "lt.listen": "朗读",
+    "ft.nudge": "迈出那温柔的一步 — 在这里做点什么，我们就走进完整的 LoopKeeper 体验。"
   }
 }

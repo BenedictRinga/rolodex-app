@@ -206,9 +206,9 @@
     "drop.reason2": "لا يستحق المشكلة بصراحة",
     "drop.reason3": "برودت العلاقة",
     "drop.reason4": "عولج خارج التطبيق",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper يصيغ الرسالة التي تلتزم بها لصديق — الكلمات واللحظة، جاهزة للإرسال. العلاقات، محفوظة. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "تلك الرسالة التي تدوم نيّتك في إرسالها — ظلّت عالقة في بالك. يجد LoopKeeper السياق ويصيغها؛ وأنت تضغط إرسال فقط: {{url}}",
+    "share.voiceB": "ذلك «يجب أن نتجمع يومًا» يثقل عليك في صمت. يحوّلها LoopKeeper إلى رسالة حقيقية بنقرة واحدة — فيرتفع الثقل: {{url}}",
+    "share.voiceC": "قلت لنفسك سأرد عليه «لاحقًا». لاحقًا لا تأتي أبدًا — لذا يصيغها LoopKeeper لك الآن. نقرة واحدة وقد أُرسلت فعلًا: {{url}}",
     "t.openErr": "تعذّر فتح هذه الحلقة — حاول مجددًا.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "فُتحت الحلقة مع {{person}} — المسودة جاهزة.",
@@ -577,7 +577,7 @@
     "add.pickToast": "الاختيار من هاتفك يحتاج Android Chrome — أو أضِف الشخص يدويًا.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "ابحث عن شخص",
-    "share.voiceD": "يعيش في هاتفك — الرد الذي تنوي إرساله دائمًا، وقد صِغته لك؛ وأنت من يضغط «إرسال»: {{url}}",
+    "share.voiceD": "كن الصديق الذي يتابع فعلًا. يصيغها LoopKeeper، وتوافق عليها، وترسلها بكلماتك — وعد محفوظ في كل مرة: {{url}}",
     "privacy.madeBy": "LoopKeeper من Zyppar. احفظ https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "إلغاء",
     "garden.renamedToast": "تم نقل {{n}} حلقة: \"{{from}}\" أصبحت \"{{to}}\".",
     "garden.walkBtn": "امشِ",
-    "share.voiceE": "👀 *ماذا لو كان لديك سكرتير شخصي لا ينام أبدًا؟*\n\nتعرف على *LoopKeeper* — تطبيق يساعدك على إدارة المهام الروتينية والتذكيرات وأنشطتك اليومية.\n\nجرّبه 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *تعرف على LoopKeeper — سكرتيرك الرقمي!*\n\nتعبت من نسيان المهام والروتين والتذكيرات؟ دع *LoopKeeper* يبقيك منظماً وفي صدارة يومك.\n\n👉 جرّبه هنا: {{url}}\n\nاعمل بذكاء. واظب على المسار. 🔄",
+    "share.voiceE": "😏 *توجد رسالة تماطل فيها. أنت تعرف أيّها هي.*\n\n*LoopKeeper* يصيغها لك — السياق وُجد والكلمات اختيرت. اضغط *إرسال* فقط فينزل عن صترك أخيرًا.\n\nجرّبها 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *لا أحد متجاهَل بقصد — فقط تعثّرت في نقطة البداية.*\n\n*LoopKeeper* يحوّل الكومة المتوقفة إلى مسوّدات جاهزة للإرسال. رسالة خرجت، وحلقة أُغلقت، والكومة تُقاصّ.\n\n👉 ابدأ بواحدة: {{url}}\n\nأرسل ما عليك. 🔄",
     "walk.doorInvite": "أرسل لهم LoopKeeper",
     "walk.taskCard": "بطاقة مهمة جديدة",
     "walk.doorChat": "دردش في LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "أحدث البحثات",
     "lt.clear": "مسح",
     "lt.empty": "ابحث عن أي كلمة أو جملة - الجواب ومثال وأصله، مع صوت ينطقه. بحثاتك تبقى على جهازك.",
-    "lt.listen": "انطق"
+    "lt.listen": "انطق",
+    "ft.nudge": "خُذ تلك الخطوة اللطيفة الواحدة — افعل شيئًا هنا، ونمضي إلى تجربة LoopKeeper الكاملة."
   }
 }

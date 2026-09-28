@@ -206,9 +206,9 @@
     "drop.reason2": "Ehrlich: es lohnt nicht",
     "drop.reason3": "Die Beziehung ist abgekühlt",
     "drop.reason4": "Außerhalb der App erledigt",
-    "share.voiceA": "Du schuldest noch eine Antwort? LoopKeeper hat den Kontext gefunden und entworfen — du drückst nur Senden: {{url}}",
-    "share.voiceB": "LoopKeeper formuliert die Nachricht, die du einem Freund schuldest — die Worte und der Moment, bereit zum Senden. Beziehungen, gehalten. {{url}}",
-    "share.voiceC": "Ein Satz erfasst, bevor der Kaffee kalt wurde — LoopKeeper machte die fertige Nachricht daraus: {{url}}",
+    "share.voiceA": "Da ist eine Antwort, die du schon lange abschicken wolltest — sie nagt an dir. LoopKeeper findet den Kontext und formuliert sie; du drückst nur Senden: {{url}}",
+    "share.voiceB": "Dieses 'Wir müssen mal wieder was machen' lastet still auf dir. LoopKeeper macht daraus mit einem Tipp eine echte Nachricht — und die Last hebt sich: {{url}}",
+    "share.voiceC": "Du hast dir vorgenommen, 'später' zu antworten. Später kommt nie — also schreibt es LoopKeeper jetzt für dich. Ein Tipp, und es ist wirklich raus: {{url}}",
     "t.openErr": "Loop konnte nicht geöffnet werden — noch einmal versuchen.",
     "t.sampleBlocked": "Das ist der Beispieltext — schreib eine eigene echte Zusage, um sie festzuhalten.",
     "t.opened": "Loop mit {{person}} geöffnet — Entwurf bereit.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Aus dem Telefon wählen braucht Android Chrome — oder tippe die Person von Hand ein.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Jemanden finden",
-    "share.voiceD": "Es lebt auf deinem Telefon — die Antwort, die du immer senden wolltest, schon entworfen; du drückst Senden: {{url}}",
+    "share.voiceD": "Sei der Freund, der tatsächlich nachfasst. LoopKeeper formuliert, du gibst frei, du sendest in deinen Worten — ein gehaltenes Versprechen nach dem anderen: {{url}}",
     "privacy.madeBy": "LoopKeeper stammt von Zyppar. https://zyppar.com/loopkeeper/ merken.",
     "privacy.analyticsTitle": "Anonyme Nutzung (keine Namen)",
     "privacy.analyticsBody": "Starts, Sitzungen, Senden, Schließen — nie Kontakte, Namen oder Nachrichtentext. Ausschalten, wenn du willst.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Abbrechen",
     "garden.renamedToast": "{{n}} Loop(s) verschoben: \"{{from}}\" heißt jetzt \"{{to}}\".",
     "garden.walkBtn": "Durchgehen",
-    "share.voiceE": "👀 *Was, wenn du eine persönliche Sekretärin hättest, die nie schläft?*\n\nLerne *LoopKeeper* kennen — die App, die dir bei Routineaufgaben, Erinnerungen und deinen täglichen Dingen hilft.\n\nProbier sie aus 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Das ist LoopKeeper — deine digitale Sekretärin!*\n\nMüde, Aufgaben, Routinen und Erinnerungen zu vergessen? Lass *LoopKeeper* dich organisiert halten und den Tag im Griff behalten.\n\n👉 Hier ausprobieren: {{url}}\n\nKlug arbeiten. Dranbleiben. 🔄",
+    "share.voiceE": "😏 *Da ist eine Nachricht, die du ständig aufschiebst. Du weißt genau, welche.*\n\n*LoopKeeper* schreibt sie für dich — Kontext gefunden, Worte gewählt. Nur *Senden* drücken, und es ist endlich vom Herzen.\n\nProbier es 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Niemand wird absichtlich ignoriert — ich weiß nur nicht, wo ich anfangen soll.*\n\n*LoopKeeper* verwandelt den festgefahrenen Stapel in sendefertige Entwürfe. Eine Nachricht raus, eine Schleife zu, der Stapel schrumpft weiter.\n\n👉 Fang mit einer an: {{url}}\n\nSchick die, die du schuldest. 🔄",
     "walk.doorInvite": "Schick ihnen LoopKeeper",
     "walk.taskCard": "Neue Aufgaben-Karte",
     "walk.doorChat": "Chatte in LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Letzte Suchen",
     "lt.clear": "Löschen",
     "lt.empty": "Suche ein Wort oder einen Satz - die Antwort, ein Beispiel und die Herkunft, mit einer Stimme, die es sagt. Deine Suchen bleiben auf diesem Gerät.",
-    "lt.listen": "Anhören"
+    "lt.listen": "Anhören",
+    "ft.nudge": "Mach den einen sanften Schritt — tu hier etwas, und wir treten in das volle LoopKeeper-Erlebnis ein."
   }
 }

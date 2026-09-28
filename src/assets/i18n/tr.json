@@ -206,9 +206,9 @@
     "drop.reason2": "Açıkçası buna değmez",
     "drop.reason3": "İlişki soğudu",
     "drop.reason4": "Uygulama dışında halledildi",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Uzun zamdan beri göndermek istediğin bir cevap var — kafanda takılı kaldı. LoopKeeper bağlamı bulur ve yazar; sen sadece Gönder'e basarsın: {{url}}",
+    "share.voiceB": "O 'bir ara buluşalım' sessizce üstüne bineyor. LoopKeeper tek dokunuşla gerçek bir mesaja çevirir — ve yük kalkar: {{url}}",
+    "share.voiceC": "Kendine 'sonra' cevap vereceğini söyledin. Sonra hiç gelmez — o yüzden LoopKeeper şimdi senin için yazıyor. Tek dokunuş ve gerçekten gönderildi: {{url}}",
     "t.openErr": "Bu döngü açılamadı — tekrar deneyin.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "{{person}} ile döngü açıldı — taslak hazır.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "Telefonunuzda yaşar — göndermek istediğiniz yanıt hazır; Gönder’e siz basarsınız: {{url}}",
+    "share.voiceD": "Gerçekten haber veren arkadaş ol. LoopKeeper yazar, sen onaylarsın, kendi kelimelerinle gönderirsin — her seferinde tutulan bir söz: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "İptal",
     "garden.renamedToast": "{{n}} döngü taşındı: \"{{from}}\" artık \"{{to}}\".",
     "garden.walkBtn": "Yürü",
-    "share.voiceE": "👀 *Ya hiç uyumayan kişisel bir sekreteriniz olsaydı?*\n\nTanışın: *LoopKeeper* — rutin işleri, hatırlatmaları ve günlük aktivitelerinizi yönetmenize yardım eden uygulama.\n\nDeneyin 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *İşte LoopKeeper — dijital sekreteriniz!*\n\nİşleri, rutinleri ve hatırlatmaları unutmaktan sıkıldınız mı? *LoopKeeper* sizi düzenli tutsun, günün başında götürsün.\n\n👉 Buradan bakın: {{url}}\n\nAkıllı çalışın. Raydan çıkmayın. 🔄",
+    "share.voiceE": "😏 *Sürekli ertelediğin bir mesaj var. Hangisi olduğunu çok iyi biliyorsun.*\n\n*LoopKeeper* senin için yazar — bağlam bulundu, kelimeler seçildi. Sadece *Gönder*'e basmak kaldı, sonunda göğsünden iner.\n\nDene 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Kimse kasten yok sayılmıyor — sadece nereden başlayacağımı bilmiyorum.*\n\n*LoopKeeper* takılan yığını göndermeye hazır taslaklara çevirir. Bir mesaj çıktı, bir döngü kapandı, yığın küçülmeye devam ediyor.\n\n👉 Bir tanesiyle başla: {{url}}\n\nÜzerinde duran mesajı gönder. 🔄",
     "walk.doorInvite": "Onlara LoopKeeper gönderin",
     "walk.taskCard": "Yeni Görev kartı",
     "walk.doorChat": "LoopKeeper’da sohbet et",
@@ -734,6 +734,7 @@
     "lt.recent": "Son aramalar",
     "lt.clear": "Temizle",
     "lt.empty": "Herhangi bir kelimeyi veya cümleyi ara - cevap, örnek ve köken, söyleyen bir sesle. Aramaların bu aygıtta kalır.",
-    "lt.listen": "Söyle"
+    "lt.listen": "Söyle",
+    "ft.nudge": "O tek nazik adımı at — burada bir şey yap, ve tam LoopKeeper deneyimine giriyoruz."
   }
 }

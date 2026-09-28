@@ -206,9 +206,9 @@
     "drop.reason2": "Sa totoo lang, hindi sulit",
     "drop.reason3": "Lumamig ang ugnayan",
     "drop.reason4": "Naayos sa labas ng app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "May sagot kang matagal nang balak ipadala — nakadagan sa isip mo. Hahanapin ng LoopKeeper ang konteksto at isusulat ito; pindutin mo lang ang Send: {{url}}",
+    "share.voiceB": "Ang 'magkita tayo balang araw' na iyon ay tahimik kang binibigat. Ginagawang tunay na mensahe ng LoopKeeper sa isang pindot — at bumibitaw ang bigat: {{url}}",
+    "share.voiceC": "Sinabi mong sasagutin mo siya 'mamaya'. Hindi dumarating ang mamaya — kaya isusulat ito ng LoopKeeper para sa iyo ngayon. Isang pindot at talagang naipadala na: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Maging ang kaibigang talagang sumusunod. Isinusulat ng LoopKeeper, inaprubahan mo, ipinapadala mo sa sarili mong salita — isang natupad na pangako bawat beses: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Paano kung may personal na secretary ka na hindi kailanman natutulog?*\n\nKilalanin ang *LoopKeeper* — ang app na tumutulong sa iyong pamahalaan ang mga paulit-ulit na gawain, paalala at pang-araw-araw na aktibidad.\n\nSubukan ito 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Kilalanin ang LoopKeeper — ang iyong digital secretary!*\n\nPagod nang makalimutan ang mga gawain, rutina at paalala? Hayaang ang *LoopKeeper* ang magpanatili sa iyo na organisado at nasa una ng araw mo.\n\n👉 Tingnan dito: {{url}}\n\nLumrabas na matalino. Manatili sa takbo. 🔄",
+    "share.voiceE": "😏 *May mensaheng paulit-ulit mong inaatras. Alam mo kung alin iyon.*\n\nIsusulat ito ng *LoopKeeper* para sa iyo — nahanap ang konteksto, napili ang mga salita. Pindutin lang ang *Send* at sa wakas magagaan ang loob mo.\n\nSubukan 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Walang sadyang pagwalang-bahala — hindi ko lang alam kung saan magsisimula.*\n\nGinagawang handa nang ipadala ng *LoopKeeper* ang nakabarang tambak. Isang mensahe palabas, isang loop na nagsara, tuloy-tuloy na lumiliit ang tambak.\n\n👉 Magsimula sa isa: {{url}}\n\nIpadala ang natengga mong mensahe. 🔄",
     "walk.doorInvite": "Padalhan sila ng LoopKeeper",
     "walk.taskCard": "Bagong Task card",
     "walk.doorChat": "Usap sa LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Gawin ang iisang banayad na hakbang — gumawa ng isang bagay dito, at papasok na tayo sa buong karanasan ng LoopKeeper."
   }
 }

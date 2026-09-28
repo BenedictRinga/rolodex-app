@@ -206,9 +206,9 @@
     "drop.reason2": "正直、そこまでの価値はない",
     "drop.reason3": "関係が冷めてしまった",
     "drop.reason4": "アプリの外で対応済み",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper が友人に宛てたメッセージを下書き — 言葉もタイミングも、送信準備完了。関係を、保てます。{{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "ずっと送ろうと思っている返信があります — 頭に引っかかったまま。LoopKeeperが文脈を見つけて下書きするので、あなたは「送信」を押すだけ: {{url}}",
+    "share.voiceB": "「そのうち会おうね」のあの一言、心にそっと重くのしかかっていませんか。LoopKeeperがワンタップで本物のメッセージに変え、その重みを下ろします: {{url}}",
+    "share.voiceC": "「あとで返そう」と自分に言ったきり。「あとで」は永遠に来ません — だから今、LoopKeeperがあなたの分を書きます。ワンタップで本当に送信: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "端末から選ぶには Android Chrome が必要です。または手入力で追加してください。",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "ひとを探す",
-    "share.voiceD": "あなたのスマホの中にある — いつか送ろうと思っていた返事が、もう下書き済み。送信するのはあなたです: {{url}}",
+    "share.voiceD": "ちゃんと近況を知らせる友達になりましょう。LoopKeeperが書き、あなたが承認し、自分の言葉で送る — 果たした約束を一つずつ: {{url}}",
     "privacy.madeBy": "LoopKeeperはZyppar製です。https://zyppar.com/loopkeeper/ をブックマークしてください。",
     "privacy.analyticsTitle": "匿名の利用状況（名前なし）",
     "privacy.analyticsBody": "起動・セッション・送信・クローズのみ。連絡先・名前・本文は送りません。オフにもできます。",
@@ -626,8 +626,8 @@
     "garden.cancel": "キャンセル",
     "garden.renamedToast": "{{n}}件のループを移動：「{{from}}」は「{{to}}」になりました。",
     "garden.walkBtn": "なぞる",
-    "share.voiceE": "👀 *眠らない専属秘書がいたら？*\n\n*LoopKeeper* — 日々のルーティン、リマインダー、タスクをまとめて管理するアプリです。\n\nぜひ試してみて 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *LoopKeeper — あなたのデジタル秘書！*\n\n仕事や習慣、リマインダーを忘れがちですか？ *LoopKeeper* が整え、あなたの一日を先導します。\n\n👉 こちらから: {{url}}\n\n賢く働く。軌道に乗る。 🔄",
+    "share.voiceE": "😏 *ずっと先送りしているメッセージがあります。どれか分かりますよね。*\n\n*LoopKeeper*があなたの代わりに書きます — 文脈は見つけ、言葉は選びました。「送信」を押すだけ、胸のつかえがようやく取れます。\n\n試してみる 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *誰かをわざと無視しているわけじゃない — ただ、どこから始めればいいか分からないだけ。*\n\n*LoopKeeper*が止まった山を送信できる下書きに変えます。一つ送れば、一つの輪が閉じ、山はどんどん減っていきます。\n\n👉 一つから始める: {{url}}\n\n借りているあの一言を送ろう。 🔄",
     "walk.doorInvite": "LoopKeeperを送る",
     "walk.taskCard": "新しいタスクカード",
     "walk.doorChat": "LoopKeeperでチャット",
@@ -734,6 +734,7 @@
     "lt.recent": "さいきんの検索",
     "lt.clear": "けす",
     "lt.empty": "どのことばや文でも - いみ、れい、おこり、そしてよみあげる声。けんさくはこのきおくにだけ。",
-    "lt.listen": "よむ"
+    "lt.listen": "よむ",
+    "ft.nudge": "そのひとつのやさしい一歩を — ここで何かをして、LoopKeeperの体験をすべて味わいましょう。"
   }
 }

@@ -26,7 +26,7 @@ export class ShareAppModalComponent implements OnInit {
   // 2026-08-27 SHARE VOICES: no more hardcoded English line — one of three
   // localized messages (loopkeeper.share.voiceA/B/C), resolved async and
   // refined from this instant English fallback once translations arrive.
-  shareText = 'LoopKeeper drafts the message you keep meaning to send: ' + this.shareUrl;
+  shareText = "There's a reply you keep meaning to send — LoopKeeper drafts it; you just hit Send: " + this.shareUrl;
   readonly shareImage = 'assets/loopkeeper/tile.svg';
 
   // 2026-08-25 STATIC LOOPKEEPER PREVIEW: always shows the branded card.

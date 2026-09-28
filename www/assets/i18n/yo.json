@@ -206,9 +206,9 @@
     "drop.reason2": "Ní otítọ́, kò sí ohun tó yàn lẹ́yìn",
     "drop.reason3": "Ìbáṣepọ̀ náà tutu",
     "drop.reason4": "A ti parí rẹ̀ níta app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Èsì kan wà tí ò ti pẹ́ tí ò fẹ́ ránṣẹ́ — ó ń bá ọ́ lọ́kàn. LoopKeeper bá ààyè, kọ ọ́; ìwọ̀ kan ní láti tẹ́ 'Ránṣẹ́': {{url}}",
+    "share.voiceB": "Ọ̀rọ̀ yẹn 'ẹ jẹ́ ká pàdé nígbà mìíràn' ń ba ọ́ lọ́kàn. LoopKeeper máa ṣe ọ di ọ̀rọ̀ gidi pẹ̀lú ìtẹ́ kan — àmìí náà yóò dínkù: {{url}}",
+    "share.voiceC": "Ìwọ ló sọ pé ìwọ yóò fésè múlẹ̀ 'lẹ́yìn'. 'Lẹ́yìn' kì í dé láéláé — nitorí náà, LoopKeeper máa kọ ọ́ fún ọ nísẹ́yìn. Ìtẹ́ kan, ó ti ránṣẹ́ déédé: {{url}}",
     "t.openErr": "Kò gbọn láti ṣí ìyí yìí — gbìyànjú lẹ́ẹ̀kansi.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Ìyí ti ṣí pẹ̀lú {{person}} — àtòrò ṣetán.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Jẹ́ ọ̀rẹ́ tí ó ń tẹ́lẹ̀ ọ̀rọ̀ sílẹ̀ gidi. LoopKeeper máa kọ, ìwọ yóò fọwọ́ sí, ìwọ yóò ránṣẹ́ ní èdè rẹ — ìlérí kan tí a ti ṣe ní ìgbà kan: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Kí ní ọ bá ṣe tí o bá ní akọ̀wé tìtàí kì í sùn?*\n\nPade *LoopKeeper* — app kan tó ń ran ọ lọ́wọ́ láti ṣàkóso iṣẹ́ tó ṣeṣe, ìrántí àti iṣẹ́ ojoojúmọ́ rẹ.\n\nGbìyànjú ọ́ 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Pade LoopKeeper — akọ̀wé digital rẹ!*\n\nRẹ́rẹ́lẹ́ ní ìfọkàn mó àwọn iṣẹ́, ìmọ̀sẹ́ àti ìrántí? Jẹ́ kí *LoopKeeper* tọrọ ọ́ dárúgà, kí o sì jẹ́ olùdarí ọjọ́ rẹ.\n\n👉 Wò níbí: {{url}}\n\nṢiṣẹ́ pẹ̀lú ọgbọ́n. Dúró sójí. 🔄",
+    "share.voiceE": "😏 *Ọ̀rọ̀ kan wà tí ò ń má lẹ́yìn lẹ́yìn. Ìwọ mọ èyí.*\n\n*LoopKeeper* máa kọ ọ́ fún ọ — ààyè ti rí, ọ̀rọ̀ ti yàn. Kán 'Ránṣẹ́' ṣoṣo, kí ó sì kúrò ní ọkàn rẹ nígbà ìkẹyìn.\n\nGbìyànjú 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *A kì í fésè múlẹ̀ ènìyàn láìpẹ́ — kán ìgbà tí a ti ń bẹ̀rè là à mọ̀.*\n\n*LoopKeeper* máa yí àpọ̀ tí ó dúró ṣíṣe di àwọn ìṣe tí a ti ṣetán láti ránṣẹ́. Ọ̀rọ̀ kan jáde, ìgbà kan padà, àpọ̀ ń dínkù.\n\n👉 Bẹ̀rẹ̀ pẹ̀lú ọ̀kan: {{url}}\n\nRánṣẹ́ èyí tí ò fẹ́ san. 🔄",
     "walk.doorInvite": "Fi LoopKeeper ranṣẹ́ sí wọn",
     "walk.taskCard": "Kààdì iṣẹ́ tuntun",
     "walk.doorChat": "Bá sọ̀rọ̀ ní LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Gbé ìgbésẹ̀ kanṣoṣo tí ó fẹ̀ lékèè — ṣe níkan ní ibí, ká sì wọ inú ìrírí LoopKeeper gan-an."
   }
 }

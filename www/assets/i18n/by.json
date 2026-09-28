@@ -206,9 +206,9 @@
     "drop.reason2": "Шчыра кажучы, не варта",
     "drop.reason3": "Стасункі астылі",
     "drop.reason4": "Вырашана па-за праграмай",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Ёсць адказ, які ты ўсё збіраешся даслаць — ён сядзіць у галаве. LoopKeeper знойдзе кантэкст і напіша яго; табе толькі націснуць «Даслаць»: {{url}}",
+    "share.voiceB": "Тое «трэба як-небудзь сустрэцца» цішком цяжыць. LoopKeeper ператварае гэта ў сапраўдны ліст адным дотыкам — і цяжар знікае: {{url}}",
+    "share.voiceC": "Ты казаў сабе, што адкажаш «потым». «Потым» не надыходзіць нікалі — таму LoopKeeper напіша адказ зараз. Адзін дотык — і ён сапраўды дасланы: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Будзь сябрам, які сапраўды не забывае. LoopKeeper напіша, ты пагодзіш, ты дашлеш сваімі словамі — па адной стрыманай абяцанцы за раз: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *А што, калі б у вас быў асабісты сакратар, які ніколі не спіць?*\n\nЗнаёмцеся з *LoopKeeper* — праграмай, якая дапамагае кіраваць штодзённымі справамі, напамінамі і задачамі.\n\nПаспрабуйце 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Знаёмцеся з LoopKeeper — вашым лічбавым сакратаром!*\n\nСтаміліся забываць справы, рэжымы і напаміны? Дайце *LoopKeeper* трымаць вас у парадку і на вяршыні дня.\n\n👉 Паглядзіце тут: {{url}}\n\nПрацуйце разумней. Трымаеце курс. 🔄",
+    "share.voiceE": "😏 *Ёсць паведамленне, якое ты пастаянна адкладваеш. Ты ведаеш, якое.*\n\n*LoopKeeper* напіша яго за цябе — кантэкст знойдзены, словы падабраны. Толькі націсні *Даслаць* — і нарэшце стане лягчэй.\n\nПаспрабуй 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Ніхто не ігнарыруецца наўмысла — проста не вядома, з чаго пачаць.*\n\n*LoopKeeper* ператварае зацягнуты дворнік у гатовыя чарнавікі. Адзін ліст выйшаў, адно кола зачынена, дворнік паменшваецца.\n\n👉 Пачні з аднаго: {{url}}\n\nДашли тое, што даўжыш. 🔄",
     "walk.doorInvite": "Дашліце ім LoopKeeper",
     "walk.taskCard": "Новая картка задачы",
     "walk.doorChat": "Размаўляйце ў LoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Зрабі той адзін мяккі крок — зрабі што-небудзь тут, і мы ўваходзім у поўны вопыт LoopKeeper."
   }
 }

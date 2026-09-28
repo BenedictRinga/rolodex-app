@@ -206,9 +206,9 @@
     "drop.reason2": "Not worth it, honestly",
     "drop.reason3": "The relationship cooled",
     "drop.reason4": "Handled outside the app",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper drafts the message you owe a friend — the words and the moment, ready to send. Relationships, kept. {{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "Kune mhindu yaingoda kutumira nguva dzose — iri kuneta pfungwa dzako. LoopKeeper inowana mamiriro ayakamuirira inoinyora; iwe wongodzvanya Tumira: {{url}}",
+    "share.voiceB": "Kuti 'taonane' — kunokuremera chinyararire. LoopKeeper inokwanisa kugadzirira mharidzo nekudzvanya rimwe — mutoro unobviswa: {{url}}",
+    "share.voiceC": "Wakati uchandokumbonanidza 'gare gare'. Gare gare hauuyi — naizvozvo LoopKeeper inoigadzira iwe iye zvino. Kudzvanya kamwe uye yakatumirwa chaizvo: {{url}}",
     "t.openErr": "Could not open that loop — try again.",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "Loop opened with {{person}} — draft ready.",
@@ -577,7 +577,7 @@
     "add.pickToast": "Pick from your phone needs Android Chrome — or add the one person manually.",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "Find someone",
-    "share.voiceD": "It lives on your phone — the reply you keep meaning to send, drafted; you hit Send: {{url}}",
+    "share.voiceD": "Iva shamwari inotevedzera zvayo. LoopKeeper inoingora, unobvumidza, unoitumira nemashoko ako — chitupa chimwe chakazadzwa panguva imwe chete: {{url}}",
     "privacy.madeBy": "LoopKeeper is made by Zyppar. Bookmark https://zyppar.com/loopkeeper/.",
     "privacy.analyticsTitle": "Anonymous usage (no names)",
     "privacy.analyticsBody": "Launches, sessions, sends, closes — never contacts, names, or message text. Off if you toggle it.",
@@ -626,8 +626,8 @@
     "garden.cancel": "Cancel",
     "garden.renamedToast": "{{n}} loop(s) moved: \"{{from}}\" is now \"{{to}}\".",
     "garden.walkBtn": "Walk",
-    "share.voiceE": "👀 *Dai iwe une secretary yako wega isinogoni kusvotwa?*\n\nZiva *LoopKeeper* — chinhu chinobatsira kuronga mabasa, yeuchidzo nezviitiko zvezuva nezuva.\n\nEdza 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *Ziva LoopKeeper — secretary yako yedhijitari!*\n\nWaneta nezvakasarudzwa kusarangarira mabasa, maitiro neyeuchidzo? Ngaite *LoopKeeper* ichakuchengetedza wakarongeka uye wakasarudza zuva rako.\n\n👉 Tarisa pano: {{url}}\n\nBata nani. Raira nzira. 🔄",
+    "share.voiceE": "😏 *Kune mharidzo iwe waingomirira. Unoziva ndeyipi.*\n\n*LoopKeeper* inoigadzira iwe — mamiriro awanikwa, mashoko asarudzwa. Godzvanya *Tumira* chete uye pakupedzisira mutoro unodonha.\n\nEdza 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *Hapana anoyengeka nenzvimbo — asi handina kuziva kuti ndatangira kupi.*\n\n*LoopKeeper* inochinja rukwesheshe rwakamira kuva manotsi akagadzirira kutumirwa. Mharidzo imwe yabuda, rukova rwakavharwa, rukwesheshe rwakadzikira zvinhu.\n\n👉 Tanga nemwe: {{url}}\n\nTumira iyo iwe unofanira. 🔄",
     "walk.doorInvite": "Tumira vana LoopKeeper",
     "walk.taskCard": "Muta webasa mutsva",
     "walk.doorChat": "Tauradzana muLoopKeeper",
@@ -734,6 +734,7 @@
     "lt.recent": "Recent lookups",
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
-    "lt.listen": "Say it"
+    "lt.listen": "Say it",
+    "ft.nudge": "Torai nhanhatidzo imwe yakapfava — ita chinhu pano, topinda mukati meLoopKeeper yakazara."
   }
 }

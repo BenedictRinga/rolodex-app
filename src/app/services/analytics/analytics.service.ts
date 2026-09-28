@@ -82,6 +82,13 @@ export class AnalyticsService {
   private totalSessionSeconds = 0;
   private testerId = 0;
 
+  /** 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE: the ft canvas asks how many
+   *  times this device has been here — a returning visitor still behind the
+   *  gates gets the gentle step line, and the funnel reads shown vs gate taps. */
+  getVisitNumber(): number {
+    return this.visitNumber;
+  }
+
   constructor(
     private readonly storage: StorageService,
     private readonly rolodexSync: RolodexSyncService,

@@ -206,9 +206,9 @@
     "drop.reason2": "說實話，不太值得",
     "drop.reason3": "關係淡了",
     "drop.reason4": "已在應用程式外處理好了",
-    "share.voiceA": "You know that reply you keep meaning to send? LoopKeeper found the context and drafted it — you just hit Send: {{url}}",
-    "share.voiceB": "LoopKeeper 幫你起草欠朋友的那句話 — 措辭和時機，隨時可發。關係，常青。{{url}}",
-    "share.voiceC": "Captured the line before my coffee cooled — LoopKeeper turned it into a ready-to-send message: {{url}}",
+    "share.voiceA": "有一條你一直想著要回的訊息 — 一直懸在心裡。LoopKeeper 找到脈絡並替你擬好，你只需按下傳送：{{url}}",
+    "share.voiceB": "那句「改天聚聚」悄悄壓著你。LoopKeeper 一點就能把它變成真正的訊息 — 心裡的擔子就放下了：{{url}}",
+    "share.voiceC": "你對自己說過「回頭再回」。回頭永遠不會來 — 所以 LoopKeeper 現在就替你寫好。一點，真的就發出去了：{{url}}",
     "t.openErr": "未能開啟該迴路——請重試。",
     "t.sampleBlocked": "That's the sample text — swap in a real promise of your own to capture it.",
     "t.opened": "與 {{person}} 的新迴路已開啟——草稿就緒。",
@@ -577,7 +577,7 @@
     "add.pickToast": "從手機選取需要 Android Chrome — 或者手動輸入這一位。",
     "walk.whoAdd": "Bring in someone real",
     "walk.find": "找一個人",
-    "share.voiceD": "它就在你的手機上——那條你一直想回的回覆已寫好草稿；按「傳送」的是你：{{url}}",
+    "share.voiceD": "做那個真正會跟進的朋友。LoopKeeper 擬稿，你確認，你用自己的話傳出 — 一次兌現一個承諾：{{url}}",
     "privacy.madeBy": "LoopKeeper 由 Zyppar 製作。請收藏 https://zyppar.com/loopkeeper/。",
     "privacy.analyticsTitle": "匿名使用（不含姓名）",
     "privacy.analyticsBody": "啟動、工作階段、發送、關閉——從沒有聯絡人、姓名或正文。可隨時關掉。",
@@ -626,8 +626,8 @@
     "garden.cancel": "取消",
     "garden.renamedToast": "已移動 {{n}} 個循環：\"{{from}}\" 現在是\"{{to}}\"。",
     "garden.walkBtn": "走一走",
-    "share.voiceE": "👀 *如果你有一位從不睡覺的私人祕書呢？*\n\n認識一下 *LoopKeeper* — 幫你打理日常事務、提醒和每天活動的應用。\n\n試試看 👇\n🔗 {{url}}",
-    "share.voiceF": "🤖 *認識 LoopKeeper — 你的數位祕書！*\n\n厭倦了忘記任務、慣例和提醒？讓 *LoopKeeper* 幫你保持井井有條，走在一天的前面。\n\n👉 在這裡看看: {{url}}\n\n更聰明地工作。保持在軌道上。 🔄",
+    "share.voiceE": "😏 *有一條訊息你一直在拖。你知道是哪一條。*\n\n*LoopKeeper* 替你擬好 — 脈絡找到，措辭選好。只需按下 *傳送*，胸口的石頭終於落地。\n\n試試看 👇\n🔗 {{url}}",
+    "share.voiceF": "📱 *沒有故意晾著誰 — 只是不知從哪裡開始。*\n\n*LoopKeeper* 把卡住的堆積變成待發的草稿。傳出一條，閉環一個，堆頭不斷變小。\n\n👉 從一條開始：{{url}}\n\n把欠的那條傳出去。 🔄",
     "walk.doorInvite": "把 LoopKeeper 傳給他們",
     "walk.taskCard": "新增任務卡片",
     "walk.doorChat": "在 LoopKeeper 裡聊天",
@@ -734,6 +734,7 @@
     "lt.recent": "最近的查詢",
     "lt.clear": "清除",
     "lt.empty": "查任何詞或句子 - 釋義、例句、來源，還有朗讀的聲音。查詢只留在這台裝置上。",
-    "lt.listen": "朗讀"
+    "lt.listen": "朗讀",
+    "ft.nudge": "邁出那溫柔的一步 — 在這裡做點什麼，我們就走進完整的 LoopKeeper 體驗。"
   }
 }
