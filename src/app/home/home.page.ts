@@ -406,10 +406,24 @@ export class HomePage implements OnInit, OnDestroy {
    *  through the EXISTING device TTS path (speakDeviceFirst - the Welcome
    *  slides' own), interrupt-and-replace, never a queue. Voicing stops the
    *  moment the visitor acts (a gate tap) - action earns silence. */
-  private static readonly FT_LINES = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
-  // 342 THE DWELL ARRAY, not a hope: the founder worried one line is longer
-  // than the others - line 2 is the long one (~15 words), it gets 11s.
-  private static readonly FT_LINE_DWELL = [9000, 11000, 9000, 9000, 9000];
+  // 344 THE FOUR-SECTION LAW RESTORED (founder: 'you were told to add the
+  // logo as a new section 01 of 4 sections... but you went further, adding
+  // Take that one step - why? It has disrupted the visual balance. We now
+  // have five instead of 4 sections... where did we agree it should appear'):
+  // nowhere in the approved layout. The plan exchange agreed the nudge would
+  // ride AS THE ROTATION'S FIRST LINE for returning visitors ('the nudge line
+  // becomes line 1 of the rotation - no new surface, same watch events'); the
+  // 342 implementation wrongly stacked it standalone. CORRECTED: the rotation
+  // opens with ft.nudge on visits 2+, then the five as approved; visit 1 sees
+  // exactly four sections, silent. Dwell per key, not a hope - the long lines
+  // (the nudge, line 2) keep their extra beat.
+  private static readonly FT_DWELL: Record<string, number> = {
+    'ft.nudge': 11000, 'ft.line1': 9000, 'ft.line2': 11000, 'ft.line3': 9000, 'ft.line4': 9000, 'ft.line5': 9000,
+  };
+  private ftLineKeys(): string[] {
+    const five = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
+    return this.analytics.getVisitNumber() >= 2 ? ['ft.nudge', ...five] : five;
+  }
   ftLineText = '';
   ftLineFading = false;
   private ftLineIdx = 0;
@@ -446,12 +460,24 @@ export class HomePage implements OnInit, OnDestroy {
     this.advanceFtLine();
   }
   private advanceFtLine(): void {
-    const next = (this.ftLineIdx + 1) % 5;
+    const keys = this.ftLineKeys();
+    const next = (this.ftLineIdx + 1) % keys.length;
     this.ftLineIdx = next;
-    void this.translate.get('loopkeeper.' + HomePage.FT_LINES[next]).toPromise().then((t: string) => {
+    const key = keys[next];
+    // 344: the nudge's watch rides its line - when the nudge OPENS the
+    // rotation (visits 2+), ft_nudge_shown fires here, once per session, and
+    // the gate taps keep answering ft_nudge_responded. Same events, no new
+    // surface.
+    if (key === 'ft.nudge' && !this.ftNudgeShownSession) {
+      this.ftNudgeShownSession = true;
+      this.ftNudgeOn = true;
+      this.ftNudgeAtMs = Date.now();
+      void this.analytics.track('ft_nudge_shown', { visitNumber: this.analytics.getVisitNumber() });
+    }
+    void this.translate.get('loopkeeper.' + key).toPromise().then((t: string) => {
       this.ftLineText = t;
       if (this.analytics.getVisitNumber() >= 2 && t && !t.startsWith('loopkeeper.')) {
-        void this.analytics.track('ft_line_spoken', { line: next });
+        void this.analytics.track('ft_line_spoken', { line: next, key });
         void this.playback.speakDeviceFirst(t, this.translate.currentLang || 'en-US');
       }
     });
@@ -459,7 +485,7 @@ export class HomePage implements OnInit, OnDestroy {
       if (this.ftView !== 'gates') return; // the engine only turns on the gates
       this.ftLineFading = true;
       this.ftLineFadeTimer = setTimeout(() => { this.ftLineFading = false; this.advanceFtLine(); }, 500);
-    }, HomePage.FT_LINE_DWELL[next]);
+    }, HomePage.FT_DWELL[key] || 9000);
   }
   private stopFtLines(): void {
     if (this.ftLineTimer) { clearTimeout(this.ftLineTimer); this.ftLineTimer = null; }
