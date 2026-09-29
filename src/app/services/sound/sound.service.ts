@@ -142,4 +142,87 @@ export class SoundService {
       });
     } catch { /* sound is optional */ }
   }
+
+  // ===== 2026-09-29 BUILD 345: THE SIGN-OFF PAD =====
+  // The visitor's own time (founder: after the narrated rotation has played
+  // at most two passes, inject ambient music at the end of which the app
+  // says 'signing off for now' - says, not exits; just waits till the user
+  // comes back at their own time). A synthesized pad: four detuned voices
+  // on an open fifth (A2 / E3 / A3 / the shimmer twin), a breathing
+  // lowpass, a slow inhale and a long exhale - no asset, works offline, cancelable mid-breath by any action.
+  private padNodes: { oscs: OscillatorNode[]; master: GainNode } | null = null;
+  private padCancelled = false;
+
+  async playAmbientPad(seconds: number = 24): Promise<'played' | 'cancelled'> {
+    try {
+      const ctx = this.getAudioContext();
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+      this.stopAmbient(); // never two pads at once
+      this.padCancelled = false;
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.linearRampToValueAtTime(0.05, now + 2.5);        // the slow inhale
+      master.gain.setValueAtTime(0.05, now + Math.max(2.5, seconds - 4));
+      master.gain.linearRampToValueAtTime(0.0001, now + seconds);  // the long exhale
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.Q.value = 0.6;
+      filter.frequency.setValueAtTime(320, now);
+      filter.frequency.linearRampToValueAtTime(560, now + seconds * 0.5); // breathe open
+      filter.frequency.linearRampToValueAtTime(320, now + seconds);       // and close
+      const voices: Array<[number, OscillatorType, number]> = [
+        [110.0, 'sine', 1.0],      // A2 - the floor
+        [164.81, 'triangle', 0.5], // E3 - the fifth, quieter
+        [220.0, 'sine', 0.35],     // A3 - the octave ghost
+        [110.7, 'sine', 0.4],      // the detune twin - the shimmer
+      ];
+      const oscs: OscillatorNode[] = [];
+      for (const [freq, type, v] of voices) {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        const g = ctx.createGain();
+        g.gain.value = v;
+        osc.connect(g);
+        g.connect(filter);
+        osc.start(now);
+        osc.stop(now + seconds + 0.2);
+        oscs.push(osc);
+      }
+      filter.connect(master);
+      master.connect(ctx.destination);
+      this.padNodes = { oscs, master };
+      return await new Promise<'played' | 'cancelled'>((resolve) => {
+        oscs[oscs.length - 1].onended = () => {
+          this.padNodes = null;
+          resolve(this.padCancelled ? 'cancelled' : 'played');
+        };
+      });
+    } catch {
+      this.padNodes = null;
+      return 'cancelled';
+    }
+  }
+
+  /** The ritual's door shuts: any action stops the pad mid-breath - a quick,
+   *  polite dip, never a click. */
+  stopAmbient(): void {
+    if (!this.padNodes) return;
+    this.padCancelled = true;
+    try {
+      const ctx = this.getAudioContext();
+      const now = ctx.currentTime;
+      const master = this.padNodes.master;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(Math.max(master.gain.value || 0.0001, 0.0001), now);
+      master.gain.linearRampToValueAtTime(0.0001, now + 0.4);
+      for (const o of this.padNodes.oscs) {
+        try { o.stop(now + 0.45); } catch { /* already stopped */ }
+      }
+    } catch { /* already gone */ }
+    this.padNodes = null;
+  }
 }

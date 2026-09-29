@@ -420,9 +420,18 @@ export class HomePage implements OnInit, OnDestroy {
   private static readonly FT_DWELL: Record<string, number> = {
     'ft.nudge': 11000, 'ft.line1': 9000, 'ft.line2': 11000, 'ft.line3': 9000, 'ft.line4': 9000, 'ft.line5': 9000,
   };
-  private ftLineKeys(): string[] {
-    const five = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
-    return this.analytics.getVisitNumber() >= 2 ? ['ft.nudge', ...five] : five;
+  private static readonly FT_FIVE = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
+  // 345 THE VOICE CAP + THE QUEUE (founder: 'unless they act, the narration
+  // just drones on, along with the informative rotations. Not sure this
+  // should happen more than x 2'): the rotation is a QUEUE now - the
+  // returner's TWO voiced passes (the nudge opens pass 1; the ask is never
+  // repeated in pass 2), then the sign-off ritual, then the silent five turn
+  // for as long as the visitor stays. Visit 1: the silent five, forever, no
+  // ritual - the quiet is their respect.
+  private ftQueue: string[] = [];
+  private buildFtQueue(): string[] {
+    if (this.analytics.getVisitNumber() < 2) return [...HomePage.FT_FIVE];
+    return ['ft.nudge', ...HomePage.FT_FIVE, ...HomePage.FT_FIVE];
   }
   ftLineText = '';
   ftLineFading = false;
@@ -456,14 +465,21 @@ export class HomePage implements OnInit, OnDestroy {
    *  the gate event so the funnel learns WHICH SENTENCE converts. */
   private startFtLines(): void {
     this.stopFtLines();
+    this.ftQueue = this.buildFtQueue(); // 345: the queue carries the voice cap.
     this.ftLineIdx = -1;
     this.advanceFtLine();
   }
   private advanceFtLine(): void {
-    const keys = this.ftLineKeys();
-    const next = (this.ftLineIdx + 1) % keys.length;
+    if (this.ftLineIdx + 1 >= this.ftQueue.length) {
+      // 345: the voiced queue is spent - the sign-off speaks once, and the
+      // silent five take over the turning for as long as they stay.
+      if (this.analytics.getVisitNumber() >= 2) this.runSignOff();
+      this.ftQueue = [...HomePage.FT_FIVE];
+      this.ftLineIdx = -1;
+    }
+    const next = this.ftLineIdx + 1;
     this.ftLineIdx = next;
-    const key = keys[next];
+    const key = this.ftQueue[next];
     // 344: the nudge's watch rides its line - when the nudge OPENS the
     // rotation (visits 2+), ft_nudge_shown fires here, once per session, and
     // the gate taps keep answering ft_nudge_responded. Same events, no new
@@ -492,6 +508,27 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.ftLineFadeTimer) { clearTimeout(this.ftLineFadeTimer); this.ftLineFadeTimer = null; }
   }
 
+  /** 345 THE SIGN-OFF RITUAL (founder: 'inject ambient music at the end of
+   *  which app says "signing off for now." Says, not exits. Just waits till
+   *  user comes back at their own time'): the pad breathes ~24s, then the
+   *  app says the line and goes quiet - the rotation keeps turning silently;
+   *  nothing repeats this session; any action cancels mid-breath (action
+   *  earns silence), and ft_signoff marks the moment for the funnel. */
+  private ftSignoffDone = false;
+  private runSignOff(): void {
+    if (this.ftSignoffDone) return;
+    this.ftSignoffDone = true;
+    void this.analytics.track('ft_signoff', {});
+    void this.sound.playAmbientPad(24).then((r) => {
+      if (r !== 'played') return; // cancelled by action - silence is the answer
+      void this.translate.get('loopkeeper.ft.signoff').toPromise().then((t: string) => {
+        if (!t || t.startsWith('loopkeeper.')) return;
+        void this.analytics.track('ft_signoff_spoken', {});
+        void this.playback.speakDeviceFirst(t, this.translate.currentLang || 'en-US');
+      });
+    });
+  }
+
   /** Back is on every step except the congratulations themselves. */
   get ftShowBack(): boolean {
     // 2026-09-24 BUILD 324: every phased card clip carries its return.
@@ -510,6 +547,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.ftNudgeResponded();
     this.stopFtLines();
     void this.playback.stop();
+    this.sound.stopAmbient(); // 345: the ritual bows out at the first action.
     this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone');
   }
 
@@ -539,6 +577,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.ftNudgeResponded();
     this.stopFtLines();
     void this.playback.stop();
+    this.sound.stopAmbient(); // 345: the ritual bows out at the first action.
     this.ftLog('ft_choice', { choice: 'card' });
     this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card');
   }
@@ -1254,6 +1293,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopFtLines(); // 342: the rotation never outlives the page.
     void this.playback.stop();
+    this.sound.stopAmbient(); // 345: the pad never outlives the page.
     if (this.headerTimer) clearInterval(this.headerTimer);
     if (this.updateBannerTimer) clearInterval(this.updateBannerTimer); // BUILD 195
     // 2026-08-29 BUILD 143: release the nudge-tap channels.
