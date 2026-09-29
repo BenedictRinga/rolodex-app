@@ -94,9 +94,7 @@
 // ── BUILD 252: the Alpha pane sits 15px lower, the ONE action is named, and
 // the intervention notes are unmissable (+40% type, same color and weight).
 .sw-whopane { padding-top: 15px; }
-/* 347 THE FOOTER LAW, MIDDLE LINK: in the first-minute state the pane is a
-   flex column that takes the walk's full height and hands it down. */
-.sw-whopane-fm { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+/* 348: the 347 whopane stretch reverted with the rest of the chain. */
 .sw-taphint {
   text-align: center;
   font-size: 11px;

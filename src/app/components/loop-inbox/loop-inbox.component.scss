@@ -22,17 +22,8 @@
    first view/reload/entry — the Demo/Contacts deck shows itself below — then
    gently extends to full length; the grow is a slow ease, not a snap). */
 .li-shell.boot { height:50vh; min-height:50vh; max-height:50vh; }
-/* 2026-09-29 BUILD 347 THE FOOTER LAW, MADE TRUE (founder: 'You failed to
-   put the sapling Welcome inside a footer in TASK || PERSON regular page
-   unlike the first-timer page. Incongruent feel'): the 342 margin-top:auto
-   was a NO-OP here - the walk host had no definite height, so the panel
-   hugged its content and the welcome never sank. Now, ONLY while the
-   first-minute panel stands, the walk host takes the shell's remaining
-   height (flex:1, min-height:0) and hands it down the chain
-   (whopane -> :host -> .fm-panel), where the courtesy's margin-top:auto
-   finally engages: the welcome rests on the base - the same footer the ft
-   canvas shows. The regular (non-first-minute) walk never changes. */
-.walk-host-fm { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+/* 348: the 347 in-shell stretch chain reverted - the Welcome lives as a
+   fixed footer of the HOME page now, not inside the Inbox. */
 .li-shell { display:flex; flex-direction:column; height:70vh; min-height:70vh; max-height:70vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
   /* 2026-09-15 BUILD 211 (founder: "the elongation is too fast... the animation
