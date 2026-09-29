@@ -422,16 +422,24 @@ export class HomePage implements OnInit, OnDestroy {
   };
   private static readonly FT_FIVE = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
   // 345 THE VOICE CAP + THE QUEUE (founder: 'unless they act, the narration
-  // just drones on, along with the informative rotations. Not sure this
-  // should happen more than x 2'): the rotation is a QUEUE now - the
-  // returner's TWO voiced passes (the nudge opens pass 1; the ask is never
-  // repeated in pass 2), then the sign-off ritual, then the silent five turn
-  // for as long as the visitor stays. Visit 1: the silent five, forever, no
-  // ritual - the quiet is their respect.
+  // just drones on... Not sure this should happen more than x 2') - and
+  // 346 THE ANTI-HOLD-MUSIC REBUILD (founder heard the bank in it: hold
+  // music interspersed with 'please keep waiting', and left the tuning to
+  // us): THREE structural answers. (a) THE BREATH - a silent 4.5s slot
+  // between the two voiced passes, so the narration is two movements with
+  // a pause, never one drone. (b) THE STILLNESS - when the queue is spent
+  // the sign-off speaks and the rotation FREEZES on the last line: the app
+  // visibly waits, it does not perform waiting. (c) THE NO-RE-DRONE LAW -
+  // the voiced rotation plays ONCE per session, ever: leaving the gates
+  // and returning never restarts the narration (ftVoicedOnce). The
+  // releasing line: 'Nothing here is waiting on you' - the opposite of the
+  // bank's promise; nothing here keeps score of their absence.
   private ftQueue: string[] = [];
+  private ftVoicedOnce = false;
   private buildFtQueue(): string[] {
-    if (this.analytics.getVisitNumber() < 2) return [...HomePage.FT_FIVE];
-    return ['ft.nudge', ...HomePage.FT_FIVE, ...HomePage.FT_FIVE];
+    if (this.analytics.getVisitNumber() < 2 || this.ftVoicedOnce) return [...HomePage.FT_FIVE];
+    this.ftVoicedOnce = true;
+    return ['ft.nudge', ...HomePage.FT_FIVE, '', ...HomePage.FT_FIVE];
   }
   ftLineText = '';
   ftLineFading = false;
@@ -471,15 +479,28 @@ export class HomePage implements OnInit, OnDestroy {
   }
   private advanceFtLine(): void {
     if (this.ftLineIdx + 1 >= this.ftQueue.length) {
-      // 345: the voiced queue is spent - the sign-off speaks once, and the
-      // silent five take over the turning for as long as they stay.
+      // 346 THE STILLNESS: the queue is spent - the sign-off speaks once and
+      // the engine STOPS; the last line stays on screen and the app waits.
+      // No silent after-life of turning lines (the bank plays music as long
+      // as you stay; we do not).
       if (this.analytics.getVisitNumber() >= 2) this.runSignOff();
-      this.ftQueue = [...HomePage.FT_FIVE];
-      this.ftLineIdx = -1;
+      this.stopFtLines();
+      return;
     }
     const next = this.ftLineIdx + 1;
     this.ftLineIdx = next;
     const key = this.ftQueue[next];
+    // 346 THE BREATH: the empty slot between the passes - the line fades
+    // out, a quiet beat, then the next movement fades in. No voice, no log.
+    if (!key) {
+      this.ftLineFading = true;
+      this.ftLineFadeTimer = setTimeout(() => { this.ftLineFading = false; this.ftLineText = ''; }, 500);
+      this.ftLineTimer = setTimeout(() => {
+        if (this.ftView !== 'gates') return;
+        this.advanceFtLine();
+      }, 4500);
+      return;
+    }
     // 344: the nudge's watch rides its line - when the nudge OPENS the
     // rotation (visits 2+), ft_nudge_shown fires here, once per session, and
     // the gate taps keep answering ft_nudge_responded. Same events, no new
@@ -519,7 +540,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.ftSignoffDone) return;
     this.ftSignoffDone = true;
     void this.analytics.track('ft_signoff', {});
-    void this.sound.playAmbientPad(24).then((r) => {
+    void this.sound.playAmbientPad(18).then((r) => {
       if (r !== 'played') return; // cancelled by action - silence is the answer
       void this.translate.get('loopkeeper.ft.signoff').toPromise().then((t: string) => {
         if (!t || t.startsWith('loopkeeper.')) return;

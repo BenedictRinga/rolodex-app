@@ -164,8 +164,8 @@ export class SoundService {
       const now = ctx.currentTime;
       const master = ctx.createGain();
       master.gain.setValueAtTime(0.0001, now);
-      master.gain.linearRampToValueAtTime(0.05, now + 2.5);        // the slow inhale
-      master.gain.setValueAtTime(0.05, now + Math.max(2.5, seconds - 4));
+      master.gain.linearRampToValueAtTime(0.04, now + 2.5);        // the slow inhale
+      master.gain.setValueAtTime(0.04, now + Math.max(2.5, seconds - 4));
       master.gain.linearRampToValueAtTime(0.0001, now + seconds);  // the long exhale
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
