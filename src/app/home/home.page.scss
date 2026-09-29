@@ -538,6 +538,29 @@ app-rolodex.tab-hidden,
   max-width: 330px;
   text-align: center;
 }
+.ft-mark {
+  margin: 4px auto 14px;
+  /* 2026-09-29 BUILD 343 THE ADDRESS: the splash's own mark, re-drawn on
+     arrival — sizing from the binary family (the ft-gate at 152px, the
+     splash's mark at 120px): 112px sits large in the top space. */
+  width: 112px;
+  height: 112px;
+}
+.ft-mark-svg { width: 100%; height: 100%; display: block; }
+.ft-mark-ring {
+  stroke-dasharray: 77.5;
+  stroke-dashoffset: 77.5;
+  animation: lk-ft-draw 0.7s ease-out 0.15s forwards;
+}
+.ft-mark-dot {
+  opacity: 0;
+  animation: lk-ft-orbit 1.1s cubic-bezier(0.6, 0.05, 0.3, 1) 0.55s forwards;
+}
+@keyframes lk-ft-draw { to { stroke-dashoffset: 0; } }
+@keyframes lk-ft-orbit { 0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .ft-mark-ring, .ft-mark-dot { animation: none; opacity: 1; stroke-dashoffset: 0; }
+}
 .ft-line {
   margin: 0 auto 10px;
   /* 2026-09-29 BUILD 342 THE VOICED LINES: no borders - just the thin

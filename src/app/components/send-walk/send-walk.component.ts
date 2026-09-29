@@ -653,10 +653,14 @@ export class SendWalkComponent implements OnInit, OnChanges {
 
   /** BUILD 279: the loop birth, extracted — the demo mark rides the loop so
    *  the inbox's send door can remind at the fulfilment mediums. */
-  private birthFromWho(c: any, isDemo: boolean): void {
+  private async birthFromWho(c: any, isDemo: boolean): Promise<void> {
     // 2026-08-31 BUILD 159: confirming a REAL person is the moment their list
     // has begun — logged once ever per device, whatever door it came through.
     if (!c?.isMockData) void this.analytics.trackListStartedOnce('walk');
+    // 343 THE HYDRATION GUARD (the card boot's own copy of the blank): the
+    // create below met the same null cache on a cold first entry — await
+    // before create, the 325 law applied at the birth too.
+    await this.loops.all();
     this.armedContact = c;
     this.armedHandle = '';
     this.whatInput = '';
@@ -965,32 +969,53 @@ export class SendWalkComponent implements OnInit, OnChanges {
    * not the engine's guess (whySittingSource 'user', from the engine's own
    * chain so the copy never forks).
    */
-  selfTap(kind: LoopKind, userNamed = false, attempt = 0): void {
-    // 2026-09-23 BUILD 320 THE FIRST-TAP GUARANTEE (founder: the decide gate
-    // "easily opens into a totally blank interface, unless you reverse, and
-    // repeat"): a transient busy (the walk's own async init on the cocoon's
-    // first flow entry) swallowed the boot SILENTLY — the first-timer stared
-    // at a blank dialog. A bounded retry instead of a silent return.
+  /** 343 THE ONE-BOOT LATCH: the boot verify's re-issue must never
+   *  double-create while the first boot is still hydrating. */
+  private ftBooting = false;
+  async selfTap(kind: LoopKind, userNamed = false, attempt = 0): Promise<void> {
+    // 2026-09-23 BUILD 320 THE FIRST-TAP GUARANTEE (kept): a transient busy
+    // retries, bounded — a silent return was the original sin.
     if (this.busy) {
-      if (attempt < 4) setTimeout(() => this.selfTap(kind, userNamed, attempt + 1), 90);
+      if (attempt < 4) setTimeout(() => void this.selfTap(kind, userNamed, attempt + 1), 90);
       return;
     }
-    void this.analytics.trackListStartedOnce('walk');
-    this.armedContact = null;
-    this.armedHandle = '';
-    this.whatInput = '';
-    this.lineOpen = false;
-    const why = userNamed ? this.loops.suggestWhySitting({ kind, summary: '', pretext: undefined, lastTouchAt: undefined, createdAt: Date.now() }) : undefined;
-    this.loop = this.loops.create({
-      person: '',
-      kind,
-      summary: '',
-      stance: 'warm',
-      direction: 'mine',
-      ...(userNamed && why ? { whySitting: why, whySittingSource: 'user' as const } : {}),
-    });
-    void this.analytics.track('self_loop_started'); // BUILD 184: the no-arming door, measured
-    this.enterWords(true);
+    if (this.ftBooting) return;
+    this.ftBooting = true;
+    try {
+      // 2026-09-29 BUILD 343 THE HYDRATION GUARD — THE BLANK, FROM INCEPTION
+      // (founder: "'I will add later' - Phase 02 of 'The reply that I owe'
+      // consistently shows a blank screen when tapped, unless you navigate
+      // backwards and return again immediately" + "I do not even know if it
+      // loads the next view at all"): the boot's create() met a NULL loops
+      // cache on the canvas's FIRST entry — nothing on a fresh first-timer
+      // session had ever called loops.all() (the cocoon suppresses loop
+      // counts) — and create()'s cache!.unshift THREW inside the setter's
+      // setTimeout(0); the boot died uncaught, the step stayed 1, and in
+      // canvas mode step 1 renders NOTHING: the blank. Reverse-and-repeat
+      // worked only because the first entry's rebuildWho had finished
+      // hydrating by then. The 320 plug watched busy (never true here) and
+      // verified at 180ms (the throw preceded the check) — both blind. THE
+      // 325 LAW COMPLETES HERE: the boot awaits the cache BEFORE creating.
+      await this.loops.all();
+      void this.analytics.trackListStartedOnce('walk');
+      this.armedContact = null;
+      this.armedHandle = '';
+      this.whatInput = '';
+      this.lineOpen = false;
+      const why = userNamed ? this.loops.suggestWhySitting({ kind, summary: '', pretext: undefined, lastTouchAt: undefined, createdAt: Date.now() }) : undefined;
+      this.loop = this.loops.create({
+        person: '',
+        kind,
+        summary: '',
+        stance: 'warm',
+        direction: 'mine',
+        ...(userNamed && why ? { whySitting: why, whySittingSource: 'user' as const } : {}),
+      });
+      void this.analytics.track('self_loop_started'); // BUILD 184: the no-arming door, measured
+      this.enterWords(true);
+    } finally {
+      this.ftBooting = false;
+    }
   }
 
   /** 2026-09-22 BUILD 294 THE AVOIDANCE DOORS + BUILD 297 THE RETURN TO

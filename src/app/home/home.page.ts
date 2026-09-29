@@ -836,13 +836,27 @@ export class HomePage implements OnInit, OnDestroy {
       // 2026-09-23 BUILD 320 THE FIRST-TAP GUARANTEE: the boot must LAND on
       // the cocoon's first flow entry — a swallowed boot left the dialog
       // blank until reverse-and-repeat. Verify, then one second chance.
+      // 2026-09-29 BUILD 343 THE VERIFY, REBUILT: the old check re-issued
+      // whenever (!loop || step!==3) at 180ms — but the boot is now ASYNC
+      // (the hydration guard), so a blind re-issue could double-create. The
+      // selfTap latch blocks that, AND the verify never re-issues once a
+      // loop EXISTS (born = never re-born). What remains is the honest
+      // witness: if the boot still has not landed after the patience window,
+      // ft_boot_lost SPEAKS in the stream instead of a silent blank.
       setTimeout(() => {
-        if (this._ftWalk === w && (!w.loop || w.step !== 3)) {
+        if (this._ftWalk !== w) return; // the dialog was closed/recreated
+        if (w.loop && w.step === 3) return; // landed
+        if (!w.loop) {
           if (boot === 'card' && contact) w.openFtCard(contact);
           else if (boot === 'later') w.openFtLater();
           else if (boot === 'decide') w.selfTap('decide', true);
         }
-      }, 180);
+        setTimeout(() => {
+          if (this._ftWalk === w && (!w.loop || w.step !== 3)) {
+            void this.analytics.track('ft_boot_lost', { boot });
+          }
+        }, 1500);
+      }, 250);
     };
     bootNow();
   }

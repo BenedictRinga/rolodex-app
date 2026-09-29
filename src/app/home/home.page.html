@@ -14,10 +14,20 @@
       <ion-icon name="arrow-back-outline"></ion-icon>
     </button>
     <ng-container *ngIf="ftView === 'gates'">
-      <!-- 2026-09-28 BUILD 341 THE SECOND-VISIT NUDGE (founder): a returning
-           visitor still behind the doors gets ONE gentle line - do something
-           here, and the full experience opens. The watch: ft_nudge_shown ->
-           ft_nudge_responded (the first gate tap) -> ft_concluded. -->
+      <!-- 2026-09-29 BUILD 343 THE ADDRESS (founder: procrastinator anxiety
+           at being anchorless is a distraction - give the first-timer a
+           large outline of LoopKeeper, no wordmark, smack in the middle of
+           the top space above the informative section; sizing from the
+           binary buttons; animate on arrival just as the splash does). The
+           splash's own mark, re-drawn on every arrival: the ring draws
+           itself, the coral dot settles into the gap - the loop closing.
+           The stroke rides the doors' amber on the cream canvas. -->
+      <div class="ft-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" class="ft-mark-svg">
+          <path class="ft-mark-ring" d="M38.67 20.88 A15 15 0 1 1 27.12 9.33" fill="none" stroke="#b3741b" stroke-width="7" stroke-linecap="round"/>
+          <circle class="ft-mark-dot" cx="34.6" cy="13.4" r="4.5" fill="#FF5A36"/>
+        </svg>
+      </div>
       <p class="ft-nudge" *ngIf="ftNudgeOn">{{ 'loopkeeper.ft.nudge' | translate }}</p>
       <!-- 2026-09-29 BUILD 342 SECTION 1 - THE VOICED LINES: no borders, the
            thin voice, one sentence at a time (the dwell array, 9s/11s), the
