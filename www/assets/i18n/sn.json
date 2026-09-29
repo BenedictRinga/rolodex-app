@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Torai nhanhatidzo imwe yakapfava — ita chinhu pano, topinda mukati meLoopKeeper yakazara."
+    "ft.nudge": "Torai nhanhatidzo imwe yakapfava — ita chinhu pano, topinda mukati meLoopKeeper yakazara.",
+    "ft.doorReply.rehearsal": "Mharidzo yandanyorisa mupfungwa dzangu",
+    "ft.doorReply.relief": "Kunyaderara kunopera nhasi masikati",
+    "ft.doorDecide.rehearsal": "Mhinduro yandiri kutenderera",
+    "ft.doorDecide.relief": "Kujeka ndiri kugadzirira",
+    "ft.line1": "Zvinhu zvisina kumera hazviende — zvinomboridzika kumashure kusvikira wavharira.",
+    "ft.line2": "Mharidzo inouya wakaitumira inotora masekendi gumi; iya waingomirira inotora mazuva mupfungwa.",
+    "ft.line3": "Haufaniri kuziva zvaunotaura — ndiko basa reapp iyi. Unongodzvanya kamwe.",
+    "ft.line4": "Munhu waunoda kuva anouywa nechinhu chimwe chishoma chakatumirwa panguva imwe.",
+    "ft.line5": "Rukova rwakavharwa nhasi. Ibasa rese iri.",
+    "ft.tabsAria": "Chinja maitiro ekutaurwa kwekukoka — mikova inoramba yakadaro"
   }
 }

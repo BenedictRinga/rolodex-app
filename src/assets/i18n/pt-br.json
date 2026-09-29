@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Dê aquele único passo gentil — faça algo aqui, e entramos na experiência completa do LoopKeeper."
+    "ft.nudge": "Dê aquele único passo gentil — faça algo aqui, e entramos na experiência completa do LoopKeeper.",
+    "ft.doorReply.rehearsal": "A mensagem que escrevi dez vezes na cabeça",
+    "ft.doorReply.relief": "O silêncio que termina hoje à noite",
+    "ft.doorDecide.rehearsal": "A resposta em torno da qual continuo circulando",
+    "ft.doorDecide.relief": "A clareza para a qual estou pronto",
+    "ft.line1": "Coisas inacabadas não vão embora — zumbem ao fundo até você fechá-las.",
+    "ft.line2": "A mensagem que finalmente envia leva dez segundos; a que adia leva dias de cabeça.",
+    "ft.line3": "Você não precisa saber o que dizer — esse é o trabalho deste app. Só toca uma vez.",
+    "ft.line4": "A pessoa que você quer ser se constrói uma pequena coisa enviada por vez.",
+    "ft.line5": "Um ciclo fechado hoje. Essa é toda a tarefa.",
+    "ft.tabsAria": "Mude a formulação do convite — as portas continuam as mesmas"
   }
 }

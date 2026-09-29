@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Gawin ang iisang banayad na hakbang — gumawa ng isang bagay dito, at papasok na tayo sa buong karanasan ng LoopKeeper."
+    "ft.nudge": "Gawin ang iisang banayad na hakbang — gumawa ng isang bagay dito, at papasok na tayo sa buong karanasan ng LoopKeeper.",
+    "ft.doorReply.rehearsal": "Ang mensaheng sampung beses ko nang nasulat sa isip ko",
+    "ft.doorReply.relief": "Ang katahimikang magtatapos ngayong gabi",
+    "ft.doorDecide.rehearsal": "Ang sagot na paulit-ulit kong inikotan",
+    "ft.doorDecide.relief": "Ang kalinawang handa na ako para dito",
+    "ft.line1": "Ang mga hindi natatapos ay hindi umaalis — bumubulong sa likod hangga't hindi mo isasara.",
+    "ft.line2": "Ang mensaheng sa wakas ay ipapadala mo, sampung segundo lang; ang inaatras mo, ilang araw sa isip.",
+    "ft.line3": "Hindi mo kailangang malaman ang sasabihin — trabaho iyon ng app na ito. Isang pindot lang.",
+    "ft.line4": "Ang taong gusto mong maging ay binubuo ng isang maliit na naipadala bawat beses.",
+    "ft.line5": "Isang loop na naisara ngayon. Iyon ang buong takda.",
+    "ft.tabsAria": "Palitan ang pagkakasulat ng imbitasyon — pareho pa rin ang mga pinto"
   }
 }

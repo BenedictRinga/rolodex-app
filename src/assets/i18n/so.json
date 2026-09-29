@@ -735,6 +735,16 @@
     "lt.clear": "Nadiifi",
     "lt.empty": "Raadi erey ama juqraaf kasta - jawaab, tusaale, iyo asal, oo codad leh. Raadisyadaadu way ku harayaan galaabtaada.",
     "lt.listen": "Dhahid",
-    "ft.nudge": "Tallaabada naxariisiga ah ee keliya qaado — halkan wax qabso, oo waxaan galnaa waayo-aragnimada LoopKeeper oo dhan."
+    "ft.nudge": "Tallaabada naxariisiga ah ee keliya qaado — halkan wax qabso, oo waxaan galnaa waayo-aragnimada LoopKeeper oo dhan.",
+    "ft.doorReply.rehearsal": "Fariin maqaayada agteeda toban jeer loo qoray",
+    "ft.doorReply.relief": "Calmadoota maanta xilli dhammaanaya",
+    "ft.doorDecide.rehearsal": "Jawaabta aan mar walba ku wareejinayo",
+    "ft.doorDecide.relief": "Cadceedda diyaar u ah",
+    "ft.line1": "Waxa dhammaaday la'aan kuma harayaan — damac-dhacagga dheerahadaa ilaa la xiro.",
+    "ft.line2": "Fariinta ugu dambaysa ee la dirayo waa toban ilbiriqsi; ta aad dib u dhigayso waa maalmo maskaxda.",
+    "ft.line3": "Uma baahnid inaad taqaan waxa la dhahayo — waxaas oo app ka oo keliya ku dhaqaaqo hal jeer.",
+    "ft.line4": "Qofka aad noqonayso waxaa laga dhisaa hal wax yar oo la diray mar kasta.",
+    "ft.line5": "Maanta waxaa la xiray hal wareeg. Taasi waa shaqada oo dhan.",
+    "ft.tabsAria": "Beddel erayada casuumadda — albaabadaas waa kuwaas oo aan beddelmayn"
   }
 }

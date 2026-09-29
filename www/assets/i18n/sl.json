@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Naredi tisti en mehek korak — naredi kaj tukaj, in vstopiva v polno izkušnjo LoopKeeper."
+    "ft.nudge": "Naredi tisti en mehek korak — naredi kaj tukaj, in vstopiva v polno izkušnjo LoopKeeper.",
+    "ft.doorReply.rehearsal": "Sporočilo, ki sem ga v glavi napisal desetkrat",
+    "ft.doorReply.relief": "Tišina, ki se konča danes ponoči",
+    "ft.doorDecide.rehearsal": "Odgovor, okoli katerega vedno krožim",
+    "ft.doorDecide.relief": "Jasnost, na katero sem pripravljen",
+    "ft.line1": "Nedokončane stvari ne odidejo — brmčijo v ozadju, dokler jih ne zapreš.",
+    "ft.line2": "Sporočilo, ki ga končno pošlješ, traja deset sekund; tisto, kar odlašuješ, traja dneve v glavi.",
+    "ft.line3": "Ni vam treba vedeti, kaj povedati — to je delo te aplikacije. Dotaknete se samo enkrat.",
+    "ft.line4": "Človek, ki ga želite biti, se gradi z eno majhno poslano stvarjo naenkrat.",
+    "ft.line5": "Danes zaprta ena zanka. To je celotna naloga.",
+    "ft.tabsAria": "Spremenite formulacijo vabila — vrata ostanejo ista"
   }
 }

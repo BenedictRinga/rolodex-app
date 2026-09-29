@@ -276,7 +276,12 @@
 
 /* Section 3: the courtesy line, at the bottom. */
 .fm-courtesy {
-  margin: 16px 0 4px;
+  margin: auto 0 12px;
+  /* 2026-09-29 BUILD 342 THE FOOTER LAW (founder: 'move welcome on regular
+     page TASKS || PERSON into footer position too'): the panel is a flex
+     column, so margin-top:auto pins the welcome to the BASE - short content
+     rests on the footer, long content pushes it - the ft page's own law,
+     one layout across both views. */
   font-size: 12px;
   line-height: 1.5;
   color: var(--rolodex-text-secondary, #4b5563);

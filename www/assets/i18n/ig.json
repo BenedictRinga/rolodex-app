@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Were nzọụkwụ dị nro ahụ — mee ihe ebe a, anyị banye n'ahụmịhe LoopKeeper zuru ezu."
+    "ft.nudge": "Were nzọụkwụ dị nro ahụ — mee ihe ebe a, anyị banye n'ahụmịhe LoopKeeper zuru ezu.",
+    "ft.doorReply.rehearsal": "Ozi m dere edem na isi m dee okwu",
+    "ft.doorReply.relief": "Ududu ga-akwụsị tọnụ",
+    "ft.doorDecide.rehearsal": "Aza m na-agbagharị gburugburu",
+    "ft.doorDecide.relief": "Ọchịchịrị m doro njikere",
+    "ft.line1": "Ihe a naghị emechara anaghị aga — ọ na-agụ obere oge ruo mgbe ị mechie ya.",
+    "ft.line2": "Ozi ị ga-ezigara n'ikpeazụ were sekọnd iri; nke ị na-egbu oge were ụbọchị na isi.",
+    "ft.line3": "Ị naghị achọ ịma ihe ị ga-ekwu — ọ bụ ọrụ app a. Ị pịa otu ugboro.",
+    "ft.line4": "Onye ị chọrọ ịbụ na-esi site n'otu obere ihe e zitere n'oge.",
+    "ft.line5": "Otu mkpa mechiri taa. Nke ahụ bụ ọrụ niile.",
+    "ft.tabsAria": "Gbanwee otu oku si agoro — ọnụ ụzọ anọgide otu"
   }
 }

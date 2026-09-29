@@ -3,6 +3,7 @@ import { AlertController, ModalController, ActionSheetController, IonContent } f
 import { TranslateService } from '@ngx-translate/core';
 import { SecurityService } from '../services/security/security.service';
 import { SoundService } from '../services/sound/sound.service';
+import { StudioPlaybackService } from '../services/studio-playback/studio-playback.service';
 import { ContactInfo } from '../models/contacts';
 import { ContactsSyncService } from '../services/contacts-sync/contacts-sync.service';
 import { FollowUpEngine } from '../services/followup-engine/followup-engine.service';
@@ -235,6 +236,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly assistantCard: AssistantCardService,
     private readonly sound: SoundService,
     private readonly analytics: AnalyticsService,
+    private readonly playback: StudioPlaybackService, // 342: the lines speak on return visits (the Welcome/Looptionary device path).
     // 2026-08-27 CALENDAR SYNC: received appointment invites write through
     // to the device calendar too (appointment$ had NO consumers before —
     // invites only toasted, never landed on the card or calendar).
@@ -386,6 +388,84 @@ export class HomePage implements OnInit, OnDestroy {
   private ftNudgeShownSession = false;
   private ftNudgeAtMs = 0;
 
+  /** 2026-09-29 BUILD 342 THE THREE ATTACK VECTORS (founder: the 5-visit
+   *  visitor told us a procrastinator needs more choices, more insight, more
+   *  rumination as action - multiply the screen by three, same design, two
+   *  more alternatively worded presentations of the binary, each option the
+   *  EXACT same result - only the attack-vector naming changes; log which is
+   *  working). duty = the Zeigarnik name (default, the shipped wording);
+   *  rehearsal = the mind's-draft name (construal: name what they are ALREADY
+   *  doing); relief = the after-state name (affect forecasting). Same doors,
+   *  same outcomes, same flows. */
+  ftTab: 'duty' | 'rehearsal' | 'relief' = 'duty';
+
+  /** 342 THE VOICED LINES (founder: 'Do we voice the informative section,
+   *  those five. We already have narration. First visit, they are quiet.
+   *  Next visits, they speak out'): five rotating lines above the binary -
+   *  no borders, the thin voice; silent on visit 1, spoken on visits 2+
+   *  through the EXISTING device TTS path (speakDeviceFirst - the Welcome
+   *  slides' own), interrupt-and-replace, never a queue. Voicing stops the
+   *  moment the visitor acts (a gate tap) - action earns silence. */
+  private static readonly FT_LINES = ['ft.line1', 'ft.line2', 'ft.line3', 'ft.line4', 'ft.line5'];
+  // 342 THE DWELL ARRAY, not a hope: the founder worried one line is longer
+  // than the others - line 2 is the long one (~15 words), it gets 11s.
+  private static readonly FT_LINE_DWELL = [9000, 11000, 9000, 9000, 9000];
+  ftLineText = '';
+  ftLineFading = false;
+  private ftLineIdx = 0;
+  private ftLineTimer: any = null;
+  private ftLineFadeTimer: any = null;
+
+  /** The doors' wording keys by vector - the MIDDLE tab keeps the shipped
+   *  fm.* keys byte-for-byte (continuity), the sides carry the new vectors. */
+  get ftReplyLabelKey(): string {
+    if (this.ftTab === 'rehearsal') return 'loopkeeper.ft.doorReply.rehearsal';
+    if (this.ftTab === 'relief') return 'loopkeeper.ft.doorReply.relief';
+    return 'loopkeeper.fm.avoidReply';
+  }
+  get ftDecideLabelKey(): string {
+    if (this.ftTab === 'rehearsal') return 'loopkeeper.ft.doorDecide.rehearsal';
+    if (this.ftTab === 'relief') return 'loopkeeper.ft.doorDecide.relief';
+    return 'loopkeeper.fm.avoidDecide';
+  }
+
+  /** The tab switch: quiet tick, one log - the rumination made visible. */
+  setFtTab(tab: 'duty' | 'rehearsal' | 'relief'): void {
+    if (this.ftTab === tab) return;
+    this.ftTab = tab;
+    void this.sound.playChatReceive(0.04);
+    this.ftLog('ft_tab_switched', { to: tab });
+  }
+
+  /** 342 THE ROTATION: starts on every gates open (visit 1 silent, 2+ voiced);
+   *  500ms crossfade inside the slot; the dwell is per-line. lineAtTap rides
+   *  the gate event so the funnel learns WHICH SENTENCE converts. */
+  private startFtLines(): void {
+    this.stopFtLines();
+    this.ftLineIdx = -1;
+    this.advanceFtLine();
+  }
+  private advanceFtLine(): void {
+    const next = (this.ftLineIdx + 1) % 5;
+    this.ftLineIdx = next;
+    void this.translate.get('loopkeeper.' + HomePage.FT_LINES[next]).toPromise().then((t: string) => {
+      this.ftLineText = t;
+      if (this.analytics.getVisitNumber() >= 2 && t && !t.startsWith('loopkeeper.')) {
+        void this.analytics.track('ft_line_spoken', { line: next });
+        void this.playback.speakDeviceFirst(t, this.translate.currentLang || 'en-US');
+      }
+    });
+    this.ftLineTimer = setTimeout(() => {
+      if (this.ftView !== 'gates') return; // the engine only turns on the gates
+      this.ftLineFading = true;
+      this.ftLineFadeTimer = setTimeout(() => { this.ftLineFading = false; this.advanceFtLine(); }, 500);
+    }, HomePage.FT_LINE_DWELL[next]);
+  }
+  private stopFtLines(): void {
+    if (this.ftLineTimer) { clearTimeout(this.ftLineTimer); this.ftLineTimer = null; }
+    if (this.ftLineFadeTimer) { clearTimeout(this.ftLineFadeTimer); this.ftLineFadeTimer = null; }
+  }
+
   /** Back is on every step except the congratulations themselves. */
   get ftShowBack(): boolean {
     // 2026-09-24 BUILD 324: every phased card clip carries its return.
@@ -397,7 +477,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** The gates' reply door — the slate transforms to the two phone doors. */
-  ftReply(): void { this.ftLog('ft_gate', { gate: 'reply' }); this.ftNudgeResponded(); this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone'); }
+  ftReply(): void {
+    // 342: the commitment sound, the vector + sentence that converted, then silence - action earns it.
+    void this.sound.playChatSend();
+    this.ftLog('ft_gate', { gate: 'reply', viaTab: this.ftTab, lineAtTap: this.ftLineIdx });
+    this.ftNudgeResponded();
+    this.stopFtLines();
+    void this.playback.stop();
+    this.ftPath = 'reply'; this.ftView = 'phone'; this.ftEnter('phone');
+  }
 
   /** BUILD 341: the nudge's whole purpose - did the gentle line move them?
    *  The FIRST gate tap after the nudge closes the watch; one event per session. */
@@ -419,7 +507,15 @@ export class HomePage implements OnInit, OnDestroy {
    *  or whatever, and hand-off for now... the LoopKeeper algo then continues
    *  it later with our 9am track"): the decide door opens the EMPTY TASK
    *  CARD — cloned into this canvas (never exported to a component). */
-  ftDecide(): void { this.ftLog('ft_gate', { gate: 'decide' }); this.ftNudgeResponded(); this.ftLog('ft_choice', { choice: 'card' }); this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card'); }
+  ftDecide(): void {
+    void this.sound.playChatSend();
+    this.ftLog('ft_gate', { gate: 'decide', viaTab: this.ftTab, lineAtTap: this.ftLineIdx });
+    this.ftNudgeResponded();
+    this.stopFtLines();
+    void this.playback.stop();
+    this.ftLog('ft_choice', { choice: 'card' });
+    this.ftPath = 'decide'; this.ftView = 'card'; this.ftEnter('card');
+  }
 
   /** 2026-09-24 BUILD 324 THE PHASED SECOND TRACK — state above; the clips:
    *  01c the blank card face + "name it"; 02c the flipped card, one thing at
@@ -490,6 +586,7 @@ export class HomePage implements OnInit, OnDestroy {
       whySittingSource: 'user' as const,
     });
     void this.analytics.track('task_card_saved', { source: 'ft-cocoon' });
+    void this.sound.playLoopReady(); // 342: the save is heard - zero silence at the deed.
     // The flourish — the same beat the reply earns: one breath, then the
     // cocoon opens to the settled home.
     this.ftView = 'done';
@@ -684,8 +781,8 @@ export class HomePage implements OnInit, OnDestroy {
   /** The return arrow. Phone → gates. Dialog → one step back inside the
    *  words, or out to the previous blank page if the words are showing. */
   ftBack(): void {
-    if (this.ftView === 'phone') { this.ftLog('ft_retract', { from: 'phone', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
-    if (this.ftView === 'card') { this.ftLog('ft_retract', { from: 'card', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; return; }
+    if (this.ftView === 'phone') { this.ftLog('ft_retract', { from: 'phone', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; this.startFtLines(); return; }
+    if (this.ftView === 'card') { this.ftLog('ft_retract', { from: 'card', to: 'gates', dwellMs: this.ftDwellMs() }); this.ftView = 'gates'; this.startFtLines(); return; }
     // 2026-09-24 BUILD 324: every phased clip returns ONE step back.
     if (this.ftView === 'steps') { this.ftLog('ft_retract', { from: 'steps', to: 'card', dwellMs: this.ftDwellMs() }); this.ftView = 'card'; return; }
     if (this.ftView === 'remind') {
@@ -795,6 +892,9 @@ export class HomePage implements OnInit, OnDestroy {
         this.ftNudgeAtMs = Date.now();
         void this.analytics.track('ft_nudge_shown', { visitNumber: visits });
       }
+      // 342: the rotation starts on EVERY gates open - silent on visit 1,
+      // spoken from visit 2 (the founder's voice law).
+      this.startFtLines();
     } catch { this.ftView = ''; /* the gate must never block the app */ }
   }
 
@@ -819,6 +919,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** The congratulations have played. Now — and only now — the original
    *  panel and the surroundings. */
   onFtConcluded(): void {
+    void this.sound.playMilestoneChime(0.3); // 342: one gentle chime under the balloons - the finish is heard.
     // BUILD 319: the journey succeeded — the dwell closes as a conclusion.
     this.ftLog('ft_concluded', { dwellMs: this.ftDwellMs() });
     this.ftEnteredAt = 0;
@@ -1111,6 +1212,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.stopFtLines(); // 342: the rotation never outlives the page.
+    void this.playback.stop();
     if (this.headerTimer) clearInterval(this.headerTimer);
     if (this.updateBannerTimer) clearInterval(this.updateBannerTimer); // BUILD 195
     // 2026-08-29 BUILD 143: release the nudge-tap channels.

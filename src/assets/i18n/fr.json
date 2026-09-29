@@ -735,6 +735,16 @@
     "lt.clear": "Effacer",
     "lt.empty": "Cherchez un mot ou une phrase - la réponse, un exemple, et son origine, avec une voix qui le dit. Vos recherches restent sur cet appareil.",
     "lt.listen": "Écouter",
-    "ft.nudge": "Fais ce seul pas tout doux — fais quelque chose ici, et nous entrons dans toute l'expérience LoopKeeper."
+    "ft.nudge": "Fais ce seul pas tout doux — fais quelque chose ici, et nous entrons dans toute l'expérience LoopKeeper.",
+    "ft.doorReply.rehearsal": "Le message que je me suis écrit dix fois dans la tête",
+    "ft.doorReply.relief": "Le silence qui prend fin ce soir",
+    "ft.doorDecide.rehearsal": "La réponse autour de laquelle je tourne en rond",
+    "ft.doorDecide.relief": "La clarté pour laquelle je suis prêt",
+    "ft.line1": "Ce qui reste inachevé ne part pas — ça bourdonne en arrière-plan jusqu'à ce que tu refermes.",
+    "ft.line2": "Le message que tu envoies enfin prend dix secondes ; celui que tu repousses prend des jours de tête.",
+    "ft.line3": "Tu n'as pas besoin de savoir quoi dire — c'est le travail de cette appli. Tu appuies une fois.",
+    "ft.line4": "La personne que tu veux être se construit une petite chose envoyée à la fois.",
+    "ft.line5": "Une boucle refermée aujourd'hui. Voilà toute la tâche.",
+    "ft.tabsAria": "Changer la formulation de l'invitation — les portes restent les mêmes"
   }
 }

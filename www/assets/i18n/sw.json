@@ -735,6 +735,16 @@
     "lt.clear": "Futa",
     "lt.empty": "Tafuta neno au sentensi yoyote - jibu, mfano, na asili yake, kwa sauti inayolisema. Utafutaji wako unabaki kifaa chako.",
     "lt.listen": "Sema",
-    "ft.nudge": "Chukua hatua hiyo moja la kupendeza — fanya kitu hapa, nao tunaingia kwenye uzoefu kamili wa LoopKeeper."
+    "ft.nudge": "Chukua hatua hiyo moja la kupendeza — fanya kitu hapa, nao tunaingia kwenye uzoefu kamili wa LoopKeeper.",
+    "ft.doorReply.rehearsal": "Ujumbe nileandika mara kumi kichwani",
+    "ft.doorReply.relief": "Utulivu utakaokomesha leo usiku",
+    "ft.doorDecide.rehearsal": "Jibu ambalo ninaendelea kuzunguka",
+    "ft.doorDecide.relief": "Uwazi nimekuwa tayari",
+    "ft.line1": "Yasiyokamilika hayataki kuhama — yanapiga bubujini nyuma mpaka uyafunge.",
+    "ft.line2": "Ujumbe unao utuma mwishowe unachukua sekunde kumi; ule unaochelewesha unachukua siku kichwani.",
+    "ft.line3": "Huhitaji kujua cha kusema — hilo ni kazi ya app hii. Wewe bonyeza mara moja.",
+    "ft.line4": "Mtu unayetaka kuwa unajengwa kwa kitu kidogo kimoja kilichotumwa kwa wakati.",
+    "ft.line5": "Mzunguko mmoja umefungwa leo. Hilo ndilo jambo zima.",
+    "ft.tabsAria": "Badilisha mtazamo wa mwaliko — milango inabaki kama ile ile"
   }
 }

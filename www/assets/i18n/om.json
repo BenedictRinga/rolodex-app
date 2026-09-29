@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Tarkii miidhaa tokko fudhaa — asitti waan tokko hojjedhu, yeroo san nuti LoopKeeper guutuu seenna."
+    "ft.nudge": "Tarkii miidhaa tokko fudhaa — asitti waan tokko hojjedhu, yeroo san nuti LoopKeeper guutuu seenna.",
+    "ft.doorReply.rehearsal": "Sammuu koo keessatti AFFURAMAA tokko tokko barreesserra",
+    "ft.doorReply.relief": "Qabduu har'aas dhufu",
+    "ft.doorDecide.rehearsal": "Deebii naan kallattin marsaa",
+    "ft.doorDecide.relief": "Ifa dhaqabaaf qopheeffadheera",
+    "ft.line1": "Wantoonni xumuraa hin taane hin deebiu — xumuruutti duudhaa duulu.",
+    "ft.line2": "Ergaan ergaa jirtu seendaan 10 fudhaata; kan ibsaa jirtu guyyaa sammuu fudhaata.",
+    "ft.line3": "Maal jedhu beekuu hin qabdu — kun hojii app kanaati. Tokkotti dhiibaa.",
+    "ft.line4": "Nama ta'uuf barbaaddu waan xiqqoo tokko ergameen ijaarama.",
+    "ft.line5": "Har'a maraa tokko cufame. Kunis hojii guutuudha.",
+    "ft.tabsAria": "Haala qebeessa jedhu jijjiiri — balfiin akka isaatiin haa taju"
   }
 }

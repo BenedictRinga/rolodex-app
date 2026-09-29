@@ -735,6 +735,16 @@
     "lt.clear": "Löschen",
     "lt.empty": "Suche ein Wort oder einen Satz - die Antwort, ein Beispiel und die Herkunft, mit einer Stimme, die es sagt. Deine Suchen bleiben auf diesem Gerät.",
     "lt.listen": "Anhören",
-    "ft.nudge": "Mach den einen sanften Schritt — tu hier etwas, und wir treten in das volle LoopKeeper-Erlebnis ein."
+    "ft.nudge": "Mach den einen sanften Schritt — tu hier etwas, und wir treten in das volle LoopKeeper-Erlebnis ein.",
+    "ft.doorReply.rehearsal": "Die Nachricht, die ich zehnmal im Kopf geschrieben habe",
+    "ft.doorReply.relief": "Die Stille, die heute Nacht endet",
+    "ft.doorDecide.rehearsal": "Die Antwort, um die ich immer wieder kreise",
+    "ft.doorDecide.relief": "Die Klarheit, auf die ich bereit bin",
+    "ft.line1": "Unfertige Dinge gehen nicht weg — sie brummen im Hintergrund, bis du sie abschließt.",
+    "ft.line2": "Die Nachricht, die du endlich sendest, braucht zehn Sekunden; die, die du aufschiebst, braucht Tage im Kopf.",
+    "ft.line3": "Du musst nicht wissen, was du sagen sollst — das ist die Aufgabe dieser App. Du tippst nur einmal.",
+    "ft.line4": "Der Mensch, der du sein willst, entsteht eine kleine Gesendete Sache nach der anderen.",
+    "ft.line5": "Eine Schleife heute geschlossen. Das ist die ganze Aufgabe.",
+    "ft.tabsAria": "Ändern, wie die Einladung formuliert ist — die Türen bleiben dieselben"
   }
 }

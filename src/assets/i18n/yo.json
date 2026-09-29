@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Gbé ìgbésẹ̀ kanṣoṣo tí ó fẹ̀ lékèè — ṣe níkan ní ibí, ká sì wọ inú ìrírí LoopKeeper gan-an."
+    "ft.nudge": "Gbé ìgbésẹ̀ kanṣoṣo tí ó fẹ̀ lékèè — ṣe níkan ní ibí, ká sì wọ inú ìrírí LoopKeeper gan-an.",
+    "ft.doorReply.rehearsal": "Ọ̀rọ̀ tí mo ti kọ sílẹ̀ ní ọkàn mìíràn mẹ́wa",
+    "ft.doorReply.relief": "Àṣìkò tí yóò parí lónìí alẹ́",
+    "ft.doorDecide.rehearsal": "Èsì tí mo ń yí kiri yìí",
+    "ft.doorDecide.relief": "Ìmọ̀ tí mo ti ṣetán fún",
+    "ft.line1": "Ohun tí kì í ṣetán kì í lọ — ó máa ń dún ní ẹ̀gbẹ́ títí o fi padà rẹ̀.",
+    "ft.line2": "Ọ̀rọ̀ tí o bá fi ṣetán ránṣẹ́ gbà ìṣẹ́jú méwa; èyí tí o ń dún lẹ́yìn gbà ọ̀sẹ̀ lọ́kàn.",
+    "ft.line3": "Kì í ṣe dandan kí o mọ ohun tí o gbọdọ̀ sọ — èyí ni iṣẹ́ app yìí. Kán ìgbà kan ṣoṣo.",
+    "ft.line4": "Ènìyàn tí o fẹ́ jẹ́ a ń kọ ní pẹ̀lú nkan kékeré kan tí a ti ránṣẹ́ ní ìgbà kan.",
+    "ft.line5": "Ìgbà kan tí a ti padà lónìí. Èyí ni iṣẹ́ gbogbo.",
+    "ft.tabsAria": "Yí ọ̀nà èdè ìpè ní padà — ilẹ̀kùn kì í yí padà"
   }
 }

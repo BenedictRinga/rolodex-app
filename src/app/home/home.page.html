@@ -19,14 +19,26 @@
            here, and the full experience opens. The watch: ft_nudge_shown ->
            ft_nudge_responded (the first gate tap) -> ft_concluded. -->
       <p class="ft-nudge" *ngIf="ftNudgeOn">{{ 'loopkeeper.ft.nudge' | translate }}</p>
+      <!-- 2026-09-29 BUILD 342 SECTION 1 - THE VOICED LINES: no borders, the
+           thin voice, one sentence at a time (the dwell array, 9s/11s), the
+           crossfade; silent visit 1, spoken visit 2+. lineAtTap rides the
+           gate event - we learn which SENTENCE converts. -->
+      <p class="ft-line" [class.fading]="ftLineFading">{{ ftLineText }}</p>
+      <!-- 342 SECTION 2a - THE TABS: three dots, middle (duty) default; the
+           doors below re-word per vector, the outcomes NEVER change. -->
+      <div class="ft-dots" role="tablist" [attr.aria-label]="'loopkeeper.ft.tabsAria' | translate">
+        <button class="ft-dot" type="button" [class.on]="ftTab === 'duty'" (click)="setFtTab('duty')" aria-label="1"></button>
+        <button class="ft-dot" type="button" [class.on]="ftTab === 'rehearsal'" (click)="setFtTab('rehearsal')" aria-label="2"></button>
+        <button class="ft-dot" type="button" [class.on]="ftTab === 'relief'" (click)="setFtTab('relief')" aria-label="3"></button>
+      </div>
       <div class="ft-gates">
         <button class="ft-gate" type="button" (click)="ftReply()">
           <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-          <span>{{ 'loopkeeper.fm.avoidReply' | translate }}</span>
+          <span>{{ ftReplyLabelKey | translate }}</span>
         </button>
         <button class="ft-gate" type="button" (click)="ftDecide()">
           <ion-icon name="git-branch-outline"></ion-icon>
-          <span>{{ 'loopkeeper.fm.avoidDecide' | translate }}</span>
+          <span>{{ ftDecideLabelKey | translate }}</span>
         </button>
       </div>
       <!-- 2026-09-23 BUILD 322 THE FOOTER LAW (founder: "Only (seedling)

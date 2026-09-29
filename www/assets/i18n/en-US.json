@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Take that one gentle step — do something here, and we enter into the full LoopKeeper experience."
+    "ft.nudge": "Take that one gentle step — do something here, and we enter into the full LoopKeeper experience.",
+    "ft.doorReply.rehearsal": "The message I've written ten times in my head",
+    "ft.doorReply.relief": "The silence that ends tonight",
+    "ft.doorDecide.rehearsal": "The answer I keep circling",
+    "ft.doorDecide.relief": "The clarity I'm ready for",
+    "ft.line1": "Unfinished things don't leave — they hum in the background until you close them.",
+    "ft.line2": "The message you finally send takes ten seconds; the one you postpone takes days of mind.",
+    "ft.line3": "You don't need to know what to say — that's this app's job. You just tap once.",
+    "ft.line4": "The person you mean to be is built one small sent thing at a time.",
+    "ft.line5": "One loop closed today. That's the whole assignment.",
+    "ft.tabsAria": "Change how the invitation is worded — the doors stay the same"
   }
 }

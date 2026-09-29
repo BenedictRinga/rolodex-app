@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Ta det där ena mjuka steget — gör något här, så kliver vi in i hela LoopKeeper-upplevelsen."
+    "ft.nudge": "Ta det där ena mjuka steget — gör något här, så kliver vi in i hela LoopKeeper-upplevelsen.",
+    "ft.doorReply.rehearsal": "Meddelandet jag har skrivit tio gånger i huvudet",
+    "ft.doorReply.relief": "Tystnaden som tar slut ikväll",
+    "ft.doorDecide.rehearsal": "Svaret jag ständigt kretsar kring",
+    "ft.doorDecide.relief": "Klarheten jag är redo för",
+    "ft.line1": "Ofullständiga saker försvinner inte — de brummar i bakgrunden tills du stänger dem.",
+    "ft.line2": "Meddelandet du äntligen skickar tar tio sekunder; det du skjuter upp tar dagar i huvudet.",
+    "ft.line3": "Du behöver inte veta vad du ska säga — det är den här appens jobb. Du trycker bara en gång.",
+    "ft.line4": "Människan du vill vara byggs en liten skickad sak i taget.",
+    "ft.line5": "En slinga stängd idag. Det är hela uppgiften.",
+    "ft.tabsAria": "Ändra formuleringen av inbjudan — dörrarna är desamma"
   }
 }

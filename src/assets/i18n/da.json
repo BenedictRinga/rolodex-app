@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Tag det ene blide skridt — gør noget her, og vi træder ind i den fulde LoopKeeper-oplevelse."
+    "ft.nudge": "Tag det ene blide skridt — gør noget her, og vi træder ind i den fulde LoopKeeper-oplevelse.",
+    "ft.doorReply.rehearsal": "Beskeden jeg har skrevet ti gange i mit hoved",
+    "ft.doorReply.relief": "Den stilhed der slutter i aften",
+    "ft.doorDecide.rehearsal": "Svaret jeg hele tiden kredser om",
+    "ft.doorDecide.relief": "Klarheden jeg er klar til",
+    "ft.line1": "Uafsluttede ting forsvinder ikke — de brummer i baggrunden, til du lukker dem.",
+    "ft.line2": "Beskeden du endelig sender tager ti sekunder; den du udskyder, tager dage af sindet.",
+    "ft.line3": "Du behøver ikke vide, hvad du skal sige — det er denne apps opgave. Du trykker bare én gang.",
+    "ft.line4": "Det menneske du vil være, bygges én lille sendt ting ad gangen.",
+    "ft.line5": "Én løkke lukket i dag. Det er hele opgaven.",
+    "ft.tabsAria": "Skift hvordan invitationen er formuleret — dørene er de samme"
   }
 }

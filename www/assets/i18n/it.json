@@ -735,6 +735,16 @@
     "lt.clear": "Cancella",
     "lt.empty": "Cerca qualsiasi parola o frase - la risposta, un esempio e l’origine, con una voce che la dice. Le tue ricerche restano su questo dispositivo.",
     "lt.listen": "Pronuncia",
-    "ft.nudge": "Fai quel singolo passo gentile — fai qualcosa qui, e entriamo nell'esperienza completa di LoopKeeper."
+    "ft.nudge": "Fai quel singolo passo gentile — fai qualcosa qui, e entriamo nell'esperienza completa di LoopKeeper.",
+    "ft.doorReply.rehearsal": "Il messaggio che ho scritto dieci volte in testa",
+    "ft.doorReply.relief": "Il silenzio che finisce stasera",
+    "ft.doorDecide.rehearsal": "La risposta intorno alla quale continuo a girare",
+    "ft.doorDecide.relief": "La chiarezza per cui sono pronto",
+    "ft.line1": "Le cose incomplete non vanno via — ronzano sullo sfondo finché non le chiudi.",
+    "ft.line2": "Il messaggio che finalmente invii richiede dieci secondi; quello che rimandi richiede giorni di testa.",
+    "ft.line3": "Non devi sapere cosa dire — è il compito di questa app. Tocchi una volta.",
+    "ft.line4": "La persona che vuoi essere si costruisce una piccola cosa inviata alla volta.",
+    "ft.line5": "Un giro chiuso oggi. Questo è tutto il compito.",
+    "ft.tabsAria": "Cambia la formulazione dell'invito — le porte restano le stesse"
   }
 }

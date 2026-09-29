@@ -735,6 +735,16 @@
     "lt.clear": "Wyczyść",
     "lt.empty": "Szukaj dowolnego słowa lub zdania - odpowiedź, przykład i pochodzenie, z głosem, który to wypowie. Twoje wyszukiwania zostają na tym urządzeniu.",
     "lt.listen": "Powiedz",
-    "ft.nudge": "Zrób ten jeden delikatny krok — zrób tu coś, a wejdziemy w pełne doświadczenie LoopKeeper."
+    "ft.nudge": "Zrób ten jeden delikatny krok — zrób tu coś, a wejdziemy w pełne doświadczenie LoopKeeper.",
+    "ft.doorReply.rehearsal": "Wiadomość, którą dziesięć razy napisałem w głowie",
+    "ft.doorReply.relief": "Cisza, która kończy się dziś wieczorem",
+    "ft.doorDecide.rehearsal": "Odpowiedź, wokół której ciągle krążę",
+    "ft.doorDecide.relief": "Jasność, na którą jestem gotów",
+    "ft.line1": "Niedokończone rzeczy nie odchodzą — bzyczą w tle, aż je zamkniesz.",
+    "ft.line2": "Wiadomość, którą w końcu wyślesz, zajmuje dziesięć sekund; ta, którą odkładasz, zajmuje dni w głowie.",
+    "ft.line3": "Nie musisz wiedzieć, co powiedzieć — to zadanie tej aplikacji. Dotykasz tylko raz.",
+    "ft.line4": "Człowiek, którym chcesz być, buduje się z jednej małej wysłanej rzeczy na raz.",
+    "ft.line5": "Jedna pętla zamknięta dzisiaj. To całe zadanie.",
+    "ft.tabsAria": "Zmień sformułowanie zaproszenia — drzwi zostają te same"
   }
 }

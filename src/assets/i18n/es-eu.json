@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Eman urrats leun bakur hura — egin zerbait hemen, eta LoopKeeper esperientzia osoan sartuko gara."
+    "ft.nudge": "Eman urrats leun bakur hura — egin zerbait hemen, eta LoopKeeper esperientzia osoan sartuko gara.",
+    "ft.doorReply.rehearsal": "Nire buruan hamar aldiz idatzi dudan mezua",
+    "ft.doorReply.relief": "Gaur bukaerako isiltasuna",
+    "ft.doorDecide.rehearsal": "Jarraitu nahi diodun erantzuna",
+    "ft.doorDecide.relief": "Prest nagoen argitasuna",
+    "ft.line1": "Amaitu gabeko gauzak ez dira joaten — atzean burrunbat egiten dute itxi arte.",
+    "ft.line2": "Azkenik bidaltzen duzun mezuak hamar segundu behar ditu; atzeratzen duzunak egunak buruan.",
+    "ft.line3": "Ez duzu esan beharrik — hori aplikazioaren lana da. Behin bakarrik sakatu.",
+    "ft.line4": "Izan nahi duzun pertsona bidalitako gauza txiki batekin eraikitzen da.",
+    "ft.line5": "Begizta bat itxita gaur. Hori da zeregin osoa.",
+    "ft.tabsAria": "Aldatu gonbitaren formulazioa — atzak berdin-berdin dirau"
   }
 }

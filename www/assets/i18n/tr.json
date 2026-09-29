@@ -735,6 +735,16 @@
     "lt.clear": "Temizle",
     "lt.empty": "Herhangi bir kelimeyi veya cümleyi ara - cevap, örnek ve köken, söyleyen bir sesle. Aramaların bu aygıtta kalır.",
     "lt.listen": "Söyle",
-    "ft.nudge": "O tek nazik adımı at — burada bir şey yap, ve tam LoopKeeper deneyimine giriyoruz."
+    "ft.nudge": "O tek nazik adımı at — burada bir şey yap, ve tam LoopKeeper deneyimine giriyoruz.",
+    "ft.doorReply.rehearsal": "Kafamda on kez yazdığım mesaj",
+    "ft.doorReply.relief": "Bu gece son bulan sessizlik",
+    "ft.doorDecide.rehearsal": "Sürekli etrafında döndüğüm cevap",
+    "ft.doorDecide.relief": "Hazır olduğum netlik",
+    "ft.line1": "Yarım kalan şeyler gitmez — kapanana kadar arka planda vızıldar.",
+    "ft.line2": "Sonunda gönderdiğin mesaj on saniye alır; ertelediğin mesaj kafanda günler alır.",
+    "ft.line3": "Ne diyeceğini bilmen gerekmiyor — bu, bu uygulamanın işi. Sadece bir kez dokunursun.",
+    "ft.line4": "Olmasını istediğin kişi, bir kez gönderilmiş küçük bir şeyle kurulur.",
+    "ft.line5": "Bugün bir döngü kapatıldı. Görevin tamamı bu.",
+    "ft.tabsAria": "Davetin ifadesini değiştir — kapılar aynı kalır"
   }
 }

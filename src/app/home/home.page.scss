@@ -538,6 +538,39 @@ app-rolodex.tab-hidden,
   max-width: 330px;
   text-align: center;
 }
+.ft-line {
+  margin: 0 auto 10px;
+  /* 2026-09-29 BUILD 342 THE VOICED LINES: no borders - just the thin
+     welcome voice carrying one sentence at a time; the crossfade is a
+     500ms opacity breath inside the 9s/11s slot. */
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.55;
+  color: #4a3210;
+  opacity: .8;
+  max-width: 330px;
+  min-height: 40px;
+  text-align: center;
+  transition: opacity .5s ease;
+}
+.ft-line.fading { opacity: 0; }
+.ft-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+.ft-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(140, 94, 20, .45);
+  background: transparent;
+  cursor: pointer;
+}
+.ft-dot.on { background: #b3741b; border-color: #b3741b; }
 .ft-gates {
   display: flex;
   gap: 16px;

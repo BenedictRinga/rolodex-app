@@ -735,6 +735,16 @@
     "lt.clear": "Clear",
     "lt.empty": "Look up any word or sentence - the answer, an example, and where it comes from, with a voice that says it. Your lookups stay on this device.",
     "lt.listen": "Say it",
-    "ft.nudge": "Urob ten jeden jemný krok — urob tu niečo, a vstúpime do celého zážitku LoopKeeper."
+    "ft.nudge": "Urob ten jeden jemný krok — urob tu niečo, a vstúpime do celého zážitku LoopKeeper.",
+    "ft.doorReply.rehearsal": "Správa, ktorú som v hlave napísal desaťkrát",
+    "ft.doorReply.relief": "Ticho, ktoré sa skončí dnes večer",
+    "ft.doorDecide.rehearsal": "Odpoveď, okolo ktorej sa pořád točím",
+    "ft.doorDecide.relief": "Jas, na ktorý som pripravený",
+    "ft.line1": "Nedokončené veci neodchádzajú — bzučia v pozadí, kým ich nezavrieš.",
+    "ft.line2": "Správa, ktorú konečne pošleš, zaberie desať sekúnd; tá, ktorú odkladáš, zaberie dni v hlave.",
+    "ft.line3": "Nemusíš vedieť, čo povedať — to je práca tejto aplikácie. Stačí jeden dotyk.",
+    "ft.line4": "Človek, ktorým chceš byť, sa buduje z jednej malej odoslanej veci naraz.",
+    "ft.line5": "Dnes zatvorená jedna slučka. To je celé zadanie.",
+    "ft.tabsAria": "Zmeň formulovanie pozvánky — dvere ostávajú tie isté"
   }
 }
