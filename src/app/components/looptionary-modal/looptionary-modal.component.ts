@@ -55,7 +55,8 @@ import { environment } from '../../../environments/environment';
            inUserLang, the speak button. Minimal noise by construction. -->
       <div class="lt-card" *ngIf="entry">
         <div class="lt-head">
-          <div>
+          <div class="lt-termwrap" (click)="speak()" role="button" tabindex="0"
+            [attr.aria-label]="'loopkeeper.lt.listen' | translate">
             <h2 class="lt-term">{{ entry.term }}</h2>
             <div class="lt-pos" *ngIf="entry.pos">{{ entry.pos }}</div>
           </div>
@@ -105,6 +106,8 @@ import { environment } from '../../../environments/environment';
     .lt-card { margin: 14px; padding: 16px 16px 12px; border-radius: 14px; background: #fffdf7;
       box-shadow: 0 1px 8px rgba(74, 50, 16, .10); border: 1px solid rgba(180, 83, 9, .12); }
     .lt-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .lt-termwrap { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .lt-termwrap:active { opacity: .6; }
     .lt-term { margin: 0; font-size: 20px; font-weight: 600; color: #4a3210; letter-spacing: .01em; }
     .lt-pos { margin-top: 2px; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #8c5e14; opacity: .7; }
     .lt-speak { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(180, 83, 9, .25);
@@ -170,6 +173,12 @@ export class LooptionaryModalComponent {
     try {
       const { entry, cached } = await this.loopt.lookup(q, this.translate.currentLang || 'en-US');
       this.entry = { ...entry, cached };
+      // 347 THE DISMISS (founder: 'once backend has delivered the meaning,
+      // app should dismiss keyboard, so user sees the full response...
+      // a needless extra action'): the answer landed - the keyboard leaves
+      // on its own. The blur is the honest dismissal (works the same on the
+      // PWA and the wrapped app: the field loses focus, the keyboard falls).
+      try { (document.activeElement as HTMLElement | null)?.blur?.(); } catch { /* nothing focused */ }
       void this.sound.playChatReceive();
       if (entry.notFound) this.error = this.translate.instant('loopkeeper.lt.notFound');
       void this.analytics.track('looptionary_lookup', { cached, len: q.length });
@@ -202,9 +211,11 @@ export class LooptionaryModalComponent {
 
   async speak(): Promise<void> {
     if (!this.entry || this.speaking) return;
-    const raw = this.entry.notFound
-      ? (this.q || this.entry.term)
-      : `${this.entry.term}. ${this.entry.meaning}`;
+    // 347 THE PRONUNCIATION LAW (founder: 'it is that user can tap to hear
+    // the word or sentence pronounced'): the voice reads the LOOKED-UP item
+    // - the word, or the sentence they typed - never the meaning (the
+    // meaning is for the eyes; the tap asks for the SAYING).
+    const raw = this.entry.notFound ? (this.q || this.entry.term) : this.entry.term;
     this.speaking = true;
     // The tap IS the grant - the Welcome's own order: stop, beginLoading,
     // prime, then the ask (their comment: audio command FIRST, the same tap

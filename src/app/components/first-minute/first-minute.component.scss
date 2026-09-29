@@ -5,8 +5,20 @@
    named avoidances; the demoted TASK/PERSON row (.fm-doors-sub) follows
    the demo — the same card language, a step quieter. */
 
+/* 347 THE FOOTER LAW, LAST LINK: the host stretches inside the fm whopane
+   and the panel takes its full height - the courtesy's margin-top:auto
+   pins the welcome to the true base. Outside the fm state the :host rules
+   are inert (flex without a flex parent does nothing). */
+:host {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .fm-panel {
   width: 100%;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;

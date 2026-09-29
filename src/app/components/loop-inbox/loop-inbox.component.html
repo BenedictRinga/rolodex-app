@@ -48,7 +48,7 @@
   <div class="li-body" [class.away]="tab !== 'loops'">
     <!-- 2026-08-31 BUILD 158: the walk is the DEFAULT Loops surface —
          four slides, one decision. Packed shelf behind I'm good / Smooth. -->
-    <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"
+    <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'" [class.walk-host-fm]="firstMinute && fmPhase === 'panel'"
       [contacts]="contacts"
       [firstMinute]="firstMinute"
       [fmPhase]="fmPhase"
