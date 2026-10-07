@@ -560,17 +560,17 @@
   </div>
   </app-loop-inbox>
 
-    <!-- 2026-09-29 BUILD 348 THE WELCOME FOOTER, AT HOME (founder: 'Put it
-         not in the Inbox, but footer to the home page. Otherwise it
-         crunches/crowds up in Inbox' + 'I do not like the way Welcome
-         buzzes Show me first right now'): the sapling courtesy LEFT the
-         TASK||PERSON panel - it no longer rides the inbox's expanding card
-         or buzzes against the Show-me-first demo - and rests as a fixed
-         footer of the home view for exactly as long as the first-minute
-         panel stands. The same thin welcome voice as the ft canvas footer
-         (322), adapted to the dark home surface. It never blocks a tap
-         (pointer-events: none) and vanishes the moment the deed lands. -->
-    <footer class="home-welcome-foot" *ngIf="firstMinuteActive && fmPhase === 'panel' && ftView === ''">
+    <!-- 2026-09-29 BUILD 350 THE HOME FOOTER, ALWAYS PRESENT (founder:
+         'home page should always have its footer... No disappearing when
+         the deed is done' - and 'in saying home page of course I refer to
+         that version of the home page on which you land after navigating
+         past the first-timer view'): the welcome footer is a PERMANENT part
+         of the home page - no first-minute scoping, no deed vanishing. It
+         shows whenever the home page is open (ftView empty = home is the
+         active view; the ft canvas z-60 covers it in the pre-home state, so
+         no double footer there). Same thin welcome voice, the ash-smoky
+         veil, pointer-events: none. -->
+    <footer class="home-welcome-foot" *ngIf="ftView === ''">
       <p>{{ 'loopkeeper.fm.courtesy' | translate }}</p>
     </footer>
 
