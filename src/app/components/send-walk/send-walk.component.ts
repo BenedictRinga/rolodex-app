@@ -130,8 +130,15 @@ export class SendWalkComponent implements OnInit, OnChanges {
   // the when-field gains an hour — default 09:00 (the wake-ping hour), the
   // user's own "morning run" rides the hour they choose.
   taskTime = '09:00';
-  taskCadence: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' = 'monthly';
-  readonly taskCadences: Array<'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
+  // 2026-09-29 BUILD 352 THE NONE DEFAULT (founder: 'Did we inadvertently,
+  // or never set the TASK card to accept none as default if user does not
+  // select from Daily, Monthly, Yearly, etc?' — the 325 law, 'None leads
+  // and it is the default', had reached the ft-canvas card ONLY; the
+  // regular TASK door offered no None at all and reset to monthly — every
+  // untouched draft silently carried a Monthly rhythm the user never
+  // chose). None leads, and it is the default, on BOTH doors now.
+  taskCadence: 'none' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' = 'none';
+  readonly taskCadences: Array<'none' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly'> = ['none', 'daily', 'weekly', 'monthly', 'quarterly', 'yearly'];
 
   get taskDraftOn(): boolean { return this.taskDraft !== 'off'; }
 
@@ -205,7 +212,7 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.taskTitle = '';
     this.taskDue = '';
     this.taskTime = '09:00';
-    this.taskCadence = 'monthly';
+    this.taskCadence = 'none'; // 352: None leads, and it is the default.
     // 349 STRAIGHT TO THE NAME (founder: 'On tapping TASK, it opens the
     // front face of a blank card, which is useless, because to actually use
     // it we must yet tap one more time to flip it. So let us discard that
