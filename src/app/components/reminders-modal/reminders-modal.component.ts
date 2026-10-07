@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarService, AgendaEvent } from '../../services/calendar/calendar.service';
@@ -58,11 +58,32 @@ export class RemindersModalComponent {
         title: String(c?.name?.display || ''),
         due: new Date(Number((c as any).task.due)),
         cadence: (c as any).task?.cadence,
+        ref: c,
       }))
       .sort((a, b) => a.due.getTime() - b.due.getTime());
   }
   cadenceLabel(c?: string): string {
-    return c && c !== 'none' ? this.translate.instant('loopkeeper.task.' + c) : '';
+    // 353: never rides with none (the contact-card editor's legacy value for
+    // the same concept) - both are the One-off, and the One-off shows no
+    // rhythm on a row.
+    return c && c !== 'none' && c !== 'never' ? this.translate.instant('loopkeeper.task.' + c) : '';
+  }
+
+  /** 353 TAP A ROW -> THE EDIT TASK WINDOW (founder: 'Tapping a Reminder
+   *  item should directly open the Edit Task window'): the row's own card
+   *  editor opens through the host chain. */
+  @Output() editCard = new EventEmitter<any>();
+  editRow(ref: any): void {
+    if (ref) this.editCard.emit(ref);
+  }
+
+  /** 353 THE CARD COVER AT THE ROW'S END (founder: 'Should the Reminders
+   *  list allow for a display of the Card cover at the opposite end of the
+   *  line item'): the card's image when it carries one, the cover emoji
+   *  next, the initial last - a glanceable identity at the line's end. */
+  rowImg(ref: any): string | null {
+    if (!ref) return null;
+    return ref.image?.base64String || null;
   }
 
   // 2026-08-16 THE SET-FORM state (always visible in the modal).
@@ -143,10 +164,10 @@ export class RemindersModalComponent {
       const name = c?.name?.display || 'Contact';
       const demo = !!(c as any)?.isMockData;
       for (const r of c?.reminders || []) {
-        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()), demo });
+        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()), demo, ref: c });
       }
       if (c?.rolodex?.followUp && c?.nextInteraction) {
-        this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction), demo });
+        this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction), demo, ref: c });
       }
       if (c?.birthday?.day && c?.birthday?.month) {
         this.birthdays.push({ note: '', contact: name, date: new Date(2000, c.birthday.month - 1, c.birthday.day), demo, ref: c });

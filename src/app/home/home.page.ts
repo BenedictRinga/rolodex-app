@@ -118,6 +118,9 @@ export class HomePage implements OnInit, OnDestroy {
    *  raised by this flag - the sheet's "I'll type one in" never fights the
    *  ModalController again. */
   manualAddOpen = false;
+  /** 353: the manual card editor runs in create OR edit mode (a Reminder/
+   *  task-row tap opens it EDITING the tapped card). */
+  manualMode: 'createContact' | 'editContact' = 'createContact';
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a
@@ -1615,7 +1618,28 @@ export class HomePage implements OnInit, OnDestroy {
   openManualTaskCard(): void {
     this.manualKind = 'task';
     this.manualDraft = {} as ContactInfo;
+    this.manualMode = 'createContact';
     this.manualAddOpen = true;
+  }
+
+  /** 353 TAP A REMINDER ROW -> THE EDIT TASK WINDOW (founder): the tapped
+   *  card opens in the SAME editor, in EDIT mode - the save writes back into
+   *  the deck card in place. */
+  onTaskCardRequest(card?: ContactInfo): void {
+    if (!card) { this.openManualTaskCard(); return; }
+    this.manualKind = 'task';
+    this.manualDraft = card;
+    this.manualMode = 'editContact';
+    this.manualAddOpen = true;
+  }
+
+  /** 353: the editor's editContact emit - replace the deck card by id and
+   *  persist; the references stay consistent (contactsDirty downstream). */
+  onManualEdit(c: ContactInfo): void {
+    const idx = this.contacts.findIndex((x) => x?.contactId === c?.contactId);
+    if (idx < 0) return;
+    this.contacts[idx] = c;
+    this.onContactsChange(this.contacts);
   }
 
   /** 2026-09-16 BUILD 229 PHASE C: the walk's Note-to-self door — home opens

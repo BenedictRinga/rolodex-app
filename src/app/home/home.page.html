@@ -507,7 +507,7 @@
        PANEL - live wiring, not the 319 starvation. The cocoon canvas stands
        over it for visitors; once done, every boot and reload opens here, on
        TASKS || PERSON. -->
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="openManualTaskCard()" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -669,7 +669,7 @@
      page, whatever the scroll position. -->
 <ion-modal [isOpen]="manualAddOpen" cssClass="contact-edit-fullscreen" [keyboardClose]="false" (didDismiss)="manualAddClosed($event)">
   <ng-template>
-    <app-contact-card [contact]="manualDraft" [selectedMode]="'createContact'" [createKind]="manualKind"></app-contact-card>
+    <app-contact-card [contact]="manualDraft" [selectedMode]="manualMode" [createKind]="manualKind" (editContact)="onManualEdit($event)"></app-contact-card>
   </ng-template>
 </ion-modal>
 

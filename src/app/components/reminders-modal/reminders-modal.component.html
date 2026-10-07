@@ -80,12 +80,17 @@
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
         <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
-      <ion-item *ngIf="s.type === 'row'">
+      <ion-item [button]="!!s.row.ref" [detail]="false" (click)="editRow(s.row.ref)">
         <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
           <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · {{ s.row.date | date: 'MMM d, yyyy' }}</p>
         </ion-label>
+        <span class="row-cover" slot="end" *ngIf="s.row.ref">
+          <img *ngIf="rowImg(s.row.ref)" [src]="rowImg(s.row.ref)" alt="" />
+          <span *ngIf="!rowImg(s.row.ref) && s.row.ref?.coverEmoji" class="row-cover-face">{{ s.row.ref.coverEmoji }}</span>
+          <span *ngIf="!rowImg(s.row.ref) && !s.row.ref?.coverEmoji" class="row-cover-init">{{ (s.row.ref?.name?.display || '·').slice(0, 1) }}</span>
+        </span>
       </ion-item>
     </ng-container>
 
@@ -93,12 +98,17 @@
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
         <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
-      <ion-item *ngIf="s.type === 'row'">
+      <ion-item [button]="!!s.row.ref" [detail]="false" (click)="editRow(s.row.ref)">
         <ion-icon name="time-outline" slot="start" style="color: var(--rolodex-info);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
           <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · follow-up {{ s.row.date | date: 'MMM d, yyyy' }}</p>
         </ion-label>
+        <span class="row-cover" slot="end" *ngIf="s.row.ref">
+          <img *ngIf="rowImg(s.row.ref)" [src]="rowImg(s.row.ref)" alt="" />
+          <span *ngIf="!rowImg(s.row.ref) && s.row.ref?.coverEmoji" class="row-cover-face">{{ s.row.ref.coverEmoji }}</span>
+          <span *ngIf="!rowImg(s.row.ref) && !s.row.ref?.coverEmoji" class="row-cover-init">{{ (s.row.ref?.name?.display || '·').slice(0, 1) }}</span>
+        </span>
       </ion-item>
     </ng-container>
 
@@ -106,12 +116,17 @@
          the deck's task cards join the read side, soonest first; pure
          contact cards never do. -->
     <ng-container *ngFor="let t of taskRows">
-      <ion-item lines="full">
+      <ion-item lines="full" [button]="!!t.ref" [detail]="false" (click)="editRow(t.ref)">
         <ion-icon name="checkbox-outline" slot="start" style="color: var(--rolodex-success, #3fb950);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ t.title }}</h2>
           <p style="font-size: 11px; color: var(--rolodex-text-secondary);">task · {{ t.due | date: 'MMM d, yyyy, HH:mm' }}<ng-container *ngIf="cadenceLabel(t.cadence)"> · {{ cadenceLabel(t.cadence) }}</ng-container></p>
         </ion-label>
+        <span class="row-cover" slot="end" *ngIf="t.ref">
+          <img *ngIf="rowImg(t.ref)" [src]="rowImg(t.ref)" alt="" />
+          <span *ngIf="!rowImg(t.ref) && t.ref?.coverEmoji" class="row-cover-face">{{ t.ref.coverEmoji }}</span>
+          <span *ngIf="!rowImg(t.ref) && !t.ref?.coverEmoji" class="row-cover-init">{{ (t.ref?.name?.display || '·').slice(0, 1) }}</span>
+        </span>
       </ion-item>
     </ng-container>
 

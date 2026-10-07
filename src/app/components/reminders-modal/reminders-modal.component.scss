@@ -25,6 +25,23 @@ ion-content {
 }
 .rem-open ion-icon { font-size: 16px; }
 
+/* 353 THE ROW COVER at the line's end: the card's face at a glance. */
+.row-cover {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(180, 83, 9, .10);
+  border: 1px solid rgba(180, 83, 9, .15);
+}
+.row-cover img { width: 100%; height: 100%; object-fit: cover; }
+.row-cover-face { font-size: 17px; line-height: 1; }
+.row-cover-init { font-size: 14px; font-weight: 700; color: #8c5e14; }
+
 .add-reminder-form {
   display: flex;
   flex-direction: column;
