@@ -206,12 +206,38 @@ export class SendWalkComponent implements OnInit, OnChanges {
     this.taskDue = '';
     this.taskTime = '09:00';
     this.taskCadence = 'monthly';
-    this.taskDraft = 'face';
+    // 349 STRAIGHT TO THE NAME (founder: 'On tapping TASK, it opens the
+    // front face of a blank card, which is useless, because to actually use
+    // it we must yet tap one more time to flip it. So let us discard that
+    // extra tap by going straight from TASK to the flipped view which
+    // already has Name this card and the supporting entries').
+    this.taskDraft = 'back';
     void this.analytics.track('task_card_started');
   }
 
   /** Tap the blank = flip, not start. There is nothing to start until it has
    *  a name — the only behavioural fork on Alpha, and only while unsaved. */
+  /** 349 TIME-FIRST DATE DEFAULTS (founder: 'If user starts with filling
+   *  time, instead of day, month, year, the latter should immediately
+   *  default to the day's date. We assume they mean today unless there is
+   *  not enough time based on what time they selected, in which event,
+   *  default to the following day'): picking a time with no date yet fills
+   *  the date at once - today if the chosen time is still ahead, tomorrow
+   *  when today cannot hold it. An explicit date always stands. */
+  onTaskTimeChange(): void {
+    if (this.taskDue || !this.taskTime) return;
+    const now = new Date();
+    const parts = this.taskTime.split(':');
+    const h = Number(parts[0]) || 0;
+    const m = Number(parts[1]) || 0;
+    const chosen = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0, 0);
+    const day = chosen.getTime() > now.getTime()
+      ? now
+      : new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    this.taskDue = day.getFullYear() + '-' + pad(day.getMonth() + 1) + '-' + pad(day.getDate());
+  }
+
   flipTaskDraft(): void {
     this.taskDraft = this.taskDraft === 'face' ? 'back' : 'face';
   }

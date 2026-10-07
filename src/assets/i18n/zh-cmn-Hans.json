@@ -42,7 +42,7 @@
     "reminders.notePlaceholder": "提醒我…",
     "reminders.set": "设置",
     "reminders.demoLabel": "演示提醒",
-    "reminders.empty": "还没有计划——使用上方表单设置你的第一个提醒。",
+    "reminders.empty": "还没有任何安排 — 点按上方的 Remind me 来创建第一条提醒。",
     "reminders.chooseContact": "Choose a contact",
     "reminders.chooseContactMsg": "Pick who this reminder is for.",
     "reminders.writeNote": "Write the note",

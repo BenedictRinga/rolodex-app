@@ -570,7 +570,7 @@
          panel stands. The same thin welcome voice as the ft canvas footer
          (322), adapted to the dark home surface. It never blocks a tap
          (pointer-events: none) and vanishes the moment the deed lands. -->
-    <footer class="home-welcome-foot" *ngIf="rolodexAiChatOpen && firstMinuteActive && fmPhase === 'panel' && ftView === ''">
+    <footer class="home-welcome-foot" *ngIf="firstMinuteActive && fmPhase === 'panel' && ftView === ''">
       <p>{{ 'loopkeeper.fm.courtesy' | translate }}</p>
     </footer>
 

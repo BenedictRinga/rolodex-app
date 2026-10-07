@@ -17,7 +17,17 @@
 <ion-content>
   <!-- 2026-08-16 THE SET-FORM: always visible, no alert quirks — pick the
        contact, write the note, choose the date, tap Set. -->
-  <div class="add-reminder-form">
+  <!-- 349 THE READ SIDE LEADS (founder: 'Contact (wrongly named) should be
+       the default view of Reminders... my schedule is already available when
+       I tapped Contact but down below in Reminders I am told nothing
+       scheduled yet', 'Remind me... is an always visible click that opens the
+       form Calendar and check box'): the schedule is the default view; the
+       set-form opens behind the always-visible Remind me button. -->
+  <button class="rem-open" type="button" *ngIf="!formOpen" (click)="formOpen = true">
+    <ion-icon name="alarm-outline"></ion-icon>
+    {{ 'loopkeeper.ft.remindMe' | translate }}
+  </button>
+  <div class="add-reminder-form" *ngIf="formOpen">
     <ion-select class="arm-select" [placeholder]="'loopkeeper.reminders.contactPlaceholder' | translate" [(ngModel)]="formContactId">
       <ion-select-option *ngFor="let c of contacts" [value]="c?.contactId">{{ c?.name?.display }}</ion-select-option>
     </ion-select>
@@ -112,7 +122,7 @@
       </ion-item>
     </ng-container>
   </ion-list>
-  <div *ngIf="!reminders.length && !followUps.length && !birthdays.length"
+  <div *ngIf="!reminders.length && !followUps.length && !birthdays.length && agendaState !== 'ready'"
     style="padding: 40px 20px; text-align: center; color: var(--rolodex-text-secondary); font-size: 13px;">
     {{ 'loopkeeper.reminders.empty' | translate }}
   </div>

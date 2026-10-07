@@ -4,6 +4,27 @@ ion-content {
 
 /* 2026-08-16 THE SET-FORM — always visible at the top of the reminders list.
    All colors use the app's theme tokens (--rolodex-*). */
+/* 349 THE ALWAYS-VISIBLE DOOR: Remind me opens the set-form; the read
+   side (the schedule) is the default view. */
+.rem-open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 24px);
+  margin: 10px 12px 2px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(180, 83, 9, .3);
+  background: rgba(180, 83, 9, .08);
+  color: #b45309;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.rem-open ion-icon { font-size: 16px; }
+
 .add-reminder-form {
   display: flex;
   flex-direction: column;

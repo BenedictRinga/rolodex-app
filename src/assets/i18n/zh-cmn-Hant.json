@@ -42,7 +42,7 @@
     "reminders.notePlaceholder": "Remind me to…",
     "reminders.set": "Set",
     "reminders.demoLabel": "DEMO REMINDERS",
-    "reminders.empty": "Nothing scheduled yet — use the form above to set your first reminder.",
+    "reminders.empty": "還沒有任何安排 — 點按上方的 Remind me 來建立第一條提醒。",
     "reminders.chooseContact": "Choose a contact",
     "reminders.chooseContactMsg": "Pick who this reminder is for.",
     "reminders.writeNote": "Write the note",

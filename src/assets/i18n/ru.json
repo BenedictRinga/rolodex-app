@@ -42,7 +42,7 @@
     "reminders.notePlaceholder": "Напомнить мне…",
     "reminders.set": "Поставить",
     "reminders.demoLabel": "ДЕМО-НАПОМИНАНИЯ",
-    "reminders.empty": "Пока ничего не запланировано — воспользуйтесь формой выше, чтобы поставить первое напоминание.",
+    "reminders.empty": "Пока ничего не запланировано — нажмите Remind me выше, чтобы задать первое напоминание.",
     "reminders.chooseContact": "Выберите контакт",
     "reminders.chooseContactMsg": "Для кого это напоминание?",
     "reminders.writeNote": "Текст напоминания",

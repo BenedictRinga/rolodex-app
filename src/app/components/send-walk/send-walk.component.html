@@ -74,7 +74,7 @@
           <div class="sw-taskwhen">
             <input class="sw-taskfield" type="date" [(ngModel)]="taskDue"
               [attr.aria-label]="'loopkeeper.walk.taskWhen' | translate" />
-            <input class="sw-taskfield sw-tasktime" type="time" [(ngModel)]="taskTime"
+            <input class="sw-taskfield sw-tasktime" type="time" [(ngModel)]="taskTime" (ngModelChange)="onTaskTimeChange()"
               [attr.aria-label]="'loopkeeper.walk.taskAt' | translate" />
           </div>
           <div class="sw-taskchips">

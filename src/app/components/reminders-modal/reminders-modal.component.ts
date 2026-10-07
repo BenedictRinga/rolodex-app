@@ -31,6 +31,9 @@ type ReminderSegment = { type: 'row'; row: ReminderRow } | { type: 'sep' };
   standalone: false,
 })
 export class RemindersModalComponent {
+  /** 349 THE READ SIDE LEADS: the set-form opens on the Remind me button
+   *  and stays out of the way of the schedule (the default view). */
+  formOpen = false;
   @Input() contacts: any[] = [];
 
   reminders: ReminderRow[] = [];

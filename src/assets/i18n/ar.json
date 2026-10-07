@@ -42,7 +42,7 @@
     "reminders.notePlaceholder": "ذكّرني…",
     "reminders.set": "تعيين",
     "reminders.demoLabel": "تذكيرات تجريبية",
-    "reminders.empty": "لا شيء مجدول بعد — استخدم النموذج أعلاه لتعيين أول تذكير.",
+    "reminders.empty": "لا شيء مجدول بعد — انقر Remind me بالأعلى لتعيين تذكيرك الأول.",
     "reminders.chooseContact": "Choose a contact",
     "reminders.chooseContactMsg": "Pick who this reminder is for.",
     "reminders.writeNote": "Write the note",

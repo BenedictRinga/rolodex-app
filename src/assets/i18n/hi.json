@@ -42,7 +42,7 @@
     "reminders.notePlaceholder": "मुझे याद दिलाएँ…",
     "reminders.set": "सेट करें",
     "reminders.demoLabel": "डेमो रिमाइंडर",
-    "reminders.empty": "अभी कुछ निर्धारित नहीं है — अपना पहला रिमाइंडर सेट करने के लिए ऊपर दिए फ़ॉर्म का उपयोग करें।",
+    "reminders.empty": "अभी कुछ शेड्यूल नहीं है — पहला रिमाइंडर सेट करने के लिए ऊपर Remind me दबाएँ।",
     "reminders.chooseContact": "Choose a contact",
     "reminders.chooseContactMsg": "Pick who this reminder is for.",
     "reminders.writeNote": "Write the note",
