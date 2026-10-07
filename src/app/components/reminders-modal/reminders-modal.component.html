@@ -102,6 +102,19 @@
       </ion-item>
     </ng-container>
 
+    <!-- 2026-09-29 BUILD 351: TASK CARDS ARE SCHEDULED ITEMS (founder) -
+         the deck's task cards join the read side, soonest first; pure
+         contact cards never do. -->
+    <ng-container *ngFor="let t of taskRows">
+      <ion-item lines="full">
+        <ion-icon name="checkbox-outline" slot="start" style="color: var(--rolodex-success, #3fb950);"></ion-icon>
+        <ion-label>
+          <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ t.title }}</h2>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">task · {{ t.due | date: 'MMM d, yyyy, HH:mm' }}<ng-container *ngIf="cadenceLabel(t.cadence)"> · {{ cadenceLabel(t.cadence) }}</ng-container></p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+
     <ng-container *ngFor="let s of birthdaySegments()">
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
         <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
@@ -122,7 +135,7 @@
       </ion-item>
     </ng-container>
   </ion-list>
-  <div *ngIf="!reminders.length && !followUps.length && !birthdays.length && agendaState !== 'ready'"
+  <div *ngIf="!reminders.length && !followUps.length && !birthdays.length && !taskRows.length && agendaState !== 'ready'"
     style="padding: 40px 20px; text-align: center; color: var(--rolodex-text-secondary); font-size: 13px;">
     {{ 'loopkeeper.reminders.empty' | translate }}
   </div>

@@ -40,6 +40,31 @@ export class RemindersModalComponent {
   followUps: ReminderRow[] = [];
   birthdays: ReminderRow[] = [];
 
+  /** 2026-09-29 BUILD 351 TASK CARDS ARE SCHEDULED ITEMS (founder: 'while a
+   *  TASK falls into a card which appears alongside Contacts it is also a
+   *  scheduled item, and should therefore, exclusive of pure contact cards,
+   *  appear within, and alongside regular reminder items. I set a card
+   *  task, but it implies a reminder and should exist together with other
+   *  directly set reminders in this REMINDERS tab'): the deck's task cards
+   *  (with a due) join the read side, soonest first. Pure contact cards
+   *  never appear; demo task cards follow the same 168 rule as every row. */
+  get taskRows(): Array<{ title: string; due: Date; cadence?: string }> {
+    const all = this.contacts || [];
+    const real = all.some((c: any) => !(c as any)?.isMockData);
+    return all
+      .filter((c: any) => (c as any)?.kind === 'task' && (c as any)?.task?.due)
+      .filter((c: any) => !real || !(c as any)?.isMockData)
+      .map((c: any) => ({
+        title: String(c?.name?.display || ''),
+        due: new Date(Number((c as any).task.due)),
+        cadence: (c as any).task?.cadence,
+      }))
+      .sort((a, b) => a.due.getTime() - b.due.getTime());
+  }
+  cadenceLabel(c?: string): string {
+    return c && c !== 'none' ? this.translate.instant('loopkeeper.task.' + c) : '';
+  }
+
   // 2026-08-16 THE SET-FORM state (always visible in the modal).
   formContactId = '';
   formNote = '';
