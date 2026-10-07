@@ -1423,7 +1423,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         payload.task = {
           ...((this.selectedMode === 'editContact' ? this.editedContact?.task : {}) || {}),
           cadence: formValue?.task?.cadence || undefined,
-          due: rawDue ? (typeof rawDue === 'number' ? rawDue : Date.parse(rawDue)) : undefined,
+          // 354 THE HOUR: the due epoch carries the user's own time (the
+          // 259 law, now in this editor too) - the date and the time merge.
+          due: rawDue ? (typeof rawDue === 'number' ? rawDue : Date.parse(String(rawDue).slice(0, 10) + 'T' + (formValue?.task?.dueTime || '09:00') + ':00')) : undefined,
           checklist: checklist.length ? checklist : undefined,
         };
         if (!payload.task.due) delete payload.task.due;
@@ -1489,8 +1491,9 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       // converted to the model's epoch-ms in onSubmit().
       kind: [this.formKind],
       task: this.fb.group({
-        cadence: ['monthly'],
+        cadence: ['none'],
         due: [''],
+        dueTime: ['09:00'],
         checklist: this.fb.array([]),
       }),
 
@@ -1629,6 +1632,7 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.isTaskForm) {
         this.contactForm.get('task.cadence')?.setValue(task?.cadence || 'monthly');
         this.contactForm.get('task.due')?.setValue(task?.due ? new Date(task.due).toISOString().slice(0, 10) : '');
+        this.contactForm.get('task.dueTime')?.setValue(task?.due ? new Date(task.due).toTimeString().slice(0, 5) : '09:00');
         const arr = this.contactForm.get('task.checklist') as FormArray;
         arr.clear();
         for (const item of (task?.checklist || [])) this.addChecklistItem(item);

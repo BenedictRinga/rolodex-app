@@ -11,6 +11,8 @@ interface ReminderRow {
   demo: boolean;
   /** 2026-08-25 F24: live contact ref — powers the per-person birthday opt-in. */
   ref?: any;
+  /** 354: the reminder's own hour (the row shows it when it rides). */
+  time?: string;
 }
 
 type ReminderSegment = { type: 'row'; row: ReminderRow } | { type: 'sep' };
@@ -69,10 +71,24 @@ export class RemindersModalComponent {
     return c && c !== 'none' && c !== 'never' ? this.translate.instant('loopkeeper.task.' + c) : '';
   }
 
+  /** 354 THE DELETE: a set reminder leaves the list from its own row -
+   *  the trash answers, the card's reminders array loses the item, the
+   *  persist rides the same chain the submit rides. */
+  deleteRow(row: ReminderRow): void {
+    if (!row.ref) return;
+    row.ref.reminders = (row.ref.reminders || []).filter((r: any) =>
+      !(String(r?.note || '') === row.note && new Date(r?.date || 0).getTime() === row.date.getTime()));
+    row.ref.updatedAt = new Date();
+    this.buildRows();
+    this.persistRequest.emit();
+  }
+
   /** 353 TAP A ROW -> THE EDIT TASK WINDOW (founder: 'Tapping a Reminder
    *  item should directly open the Edit Task window'): the row's own card
    *  editor opens through the host chain. */
   @Output() editCard = new EventEmitter<any>();
+  /** 354: the modal's writes persist through the host chain. */
+  @Output() persistRequest = new EventEmitter<void>();
   editRow(ref: any): void {
     if (ref) this.editCard.emit(ref);
   }
@@ -90,6 +106,10 @@ export class RemindersModalComponent {
   formContactId = '';
   formNote = '';
   formDate: string = new Date().toISOString().slice(0, 10);
+  /** 354 THE TIME (founder: both calendars were 'oblivious of user
+   *  intention to set time'): the reminder's own hour — the submit writes
+   *  it into the when, the device-calendar push and the rows read it. */
+  formTime = '09:00';
   /** BUILD 316: the datetime's horizon — reminders live in the future. */
   maxDate: string = new Date(Date.now() + 365 * 86400_000).toISOString().slice(0, 10);
   // 2026-08-27 CHOICE-FIRST CALENDAR: the form carries the push choice
@@ -164,7 +184,7 @@ export class RemindersModalComponent {
       const name = c?.name?.display || 'Contact';
       const demo = !!(c as any)?.isMockData;
       for (const r of c?.reminders || []) {
-        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()), demo, ref: c });
+        this.reminders.push({ note: r?.note || 'Reminder', contact: name, date: new Date(r?.date || Date.now()), demo, ref: c, time: r?.time });
       }
       if (c?.rolodex?.followUp && c?.nextInteraction) {
         this.followUps.push({ note: c.rolodex.followUp, contact: name, date: new Date(c.nextInteraction), demo, ref: c });
@@ -206,8 +226,8 @@ export class RemindersModalComponent {
       void this.alertCtrl.create({ header: 'Write the note', message: 'What should the reminder say?', buttons: ['OK'] }).then((a) => a.present());
       return;
     }
-    const when = this.formDate ? new Date(this.formDate + 'T09:00:00') : new Date();
-    contact.reminders = [...(contact.reminders || []), { note, date: when }];
+    const when = this.formDate ? new Date(this.formDate + 'T' + (this.formTime || '09:00') + ':00') : new Date();
+    contact.reminders = [...(contact.reminders || []), { note, date: when, time: this.formTime || '09:00' }];
     contact.updatedAt = new Date();
     // 2026-08-27 CHOICE-FIRST CALENDAR: push only when the checkbox says so —
     // the executor of an explicit choice, never an automatic write. The
@@ -225,9 +245,14 @@ export class RemindersModalComponent {
       void this.calendar.rememberPushChoice(false);
     }
     this.buildRows();
+    // 354 THE PERSIST CHAIN: the modal's writes ride to the host the same
+    // way the walk's do (contactsDirty) - a set reminder and a deleted one
+    // both persist at once, not on somebody's next unrelated save.
+    this.persistRequest.emit();
     this.formContactId = '';
     this.formNote = '';
     this.formDate = new Date().toISOString().slice(0, 10);
+    this.formTime = '09:00';
     this.formAlsoCal = false;
     void this.alertCtrl
       .create({ header: 'Reminder set', message: `"${note}" for ${contact?.name?.display || 'this contact'}.`, buttons: ['OK'] })

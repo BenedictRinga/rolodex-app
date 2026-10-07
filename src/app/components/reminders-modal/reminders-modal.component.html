@@ -41,6 +41,7 @@
            (YYYY-MM-DD), same submit parsing. -->
       <ion-datetime class="arm-date" presentation="date" [(ngModel)]="formDate"
         [max]="maxDate" cancelText="Cancel" doneText="Set"></ion-datetime>
+      <input class="arm-time" type="time" [(ngModel)]="formTime" aria-label="Time" />
       <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim() || !formContactId">
         {{ 'loopkeeper.reminders.set' | translate }}
       </ion-button>
@@ -84,7 +85,7 @@
         <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
-          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · {{ s.row.date | date: 'MMM d, yyyy' }}</p>
+          <p style="font-size: 11px; color: var(--rolodex-text-secondary);">{{ s.row.contact }} · {{ s.row.date | date: (s.row.time ? 'MMM d, yyyy, HH:mm' : 'MMM d, yyyy') }}</p>
         </ion-label>
         <span class="row-cover" slot="end" *ngIf="s.row.ref">
           <img *ngIf="rowImg(s.row.ref)" [src]="rowImg(s.row.ref)" alt="" />
@@ -127,6 +128,9 @@
           <span *ngIf="!rowImg(t.ref) && t.ref?.coverEmoji" class="row-cover-face">{{ t.ref.coverEmoji }}</span>
           <span *ngIf="!rowImg(t.ref) && !t.ref?.coverEmoji" class="row-cover-init">{{ (t.ref?.name?.display || '·').slice(0, 1) }}</span>
         </span>
+        <button class="row-del" slot="end" type="button" (click)="deleteRow(s.row); $event.stopPropagation()" aria-label="Delete reminder">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
       </ion-item>
     </ng-container>
 

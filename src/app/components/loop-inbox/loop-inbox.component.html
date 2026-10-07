@@ -327,7 +327,7 @@
 
   <!-- ═══════════ REMINDERS TAB (poured in directly) ═══════════ -->
   <div *ngIf="tab === 'reminders'" class="li-reminders">
-    <app-reminders-modal [contacts]="contacts" (editCard)="taskCardRequest.emit($event)"></app-reminders-modal>
+    <app-reminders-modal [contacts]="contacts" (editCard)="taskCardRequest.emit($event)" (persistRequest)="contactsDirty.emit()"></app-reminders-modal>
   </div>
 </div>
 

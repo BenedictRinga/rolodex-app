@@ -84,6 +84,31 @@ ion-content {
   font-size: 13px;
 }
 
+.arm-time {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--rolodex-border-light, #e2e0d8);
+  background: var(--rolodex-surface-alt, #fff);
+  color: var(--rolodex-text, #17252a);
+  font-size: 13px;
+  font-family: inherit;
+}
+.arm-set[disabled] {
+  opacity: .4;
+  pointer-events: none;
+}
+.row-del {
+  background: none;
+  border: none;
+  color: var(--rolodex-danger, #e5484d);
+  font-size: 16px;
+  padding: 6px;
+  cursor: pointer;
+  opacity: .55;
+}
+.row-del:active { opacity: 1; }
+
 .arm-set {
   --padding-start: 14px;
   --padding-end: 14px;

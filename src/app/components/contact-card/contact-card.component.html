@@ -890,6 +890,7 @@
               <ion-item>
                 <ion-label position="stacked">Rhythm (cadence)</ion-label>
                 <ion-select formControlName="cadence" interface="popover">
+                  <ion-select-option value="none">One-off</ion-select-option>
                   <ion-select-option value="daily">Daily</ion-select-option>
                   <ion-select-option value="weekly">Weekly</ion-select-option>
                   <ion-select-option value="monthly">Monthly</ion-select-option>
@@ -901,6 +902,7 @@
               <ion-item>
                 <ion-label position="stacked">Due (optional)</ion-label>
                 <ion-datetime formControlName="due" presentation="date"></ion-datetime>
+                <input class="cc-duetime" type="time" formControlName="dueTime" aria-label="Time" />
               </ion-item>
               <div formArrayName="checklist" class="task-checklist">
                 <ion-label class="checklist-title">Checklist (optional)</ion-label>
