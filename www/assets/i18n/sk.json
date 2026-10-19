@@ -749,6 +749,10 @@
     "ft.signoff": "Zatiaľ sa stiahnem. Nič tu na teba nečaká.",
     "ft.lineListen": "Opäť tu. Tu nikto nevyčíta — dvere čakajú, a slová sú už napísané.",
     "ft.signoffListen": "Skôr než pôjdem — tvoja odpoveď je už napísaná. Jeden dotyk, a počuješ ju.",
-    "ft.retractorLine": "stále otvorené — jeden dotyk."
+    "ft.retractorLine": "stále otvorené — jeden dotyk.",
+    "reminders.deleteHeader": "Odstrániť toto pripomienku?",
+    "reminders.deleteAsk": "\"{{note}}\" pre {{contact}}.",
+    "reminders.deleteCancel": "Zrušiť",
+    "reminders.deleteOk": "Odstrániť"
   }
 }

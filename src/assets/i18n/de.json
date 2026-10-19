@@ -749,6 +749,10 @@
     "ft.signoff": "Für jetzt ziehe ich mich zurück. Nichts hier wartet auf dich.",
     "ft.lineListen": "Wieder da. Hier tadelt niemand — die Türen warten, und die Worte sind schon geschrieben.",
     "ft.signoffListen": "Bevor ich gehe — deine Antwort ist schon geschrieben. Ein Tipp, und du hörst sie.",
-    "ft.retractorLine": "noch offen — ein Tipp."
+    "ft.retractorLine": "noch offen — ein Tipp.",
+    "reminders.deleteHeader": "Diese Erinnerung löschen?",
+    "reminders.deleteAsk": "\"{{note}}\" für {{contact}}.",
+    "reminders.deleteCancel": "Abbrechen",
+    "reminders.deleteOk": "Löschen"
   }
 }

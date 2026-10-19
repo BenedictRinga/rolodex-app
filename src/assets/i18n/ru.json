@@ -749,6 +749,10 @@
     "ft.signoff": "На этом я замолкаю. Здесь ничто не ждёт вас.",
     "ft.lineListen": "Снова здесь. Здесь никого не упрекают — двери ждут, и слова уже написаны.",
     "ft.signoffListen": "Прежде чем уйти — твой ответ уже написан. Одно касание, и ты услышишь его.",
-    "ft.retractorLine": "всё ещё открыто — одно касание."
+    "ft.retractorLine": "всё ещё открыто — одно касание.",
+    "reminders.deleteHeader": "Удалить это напоминание?",
+    "reminders.deleteAsk": "\"{{note}}\" для {{contact}}.",
+    "reminders.deleteCancel": "Отмена",
+    "reminders.deleteOk": "Удалить"
   }
 }

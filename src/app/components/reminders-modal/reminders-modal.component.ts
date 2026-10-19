@@ -74,6 +74,20 @@ export class RemindersModalComponent {
   /** 354 THE DELETE: a set reminder leaves the list from its own row -
    *  the trash answers, the card's reminders array loses the item, the
    *  persist rides the same chain the submit rides. */
+  /** 357 THE CONFIRM (founder: 'It should prompt Confirm || Cancel before
+   *  deleting/closing'): the trash asks before it acts — no silent losses. */
+  confirmDeleteRow(row: ReminderRow, ev: Event): void {
+    ev.stopPropagation();
+    void this.alertCtrl.create({
+      header: this.translate.instant('loopkeeper.reminders.deleteHeader'),
+      message: this.translate.instant('loopkeeper.reminders.deleteAsk', { note: row.note, contact: row.contact }),
+      buttons: [
+        { text: this.translate.instant('loopkeeper.reminders.deleteCancel'), role: 'cancel' },
+        { text: this.translate.instant('loopkeeper.reminders.deleteOk'), role: 'destructive', handler: () => this.deleteRow(row) },
+      ],
+    }).then((a) => a.present());
+  }
+
   deleteRow(row: ReminderRow): void {
     if (!row.ref) return;
     row.ref.reminders = (row.ref.reminders || []).filter((r: any) =>
@@ -81,6 +95,7 @@ export class RemindersModalComponent {
     row.ref.updatedAt = new Date();
     this.buildRows();
     this.persistRequest.emit();
+    if (this.persistHandler) this.persistHandler();
   }
 
   /** 353 TAP A ROW -> THE EDIT TASK WINDOW (founder: 'Tapping a Reminder
@@ -89,7 +104,14 @@ export class RemindersModalComponent {
   @Output() editCard = new EventEmitter<any>();
   /** 354: the modal's writes persist through the host chain. */
   @Output() persistRequest = new EventEmitter<void>();
+  /** 357 THE SETTINGS LANE (founder: 'Tapping the Reminder item in home page
+   *  opens up edit, but not so in Settings. It should also'): ModalController
+   *  cannot bind @Output — a host that presents this component as a sheet
+   *  passes these callbacks; the embedded inbox host keeps the outputs. */
+  @Input() editCardHandler?: (ref: any) => void;
+  @Input() persistHandler?: () => void;
   editRow(ref: any): void {
+    if (this.editCardHandler) { this.editCardHandler(ref); return; }
     if (ref) this.editCard.emit(ref);
   }
 
@@ -249,6 +271,7 @@ export class RemindersModalComponent {
     // way the walk's do (contactsDirty) - a set reminder and a deleted one
     // both persist at once, not on somebody's next unrelated save.
     this.persistRequest.emit();
+    if (this.persistHandler) this.persistHandler();
     this.formContactId = '';
     this.formNote = '';
     this.formDate = new Date().toISOString().slice(0, 10);

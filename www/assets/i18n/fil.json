@@ -749,6 +749,10 @@
     "ft.signoff": "Sa ngayon tatahimik muna ako. Walang naghihintay sa iyo dito.",
     "ft.lineListen": "Nariyan ka ulit. Walang sisihan dito — naghihintay ang pinto, at naisulat na ang mga salita.",
     "ft.signoffListen": "Bago ako umalis — naisulat na ang sagot mo. Isang pindot, at maririnig mo ito.",
-    "ft.retractorLine": "bukas pa — isang pindot."
+    "ft.retractorLine": "bukas pa — isang pindot.",
+    "reminders.deleteHeader": "Burahin ang paalala na ito?",
+    "reminders.deleteAsk": "\"{{note}}\" para kay {{contact}}.",
+    "reminders.deleteCancel": "Kanselahin",
+    "reminders.deleteOk": "Burahin"
   }
 }

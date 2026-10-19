@@ -749,6 +749,10 @@
     "ft.signoff": "На гэтым пакуль маўчу. Тут ніщо не чакае на цябе.",
     "ft.lineListen": "Зноў тут. Тут нікога не крыюдзяць — дзверы чакаюць, і словы ўжо напісаны.",
     "ft.signoffListen": "Перад тым, як пайду — твой адказ ужо напісаны. Адзін дотык, і ты яго пачуеш.",
-    "ft.retractorLine": "усё яшчэ адкрыта — адзін дотык."
+    "ft.retractorLine": "усё яшчэ адкрыта — адзін дотык.",
+    "reminders.deleteHeader": "Выдаліць гэта напамін?",
+    "reminders.deleteAsk": "\"{{note}}\" для {{contact}}.",
+    "reminders.deleteCancel": "Скасаваць",
+    "reminders.deleteOk": "Выдаліць"
   }
 }

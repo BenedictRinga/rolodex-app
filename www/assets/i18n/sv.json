@@ -749,6 +749,10 @@
     "ft.signoff": "För nu drar jag mig tillbaka. Ingenting här väntar på dig.",
     "ft.lineListen": "Tillbaka igen. Här anklagar ingen — dörren väntar, och orden är redan skrivna.",
     "ft.signoffListen": "Innan jag går — ditt svar är redan skrivet. En tryckning, och du hör det.",
-    "ft.retractorLine": "fortfarande öppen — en tryckning."
+    "ft.retractorLine": "fortfarande öppen — en tryckning.",
+    "reminders.deleteHeader": "Ta bort denna påminnelse?",
+    "reminders.deleteAsk": "\"{{note}}\" för {{contact}}.",
+    "reminders.deleteCancel": "Avbryt",
+    "reminders.deleteOk": "Ta bort"
   }
 }

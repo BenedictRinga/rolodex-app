@@ -749,6 +749,10 @@
     "ft.signoff": "Vir eers hou ek stil. Niks hier wag vir jou nie.",
     "ft.lineListen": "Weer terug. Niks hier verwyt nie — die deure wag, en die woorde is al geskryf.",
     "ft.signoffListen": "Voordat ek gaan — jou antwoord is al geskryf. Een tik, en jy sal dit hoor.",
-    "ft.retractorLine": "nog oop — een tik."
+    "ft.retractorLine": "nog oop — een tik.",
+    "reminders.deleteHeader": "Vee hierdie herinnering uit?",
+    "reminders.deleteAsk": "\"{{note}}\" vir {{contact}}.",
+    "reminders.deleteCancel": "Kanselleer",
+    "reminders.deleteOk": "Vee uit"
   }
 }

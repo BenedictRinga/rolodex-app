@@ -749,6 +749,10 @@
     "ft.signoff": "Oraintxe isilik nago. Hemen ez du ezer zain.",
     "ft.lineListen": "Berriro hemen. Hemen inork ez du ezer leporatzen — ateak zain daude, eta hitzak idatzita daude.",
     "ft.signoffListen": "Joan aurretik — zure erantzuna idatzita dago. Ukipen bakarra, eta entzungo duzu.",
-    "ft.retractorLine": "oraindik irekita — ukipen bakarra."
+    "ft.retractorLine": "oraindik irekita — ukipen bakarra.",
+    "reminders.deleteHeader": "Abisu hau ezabatu?",
+    "reminders.deleteAsk": "\"{{note}}\" {{contact}}(+)-entzat.",
+    "reminders.deleteCancel": "Utzi",
+    "reminders.deleteOk": "Ezabatu"
   }
 }

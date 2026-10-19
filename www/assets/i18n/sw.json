@@ -749,6 +749,10 @@
     "ft.signoff": "Kwa sasa natuliza. Hakuna kitu kinachokusubiri hapa.",
     "ft.lineListen": "Umerudi tena. Hakuna anayekulaumu hapa — milango inasubiri, na maneno yameandikwa.",
     "ft.signoffListen": "Kabla sijaondoka — jibu lako limeandikwa. Gusa mara moja, utalisikia.",
-    "ft.retractorLine": "bado wazi — gusa mara moja."
+    "ft.retractorLine": "bado wazi — gusa mara moja.",
+    "reminders.deleteHeader": "Ufute kikumbusho hiki?",
+    "reminders.deleteAsk": "\"{{note}}\" kwa {{contact}}.",
+    "reminders.deleteCancel": "Ghairi",
+    "reminders.deleteOk": "Futa"
   }
 }

@@ -749,6 +749,10 @@
     "ft.signoff": "Za zdaj se umaknem. Nič tu ne čaka nate.",
     "ft.lineListen": "Spet tu. Tu se nihče ne očita — vrata čakajo, in besede so že napisane.",
     "ft.signoffListen": "Preden grem — tvoj odgovor je že napisan. En dotik, in ga boš slišal.",
-    "ft.retractorLine": "še odprto — en dotik."
+    "ft.retractorLine": "še odprto — en dotik.",
+    "reminders.deleteHeader": "Izbrisati ta opomnik?",
+    "reminders.deleteAsk": "\"{{note}}\" za {{contact}}.",
+    "reminders.deleteCancel": "Prekliči",
+    "reminders.deleteOk": "Izbriši"
   }
 }

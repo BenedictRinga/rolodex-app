@@ -749,6 +749,10 @@
     "ft.signoff": "Ammaaaf nan quufa. Asitti waan si eegu hin jiru.",
     "ft.lineListen": "Deebitee jiraatti. Asitti namni hin figu — balballiin eega, jechiilleen barreeffameera.",
     "ft.signoffListen": "Ani hin doolin dura — deebiin kee barreeffameera. Tuqaa tokko, caasaa dhageessita.",
-    "ft.retractorLine": "attiin banaa jira — tuqaa tokko."
+    "ft.retractorLine": "attiin banaa jira — tuqaa tokko.",
+    "reminders.deleteHeader": "Yaada kana haquu barbaaddaa?",
+    "reminders.deleteAsk": "\"{{note}}\" — {{contact}}tiif.",
+    "reminders.deleteCancel": "Dhiisi",
+    "reminders.deleteOk": "Haqi"
   }
 }

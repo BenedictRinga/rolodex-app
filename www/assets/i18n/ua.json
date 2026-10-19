@@ -749,6 +749,10 @@
     "ft.signoff": "Наразі відступаю. Тут ніщо не чекає на вас.",
     "ft.lineListen": "Знову тут. Тут ніхто не дорікає — двері чекають, і слова вже написані.",
     "ft.signoffListen": "Перш ніж піти — твоя відповідь уже написана. Одне торкання, і ти почуєш її.",
-    "ft.retractorLine": "ще відкрито — одне торкання."
+    "ft.retractorLine": "ще відкрито — одне торкання.",
+    "reminders.deleteHeader": "Видалити це нагадування?",
+    "reminders.deleteAsk": "\"{{note}}\" для {{contact}}.",
+    "reminders.deleteCancel": "Скасувати",
+    "reminders.deleteOk": "Видалити"
   }
 }

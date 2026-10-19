@@ -749,6 +749,10 @@
     "ft.signoff": "Nhasi ndinongomira. Hakuna chimwe chinokumirira pano.",
     "ft.lineListen": "Wakadzokazokwazve. Hapana anotuka pano — mikova inomirira, uye mashoko anyorwa.",
     "ft.signoffListen": "Ndisati ndabuda — mhinduro yako yanyorwa. Bata kamwe, unonzwa.",
-    "ft.retractorLine": "chiri kuvhurwa — bata kamwe."
+    "ft.retractorLine": "chiri kuvhurwa — bata kamwe.",
+    "reminders.deleteHeader": "Kudzima chiyeuchidzo ichi?",
+    "reminders.deleteAsk": "\"{{note}}\" kuna {{contact}}.",
+    "reminders.deleteCancel": "Kanzura",
+    "reminders.deleteOk": "Kudzima"
   }
 }

@@ -89,6 +89,9 @@ export class RolodexComponent implements OnInit {
    *  Email) and stamp lastInteraction + context on the contact — the deck
    *  relays the flush so home persists + sync-pushes, exactly like a save. */
   @Output() contactsDirty = new EventEmitter<void>();
+  /** 357: the reminders sheet's edit lane (a ModalController sheet cannot
+   *  bind outputs — the handler callback emits here; home opens its editor). */
+  @Output() taskCardRequest = new EventEmitter<any>();
   onContactsDirty(): void { this.contactsChange.emit(this.contacts); }
   @Output() autoSort = new EventEmitter<void>();
   @Output() loadMoreAutoSort = new EventEmitter<void>();
@@ -450,7 +453,13 @@ export class RolodexComponent implements OnInit {
     const real = (this.contacts || []).filter((c: any) => !(c as any)?.isMockData);
     const modal = await this.modalController.create({
       component: RemindersModalComponent,
-      componentProps: { contacts: real.length ? real : this.contacts },
+      componentProps: {
+        contacts: real.length ? real : this.contacts,
+        // 357 THE SETTINGS LANE: row taps open home's own editor (the 353
+        // editContact path) and writes persist through contactsDirty.
+        editCardHandler: (c: any) => this.taskCardRequest.emit(c),
+        persistHandler: () => this.contactsDirty.emit(),
+      },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.6, 0.8, 0.9],
       initialBreakpoint: 0.8,

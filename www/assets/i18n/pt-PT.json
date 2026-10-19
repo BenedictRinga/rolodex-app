@@ -749,6 +749,10 @@
     "ft.signoff": "Por agora retiro-me. Nada aqui o espera.",
     "ft.lineListen": "De volta. Aqui ninguém censura — as portas esperam, e as palavras já estão escritas.",
     "ft.signoffListen": "Antes de partir — a sua resposta já está escrita. Um toque, e ouvi-la-á.",
-    "ft.retractorLine": "ainda em aberto — um toque."
+    "ft.retractorLine": "ainda em aberto — um toque.",
+    "reminders.deleteHeader": "Eliminar este lembrete?",
+    "reminders.deleteAsk": "\"{{note}}\" para {{contact}}.",
+    "reminders.deleteCancel": "Cancelar",
+    "reminders.deleteOk": "Eliminar"
   }
 }

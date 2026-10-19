@@ -749,6 +749,10 @@
     "ft.signoff": "Jeg trækker mig tilbage for nu. Intet her venter på dig.",
     "ft.lineListen": "Tilbage igen. Ingen her bebrejder — døren venter, og ordene er allerede skrevet.",
     "ft.signoffListen": "Før jeg går — dit svar er allerede skrevet. Ét tryk, og du hører det.",
-    "ft.retractorLine": "stadig åben — ét tryk."
+    "ft.retractorLine": "stadig åben — ét tryk.",
+    "reminders.deleteHeader": "Slet denne påmindelse?",
+    "reminders.deleteAsk": "\"{{note}}\" for {{contact}}.",
+    "reminders.deleteCancel": "Annuller",
+    "reminders.deleteOk": "Slet"
   }
 }

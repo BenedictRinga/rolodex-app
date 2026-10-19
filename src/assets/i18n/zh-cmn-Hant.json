@@ -749,6 +749,10 @@
     "ft.signoff": "現在先告一段落。這裡沒有任何事在等你。",
     "ft.lineListen": "又回來了。這裡沒有人責怪 — 門在等你，話已經寫好了。",
     "ft.signoffListen": "在我離開前 — 你的回覆已經寫好了。輕點一下，你就能聽到它。",
-    "ft.retractorLine": "仍開著 — 輕點一下。"
+    "ft.retractorLine": "仍開著 — 輕點一下。",
+    "reminders.deleteHeader": "刪除這條提醒？",
+    "reminders.deleteAsk": "\"{{note}}\" — 給 {{contact}}。",
+    "reminders.deleteCancel": "取消",
+    "reminders.deleteOk": "刪除"
   }
 }

@@ -749,6 +749,10 @@
     "ft.signoff": "สำหรับตอนนี้ขอถอยไปก่อน ไม่มีอะไรรอคุณอยู่ที่นี่",
     "ft.lineListen": "กลับมาอีกแล้ว ที่นี่ไม่มีใครตำหนิ — ประตูรออยู่ และคำพูดถูกเขียนไว้แล้ว",
     "ft.signoffListen": "ก่อนฉันไป — คำตอบของคุณเขียนไว้แล้ว แตะหนึ่งครั้ง แล้วคุณจะได้ยินมัน",
-    "ft.retractorLine": "ยังเปิดอยู่ — แตะหนึ่งครั้ง"
+    "ft.retractorLine": "ยังเปิดอยู่ — แตะหนึ่งครั้ง",
+    "reminders.deleteHeader": "ลบการแจ้งเตือนนี้?",
+    "reminders.deleteAsk": "\"{{note}}\" สำหรับ {{contact}}",
+    "reminders.deleteCancel": "ยกเลิก",
+    "reminders.deleteOk": "ลบ"
   }
 }

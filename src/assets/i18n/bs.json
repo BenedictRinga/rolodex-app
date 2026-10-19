@@ -749,6 +749,10 @@
     "ft.signoff": "Za sada se odjavljujem. Ovdje te ništa ne čeka.",
     "ft.lineListen": "Opet ste tu. Ovdje se nikom ne prekorijeva — vrata čekaju, a riječi su već napisane.",
     "ft.signoffListen": "Prije nego odem — tvoj odgovor je već napisan. Jedan dodir, i čut ćeš ga.",
-    "ft.retractorLine": "još uvijek otvoreno — jedan dodir."
+    "ft.retractorLine": "još uvijek otvoreno — jedan dodir.",
+    "reminders.deleteHeader": "Obrisati ovaj podsjetnik?",
+    "reminders.deleteAsk": "\"{{note}}\" za {{contact}}.",
+    "reminders.deleteCancel": "Otkaži",
+    "reminders.deleteOk": "Obriši"
   }
 }

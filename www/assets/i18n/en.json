@@ -749,6 +749,10 @@
     "ft.signoff": "Signing off for now. Nothing here is waiting on you.",
     "ft.lineListen": "Back again. Nothing here scolds — the doors wait, and the words are already written.",
     "ft.signoffListen": "Before I go — your reply is already written. One tap, and you'll hear it.",
-    "ft.retractorLine": "still open — one tap."
+    "ft.retractorLine": "still open — one tap.",
+    "reminders.deleteHeader": "Delete this reminder?",
+    "reminders.deleteAsk": "\"{{note}}\" for {{contact}}.",
+    "reminders.deleteCancel": "Cancel",
+    "reminders.deleteOk": "Delete"
   }
 }

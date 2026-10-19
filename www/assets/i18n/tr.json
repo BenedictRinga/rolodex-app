@@ -749,6 +749,10 @@
     "ft.signoff": "Şimdilik çekiliyorum. Burada seni bekleyen hiçbir şey yok.",
     "ft.lineListen": "Yine burdasın. Burada kimse suçlamaz — kapılar bekliyor, sözler çoktan yazıldı.",
     "ft.signoffListen": "Gitmeden önce — cevabın çoktan yazıldı. Bir dokunuş, ve onu duyacaksın.",
-    "ft.retractorLine": "hâlâ açık — bir dokunuş."
+    "ft.retractorLine": "hâlâ açık — bir dokunuş.",
+    "reminders.deleteHeader": "Bu hatırlatmayı silinsin mi?",
+    "reminders.deleteAsk": "\"{{note}}\" — {{contact}} için.",
+    "reminders.deleteCancel": "İptal",
+    "reminders.deleteOk": "Sil"
   }
 }

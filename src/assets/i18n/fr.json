@@ -749,6 +749,10 @@
     "ft.signoff": "Pour l'instant, je me retire. Rien ici ne t'attend.",
     "ft.lineListen": "De retour. Ici, personne ne reproche rien — les portes attendent, et les mots sont déjà écrits.",
     "ft.signoffListen": "Avant que je parte — ta réponse est déjà écrite. Un geste, et tu l'entendras.",
-    "ft.retractorLine": "encore ouvert — un geste."
+    "ft.retractorLine": "encore ouvert — un geste.",
+    "reminders.deleteHeader": "Supprimer ce rappel ?",
+    "reminders.deleteAsk": "\"{{note}}\" pour {{contact}}.",
+    "reminders.deleteCancel": "Annuler",
+    "reminders.deleteOk": "Supprimer"
   }
 }

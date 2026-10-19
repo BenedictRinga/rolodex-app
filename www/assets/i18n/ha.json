@@ -749,6 +749,10 @@
     "ft.signoff": "Na dakata a yanzu. Babu wani abu nan da ke jiran ka.",
     "ft.lineListen": "Ka dawo bāko. Babu wanda zai zargi ka a nan — kofofin suna jira, da kuma kalam an rubuta su.",
     "ft.signoffListen": "Kaf in tafi — amsarka an rubuta ta. Danna sau daya, za ka ji ta.",
-    "ft.retractorLine": "har yana bude — danna daya."
+    "ft.retractorLine": "har yana bude — danna daya.",
+    "reminders.deleteHeader": "A share wannan tunatarwa?",
+    "reminders.deleteAsk": "\"{{note}}\" ga {{contact}}.",
+    "reminders.deleteCancel": "Soke",
+    "reminders.deleteOk": "Share"
   }
 }

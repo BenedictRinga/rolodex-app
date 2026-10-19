@@ -749,6 +749,10 @@
     "ft.signoff": "לבינתיים אפרוש. כאן לא מחכה לך דבר.",
     "ft.lineListen": "שוב כאן. פה לא מטיחים — הדלתות מחכות, והמילים כבר כתובות.",
     "ft.signoffListen": "לפני שאלך — התשובה שלך כבר כתובה. נגיעה אחת, ותשמע אותה.",
-    "ft.retractorLine": "עדיין פתוח — נגיעה אחת."
+    "ft.retractorLine": "עדיין פתוח — נגיעה אחת.",
+    "reminders.deleteHeader": "למחוק את התזכורת הזו?",
+    "reminders.deleteAsk": "\"{{note}}\" עבור {{contact}}.",
+    "reminders.deleteCancel": "ביטול",
+    "reminders.deleteOk": "מחיקה"
   }
 }

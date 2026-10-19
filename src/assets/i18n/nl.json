@@ -749,6 +749,10 @@
     "ft.signoff": "Voor nu trek ik me terug. Niets hier wacht op je.",
     "ft.lineListen": "Weer terug. Hier verwijt niemand iets — de deuren wachten, en de woorden zijn al geschreven.",
     "ft.signoffListen": "Voordat ik ga — je antwoord is al geschreven. Eén tik, en je hoort het.",
-    "ft.retractorLine": "nog open — één tik."
+    "ft.retractorLine": "nog open — één tik.",
+    "reminders.deleteHeader": "Deze herinnering verwijderen?",
+    "reminders.deleteAsk": "\"{{note}}\" voor {{contact}}.",
+    "reminders.deleteCancel": "Annuleren",
+    "reminders.deleteOk": "Verwijderen"
   }
 }

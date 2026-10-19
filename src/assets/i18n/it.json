@@ -749,6 +749,10 @@
     "ft.signoff": "Per ora mi ritiro. Nulla qui ti aspetta.",
     "ft.lineListen": "Di nuovo qui. Qui nessuno rimprovera — le porte aspettano, e le parole sono già scritte.",
     "ft.signoffListen": "Prima che vada — la tua risposta è già scritta. Un tocco, e la sentirai.",
-    "ft.retractorLine": "ancora aperto — un tocco."
+    "ft.retractorLine": "ancora aperto — un tocco.",
+    "reminders.deleteHeader": "Eliminare questo promemoria?",
+    "reminders.deleteAsk": "\"{{note}}\" per {{contact}}.",
+    "reminders.deleteCancel": "Annulla",
+    "reminders.deleteOk": "Elimina"
   }
 }

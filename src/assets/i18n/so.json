@@ -749,6 +749,10 @@
     "ft.signoff": "Xilligtaa waan kaa tegayaa. Halkan wax kuu sugaya ma jiro.",
     "ft.lineListen": "Mar kale baad timid. Meeshan qof lama xumbo — albaabbadu way sugayaan, erayaduna waa la qoray.",
     "ft.signoffListen": "Ka hor intaanan baxo — jawaabtaada waa la qoray. Hal guji, waad maqashay.",
-    "ft.retractorLine": "weli waa furan — hal guji."
+    "ft.retractorLine": "weli waa furan — hal guji.",
+    "reminders.deleteHeader": "Tirtirka xasuustaas?",
+    "reminders.deleteAsk": "\"{{note}}\" — {{contact}}.",
+    "reminders.deleteCancel": "Jooji",
+    "reminders.deleteOk": "Tirtir"
   }
 }

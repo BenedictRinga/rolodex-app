@@ -749,6 +749,10 @@
     "ft.signoff": "ለአሁን እረፍት አደርጋለሁ። እዚህ ምንም የሚጠብቅህ ነገር የለም።",
     "ft.lineListen": "እንደገና መጥተዋል — እዚህ ማንም አይቀጣም፤ በሮቹ ይጠብቃሉ፤ ቃላቱም ቀድመው ተጽፈዋል።",
     "ft.signoffListen": "እኔ ስለምሄድ — መልስዎ ቀድሞ ተጽፏል። አንድ ጊዜ ብቻ ይንኩ፣ ያዳምጡት።",
-    "ft.retractorLine": "እስካሁን ክፍት ነው — አንድ ነክ ብቻ።"
+    "ft.retractorLine": "እስካሁን ክፍት ነው — አንድ ነክ ብቻ።",
+    "reminders.deleteHeader": "ይህንን አስታዋሽ ይሰርዙ?",
+    "reminders.deleteAsk": "\"{{note}}\" ለ{{contact}}።",
+    "reminders.deleteCancel": "ተወው",
+    "reminders.deleteOk": "ሰርዝ"
   }
 }

@@ -749,6 +749,10 @@
     "ft.signoff": "أنصرف الآن. لا شيء هنا ينتظرك.",
     "ft.lineListen": "عدتَ مجددًا. لا لوم هنا — الأبواب تنتظر، والكلمات مكتوبة بالفعل.",
     "ft.signoffListen": "قبل أن أذهب — ردّك مكتوب بالفعل. نقرة واحدة، وستسمعه.",
-    "ft.retractorLine": "لا يزال مفتوحًا — نقرة واحدة."
+    "ft.retractorLine": "لا يزال مفتوحًا — نقرة واحدة.",
+    "reminders.deleteHeader": "حذف هذا التذكير؟",
+    "reminders.deleteAsk": "\"{{note}}\" لـ {{contact}}.",
+    "reminders.deleteCancel": "إلغاء",
+    "reminders.deleteOk": "حذف"
   }
 }

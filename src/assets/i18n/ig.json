@@ -749,6 +749,10 @@
     "ft.signoff": "Ugbu a m na-akwụsị. Ọ dịghị ihe na-eche gị n'ebe a.",
     "ft.lineListen": "Ị lọghachitere. Ọ dịghị onye na-ata mmadụ ụta ebe a — ọnụ ụzọ na-eche, ma okwu edekwala.",
     "ft.signoffListen": "Tupu m pụọ — azịza gị edekwala. Pịa otu, ị nụ ya.",
-    "ft.retractorLine": "ka mepe emepe — pịa otu."
+    "ft.retractorLine": "ka mepe emepe — pịa otu.",
+    "reminders.deleteHeader": "Ichapụ ncheta a?",
+    "reminders.deleteAsk": "\"{{note}}\" maka {{contact}}.",
+    "reminders.deleteCancel": "Kagbuo",
+    "reminders.deleteOk": "Hichapụ"
   }
 }

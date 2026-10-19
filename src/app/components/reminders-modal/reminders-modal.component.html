@@ -81,7 +81,7 @@
       <ion-item *ngIf="s.type === 'sep'" class="demo-separator-row" lines="none">
         <ion-label class="demo-label">{{ 'loopkeeper.reminders.demoLabel' | translate }}</ion-label>
       </ion-item>
-      <ion-item [button]="!!s.row.ref" [detail]="false" (click)="editRow(s.row.ref)">
+      <ion-item [detail]="false" (click)="editRow(s.row.ref)">
         <ion-icon name="alarm-outline" slot="start" style="color: var(--rolodex-warning);"></ion-icon>
         <ion-label>
           <h2 style="font-size: 14px; color: var(--rolodex-text);">{{ s.row.note }}</h2>
@@ -92,6 +92,9 @@
           <span *ngIf="!rowImg(s.row.ref) && s.row.ref?.coverEmoji" class="row-cover-face">{{ s.row.ref.coverEmoji }}</span>
           <span *ngIf="!rowImg(s.row.ref) && !s.row.ref?.coverEmoji" class="row-cover-init">{{ (s.row.ref?.name?.display || '·').slice(0, 1) }}</span>
         </span>
+        <button class="row-del" slot="end" type="button" (click)="confirmDeleteRow(s.row, $event)" aria-label="Delete reminder">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
       </ion-item>
     </ng-container>
 
@@ -128,9 +131,6 @@
           <span *ngIf="!rowImg(t.ref) && t.ref?.coverEmoji" class="row-cover-face">{{ t.ref.coverEmoji }}</span>
           <span *ngIf="!rowImg(t.ref) && !t.ref?.coverEmoji" class="row-cover-init">{{ (t.ref?.name?.display || '·').slice(0, 1) }}</span>
         </span>
-        <button class="row-del" slot="end" type="button" (click)="deleteRow(s.row); $event.stopPropagation()" aria-label="Delete reminder">
-          <ion-icon name="trash-outline"></ion-icon>
-        </button>
       </ion-item>
     </ng-container>
 
@@ -159,3 +159,4 @@
     {{ 'loopkeeper.reminders.empty' | translate }}
   </div>
 </ion-content>
+
