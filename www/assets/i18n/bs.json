@@ -746,6 +746,9 @@
     "ft.line4": "Osoba koja želiš biti gradi se jednom malom poslanom stvari u isto vrijeme.",
     "ft.line5": "Jedna petlja danas zatvorena. To je cijeli zadatak.",
     "ft.tabsAria": "Promijeni način formuliranja poziva — vrata ostaju ista",
-    "ft.signoff": "Za sada se odjavljujem. Ovdje te ništa ne čeka."
+    "ft.signoff": "Za sada se odjavljujem. Ovdje te ništa ne čeka.",
+    "ft.lineListen": "Opet ste tu. Ovdje se nikom ne prekorijeva — vrata čekaju, a riječi su već napisane.",
+    "ft.signoffListen": "Prije nego odem — tvoj odgovor je već napisan. Jedan dodir, i čut ćeš ga.",
+    "ft.retractorLine": "još uvijek otvoreno — jedan dodir."
   }
 }

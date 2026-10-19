@@ -121,6 +121,14 @@ export class HomePage implements OnInit, OnDestroy {
   /** 353: the manual card editor runs in create OR edit mode (a Reminder/
    *  task-row tap opens it EDITING the tapped card). */
   manualMode: 'createContact' | 'editContact' = 'createContact';
+  /** 356 THE PLAYS: Play 1 = the listener cohort (visits 3+, zero gate taps
+   *  ever) hears a recognition line and a sign-off that pitches the door as
+   *  HEARING the written words. Play 2 = the retractor's captured loop
+   *  surfaces as a one-line card on the home page. */
+  ftGateEver = false;
+  ftListenerCohort = false;
+  retractorLoop: Loop | null = null;
+  retractorHidden = false;
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a
@@ -442,7 +450,10 @@ export class HomePage implements OnInit, OnDestroy {
   private buildFtQueue(): string[] {
     if (this.analytics.getVisitNumber() < 2 || this.ftVoicedOnce) return [...HomePage.FT_FIVE];
     this.ftVoicedOnce = true;
-    return ['ft.nudge', ...HomePage.FT_FIVE, '', ...HomePage.FT_FIVE];
+    // 356 PLAY 1: the listener cohort opens with the recognition line —
+    // being seen without pressure is the lever an avoider answers.
+    const opener = this.ftListenerCohort ? 'ft.lineListen' : 'ft.nudge';
+    return [opener, ...HomePage.FT_FIVE, '', ...HomePage.FT_FIVE];
   }
   ftLineText = '';
   ftLineFading = false;
@@ -508,7 +519,7 @@ export class HomePage implements OnInit, OnDestroy {
     // rotation (visits 2+), ft_nudge_shown fires here, once per session, and
     // the gate taps keep answering ft_nudge_responded. Same events, no new
     // surface.
-    if (key === 'ft.nudge' && !this.ftNudgeShownSession) {
+    if ((key === 'ft.nudge' || key === 'ft.lineListen') && !this.ftNudgeShownSession) {
       this.ftNudgeShownSession = true;
       this.ftNudgeOn = true;
       this.ftNudgeAtMs = Date.now();
@@ -545,7 +556,11 @@ export class HomePage implements OnInit, OnDestroy {
     void this.analytics.track('ft_signoff', {});
     void this.sound.playAmbientPad(18).then((r) => {
       if (r !== 'played') return; // cancelled by action - silence is the answer
-      void this.translate.get('loopkeeper.ft.signoff').toPromise().then((t: string) => {
+      // 356 PLAY 1: for the listener cohort the sign-off is the pitch —
+    // the door framed as HEARING the written words (their revealed
+    // preference is listening; zero typing implied).
+      const signoffKey = this.ftListenerCohort ? 'loopkeeper.ft.signoffListen' : 'loopkeeper.ft.signoff';
+      void this.translate.get(signoffKey).toPromise().then((t: string) => {
         if (!t || t.startsWith('loopkeeper.')) return;
         void this.analytics.track('ft_signoff_spoken', {});
         void this.playback.speakDeviceFirst(t, this.translate.currentLang || 'en-US');
@@ -568,6 +583,7 @@ export class HomePage implements OnInit, OnDestroy {
     // 342: the commitment sound, the vector + sentence that converted, then silence - action earns it.
     void this.sound.playChatSend();
     this.ftLog('ft_gate', { gate: 'reply', viaTab: this.ftTab, lineAtTap: this.ftLineIdx });
+    if (!this.ftGateEver) { this.ftGateEver = true; void this.storageService.set('lk_ft_gate_ever', true); }
     this.ftNudgeResponded();
     this.stopFtLines();
     void this.playback.stop();
@@ -598,6 +614,7 @@ export class HomePage implements OnInit, OnDestroy {
   ftDecide(): void {
     void this.sound.playChatSend();
     this.ftLog('ft_gate', { gate: 'decide', viaTab: this.ftTab, lineAtTap: this.ftLineIdx });
+    if (!this.ftGateEver) { this.ftGateEver = true; void this.storageService.set('lk_ft_gate_ever', true); }
     this.ftNudgeResponded();
     this.stopFtLines();
     void this.playback.stop();
@@ -961,6 +978,8 @@ export class HomePage implements OnInit, OnDestroy {
       if (done) { this.ftView = ''; return; }
       const engaged = await this.storageService.get<boolean>('lk_cover_engaged');
       const ftOpen = await this.storageService.get<boolean>('lk_ft_open');
+      try { this.ftGateEver = !!(await this.storageService.get<boolean>('lk_ft_gate_ever')); } catch { /* first visit */ }
+      this.ftListenerCohort = this.analytics.getVisitNumber() >= 3 && !this.ftGateEver;
       if (engaged) {
         this.ftView = '';
         this.firstMinuteActive = true;
@@ -1185,6 +1204,7 @@ export class HomePage implements OnInit, OnDestroy {
     // anything else — the regular home stays mounted beneath and takes over
     // at the first deed or the skip. Current users never see it.
     void this.maybeFirstMinute().then(() => {
+      void this.loadRetractorLoop(); // 356 PLAY 2: the retractor's loop waits.
       // 2026-08-17 THE DROPBOX MOMENT: an invite link opened us.
       void this.presentInviteLanding();
       // 2026-08-16 WELCOME AGAIN: the demo tour on init (unless dismissed).
@@ -1655,6 +1675,20 @@ export class HomePage implements OnInit, OnDestroy {
    *  it goes through escalateCheckIn, which arms the walk with the item as
    *  the payload.) The inbox is *ngIf'd, so one tick lets it mount before
    *  the tab is set; an already-open inbox lands immediately. */
+  /** 356 PLAY 2: the retractor's captured loop surfaces on the next visit —
+   *  one quiet line on the home page; the tap opens the Loops tab. */
+  private async loadRetractorLoop(): Promise<void> {
+    try {
+      const all = await this.loops.all();
+      const aged = all.filter((l) => l.status === 'open' && (l.createdAt || 0) <= Date.now() - 24 * 3600_000);
+      this.retractorLoop = aged.length ? aged.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0))[0] : null;
+    } catch { /* none */ }
+  }
+  openRetractor(): void {
+    this.retractorHidden = true;
+    this.openLoopsSurface();
+  }
+
   openLoopsSurface(): void {
     this.rolodexAiChatOpen = true;
     setTimeout(() => {

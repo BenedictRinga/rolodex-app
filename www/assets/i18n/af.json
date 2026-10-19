@@ -746,6 +746,9 @@
     "ft.line4": "Die persoon wat jy wil wees word gebou een klein gestuurde ding op 'n slag.",
     "ft.line5": "Een lus vandag gesluit. Dit is die hele opdrag.",
     "ft.tabsAria": "Verander hoe die uitnodiging geformuleer word — die deure bly dieselfde",
-    "ft.signoff": "Vir eers hou ek stil. Niks hier wag vir jou nie."
+    "ft.signoff": "Vir eers hou ek stil. Niks hier wag vir jou nie.",
+    "ft.lineListen": "Weer terug. Niks hier verwyt nie — die deure wag, en die woorde is al geskryf.",
+    "ft.signoffListen": "Voordat ek gaan — jou antwoord is al geskryf. Een tik, en jy sal dit hoor.",
+    "ft.retractorLine": "nog oop — een tik."
   }
 }

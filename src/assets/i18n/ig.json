@@ -746,6 +746,9 @@
     "ft.line4": "Onye ị chọrọ ịbụ na-esi site n'otu obere ihe e zitere n'oge.",
     "ft.line5": "Otu mkpa mechiri taa. Nke ahụ bụ ọrụ niile.",
     "ft.tabsAria": "Gbanwee otu oku si agoro — ọnụ ụzọ anọgide otu",
-    "ft.signoff": "Ugbu a m na-akwụsị. Ọ dịghị ihe na-eche gị n'ebe a."
+    "ft.signoff": "Ugbu a m na-akwụsị. Ọ dịghị ihe na-eche gị n'ebe a.",
+    "ft.lineListen": "Ị lọghachitere. Ọ dịghị onye na-ata mmadụ ụta ebe a — ọnụ ụzọ na-eche, ma okwu edekwala.",
+    "ft.signoffListen": "Tupu m pụọ — azịza gị edekwala. Pịa otu, ị nụ ya.",
+    "ft.retractorLine": "ka mepe emepe — pịa otu."
   }
 }

@@ -746,6 +746,9 @@
     "ft.line4": "La personne que tu veux être se construit une petite chose envoyée à la fois.",
     "ft.line5": "Une boucle refermée aujourd'hui. Voilà toute la tâche.",
     "ft.tabsAria": "Changer la formulation de l'invitation — les portes restent les mêmes",
-    "ft.signoff": "Pour l'instant, je me retire. Rien ici ne t'attend."
+    "ft.signoff": "Pour l'instant, je me retire. Rien ici ne t'attend.",
+    "ft.lineListen": "De retour. Ici, personne ne reproche rien — les portes attendent, et les mots sont déjà écrits.",
+    "ft.signoffListen": "Avant que je parte — ta réponse est déjà écrite. Un geste, et tu l'entendras.",
+    "ft.retractorLine": "encore ouvert — un geste."
   }
 }

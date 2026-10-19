@@ -507,6 +507,13 @@
        PANEL - live wiring, not the 319 starvation. The cocoon canvas stands
        over it for visitors; once done, every boot and reload opens here, on
        TASKS || PERSON. -->
+  <!-- 2026-09-29 BUILD 356 PLAY 2: the retractor's captured loop surfaces
+       on the next visit — one quiet line; the tap opens the Loops tab;
+       the close is a session dismissal (the loop stays, the nag stops). -->
+  <div class="retractor-card" *ngIf="retractorLoop && !retractorHidden && ftView === ''" (click)="openRetractor()" role="button" tabindex="0">
+    <span class="rc-line">"{{ retractorLoop.summary || retractorLoop.person }}" — {{ 'loopkeeper.ft.retractorLine' | translate }}</span>
+    <button class="rc-close" type="button" (click)="retractorHidden = true; $event.stopPropagation()" aria-label="Dismiss">✕</button>
+  </div>
   <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">

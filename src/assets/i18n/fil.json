@@ -746,6 +746,9 @@
     "ft.line4": "Ang taong gusto mong maging ay binubuo ng isang maliit na naipadala bawat beses.",
     "ft.line5": "Isang loop na naisara ngayon. Iyon ang buong takda.",
     "ft.tabsAria": "Palitan ang pagkakasulat ng imbitasyon — pareho pa rin ang mga pinto",
-    "ft.signoff": "Sa ngayon tatahimik muna ako. Walang naghihintay sa iyo dito."
+    "ft.signoff": "Sa ngayon tatahimik muna ako. Walang naghihintay sa iyo dito.",
+    "ft.lineListen": "Nariyan ka ulit. Walang sisihan dito — naghihintay ang pinto, at naisulat na ang mga salita.",
+    "ft.signoffListen": "Bago ako umalis — naisulat na ang sagot mo. Isang pindot, at maririnig mo ito.",
+    "ft.retractorLine": "bukas pa — isang pindot."
   }
 }

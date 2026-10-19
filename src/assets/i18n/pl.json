@@ -746,6 +746,9 @@
     "ft.line4": "Człowiek, którym chcesz być, buduje się z jednej małej wysłanej rzeczy na raz.",
     "ft.line5": "Jedna pętla zamknięta dzisiaj. To całe zadanie.",
     "ft.tabsAria": "Zmień sformułowanie zaproszenia — drzwi zostają te same",
-    "ft.signoff": "Na razie się wycofuję. Nic tu na ciebie nie czeka."
+    "ft.signoff": "Na razie się wycofuję. Nic tu na ciebie nie czeka.",
+    "ft.lineListen": "Znowu tu jesteś. Tu nikt nie zarzuca — drzwi czekają, a słowa są już napisane.",
+    "ft.signoffListen": "Zanim odejdę — twoja odpowiedź jest już napisana. Jedno dotknięcie, i ją usłyszysz.",
+    "ft.retractorLine": "wciąż otwarte — jedno dotknięcie."
   }
 }

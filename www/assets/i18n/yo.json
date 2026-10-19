@@ -746,6 +746,9 @@
     "ft.line4": "Ènìyàn tí o fẹ́ jẹ́ a ń kọ ní pẹ̀lú nkan kékeré kan tí a ti ránṣẹ́ ní ìgbà kan.",
     "ft.line5": "Ìgbà kan tí a ti padà lónìí. Èyí ni iṣẹ́ gbogbo.",
     "ft.tabsAria": "Yí ọ̀nà èdè ìpè ní padà — ilẹ̀kùn kì í yí padà",
-    "ft.signoff": "Nísìsẹ́yìn mo fáwọ́ mú. Kò sí ohun tí ó ń dúró de ẹ níbí."
+    "ft.signoff": "Nísìsẹ́yìn mo fáwọ́ mú. Kò sí ohun tí ó ń dúró de ẹ níbí.",
+    "ft.lineListen": "Padà bọ̀. Kò sí ẹni tí ó ń dàbí ẹ̀ṣẹ̀ níbí — àwọn ilẹ̀kùn ń dupè, àti ọ̀rọ̀ ti wà níwọ̀n.",
+    "ft.signoffListen": "Kí n tó lọ — ìfẹ̀hìndẹ́sì rẹ ti wà níwọ̀n. Fọwọ́ kan, ó wá ní gbọ́.",
+    "ft.retractorLine": "ṣì ṣí sílẹ̀ — fọwọ́ kan."
   }
 }

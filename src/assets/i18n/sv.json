@@ -746,6 +746,9 @@
     "ft.line4": "Människan du vill vara byggs en liten skickad sak i taget.",
     "ft.line5": "En slinga stängd idag. Det är hela uppgiften.",
     "ft.tabsAria": "Ändra formuleringen av inbjudan — dörrarna är desamma",
-    "ft.signoff": "För nu drar jag mig tillbaka. Ingenting här väntar på dig."
+    "ft.signoff": "För nu drar jag mig tillbaka. Ingenting här väntar på dig.",
+    "ft.lineListen": "Tillbaka igen. Här anklagar ingen — dörren väntar, och orden är redan skrivna.",
+    "ft.signoffListen": "Innan jag går — ditt svar är redan skrivet. En tryckning, och du hör det.",
+    "ft.retractorLine": "fortfarande öppen — en tryckning."
   }
 }

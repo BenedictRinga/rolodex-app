@@ -636,6 +636,23 @@ app-rolodex.tab-hidden,
    opacity), in the light warm tone the dark home surface reads; fixed to
    the true bottom with a soft veil for legibility, pointer-events none,
    gone the moment the deed lands. */
+/* 2026-09-29 BUILD 356 PLAY 2: the retractor's loop card — quiet, amber
+   on the dark home surface, the tap opens the Loops tab. */
+.retractor-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 12px 4px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(180, 83, 9, .10);
+  border: 1px solid rgba(180, 83, 9, .22);
+  cursor: pointer;
+}
+.retractor-card:active { background: rgba(180, 83, 9, .18); }
+.rc-line { flex: 1; font-size: 13px; line-height: 1.5; color: #b8ac9e; }
+.rc-close { background: none; border: none; color: #8b93b0; font-size: 13px; cursor: pointer; padding: 4px 6px; }
+
 .home-welcome-foot {
   position: fixed;
   left: 0;

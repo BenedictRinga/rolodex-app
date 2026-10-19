@@ -746,6 +746,9 @@
     "ft.line4": "The person you mean to be is built one small sent thing at a time.",
     "ft.line5": "One loop closed today. That's the whole assignment.",
     "ft.tabsAria": "Change how the invitation is worded — the doors stay the same",
-    "ft.signoff": "Signing off for now. Nothing here is waiting on you."
+    "ft.signoff": "Signing off for now. Nothing here is waiting on you.",
+    "ft.lineListen": "Back again. Nothing here scolds — the doors wait, and the words are already written.",
+    "ft.signoffListen": "Before I go — your reply is already written. One tap, and you'll hear it.",
+    "ft.retractorLine": "still open — one tap."
   }
 }

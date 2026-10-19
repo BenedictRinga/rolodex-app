@@ -746,6 +746,9 @@
     "ft.line4": "Det menneske du vil være, bygges én lille sendt ting ad gangen.",
     "ft.line5": "Én løkke lukket i dag. Det er hele opgaven.",
     "ft.tabsAria": "Skift hvordan invitationen er formuleret — dørene er de samme",
-    "ft.signoff": "Jeg trækker mig tilbage for nu. Intet her venter på dig."
+    "ft.signoff": "Jeg trækker mig tilbage for nu. Intet her venter på dig.",
+    "ft.lineListen": "Tilbage igen. Ingen her bebrejder — døren venter, og ordene er allerede skrevet.",
+    "ft.signoffListen": "Før jeg går — dit svar er allerede skrevet. Ét tryk, og du hører det.",
+    "ft.retractorLine": "stadig åben — ét tryk."
   }
 }
