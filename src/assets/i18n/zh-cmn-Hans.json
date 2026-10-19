@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "删除这条提醒？",
     "reminders.deleteAsk": "\"{{note}}\" — 给 {{contact}}。",
     "reminders.deleteCancel": "取消",
-    "reminders.deleteOk": "删除"
+    "reminders.deleteOk": "删除",
+    "add.vcfBtn": "导入 .vcf 文件",
+    "add.vcfFail": "无法读取该文件 — 请确认它是通讯录导出文件（.vcf）。",
+    "add.importedToast": "已导入 {{n}}。",
+    "reminders.deleteTaskHeader": "删除此任务？",
+    "reminders.deleteTaskAsk": "“{{title}}” 将离开卡片组——其提醒随之删除。",
+    "settings.feedback": "发送反馈"
   }
 }

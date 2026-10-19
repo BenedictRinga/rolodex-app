@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Удалить это напоминание?",
     "reminders.deleteAsk": "\"{{note}}\" для {{contact}}.",
     "reminders.deleteCancel": "Отмена",
-    "reminders.deleteOk": "Удалить"
+    "reminders.deleteOk": "Удалить",
+    "add.vcfBtn": "Импортировать файл .vcf",
+    "add.vcfFail": "Не удалось прочитать этот файл — убедитесь, что это экспорт контактов (.vcf).",
+    "add.importedToast": "Импортировано: {{n}}.",
+    "reminders.deleteTaskHeader": "Удалить эту задачу?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" покидает колоду — напоминание уходит вместе с ней.",
+    "settings.feedback": "Отправить отзыв"
   }
 }

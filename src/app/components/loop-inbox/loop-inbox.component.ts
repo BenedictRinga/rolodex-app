@@ -118,6 +118,8 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 2026-09-16 BUILD 218: the walk's own doors, relayed. */
   @Output() inviteRequest = new EventEmitter<void>();
   @Output() taskCardRequest = new EventEmitter<void>();
+  /** 358: the reminders task-card delete rides to the host. */
+  @Output() removeCard = new EventEmitter<any>();
   /** 2026-09-16 BUILD 229 PHASE C: the task's Note-to-self door, relayed —
    *  home opens the card's surface (its rolling story). */
   @Output() noteRequest = new EventEmitter<any>();

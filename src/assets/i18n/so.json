@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Tirtirka xasuustaas?",
     "reminders.deleteAsk": "\"{{note}}\" — {{contact}}.",
     "reminders.deleteCancel": "Jooji",
-    "reminders.deleteOk": "Tirtir"
+    "reminders.deleteOk": "Tirtir",
+    "add.vcfBtn": "Soo deji faylka .vcf",
+    "add.vcfFail": "Ma aqbalin faylkaas — hubi inuu yahay dhooyin xiriir (.vcf).",
+    "add.importedToast": "Waa la soo dejiyay {{n}}.",
+    "reminders.deleteTaskHeader": "Delete this task?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
+    "settings.feedback": "Send feedback"
   }
 }

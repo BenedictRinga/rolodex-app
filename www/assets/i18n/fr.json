@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Supprimer ce rappel ?",
     "reminders.deleteAsk": "\"{{note}}\" pour {{contact}}.",
     "reminders.deleteCancel": "Annuler",
-    "reminders.deleteOk": "Supprimer"
+    "reminders.deleteOk": "Supprimer",
+    "add.vcfBtn": "Importer un fichier .vcf",
+    "add.vcfFail": "Impossible de lire ce fichier — assurez-vous que c'est un export de contacts (.vcf).",
+    "add.importedToast": "{{n}} importés.",
+    "reminders.deleteTaskHeader": "Supprimer cette tâche ?",
+    "reminders.deleteTaskAsk": "« {{title}} » quitte le jeu — son rappel part avec lui.",
+    "settings.feedback": "Envoyer un commentaire"
   }
 }

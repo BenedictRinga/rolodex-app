@@ -459,6 +459,7 @@ export class RolodexComponent implements OnInit {
         // editContact path) and writes persist through contactsDirty.
         editCardHandler: (c: any) => this.taskCardRequest.emit(c),
         persistHandler: () => this.contactsDirty.emit(),
+        removeCardHandler: (c: any) => this.removeContact.emit(c),
       },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.6, 0.8, 0.9],

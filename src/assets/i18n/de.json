@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Diese Erinnerung löschen?",
     "reminders.deleteAsk": "\"{{note}}\" für {{contact}}.",
     "reminders.deleteCancel": "Abbrechen",
-    "reminders.deleteOk": "Löschen"
+    "reminders.deleteOk": "Löschen",
+    "add.vcfBtn": ".vcf-Datei importieren",
+    "add.vcfFail": "Diese Datei konnte nicht gelesen werden — stelle sicher, dass es ein Kontakte-Export (.vcf) ist.",
+    "add.importedToast": "{{n}} importiert.",
+    "reminders.deleteTaskHeader": "Diese Aufgabe löschen?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" verlässt das Spiel — die Erinnerung geht mit.",
+    "settings.feedback": "Feedback senden"
   }
 }

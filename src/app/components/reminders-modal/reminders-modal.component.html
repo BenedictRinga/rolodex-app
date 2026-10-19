@@ -131,6 +131,10 @@
           <span *ngIf="!rowImg(t.ref) && t.ref?.coverEmoji" class="row-cover-face">{{ t.ref.coverEmoji }}</span>
           <span *ngIf="!rowImg(t.ref) && !t.ref?.coverEmoji" class="row-cover-init">{{ (t.ref?.name?.display || '·').slice(0, 1) }}</span>
         </span>
+        <!-- 2026-10-19 BUILD 358 (founder: 'It was perfectly situated where it was - the absence of proper wiring does not mean eliminating it'): the task row's own delete — the same Confirm || Cancel law as the reminder rows. -->
+        <button class="row-del" slot="end" type="button" (click)="confirmDeleteTask(t, $event)" aria-label="Delete task">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
       </ion-item>
     </ng-container>
 

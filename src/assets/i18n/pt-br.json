@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Excluir este lembrete?",
     "reminders.deleteAsk": "\"{{note}}\" para {{contact}}.",
     "reminders.deleteCancel": "Cancelar",
-    "reminders.deleteOk": "Excluir"
+    "reminders.deleteOk": "Excluir",
+    "add.vcfBtn": "Importar um arquivo .vcf",
+    "add.vcfFail": "Não foi possível ler esse arquivo — verifique se é uma exportação de contatos (.vcf).",
+    "add.importedToast": "Importados: {{n}}.",
+    "reminders.deleteTaskHeader": "Eliminar esta tarefa?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" sai do baralho — o seu lembrete vai junto.",
+    "settings.feedback": "Enviar comentários"
   }
 }

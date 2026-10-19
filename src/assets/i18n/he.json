@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "למחוק את התזכורת הזו?",
     "reminders.deleteAsk": "\"{{note}}\" עבור {{contact}}.",
     "reminders.deleteCancel": "ביטול",
-    "reminders.deleteOk": "מחיקה"
+    "reminders.deleteOk": "מחיקה",
+    "add.vcfBtn": "ייבוא קובץ .vcf",
+    "add.vcfFail": "לא הצלחנו לקרוא את הקובץ — נוודא שמדובר בייצוא של אנשי קשר (.vcf).",
+    "add.importedToast": "יובאו {{n}}.",
+    "reminders.deleteTaskHeader": "Delete this task?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
+    "settings.feedback": "Send feedback"
   }
 }

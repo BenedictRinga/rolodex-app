@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Burahin ang paalala na ito?",
     "reminders.deleteAsk": "\"{{note}}\" para kay {{contact}}.",
     "reminders.deleteCancel": "Kanselahin",
-    "reminders.deleteOk": "Burahin"
+    "reminders.deleteOk": "Burahin",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "Delete this task?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
+    "settings.feedback": "Send feedback"
   }
 }

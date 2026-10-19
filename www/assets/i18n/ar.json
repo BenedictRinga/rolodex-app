@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "حذف هذا التذكير؟",
     "reminders.deleteAsk": "\"{{note}}\" لـ {{contact}}.",
     "reminders.deleteCancel": "إلغاء",
-    "reminders.deleteOk": "حذف"
+    "reminders.deleteOk": "حذف",
+    "add.vcfBtn": "استيراد ملف .vcf",
+    "add.vcfFail": "تعذر قراءة هذا الملف — تأكد من أنه ملف جهات اتصال بصيغة .vcf.",
+    "add.importedToast": "تم استيراد {{n}}.",
+    "reminders.deleteTaskHeader": "حذف هذه المهمة؟",
+    "reminders.deleteTaskAsk": "\"{{title}}\" تغادر المجموعة — وينطلق تذكيرها معها.",
+    "settings.feedback": "إرسال تعليقات"
   }
 }

@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Ufute kikumbusho hiki?",
     "reminders.deleteAsk": "\"{{note}}\" kwa {{contact}}.",
     "reminders.deleteCancel": "Ghairi",
-    "reminders.deleteOk": "Futa"
+    "reminders.deleteOk": "Futa",
+    "add.vcfBtn": "Ingiza faili ya .vcf",
+    "add.vcfFail": "Haikusoma faili hiyo — hakikisha ni faili ya mawasiliano (.vcf).",
+    "add.importedToast": "Zimeingizwa {{n}}.",
+    "reminders.deleteTaskHeader": "Futa kazi hii?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" huondoka katika kundi — kumbusho yake huondoka nayo.",
+    "settings.feedback": "Tuma maoni"
   }
 }

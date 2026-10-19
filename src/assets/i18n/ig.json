@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Ichapụ ncheta a?",
     "reminders.deleteAsk": "\"{{note}}\" maka {{contact}}.",
     "reminders.deleteCancel": "Kagbuo",
-    "reminders.deleteOk": "Hichapụ"
+    "reminders.deleteOk": "Hichapụ",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "Ikpochi ọrụ a?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" ga-apụ n'ime mkpụrụedemede — ncheta ya ga-esi gị.",
+    "settings.feedback": "Zipu ndụmọdụ zipu"
   }
 }

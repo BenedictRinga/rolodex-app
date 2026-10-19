@@ -406,6 +406,13 @@
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
+        <!-- 2026-10-19 BUILD 358 THE FEEDBACK DOOR (founder: 'Does this app have any openings for user feedback? ... other users should be able to use that same chat window for Feedback'): the direction chat opens for every user, from Settings. -->
+        <ion-item lines="none" class="elegant-item" id="settings-feedback" (click)="openLoopChallenge()">
+          <ion-icon name="chatbubbles-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>{{ 'loopkeeper.settings.feedback' | translate }}</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
         <!-- 2026-08-16 AI PROVIDER: DeepSeek / Grok / on-device template. -->
         <ion-item lines="none" class="elegant-item" id="settings-ai" (click)="openAiSettings()">
           <ion-icon name="sparkles-outline" slot="start" color="tertiary"></ion-icon>

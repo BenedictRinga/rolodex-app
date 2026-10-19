@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "A share wannan tunatarwa?",
     "reminders.deleteAsk": "\"{{note}}\" ga {{contact}}.",
     "reminders.deleteCancel": "Soke",
-    "reminders.deleteOk": "Share"
+    "reminders.deleteOk": "Share",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "A ce zaɓi wannan aiki?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" tana barin dattin — tunatarwarta tana tare da ita.",
+    "settings.feedback": "Aika ra'ayi"
   }
 }

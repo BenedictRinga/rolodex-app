@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Ìgbàsílẹ̀ ìmúràdìrín yìí?",
     "reminders.deleteAsk": "\"{{note}}\" fún {{contact}}.",
     "reminders.deleteCancel": "Fagilé",
-    "reminders.deleteOk": "Ìgbàsílẹ̀"
+    "reminders.deleteOk": "Ìgbàsílẹ̀",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "Ìgbòyà èyí tàbí ìparun?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" yò kúrò nínú ẹgbá — ìṣàfihàn rẹ̀ sì lọ pẹ̀lú rẹ̀.",
+    "settings.feedback": "Fi àmì̀ rọ̀nù ránṣẹ́"
   }
 }

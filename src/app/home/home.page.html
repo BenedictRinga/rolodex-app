@@ -514,7 +514,7 @@
     <span class="rc-line">"{{ retractorLoop.summary || retractorLoop.person }}" — {{ 'loopkeeper.ft.retractorLine' | translate }}</span>
     <button class="rc-close" type="button" (click)="retractorHidden = true; $event.stopPropagation()" aria-label="Dismiss">✕</button>
   </div>
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -614,7 +614,7 @@
     (toggleDetails)="onToggleDetails($event)"
     (editContact)="onEditContact($event)"
     (removeContact)="onRemoveContact($event)"
-    (taskCardRequest)="onTaskCardRequest($event)"
+    (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)"
     (contactTap)="onContactTap($event)"
     (contactsChange)="onContactsChange($event)"
     (contactsDirty)="onContactsDirty()"

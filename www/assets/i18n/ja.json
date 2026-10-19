@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "このリマインダーを削除しますか？",
     "reminders.deleteAsk": "\"{{note}}\"（{{contact}}さん）",
     "reminders.deleteCancel": "キャンセル",
-    "reminders.deleteOk": "削除"
+    "reminders.deleteOk": "削除",
+    "add.vcfBtn": ".vcfファイルを読み込む",
+    "add.vcfFail": "そのファイルを読み込めませんでした。連絡先のエクスポート（.vcf）か確認してください。",
+    "add.importedToast": "{{n}}件を取り込みました。",
+    "reminders.deleteTaskHeader": "このタスクを削除しますか？",
+    "reminders.deleteTaskAsk": "「{{title}}」はデッキを去ります — リマインダーも一緒に消えます。",
+    "settings.feedback": "フィードバックを送る"
   }
 }

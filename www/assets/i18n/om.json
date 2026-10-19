@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Yaada kana haquu barbaaddaa?",
     "reminders.deleteAsk": "\"{{note}}\" — {{contact}}tiif.",
     "reminders.deleteCancel": "Dhiisi",
-    "reminders.deleteOk": "Haqi"
+    "reminders.deleteOk": "Haqi",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "Delete this task?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
+    "settings.feedback": "Send feedback"
   }
 }

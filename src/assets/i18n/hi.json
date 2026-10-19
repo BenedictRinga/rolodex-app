@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "यह रिमाइंडर हटाएँ?",
     "reminders.deleteAsk": "\"{{note}}\" — {{contact}} के लिए।",
     "reminders.deleteCancel": "रद्द करें",
-    "reminders.deleteOk": "हटाएँ"
+    "reminders.deleteOk": "हटाएँ",
+    "add.vcfBtn": ".vcf फ़ाइल आयात करें",
+    "add.vcfFail": "वह फ़ाइल पढ़ी नहीं जा सकी — सुनिश्चित करें कि यह संपर्कों का निर्यात (.vcf) है।",
+    "add.importedToast": "{{n}} आयात हुए।",
+    "reminders.deleteTaskHeader": "यह कार्य हटाएँ?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" डेक छोड़ देता है — उसका रिमाइंडर भी साथ चला जाता है।",
+    "settings.feedback": "प्रतिक्रिया भेजें"
   }
 }

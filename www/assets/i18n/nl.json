@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Deze herinnering verwijderen?",
     "reminders.deleteAsk": "\"{{note}}\" voor {{contact}}.",
     "reminders.deleteCancel": "Annuleren",
-    "reminders.deleteOk": "Verwijderen"
+    "reminders.deleteOk": "Verwijderen",
+    "add.vcfBtn": "Een .vcf-bestand importeren",
+    "add.vcfFail": "Dat bestand kon niet worden gelezen — zorg dat het een contacten-export (.vcf) is.",
+    "add.importedToast": "{{n}} geïmporteerd.",
+    "reminders.deleteTaskHeader": "Deze taak verwijderen?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" verlaat de kaarten — de herinnering gaat mee.",
+    "settings.feedback": "Feedback versturen"
   }
 }

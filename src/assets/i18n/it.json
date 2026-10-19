@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Eliminare questo promemoria?",
     "reminders.deleteAsk": "\"{{note}}\" per {{contact}}.",
     "reminders.deleteCancel": "Annulla",
-    "reminders.deleteOk": "Elimina"
+    "reminders.deleteOk": "Elimina",
+    "add.vcfBtn": "Importa un file .vcf",
+    "add.vcfFail": "Impossibile leggere quel file — assicurati che sia un'esportazione di contatti (.vcf).",
+    "add.importedToast": "Importati: {{n}}.",
+    "reminders.deleteTaskHeader": "Eliminare questa attività?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" lascia il mazzo — il promemoria se ne va con esso.",
+    "settings.feedback": "Invia feedback"
   }
 }

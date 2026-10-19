@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Usunąć to przypomnienie?",
     "reminders.deleteAsk": "\"{{note}}\" dla {{contact}}.",
     "reminders.deleteCancel": "Anuluj",
-    "reminders.deleteOk": "Usuń"
+    "reminders.deleteOk": "Usuń",
+    "add.vcfBtn": "Importuj plik .vcf",
+    "add.vcfFail": "Nie udało się odczytać tego pliku — upewnij się, że to eksport kontaktów (.vcf).",
+    "add.importedToast": "Zaimportowano: {{n}}.",
+    "reminders.deleteTaskHeader": "Usunąć to zadanie?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" opuszcza talię — przypomnienie znika razem z nią.",
+    "settings.feedback": "Wyślij opinię"
   }
 }

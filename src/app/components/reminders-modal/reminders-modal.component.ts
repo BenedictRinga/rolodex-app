@@ -98,6 +98,24 @@ export class RemindersModalComponent {
     if (this.persistHandler) this.persistHandler();
   }
 
+  /** 353 TAP A ROW -> THE EDIT TASK WINDOW (founder: 'Tapping a Reminder  /** 358 THE TASK DELETE: Confirm || Cancel, the same law as the reminder
+   *  rows — then the whole task card leaves the deck through the host lane. */
+  confirmDeleteTask(t: any, ev: Event): void {
+    ev.stopPropagation();
+    void this.alertCtrl.create({
+      header: this.translate.instant('loopkeeper.reminders.deleteTaskHeader'),
+      message: this.translate.instant('loopkeeper.reminders.deleteTaskAsk', { title: t.title }),
+      buttons: [
+        { text: this.translate.instant('loopkeeper.reminders.deleteCancel'), role: 'cancel' },
+        { text: this.translate.instant('loopkeeper.reminders.deleteOk'), role: 'destructive', handler: () => this.removeCardRef(t.ref) },
+      ],
+    }).then((a) => a.present());
+  }
+  removeCardRef(ref: any): void {
+    if (this.removeCardHandler) { this.removeCardHandler(ref); return; }
+    this.removeCard.emit(ref);
+  }
+
   /** 353 TAP A ROW -> THE EDIT TASK WINDOW (founder: 'Tapping a Reminder
    *  item should directly open the Edit Task window'): the row's own card
    *  editor opens through the host chain. */
@@ -110,6 +128,12 @@ export class RemindersModalComponent {
    *  passes these callbacks; the embedded inbox host keeps the outputs. */
   @Input() editCardHandler?: (ref: any) => void;
   @Input() persistHandler?: () => void;
+  /** 358 THE TASK DELETE (founder: 'It was perfectly situated where it was -
+   *  the absence of proper wiring does not mean eliminating it'): the task
+   *  row's trash rides the host's removal chain — the deck passes the handler,
+   *  the embedded inbox keeps the output. */
+  @Output() removeCard = new EventEmitter<any>();
+  @Input() removeCardHandler?: (ref: any) => void;
   editRow(ref: any): void {
     if (this.editCardHandler) { this.editCardHandler(ref); return; }
     if (ref) this.editCard.emit(ref);

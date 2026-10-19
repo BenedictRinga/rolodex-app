@@ -11,10 +11,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { InAppNotificationsComponent } from './components/in-app-notifications/in-app-notifications.component';
+import { environment } from '../environments/environment';
 
-/** 2026-08-25 Zyppar-style i18n: JSON files in src/assets/i18n/*.json. */
+/** 2026-08-25 Zyppar-style i18n: JSON files in src/assets/i18n/*.json.
+ *  2026-10-19 BUILD 358: the loader carries the build number (?v=) so a new
+ *  shell never reads a stale cached JSON — the raw-key class of bug dies here. */
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json?v=' + environment.build);
 }
 
 @NgModule({

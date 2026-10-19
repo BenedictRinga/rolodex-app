@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Abisu hau ezabatu?",
     "reminders.deleteAsk": "\"{{note}}\" {{contact}}(+)-entzat.",
     "reminders.deleteCancel": "Utzi",
-    "reminders.deleteOk": "Ezabatu"
+    "reminders.deleteOk": "Ezabatu",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "¿Eliminar esta tarea?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" sale del mazo — su recordatorio se va con él.",
+    "settings.feedback": "Enviar comentarios"
   }
 }

@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "¿Eliminar este recordatorio?",
     "reminders.deleteAsk": "\"{{note}}\" para {{contact}}.",
     "reminders.deleteCancel": "Cancelar",
-    "reminders.deleteOk": "Eliminar"
+    "reminders.deleteOk": "Eliminar",
+    "add.vcfBtn": "Importar un archivo .vcf",
+    "add.vcfFail": "No se pudo leer ese archivo — asegúrate de que sea una exportación de contactos (.vcf).",
+    "add.importedToast": "Se importaron {{n}}.",
+    "reminders.deleteTaskHeader": "¿Eliminar esta tarea?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" sale del mazo — su recordatorio se va con él.",
+    "settings.feedback": "Enviar comentarios"
   }
 }

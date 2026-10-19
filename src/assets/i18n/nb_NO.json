@@ -753,6 +753,12 @@
     "reminders.deleteHeader": "Slette denne påminnelsen?",
     "reminders.deleteAsk": "\"{{note}}\" for {{contact}}.",
     "reminders.deleteCancel": "Avbryt",
-    "reminders.deleteOk": "Slett"
+    "reminders.deleteOk": "Slett",
+    "add.vcfBtn": "Import a .vcf file",
+    "add.vcfFail": "Couldn't read that file — make sure it's a contacts export (.vcf).",
+    "add.importedToast": "Imported {{n}}.",
+    "reminders.deleteTaskHeader": "Delete this task?",
+    "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
+    "settings.feedback": "Send feedback"
   }
 }
