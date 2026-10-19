@@ -824,6 +824,27 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.testerChatTimer) { clearInterval(this.testerChatTimer); this.testerChatTimer = null; }
   }
 
+  /** 2026-10-19 BUILD 360 THE FEEDBACK CHAT, FOR EVERYONE (founder: "Will the
+   *  Feedback chat access button be automatically available for all users to
+   *  open from the top panel of Home page - it should be, and the qualification
+   *  on its appearance removed"): the top-panel chat icon is un-gated - the
+   *  qualification is gone. Testers keep their HQ inbox on the same tap;
+   *  everyone else opens the SAME ChatWithRolodexModalComponent the Settings
+   *  door uses (startMode 'feedback') - the chatId auto-generates per user,
+   *  the tester pattern. */
+  async openFeedbackChat(): Promise<void> {
+    if (this.testerChannelOn) { void this.openTesterChat(); return; }
+    const modal = await this.modalController.create({
+      component: ChatWithRolodexModalComponent,
+      componentProps: { startMode: 'feedback' },
+      cssClass: 'card-chat-modal-sheet',
+      breakpoints: [0, 0.7, 0.95, 1],
+      initialBreakpoint: 0.95,
+      keyboardClose: false,
+    });
+    await modal.present();
+  }
+
   private async fetchTesterChat(): Promise<void> {
     if (!this.testerChatId) return;
     this.testerChatLoading = true;
@@ -1686,10 +1707,18 @@ export class HomePage implements OnInit, OnDestroy {
   }
   openRetractor(): void {
     this.retractorHidden = true;
-    this.openLoopsSurface();
+    // 2026-10-19 BUILD 360 THE SHELF OPENS (founder: "That Lota notification
+    //  still does not open the promised interface"): the 359 retry fixed a
+    //  race, but the REAL silence was simpler - the inbox was already open on
+    //  the Loops tab whose surface defaults to the WALK, so tab = loops was a
+    //  no-op and nothing visibly changed. The promised interface is the SHELF:
+    //  the captured loop is an old open loop, it lives there. The tap now
+    //  flips the Loops tab to the shelf AND expands the loop's row
+    //  (selectedId = the loop - the same pattern the shelf's own taps use).
+    this.openLoopsSurface('shelf', this.retractorLoop?.id);
   }
 
-  openLoopsSurface(): void {
+  openLoopsSurface(surface?: 'walk' | 'shelf', loopId?: string): void {
     this.rolodexAiChatOpen = true;
     // 2026-10-19 BUILD 359 THE RETRACTOR OPENS (founder: "loopkeeper.ft.retractorLine
     //  with 'Call Lota' is fixed, but tapping it opens nothing - just closes
@@ -1702,7 +1731,12 @@ export class HomePage implements OnInit, OnDestroy {
     let tries = 0;
     const armTab = (): void => {
       const ib = this.inboxRef;
-      if (ib) { ib.tab = 'loops'; return; }
+      if (ib) {
+        ib.tab = 'loops';
+        if (surface) ib.setLoopsSurface(surface);
+        if (loopId) ib.selectedId = loopId;
+        return;
+      }
       if (++tries <= 10) setTimeout(armTab, 100);
     };
     setTimeout(armTab, 100);
