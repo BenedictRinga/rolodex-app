@@ -183,23 +183,13 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   // section hosts more than THREE rows — the rest is a muted count,
   // transparency without overwhelm. The full lists stay in the fields above;
   // the template renders the seats.
-  /** 2026-10-19 BUILD 361 THE ARRIVAL LAW: a wake-focused loop always
-   *  holds a seat — the reminder never points at a row the shelf declined
-   *  to render. Without an arrival focus the caps are byte-identical
-   *  (the directive's gate). */
-  private seated(list: Loop[], full: Loop[]): Loop[] {
-    if (!this.arrivalFocus) return list;
-    const focused = full.find(l => l.id === this.arrivalFocus);
-    if (!focused || list.some(l => l.id === focused.id)) return list;
-    return [focused, ...list];
-  }
-  get mineSeats(): Loop[] { return this.seated(this.mine.slice(0, 3), this.mine); }
+  get mineSeats(): Loop[] { return this.mine.slice(0, 3); }
   get mineMore(): number { return Math.max(0, this.mine.length - 3); }
-  get theirsSeats(): Loop[] { return this.seated(this.theirs.slice(0, 3), this.theirs); }
+  get theirsSeats(): Loop[] { return this.theirs.slice(0, 3); }
   get theirsMore(): number { return Math.max(0, this.theirs.length - 3); }
-  get waitingSeats(): Loop[] { return this.seated(this.stack.waiting.slice(0, 3), this.stack.waiting); }
+  get waitingSeats(): Loop[] { return this.stack.waiting.slice(0, 3); }
   get waitingMore(): number { return Math.max(0, this.stack.waiting.length - 3); }
-  get parkedSeats(): Loop[] { return this.seated(this.stack.parked.slice(0, 3), this.stack.parked); }
+  get parkedSeats(): Loop[] { return this.stack.parked.slice(0, 3); }
   get parkedMore(): number { return Math.max(0, this.stack.parked.length - 3); }
 
   /** 2026-09-17 BUILD 253 BETA: the self-intent taps RETURN to the shelf —
@@ -231,13 +221,6 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
    *  rows glow, the bar counts them, and opening one is the answer. */
   nudgeIds = new Set<string>();
   flashId: string | null = null;
-  /** 2026-10-19 BUILD 361 THE ARRIVAL LAW: a wake arrival with a payload
-   *  stands the shelf preamble down (the three pills, the fulcrum, the two
-   *  self pills — the eye goes straight to the nudge bar and the named
-   *  loop). Restored by the deliberate scroll back to the top or by leaving
-   *  for the walk — deferred, not deleted. */
-  arrivalFocus: string | null = null;
-  private arrivalScrolled = false;
   /** 2026-09-15 BUILD 206/207/211 THE BOOT REVEAL: the shell starts at 50vh
    *  (deck visible below) and holds until BOTH gates open - home ARMS the
    *  reveal (Welcome dismissed, or never shown), and the deck POPULATES
@@ -472,7 +455,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     // BUILD 236: a nudge held while the shelf was up delivers the moment the
     // walk returns — the hold never outlives its surface. BUILD 244: the
     // held garden handle rides the same moment.
-    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); this.dismissArrival(); } // 361: the walk entry is an engagement
+    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); }
     this.expandedChange.emit(this.shellExpanded);
   }
 
@@ -582,10 +565,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     // stays hidden for nothing.
     if (this.selectedId) {
       const stillOpen = this.todaysThree.some(l => l.id === this.selectedId)
-        || this.mine.some(l => l.id === this.selectedId)
-        || this.theirs.some(l => l.id === this.selectedId)
-        || this.stack.waiting.some(l => l.id === this.selectedId) // 361: the drawer holds too
-        || this.stack.parked.some(l => l.id === this.selectedId);
+        || this.mine.some(l => l.id === this.selectedId);
       if (!stillOpen) {
         this.selectedId = null;
         this.expandedChange.emit(this.shellExpanded);
@@ -658,67 +638,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   revealNudges(): void {
     const first = this.nudgeIds.values().next();
     if (first.done) return;
-    this.revealLoop(first.value);
-  }
-
-  /** 361: the shared reveal — scroll to a row by its data-loop-id and
-   *  flash it once (the existing 1.6s flash). The nudge bar and the wake
-   *  arrival use the same travel. */
-  private revealLoop(loopId: string): void {
-    this.flashId = loopId;
-    document.querySelector(`[data-loop-id="${loopId}"]`)
+    this.flashId = first.value;
+    document.querySelector(`[data-loop-id="${first.value}"]`)
       ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     if (this.flashTimer) clearTimeout(this.flashTimer);
     this.flashTimer = setTimeout(() => { this.flashId = null; }, 1600);
-  }
-
-  /** 2026-10-19 BUILD 361 THE ARRIVAL LAW (the wake-tap directive): the
-   *  addressed wake tap lands HERE — the inbox opens the Loops tab, flips
-   *  to the SHELF, and focuses the target loop: expanded (selectedId),
-   *  revealed via the data-loop-id scroll, flashed (the existing 1.6s
-   *  flash). THE DRAWER CUSTODY: a loop in the Stack gets its drawer
-   *  auto-opened before the scroll — a reminder never points into a closed
-   *  drawer. THE QUIET ARRIVAL: the preamble stands down (arrivalFocus).
-   *  THE WALK HONORS THE PING: the pendingNudge hold (BUILD 236's
-   *  channel) arms step 1's Who card with the due loop — 'one unfinished
-   *  thing, already named' kept end-to-end; the abort law holds (Not this
-   *  one). A loop closed since the ping leaves the shelf ordinary. */
-  async arriveFromWake(loopId: string): Promise<void> {
-    this.tab = 'loops';
-    void this.analytics.track('wake_arrive', { loopId });
-    this.setLoopsSurface('shelf');
-    await this.refresh();
-    const inStack = this.stack.waiting.some(l => l.id === loopId)
-      || this.stack.parked.some(l => l.id === loopId);
-    if (inStack) this.stackOpen = true; // THE DRAWER CUSTODY
-    const loop = [...this.todaysThree, ...this.mine, ...this.theirs, ...this.stack.waiting, ...this.stack.parked]
-      .find(l => l.id === loopId) || null;
-    if (!loop) { // the loop closed since the ping — the shelf reads ordinary
-      void this.analytics.track('wake_arrive', { loopId, found: false });
-      return;
-    }
-    this.arrivalFocus = loopId; // THE QUIET ARRIVAL
-    this.arrivalScrolled = false;
-    this.selectedId = loopId; // expanded
-    this.pendingNudge = { contact: null, loop }; // THE WALK HONORS THE PING
-    this.expandedChange.emit(this.shellExpanded);
-    await new Promise(r => setTimeout(r, 300)); // the drawer + the row render
-    this.revealLoop(loopId);
-    void this.analytics.track('wake_reveal', { loopId, drawer: inStack });
-  }
-
-  /** 361: the deliberate scroll back to the top restores the preamble —
-   *  deferred, not deleted. (Guarded: the arrival's own scrollIntoView
-   *  must land first, so the down-then-top pattern is what dismisses.) */
-  onShelfScroll(ev: any): void {
-    if (!this.arrivalFocus) return;
-    const top = Number(ev?.target?.scrollTop || 0);
-    if (top > 80) this.arrivalScrolled = true;
-    else if (this.arrivalScrolled && top <= 6) this.dismissArrival();
-  }
-  dismissArrival(): void {
-    this.arrivalFocus = null;
-    this.arrivalScrolled = false;
   }
 
   // ── Capture (10) ────────────────────────────────────────────────────────────

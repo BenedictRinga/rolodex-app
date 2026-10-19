@@ -45,7 +45,7 @@
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
   <!-- Stays mounted when the user leaves the tab so slide 2 is never lost. -->
-  <div class="li-body" [class.away]="tab !== 'loops'" (scroll)="onShelfScroll($event)">
+  <div class="li-body" [class.away]="tab !== 'loops'">
     <!-- 2026-08-31 BUILD 158: the walk is the DEFAULT Loops surface —
          four slides, one decision. Packed shelf behind I'm good / Smooth. -->
     <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"
@@ -75,7 +75,7 @@
          fulcrum → input. The three sample sentences (visual only) tether the
          "Nothing sitting. Nothing gnawing." fulcrum, and the capture box sits
          BELOW it — the eye travels examples → promise → the place to act. -->
-    <div class="li-samples" *ngIf="!arrivalFocus"> // 361 THE QUIET ARRIVAL
+    <div class="li-samples">
       <!-- 2026-08-28 BUILD 133/134 (founder): each pill carries its own glowing
            teal orb (::before in SCSS) — a big fullstop flagging each sentence
            as one of THE three the fulcrum's body refers to ("Start a sentence
@@ -100,7 +100,7 @@
          empty state (it vanished whenever even one loop was open — which is
          the normal state of a used inbox). When loops wait, the headline
          flips to its question form: the fulcrum asks instead of declaring. -->
-    <div class="li-empty" *ngIf="!arrivalFocus">
+    <div class="li-empty">
       <div class="li-empty-big">{{ ((todaysThree.length || mine.length) ? 'loopkeeper.empty.titleOpen' : 'loopkeeper.empty.title') | translate }}</div>
       <p>{{ 'loopkeeper.empty.body' | translate }}</p>
     </div>
@@ -152,7 +152,7 @@
          "Somewhere I must show up") live HERE — Beta, the flip-over state.
          One tap births a pure self-loop and hands it to the walk's chat
          dialog: the Alpha continuation landing, no fields anywhere. -->
-    <div class="li-selfrow" *ngIf="!arrivalFocus">
+    <div class="li-selfrow">
       <button class="li-self" type="button" (click)="selfLoop('decide')">
         {{ 'loopkeeper.walk.chipDecide' | translate }}
       </button>
@@ -202,7 +202,7 @@
          + a muted count. -->
     <div class="li-section" *ngIf="theirs.length">
       <div class="li-section-title">{{ 'loopkeeper.section.waitingOnThem' | translate:{ n: theirs.length } }}</div>
-      <div *ngFor="let l of theirsSeats" class="li-row theirs" [attr.data-loop-id]="l.id"> // 361: the reveal can travel here
+      <div *ngFor="let l of theirsSeats" class="li-row theirs">
         <div class="li-row-main" (click)="toggle(l.id)">
           <span class="li-person">{{ l.person }}</span>
           <span class="li-kind">{{ kindLabel(l.kind) }}</span>
@@ -232,7 +232,7 @@
         <ng-container *ngIf="stack.waiting.length">
           <div class="li-stack-subhead">{{ 'loopkeeper.stack.waiting' | translate:{ n: stack.waiting.length } }}</div>
           <!-- BUILD 253: three seats + a muted count. -->
-          <div *ngFor="let l of waitingSeats" class="li-row theirs" [attr.data-loop-id]="l.id"> // 361 THE DRAWER CUSTODY: the drawer's rows are addressable
+          <div *ngFor="let l of waitingSeats" class="li-row theirs">
             <div class="li-row-main" (click)="toggle(l.id)">
               <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
               <span class="li-kind">{{ kindLabel(l.kind) }}</span>
@@ -248,7 +248,7 @@
         </ng-container>
         <ng-container *ngIf="stack.parked.length">
           <div class="li-stack-subhead">{{ 'loopkeeper.stack.parked' | translate:{ n: stack.parked.length } }}</div>
-          <div *ngFor="let l of parkedSeats" class="li-row theirs" [attr.data-loop-id]="l.id"> // 361 THE DRAWER CUSTODY
+          <div *ngFor="let l of parkedSeats" class="li-row theirs">
             <div class="li-row-main" (click)="toggle(l.id)">
               <span class="li-person" *ngIf="hasName(l)">{{ l.person }}</span>
               <span class="li-kind">{{ kindLabel(l.kind) }}</span>

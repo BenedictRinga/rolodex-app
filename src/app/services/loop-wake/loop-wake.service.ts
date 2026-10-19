@@ -38,10 +38,6 @@ const DIGEST_KEY = 'lk_wake_digest_day';
 export class LoopWakeService {
   /** wake time → in-page timers (web path only; native uses the OS). */
   private webTimers = new Map<string, any>();
-  /** 2026-10-19 BUILD 361 THE ADDRESS: the digest names ONE loop — its id
-   *  rides the notification payload so the tap is an addressed deep-link
-   *  (the arrival law lands on the named loop, not a pile). */
-  private digestLoopId: string | null = null;
 
   constructor(
     private readonly router: Router,
@@ -131,7 +127,6 @@ export class LoopWakeService {
 
     if (!waiting.length) return; // nothing waiting — silence until one arrives
 
-    this.digestLoopId = pick.id; // 361 THE ADDRESS
     const at = this.nextNineAm();
 
     if (Capacitor.isNativePlatform()) {
@@ -148,7 +143,7 @@ export class LoopWakeService {
             schedule: { at, allowWhileIdle: true }, // fires through Doze, app closed
             channelId: CHANNEL_ID,
             autoCancel: true,
-            extra: { type: 'loopWake', count: waiting.length, loopId: pick.id }, // 361 THE ADDRESS
+            extra: { type: 'loopWake', count: waiting.length },
           }],
         });
       } catch { /* plugin hiccup — the Waiting pile still shows */ }
@@ -165,7 +160,7 @@ export class LoopWakeService {
         const today = now.toISOString().slice(0, 10);
         if (last !== today) {
           await this.storage.set(DIGEST_KEY, today);
-          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId: this.digestLoopId } }); // 361 THE ADDRESS
+          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest' } });
         }
       } catch { /* best effort */ }
     }
@@ -177,7 +172,7 @@ export class LoopWakeService {
     this.clearWebTimer('digest');
     const timer = setTimeout(() => {
       try {
-        this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId: this.digestLoopId } }); // 361 THE ADDRESS
+        this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest' } });
       } catch { /* dock is best-effort */ }
     }, Math.min(delay, 2_147_000_000));
     this.webTimers.set('digest', timer);
