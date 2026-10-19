@@ -1295,7 +1295,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.arriveWake(extra?.loopId); // 361 THE ARRIVAL LAW
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -1313,7 +1313,7 @@ export class HomePage implements OnInit, OnDestroy {
       // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
-      if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
+      if (n?.data?.action === 'loopDigest') this.arriveWake(n?.data?.['loopId']); // 361 THE ARRIVAL LAW
     });
 
     await this.loadContacts();
@@ -1740,6 +1740,26 @@ export class HomePage implements OnInit, OnDestroy {
       if (++tries <= 10) setTimeout(armTab, 100);
     };
     setTimeout(armTab, 100);
+  }
+
+  /** 2026-10-19 BUILD 361 THE ARRIVAL LAW (the wake-tap directive): the
+   *  wake tap is an ADDRESSED deep-link now — the notification's extra
+   *  carries the loopId and the tap routes home WITH it. With a payload the
+   *  inbox opens ON the shelf with the named loop focused (arriveFromWake:
+   *  expanded, revealed, flashed, the drawer auto-opened, the preamble stood
+   *  down, the walk armed with the due loop). Without one (a legacy
+   *  notification or an unaddressed digest) the old behavior stands —
+   *  byte-identical, the directive's gate. */
+  private arriveWake(loopId: string | null | undefined): void {
+    if (!loopId) { this.openLoopsSurface(); return; }
+    this.rolodexAiChatOpen = true;
+    let tries = 0;
+    const arm = (): void => {
+      const ib = this.inboxRef;
+      if (ib) { void ib.arriveFromWake(loopId); return; }
+      if (++tries <= 10) setTimeout(arm, 100);
+    };
+    setTimeout(arm, 100);
   }
 
   /**
