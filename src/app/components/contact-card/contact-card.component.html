@@ -887,17 +887,6 @@
               </ion-item>
             </div>
             <div formGroupName="task">
-              <!-- 2026-10-20 BUILD 368 THE SEAT STAYS OPEN (founder: a contact
-                   may or may not be attached - now in the form, any time later
-                   here, and at action time the Who card asks): the optional
-                   attach lives ON the card (sourceContactId). -->
-              <ion-item>
-                <ion-label position="stacked">For whom (optional)</ion-label>
-                <ion-select formControlName="whom" interface="popover" [interfaceOptions]="{cssClass: 'autosort-custom-ion-select'}">
-                  <ion-select-option value="">— open —</ion-select-option>
-                  <ion-select-option *ngFor="let c of contacts" [value]="c?.contactId">{{ c?.name?.display }}</ion-select-option>
-                </ion-select>
-              </ion-item>
               <ion-item>
                 <ion-label position="stacked">Rhythm (cadence)</ion-label>
                 <ion-select formControlName="cadence" interface="popover">

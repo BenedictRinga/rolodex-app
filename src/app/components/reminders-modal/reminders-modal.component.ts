@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarService, AgendaEvent } from '../../services/calendar/calendar.service';
+import { ContactInfo } from '../../models/contacts';
 
 interface ReminderRow {
   note: string;
@@ -300,12 +301,28 @@ export class RemindersModalComponent {
     const when = this.formDate ? new Date(this.formDate + 'T' + (this.formTime || '09:00') + ':00') : new Date();
     if (!contact) {
       // 367 THE NEW CARD: no card attached - the reminder prepares its own
-      const card: any = {
+      // 369 THE TYPED MINT: a complete ContactInfo - the real model, the real
+      // guardrail. The subject is the fundamental; the contact was never a
+      // requirement (the founder: a reminder is a subject to be reminded of).
+      const now = new Date();
+      const card: ContactInfo = {
         contactId: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-        name: { display: note },
+        name: { display: note, given: note, middle: '', family: '', prefix: '', suffix: '' },
         kind: 'task',
         task: { cadence: 'none', due: when.getTime() },
         isMockData: false,
+        rolodex: { when: '', where: '', who: '', why: '', how: '', topic: '', followUp: '', personalTidbits: '', outcome: '', priority: 'medium', contactFrequency: 'never', references: [] },
+        socialProfiles: {},
+        tags: [],
+        groups: [],
+        privacy: { level: 'private' },
+        sharedBy: [],
+        lastInteraction: null,
+        nextInteraction: null,
+        reminders: [],
+        createdAt: now,
+        updatedAt: now,
+        preferences: { refreshContacts: false, notificationPreference: 'none' },
       };
       if (this.createCardHandler) { this.createCardHandler(card); } else { this.createCard.emit(card); }
       this.formOpen = false;

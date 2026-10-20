@@ -1430,19 +1430,6 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         if (!payload.task.due) delete payload.task.due;
         if (!payload.task.cadence) delete payload.task.cadence;
-        // 368 THE SEAT STAYS OPEN: the For-whom attach rides OFF the task
-        // payload onto the card itself (sourceContactId + the display), so
-        // the contact is known to every flow that works this reminder.
-        const whomId = String(formValue?.task?.whom || '');
-        const whomContact = (this.contacts || []).find((c: any) => String(c?.contactId) === whomId);
-        if (whomContact) {
-          payload.sourceContactId = whomContact.contactId;
-          payload.sourcePerson = whomContact?.name?.display || '';
-        } else {
-          delete payload.sourceContactId;
-          delete payload.sourcePerson;
-        }
-        delete payload.task.whom;
       } else {
         delete payload.task;
       }
@@ -1505,7 +1492,6 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
       kind: [this.formKind],
       task: this.fb.group({
         cadence: ['none'],
-        whom: [''], // 368 THE SEAT STAYS OPEN: the optional contact attach
         due: [''],
         dueTime: ['09:00'],
         checklist: this.fb.array([]),
@@ -1647,7 +1633,6 @@ export class ContactCardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contactForm.get('task.cadence')?.setValue(task?.cadence || 'monthly');
         this.contactForm.get('task.due')?.setValue(task?.due ? new Date(task.due).toISOString().slice(0, 10) : '');
         this.contactForm.get('task.dueTime')?.setValue(task?.due ? new Date(task.due).toTimeString().slice(0, 5) : '09:00');
-        this.contactForm.get('task.whom')?.setValue(String((this.editedContact as any)?.sourceContactId || '')); // 368: the seat pre-fills from the card
         const arr = this.contactForm.get('task.checklist') as FormArray;
         arr.clear();
         for (const item of (task?.checklist || [])) this.addChecklistItem(item);

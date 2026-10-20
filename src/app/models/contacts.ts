@@ -113,7 +113,9 @@ export type CardKind = 'person' | 'task' | 'note' | 'place' | 'routine';
  *  lesson: one union, one vocabulary). */
 export interface TaskPayload {
   due?: number;
-  cadence?: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' | 'never';
+  // 369: 'none' joins the union - the One-off VALUE the scheduling calls
+  // already use (the 352 law); one union, one vocabulary, in the model.
+  cadence?: 'none' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' | 'never';
   done?: boolean;
   doneAt?: number;
   checklist?: { text: string; done: boolean }[];
