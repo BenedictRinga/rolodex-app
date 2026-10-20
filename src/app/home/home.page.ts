@@ -1295,7 +1295,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.quietArrival = !!(extra?.loopId); this.openLoopsSurface(); } // 363 THE QUIET ARRIVAL (the founder's excise law): a payload names its loop — the shelf preamble stands down
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -1313,7 +1313,7 @@ export class HomePage implements OnInit, OnDestroy {
       // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
-      if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
+      if (n?.data?.action === 'loopDigest') { this.quietArrival = !!(n?.data?.['loopId']); this.openLoopsSurface(); } // 363 THE QUIET ARRIVAL
     });
 
     await this.loadContacts();
@@ -1369,6 +1369,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the nudge-tap subscription handles. */
+  /** 2026-10-20 BUILD 363 THE QUIET ARRIVAL: true only when a wake tap arrives WITH a payload (loopId) — the inbox's shelf preamble stands down for that arrival; cleared on inbox close and by the walk flip. */
+  quietArrival = false;
   private notifTapSub: Subscription | null = null;
   private dockTapSub: Subscription | null = null;
 
