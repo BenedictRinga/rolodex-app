@@ -2751,6 +2751,18 @@ export class HomePage implements OnInit, OnDestroy {
     this.rolodexSync.push(this.realContacts()); // 2026-08-16: the server home updates live
   }
 
+  /** 367 THE NEW-CARD LANE (founder: SET required an existing card -
+   *  wrong): a reminder with no card attached prepares its own task card -
+   *  the note is its title, the date+time its due, One-off. Created here,
+   *  persisted the same lane as a removal, and the server home updates
+   *  live. */
+  async onReminderCardCreate(card: any): Promise<void> {
+    this.contacts = [card, ...this.contacts];
+    this.analytics.track('card_added');
+    await this.persistContacts(this.contacts, { allowEmpty: true });
+    this.rolodexSync.push(this.realContacts()); // the server home updates live
+  }
+
   /** 2026-08-18 SECURITY: the PIN gate on every cold start. */
   private async enforceAppLock(): Promise<void> {
     try {

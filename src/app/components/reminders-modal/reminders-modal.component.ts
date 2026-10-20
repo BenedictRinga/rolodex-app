@@ -128,6 +128,13 @@ export class RemindersModalComponent {
    *  passes these callbacks; the embedded inbox host keeps the outputs. */
   @Input() editCardHandler?: (ref: any) => void;
   @Input() persistHandler?: () => void;
+  /** 367 THE NEW-CARD LANE (founder: SET required an existing card -
+   *  wrong): with no card attached, the reminder PREPARES A NEW TASK CARD
+   *  - the note is its title, the date+time its due, One-off (the 352
+   *  law). The host creates and persists; both surfaces ride the same
+   *  lane (the inbox keeps the output, the deck sheet passes the handler). */
+  @Output() createCard = new EventEmitter<any>();
+  @Input() createCardHandler?: (card: any) => void;
   /** 358 THE TASK DELETE (founder: 'It was perfectly situated where it was -
    *  the absence of proper wiring does not mean eliminating it'): the task
    *  row's trash rides the host's removal chain — the deck passes the handler,
@@ -261,18 +268,54 @@ export class RemindersModalComponent {
   birthdaySegments(): ReminderSegment[] { return this.segments(this.birthdays); }
 
   /** Submit the inline form — contact, note, date -> lands on the card. */
+  /** 367 THE TIME-FIRST DEFAULT (the 349 law, now in this form): picking a
+   *  time with no date fills the date at once - today when the chosen time
+   *  is still ahead, tomorrow when today cannot hold it. The form's own
+   *  default follows the same law at open (the 09:00 default adopted when
+   *  time remaining allows, else the following day). */
+  openForm(): void {
+    this.formOpen = true;
+    this.formDate = this.armDefaultDate();
+  }
+  onArmTimeChange(): void {
+    if (this.formDate || !this.formTime) return; // an explicit date always stands
+    this.formDate = this.armDefaultDate();
+  }
+  private armDefaultDate(): string {
+    const now = new Date();
+    const parts = (this.formTime || '09:00').split(':');
+    const chosen = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Number(parts[0]) || 0, Number(parts[1]) || 0, 0, 0);
+    const day = chosen.getTime() > now.getTime() ? now : new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return day.getFullYear() + '-' + pad(day.getMonth() + 1) + '-' + pad(day.getDate());
+  }
+
   submitReminder(): void {
-    const contact = (this.contacts || []).find((c: any) => String(c?.contactId) === String(this.formContactId));
+    const contact = (this.contacts || []).find((c: any) => String(c?.contactId) === String(this.formContactId)) || null;
     const note = String(this.formNote || '').trim();
-    if (!contact) {
-      void this.alertCtrl.create({ header: 'Choose a contact', message: 'Pick who this reminder is for.', buttons: ['OK'] }).then((a) => a.present());
-      return;
-    }
     if (!note) {
       void this.alertCtrl.create({ header: 'Write the note', message: 'What should the reminder say?', buttons: ['OK'] }).then((a) => a.present());
       return;
     }
     const when = this.formDate ? new Date(this.formDate + 'T' + (this.formTime || '09:00') + ':00') : new Date();
+    if (!contact) {
+      // 367 THE NEW CARD: no card attached - the reminder prepares its own
+      const card: any = {
+        contactId: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        name: { display: note },
+        kind: 'task',
+        task: { cadence: 'none', due: when.getTime() },
+        isMockData: false,
+      };
+      if (this.createCardHandler) { this.createCardHandler(card); } else { this.createCard.emit(card); }
+      this.formOpen = false;
+      this.formNote = '';
+      this.formDate = this.armDefaultDate();
+      this.formTime = '09:00';
+      this.formContactId = '';
+      this.buildRows();
+      return;
+    }
     contact.reminders = [...(contact.reminders || []), { note, date: when, time: this.formTime || '09:00' }];
     contact.updatedAt = new Date();
     // 2026-08-27 CHOICE-FIRST CALENDAR: push only when the checkbox says so —

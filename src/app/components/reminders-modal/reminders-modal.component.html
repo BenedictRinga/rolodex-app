@@ -23,7 +23,7 @@
        scheduled yet', 'Remind me... is an always visible click that opens the
        form Calendar and check box'): the schedule is the default view; the
        set-form opens behind the always-visible Remind me button. -->
-  <button class="rem-open" type="button" *ngIf="!formOpen" (click)="formOpen = true">
+  <button class="rem-open" type="button" *ngIf="!formOpen" (click)="openForm()">
     <ion-icon name="alarm-outline"></ion-icon>
     {{ 'loopkeeper.ft.remindMe' | translate }}
   </button>
@@ -41,8 +41,8 @@
            (YYYY-MM-DD), same submit parsing. -->
       <ion-datetime class="arm-date" presentation="date" [(ngModel)]="formDate"
         [max]="maxDate" cancelText="Cancel" doneText="Set"></ion-datetime>
-      <input class="arm-time" type="time" [(ngModel)]="formTime" aria-label="Time" />
-      <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim() || !formContactId">
+      <input class="arm-time" type="time" [(ngModel)]="formTime" (ngModelChange)="onArmTimeChange()" aria-label="Time" />
+      <ion-button class="arm-set" (click)="submitReminder()" [disabled]="!formNote.trim()">
         {{ 'loopkeeper.reminders.set' | translate }}
       </ion-button>
     </div>

@@ -92,6 +92,8 @@ export class RolodexComponent implements OnInit {
   /** 357: the reminders sheet's edit lane (a ModalController sheet cannot
    *  bind outputs — the handler callback emits here; home opens its editor). */
   @Output() taskCardRequest = new EventEmitter<any>();
+  /** 367: the Settings sheet's new-card creation rides to home. */
+  @Output() reminderCardCreate = new EventEmitter<any>();
   onContactsDirty(): void { this.contactsChange.emit(this.contacts); }
   @Output() autoSort = new EventEmitter<void>();
   @Output() loadMoreAutoSort = new EventEmitter<void>();
@@ -460,6 +462,7 @@ export class RolodexComponent implements OnInit {
         editCardHandler: (c: any) => this.taskCardRequest.emit(c),
         persistHandler: () => this.contactsDirty.emit(),
         removeCardHandler: (c: any) => this.removeContact.emit(c),
+        createCardHandler: (card: any) => this.reminderCardCreate.emit(card),
       },
       cssClass: 'card-chat-modal-sheet',
       breakpoints: [0, 0.6, 0.8, 0.9],
