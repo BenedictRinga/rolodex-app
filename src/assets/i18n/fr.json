@@ -759,6 +759,7 @@
     "add.importedToast": "{{n}} importés.",
     "reminders.deleteTaskHeader": "Supprimer cette tâche ?",
     "reminders.deleteTaskAsk": "« {{title}} » quitte le jeu — son rappel part avec lui.",
-    "settings.feedback": "Envoyer un commentaire"
+    "settings.feedback": "Envoyer un commentaire",
+    "ft.beenHere": "J'ai déjà été ici"
   }
 }

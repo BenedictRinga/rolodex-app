@@ -759,6 +759,7 @@
     "add.importedToast": "Se importaron {{n}}.",
     "reminders.deleteTaskHeader": "¿Eliminar esta tarea?",
     "reminders.deleteTaskAsk": "\"{{title}}\" sale del mazo — su recordatorio se va con él.",
-    "settings.feedback": "Enviar comentarios"
+    "settings.feedback": "Enviar comentarios",
+    "ft.beenHere": "Ya he estado aquí"
   }
 }

@@ -759,6 +759,7 @@
     "add.importedToast": "Imported {{n}}.",
     "reminders.deleteTaskHeader": "Ìgbòyà èyí tàbí ìparun?",
     "reminders.deleteTaskAsk": "\"{{title}}\" yò kúrò nínú ẹgbá — ìṣàfihàn rẹ̀ sì lọ pẹ̀lú rẹ̀.",
-    "settings.feedback": "Fi àmì̀ rọ̀nù ránṣẹ́"
+    "settings.feedback": "Fi àmì̀ rọ̀nù ránṣẹ́",
+    "ft.beenHere": "Mo tí wá ilẹ̀ yìí síwájú"
   }
 }

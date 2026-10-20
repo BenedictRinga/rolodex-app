@@ -759,6 +759,7 @@
     "add.importedToast": "Imported {{n}}.",
     "reminders.deleteTaskHeader": "A ce zaɓi wannan aiki?",
     "reminders.deleteTaskAsk": "\"{{title}}\" tana barin dattin — tunatarwarta tana tare da ita.",
-    "settings.feedback": "Aika ra'ayi"
+    "settings.feedback": "Aika ra'ayi",
+    "ft.beenHere": "Na taɓa zuwa nan a baya"
   }
 }

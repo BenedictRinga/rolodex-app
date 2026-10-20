@@ -759,6 +759,7 @@
     "add.importedToast": "{{n}} importiert.",
     "reminders.deleteTaskHeader": "Diese Aufgabe löschen?",
     "reminders.deleteTaskAsk": "\"{{title}}\" verlässt das Spiel — die Erinnerung geht mit.",
-    "settings.feedback": "Feedback senden"
+    "settings.feedback": "Feedback senden",
+    "ft.beenHere": "Ich war schon hier"
   }
 }

@@ -759,6 +759,7 @@
     "add.importedToast": "{{n}}件を取り込みました。",
     "reminders.deleteTaskHeader": "このタスクを削除しますか？",
     "reminders.deleteTaskAsk": "「{{title}}」はデッキを去ります — リマインダーも一緒に消えます。",
-    "settings.feedback": "フィードバックを送る"
+    "settings.feedback": "フィードバックを送る",
+    "ft.beenHere": "以前ここに来たことがあります"
   }
 }

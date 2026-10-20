@@ -759,6 +759,7 @@
     "add.importedToast": "Importati: {{n}}.",
     "reminders.deleteTaskHeader": "Eliminare questa attività?",
     "reminders.deleteTaskAsk": "\"{{title}}\" lascia il mazzo — il promemoria se ne va con esso.",
-    "settings.feedback": "Invia feedback"
+    "settings.feedback": "Invia feedback",
+    "ft.beenHere": "Sono già stato qui"
   }
 }

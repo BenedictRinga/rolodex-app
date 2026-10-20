@@ -759,6 +759,7 @@
     "add.importedToast": "Importados: {{n}}.",
     "reminders.deleteTaskHeader": "Eliminar esta tarefa?",
     "reminders.deleteTaskAsk": "\"{{title}}\" sai do baralho — o seu lembrete vai junto.",
-    "settings.feedback": "Enviar comentários"
+    "settings.feedback": "Enviar comentários",
+    "ft.beenHere": "Já estive aqui"
   }
 }

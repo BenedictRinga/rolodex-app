@@ -62,6 +62,7 @@ ion-content {
 
 .arm-row {
   display: flex;
+  flex-wrap: wrap; /* 366: the calendar takes its own full line */
   align-items: center;
   gap: 8px;
 }
@@ -76,7 +77,14 @@ ion-content {
 }
 
 .arm-date {
-  flex: 1;
+  /* 366 THE CALENDAR, UNMISSABLE: the inline grid renders at full width
+     and its natural height - the form shows a real calendar, like every
+     other route to creating reminders. */
+  width: 100%;
+  min-height: 280px;
+  border: 1px solid var(--rolodex-border-light, #e2e0d8);
+  border-radius: 10px;
+  overflow: hidden;
   --background: var(--rolodex-surface-alt);
   --color: var(--rolodex-text);
   border-radius: 10px;

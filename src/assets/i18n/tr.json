@@ -759,6 +759,7 @@
     "add.importedToast": "Imported {{n}}.",
     "reminders.deleteTaskHeader": "Bu görev silinsin mi?",
     "reminders.deleteTaskAsk": "\"{{title}}\" desteden ayrılır — hatırlatıcısı da onunla gider.",
-    "settings.feedback": "Geri bildirim gönder"
+    "settings.feedback": "Geri bildirim gönder",
+    "ft.beenHere": "Daha önce buradaydım"
   }
 }

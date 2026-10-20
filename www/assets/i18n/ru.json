@@ -759,6 +759,7 @@
     "add.importedToast": "Импортировано: {{n}}.",
     "reminders.deleteTaskHeader": "Удалить эту задачу?",
     "reminders.deleteTaskAsk": "\"{{title}}\" покидает колоду — напоминание уходит вместе с ней.",
-    "settings.feedback": "Отправить отзыв"
+    "settings.feedback": "Отправить отзыв",
+    "ft.beenHere": "Я здесь уже был"
   }
 }

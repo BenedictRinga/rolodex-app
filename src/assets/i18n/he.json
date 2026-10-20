@@ -759,6 +759,7 @@
     "add.importedToast": "יובאו {{n}}.",
     "reminders.deleteTaskHeader": "Delete this task?",
     "reminders.deleteTaskAsk": "\"{{title}}\" leaves the deck — its reminder goes with it.",
-    "settings.feedback": "Send feedback"
+    "settings.feedback": "Send feedback",
+    "ft.beenHere": "I've been here before"
   }
 }

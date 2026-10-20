@@ -759,6 +759,7 @@
     "add.importedToast": "{{n}} geïmporteerd.",
     "reminders.deleteTaskHeader": "Deze taak verwijderen?",
     "reminders.deleteTaskAsk": "\"{{title}}\" verlaat de kaarten — de herinnering gaat mee.",
-    "settings.feedback": "Feedback versturen"
+    "settings.feedback": "Feedback versturen",
+    "ft.beenHere": "Ik ben hier eerder geweest"
   }
 }

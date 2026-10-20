@@ -759,6 +759,7 @@
     "add.importedToast": "Imported {{n}}.",
     "reminders.deleteTaskHeader": "Ikpochi ọrụ a?",
     "reminders.deleteTaskAsk": "\"{{title}}\" ga-apụ n'ime mkpụrụedemede — ncheta ya ga-esi gị.",
-    "settings.feedback": "Zipu ndụmọdụ zipu"
+    "settings.feedback": "Zipu ndụmọdụ zipu",
+    "ft.beenHere": "Enwere m ụbọchị gara aga"
   }
 }

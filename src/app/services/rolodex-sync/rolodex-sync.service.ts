@@ -77,6 +77,11 @@ export class RolodexSyncService {
   readonly deviceReady: Promise<void>;
 
   private async hydrateDeviceId(): Promise<void> {
+    // 366 THE RESIDENT STORE (Zyppar pattern): the identity already lives in
+    // the device-resident IndexedDB store (rolodex_device_id); ask the
+    // platform to keep it through browser cleans — the identity that
+    // survives is the continuity that survives.
+    try { void (navigator as any)?.storage?.persist?.(); } catch { /* best effort */ }
     try {
       const stored = await this.storage.get<string>('rolodex_device_id');
       if (stored && stored !== this.deviceId) {

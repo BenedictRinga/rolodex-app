@@ -759,6 +759,7 @@
     "add.importedToast": "تم استيراد {{n}}.",
     "reminders.deleteTaskHeader": "حذف هذه المهمة؟",
     "reminders.deleteTaskAsk": "\"{{title}}\" تغادر المجموعة — وينطلق تذكيرها معها.",
-    "settings.feedback": "إرسال تعليقات"
+    "settings.feedback": "إرسال تعليقات",
+    "ft.beenHere": "لقد كنت هنا من قبل"
   }
 }

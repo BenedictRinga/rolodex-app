@@ -1052,6 +1052,32 @@ export class HomePage implements OnInit, OnDestroy {
     this.firstMinuteTapped = true;
   }
 
+  /** 2026-10-20 BUILD 366 THE RETURNING DOOR (founder: "'I've been here
+   *  before' is good - that on tap, it retrieves the id and logs user in,
+   *  skipping the standard binary route either of which gets you past the
+   *  first_timer mode into main homepage. And also unlocks stored data.
+   *  Only condition is it must be same device"): the id is read from the
+   *  DEVICE-RESIDENT IndexedDB store - the same device's own identity, so
+   *  it IS the server's record (#2 matches #3). The tap marks the
+   *  first-minute done, retires the canvas, and lands on the main homepage,
+   *  where the stored deck and loops hydrate from the same store - the data
+   *  unlocks by being resident. Email, when solicited, augments this same
+   *  record server-side. */
+  async ftReturn(): Promise<void> {
+    const id = await this.storageService.get<string>('rolodex_device_id');
+    if (!id) return; // nothing resident on this device - the standard doors remain
+    try {
+      await this.storageService.set('lk_firstminute_done', true);
+      await this.storageService.remove('lk_cover_engaged');
+      await this.storageService.remove('lk_ft_open');
+    } catch { /* best effort - the canvas exit does not hinge on the flags */ }
+    this.firstMinuteActive = false;
+    this.firstMinuteTapped = true;
+    this.ftView = '';
+    this.inAppNotifications.setCocoonQuiet(false);
+    void this.analytics.track('identity_restored');
+  }
+
   /** 2026-09-22 BUILD 295 THE GATE HELD (restored): a real send persists the
    *  engagement — the ring is surmounted and the panel's deed is done; no
    *  reload resurrects either phase. */

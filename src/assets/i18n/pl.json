@@ -759,6 +759,7 @@
     "add.importedToast": "Zaimportowano: {{n}}.",
     "reminders.deleteTaskHeader": "Usunąć to zadanie?",
     "reminders.deleteTaskAsk": "\"{{title}}\" opuszcza talię — przypomnienie znika razem z nią.",
-    "settings.feedback": "Wyślij opinię"
+    "settings.feedback": "Wyślij opinię",
+    "ft.beenHere": "Byłem tu już wcześniej"
   }
 }

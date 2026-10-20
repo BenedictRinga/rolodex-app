@@ -759,6 +759,7 @@
     "add.importedToast": "Zimeingizwa {{n}}.",
     "reminders.deleteTaskHeader": "Futa kazi hii?",
     "reminders.deleteTaskAsk": "\"{{title}}\" huondoka katika kundi — kumbusho yake huondoka nayo.",
-    "settings.feedback": "Tuma maoni"
+    "settings.feedback": "Tuma maoni",
+    "ft.beenHere": "Nimekuwa hapa zamani"
   }
 }

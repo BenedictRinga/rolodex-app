@@ -759,6 +759,7 @@
     "add.importedToast": "已匯入 {{n}}。",
     "reminders.deleteTaskHeader": "删除此任务？",
     "reminders.deleteTaskAsk": "“{{title}}” 将离开卡片组——其提醒随之删除。",
-    "settings.feedback": "发送反馈"
+    "settings.feedback": "发送反馈",
+    "ft.beenHere": "我来过这里"
   }
 }

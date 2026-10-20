@@ -759,6 +759,7 @@
     "add.importedToast": "{{n}} आयात हुए।",
     "reminders.deleteTaskHeader": "यह कार्य हटाएँ?",
     "reminders.deleteTaskAsk": "\"{{title}}\" डेक छोड़ देता है — उसका रिमाइंडर भी साथ चला जाता है।",
-    "settings.feedback": "प्रतिक्रिया भेजें"
+    "settings.feedback": "प्रतिक्रिया भेजें",
+    "ft.beenHere": "मैं यहाँ पहले आ चुका हूँ"
   }
 }
