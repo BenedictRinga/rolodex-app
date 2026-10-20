@@ -143,7 +143,7 @@ export class LoopWakeService {
             schedule: { at, allowWhileIdle: true }, // fires through Doze, app closed
             channelId: CHANNEL_ID,
             autoCancel: true,
-            extra: { type: 'loopWake', count: waiting.length, loopId: pick?.id }, // 363 the payload carries the address
+            extra: { type: 'loopWake', count: waiting.length },
           }],
         });
       } catch { /* plugin hiccup — the Waiting pile still shows */ }
@@ -160,19 +160,19 @@ export class LoopWakeService {
         const today = now.toISOString().slice(0, 10);
         if (last !== today) {
           await this.storage.set(DIGEST_KEY, today);
-          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId: pick?.id } }); // 363 the payload carries the address
+          this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest' } });
         }
       } catch { /* best effort */ }
     }
-    this.armWebDigest(body, delay, pick?.id);
+    this.armWebDigest(body, delay);
   }
 
   /** Arm the PWA in-page digest timer for the next 9AM. */
-  private armWebDigest(body: string, delay: number, loopId?: string): void {
+  private armWebDigest(body: string, delay: number): void {
     this.clearWebTimer('digest');
     const timer = setTimeout(() => {
       try {
-        this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId } }); // 363 the payload carries the address
+        this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest' } });
       } catch { /* dock is best-effort */ }
     }, Math.min(delay, 2_147_000_000));
     this.webTimers.set('digest', timer);

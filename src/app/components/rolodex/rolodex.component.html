@@ -259,9 +259,6 @@
           <!-- 2026-09-23 BUILD 315 THE CHAT ID: the map carries it (identity
                neighbourhood, beside My Profile). -->
           <ion-chip (click)="scrollTo('settings-chatid')">{{ 'loopkeeper.settings.chatid' | translate }}</ion-chip>
-          <!-- 2026-10-19 BUILD 359 THE FEEDBACK CHIP: the map carries it —
-               it sits below the Chat ID in the flow (identity neighbourhood). -->
-          <ion-chip (click)="scrollTo('settings-feedback')">{{ 'loopkeeper.settings.feedback' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-cloudsync')">{{ 'loopkeeper.settings.cloudsync' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-backup')">{{ 'loopkeeper.settings.backup' | translate }}</ion-chip>
           <ion-chip (click)="scrollTo('settings-install')">{{ 'loopkeeper.settings.install' | translate }}</ion-chip>
@@ -326,13 +323,6 @@
             <h2 class="chatid-code">{{ chatIdValue }}</h2>
             <p class="chatid-copied">{{ chatIdCopied }}</p>
           </ion-label>
-        </ion-item>
-
-        <!-- 2026-10-19 BUILD 359 THE FEEDBACK DOOR (founder: 'Move Feedback below ChatId in Settings' + 'I hope it follows the exact same pattern as the Testers' access to feedback chat inbox, because then the chatId is automatically generated per user'): the identity neighbourhood — Chat ID above, Feedback below — and it opens the SAME ChatWithRolodexModalComponent the tester chat uses (startMode: 'feedback'), so every user gets their own auto-generated chatId. -->
-        <ion-item lines="none" class="elegant-item" id="settings-feedback" (click)="openLoopChallenge()">
-          <ion-icon name="chatbubbles-outline" slot="start" color="tertiary"></ion-icon>
-          <ion-label>{{ 'loopkeeper.settings.feedback' | translate }}</ion-label>
-          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 
         <!-- 2026-08-28 BUILD 140: the quicknav is back in the flow (it sits
@@ -413,6 +403,13 @@
         <ion-item lines="none" class="elegant-item" id="settings-reminders" (click)="openReminders()">
           <ion-icon name="alarm-outline" slot="start" color="warning"></ion-icon>
           <ion-label>{{ 'loopkeeper.settings.remindersfull' | translate }}</ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
+        </ion-item>
+
+        <!-- 2026-10-19 BUILD 358 THE FEEDBACK DOOR (founder: 'Does this app have any openings for user feedback? ... other users should be able to use that same chat window for Feedback'): the direction chat opens for every user, from Settings. -->
+        <ion-item lines="none" class="elegant-item" id="settings-feedback" (click)="openLoopChallenge()">
+          <ion-icon name="chatbubbles-outline" slot="start" color="tertiary"></ion-icon>
+          <ion-label>{{ 'loopkeeper.settings.feedback' | translate }}</ion-label>
           <ion-icon name="chevron-forward-outline" slot="end" style="color: var(--rolodex-text-secondary);"></ion-icon>
         </ion-item>
 

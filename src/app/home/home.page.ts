@@ -824,27 +824,6 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.testerChatTimer) { clearInterval(this.testerChatTimer); this.testerChatTimer = null; }
   }
 
-  /** 2026-10-19 BUILD 360 THE FEEDBACK CHAT, FOR EVERYONE (founder: "Will the
-   *  Feedback chat access button be automatically available for all users to
-   *  open from the top panel of Home page - it should be, and the qualification
-   *  on its appearance removed"): the top-panel chat icon is un-gated - the
-   *  qualification is gone. Testers keep their HQ inbox on the same tap;
-   *  everyone else opens the SAME ChatWithRolodexModalComponent the Settings
-   *  door uses (startMode 'feedback') - the chatId auto-generates per user,
-   *  the tester pattern. */
-  async openFeedbackChat(): Promise<void> {
-    if (this.testerChannelOn) { void this.openTesterChat(); return; }
-    const modal = await this.modalController.create({
-      component: ChatWithRolodexModalComponent,
-      componentProps: { startMode: 'feedback' },
-      cssClass: 'card-chat-modal-sheet',
-      breakpoints: [0, 0.7, 0.95, 1],
-      initialBreakpoint: 0.95,
-      keyboardClose: false,
-    });
-    await modal.present();
-  }
-
   private async fetchTesterChat(): Promise<void> {
     if (!this.testerChatId) return;
     this.testerChatLoading = true;
@@ -1295,7 +1274,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.quietArrival = !!(extra?.loopId); this.openLoopsSurface('shelf'); } // 364: the shelf IS the arrival — deterministic, not session-dependent // 363 THE QUIET ARRIVAL (the founder's excise law): a payload names its loop — the shelf preamble stands down
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -1313,7 +1292,7 @@ export class HomePage implements OnInit, OnDestroy {
       // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
-      if (n?.data?.action === 'loopDigest') { this.quietArrival = !!(n?.data?.['loopId']); this.openLoopsSurface('shelf'); } // 364: the shelf IS the arrival // 363 THE QUIET ARRIVAL
+      if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
     });
 
     await this.loadContacts();
@@ -1369,8 +1348,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   /** 2026-08-29 BUILD 143 (founder #2): the nudge-tap subscription handles. */
-  /** 2026-10-20 BUILD 363 THE QUIET ARRIVAL: true only when a wake tap arrives WITH a payload (loopId) — the inbox's shelf preamble stands down for that arrival; cleared on inbox close and by the walk flip. */
-  quietArrival = false;
   private notifTapSub: Subscription | null = null;
   private dockTapSub: Subscription | null = null;
 
@@ -1709,39 +1686,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
   openRetractor(): void {
     this.retractorHidden = true;
-    // 2026-10-19 BUILD 360 THE SHELF OPENS (founder: "That Lota notification
-    //  still does not open the promised interface"): the 359 retry fixed a
-    //  race, but the REAL silence was simpler - the inbox was already open on
-    //  the Loops tab whose surface defaults to the WALK, so tab = loops was a
-    //  no-op and nothing visibly changed. The promised interface is the SHELF:
-    //  the captured loop is an old open loop, it lives there. The tap now
-    //  flips the Loops tab to the shelf AND expands the loop's row
-    //  (selectedId = the loop - the same pattern the shelf's own taps use).
-    this.openLoopsSurface('shelf', this.retractorLoop?.id);
+    this.openLoopsSurface();
   }
 
-  openLoopsSurface(surface?: 'walk' | 'shelf', loopId?: string): void {
+  openLoopsSurface(): void {
     this.rolodexAiChatOpen = true;
-    // 2026-10-19 BUILD 359 THE RETRACTOR OPENS (founder: "loopkeeper.ft.retractorLine
-    //  with 'Call Lota' is fixed, but tapping it opens nothing - just closes
-    //  notification only"): the one-shot 80ms setTimeout lost the race — when the
-    //  inbox was closed, the *ngIf re-mounts app-loop-inbox AFTER the timeout
-    //  fired, this.inboxRef was still null, and the tab set was silently dropped:
-    //  the card vanished, the surface never surfaced. The fix waits for the
-    //  ViewChild to resolve (bounded retries, 100ms apart) and sets the tab the
-    //  moment the component exists — the tap now always lands on the Loops tab.
-    let tries = 0;
-    const armTab = (): void => {
-      const ib = this.inboxRef;
-      if (ib) {
-        ib.tab = 'loops';
-        if (surface) ib.setLoopsSurface(surface);
-        if (loopId) ib.selectedId = loopId;
-        return;
-      }
-      if (++tries <= 10) setTimeout(armTab, 100);
-    };
-    setTimeout(armTab, 100);
+    setTimeout(() => {
+      const ib: any = this.inboxRef;
+      if (ib) ib.tab = 'loops';
+    }, 80);
   }
 
   /**
