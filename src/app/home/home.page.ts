@@ -1691,10 +1691,21 @@ export class HomePage implements OnInit, OnDestroy {
 
   openLoopsSurface(): void {
     this.rolodexAiChatOpen = true;
-    setTimeout(() => {
-      const ib: any = this.inboxRef;
-      if (ib) ib.tab = 'loops';
-    }, 80);
+    // 2026-10-19 BUILD 359 THE RETRACTOR OPENS (founder: "loopkeeper.ft.retractorLine
+    //  with 'Call Lota' is fixed, but tapping it opens nothing - just closes
+    //  notification only"): the one-shot 80ms setTimeout lost the race — when the
+    //  inbox was closed, the *ngIf re-mounts app-loop-inbox AFTER the timeout
+    //  fired, this.inboxRef was still null, and the tab set was silently dropped:
+    //  the card vanished, the surface never surfaced. The fix waits for the
+    //  ViewChild to resolve (bounded retries, 100ms apart) and sets the tab the
+    //  moment the component exists — the tap now always lands on the Loops tab.
+    let tries = 0;
+    const armTab = (): void => {
+      const ib = this.inboxRef;
+      if (ib) { ib.tab = 'loops'; return; }
+      if (++tries <= 10) setTimeout(armTab, 100);
+    };
+    setTimeout(armTab, 100);
   }
 
   /**
