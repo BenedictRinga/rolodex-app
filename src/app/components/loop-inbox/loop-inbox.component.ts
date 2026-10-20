@@ -90,6 +90,14 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   /** BUILD 279: the demo view is open — home hides the lower sections so the
    *  Inbox takes the full screen (the founder's show-me full-screen rule). */
   @Output() demoView = new EventEmitter<boolean>();
+  /** 365 THE QUIET ARRIVAL (the directive, kept simple): an addressed wake
+   *  arrival — the tap carried a payload loopId — stands the shelf preamble
+   *  down: the three sample pills, the fulcrum, the capture box + LOOP
+   *  button, and the two self pills do not render; the eye goes straight to
+   *  the nudge bar and the loops. Flipping to the walk disarms — deferred,
+   *  not deleted. Byte-identical when NOT arriving from a wake tap. */
+  @Input() set quietArrival(v: boolean) { if (v) this.quietActive = true; }
+  quietActive = false;
   @Input() set contacts(v: any[] | null | undefined) {
     this.contactsValue = v || [];
     if (!this.deckReady && this.contactsValue.length > 0) {
@@ -455,7 +463,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     // BUILD 236: a nudge held while the shelf was up delivers the moment the
     // walk returns — the hold never outlives its surface. BUILD 244: the
     // held garden handle rides the same moment.
-    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); }
+    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); this.quietActive = false; } // 365: leaving for the walk restores the preamble
     this.expandedChange.emit(this.shellExpanded);
   }
 

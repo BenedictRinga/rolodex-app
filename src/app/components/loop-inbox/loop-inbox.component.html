@@ -75,7 +75,7 @@
          fulcrum → input. The three sample sentences (visual only) tether the
          "Nothing sitting. Nothing gnawing." fulcrum, and the capture box sits
          BELOW it — the eye travels examples → promise → the place to act. -->
-    <div class="li-samples">
+    <div class="li-samples" *ngIf="!quietActive">
       <!-- 2026-08-28 BUILD 133/134 (founder): each pill carries its own glowing
            teal orb (::before in SCSS) — a big fullstop flagging each sentence
            as one of THE three the fulcrum's body refers to ("Start a sentence
@@ -100,7 +100,7 @@
          empty state (it vanished whenever even one loop was open — which is
          the normal state of a used inbox). When loops wait, the headline
          flips to its question form: the fulcrum asks instead of declaring. -->
-    <div class="li-empty">
+    <div class="li-empty" *ngIf="!quietActive">
       <div class="li-empty-big">{{ ((todaysThree.length || mine.length) ? 'loopkeeper.empty.titleOpen' : 'loopkeeper.empty.title') | translate }}</div>
       <p>{{ 'loopkeeper.empty.body' | translate }}</p>
     </div>
@@ -118,7 +118,7 @@
          makes room for a second line.
          BUILD 127: fill="outline" + a radius that echoes the round add-icon
          LOOP button (no more boxy gray slab), and the ✕ clear-all. -->
-    <div class="li-capture">
+    <div class="li-capture" *ngIf="!quietActive">
       <ion-textarea
         [ngModel]="captureInput"
         (ionInput)="capCapture($event)"
@@ -152,7 +152,7 @@
          "Somewhere I must show up") live HERE — Beta, the flip-over state.
          One tap births a pure self-loop and hands it to the walk's chat
          dialog: the Alpha continuation landing, no fields anywhere. -->
-    <div class="li-selfrow">
+    <div class="li-selfrow" *ngIf="!quietActive">
       <button class="li-self" type="button" (click)="selfLoop('decide')">
         {{ 'loopkeeper.walk.chipDecide' | translate }}
       </button>

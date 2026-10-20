@@ -129,6 +129,9 @@ export class HomePage implements OnInit, OnDestroy {
   ftListenerCohort = false;
   retractorLoop: Loop | null = null;
   retractorHidden = false;
+  /** 365: the quiet-arrival flag — armed when a wake tap carries a payload
+   *  loopId; rides to the inbox as [quietArrival]; cleared on inbox close. */
+  quietArrival = false;
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a
@@ -1295,7 +1298,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') this.openLoopsSurface();
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.quietArrival = !!(extra?.loopId); this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -1313,7 +1316,7 @@ export class HomePage implements OnInit, OnDestroy {
       // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
-      if (n?.data?.action === 'loopDigest') this.openLoopsSurface();
+      if (n?.data?.action === 'loopDigest') { this.quietArrival = !!(n?.data?.['loopId']); this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival
     });
 
     await this.loadContacts();
