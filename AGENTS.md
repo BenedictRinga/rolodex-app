@@ -4,6 +4,10 @@ This file tells AI assistants working on this repo what to keep consistent.
 
 ## Repo rules
 - YARN ONLY. Never use npm here.
+- THE AGENT COMMITS ITS WORK ONCE DONE (founder directive 2026-10-21).
+  LoopKeeper was built by AI from scratch — when the session's work is
+  complete and its gates pass, the agent commits with a full message. The
+  founder pushes to GitHub and deploys.
 - Build hygiene:
   - `yarn build` (dev) before commits — TYPECHECK ONLY. Its output is NEVER
     commit-eligible.
