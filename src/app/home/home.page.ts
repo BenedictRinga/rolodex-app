@@ -1466,6 +1466,19 @@ export class HomePage implements OnInit, OnDestroy {
       this.pendingEscalation = { contact: contact || null, loop: loop || undefined };
       this.rolodexAiChatOpen = true;
       this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
+      // 2026-10-21 BUILD 370 THE REMINDER TAP KEEPS THE WALK (BUILD 239's own
+      //   contract, re-asserted; the founder: "the Contact page disappears, and
+      //   can never be found" on a reminder tap): 365's wake arrival leaves
+      //   loopsSurface='shelf' as the inbox's STANDING state, and nudgeArrived's
+      //   shelf-branch then sets selectedId on this delivery - the shell expands
+      //   to 85vh and the deck (Settings + the three icons) drops below the
+      //   fold, unreachable. The escalation FORCES the walk before delivering -
+      //   the surface the walk-branch expects; a fresh mount already defaults
+      //   to 'walk', so the guard only bites when a wake arrival left the shelf
+      //   standing. Byte-identical whenever the surface is already the walk.
+      if (this.inboxRef && this.inboxRef.loopsSurface === 'shelf') {
+        this.inboxRef.setLoopsSurface('walk');
+      }
       this.deliverPendingEscalation();
     } catch { /* a dead nudge is still better than a crash */ }
   }
