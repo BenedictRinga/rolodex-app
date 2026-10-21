@@ -143,6 +143,20 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-29 BUILD 145 (founder): true while the inbox shell is expanded —
    *  the deck's View toolbar sits up as a footer for the duration. */
   inboxExpanded = false;
+  /** 2026-10-21 BUILD 372 THE DECK PRESENT INVARIANT (founder: "It is
+   *  rubbish how one would throw the fate of a default property open to the
+   *  fickles of so many variable states, and then shut the door on inspection
+   *  of errors"): the deck's visibility is a service-owned flag, not a
+   *  byproduct of four booleans. presentDeck() is the ONE authority — every
+   *  arrival path (reminder tap, wake tap, cold launch, deep link) MUST call
+   *  it, and it resets the fickle hiders (firstMinuteDemo) with it. The
+   *  storage pane remains the ONLY intentional hider (it explains its own
+   *  absence). The deck is structurally un-hideable by an arrival. */
+  private deckPresent = true;
+  presentDeck(): void {
+    this.deckPresent = true;
+    this.firstMinuteDemo = false;
+  }
   /** 2026-09-16 BUILD 236 THE MOUNT CONTRACT: an escalation whose inbox has
    *  not mounted yet is HELD here and delivered on the inbox's inboxReady
    *  signal — no fixed timers, no silent drops.
@@ -1488,7 +1502,13 @@ export class HomePage implements OnInit, OnDestroy {
       //   alternative property which can be read at Loop 'shelf' to strip out
       //   those sections we are targetting").
       this.quietArrival = true;
-    } catch { /* a dead nudge is still better than a crash */ }
+    } catch (err) {
+      // BUILD 372: no more swallowed failures — the failure is logged and the
+      // deck's resting state is restored (the founder: "shut the door on
+      // inspection of errors" is rubbish).
+      console.error('[home] escalateCheckIn failed', err);
+      this.presentDeck();
+    }
   }
 
   /** 2026-09-16 BUILD 236/239: the escalation delivery — called immediately
@@ -2234,6 +2254,17 @@ export class HomePage implements OnInit, OnDestroy {
    *  the Inbox leads, the deck follows, nothing hides without a word.
    *  2026-08-27 FOUNDER COLLAPSE. */
   get deckHiddenForTab(): boolean {
+    // BUILD 372: the invariant gates everything — no fickle state hides the
+    // deck; every hider must name its authority HERE, once:
+    //   1. the deck's own absence flag (presentDeck() is the restore), and
+    //   2. the storage pane that explains its absence on screen (un-setup
+    //      Cloud/Server), and
+    //   3. the user-initiated first-minute demo ("show me" tap) — the demo
+    //      panel takes the screen with its own word, so the deck ducks for
+    //      its duration; a user choice, self-explaining, never an arrival's
+    //      side effect. (BUILD 279's scroll rule rides the same tap.)
+    if (!this.deckPresent) return true;
+    if (this.firstMinuteDemo) return true;
     if (!this.storagePanelOpen) return false;
     if (this.storageLocation === 'cloud') return !this.syncConnected;
     if (this.storageLocation === 'rolodex-server') return !this.serverSyncEnabled;

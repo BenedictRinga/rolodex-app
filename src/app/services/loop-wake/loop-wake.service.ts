@@ -57,7 +57,9 @@ export class LoopWakeService {
             if (action?.notification?.extra?.type === 'loopWake') {
               void this.router.navigateByUrl('/home');
             }
-          } catch { /* best-effort navigation */ }
+          } catch (err) {
+            console.error('[loop-wake] wake-tap navigation failed', err);
+          }
         });
       }).catch(() => { /* plugin unavailable — web path serves instead */ });
     }
