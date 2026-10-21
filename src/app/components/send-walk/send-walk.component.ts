@@ -885,9 +885,16 @@ export class SendWalkComponent implements OnInit, OnChanges {
   armFromNudge(contact: any | null, loop?: Loop | null): void {
     if (contact && !contact.isMockData) void this.analytics.trackListStartedOnce('walk');
     if (loop) {
-      // The caller's loop, carried — not re-resolved. The continuation IS the
-      // dialog: the draft plumps in, the send is one tap away.
-      this.pickLoop(loop, contact || this.cardFor(loop));
+      // The caller's loop, carried — not re-resolved. BUILD 371: the arrival
+      // LANDS ON THE CARD (242's landOnCard) — the selection replaces the
+      // operational card and STANDS there; the walk never advances over it,
+      // and the draft is one tap away on the card. The old auto-enterWords
+      // drove the walk to step 3 on arrival, which extended the shell to
+      // 85vh BEFORE the user touched anything — the deck (Settings + the
+      // three icons) pushed beneath the home footer, the founder's
+      // "anticipatory extension". An arrival is a selection, never a
+      // proceeding.
+      this.pickLoop(loop, contact || this.cardFor(loop), true);
       return;
     }
     if (contact) {
@@ -909,7 +916,10 @@ export class SendWalkComponent implements OnInit, OnChanges {
         ...(isTask ? { cardKind: 'task' as const, taskSeed: { cadence: (c as any).task?.cadence, due: (c as any).task?.due } } : {}),
       });
       this.select(c, this.loop);
-      this.enterWords(true);
+      // BUILD 371: the arrival STANDS ON THE CARD (242) — go(1), never the
+      // auto-words. The user's own tap on the card walks it on with the same
+      // card; the shell stays compact (70vh) and the deck stays reachable.
+      this.go(1);
       return;
     }
     // A genuinely EMPTY payload is the ONLY path to the default walk —

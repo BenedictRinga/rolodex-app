@@ -1324,7 +1324,7 @@ export class HomePage implements OnInit, OnDestroy {
       // it was a dead end like the dock's. (The "Check in with ..." nudges
       // are a DIFFERENT dock item — they ride action 'checkin' above, into
       // escalateCheckIn, which arms the walk with the item as the payload.)
-      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.quietArrival = !!(extra?.loopId); this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival
+      else if (extra?.type === 'loopWake' || extra?.action === 'loopDigest') { this.quietArrival = true; this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival // 371 THE FLAG OF CONVENIENCE: the tap itself appends the quiet flag - a legacy payload lacking loopId is quiet all the same (the founder: "at point of tap lacks the necessary payload, you append a flag of convenience. Period.")
     });
     this.dockTapSub = this.inAppNotifications.tapped$.subscribe((n) => {
       if (n?.data?.action === 'checkin') this.escalateCheckIn(n.data);
@@ -1342,7 +1342,7 @@ export class HomePage implements OnInit, OnDestroy {
       // one tap away on the card, never skipped over).
       // The dock item still dismisses on tap (its own behavior); the tab
       // does the talking.
-      if (n?.data?.action === 'loopDigest') { this.quietArrival = !!(n?.data?.['loopId']); this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival
+      if (n?.data?.action === 'loopDigest') { this.quietArrival = true; this.openLoopsSurface('shelf'); } // 365: the shelf IS the arrival // 371: the convenience flag rides every arrival, legacy or not
     });
 
     await this.loadContacts();
@@ -1480,6 +1480,14 @@ export class HomePage implements OnInit, OnDestroy {
         this.inboxRef.setLoopsSurface('walk');
       }
       this.deliverPendingEscalation();
+      // 371 THE REMINDER'S OWN QUIET FLAG: the tapped Reminder item's
+      //   alternative property - the arrival resolves the loop at the tap
+      //   (244), so the payload is whole; the flag rides the ARRIVAL, and the
+      //   shelf strips its preamble whenever shown during this arrival
+      //   session (the founder: "append to the tapped Reminder item an
+      //   alternative property which can be read at Loop 'shelf' to strip out
+      //   those sections we are targetting").
+      this.quietArrival = true;
     } catch { /* a dead nudge is still better than a crash */ }
   }
 
