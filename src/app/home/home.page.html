@@ -586,7 +586,7 @@
          active view; the ft canvas z-60 covers it in the pre-home state, so
          no double footer there). Same thin welcome voice, the ash-smoky
          veil, pointer-events: none. -->
-    <footer class="home-welcome-foot" *ngIf="ftView === ''">
+    <footer class="home-welcome-foot" *ngIf="ftView === '' && !inboxExpanded">
       <p>{{ 'loopkeeper.fm.courtesy' | translate }}</p>
     </footer>
 
