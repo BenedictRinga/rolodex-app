@@ -85,3 +85,5 @@ www-native/
 .env
 .env.*
 !.env.example
+RELEASE_NOTE.txt
+RELEASE_NOTE.used.txt
