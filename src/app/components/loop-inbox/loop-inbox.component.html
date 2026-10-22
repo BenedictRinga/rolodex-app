@@ -45,7 +45,7 @@
 
   <!-- ═══════════ LOOPS TAB ═══════════ -->
   <!-- Stays mounted when the user leaves the tab so slide 2 is never lost. -->
-  <div class="li-body" [class.away]="tab !== 'loops'">
+  <div class="li-body" [class.away]="tab !== 'loops'" [class.shelf]="loopsSurface === 'shelf'">
     <!-- 2026-08-31 BUILD 158: the walk is the DEFAULT Loops surface —
          four slides, one decision. Packed shelf behind I'm good / Smooth. -->
     <app-send-walk #walkRef *ngIf="loopsSurface === 'walk'"

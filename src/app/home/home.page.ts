@@ -140,6 +140,13 @@ export class HomePage implements OnInit, OnDestroy {
    *  toolbar (its header, in flow) comes to rest just above the footer's
    *  notional line. */
   deckSettled = false;
+  /** 384: the settle arms when the deck first SHOWS - the ft layer may
+   *  hold the screen long past page load; the flash must meet the eye. */
+  deckSettleTimer: any = null;
+  settleDeckSoon(): void {
+    if (this.deckSettleTimer) return;
+    this.deckSettleTimer = setTimeout(() => { this.deckSettled = true; }, 1500);
+  }
   /** 383: the Remind-me form stands - the toolbar yields it the space. */
   remindFormOpen = false;
   /** 383: the deck is in Settings - the home footer does not follow. */
@@ -1025,19 +1032,20 @@ export class HomePage implements OnInit, OnDestroy {
       // never opened — never sees it. A concluded loop opens the original
       // panel, not the gates.
       const done = await this.storageService.get<boolean>('lk_firstminute_done');
-      if (done) { this.ftView = ''; return; }
+      if (done) { this.ftView = ''; this.settleDeckSoon(); return; }
       const engaged = await this.storageService.get<boolean>('lk_cover_engaged');
       const ftOpen = await this.storageService.get<boolean>('lk_ft_open');
       try { this.ftGateEver = !!(await this.storageService.get<boolean>('lk_ft_gate_ever')); } catch { /* first visit */ }
       this.ftListenerCohort = this.analytics.getVisitNumber() >= 3 && !this.ftGateEver;
       if (engaged) {
         this.ftView = '';
+        this.settleDeckSoon();
         this.firstMinuteActive = true;
         this.fmPhase = 'panel';
         void this.storageService.remove('lk_ft_open').catch(() => { /* best effort */ });
         return;
       }
-      if (this.realContacts().length > 0 && !ftOpen) { this.ftView = ''; return; }
+      if (this.realContacts().length > 0 && !ftOpen) { this.ftView = ''; this.settleDeckSoon(); return; }
       this.fmPhase = 'ring';
       this.firstMinuteActive = true;
       this.ftView = 'gates';
@@ -1067,7 +1075,7 @@ export class HomePage implements OnInit, OnDestroy {
       // 342: the rotation starts on EVERY gates open - silent on visit 1,
       // spoken from visit 2 (the founder's voice law).
       this.startFtLines();
-    } catch { this.ftView = ''; /* the gate must never block the app */ }
+    } catch { this.ftView = ''; this.settleDeckSoon(); /* the gate must never block the app */ }
   }
 
   /** BUILD 278/281: a tap on the PANEL phase's doors retires the panel for
@@ -1100,6 +1108,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.firstMinuteActive = false;
     this.firstMinuteTapped = true;
     this.ftView = '';
+    this.settleDeckSoon();
     this.inAppNotifications.setCocoonQuiet(false);
     void this.analytics.track('identity_restored');
   }
@@ -1128,6 +1137,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.inAppNotifications.setCocoonQuiet(false);
     this.ftSharePending = false;
     this.ftView = '';
+    this.settleDeckSoon();
     this.firstMinuteActive = true;
     this.fmPhase = 'panel';
     this.firstMinuteTapped = true;
@@ -1251,8 +1261,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    // 383: the flash (1.5s of purpose), then the deck settles downwards.
-    setTimeout(() => { this.deckSettled = true; }, 1500);
     // 2026-09-23 BUILD 319: the cocoon's churn beacon rides from boot — it
     // only ever speaks while the cocoon stands.
     this.bindFtHidden();
