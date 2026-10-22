@@ -114,7 +114,10 @@
   50% { box-shadow:0 0 3px #14b8a6, 0 0 12px rgba(20,184,166,.95); } }
 /* 2026-08-28 BUILD 128: the bar is tappable — it is the POINTER to the first
    still-nudging loop. Snooze all is the batch escape hatch beside it. */
-.li-nudgebar { margin-top:8px; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; cursor:pointer; }
+/* BUILD 376 (the founder): "the toolbar must present without pushing elements around".
+   The nudge bar was IN THE FLOW inside a fixed-height shell - its arrival compressed the
+   content and pushed the contact card's toolbar out of sight. It floats now: no reflow. */
+.li-nudgebar { position:absolute; left:10px; right:10px; bottom:10px; z-index:25; font-size:12px; background:rgba(255,178,92,.15); border:1px solid rgba(255,178,92,.35); border-radius:10px; padding:6px 10px; cursor:pointer; }
 .li-nudgebar:active { background:rgba(255,178,92,.25); }
 .li-section { margin-top:14px; }
 .li-section-title { font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.6; margin-bottom:6px; }
