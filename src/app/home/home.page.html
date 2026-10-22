@@ -523,7 +523,7 @@
     <span class="rc-line">"{{ retractorLoop.summary || retractorLoop.person }}" — {{ 'loopkeeper.ft.retractorLine' | translate }}</span>
     <button class="rc-close" type="button" (click)="retractorHidden = true; $event.stopPropagation()" aria-label="Dismiss">✕</button>
   </div>
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" [quietArrival]="quietArrival" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false; quietArrival = false" (contactsDirty)="onContactsDirty()" (expandedChange)="onInboxExpanded($event)" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event" (formOpenChange)="remindFormOpen = $event" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" [quietArrival]="quietArrival" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false; quietArrival = false" (contactsDirty)="onContactsDirty()" (expandedChange)="onInboxExpanded($event)" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event" (formOpenChange)="remindFormOpen = $event" (tabChange)="inboxTab = $event" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -595,6 +595,7 @@
     [class.tab-hidden]="deckHiddenForTab"
     [class.inbox-expanded]="inboxExpanded"
     [class.deck-unsettled]="!deckSettled"
+    [class.deck-dropped]="rolodexAiChatOpen && inboxTab !== 'loops'"
     [toolbarYield]="remindFormOpen"
     [class.in-settings]="settingsOpen"
     [contacts]="contacts"
@@ -626,7 +627,7 @@
     (toggleDetails)="onToggleDetails($event)"
     (editContact)="onEditContact($event)"
     (removeContact)="onRemoveContact($event)"
-    (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event" (formOpenChange)="remindFormOpen = $event"
+    (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event" (formOpenChange)="remindFormOpen = $event" (tabChange)="inboxTab = $event"
     (contactTap)="onContactTap($event)"
     (contactsChange)="onContactsChange($event)"
     (contactsDirty)="onContactsDirty()"

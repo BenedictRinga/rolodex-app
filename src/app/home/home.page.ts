@@ -162,6 +162,9 @@ export class HomePage implements OnInit, OnDestroy {
   remindFormOpen = false;
   /** 383: the deck is in Settings - the home footer does not follow. */
   settingsOpen = false;
+  /** 392: the inbox's tab - the deck drops for the Assistant and the
+   *  Reminders tabs, restores on the Loops walk. */
+  inboxTab: 'loops' | 'chat' | 'reminders' = 'loops';
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a

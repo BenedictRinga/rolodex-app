@@ -177,7 +177,16 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.loopsSurface === 'shelf' || (this.loopsSurface === 'walk' && this.walkStep >= 3);
   }
 
-  tab: 'loops' | 'chat' | 'reminders' = 'loops';
+  private _tab: 'loops' | 'chat' | 'reminders' = 'loops';
+  /** 392: the tab rides to home — the Contact drops for the Assistant and
+   *  the Reminders tabs, restores on the Loops walk. */
+  @Output() tabChange = new EventEmitter<'chat' | 'loops' | 'reminders'>();
+  @Input() get tab(): 'loops' | 'chat' | 'reminders' { return this._tab; }
+  set tab(v: 'loops' | 'chat' | 'reminders') {
+    if (this._tab === v) return;
+    this._tab = v;
+    this.tabChange.emit(v);
+  }
 
   // 2026-08-28 BUILD 124: shared 15-entry list (was a private 11-entry copy —
   // the drift that hid Russian/Hebrew/Spanish/Portuguese-Brazil here).

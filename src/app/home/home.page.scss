@@ -679,7 +679,14 @@ app-rolodex.tab-hidden,
    --deck-raise, one number, tuned to taste. The cadence re-arms on
    every departure return (shelf flip, Settings close, first reveal). */
 app-rolodex { transition: transform 0.6s ease; }
-app-rolodex.deck-unsettled { transform: translateY(calc(-1 * var(--deck-raise, 136px))); }
+/* the FINAL REST: one Contact card item below natural (--deck-rest, the
+   founder's knob); the injection is --deck-raise above the rest. The
+   journey: flash at (rest - raise), settle down to (rest). */
+app-rolodex.deck-unsettled { transform: translateY(calc(var(--deck-rest, 72px) - var(--deck-raise, 136px))); }
+app-rolodex:not(.deck-unsettled) { transform: translateY(var(--deck-rest, 72px)); }
+/* 392 THE TAB DROP: the Assistant and the Reminders tabs take the
+   viewport - the deck drops fully out; the Loops walk restores it. */
+app-rolodex.deck-dropped { transform: translateY(120vh); }
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {
