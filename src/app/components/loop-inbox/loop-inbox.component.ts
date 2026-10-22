@@ -166,7 +166,10 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get shellExpanded(): boolean {
-    return !!this.selectedId || (this.loopsSurface === 'walk' && this.walkStep >= 3);
+    // BUILD 375: the SHELF is tall because the shelf has the content - keyed on the SURFACE,
+    // never on a selection that may have been armed for a visit the user has not made. The
+    // walk keeps its resting 50vh until the person advances it.
+    return this.loopsSurface === 'shelf' || (this.loopsSurface === 'walk' && this.walkStep >= 3);
   }
 
   tab: 'loops' | 'chat' | 'reminders' = 'loops';
@@ -481,6 +484,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
       this.consumePendingHandle();
       this.quietActive = false; // 365: leaving for the walk restores the preamble
       this.selectedId = null; // BUILD 373: the default view holds no selection
+      this.walkStep = 1; // BUILD 375: and the resting step - the box must not stay tall
     }
     this.expandedChange.emit(this.shellExpanded);
   }
@@ -520,6 +524,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.pendingNudge = { contact, loop };
       }
+      // BUILD 375 (the founder): the reminder popup must not decide the height before the
+      // person taps. The nudge arms the walk's CARD and returns the box to its resting step;
+      // the height rises only when the user advances the walk or opens the shelf.
+      this.walkStep = 1;
+      this.expandedChange.emit(this.shellExpanded);
       return;
     }
     if (contact) this.armDestination(contact);
