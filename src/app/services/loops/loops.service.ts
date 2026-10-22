@@ -470,8 +470,12 @@ export class LoopsService {
 
   /** Due rising nudges (7). Closed loops are SILENT — that is the reward. */
   dueNudges(): Loop[] {
+    // 391 THE CENSUS ALIGNS WITH THE DIGEST (founder: the alarm card still
+    // not showing in the shelf): the notification counts ALL open/waiting
+    // loops (resyncDigest: status waiting || open) — the bar must show
+    // what the notification counted, not a narrower due subset.
     return (this.cache || []).filter(
-      l => (l.status === 'open') && !!l.nextNudgeAt && l.nextNudgeAt <= Date.now(),
+      l => l.status === 'waiting' || l.status === 'open',
     );
   }
 

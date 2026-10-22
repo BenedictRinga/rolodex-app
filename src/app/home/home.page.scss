@@ -679,7 +679,7 @@ app-rolodex.tab-hidden,
    --deck-raise, one number, tuned to taste. The cadence re-arms on
    every departure return (shelf flip, Settings close, first reveal). */
 app-rolodex { transition: transform 0.6s ease; }
-app-rolodex.deck-unsettled { transform: translateY(calc(-1 * var(--deck-raise, 64px))); }
+app-rolodex.deck-unsettled { transform: translateY(calc(-1 * var(--deck-raise, 136px))); }
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {
