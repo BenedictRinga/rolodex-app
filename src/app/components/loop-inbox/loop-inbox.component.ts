@@ -130,6 +130,11 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() removeCard = new EventEmitter<any>();
   /** 367: the reminders sheet's new-card creation rides to the host. */
   @Output() reminderCard = new EventEmitter<any>();
+  /** 378 THE FOOTER DIM: the home footer yields the viewport when the
+   *  shelf stands or the Remind-me form is open, and returns when we are
+   *  back to base (the walk, the form closed, the inbox closed). */
+  @Output() footerDim = new EventEmitter<boolean>();
+  remindersFormOpen = false;
   /** 2026-09-16 BUILD 229 PHASE C: the task's Note-to-self door, relayed —
    *  home opens the card's surface (its rolling story). */
   @Output() noteRequest = new EventEmitter<any>();
@@ -421,6 +426,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   requestClose(): void {
+    if (this.remindersFormOpen) { this.remindersFormOpen = false; this.emitFooterDim(); } // 378: back to base restores the footer
     this.closeRequest.emit();
   }
 
@@ -459,8 +465,19 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   // The flip icon (walk foot / under the shelf's three pills) switches for the
   // SESSION only; the default is always the walk.
 
+  /** 378: one authority - the shelf or the open Remind-me form dims the
+   *  home footer; the walk with the form closed restores it. */
+  emitFooterDim(): void {
+    this.footerDim.emit(this.loopsSurface === 'shelf' || this.remindersFormOpen);
+  }
+  onRemindersForm(open: boolean): void {
+    this.remindersFormOpen = open;
+    this.emitFooterDim();
+  }
+
   setLoopsSurface(s: 'walk' | 'shelf'): void {
     this.loopsSurface = s;
+    this.emitFooterDim(); // 378: the footer follows the surface
     if (s === 'shelf') {
       this.walkStep = 1;
       void this.refresh();

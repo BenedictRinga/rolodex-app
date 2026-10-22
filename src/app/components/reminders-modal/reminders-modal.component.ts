@@ -135,6 +135,9 @@ export class RemindersModalComponent {
    *  law). The host creates and persists; both surfaces ride the same
    *  lane (the inbox keeps the output, the deck sheet passes the handler). */
   @Output() createCard = new EventEmitter<any>();
+  /** 378 THE FOOTER DIM: the Remind-me form tells the host when it stands,
+   *  so the home footer can yield the viewport and restore on return. */
+  @Output() formOpenChange = new EventEmitter<boolean>();
   @Input() createCardHandler?: (card: any) => void;
   /** 358 THE TASK DELETE (founder: 'It was perfectly situated where it was -
    *  the absence of proper wiring does not mean eliminating it'): the task
@@ -276,6 +279,7 @@ export class RemindersModalComponent {
    *  time remaining allows, else the following day). */
   openForm(): void {
     this.formOpen = true;
+    this.formOpenChange.emit(true); // 378: the footer yields while the form stands
     this.formDate = this.armDefaultDate();
   }
   onArmTimeChange(): void {
@@ -326,6 +330,7 @@ export class RemindersModalComponent {
       };
       if (this.createCardHandler) { this.createCardHandler(card); } else { this.createCard.emit(card); }
       this.formOpen = false;
+      this.formOpenChange.emit(false); // 378: the form is down, the footer returns
       this.formNote = '';
       this.formDate = this.armDefaultDate();
       this.formTime = '09:00';

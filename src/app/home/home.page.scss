@@ -668,6 +668,10 @@ app-rolodex.tab-hidden,
 .rc-line { flex: 1; font-size: 13px; line-height: 1.5; color: #b8ac9e; }
 .rc-close { background: none; border: none; color: #8b93b0; font-size: 13px; cursor: pointer; padding: 4px 6px; }
 
+  /* 2026-10-22 BUILD 378: the footer yields the viewport (the shelf, the
+     Remind-me form); back to base restores it. */
+.home-welcome-foot.dimmed { display: none; }
+
 .home-welcome-foot {
   position: fixed;
   left: 0;

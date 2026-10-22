@@ -523,7 +523,7 @@
     <span class="rc-line">"{{ retractorLoop.summary || retractorLoop.person }}" — {{ 'loopkeeper.ft.retractorLine' | translate }}</span>
     <button class="rc-close" type="button" (click)="retractorHidden = true; $event.stopPropagation()" aria-label="Dismiss">✕</button>
   </div>
-  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" [quietArrival]="quietArrival" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false; quietArrival = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (noteRequest)="openCardNoteFromWalk($event)">
+  <app-loop-inbox #inboxRef *ngIf="rolodexAiChatOpen" [contacts]="contacts" [firstMinute]="true" [fmPhase]="'panel'" [ftCanvas]="false" [quietArrival]="quietArrival" (firstMinuteDeed)="onFirstMinuteDeed()" (firstMinuteEntry)="onFirstMinuteEntry()" (demoView)="firstMinuteDemo = $event" (exitDemo)="onExitDemo()" (inboxReady)="deliverPendingEscalation()" (closeRequest)="rolodexAiChatOpen = false; inboxExpanded = false; quietArrival = false" (contactsDirty)="onContactsDirty()" (expandedChange)="inboxExpanded = $event" (addRequest)="channelAddFromWalk()" (whoRequest)="channelWhoFromWalk()" (inviteRequest)="openShareApp('share')" (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event" (noteRequest)="openCardNoteFromWalk($event)">
   <div class="loopkeeper-chat" chat-tab>
     <div class="loopkeeper-chat-head">
       <!-- 2026-08-28 BUILD 127 (founder): no "Assistant" label repeated here —
@@ -586,7 +586,7 @@
          active view; the ft canvas z-60 covers it in the pre-home state, so
          no double footer there). Same thin welcome voice, the ash-smoky
          veil, pointer-events: none. -->
-    <footer class="home-welcome-foot" *ngIf="ftView === '' && !inboxExpanded">
+    <footer class="home-welcome-foot" [class.dimmed]="inboxFooterHide" *ngIf="ftView === '' && !inboxExpanded">
       <p>{{ 'loopkeeper.fm.courtesy' | translate }}</p>
     </footer>
 
@@ -623,7 +623,7 @@
     (toggleDetails)="onToggleDetails($event)"
     (editContact)="onEditContact($event)"
     (removeContact)="onRemoveContact($event)"
-    (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)"
+    (taskCardRequest)="onTaskCardRequest($event)" (removeCard)="onRemoveContact($event)" (reminderCard)="onReminderCardCreate($event)" (footerDim)="inboxFooterHide = $event"
     (contactTap)="onContactTap($event)"
     (contactsChange)="onContactsChange($event)"
     (contactsDirty)="onContactsDirty()"

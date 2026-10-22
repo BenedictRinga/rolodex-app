@@ -142,6 +142,20 @@ app-filter-search {
     letter-spacing: 0.06em;
     color: var(--rolodex-text-tertiary);
     --background: transparent;
+
+    /* 2026-10-22 BUILD 378 THE WALK REST (the founder's pristine law): the
+       bar slides down to sit just above the homepage footer's notional
+       line (the footer ~56px + this bar ~48px). The shelf keeps the 373
+       top-sticky - the expanded override releases the rest. */
+    transition: top 0.5s ease;
+
+    &.at-rest {
+      top: calc(100% - 108px);
+    }
+
+    :host(.inbox-expanded) & {
+      top: 0;
+    }
   }
 
   /* 2026-08-21 VIEW LABEL: only a font shrink — no width/ellipsis controls.

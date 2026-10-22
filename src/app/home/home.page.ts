@@ -132,6 +132,9 @@ export class HomePage implements OnInit, OnDestroy {
   /** 365: the quiet-arrival flag — armed when a wake tap carries a payload
    *  loopId; rides to the inbox as [quietArrival]; cleared on inbox close. */
   quietArrival = false;
+  /** 378: the home footer yields the viewport while the shelf stands or the
+   *  Remind-me form is open; back to base restores it. */
+  inboxFooterHide = false;
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a
