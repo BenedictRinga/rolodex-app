@@ -122,6 +122,21 @@ app-filter-search {
     /* 2026-08-18 STICKY CONTROLS: the row under the header stays in view
        while the contact list scrolls - no more hunting for Pods/Filters/
        Card options after scrolling. */
+    /* 2026-10-22 BUILD 388 THE REST = THE 145 STYLING (the founder: the
+       styling that did not escape and dump container while sliding down):
+       settled, the toolbar slides down INSIDE its container and rests at
+       the container's bottom edge - never out of flow, never detached.
+       The flash (deck-unsettled, 2.8s from home) holds the injection
+       height; the settle releases it into the slide-down. */
+    top: auto;
+    bottom: 0;
+    transition: top 0.5s ease, bottom 0.5s ease;
+
+    :host(.deck-unsettled) & {
+      top: 0 !important;
+      bottom: auto !important;
+    }
+
     position: sticky;
     top: 0;
 
