@@ -670,16 +670,27 @@ app-rolodex.tab-hidden,
 
   /* 2026-10-22 BUILD 378: the footer yields the viewport (the shelf, the
      Remind-me form); back to base restores it. */
-/* 2026-10-22 BUILD 386 THE DECK SETTLES AS ONE (Option A, the founder's
-   law - no cards-vs-header dichotomy): the Contact component is injected
-   at its initial height, flashes its toolbar, then the WHOLE component
-   retreats downwards - the toolbar (its header) comes to rest just above
-   the footer's notional line, the cards ride with it. THE KNOB: 120px =
-   the footer (~56) + the toolbar (~48) + the gap - one number, tuned to
-   taste. The shelf releases the settle (the 373 top-sticky stands). */
-app-rolodex { transition: transform 0.6s ease; }
-app-rolodex:not(.deck-unsettled) { transform: translateY(calc(100% - 120px)); }
-app-rolodex.inbox-expanded { transform: none; }
+/* 2026-10-22 BUILD 387 THE RETREAT FREES THE VIEWPORT (the founder's
+   niggle 3: it is retreating but leaving behind the binding container -
+   an empty box denying the viewport it claims to have freed; walk still
+   lacks room to breathe). THE DECK GOES WITH ITS TOOLBAR: the settled
+   deck collapses to its toolbar strip, PINNED just above the footer's
+   line (bottom: 64px, z-30 above the footer) - the element leaves the
+   flow, so the space is real. The injection (deck-unsettled) renders
+   the full deck for the 1.5s flash. Settings and the shelf release the
+   strip to full render (their own views need the whole component). */
+app-rolodex { transition: max-height 0.6s ease; max-height: 100vh; }
+app-rolodex.deck-unsettled { max-height: 100vh; }
+app-rolodex:not(.deck-unsettled) {
+  max-height: 64px;
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 64px;
+  z-index: 30;
+  overflow: hidden;
+}
+app-rolodex.in-settings { max-height: none; position: static; overflow: visible; }
+app-rolodex.inbox-expanded { max-height: none; position: static; }
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {

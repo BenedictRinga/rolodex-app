@@ -3630,6 +3630,10 @@ export class HomePage implements OnInit, OnDestroy {
    *  was open before Settings interrupted it. */
   onRolodexSettingsClosed(): void {
     this.settingsOpen = false; // 383: back to base, the footer returns
+    // 387: the same cadence as every arrival - flash, then retreat.
+    this.deckSettled = false;
+    this.deckSettleTimer = null;
+    this.settleDeckSoon();
     if (this.inboxWasOpenBeforeSettings) {
       this.rolodexAiChatOpen = true;
       this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed
