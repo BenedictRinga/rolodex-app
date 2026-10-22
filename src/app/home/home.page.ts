@@ -147,6 +147,17 @@ export class HomePage implements OnInit, OnDestroy {
     if (this.deckSettleTimer) return;
     this.deckSettleTimer = setTimeout(() => { this.deckSettled = true; }, 1500);
   }
+
+  /** 385: the shelf-to-walk flip replays the flash - the toolbar starts
+   *  from the default and retreats downwards, every time. */
+  onInboxExpanded(v: boolean): void {
+    this.inboxExpanded = v;
+    if (!v) {
+      this.deckSettled = false;
+      this.deckSettleTimer = null;
+      this.settleDeckSoon();
+    }
+  }
   /** 383: the Remind-me form stands - the toolbar yields it the space. */
   remindFormOpen = false;
   /** 383: the deck is in Settings - the home footer does not follow. */
@@ -1812,6 +1823,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   openLoopsSurface(surface?: 'walk' | 'shelf', loopId?: string): void {
     this.rolodexAiChatOpen = true;
+    // 385 THE ADDRESSED ARRIVAL (the flag of convenience, one door up):
+    // any navigation that NAMES its loop arrives quiet - legacy alerts,
+    // the retractor, the reminder taps - the noise stands down at the door.
+    if (loopId) this.quietArrival = true;
     // 2026-10-19 BUILD 359 THE RETRACTOR OPENS (founder: "loopkeeper.ft.retractorLine
     //  with 'Call Lota' is fixed, but tapping it opens nothing - just closes
     //  notification only"): the one-shot 80ms setTimeout lost the race — when the

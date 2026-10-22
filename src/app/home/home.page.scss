@@ -670,14 +670,9 @@ app-rolodex.tab-hidden,
 
   /* 2026-10-22 BUILD 378: the footer yields the viewport (the shelf, the
      Remind-me form); back to base restores it. */
-/* 2026-10-22 BUILD 383 THE PRISTINE ENTRANCE (Option A): the deck is
-   injected at its initial height, flashes its toolbar, then settles
-   downwards - the toolbar (its header, in flow) comes to rest just
-   above the footer's notional line. Tunable: the -56px is one toolbar
-   height; the founder adjusts the number to taste. */
-app-rolodex { transition: transform 0.5s ease; }
-app-rolodex.deck-unsettled { transform: translateY(-56px); }
-
+/* 2026-10-22 BUILD 385: the entrance moved INTO the deck - the toolbar
+   retreats to its parent's bottom edge (above the footer) after the
+   flash; the deck host itself never moves. The cards hold their place. */
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {
