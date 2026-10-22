@@ -122,19 +122,9 @@ app-filter-search {
     /* 2026-08-18 STICKY CONTROLS: the row under the header stays in view
        while the contact list scrolls - no more hunting for Pods/Filters/
        Card options after scrolling. */
-    /* 2026-10-22 BUILD 389 THE SLIDE ON EVERY ARRIVAL (the founder: the
-       toolbar only slides for the shelf, never on view init or return
-       from Settings): the sticky-BOTTOM rest needs a container whose
-       bottom the bar can reach - in the 388 collapsed strip the bar sits
-       at its natural top and STAYS. THE FIX: the rest is still the 145
-       bottom:0, but the slide is driven by the CONTAINER transition
-       (the collapse itself carries the bar down); the deck-unsettled
-       hold is removed from the toolbar - the flash is the container
-       being tall, the settle is the container shrinking, and the bar
-       rides its own container every time. */
-    top: auto;
-    bottom: 0;
-
+    /* 2026-10-22 BUILD 390: the toolbar is the deck's own sticky header
+       again - it RIDES the container (Option A); no geometry of its own.
+       The container is the one moving part (home holds deckSettled). */
     position: sticky;
     top: 0;
 
