@@ -135,6 +135,15 @@ export class HomePage implements OnInit, OnDestroy {
   /** 378: the home footer yields the viewport while the shelf stands or the
    *  Remind-me form is open; back to base restores it. */
   inboxFooterHide = false;
+  /** 383 THE PRISTINE ENTRANCE (Option A): the deck is injected at its
+   *  initial height, flashes its toolbar, then settles downwards - the
+   *  toolbar (its header, in flow) comes to rest just above the footer's
+   *  notional line. */
+  deckSettled = false;
+  /** 383: the Remind-me form stands - the toolbar yields it the space. */
+  remindFormOpen = false;
+  /** 383: the deck is in Settings - the home footer does not follow. */
+  settingsOpen = false;
   manualDraft: ContactInfo = {} as ContactInfo;
   /** 2026-09-16 BUILD 228 PHASE B: what the manual create form builds — the
    *  walk's New Task door raises it as a TASK card, every other door as a
@@ -1242,6 +1251,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // 383: the flash (1.5s of purpose), then the deck settles downwards.
+    setTimeout(() => { this.deckSettled = true; }, 1500);
     // 2026-09-23 BUILD 319: the cocoon's churn beacon rides from boot — it
     // only ever speaks while the cocoon stands.
     this.bindFtHidden();
@@ -3584,6 +3595,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-26 SETTINGS/INBOX SWAP: Settings is about to open. If the Inbox is
    *  open, remember that and close it so Settings gets an unimpeded viewport. */
   onRolodexSettingsWillOpen(): void {
+    this.settingsOpen = true; // 383: the footer yields while Settings stands
     this.inboxWasOpenBeforeSettings = this.rolodexAiChatOpen;
     if (this.rolodexAiChatOpen) {
       this.rolodexAiChatOpen = false;
@@ -3594,6 +3606,7 @@ export class HomePage implements OnInit, OnDestroy {
   /** 2026-08-26 SETTINGS/INBOX SWAP: Settings closed. Restore the Inbox if it
    *  was open before Settings interrupted it. */
   onRolodexSettingsClosed(): void {
+    this.settingsOpen = false; // 383: back to base, the footer returns
     if (this.inboxWasOpenBeforeSettings) {
       this.rolodexAiChatOpen = true;
       this.inboxExpanded = false; // BUILD 161: fresh instance starts collapsed

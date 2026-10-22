@@ -143,18 +143,11 @@ app-filter-search {
     color: var(--rolodex-text-tertiary);
     --background: transparent;
 
-    /* 2026-10-22 BUILD 378 THE WALK REST (the founder's pristine law): the
-       bar slides down to sit just above the homepage footer's notional
-       line (the footer ~56px + this bar ~48px). The shelf keeps the 373
-       top-sticky - the expanded override releases the rest. */
-    transition: top 0.5s ease;
-
-    &.at-rest {
-      top: calc(100% - 108px);
-    }
-
-    :host(.inbox-expanded) & {
-      top: 0;
+    /* 2026-10-22 BUILD 383 THE YIELD (niggle 2): the Remind-me form stands
+       on the Reminders tab - the toolbar yields it the space; back to
+       base restores. The header stays in its host's flow. */
+    &.yield {
+      display: none;
     }
   }
 

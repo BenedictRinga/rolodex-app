@@ -158,6 +158,11 @@ export class RolodexComponent implements OnInit {
   /** 2026-08-26 SETTINGS/INBOX SWAP: Settings tells HomePage it is opening so
    *  the Inbox can close (remembered), and when Settings closes the Inbox can
    *  be restored if it was open before. */
+  /** 383 THE YIELD (niggle 2): the Remind-me form stands on the Reminders
+   *  tab - the deck's own toolbar yields it the space; back to base
+   *  restores. The header stays IN its host - never detached, never
+   *  sticky-bottomed. */
+  @Input() toolbarYield = false;
   @Output() settingsWillOpen = new EventEmitter<void>();
   @Output() settingsClosed = new EventEmitter<void>();
 
@@ -938,16 +943,7 @@ export class RolodexComponent implements OnInit {
     } catch { /* ignore */ }
   }
 
-  /** 2026-10-22 BUILD 378 THE PRISTINE ENTRANCE (founder: 'it should
-   *  momentarily slide downwards to rest just above the notional position of
-   *  the homepage footer having flashed user with its contact contents and
-   *  purpose'): the toolbar flashes at its top station for a beat, then
-   *  slides down to the walk rest - just above the footer's line. */
-  toolbarResting = false;
-
   ngOnInit() {
-    // 378: flash first (1.5s of purpose), then the slide to rest.
-    setTimeout(() => { this.toolbarResting = true; }, 1500);
     // 2026-08-20 CONFIDANTE VOICE: reflect the saved voice in Settings.
     void this.voiceOptions.loadVoices().then(() => {
       const opts = this.voiceOptions.getVoiceOptions();

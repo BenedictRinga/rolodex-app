@@ -3,7 +3,7 @@
     <!-- Regular Rolodex view -->
     <ng-container *ngSwitchCase="RolodexView.Regular">
       <ion-list class="seriescontact">
-        <ion-list-header [class.at-rest]="toolbarResting">
+        <ion-list-header [class.yield]="toolbarYield">
             <ion-label class="fabcolor rolodex-view-label" (click)="openCardSelect()">View: {{ pageManager.upperCardMode }}</ion-label>
           <ion-buttons>
             <!-- <ion-button (click)="openPods()" appTooltip="Pods — group threads">
