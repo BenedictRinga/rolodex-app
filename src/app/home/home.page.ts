@@ -145,7 +145,7 @@ export class HomePage implements OnInit, OnDestroy {
   deckSettleTimer: any = null;
   settleDeckSoon(): void {
     if (this.deckSettleTimer) return;
-    this.deckSettleTimer = setTimeout(() => { this.deckSettled = true; }, 1500);
+    this.deckSettleTimer = setTimeout(() => { this.deckSettled = true; }, 2800);
   }
 
   /** 385: the shelf-to-walk flip replays the flash - the toolbar starts

@@ -677,7 +677,7 @@ app-rolodex.tab-hidden,
    stands and the freed space is real; the toolbar slides down INSIDE
    its container (the ae75cfb 145 sticky-bottom) and the alarm card is
    never painted over. Settings and the shelf release the collapse. */
-app-rolodex { transition: max-height 0.6s ease; max-height: 100vh; }
+app-rolodex { transition: max-height 0.9s cubic-bezier(.4,0,.2,1); max-height: 100vh; }
 app-rolodex.deck-unsettled { max-height: 100vh; }
 app-rolodex:not(.deck-unsettled) {
   max-height: 64px;
