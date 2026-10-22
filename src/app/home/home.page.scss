@@ -670,9 +670,16 @@ app-rolodex.tab-hidden,
 
   /* 2026-10-22 BUILD 378: the footer yields the viewport (the shelf, the
      Remind-me form); back to base restores it. */
-/* 2026-10-22 BUILD 385: the entrance moved INTO the deck - the toolbar
-   retreats to its parent's bottom edge (above the footer) after the
-   flash; the deck host itself never moves. The cards hold their place. */
+/* 2026-10-22 BUILD 386 THE DECK SETTLES AS ONE (Option A, the founder's
+   law - no cards-vs-header dichotomy): the Contact component is injected
+   at its initial height, flashes its toolbar, then the WHOLE component
+   retreats downwards - the toolbar (its header) comes to rest just above
+   the footer's notional line, the cards ride with it. THE KNOB: 120px =
+   the footer (~56) + the toolbar (~48) + the gap - one number, tuned to
+   taste. The shelf releases the settle (the 373 top-sticky stands). */
+app-rolodex { transition: transform 0.6s ease; }
+app-rolodex:not(.deck-unsettled) { transform: translateY(calc(100% - 120px)); }
+app-rolodex.inbox-expanded { transform: none; }
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {

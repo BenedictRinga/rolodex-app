@@ -125,20 +125,7 @@ app-filter-search {
     position: sticky;
     top: 0;
 
-    /* 385 THE FLASH STATE: while the deck is unsettled (the 1.5s
-       injection flash from home) the toolbar holds its starting height;
-       the settle releases it into the retreat below. */
-    :host(.deck-unsettled) & {
-      top: 0 !important;
-      bottom: auto !important;
-    }
 
-    /* 385 THE SHELF STATE: the 373 law stands - the toolbar rides
-       top-sticky in the expanded shell. */
-    :host(.inbox-expanded) & {
-      top: 0 !important;
-      bottom: auto !important;
-    }
     /* 2026-10-22 BUILD 373 (founder: "it should hold a higher z-index than
        the footer, because currently it is behind the latter"): the deck
        toolbar (loopkeeper AI, grid, add, Settings) outranks the fixed
@@ -158,17 +145,9 @@ app-filter-search {
     color: var(--rolodex-text-tertiary);
     --background: transparent;
 
-    /* 2026-10-22 BUILD 385 THE RETREAT (the founder's pristine law, the
-       145 mechanism done right): in the settled walk the toolbar rests
-       at the PARENT's own bottom edge, just above the footer's notional
-       line (the footer ~56px) - anchored to the parent's geometry, never
-       an arbitrary viewport fraction. The flash (deck-unsettled, from
-       home) holds the injection height for 1.5s; the shelf keeps the 373
-       top-sticky. The flip back to the walk replays the flash, then the
-       retreat. */
-    top: auto;
-    bottom: 64px;
-    transition: top 0.5s ease, bottom 0.5s ease;
+    /* 2026-10-22 BUILD 386: the toolbar rides its host (Option A) - no
+       separate toolbar positioning, no cards-vs-header split. The host
+       settles; the header rides. */
 
     &.yield {
       display: none;
