@@ -465,7 +465,23 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     // BUILD 236: a nudge held while the shelf was up delivers the moment the
     // walk returns — the hold never outlives its surface. BUILD 244: the
     // held garden handle rides the same moment.
-    if (s === 'walk') { this.consumePendingNudge(); this.consumePendingHandle(); this.quietActive = false; } // 365: leaving for the walk restores the preamble
+    // 2026-10-22 BUILD 373 THE FLIP RESTORES THE DEFAULT (founder: "Immediate
+    // upon user tapping the switch over to regular Loop (i.e. default walk
+    // view) we must restore default view position of the Inbox. Right now it
+    // is not so, and only after visiting Settings page... no new code is
+    // required except to remove rubbish code"): the open-loop selection
+    // survived the flip — shellExpanded (!!selectedId) kept the shell tall
+    // and home's inboxExpanded true until the Settings visit destroyed the
+    // inbox. The walk is the default: an open loop's selection is the SHELF's
+    // state and dies with it. Clearing it here makes the very next emit
+    // (below) a false — the shell returns to its resting height and the deck
+    // to its default position in the same tick as the tap.
+    if (s === 'walk') {
+      this.consumePendingNudge();
+      this.consumePendingHandle();
+      this.quietActive = false; // 365: leaving for the walk restores the preamble
+      this.selectedId = null; // BUILD 373: the default view holds no selection
+    }
     this.expandedChange.emit(this.shellExpanded);
   }
 
