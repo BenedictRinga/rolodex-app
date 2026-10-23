@@ -45,10 +45,13 @@ burned hours. Commit this section to memory before touching anything server-side
    `zyppar` (Zyppar), `rolodex` (this product), `farmline` (Farmline). NEVER
    point this server's dbName at another product's database, and never read
    another product's people from here.
-4. **The app's visitors mint through Zyppar's identity door.** The LoopKeeper
-   frontend (served at `zyppar.com/loopkeeper/`) uses the family guest mint
-   (`guest_<hex>@zyppar.com` → `zyppar.users`), by design — one identity door
-   for the platform shell. This server's OWN product data (contacts, loops,
+4. **The app is FULLY SEPARATED (verified 2026-10-23 by grep of the deployed
+   bundle):** it makes ZERO calls to Zyppar's identity door — no
+   `refresh-guest-token`, no boot beacon, only `/api/loopkeeper/*`. An earlier
+   version of this point (and of zypparserver's PLATFORM-TOPOLOGY.md) claimed
+   the app minted through Zyppar's family door — that was the agent's error,
+   disproven against the deployed bundle; the `zyppar.users` guest population
+   is ZYPPAR's alone. This server's OWN product data (contacts, loops,
    `rolodexusers`, `devicestates`, sync) lives in the `rolodex` database.
 5. The canonical cross-product map (servers, ports, nginx routes, databases,
    env vars, the verification ritual) lives in
