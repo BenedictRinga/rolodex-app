@@ -452,6 +452,8 @@ export class HomePage implements OnInit, OnDestroy {
   ftNudgeOn = false;
   private ftNudgeShownSession = false;
   private ftNudgeAtMs = 0;
+  /** 397: the retractor card's render is logged once per session. */
+  private retractorSeenLogged = false;
 
   /** 2026-09-29 BUILD 342 THE THREE ATTACK VECTORS (founder: the 5-visit
    *  visitor told us a procrastinator needs more choices, more insight, more
@@ -1813,6 +1815,12 @@ export class HomePage implements OnInit, OnDestroy {
       const all = await this.loops.all();
       const aged = all.filter((l) => l.status === 'open' && (l.createdAt || 0) <= Date.now() - 24 * 3600_000);
       this.retractorLoop = aged.length ? aged.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0))[0] : null;
+      // 397 THE LISTENER'S LENS: the card ARMS for this session - log the
+      // render once (prompt_seen is enum-only, anonymity intact).
+      if (this.retractorLoop && !this.retractorSeenLogged) {
+        this.retractorSeenLogged = true;
+        void this.analytics.track('prompt_seen', { prompt: 'retractor' });
+      }
     } catch { /* none */ }
   }
   openRetractor(): void {

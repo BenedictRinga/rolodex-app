@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { InAppNotificationService } from '../in-app-notification/in-app-notification.service';
+import { AnalyticsService } from '../analytics/analytics.service';
 import { StorageService } from '../storage/storage.service';
 
 /**
@@ -47,6 +48,7 @@ export class LoopWakeService {
     private readonly router: Router,
     private readonly inAppNotifications: InAppNotificationService,
     private readonly storage: StorageService,
+    private readonly analytics: AnalyticsService,
   ) {
     // Soliloquy pattern: a tap on a wake ping lands on the home deck, where
     // the Loops inbox (and its Waiting pile) is one glance away.
@@ -168,6 +170,7 @@ export class LoopWakeService {
         if (last !== today) {
           await this.storage.set(DIGEST_KEY, today);
           this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId: this.digestLoopId } }); // 365 THE ADDRESS
+          void this.analytics.track('prompt_seen', { prompt: 'digest', count: waiting.length });
         }
       } catch { /* best effort */ }
     }
@@ -180,6 +183,7 @@ export class LoopWakeService {
     const timer = setTimeout(() => {
       try {
         this.inAppNotifications.notify(`⏰ ${body}`, { kind: 'info', duration: 0, data: { action: 'loopDigest', loopId: this.digestLoopId } }); // 365 THE ADDRESS
+        void this.analytics.track('prompt_seen', { prompt: 'digest' });
       } catch { /* dock is best-effort */ }
     }, Math.min(delay, 2_147_000_000));
     this.webTimers.set('digest', timer);
