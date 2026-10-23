@@ -174,7 +174,16 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
     // BUILD 375: the SHELF is tall because the shelf has the content - keyed on the SURFACE,
     // never on a selection that may have been armed for a visit the user has not made. The
     // walk keeps its resting 60vh until the person advances it.
-    return this.loopsSurface === 'shelf' || (this.loopsSurface === 'walk' && this.walkStep >= 3);
+    // BUILD 398 THE SHELL TAKES THE BREATH (founder: 'I want what works... constraints
+    // that stifle the UI... do one, taking note of the divergence point'): the open
+    // Reminders form is content too - the Set button was unreachable below the fold of
+    // the fixed-height box. The form rides the SAME 85vh grower as the shelf and the
+    // walk's advanced step - one mechanism, no new machinery. The 375 law governs the
+    // automatic nudge (which must not decide the height before the tap); the user's
+    // own form is a deliberate act. DIVERGENCE POINT: 397's law keyed on the surface
+    // only - retrace there if this breath proves unsatisfactory (the content-driven
+    // shell alternative was declined).
+    return this.loopsSurface === 'shelf' || this.remindersFormOpen || (this.loopsSurface === 'walk' && this.walkStep >= 3);
   }
 
   private _tab: 'loops' | 'chat' | 'reminders' = 'loops';
