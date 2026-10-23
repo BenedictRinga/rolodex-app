@@ -20,6 +20,41 @@ This file tells AI assistants working on this repo what to keep consistent.
   `build` counter together with every user-visible frontend change, and keep it
   equal to the backend `package.json` `build` when both are released together.
 
+## THE ROLODEX-SERVER CIRCUMSTANCE (2026-10-23 — read BEFORE any server/db work)
+
+The backend of this product has a fossil name and two traps that have already
+burned hours. Commit this section to memory before touching anything server-side:
+
+1. **The process named `rolodex-server` IS LoopKeeper's backend.** The name
+   predates the 2026-08-26 rebrand; only the BRAND migrated, never the process
+   name. Deploy dir: `/opt/rolodex-server`. Entry: `src/index.js`. Port: **4411**.
+   It runs under **root's pm2 daemon** (`PM2_HOME=/root/.pm2`) — NOT the
+   systemd `pm2-appuser` tree that manages zypparserver and farmline-server.
+   It is the only product outside that tree.
+2. **The database is `rolodex`, FORCED IN CODE** — `src/index.js:71`:
+   `mongoose.createConnection(uri, { dbName: 'rolodex', … })`. The env URI's
+   path is IGNORED for database selection. (On 2026-10-23 the env file's path
+   was corrected from `/zyppar` to `/rolodex` so the file matches the code —
+   backup: `/root/env-backup-20261023-rolodex.env`. The env path said `/zyppar`
+   for weeks and caused a false "LoopKeeper and Zyppar share a membership
+   database" alarm. Verify topology at the CODE and NETWORK layers
+   (`grep dbName /opt/rolodex-server/src/*.js`, `ss -tnp`), never the env file
+   alone.)
+3. **The cluster is shared, the databases are not.** One Atlas cluster
+   (`cluster0.hiyrg7y.mongodb.net`) hosts three product databases, one each:
+   `zyppar` (Zyppar), `rolodex` (this product), `farmline` (Farmline). NEVER
+   point this server's dbName at another product's database, and never read
+   another product's people from here.
+4. **The app's visitors mint through Zyppar's identity door.** The LoopKeeper
+   frontend (served at `zyppar.com/loopkeeper/`) uses the family guest mint
+   (`guest_<hex>@zyppar.com` → `zyppar.users`), by design — one identity door
+   for the platform shell. This server's OWN product data (contacts, loops,
+   `rolodexusers`, `devicestates`, sync) lives in the `rolodex` database.
+5. The canonical cross-product map (servers, ports, nginx routes, databases,
+   env vars, the verification ritual) lives in
+   `zypparserver/PLATFORM-TOPOLOGY.md` — keep it current when topology moves.
+
+
 ## Brand canonicality (2026-08-26 LOOPKEEPER MIGRATION)
 - The product brand is **LoopKeeper**. The package/dir/service names may keep the
   historical `rolodex` prefix (they are internal), but **user-visible strings,
