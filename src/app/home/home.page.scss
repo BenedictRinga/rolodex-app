@@ -678,15 +678,41 @@ app-rolodex.tab-hidden,
    downwards as one body - header, content, cards ride. THE KNOB:
    --deck-raise, one number, tuned to taste. The cadence re-arms on
    every departure return (shelf flip, Settings close, first reveal). */
-app-rolodex { transition: transform 0.6s ease; }
-/* the FINAL REST: one Contact card item below natural (--deck-rest, the
-   founder's knob); the injection is --deck-raise above the rest. The
-   journey: flash at (rest - raise), settle down to (rest). */
-app-rolodex.deck-unsettled { transform: translateY(calc(var(--deck-rest, 72px) - var(--deck-raise, 136px))); }
-app-rolodex:not(.deck-unsettled) { transform: translateY(var(--deck-rest, 72px)); }
-/* 392 THE TAB DROP: the Assistant and the Reminders tabs take the
-   viewport - the deck drops fully out; the Loops walk restores it. */
-app-rolodex.deck-dropped { transform: translateY(120vh); }
+/* 2026-10-23 BUILD 395 THE LAYOUT RELEASE (the founder: the box must be
+   released by the layout, not the paint - and consider every other
+   case): ONE principle, every state where the Contact is not the
+   foreground - the BOX is released by height/flex, never by transform.
+   The injection (deck-unsettled) renders the full deck raised
+   (--deck-raise) for the 2.8s flash. The settled walk releases the box
+   to its toolbar strip, pushed to the bottom of the column to rest just
+   above the footer's notional line - the freed space is REAL. The shelf
+   and the Assistant/Reminders tabs release the box fully; Settings
+   renders full. The knobs stand: --deck-rest (the strip's height law
+   via 64px), --deck-raise (the flash raise). */
+app-rolodex {
+  transition: transform 0.6s ease, flex-basis 0.9s cubic-bezier(.4,0,.2,1), max-height 0.9s cubic-bezier(.4,0,.2,1);
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  transform: translateY(calc(var(--deck-rest, 72px) - var(--deck-raise, 136px)));
+  max-height: 64px;
+  margin-top: auto;
+  margin-bottom: 64px;
+}
+app-rolodex.deck-unsettled {
+  transform: translateY(calc(-1 * var(--deck-raise, 136px)));
+  flex: 1 1 0;
+  max-height: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+app-rolodex.inbox-expanded,
+app-rolodex.deck-dropped {
+  flex: 0 0 0;
+  max-height: 0;
+  transform: none;
+}
+app-rolodex.in-settings { transform: none; flex: 1 1 0; max-height: none; margin: 0; }
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {
