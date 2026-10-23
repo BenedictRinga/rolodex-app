@@ -33,10 +33,7 @@
   /* 2026-09-15 BUILD 211 (founder: "the elongation is too fast... the animation
      should be current x 3 so I see it in dev"): the gentle grow .9s -> 2.7s. */
   transition:height 2.7s cubic-bezier(.25,.8,.4,1), min-height 2.7s cubic-bezier(.25,.8,.4,1), max-height 2.7s cubic-bezier(.25,.8,.4,1); }
-/* 393: the shelf fills the viewport - the deck box vacated, the footer
-   dimmed; one glance reaches the whole content. (The walk keeps 50vh
-   - the founder's law.) */
-.li-shell.expanded { height:96vh; min-height:96vh; max-height:96vh; }
+.li-shell.expanded { height:85vh; min-height:85vh; max-height:85vh; }
 /* 2026-08-28 BUILD 129: THE CULMINATION — the moment a loop truly closes, the
    whole tab pauses for one breath. The check pops with a spring, the person is
    named freed, and the freed-this-week count counts UP. The arc finally lands:
