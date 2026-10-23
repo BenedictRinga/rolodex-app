@@ -687,6 +687,18 @@ app-rolodex:not(.deck-unsettled) { transform: translateY(var(--deck-rest, 72px))
 /* 392 THE TAB DROP: the Assistant and the Reminders tabs take the
    viewport - the deck drops fully out; the Loops walk restores it. */
 app-rolodex.deck-dropped { transform: translateY(120vh); }
+/* 393 THE SHELF TAKES THE ROOM (founder: the shelf is too short, and
+   the container still divides the viewport - only the Contact slides
+   down): when the shelf stands, the Contact BOX VACATES the layout
+   entirely (flex 0, height 0, clipped) - transform never frees layout;
+   the vacate does. The shell then fills the viewport at one glance. */
+app-rolodex.inbox-expanded {
+  flex: 0 0 0px;
+  min-height: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: none;
+}
 .home-welcome-foot.dimmed { display: none; }
 
 .home-welcome-foot {
