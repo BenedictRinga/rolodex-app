@@ -173,7 +173,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   get shellExpanded(): boolean {
     // BUILD 375: the SHELF is tall because the shelf has the content - keyed on the SURFACE,
     // never on a selection that may have been armed for a visit the user has not made. The
-    // walk keeps its resting 50vh until the person advances it.
+    // walk keeps its resting 60vh until the person advances it.
     return this.loopsSurface === 'shelf' || (this.loopsSurface === 'walk' && this.walkStep >= 3);
   }
 
@@ -248,7 +248,7 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
    *  rows glow, the bar counts them, and opening one is the answer. */
   nudgeIds = new Set<string>();
   flashId: string | null = null;
-  /** 2026-09-15 BUILD 206/207/211 THE BOOT REVEAL: the shell starts at 50vh
+  /** 2026-09-15 BUILD 206/207/211 THE BOOT REVEAL: the shell starts at 60vh
    *  (deck visible below) and holds until BOTH gates open - home ARMS the
    *  reveal (Welcome dismissed, or never shown), and the deck POPULATES
    *  (Demo or real contacts arrive; founder 211). The 8s safety timer arms
@@ -440,12 +440,12 @@ export class LoopInboxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    // 2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 50vh
+    // 2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 60vh
     // on first view/reload/entry — a very visual sight of the Demo/Contacts
     // deck below — then gently extends to its full length; balances viewport
     // usage and tells the user to go look down below later.
     // 2026-09-15 BUILD 207 CONDITIONAL (founder: the reveal was lost behind
-    // the Welcome modal): the shell HOLDS 50vh from mount; home calls
+    // the Welcome modal): the shell HOLDS 60vh from mount; home calls
     // beginReveal() when Welcome is dismissed — or when Welcome was never
     // going to show.
     // 2026-09-15 BUILD 211 (founder: the reveal must not commence until the

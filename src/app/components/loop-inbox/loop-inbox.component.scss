@@ -1,4 +1,4 @@
-/* 2026-08-28 BUILD 124 (founder): the Inbox grows by 15% — 50vh was too short
+/* 2026-08-28 BUILD 124 (founder): the Inbox grows by 15% — 60vh was too short
    for Today's 3 + Waiting-on-you to breathe. 50 × 1.15 = 57.5vh.
    2026-08-29 BUILD 144 (founder): the shell BREATHES with the conversation —
    the moment a loop is open (the app has answered), it expands so the packet
@@ -18,17 +18,17 @@
    /* 2026-09-14 BUILD 203 (founder: "shorten the Inbox from 75 to 70vh we see"):
    resting height 75vh -> 70vh (the flip-gap trim above returns ~8px too).
    Expanded holds at 85vh.
-   2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 50vh on
+   2026-09-15 BUILD 206 THE BOOT REVEAL (founder: the Inbox starts at 60vh on
    first view/reload/entry — the Demo/Contacts deck shows itself below — then
    gently extends to full length; the grow is a slow ease, not a snap). */
-.li-shell.boot { height:50vh; min-height:50vh; max-height:50vh; }
+.li-shell.boot { height:60vh; min-height:60vh; max-height:60vh; }
 /* 348: the 347 in-shell stretch chain reverted - the Welcome lives as a
    fixed footer of the HOME page now, not inside the Inbox. */
-/* BUILD 377 (the founder): "the walk's default ... has 50vh ... That is the design."
+/* BUILD 377 (the founder): "the walk's default ... has 60vh ... That is the design."
    The base was 70vh - the shell grew to 70 the moment the boot reveal ended, extending the box
-   and retracting the toolbar with no notification needed. 50vh is the walk's resting height;
+   and retracting the toolbar with no notification needed. 60vh is the walk's resting height;
    .expanded (85vh) is the ONLY legitimate grower: the shelf, and the walk's advanced step. */
-.li-shell { display:flex; flex-direction:column; height:50vh; min-height:50vh; max-height:50vh; position:relative;
+.li-shell { display:flex; flex-direction:column; height:60vh; min-height:60vh; max-height:60vh; position:relative;
   border-bottom:1px solid rgba(128,128,128,.25); background:var(--ion-background-color,#101014);
   /* 2026-09-15 BUILD 211 (founder: "the elongation is too fast... the animation
      should be current x 3 so I see it in dev"): the gentle grow .9s -> 2.7s. */

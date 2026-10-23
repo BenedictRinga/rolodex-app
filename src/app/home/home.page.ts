@@ -144,7 +144,11 @@ export class HomePage implements OnInit, OnDestroy {
    *  hold the screen long past page load; the flash must meet the eye. */
   deckSettleTimer: any = null;
   settleDeckSoon(): void {
-    if (this.deckSettleTimer) return;
+    // 396 THE FLASH MEETS THE EYE (founder: the drop is barely a blink on
+    // reload): the early-return let an arm fired BEHIND the splash/ft
+    // canvas spend its 2.8s unseen - the walk opened settled. Every call
+    // re-arms: the flash counts from the last reveal, the one the eye sees.
+    if (this.deckSettleTimer) clearTimeout(this.deckSettleTimer);
     this.deckSettleTimer = setTimeout(() => { this.deckSettled = true; }, 2800);
   }
 
